@@ -5,6 +5,7 @@ import smith from '../data/rivers/smith.json';
 import rogue from '../data/rivers/rogue.json';
 import mainSalmon from '../data/rivers/main-salmon.json';
 import yampa from '../data/rivers/yampa.json';
+import middleForkSalmon from '../data/rivers/middle-fork-salmon.json';
 
 export const DEFAULT_RIVER = 'grand-canyon';
 
@@ -14,6 +15,7 @@ export const BUILTIN_RIVERS = {
   rogue: { id: 'rogue', ...rogue },
   'main-salmon': { id: 'main-salmon', ...mainSalmon },
   yampa: { id: 'yampa', ...yampa },
+  'middle-fork-salmon': { id: 'middle-fork-salmon', ...middleForkSalmon },
 };
 
 // Fill every field the views read, so a bare-bones river (just a name, reach

@@ -1,0 +1,1784 @@
+{
+ "name": "Middle Fork of the Salmon River",
+ "reach": "Boundary Creek to Cache Bar",
+ "agency": "Salmon-Challis National Forest, River Office",
+ "miles": [
+  0,
+  99
+ ],
+ "days": 6,
+ "coords": [
+  44.85,
+  -115
+ ],
+ "tz": "America/Boise",
+ "note": "About 99 miles through the Frank Church-River of No Return Wilderness, with more than 100 rapids and many hot springs. Mile numbers are American Whitewater's from Boundary Creek; the Forest Service counts the take-out as about mile 99.7. Camps are listed by size only; quality is not rated. Rapids change with debris flows and flows. Compiled from public sources; verify with the Forest Service and a current guidebook.",
+ "camps": [
+  {
+   "name": "Teepee Hole",
+   "mile": 1.04,
+   "size": 2,
+   "qual": null,
+   "bank": "L",
+   "desc": "Small and heavily used; 10 people or fewer. Fishermen hike in."
+  },
+  {
+   "name": "Cable Hole",
+   "mile": 1.66,
+   "size": 2,
+   "qual": null,
+   "bank": "L",
+   "desc": "Small rocky bench; 10 people or fewer."
+  },
+  {
+   "name": "Gardell's Hole",
+   "mile": 2.88,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large sand and gravel bar above a pool and Sulphur Slide. Small at high flows."
+  },
+  {
+   "name": "Boy Scout",
+   "mile": 5.55,
+   "size": 2,
+   "qual": null,
+   "bank": "R",
+   "desc": "Small and rocky."
+  },
+  {
+   "name": "Big Bend",
+   "mile": 6.7,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Low sandy bench with timber and open areas."
+  },
+  {
+   "name": "Trail Flat",
+   "mile": 7.24,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Large bench with a hot spring at the water's edge, which washes out at high water."
+  },
+  {
+   "name": "Elkhorn Bar",
+   "mile": 8.78,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Look for a big mid-river rock just above."
+  },
+  {
+   "name": "Saddle",
+   "mile": 9.62,
+   "size": null,
+   "qual": null,
+   "bank": "L",
+   "desc": "Timbered flat below a grassy saddle."
+  },
+  {
+   "name": "Boot",
+   "mile": 9.76,
+   "size": 1,
+   "qual": null,
+   "bank": "R",
+   "desc": "Very small, high timbered bench."
+  },
+  {
+   "name": "Joe Bump",
+   "mile": 12.02,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Large timbered bench across from Soldier Creek. The Joe Bump cabin is up a trail."
+  },
+  {
+   "name": "Scout",
+   "mile": 13.03,
+   "size": null,
+   "qual": null,
+   "bank": "L",
+   "desc": "Near Sheepeater hot springs."
+  },
+  {
+   "name": "Sheepeater",
+   "mile": 13.33,
+   "size": null,
+   "qual": null,
+   "bank": "L",
+   "desc": "Hard landing at low water. Hot spring on the terrace above."
+  },
+  {
+   "name": "Lake Creek",
+   "mile": 14.77,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large; across from Lake Creek."
+  },
+  {
+   "name": "Fire Island",
+   "mile": 14.9,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Large party site on a low timber and grass bench."
+  },
+  {
+   "name": "John's",
+   "mile": 15.15,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large bench at a sharp right bend."
+  },
+  {
+   "name": "Greyhound Creek",
+   "mile": 15.93,
+   "size": 2,
+   "qual": null,
+   "bank": "R",
+   "desc": "Small, by a pool about 10 ft above the river."
+  },
+  {
+   "name": "Dome Hole",
+   "mile": 15.99,
+   "size": 2,
+   "qual": null,
+   "bank": "L",
+   "desc": "Small, just past the pool."
+  },
+  {
+   "name": "Rapid River",
+   "mile": 18.32,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large party timbered bench."
+  },
+  {
+   "name": "Dolly Lake",
+   "mile": 19.43,
+   "size": null,
+   "qual": null,
+   "bank": "L",
+   "desc": "On Dolly Lake, one of the largest and deepest pools."
+  },
+  {
+   "name": "Big Snag",
+   "mile": 19.72,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large; marked by a big snag if it is still standing."
+  },
+  {
+   "name": "Quick Stop",
+   "mile": 21.6,
+   "size": 1,
+   "qual": null,
+   "bank": "R",
+   "desc": "Very small, at the bend above Pistol Creek Rapid."
+  },
+  {
+   "name": "Pistol Creek",
+   "mile": 22.07,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Large sandy bench at the lower end of Pistol Creek Gorge."
+  },
+  {
+   "name": "Airplane",
+   "mile": 24.82,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Large open timbered site across from Short Creek."
+  },
+  {
+   "name": "Pack Bridge",
+   "mile": 25.84,
+   "size": null,
+   "qual": null,
+   "bank": "L",
+   "desc": "Just upstream of the pack bridge."
+  },
+  {
+   "name": "Indian Creek",
+   "mile": 26.79,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Large, just upstream of Indian Creek."
+  },
+  {
+   "name": "Pungo Creek",
+   "mile": 27.97,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Large and heavily used, with an easy landing below the creek. Sensitive cultural site: camp below the creek mouth."
+  },
+  {
+   "name": "Little Soldier",
+   "mile": 31.48,
+   "size": null,
+   "qual": null,
+   "bank": "R",
+   "desc": "Land below the creek; timber benches above."
+  },
+  {
+   "name": "Upper Marble",
+   "mile": 32.12,
+   "size": 8,
+   "qual": null,
+   "bank": "L",
+   "desc": "Very large low bench at the upper end of a quiet pool."
+  },
+  {
+   "name": "Marble Left",
+   "mile": 32.2,
+   "size": null,
+   "qual": null,
+   "bank": "L",
+   "desc": "Grassy bench under a small cliff, with a view of Marble Creek Rapid."
+  },
+  {
+   "name": "Marble Right",
+   "mile": 32.43,
+   "size": null,
+   "qual": null,
+   "bank": "R",
+   "desc": "Grassy timber bench below the rapids; easy landing."
+  },
+  {
+   "name": "Sunflower Flat",
+   "mile": 33.4,
+   "size": 2,
+   "qual": null,
+   "bank": "R",
+   "desc": "Popular, scenic hot pools. Small campsite downstream."
+  },
+  {
+   "name": "Lost Oak",
+   "mile": 33.43,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Large timbered bench. Ferry to river right for Sunflower hot spring at moderate flows."
+  },
+  {
+   "name": "State Land Left",
+   "mile": 35.32,
+   "size": null,
+   "qual": null,
+   "bank": "L",
+   "desc": "Ponderosa bench."
+  },
+  {
+   "name": "State Land Right",
+   "mile": 35.41,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large low bench with scattered ponderosa."
+  },
+  {
+   "name": "Little Creek",
+   "mile": 36.26,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large bench below Little Creek Guard Station."
+  },
+  {
+   "name": "Hood Ranch",
+   "mile": 36.36,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Large, with an old cabin and a hot spring at the downstream end."
+  },
+  {
+   "name": "Upper Jackass Flat",
+   "mile": 37.82,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large, just below Jackass Rapid."
+  },
+  {
+   "name": "Lower Jackass Flat",
+   "mile": 38.12,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large, mostly timbered low bench."
+  },
+  {
+   "name": "Mahoney",
+   "mile": 41.98,
+   "size": 2,
+   "qual": null,
+   "bank": "R",
+   "desc": "Small beach by a large pool."
+  },
+  {
+   "name": "Pine Creek Flat",
+   "mile": 43.47,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large, on a sagebrush flat above the river."
+  },
+  {
+   "name": "Culver Creek",
+   "mile": 45.59,
+   "size": 2,
+   "qual": null,
+   "bank": "R",
+   "desc": "Small; rocky outcrop just upstream."
+  },
+  {
+   "name": "Whitie Cox",
+   "mile": 46.46,
+   "size": null,
+   "qual": null,
+   "bank": "R",
+   "desc": "Sandy gravel bar with a fallen ponderosa and a hot spring on the bench above. Named for a miner who died in 1954 and is buried here."
+  },
+  {
+   "name": "Rock Island",
+   "mile": 46.7,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Large timbered low bench."
+  },
+  {
+   "name": "Pebble Beach",
+   "mile": 46.9,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Timbered low bench with room for a large party."
+  },
+  {
+   "name": "White Creek",
+   "mile": 47.84,
+   "size": null,
+   "qual": null,
+   "bank": "R",
+   "desc": "Across from White Creek."
+  },
+  {
+   "name": "Shelf",
+   "mile": 48.63,
+   "size": null,
+   "qual": null,
+   "bank": "R",
+   "desc": "Easy pull-in on a gravel bar; tree-covered bench."
+  },
+  {
+   "name": "Big Loon",
+   "mile": 49.86,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large with limited shade. Airstrip nearby. Hot spring with a creekside tub 0.8 mi up the Loon Creek trail."
+  },
+  {
+   "name": "Cow Creek",
+   "mile": 50.36,
+   "size": 2,
+   "qual": null,
+   "bank": "R",
+   "desc": "Small brushy bar; 1.2 mi walk to Loon Creek hot spring."
+  },
+  {
+   "name": "Cave",
+   "mile": 52.29,
+   "size": 2,
+   "qual": null,
+   "bank": "R",
+   "desc": "Small; as the left-bank cove comes into view."
+  },
+  {
+   "name": "Hospital Bar",
+   "mile": 52.54,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Large and shady. Hot spring at the river's edge upstream, which may be underwater at high flow."
+  },
+  {
+   "name": "Horsetail",
+   "mile": 53,
+   "size": 2,
+   "qual": null,
+   "bank": "R",
+   "desc": "Small, high timbered bench."
+  },
+  {
+   "name": "Cub Creek",
+   "mile": 53.53,
+   "size": 2,
+   "qual": null,
+   "bank": "L",
+   "desc": "Small, just above the creek mouth."
+  },
+  {
+   "name": "Upper Grouse Creek",
+   "mile": 56.53,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large; easy landing."
+  },
+  {
+   "name": "Lower Grouse Creek",
+   "mile": 56.74,
+   "size": null,
+   "qual": null,
+   "bank": "R",
+   "desc": "In the middle of Grouse Creek Rapid; a quick eddy pull. Beach at low water."
+  },
+  {
+   "name": "Tappan Island Center",
+   "mile": 57.29,
+   "size": null,
+   "qual": null,
+   "bank": null,
+   "desc": "Low open island. Land at the downstream end from the right channel."
+  },
+  {
+   "name": "Camas Creek",
+   "mile": 60.13,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large; hike up Camas Creek."
+  },
+  {
+   "name": "Johnny Walker",
+   "mile": 60.98,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Large timbered bench with a steep rock wall behind."
+  },
+  {
+   "name": "Pool",
+   "mile": 61.48,
+   "size": 2,
+   "qual": null,
+   "bank": "R",
+   "desc": "Small bench by a large quiet pool."
+  },
+  {
+   "name": "Funston",
+   "mile": 61.78,
+   "size": 2,
+   "qual": null,
+   "bank": "L",
+   "desc": "Small sandy beach just below Big Bear Creek."
+  },
+  {
+   "name": "Broken Oar",
+   "mile": 62.04,
+   "size": 2,
+   "qual": null,
+   "bank": "R",
+   "desc": "Small sandy sagebrush flat with trees."
+  },
+  {
+   "name": "Trail",
+   "mile": 63.77,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large, popular, low timbered bench."
+  },
+  {
+   "name": "Normandy Beach",
+   "mile": 63.86,
+   "size": 2,
+   "qual": null,
+   "bank": "L",
+   "desc": "Small pine and sagebrush beach."
+  },
+  {
+   "name": "Sheep Creek",
+   "mile": 64.79,
+   "size": 8,
+   "qual": null,
+   "bank": "L",
+   "desc": "Very large, on the upstream side of Sheep Creek."
+  },
+  {
+   "name": "Flying B",
+   "mile": 66.23,
+   "size": 2,
+   "qual": null,
+   "bank": "R",
+   "desc": "Small, at the water's edge."
+  },
+  {
+   "name": "Flying B Airport",
+   "mile": 67.01,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large; across from the airfield."
+  },
+  {
+   "name": "Bernard",
+   "mile": 68.18,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Large, just below the Bernard Creek airstrip."
+  },
+  {
+   "name": "Short Creek",
+   "mile": 68.35,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "Mid-sized sage flat with a rocky shore."
+  },
+  {
+   "name": "Cold Spring",
+   "mile": 69.43,
+   "size": 2,
+   "qual": null,
+   "bank": "R",
+   "desc": "Small, 20 ft above the river in trees."
+  },
+  {
+   "name": "Little Pine",
+   "mile": 70.95,
+   "size": 5,
+   "qual": null,
+   "bank": "L",
+   "desc": "Medium, just below the Jack Creek rapids."
+  },
+  {
+   "name": "Driftwood",
+   "mile": 71.35,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large beach with boulder \"rooms\" for separate sites."
+  },
+  {
+   "name": "Wilson Creek",
+   "mile": 72.18,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large, easily seen, sandy with brush."
+  },
+  {
+   "name": "Grassy Flat I",
+   "mile": 72.33,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Large open bench across from Wilson Creek."
+  },
+  {
+   "name": "Grassy Flat II",
+   "mile": 72.6,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Large open bench."
+  },
+  {
+   "name": "Survey Creek",
+   "mile": 74.12,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Large with timber cover and a small sandy beach downstream."
+  },
+  {
+   "name": "Woolard Creek",
+   "mile": 74.23,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large grassy bench; land at the upstream end."
+  },
+  {
+   "name": "Fly",
+   "mile": 75.03,
+   "size": 2,
+   "qual": null,
+   "bank": "R",
+   "desc": "Small sandy beach across from Kimmel Creek falls."
+  },
+  {
+   "name": "Fish",
+   "mile": 76.86,
+   "size": 2,
+   "qual": null,
+   "bank": "L",
+   "desc": "Small; upstream end of a rock bar."
+  },
+  {
+   "name": "Big Creek",
+   "mile": 77.47,
+   "size": 2,
+   "qual": null,
+   "bank": "L",
+   "desc": "Small brushy bivouac. Hike up the creek, the most boated tributary by kayaks and packrafts."
+  },
+  {
+   "name": "Last Chance",
+   "mile": 77.52,
+   "size": 1,
+   "qual": null,
+   "bank": "R",
+   "desc": "Very small; quality varies by year."
+  },
+  {
+   "name": "Pine Bluff",
+   "mile": 78.2,
+   "size": 2,
+   "qual": null,
+   "bank": "L",
+   "desc": "Small sandy timbered site."
+  },
+  {
+   "name": "Cutthroat Cove",
+   "mile": 78.34,
+   "size": 2,
+   "qual": null,
+   "bank": "L",
+   "desc": "Small sandbar backed by rock and brush."
+  },
+  {
+   "name": "Big Pine",
+   "mile": 78.67,
+   "size": 2,
+   "qual": null,
+   "bank": "R",
+   "desc": "Small sandbar at the end of a long pool."
+  },
+  {
+   "name": "Elk Bar",
+   "mile": 79.03,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Large sandbar below a small rapid, nice in low summer water. A good last-day option, about 20 mi from the take-out."
+  },
+  {
+   "name": "Love Bar",
+   "mile": 79.11,
+   "size": 2,
+   "qual": null,
+   "bank": "L",
+   "desc": "Small, just below Elk Bar."
+  },
+  {
+   "name": "Redside",
+   "mile": 81.75,
+   "size": 2,
+   "qual": null,
+   "bank": "L",
+   "desc": "Small, on a high bench just above Redside Rapid."
+  },
+  {
+   "name": "Papoose",
+   "mile": 83.6,
+   "size": 1,
+   "qual": null,
+   "bank": "L",
+   "desc": "Very small, at the mouth of Papoose Creek."
+  },
+  {
+   "name": "Ship Island",
+   "mile": 83.72,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Large bench above a rocky shore. Landing can be fast."
+  },
+  {
+   "name": "Lightning Strike",
+   "mile": 84.32,
+   "size": 2,
+   "qual": null,
+   "bank": "L",
+   "desc": "Small beach."
+  },
+  {
+   "name": "Parrot Placer",
+   "mile": 85.63,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large sandy beach among trees and brush."
+  },
+  {
+   "name": "Cradle Creek",
+   "mile": 87.91,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "Mid-sized bench by a large boulder. Land in the eddy past Upper Cliffside. A good last night."
+  },
+  {
+   "name": "Tumble Creek",
+   "mile": 88.23,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large grassy bench above Tumble Creek."
+  },
+  {
+   "name": "Ouzel",
+   "mile": 89.06,
+   "size": 2,
+   "qual": null,
+   "bank": "L",
+   "desc": "Small sandy beach with rocks."
+  },
+  {
+   "name": "Cliffside",
+   "mile": 89.1,
+   "size": null,
+   "qual": null,
+   "bank": "R",
+   "desc": "Sandbar that varies from year to year."
+  },
+  {
+   "name": "Stoddard",
+   "mile": 89.47,
+   "size": null,
+   "qual": null,
+   "bank": "L",
+   "desc": "Reached in the middle of Ouzel Rapid, so commit early. Pictograph trail up Stoddard Creek."
+  },
+  {
+   "name": "Otter Bar",
+   "mile": 89.76,
+   "size": null,
+   "qual": null,
+   "bank": "R",
+   "desc": "Long sandbar."
+  },
+  {
+   "name": "Solitude",
+   "mile": 91.98,
+   "size": 2,
+   "qual": null,
+   "bank": "L",
+   "desc": "Small sandbar with swift current. The last feasible camp in Impassable Canyon."
+  },
+  {
+   "name": "Goat Creek",
+   "mile": 94.19,
+   "size": 1,
+   "qual": null,
+   "bank": "R",
+   "desc": "Very small, among rocks below Goat Creek Rapid."
+  }
+ ],
+ "rapids": [
+  {
+   "name": "First Bend Rapid",
+   "mile": 0.05,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Bends right and splits; center is usually best."
+  },
+  {
+   "name": "Murph's Hole",
+   "mile": 0.81,
+   "civ": false,
+   "diff": 8,
+   "tier": "Class IV",
+   "desc": "Hard above 4 ft, with a boat-flipping hole on the right. Scout on river left."
+  },
+  {
+   "name": "Pinball Rapid",
+   "mile": 2.47,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "A low-water rapid."
+  },
+  {
+   "name": "Sulphur Slide Rapid",
+   "mile": 3.02,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Steep, long rock garden. Start left and work center at moderate to high flow; scout at low water."
+  },
+  {
+   "name": "Ramshorn Rapid",
+   "mile": 3.95,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Log jams were reported in 2022; look before you run."
+  },
+  {
+   "name": "Hells Half Mile Rapid",
+   "mile": 4.57,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Changed by 2023 debris; very shallow at low flow."
+  },
+  {
+   "name": "Velvet Falls",
+   "mile": 5.24,
+   "civ": false,
+   "diff": 8,
+   "tier": "Class IV",
+   "desc": "Altered by a 2023 debris flow. Scout; the line runs down the right side."
+  },
+  {
+   "name": "Avalanche Atoll (Upper Chutes)",
+   "mile": 7.56,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Rated II but very challenging below 2.2 ft."
+  },
+  {
+   "name": "The Chutes",
+   "mile": 7.77,
+   "civ": false,
+   "diff": 6,
+   "tier": "Class III+",
+   "desc": "Stay left and avoid the rock at the channel entrance."
+  },
+  {
+   "name": "Powerhouse Rapid",
+   "mile": 11.46,
+   "civ": false,
+   "diff": 8,
+   "tier": "Class IV",
+   "desc": "Scout from the right-side bench. A cabin and ruins stand here."
+  },
+  {
+   "name": "Artillery Rapids",
+   "mile": 17.82,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "A series of long, relatively easy rapids."
+  },
+  {
+   "name": "Cannon Creek Rapid",
+   "mile": 19.92,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Work left to avoid the ledge."
+  },
+  {
+   "name": "Lake Creek Rapid",
+   "mile": 21.49,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Formed by the Lake Creek debris fan; changes with debris flows."
+  },
+  {
+   "name": "Pistol Creek Rapid",
+   "mile": 21.98,
+   "civ": false,
+   "diff": 8,
+   "tier": "Class IV",
+   "desc": "S-turn, usually run left, with rocks and a hole on the right. Scout trail on the right."
+  },
+  {
+   "name": "Orelano Rapid",
+   "mile": 28.93,
+   "civ": false,
+   "diff": 4,
+   "tier": "Class II+",
+   "desc": "Formed by the Orelano Creek debris fan."
+  },
+  {
+   "name": "Marble Creek Rapid",
+   "mile": 32.26,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Bedrock ledge; run left of center. Surf wave at some flows."
+  },
+  {
+   "name": "Jackass Rapid",
+   "mile": 37.73,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Ledges from the left bank and a boulder at the bottom: a hole at high flow, can snag at low."
+  },
+  {
+   "name": "White Creek Rapid",
+   "mile": 47.62,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Hard bend left."
+  },
+  {
+   "name": "Tappan I Rapid",
+   "mile": 58,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Stay center. Rated II in some guides."
+  },
+  {
+   "name": "Tappan Falls",
+   "mile": 58.2,
+   "civ": false,
+   "diff": 8,
+   "tier": "Class IV",
+   "desc": "Usually best near the right bank; the line changes with flow. Scout at low water. Rated III in some guides."
+  },
+  {
+   "name": "Tappan II Rapid",
+   "mile": 58.63,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Pass the boulder in the center, then move right. The lower part was submerged by the 2008 debris flow."
+  },
+  {
+   "name": "Tappan III (Cove Creek Rapid)",
+   "mile": 58.79,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Stay left. Altered by the 2008 debris flow."
+  },
+  {
+   "name": "Tappan IV Rapid",
+   "mile": 59.14,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "The final and easiest of the Tappan rapids."
+  },
+  {
+   "name": "Aparejo Point Rapids",
+   "mile": 62.82,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Enter center and work left."
+  },
+  {
+   "name": "Haystack Rapid",
+   "mile": 67.51,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Long rock garden with different routes at different flows."
+  },
+  {
+   "name": "Bernard Creek Rapid",
+   "mile": 67.62,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "A continuation of Haystack, changed by a 2003 debris flow."
+  },
+  {
+   "name": "Earthquake Rock Rapid",
+   "mile": 70.07,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Formed by rockfall from the 1983 Borah Peak earthquake."
+  },
+  {
+   "name": "Jack Creek Rapid",
+   "mile": 70.51,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "End of about half a mile of whitewater in Jack Creek Canyon; big waves at high water."
+  },
+  {
+   "name": "Little Pine Rapid",
+   "mile": 70.78,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "A fun rapid where the river turns right."
+  },
+  {
+   "name": "Little Pine Boulders",
+   "mile": 70.98,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Large boulders form the rapid."
+  },
+  {
+   "name": "Driftwood Rapid",
+   "mile": 71.16,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Large boulder left of center; cliff at the bottom."
+  },
+  {
+   "name": "Lower Driftwood Rapid",
+   "mile": 71.41,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "A wave train below camp."
+  },
+  {
+   "name": "Waterfall Creek Rapid",
+   "mile": 77.06,
+   "civ": false,
+   "diff": 3,
+   "tier": "Unrated",
+   "desc": "Waterfall Creek and its falls enter here. Not rated in the source."
+  },
+  {
+   "name": "Cutthroat Cove Rapid",
+   "mile": 78.21,
+   "civ": false,
+   "diff": 4,
+   "tier": "Class III-",
+   "desc": "A rock right of center at the bottom can wrap or flip rafts. Stay left."
+  },
+  {
+   "name": "Wall Creek Rapid (Porcupine)",
+   "mile": 80.22,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Short, sharp right bend; enter center and work left."
+  },
+  {
+   "name": "Redside Rapid",
+   "mile": 81.84,
+   "civ": false,
+   "diff": 8,
+   "tier": "Class IV",
+   "desc": "A classic; lines vary with flow."
+  },
+  {
+   "name": "Weber Rapid",
+   "mile": 82.25,
+   "civ": false,
+   "diff": 8,
+   "tier": "Class IV",
+   "desc": "Center or center-left at most flows."
+  },
+  {
+   "name": "Mist Falls Rapid",
+   "mile": 82.56,
+   "civ": false,
+   "diff": 4,
+   "tier": "Class III-",
+   "desc": "Read and run."
+  },
+  {
+   "name": "Upper Cliffside Rapid",
+   "mile": 87.87,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Run inside the right-hand corner off the left wall; a surf spot for kayakers."
+  },
+  {
+   "name": "Lower Cliffside Rapid",
+   "mile": 88.05,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Rock garden; right-side holes at high flow."
+  },
+  {
+   "name": "Ouzel Rapid",
+   "mile": 89.17,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "A long rapid of small boulders, past Stoddard Creek."
+  },
+  {
+   "name": "Rubber Rapid",
+   "mile": 90.5,
+   "civ": false,
+   "diff": 8,
+   "tier": "Class IV",
+   "desc": "A classic. Stay center and follow the main current."
+  },
+  {
+   "name": "Hancock Rapid",
+   "mile": 91.51,
+   "civ": false,
+   "diff": 8,
+   "tier": "Class IV",
+   "desc": "Long, with large standing waves below the right-bank creek."
+  },
+  {
+   "name": "Devil's Molar Rapid",
+   "mile": 92.66,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "A huge boulder that precedes Devil's Tooth."
+  },
+  {
+   "name": "Devil's Tooth Rapid",
+   "mile": 92.94,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Run right of center; large boulders."
+  },
+  {
+   "name": "House of Rocks Rapid",
+   "mile": 93.1,
+   "civ": false,
+   "diff": 6,
+   "tier": "Class III+",
+   "desc": "House-sized rocks. Hard left needed at high flow."
+  },
+  {
+   "name": "Clamshell Rock",
+   "mile": 93.33,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Midstream boulder with an opening on its downstream side."
+  },
+  {
+   "name": "Jump Off Rapid",
+   "mile": 93.46,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Read and run."
+  },
+  {
+   "name": "Best Rock on the Middle Fork",
+   "mile": 93.75,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Boulders may form holes at the highest flows."
+  },
+  {
+   "name": "Upper Goat Creek Rapid",
+   "mile": 94.1,
+   "civ": false,
+   "diff": 4,
+   "tier": "Class II+",
+   "desc": "A wave train."
+  },
+  {
+   "name": "Lower Goat Creek Rapid",
+   "mile": 94.42,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "The last rapid on the Middle Fork."
+  },
+  {
+   "name": "Cramer Creek Rapid",
+   "mile": 98.05,
+   "civ": false,
+   "diff": 8,
+   "tier": "Class IV",
+   "desc": "On the Main Salmon below the confluence. Run right of center; a big hole sits left of center."
+  }
+ ],
+ "hikes": [
+  {
+   "name": "Murph's Hole scout",
+   "mile": 0.81,
+   "bank": "L",
+   "time": null,
+   "diff": 1,
+   "qual": null,
+   "desc": "Look the hole over from river left before you run it."
+  },
+  {
+   "name": "Trail Flat hot spring",
+   "mile": 7.24,
+   "bank": "L",
+   "time": null,
+   "diff": 1,
+   "qual": null,
+   "desc": "A hot spring at the water's edge below camp. It washes out at high water."
+  },
+  {
+   "name": "Powerhouse cabin and ruins",
+   "mile": 11.46,
+   "bank": "R",
+   "time": null,
+   "diff": 1,
+   "qual": null,
+   "desc": "A cabin and ruins beside Powerhouse Rapid, reached from the scouting bench."
+  },
+  {
+   "name": "Joe Bump cabin",
+   "mile": 12.02,
+   "bank": "L",
+   "time": null,
+   "diff": 2,
+   "qual": null,
+   "desc": "An old cabin up a trail from camp."
+  },
+  {
+   "name": "Sheepeater hot spring",
+   "mile": 13.33,
+   "bank": "L",
+   "time": null,
+   "diff": 1,
+   "qual": null,
+   "desc": "A hot spring on the terrace above camp."
+  },
+  {
+   "name": "Pistol Creek Rapid scout",
+   "mile": 21.98,
+   "bank": "R",
+   "time": null,
+   "diff": 1,
+   "qual": null,
+   "desc": "A scouting trail on river right."
+  },
+  {
+   "name": "Sunflower Flat hot spring",
+   "mile": 33.4,
+   "bank": "R",
+   "time": null,
+   "diff": 1,
+   "qual": null,
+   "desc": "Popular, scenic hot pools."
+  },
+  {
+   "name": "Hood Ranch hot spring",
+   "mile": 36.36,
+   "bank": "L",
+   "time": null,
+   "diff": 1,
+   "qual": null,
+   "desc": "A hot spring at the downstream end of camp."
+  },
+  {
+   "name": "Cameron Creek pictographs",
+   "mile": 39.81,
+   "bank": "L",
+   "time": null,
+   "diff": 2,
+   "qual": null,
+   "desc": "A trail to pictographs. Day use only; closed to overnight use."
+  },
+  {
+   "name": "Whitie Cox hot spring",
+   "mile": 46.46,
+   "bank": "R",
+   "time": null,
+   "diff": 1,
+   "qual": null,
+   "desc": "A hot spring on the bench above camp."
+  },
+  {
+   "name": "Loon Creek hot spring",
+   "mile": 49.86,
+   "bank": "R",
+   "time": null,
+   "diff": 3,
+   "qual": null,
+   "desc": "A creekside tub 0.8 mi up the Loon Creek trail, which passes Simplot Ranch. It is 1.2 mi from Cow Creek camp."
+  },
+  {
+   "name": "Hospital Bar hot spring",
+   "mile": 52.54,
+   "bank": "L",
+   "time": null,
+   "diff": 1,
+   "qual": null,
+   "desc": "At the river's edge upstream of camp; may be underwater at high flow."
+  },
+  {
+   "name": "Camas Creek",
+   "mile": 60.13,
+   "bank": "R",
+   "time": null,
+   "diff": 3,
+   "qual": null,
+   "desc": "Hike up Camas Creek; kayakers have run it."
+  },
+  {
+   "name": "Shark Fin pictographs",
+   "mile": 62.31,
+   "bank": "L",
+   "time": null,
+   "diff": 2,
+   "qual": null,
+   "desc": "Pictographs above the river near a shark-fin-shaped boulder."
+  },
+  {
+   "name": "Rattlesnake Cave",
+   "mile": 73.75,
+   "bank": "R",
+   "time": null,
+   "diff": 2,
+   "qual": null,
+   "desc": "Pictographs. Day use only; pull in upstream."
+  },
+  {
+   "name": "Big Creek",
+   "mile": 77.47,
+   "bank": "L",
+   "time": null,
+   "diff": 3,
+   "qual": null,
+   "desc": "Hike up Big Creek. A separate tributary permit is needed if you float it."
+  },
+  {
+   "name": "Veil Falls",
+   "mile": 79.99,
+   "bank": "R",
+   "time": null,
+   "diff": 2,
+   "qual": null,
+   "desc": "Misty falls up a steep, short hike. Popular on hot days."
+  },
+  {
+   "name": "Stoddard Creek pictographs",
+   "mile": 89.47,
+   "bank": "L",
+   "time": null,
+   "diff": 2,
+   "qual": null,
+   "desc": "A trail up Stoddard Creek to pictographs."
+  }
+ ],
+ "geology": [],
+ "guide": [],
+ "almanac": {
+  "history": [
+   [
+    "Debris flows reshape the rapids",
+    "Debris flows from side creeks have rebuilt rapids more than once, including Bernard Creek in 2003, the Tappan rapids in 2008 and Velvet Falls and Hells Half Mile in 2023. Look before you run, even rapids you know."
+   ],
+   [
+    "Earthquake Rock",
+    "Earthquake Rock Rapid was formed by rockfall during the 1983 Borah Peak earthquake."
+   ],
+   [
+    "Whitie Cox",
+    "Whitie Cox, a miner who died in 1954, is buried at the camp that bears his name."
+   ]
+  ]
+ },
+ "rules": [
+  {
+   "name": "Required equipment",
+   "rules": [
+    {
+     "t": "Documents",
+     "d": "The permit holder's government photo ID and the printed, signed permit. Boats are inspected at Boundary Creek and Indian Creek."
+    },
+    {
+     "t": "Fire pan",
+     "d": "A metal fire pan of at least 144 square inches with sides at least 3 inches high (kayakers 2 inches). Required even if you build no fire. An unmodified garbage-can lid does not count."
+    },
+    {
+     "t": "Fire blanket and ash container",
+     "d": "A fire blanket in good condition large enough to catch embers (required since 2023), and a metal or hard plastic ash container with a sealable lid. Bags and dry bags are not acceptable. Kayakers need 300 cubic inches."
+    },
+    {
+     "t": "Toilet",
+     "d": "A porta-potty system sized for all human and pet waste. Plan about 1 lb per person per day. Only toilet paper and solid waste go in; no wipes, tampons or ash. Add water before the take-out."
+    },
+    {
+     "t": "Kitchen",
+     "d": "A mesh strainer fine enough for coffee grounds, a shovel (folding is fine; kayakers may use a paddle) and a bucket (a cooking pot will do)."
+    },
+    {
+     "t": "Aquatic invasive species",
+     "d": "An Idaho AIS sticker on each boat (inflatable non-motorized craft under 10 ft are exempt). Boats must be clean, drained and dry on arrival and are inspected."
+    }
+   ]
+  },
+  {
+   "name": "Camping and fire",
+   "rules": [
+    {
+     "t": "Assigned camps",
+     "d": "Camp only in the camps listed on your permit, with the whole group together. An assigned camp is not exclusive; expect to share it, especially at hot springs and airstrips."
+    },
+    {
+     "t": "Hot spring camps",
+     "d": "A group may be assigned at most one hot spring camp, and it is not guaranteed."
+    },
+    {
+     "t": "Below Big Creek",
+     "d": "During the control season, only one night per trip below Big Creek (mile 77.9). Layovers are limited and approved case by case."
+    },
+    {
+     "t": "Evening courtesy",
+     "d": "Do not stay in or visit assigned camps after 7 p.m. Keep noise down."
+    },
+    {
+     "t": "Fires",
+     "d": "Fires only in the fire pan, raised on rocks with a layer of sand or dirt. Gather only dead and down wood. Dampen ashes in the ash container and pack them out. Carry charcoal in case of restrictions."
+    }
+   ]
+  },
+  {
+   "name": "Wilderness and wildlife",
+   "rules": [
+    {
+     "t": "Frank Church Wilderness",
+     "d": "The river runs through the Frank Church-River of No Return Wilderness. Drones, motors and mechanical transport are not allowed. Use a manual pump at Indian Creek."
+    },
+    {
+     "t": "Food and bears",
+     "d": "Put food and drink away after meals and keep containers closed. Do not feed wildlife."
+    },
+    {
+     "t": "Dogs",
+     "d": "Dogs must be leashed at guard stations, launches and take-outs. Pack out dog waste."
+    },
+    {
+     "t": "Cultural sites",
+     "d": "Do not touch pictographs or collect artifacts."
+    },
+    {
+     "t": "Chinook redds",
+     "d": "Avoid disturbing salmon nests in the main river and tributaries, especially in late summer and fall."
+    }
+   ]
+  },
+  {
+   "name": "Fishing",
+   "rules": [
+    {
+     "t": "License and gear",
+     "d": "A valid Idaho fishing license is required and is not sold at the launches. Fishing is mostly catch and release with artificial flies or lures and a single barbless hook. Live bait is prohibited."
+    }
+   ]
+  }
+ ],
+ "landmarks": [
+  {
+   "name": "Boundary Creek launch",
+   "mile": 0,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Put-in, reached on Forest Service Road 568 from Bruce Meadows or Road 579 off Highway 21. The permit zone begins at Dagger Falls just upstream."
+  },
+  {
+   "name": "Pistol Creek Ranch",
+   "mile": 22.93,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "A small airstrip with private cabins."
+  },
+  {
+   "name": "Indian Creek launch and guard station",
+   "mile": 25.35,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Airstrip, launch and Forest Service guard station; fly-in supplies. Alternate put-in at very low or very high flows."
+  },
+  {
+   "name": "Middle Fork Lodge",
+   "mile": 34.21,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "A private fishing lodge. The flow gauge is on river left."
+  },
+  {
+   "name": "Cougar Creek Ranch",
+   "mile": 41.02,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "An Idaho Fish and Game patrol cabin and admin site."
+  },
+  {
+   "name": "Tappan Creek cabin",
+   "mile": 56.79,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "A historic ranch cabin."
+  },
+  {
+   "name": "Flying B Ranch",
+   "mile": 66.18,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "A small store with cold drinks, ice cream and ice. Water refills."
+  },
+  {
+   "name": "Bernard Creek airstrip",
+   "mile": 68.18,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Airstrip just above Bernard camp."
+  },
+  {
+   "name": "Parrot Cabin",
+   "mile": 87.19,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "A cabin below the mouth of Nugget Creek, with a small camp area."
+  },
+  {
+   "name": "Salmon River confluence",
+   "mile": 95.39,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "A rough access is possible; most parties continue to Cache Bar."
+  },
+  {
+   "name": "Cache Bar",
+   "mile": 98.97,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "The standard take-out with paved ramps. Heavy traffic 9 to 11 a.m. from mid-June to mid-August."
+  }
+ ],
+ "clusters": [
+  {
+   "s": 77.5,
+   "e": 95.4,
+   "n": "Impassable Canyon"
+  }
+ ],
+ "notes": {
+  "camp": "*Camps are assigned with your permit and rated for size only. Capacity changes with river level.",
+  "hike": "*Difficulty is a rough estimate (1 = short, easy walk; 3 = longer trail with climbing). Times are not given."
+ },
+ "hdiff": {
+  "1": "Short, easy walk",
+  "2": "Easy trail or short climb",
+  "3": "Longer trail with some climbing"
+ },
+ "access": [
+  {
+   "name": "Stanley",
+   "road": true,
+   "hub": true,
+   "note": "Nearest town to the put-in; Boundary Creek is about 25 miles of dirt road past it",
+   "grid": [
+    2,
+    2
+   ]
+  },
+  {
+   "name": "Salmon",
+   "road": true,
+   "hub": true,
+   "note": "Nearest city to the take-out; River Office",
+   "grid": [
+    10,
+    2
+   ]
+  },
+  {
+   "name": "Boundary Creek",
+   "road": true,
+   "mile": 0,
+   "park": true,
+   "note": "Put-in. Campground, permits checked, ramp",
+   "grid": [
+    1,
+    6
+   ]
+  },
+  {
+   "name": "Indian Creek",
+   "mile": 25.35,
+   "note": "Fly-in alternate put-in and guard station (no road)",
+   "grid": [
+    4,
+    6
+   ]
+  },
+  {
+   "name": "Cache Bar",
+   "road": true,
+   "mile": 98.97,
+   "park": true,
+   "note": "Take-out. Three ramp lanes; heavy morning traffic in summer",
+   "grid": [
+    10,
+    6
+   ]
+  }
+ ],
+ "yardGrid": [
+  5,
+  1
+ ],
+ "roads": [
+  {
+   "a": "Stanley",
+   "b": "Boundary Creek",
+   "h": ""
+  },
+  {
+   "a": "Salmon",
+   "b": "Cache Bar",
+   "h": ""
+  },
+  {
+   "a": "Stanley",
+   "b": "Salmon",
+   "h": ""
+  },
+  {
+   "a": "Outfitter",
+   "b": "Stanley",
+   "h": ""
+  }
+ ],
+ "permit": {
+  "status": "Required year-round · lottery May 28 to Sept 3",
+  "asOf": "October 2026",
+  "apply": {
+   "label": "Apply on Recreation.gov",
+   "url": "https://www.recreation.gov/permits/234623"
+  },
+  "contact": {
+   "phone": "208-481-2625",
+   "email": "sm.fs.middlefork@usda.gov",
+   "web": "https://www.fs.usda.gov/r04/salmon-challis/recreation/epic-adventures/middle-fork-salmon-river"
+  },
+  "sections": [
+   {
+    "name": "How to get one",
+    "items": [
+     {
+      "t": "Enter the lottery",
+      "d": "Applications for control-season dates (May 28 to September 3) are taken on Recreation.gov from December 1 to January 31. Results are emailed February 14, and winners must confirm by March 15 or lose the reservation. You may submit only one application; duplicates bring a three-year restriction."
+     },
+     {
+      "t": "Before and after the control season",
+      "d": "Dates outside May 28 to September 3 are not in the lottery. They open for first-come reservation on October 1 at 8 a.m. Mountain."
+     },
+     {
+      "t": "Camp request",
+      "d": "A camp request form is emailed 14 days before launch. List every person, the trip length and the fees on Recreation.gov no later than 7 days before launch. Camps are assigned from your request and are final once the permit is issued."
+     },
+     {
+      "t": "The permit",
+      "d": "The River Clerk emails the permit 5 or 6 days before launch. Print and sign it and carry it for the whole trip. A reservation is not the permit and does not guarantee passage: fire, debris flows and logjams can block the river or the access roads."
+     },
+     {
+      "t": "Launch date",
+      "d": "The date you first enter the permitted stretch is your launch date, even if you start from a tributary or fly in. It cannot be adjusted."
+     },
+     {
+      "t": "Pick-ups",
+      "d": "For cancellation pick-ups within 14 days of launch, contact the River Office right away."
+     }
+    ]
+   },
+   {
+    "name": "Dates and limits",
+    "items": [
+     {
+      "t": "Control season",
+      "d": "May 28 to September 3. A permit is required all year, between Dagger Falls and the Main Salmon confluence."
+     },
+     {
+      "t": "Launches per day",
+      "d": "No more than seven float parties, commercial and private combined, launch each day."
+     },
+     {
+      "t": "Group size and trip length",
+      "d": "1 to 10 people: up to 8 days (7 nights). 11 to 20: up to 7 days (6 nights). 21 to 24: up to 6 days (5 nights)."
+     },
+     {
+      "t": "Boats during salmon spawning",
+      "d": "August 8 to September 15: a maximum of 12 watercraft per permit, to protect spawning Chinook."
+     },
+     {
+      "t": "Eligibility",
+      "d": "The permit holder must be at least 18 on the launch date, must be on the trip, and the permit is not transferable. Alternate trip leaders are not allowed."
+     },
+     {
+      "t": "Odds",
+      "d": "Demand is extreme. One report counts nearly 20,000 applicants for about 353 control-season permits in 2025, a chance of under 2 percent."
+     }
+    ]
+   },
+   {
+    "name": "Costs",
+    "items": [
+     {
+      "t": "Application",
+      "d": "$6, non-refundable."
+     },
+     {
+      "t": "Per person",
+      "d": "$4 per person per day, or a Salmon Rivers Season Pass ($40, covers only the holder)."
+     },
+     {
+      "t": "Discount",
+      "d": "50 percent off for Senior and Access pass holders. Enter the pass number in the reservation and bring the pass and photo ID."
+     },
+     {
+      "t": "Refunds",
+      "d": "Recreation fees are refunded for reduced or cancelled trips. No-shows are not refunded."
+     }
+    ]
+   },
+   {
+    "name": "Cancellation and penalties",
+    "items": [
+     {
+      "t": "Control season",
+      "d": "Cancel at least 21 days before launch, by 11:59 p.m. Mountain, to avoid a late penalty."
+     },
+     {
+      "t": "Outside the control season",
+      "d": "Cancel at least 3 days before launch."
+     },
+     {
+      "t": "Exceptions",
+      "d": "If water is above 5.0 ft or the Boundary Creek road is closed within 14 days of launch, or you booked within 21 days, you may cancel 3 days before launch. You must still cancel."
+     },
+     {
+      "t": "Penalty",
+      "d": "A late cancellation or no-show means no permit and no lottery for three years."
+     }
+    ]
+   }
+  ]
+ }
+}
