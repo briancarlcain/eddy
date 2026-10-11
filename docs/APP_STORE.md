@@ -17,7 +17,7 @@ Never ship the web build inside the app: `build.mjs` swaps the seed files for th
 - `ITSAppUsesNonExemptEncryption = false`, privacy manifest (`PrivacyInfo.xcprivacy`: no tracking, no data collected)
 - Data survives iOS storage clean-up (mirrored to native Preferences)
 - Native touches: haptics, share sheet (trip summary, backup file), opt-in trip reminders (local notifications), status bar and keyboard handling
-- General → About: version, backup / restore, reminders, safety and sources, privacy policy, support, erase-all-data
+- Profile → Data and About: backup / restore, reminders, erase-all-data, version, safety and sources, privacy policy, support
 - Safety disclaimer on the Medical tab (App Review guideline 1.4.1)
 - Privacy policy page: `privacy.html` (published at https://briancarlcain.github.io/river-guide/privacy.html)
 - CI that builds and uploads to TestFlight from GitHub (no Mac needed): `.github/workflows/ios-testflight.yml`
@@ -84,7 +84,7 @@ Answer "None" to every content question → 4+. (Medical reference: choose *Infr
 iPhone 6.9" (1320 × 2868) — 3 to 10 images. Already generated in `store/screenshots/` (Trips, Itinerary with sunrise/sunset, Crew & Crafts, Gear, Shuttle, River map, Safety reference). Upload them as-is for the 6.9" slot; App Store Connect scales them for smaller iPhones. Re-run `npm run screenshots` after UI changes. You can swap in real-device screenshots from TestFlight later.
 
 ### Notes for App Review
-> River Guide needs no login. On first launch it loads a fictional "Sample trip" so every screen has content: Trips tab → Open → Itinerary, Crew & Crafts, Meals, Gear, Shuttle, Ledger, Info. The River tab shows the built-in Grand Canyon, Smith and Rogue guides, and General has the safety reference and About (backup/restore, optional reminders). The app works fully offline. Trip reminders use local notifications and are off until the user turns them on in General → About.
+> River Guide needs no login. On first launch it loads a fictional "Sample trip" so every screen has content: Trips tab → Open → Itinerary, Crew, Meals, Gear, Shuttle, Ledger, Info. The River tab shows the built-in Grand Canyon, Smith and Rogue guides, and General has the safety reference and About (backup/restore, optional reminders). The app works fully offline. Trip reminders use local notifications and are off until the user turns them on in General → About.
 
 ## Review risks to be aware of
 

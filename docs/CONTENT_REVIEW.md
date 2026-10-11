@@ -2,7 +2,7 @@
 
 App Review (guideline 5.2) and the copyright of the people whose work the data came from both matter here.
 I can describe what is in the app; **only you know where each piece came from.** Fill in the "Source / permission"
-column, then either keep the item, add attribution in `data/sources.json` (shown in General → About → Sources &
+column, then either keep the item, add attribution in `data/sources.json` (shown in Profile → About → Sources &
 credits), or remove it.
 
 | Dataset (Grand Canyon unless noted) | Size | What it is | Risk | Source / permission (you fill in) |

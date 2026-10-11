@@ -686,13 +686,16 @@ const Field = ({ label, area, ...p }) => (
 /* ---------- trip ---------- */
 
 function Trip({ s, back }) {
-  const [tab, setTab] = useState(QS.get('sub') || 'Itinerary');
+  const OLD = { 'Crew & Crafts': 'Crew', Ledger: 'Costs', Log: 'Journal', Info: 'Notes', Card: 'Emergency' };
+  const q = QS.get('sub');
+  const [tab, setTab] = useState((q && (OLD[q] || q)) || 'Itinerary');
   if (!s.trip) return <NewTrip s={s} />;
-  const panels = { Itinerary, 'Crew & Crafts': Crew, Meals, Gear, Shuttle, Ledger, Log, Info, Settings };
-  const P = panels[tab];
+  const panels = { Itinerary, Crew, Meals, Gear, Shuttle, Costs: Ledger, Emergency: Card, Journal: Log, Notes: Info, Settings };
+  const P = panels[tab] || Itinerary;
+  const items = ['Itinerary', 'Crew', 'Meals', 'Gear', 'Shuttle', 'Costs', 'Emergency', 'Journal', ...(REFS[s.trip.id] ? ['Notes'] : []), 'Settings'];
   return (
     <>
-      <Tabs items={['Itinerary', 'Crew & Crafts', 'Meals', 'Gear', 'Shuttle', 'Ledger', 'Log', 'Info', 'Settings']} value={tab} onChange={setTab} tint="#7a3b28" />
+      <Tabs items={items} value={tab} onChange={setTab} tint="#7a3b28" />
       <div className="pad">
         <P s={s} back={back} />
       </div>
@@ -1203,6 +1206,7 @@ function Gear({ s }) {
         </button>
         <div className="muted mt">Or add items one at a time.</div>
         <AddGear s={s} onDone={() => {}} />
+        <GearRef />
       </>
     );
 
@@ -1256,6 +1260,7 @@ function Gear({ s }) {
       {shown.map((it) => (
         <GearRow key={it.id} it={it} s={s} me={me} open={open === it.id} onOpen={() => setOpen(open === it.id ? null : it.id)} />
       ))}
+      <GearRef />
     </>
   );
 }
@@ -3769,7 +3774,7 @@ function Account({ s }) {
 
 const REMINDERS_KEY = 'riverguide.v1.reminders';
 
-function About({ s }) {
+function About({ s, part = 'about' }) {
   const [msg, setMsg] = useState('');
   const [rem, setRem] = useState(() => localStorage.getItem(REMINDERS_KEY) === '1');
   const file = useRef(null);
@@ -3813,15 +3818,18 @@ function About({ s }) {
 
   return (
     <>
+      {part === 'about' && (
       <div className="card formCard">
         <span className="label">River Guide</span>
         <div className="line">Plan river trips: crew, itinerary, meals, gear, shuttles and costs, with built-in guides for the Grand Canyon, Smith River and Rogue River.</div>
         <div className="muted mt-s">Version {APP_VERSION}</div>
       </div>
+      )}
 
-      <div className="card formCard mt">
+      {part === 'data' && (
+      <div className="card formCard">
         <span className="label">Your data</span>
-        <div className="muted mb-s">Your trips are stored on this device. An account is optional: sign in (General → Account) to back trips up and sync them across your devices, or use Share with crew to send one trip to others under a random join code. Back up regularly if you do not use an account: deleting the app deletes local data.</div>
+        <div className="muted mb-s">Trips are stored on this device. Sign in under Account to back them up, or save a backup file.</div>
         <button className="btn ghost block" onClick={backup}>
           Back up all trips
         </button>
@@ -3831,8 +3839,9 @@ function About({ s }) {
         <input ref={file} type="file" accept="application/json,.json" hidden onChange={restore} />
         {msg ? <div className="muted mb-s">{msg}</div> : null}
       </div>
+      )}
 
-      {isNative && (
+      {part === 'data' && isNative && (
         <div className="card formCard mt">
           <span className="label">Trip reminders</span>
           <div className="muted mb-s">A notification a week before launch, the evening before, and on launch morning.</div>
@@ -3842,12 +3851,15 @@ function About({ s }) {
         </div>
       )}
 
+      {part === 'about' && (
       <div className="card formCard mt">
         <span className="label">Safety &amp; sources</span>
         <div className="muted mb-s">River, camp and hike information is compiled from public agency publications (such as the National Park Service) and community knowledge. It can be out of date or wrong. Medical and rescue pages are general reference only. Always confirm current regulations, flows and conditions with the managing agency, and carry a satellite communicator.</div>
       </div>
 
-      {SOURCES.some((x) => x.confirmed) && (
+      )}
+
+      {part === 'about' && SOURCES.some((x) => x.confirmed) && (
         <div className="card formCard mt">
           <span className="label">Sources &amp; credits</span>
           {SOURCES.filter((x) => x.confirmed).map((x, i) => (
@@ -3859,6 +3871,7 @@ function About({ s }) {
         </div>
       )}
 
+      {part === 'about' && (
       <div className="card formCard mt">
         <span className="label">Help</span>
         <button className="btn ghost block" onClick={() => openUrl(POLICY_URL)}>
@@ -3868,7 +3881,9 @@ function About({ s }) {
           Support &amp; feedback
         </button>
       </div>
+      )}
 
+      {part === 'data' && (
       <div className="card formCard dangerCard mt">
         <span className="label">Erase</span>
         <div className="muted mb-s">Deletes every trip and any rivers you added from this device. If you are signed in, your backed-up trips return at the next sync; sign out first, or delete your account, to remove them from the server.</div>
@@ -3883,24 +3898,35 @@ function About({ s }) {
           <Icon name="trash" size={16} /> Erase all data
         </button>
       </div>
+      )}
     </>
   );
 }
 
-function General({ s, initial }) {
-  const [tab, setTab] = useState(initial || QS.get('sub') || 'Medical');
+function Safety() {
+  const [tab, setTab] = useState(['Medical', 'Signals', 'Rescue', 'Swim'].includes(QS.get('sub')) ? QS.get('sub') : 'Medical');
   return (
     <>
-      <Tabs items={['Medical', 'Signals', 'Rescue', 'Swim', 'Gear', 'Card', 'Account', 'About']} value={tab} onChange={setTab} tint="#9c3326" />
+      <Tabs items={['Medical', 'Signals', 'Rescue', 'Swim']} value={tab} onChange={setTab} tint="#9c3326" />
       <div className="pad">
         {tab === 'Medical' && <Medical />}
         {tab === 'Signals' && <Pairs data={GENERAL.signals} />}
         {tab === 'Rescue' && <Pairs data={GENERAL.rescue} numbered />}
         {tab === 'Swim' && <Pairs data={GENERAL.swim} />}
-        {tab === 'Gear' && <GearRef />}
-        {tab === 'Card' && <Card s={s} />}
+      </div>
+    </>
+  );
+}
+
+function Profile({ s, initial }) {
+  const [tab, setTab] = useState(initial || (['Account', 'Data', 'About'].includes(QS.get('sub')) ? QS.get('sub') : 'Account'));
+  return (
+    <>
+      <Tabs items={['Account', 'Data', 'About']} value={tab} onChange={setTab} tint="#7a3b28" />
+      <div className="pad">
         {tab === 'Account' && <Account s={s} />}
-        {tab === 'About' && <About s={s} />}
+        {tab === 'Data' && <About s={s} part="data" />}
+        {tab === 'About' && <About s={s} part="about" />}
       </div>
     </>
   );
@@ -3967,35 +3993,38 @@ const Pairs = ({ data, numbered }) =>
     </div>
   ));
 
-const GearRef = () =>
-  Object.entries(GENERAL.gear).map(([cat, items]) => (
-    <div className="mt" key={cat}>
-      <span className="label">{cat}</span>
-      {items.map((x) => (
-        <div className="line" key={x}>{x}</div>
-      ))}
-    </div>
-  ));
+const GearRef = () => (
+  <div className="mt">
+    <span className="label">Packing reference</span>
+    {Object.entries(GENERAL.gear).map(([cat, items]) => (
+      <Acc key={cat} title={cat} note={items.length + ' items'}>
+        {items.map((x) => (
+          <div className="line" key={x}>{x}</div>
+        ))}
+      </Acc>
+    ))}
+  </div>
+);
 
 const Card = ({ s }) => (
   <>
+    <div className="muted mb">Read this out in an emergency. Give the river mile and bank first.</div>
     <div className="card red">
       <div className="line">{RIVER.name} — {RIVER.reach}</div>
       <div className="line">{RIVER.coords[0].toFixed(5)}, {RIVER.coords[1].toFixed(5)}</div>
       <div className="line">{RIVER.agency}</div>
-      <div className="muted mt">River mile and bank first.</div>
     </div>
     {s.trip && (
       <div className="card mt">
         <span className="label">{s.trip.name}</span>
         <div className="line">
-          {s.trip.start} · {s.trip.days} days · {s.trip.crew.length} people
+          {okDate(s.trip.start) ? `${fmt(s.trip.start)} ${s.trip.start.slice(0, 4)}` : s.trip.start} · {s.trip.days} days · {s.trip.crew.length} people
         </div>
         {s.trip.crew.map((c) => (
           <div className="mt-s" key={c.id}>
             <div className="line">
               <b>{c.name}</b>
-              {c.boat ? ` · ${c.boat}` : ''}
+              {c.boat ? ` · ${((s.trip.boats || []).find((b) => b.id === c.boat) || {}).name || ''}` : ''}
             </div>
             {c.ice ? <div className="muted">{c.ice}</div> : null}
             {c.diet ? <div className="muted">{c.diet}</div> : null}
@@ -4607,6 +4636,7 @@ const TABS = [
   },
   {
     id: 'River',
+    label: 'Rivers',
     tab: 'map',
     icon: (
       <svg viewBox="0 0 24 24">
@@ -4617,7 +4647,7 @@ const TABS = [
     ),
   },
   {
-    id: 'General',
+    id: 'Safety',
     tab: 'safety',
     icon: (
       <svg viewBox="0 0 24 24">
@@ -4626,16 +4656,26 @@ const TABS = [
       </svg>
     ),
   },
+  {
+    id: 'Profile',
+    tab: 'safety',
+    icon: (
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="8" r="4" />
+        <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" />
+      </svg>
+    ),
+  },
 ];
 
 function App() {
   const s = useStore();
-  const [tab, setTab] = useState(QS.get('tab') || 'Trips');
+  const [tab, setTab] = useState({ General: 'Safety' }[QS.get('tab')] || QS.get('tab') || 'Trips');
   const [inTrip, setInTrip] = useState(QS.get('open') === '1'); // Trips tab: false = overview list, true = inside the active trip
   const [browse, setBrowse] = useState(QS.get('river') || null); // river being browsed on the River tab (null = the trip's own)
   const [preset, setPreset] = useState(null); // river chosen from the library for a new trip
   const [joinCode, setJoinCode] = useState(''); // from a riverguide://join/CODE link
-  const [genSub, setGenSub] = useState(null); // open General on a given sub-tab (e.g. Account)
+  const [profSub, setProfSub] = useState(null); // open Profile on a given sub-tab
   const onMap = tab === 'River';
   const detail = tab === 'Trips' && inTrip && !!s.trip;
 
@@ -4648,7 +4688,7 @@ function App() {
   useEffect(() => {
     onOpenUrl((url) => {
       if (/auth-callback/.test(url || '')) {
-        authApi.handleAuthUrl(url).then(() => setTab('General')).catch(() => {});
+        authApi.handleAuthUrl(url).then(() => { setProfSub('Account'); setTab('Profile'); }).catch(() => {});
         return;
       }
       const m = /join\/([A-Za-z0-9-]+)/.exec(url || '');
@@ -4675,7 +4715,7 @@ function App() {
     document.body.dataset.tab = detail ? 'itinerary' : TABS.find((t) => t.id === tab).tab;
   }, [tab, detail]);
 
-  const title = detail ? s.trip.name : tab === 'Trips' ? 'Trips' : 'Rafting & Safety';
+  const title = detail ? s.trip.name : tab;
 
   return (
     <div className={'shell rg' + (onMap ? ' onmap' : '')}>
@@ -4697,7 +4737,7 @@ function App() {
           (detail ? (
             <Trip s={s} back={() => setInTrip(false)} />
           ) : (
-            <Trips s={s} preset={preset} clearPreset={() => setPreset(null)} joinCode={joinCode} clearJoin={() => setJoinCode('')} onOpen={() => setInTrip(true)} onAccount={() => { setGenSub('Account'); setTab('General'); }} />
+            <Trips s={s} preset={preset} clearPreset={() => setPreset(null)} joinCode={joinCode} clearJoin={() => setJoinCode('')} onOpen={() => setInTrip(true)} onAccount={() => { setProfSub('Account'); setTab('Profile'); }} />
           ))}
         {tab === 'River' && (
           <River
@@ -4711,7 +4751,8 @@ function App() {
             }}
           />
         )}
-        {tab === 'General' && <General s={s} initial={genSub} />}
+        {tab === 'Safety' && <Safety />}
+        {tab === 'Profile' && <Profile s={s} initial={profSub} />}
       </main>
 
       <nav className="tabbar">
@@ -4725,7 +4766,7 @@ function App() {
             }}
           >
             {t.icon}
-            <span className="tlabel">{t.id}</span>
+            <span className="tlabel">{t.label || t.id}</span>
           </button>
         ))}
       </nav>

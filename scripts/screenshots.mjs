@@ -24,11 +24,11 @@ const page = pathToFileURL(resolve('www/index.html')).href;
 const shots = [
   ['01-trips', 'tab=Trips'],
   ['02-itinerary', 'tab=Trips&open=1&sub=Itinerary'],
-  ['03-crew', 'tab=Trips&open=1&sub=Crew%20%26%20Crafts'],
+  ['03-crew', 'tab=Trips&open=1&sub=Crew'],
   ['04-gear', 'tab=Trips&open=1&sub=Gear'],
   ['05-shuttle', 'tab=Trips&open=1&sub=Shuttle'],
   ['06-river-map', 'tab=River&sub=Map'],
-  ['07-safety', 'tab=General&sub=Medical'],
+  ['07-safety', 'tab=Safety&sub=Medical'],
 ];
 if (process.env.SHOTS) { shots.length = 0; for (const x of process.env.SHOTS.split(';')) shots.push(x.split('|')); }
 const out = resolve(process.env.OUT || 'store/screenshots');
