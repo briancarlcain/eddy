@@ -5280,12 +5280,14 @@ function RiverList({ s, onOpen }) {
       <button className="btn ghost mt" onClick={() => setEdit('new')}>
         + Add river
       </button>
-      <Acc title="Import river JSON" note="paste a river record, or { rivers: [...] }">
-        <Field area value={json} onChange={(e) => setJson(e.target.value)} placeholder='{"name":"Salmon River","miles":[0,53],"coords":[45.2,-114.5],"tz":"America/Boise","access":[...]}' />
-        <button className="btn" disabled={!json.trim()} onClick={importJson}>
-          Import
-        </button>
-      </Acc>
+      <div className="mt">
+        <Acc title="Import river JSON" note="paste a river record, or { rivers: [...] }">
+          <Field area value={json} onChange={(e) => setJson(e.target.value)} placeholder='{"name":"Salmon River","miles":[0,53],"coords":[45.2,-114.5],"tz":"America/Boise","access":[...]}' />
+          <button className="btn" disabled={!json.trim()} onClick={importJson}>
+            Import
+          </button>
+        </Acc>
+      </div>
       {msg ? <div className="muted mt">{msg}</div> : null}
     </div>
   );
