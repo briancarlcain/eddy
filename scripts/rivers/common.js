@@ -37,6 +37,7 @@ function parse(dsl) {
 }
 
 function write(id, river) {
+  river.note = ''; river.notes = { camp: '', hike: '' };
   const f = `data/rivers/${id}.json`;
   fs.writeFileSync(f, JSON.stringify(river, null, 1) + '\n');
   const c = (k) => (river[k] || []).length;

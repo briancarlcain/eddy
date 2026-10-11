@@ -1,1403 +1,1403 @@
 {
- "name": "Main Salmon River",
- "reach": "Corn Creek to Carey Creek",
- "agency": "Salmon-Challis National Forest, River Office",
- "miles": [
-  0,
-  81
- ],
- "days": 6,
- "coords": [
-  45.43,
-  -115.35
- ],
- "tz": "America/Boise",
- "note": "The Wild section of the Main Salmon, through the Frank Church River of No Return Wilderness. Mileage is from Corn Creek to the Carey Creek ramp; other guides differ by up to a mile. Camps are listed by size only; quality is not rated. Compiled from public guides and trip reports; verify camps, ratings and rules with the Forest Service and a current guidebook before launching.",
- "camps": [
-  {
-   "name": "Lunch Bar",
-   "mile": 2.5,
-   "size": 2,
-   "qual": null,
-   "bank": "L",
-   "desc": "Small sloping sandy camp with early shade; better at low water."
-  },
-  {
-   "name": "Upper Horse Creek",
-   "mile": 3.4,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Tree-covered camp upstream of the creek."
-  },
-  {
-   "name": "Lower Horse Creek",
-   "mile": 3.6,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Low-water bar with a difficult landing."
-  },
-  {
-   "name": "Bridge Piling",
-   "mile": 3.6,
-   "size": 5,
-   "qual": null,
-   "bank": "L",
-   "desc": "Best at low water. Pilings from a pack bridge removed in 1970 are nearby."
-  },
-  {
-   "name": "Legend Creek",
-   "mile": 4.7,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Small beach with an easy landing. Pictographs about 500 yards upstream. Watch for poison ivy."
-  },
-  {
-   "name": "Spindle Creek",
-   "mile": 6.1,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "Sloped beach with tent sites above. Stone ruins from a 1950s settler nearby."
-  },
-  {
-   "name": "Phantom",
-   "mile": 7.9,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Grows as the water drops; the upper beach is larger. Just above Ranier Rapid."
-  },
-  {
-   "name": "Alder Creek",
-   "mile": 8.6,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Comfortable at low water. The first reservable camp on the Main."
-  },
-  {
-   "name": "Otter Beach",
-   "mile": 10,
-   "size": 2,
-   "qual": null,
-   "bank": "L",
-   "desc": "Small low-water camp at the end of slow water; shaded."
-  },
-  {
-   "name": "Fawn Creek",
-   "mile": 10.2,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Shaded camp on the bench."
-  },
-  {
-   "name": "Upper Lantz",
-   "mile": 10.6,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Among trees on the bench. Better access at medium to high water."
-  },
-  {
-   "name": "Lower Lantz Bar",
-   "mile": 11.1,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large bar above a sandy beach, just above Lantz Rapid."
-  },
-  {
-   "name": "Tag Creek",
-   "mile": 11.3,
-   "size": null,
-   "qual": null,
-   "bank": "L",
-   "desc": "Just below Lantz Rapid. Fine at high water; a rocky climb at low water. Shaded."
-  },
-  {
-   "name": "Eddy Beach",
-   "mile": 11.3,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Small low-water beach."
-  },
-  {
-   "name": "Disappointment Creek",
-   "mile": 11.7,
-   "size": null,
-   "qual": null,
-   "bank": "L",
-   "desc": "High-bench camp; a strenuous climb in summer heat."
-  },
-  {
-   "name": "Upper Devil's Teeth",
-   "mile": 12.9,
-   "size": 4,
-   "qual": null,
-   "bank": "R",
-   "desc": "Reservable pebble beach just above the rapid. Often missed."
-  },
-  {
-   "name": "Lower Devil's Teeth",
-   "mile": 13,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large, pleasant reservable camp. Pictographs about 100 yards downstream."
-  },
-  {
-   "name": "Overhang (Hangover)",
-   "mile": 14.3,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Small low-water camp, visible from upriver."
-  },
-  {
-   "name": "Elkhorn",
-   "mile": 14.7,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large, pretty camp on the bank."
-  },
-  {
-   "name": "Chamberlain Creek",
-   "mile": 15.5,
-   "size": 2,
-   "qual": null,
-   "bank": "L",
-   "desc": "Small camp for low flows. A trail leads up to Chamberlain Basin."
-  },
-  {
-   "name": "Chuckar Beach",
-   "mile": 15.9,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "Medium low-water beach camp."
-  },
-  {
-   "name": "Blackadar",
-   "mile": 17,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large reservable camp on a high bench in a ponderosa grove. Named for Dr. Walt Blackadar."
-  },
-  {
-   "name": "Motor Camp",
-   "mile": 17.2,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Mainly a low-water camp, large and reservable. Look for the engine in camp."
-  },
-  {
-   "name": "Guth Cabins",
-   "mile": 17.9,
-   "size": 4,
-   "qual": null,
-   "bank": "R",
-   "desc": "Reservable low-water camp about a quarter mile below the creek, at the site of the original Guth cabins."
-  },
-  {
-   "name": "Black Canyon Beach",
-   "mile": 21.4,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Small campsite with an easy beach landing and views upstream."
-  },
-  {
-   "name": "Sunny Bar",
-   "mile": 22.7,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Rocky landing and a medium carry to a shaded ponderosa bench. Hot springs may be reachable at low water."
-  },
-  {
-   "name": "Hot Spring",
-   "mile": 23.1,
-   "size": null,
-   "qual": null,
-   "bank": "L",
-   "desc": "Just around the corner from the hot springs. Strong current and rocks make landing hard."
-  },
-  {
-   "name": "Sandy Hole",
-   "mile": 23.8,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Small camp; a good lunch stop after the hot springs."
-  },
-  {
-   "name": "Poor Bar",
-   "mile": 24.2,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Good high-water camp. The Forest Service lists capacity for 30 people."
-  },
-  {
-   "name": "Bruin Bar",
-   "mile": 24.8,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Excellent reservable camp with a difficult landing at high flows."
-  },
-  {
-   "name": "Hancock",
-   "mile": 25.9,
-   "size": 4,
-   "qual": null,
-   "bank": "L",
-   "desc": "Reservable, immediately below the rapid. At high flows work left early to reach the landing."
-  },
-  {
-   "name": "Magpie",
-   "mile": 29.5,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large and popular; burned in a 2023 wildfire, so shade may be limited."
-  },
-  {
-   "name": "Bargamin",
-   "mile": 32,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "About 50 yards below the creek. High-water bench with a small low-water beach. Easy hike to scout Bailey Rapid."
-  },
-  {
-   "name": "Bailey Bar",
-   "mile": 33.2,
-   "size": 4,
-   "qual": null,
-   "bank": "R",
-   "desc": "Reservable low-water camp with a nice beach. Popular lunch stop."
-  },
-  {
-   "name": "Upper Yellow Pine",
-   "mile": 36.9,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large camp with a trail to view Big Mallard. A wire from a 1940s crank phone system is visible."
-  },
-  {
-   "name": "Lower Yellow Pine",
-   "mile": 37.03,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large reservable camp with a low-water sandy beach."
-  },
-  {
-   "name": "Big Mallard",
-   "mile": 37.44,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large reservable camp just below Mallard Creek."
-  },
-  {
-   "name": "Easter Egg Beach",
-   "mile": 43.22,
-   "size": null,
-   "qual": null,
-   "bank": "L",
-   "desc": "Beach below the rock outcropping, across from Jim Moore's."
-  },
-  {
-   "name": "Jim Moore's",
-   "mile": 43.38,
-   "size": 4,
-   "qual": null,
-   "bank": "R",
-   "desc": "Reservable mix of beach and cobble; a shared beach."
-  },
-  {
-   "name": "Groundhog Bar",
-   "mile": 44.3,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large reservable camp; not accessible at high flows. Catch the eddy in front of the rock."
-  },
-  {
-   "name": "Reed Creek",
-   "mile": 45.51,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large reservable camp with a pretty creek upstream."
-  },
-  {
-   "name": "Rhett Creek",
-   "mile": 46.79,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large, exposed, reservable camp."
-  },
-  {
-   "name": "Paine Creek",
-   "mile": 49.17,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Small reserved camp with a sandy beach at the base of a cliff."
-  },
-  {
-   "name": "No Man's Beach",
-   "mile": 51.18,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Small, rocky-sandy, no shade; little used."
-  },
-  {
-   "name": "Teepee",
-   "mile": 51.51,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Small reservable camp. A grave marker for Jack Ranger, who drowned here in 1928."
-  },
-  {
-   "name": "Pebble Beach",
-   "mile": 53.18,
-   "size": 2,
-   "qual": null,
-   "bank": "L",
-   "desc": "Pretty camp, often steep at low water. Small groups."
-  },
-  {
-   "name": "Haynie Bar",
-   "mile": 53.54,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large reservable camp. Look for the big boulder on shore."
-  },
-  {
-   "name": "Wilson Bar (Jackson Bar)",
-   "mile": 54.22,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Less desirable. The public airstrip is here."
-  },
-  {
-   "name": "Mackay Bar Bridge",
-   "mile": 55.6,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Reservable; trucks are often parked here from Painter Mine Road."
-  },
-  {
-   "name": "Deadman's Hole",
-   "mile": 55.86,
-   "size": 2,
-   "qual": null,
-   "bank": "L",
-   "desc": "Small camp; may hear air traffic from Mackay Bar."
-  },
-  {
-   "name": "South Fork Island",
-   "mile": 56.73,
-   "size": null,
-   "qual": null,
-   "bank": "L",
-   "desc": "Low-water camp at the bottom of the island. Watch for the eddy."
-  },
-  {
-   "name": "Mann Creek",
-   "mile": 60.81,
-   "size": null,
-   "qual": null,
-   "bank": "L",
-   "desc": "Reservable."
-  },
-  {
-   "name": "Warren Creek",
-   "mile": 61.38,
-   "size": null,
-   "qual": null,
-   "bank": "L",
-   "desc": "Reservable."
-  },
-  {
-   "name": "Swimming Hole (Warren Bar)",
-   "mile": 61.58,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Reservable."
-  },
-  {
-   "name": "Indian Creek",
-   "mile": 62.22,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Nice camp downstream of the creek. A shady trail leads to Indian Creek Ranch."
-  },
-  {
-   "name": "Rabbit Creek",
-   "mile": 65.09,
-   "size": null,
-   "qual": null,
-   "bank": "L",
-   "desc": "Reservable."
-  },
-  {
-   "name": "Basin Creek",
-   "mile": 67.83,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "No shade; hot."
-  },
-  {
-   "name": "Whiskey Bob's",
-   "mile": 68.67,
-   "size": null,
-   "qual": null,
-   "bank": "R"
-  },
-  {
-   "name": "Upper Bull Creek",
-   "mile": 69.11,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Reservable; a hot camp."
-  },
-  {
-   "name": "Lower Bull Creek",
-   "mile": 69.24,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Sandy beach with a short carry. Large group camp with a spring. Poison ivy near the creek."
-  },
-  {
-   "name": "Gold Rush Bar",
-   "mile": 70.97,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Small beach that changes yearly; cobble landing."
-  },
-  {
-   "name": "California Creek",
-   "mile": 71.15,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large, popular reservable camp with a sprawling beach."
-  },
-  {
-   "name": "T-Bone",
-   "mile": 72.81,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Low-water beach; reservable."
-  },
-  {
-   "name": "Maxwell Bar",
-   "mile": 73.4,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large reservable beach with little shade. A sand dune for jumping into the river; good for kids."
-  },
-  {
-   "name": "Johnson Creek",
-   "mile": 75.86,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Reservable."
-  }
- ],
- "rapids": [
-  {
-   "name": "Killam Rapid",
-   "mile": 1.4,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Rocks and tricky current; the first swim of the trip for inflatable kayaks. Pushier at high water."
-  },
-  {
-   "name": "Gunbarrel Rapid",
-   "mile": 2,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Read and run; difficult at high water."
-  },
-  {
-   "name": "Horse Creek Rapid",
-   "mile": 3.6,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "At the Horse Creek confluence, between the upper and lower Horse Creek camps."
-  },
-  {
-   "name": "Stub Creek Rapids",
-   "mile": 4.2,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Read and run at normal and low flows; large waves at high water."
-  },
-  {
-   "name": "Ranier Rapid",
-   "mile": 8.05,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Big, fun waves. A good last rapid of the day above Alder Creek camp. Hard on inflatable kayaks."
-  },
-  {
-   "name": "Alder Creek Rapid",
-   "mile": 9.05,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Read and run, small splashy waves."
-  },
-  {
-   "name": "Lantz Rapid",
-   "mile": 11.3,
-   "civ": false,
-   "diff": 4,
-   "tier": "Class II+",
-   "desc": "Enter right of center, then work left past the wall. A large center hole can trouble small craft at some flows."
-  },
-  {
-   "name": "Devil's Teeth Rapid",
-   "mile": 12.9,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Run between the \"molars\". Many kayakers swim here. Pictographs just downstream on river left."
-  },
-  {
-   "name": "Little Devil's Teeth Rapid",
-   "mile": 16.34,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Mile and rating from a single source; verify."
-  },
-  {
-   "name": "Black Creek Rapid",
-   "mile": 20.9,
-   "civ": false,
-   "diff": 8,
-   "tier": "Class IV",
-   "desc": "Created by a debris flow in April 2011 and one of the most powerful rapids on the run. Scout from the left bank; the line changes with water level. It drowned the former Salmon Falls under its pool."
-  },
-  {
-   "name": "Barth Rapid",
-   "mile": 22.93,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Just below the hot springs. Mile and rating from a single source; verify."
-  },
-  {
-   "name": "Hancock Rapid",
-   "mile": 25.8,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "A large hole low in the rapid, right of center. More action on the right."
-  },
-  {
-   "name": "Wake Up Rapid (Maisie's)",
-   "mile": 26.5,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Large waves."
-  },
-  {
-   "name": "Hida Creek Rapid",
-   "mile": 30.9,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Read and run."
-  },
-  {
-   "name": "Andy the Russian Rapid",
-   "mile": 32.2,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "At the Bargamin Creek confluence. Very large waves at high water; read and run at lower flows."
-  },
-  {
-   "name": "Bailey Rapid",
-   "mile": 32.6,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Fun holes, but boats can flip here. An easy hike from Bargamin camp to scout."
-  },
-  {
-   "name": "Boy Scout Rock",
-   "mile": 33.4,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Known for flips and wraps at certain flows."
-  },
-  {
-   "name": "Five Mile Rapid",
-   "mile": 34.5,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Hard to spot on entry. Large hole in the center near the bottom; enter left."
-  },
-  {
-   "name": "Split Rock Rapid",
-   "mile": 34.8,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Pronounced waves and a big hole at high water. Enter right of center."
-  },
-  {
-   "name": "Stinker Rapid",
-   "mile": 35.1,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Short and sometimes splashy; difficult at low flows."
-  },
-  {
-   "name": "Big Mallard Rapid",
-   "mile": 37.18,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Probably the most famous rapid on the Main. A large hole that is easy to avoid but requires getting close to it. Trail from Upper Yellow Pine camp to look it over."
-  },
-  {
-   "name": "Little Mallard Rapid",
-   "mile": 39.05,
-   "civ": false,
-   "diff": 8,
-   "tier": "Class IV",
-   "desc": "Mile and rating from a single source; verify."
-  },
-  {
-   "name": "Elkhorn Rapid",
-   "mile": 40.6,
-   "civ": false,
-   "diff": 6,
-   "tier": "Class III+",
-   "desc": "The longest rapid on the river. Scout from the left; look for elk antlers in a tree upstream on the left."
-  },
-  {
-   "name": "Growler Rapid",
-   "mile": 41.91,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Difficult at low flows."
-  },
-  {
-   "name": "31 Rapid (Don't Lose Me Now)",
-   "mile": 43.9,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Named for outfitter Bob Smith."
-  },
-  {
-   "name": "Whiplash Rapid",
-   "mile": 44.27,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Much bigger at high flows; scout. A rock on river right at normal flows."
-  },
-  {
-   "name": "Reed Riffle",
-   "mile": 45.5,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Read and run."
-  },
-  {
-   "name": "China Bar Rapid",
-   "mile": 46.33,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Abrupt left turn. Stay inside left; a large shelf in the center can ruin your day."
-  },
-  {
-   "name": "Big Blowout Creek Rapid",
-   "mile": 48.25,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Mile and rating from a single source; verify."
-  },
-  {
-   "name": "Boise Bar Rapid",
-   "mile": 50.31,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Easy except for a very large hole near the bottom, right of center. Stay left."
-  },
-  {
-   "name": "Jackson Bar Riffle",
-   "mile": 54.25,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Watch for sleeper holes."
-  },
-  {
-   "name": "Ludwig Rapid",
-   "mile": 54.82,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "The last significant rapid for about 21 miles. Stay left of center and avoid the rocks at the bottom."
-  },
-  {
-   "name": "Polly Corner",
-   "mile": 66.21,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "A jarring right turn with tricky current."
-  },
-  {
-   "name": "Dried Meat Rapid",
-   "mile": 75.14,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Blasted with dynamite after a 1962 jet boat accident. Big waves today."
-  },
-  {
-   "name": "Chittam Rapid",
-   "mile": 77.98,
-   "civ": false,
-   "diff": 6,
-   "tier": "Class III+",
-   "desc": "Very difficult at high flows. Keep moving right throughout; scout from river right."
-  },
-  {
-   "name": "Vinegar Creek Rapid",
-   "mile": 78.78,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Steep, and more exciting as the water drops. Stay right for the cleanest line; avoid the large center wave or hole near the bottom."
-  },
-  {
-   "name": "Carey Falls (Gold Hole)",
-   "mile": 80.5,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Easy to avoid. Going right puts you in one of the larger holes on the river; run left. A popular kayak play hole."
-  }
- ],
- "hikes": [
-  {
-   "name": "Legend Creek Pictographs",
-   "mile": 4.4,
-   "bank": "R",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "A short walk, possibly tricky, to pictographs on the wall. Do not touch the paint."
-  },
-  {
-   "name": "Spindle Creek stone ruins",
-   "mile": 6.1,
-   "bank": "R",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "Stone ruins from a 1950s settler near the camp."
-  },
-  {
-   "name": "Devil's Teeth Pictographs",
-   "mile": 13.3,
-   "bank": "L",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "Pictographs on the rock face just below the lower camp."
-  },
-  {
-   "name": "Chamberlain Creek trail",
-   "mile": 15.5,
-   "bank": "L",
-   "time": null,
-   "diff": 3,
-   "qual": null,
-   "desc": "Trail climbing toward Chamberlain Basin, headwaters of Big Creek. Turn around anywhere."
-  },
-  {
-   "name": "Hot Tub Hot Springs",
-   "mile": 22.5,
-   "bank": "L",
-   "time": null,
-   "diff": 2,
-   "qual": null,
-   "desc": "A masonry-walled tub reached by climbing rocks. One of the best hot springs in Idaho. No camping or lunch stops."
-  },
-  {
-   "name": "Barth Hot Springs",
-   "mile": 23,
-   "bank": "L",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "At lower flows, names and dates are scratched into at least six rocks."
-  },
-  {
-   "name": "Idaho Centennial Trail crossing",
-   "mile": 29.2,
-   "bank": "R",
-   "time": null,
-   "diff": 3,
-   "qual": null,
-   "desc": "The trail crosses the river corridor here."
-  },
-  {
-   "name": "Bargamin Creek to scout Bailey",
-   "mile": 32,
-   "bank": "R",
-   "time": null,
-   "diff": 2,
-   "qual": null,
-   "desc": "An easy hike from camp to look over Bailey Rapid."
-  },
-  {
-   "name": "Mallard viewpoint",
-   "mile": 36.9,
-   "bank": "R",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "Short trail from Upper Yellow Pine camp to look over Big Mallard."
-  },
-  {
-   "name": "Campbell's Ferry",
-   "mile": 42.76,
-   "bank": "L",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "Site of a ferry operated from about 1890 to 1956, once the only dry crossing for 50 miles. The pack bridge is just downstream."
-  },
-  {
-   "name": "Buckskin Bill's",
-   "mile": 52.73,
-   "bank": "L",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "Former Five Mile Bar homestead of Sylvan Hart. A small museum and a resupply shop."
-  },
-  {
-   "name": "Indian Creek Ranch",
-   "mile": 62.22,
-   "bank": "R",
-   "time": null,
-   "diff": 2,
-   "qual": null,
-   "desc": "A shady trail up Indian Creek from camp."
-  }
- ],
- "geology": [],
- "guide": [],
- "almanac": {
-  "history": [
-   [
-    "Buckskin Bill",
-    "Sylvan Hart homesteaded Five Mile Bar. The gun tower and homestead now hold a small museum and a store."
-   ],
-   [
-    "Campbell's Ferry",
-    "A ferry ran here from about 1890 to 1956 and was the only dry crossing for 50 miles. The pack bridge that replaced it is named for Frances Zaunmiller Wisner."
-   ],
-   [
-    "Black Creek debris flow",
-    "In April 2011 a debris flow built the Black Creek rapid and drowned Salmon Falls under its pool."
-   ],
-   [
-    "Dried Meat Rapid",
-    "The rapid was blasted with dynamite after a 1962 jet boat accident that drowned five people."
-   ],
-   [
-    "Jim Moore's gold",
-    "Legend says a prospector's cache of gold from the bar has never been found."
-   ],
-   [
-    "The dam that never was",
-    "The Army Corps eyed Black Canyon as a dam site. Wild and Scenic designation in 1980 ended the threat."
-   ]
-  ]
- },
- "rules": [
-  {
-   "name": "Permit and season",
-   "rules": [
+  "name": "Main Salmon River",
+  "reach": "Corn Creek to Carey Creek",
+  "agency": "Salmon-Challis National Forest, River Office",
+  "miles": [
+    0,
+    81
+  ],
+  "days": 6,
+  "coords": [
+    45.43,
+    -115.35
+  ],
+  "tz": "America/Boise",
+  "note": "",
+  "camps": [
     {
-     "t": "Permit required year-round",
-     "d": "A permit is required for float travel on the Wild section of the Main Salmon, upstream of Vinegar Boat Ramp (Corn Creek to Long Tom Bar)."
+      "name": "Lunch Bar",
+      "mile": 2.5,
+      "size": 2,
+      "qual": null,
+      "bank": "L",
+      "desc": "Small sloping sandy camp with early shade; better at low water."
     },
     {
-     "t": "Control season",
-     "d": "June 20 to September 7. Launches are limited and assigned by lottery; applications are taken December 1 to January 31 on Recreation.gov. Outside the control season permits are still required but launches are not limited."
+      "name": "Upper Horse Creek",
+      "mile": 3.4,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Tree-covered camp upstream of the creek."
     },
     {
-     "t": "The permit holder must be on the trip",
-     "d": "Permits are not transferable. The permit holder must be at least 18 on the launch date."
+      "name": "Lower Horse Creek",
+      "mile": 3.6,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Low-water bar with a difficult landing."
     },
     {
-     "t": "Reserved camps",
-     "d": "Some camps are reservable and some are first-come. Camp assignments come with the permit packet and are issued at Corn Creek."
+      "name": "Bridge Piling",
+      "mile": 3.6,
+      "size": 5,
+      "qual": null,
+      "bank": "L",
+      "desc": "Best at low water. Pilings from a pack bridge removed in 1970 are nearby."
+    },
+    {
+      "name": "Legend Creek",
+      "mile": 4.7,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Small beach with an easy landing. Pictographs about 500 yards upstream. Watch for poison ivy."
+    },
+    {
+      "name": "Spindle Creek",
+      "mile": 6.1,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "Sloped beach with tent sites above. Stone ruins from a 1950s settler nearby."
+    },
+    {
+      "name": "Phantom",
+      "mile": 7.9,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Grows as the water drops; the upper beach is larger. Just above Ranier Rapid."
+    },
+    {
+      "name": "Alder Creek",
+      "mile": 8.6,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Comfortable at low water. The first reservable camp on the Main."
+    },
+    {
+      "name": "Otter Beach",
+      "mile": 10,
+      "size": 2,
+      "qual": null,
+      "bank": "L",
+      "desc": "Small low-water camp at the end of slow water; shaded."
+    },
+    {
+      "name": "Fawn Creek",
+      "mile": 10.2,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Shaded camp on the bench."
+    },
+    {
+      "name": "Upper Lantz",
+      "mile": 10.6,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Among trees on the bench. Better access at medium to high water."
+    },
+    {
+      "name": "Lower Lantz Bar",
+      "mile": 11.1,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large bar above a sandy beach, just above Lantz Rapid."
+    },
+    {
+      "name": "Tag Creek",
+      "mile": 11.3,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "Just below Lantz Rapid. Fine at high water; a rocky climb at low water. Shaded."
+    },
+    {
+      "name": "Eddy Beach",
+      "mile": 11.3,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Small low-water beach."
+    },
+    {
+      "name": "Disappointment Creek",
+      "mile": 11.7,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "High-bench camp; a strenuous climb in summer heat."
+    },
+    {
+      "name": "Upper Devil's Teeth",
+      "mile": 12.9,
+      "size": 4,
+      "qual": null,
+      "bank": "R",
+      "desc": "Reservable pebble beach just above the rapid. Often missed."
+    },
+    {
+      "name": "Lower Devil's Teeth",
+      "mile": 13,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large, pleasant reservable camp. Pictographs about 100 yards downstream."
+    },
+    {
+      "name": "Overhang (Hangover)",
+      "mile": 14.3,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Small low-water camp, visible from upriver."
+    },
+    {
+      "name": "Elkhorn",
+      "mile": 14.7,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large, pretty camp on the bank."
+    },
+    {
+      "name": "Chamberlain Creek",
+      "mile": 15.5,
+      "size": 2,
+      "qual": null,
+      "bank": "L",
+      "desc": "Small camp for low flows. A trail leads up to Chamberlain Basin."
+    },
+    {
+      "name": "Chuckar Beach",
+      "mile": 15.9,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "Medium low-water beach camp."
+    },
+    {
+      "name": "Blackadar",
+      "mile": 17,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large reservable camp on a high bench in a ponderosa grove. Named for Dr. Walt Blackadar."
+    },
+    {
+      "name": "Motor Camp",
+      "mile": 17.2,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Mainly a low-water camp, large and reservable. Look for the engine in camp."
+    },
+    {
+      "name": "Guth Cabins",
+      "mile": 17.9,
+      "size": 4,
+      "qual": null,
+      "bank": "R",
+      "desc": "Reservable low-water camp about a quarter mile below the creek, at the site of the original Guth cabins."
+    },
+    {
+      "name": "Black Canyon Beach",
+      "mile": 21.4,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Small campsite with an easy beach landing and views upstream."
+    },
+    {
+      "name": "Sunny Bar",
+      "mile": 22.7,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Rocky landing and a medium carry to a shaded ponderosa bench. Hot springs may be reachable at low water."
+    },
+    {
+      "name": "Hot Spring",
+      "mile": 23.1,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "Just around the corner from the hot springs. Strong current and rocks make landing hard."
+    },
+    {
+      "name": "Sandy Hole",
+      "mile": 23.8,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Small camp; a good lunch stop after the hot springs."
+    },
+    {
+      "name": "Poor Bar",
+      "mile": 24.2,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Good high-water camp. The Forest Service lists capacity for 30 people."
+    },
+    {
+      "name": "Bruin Bar",
+      "mile": 24.8,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Excellent reservable camp with a difficult landing at high flows."
+    },
+    {
+      "name": "Hancock",
+      "mile": 25.9,
+      "size": 4,
+      "qual": null,
+      "bank": "L",
+      "desc": "Reservable, immediately below the rapid. At high flows work left early to reach the landing."
+    },
+    {
+      "name": "Magpie",
+      "mile": 29.5,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large and popular; burned in a 2023 wildfire, so shade may be limited."
+    },
+    {
+      "name": "Bargamin",
+      "mile": 32,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "About 50 yards below the creek. High-water bench with a small low-water beach. Easy hike to scout Bailey Rapid."
+    },
+    {
+      "name": "Bailey Bar",
+      "mile": 33.2,
+      "size": 4,
+      "qual": null,
+      "bank": "R",
+      "desc": "Reservable low-water camp with a nice beach. Popular lunch stop."
+    },
+    {
+      "name": "Upper Yellow Pine",
+      "mile": 36.9,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large camp with a trail to view Big Mallard. A wire from a 1940s crank phone system is visible."
+    },
+    {
+      "name": "Lower Yellow Pine",
+      "mile": 37.03,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large reservable camp with a low-water sandy beach."
+    },
+    {
+      "name": "Big Mallard",
+      "mile": 37.44,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large reservable camp just below Mallard Creek."
+    },
+    {
+      "name": "Easter Egg Beach",
+      "mile": 43.22,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "Beach below the rock outcropping, across from Jim Moore's."
+    },
+    {
+      "name": "Jim Moore's",
+      "mile": 43.38,
+      "size": 4,
+      "qual": null,
+      "bank": "R",
+      "desc": "Reservable mix of beach and cobble; a shared beach."
+    },
+    {
+      "name": "Groundhog Bar",
+      "mile": 44.3,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large reservable camp; not accessible at high flows. Catch the eddy in front of the rock."
+    },
+    {
+      "name": "Reed Creek",
+      "mile": 45.51,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large reservable camp with a pretty creek upstream."
+    },
+    {
+      "name": "Rhett Creek",
+      "mile": 46.79,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large, exposed, reservable camp."
+    },
+    {
+      "name": "Paine Creek",
+      "mile": 49.17,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Small reserved camp with a sandy beach at the base of a cliff."
+    },
+    {
+      "name": "No Man's Beach",
+      "mile": 51.18,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Small, rocky-sandy, no shade; little used."
+    },
+    {
+      "name": "Teepee",
+      "mile": 51.51,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Small reservable camp. A grave marker for Jack Ranger, who drowned here in 1928."
+    },
+    {
+      "name": "Pebble Beach",
+      "mile": 53.18,
+      "size": 2,
+      "qual": null,
+      "bank": "L",
+      "desc": "Pretty camp, often steep at low water. Small groups."
+    },
+    {
+      "name": "Haynie Bar",
+      "mile": 53.54,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large reservable camp. Look for the big boulder on shore."
+    },
+    {
+      "name": "Wilson Bar (Jackson Bar)",
+      "mile": 54.22,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Less desirable. The public airstrip is here."
+    },
+    {
+      "name": "Mackay Bar Bridge",
+      "mile": 55.6,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Reservable; trucks are often parked here from Painter Mine Road."
+    },
+    {
+      "name": "Deadman's Hole",
+      "mile": 55.86,
+      "size": 2,
+      "qual": null,
+      "bank": "L",
+      "desc": "Small camp; may hear air traffic from Mackay Bar."
+    },
+    {
+      "name": "South Fork Island",
+      "mile": 56.73,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "Low-water camp at the bottom of the island. Watch for the eddy."
+    },
+    {
+      "name": "Mann Creek",
+      "mile": 60.81,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "Reservable."
+    },
+    {
+      "name": "Warren Creek",
+      "mile": 61.38,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "Reservable."
+    },
+    {
+      "name": "Swimming Hole (Warren Bar)",
+      "mile": 61.58,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Reservable."
+    },
+    {
+      "name": "Indian Creek",
+      "mile": 62.22,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Nice camp downstream of the creek. A shady trail leads to Indian Creek Ranch."
+    },
+    {
+      "name": "Rabbit Creek",
+      "mile": 65.09,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "Reservable."
+    },
+    {
+      "name": "Basin Creek",
+      "mile": 67.83,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "No shade; hot."
+    },
+    {
+      "name": "Whiskey Bob's",
+      "mile": 68.67,
+      "size": null,
+      "qual": null,
+      "bank": "R"
+    },
+    {
+      "name": "Upper Bull Creek",
+      "mile": 69.11,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Reservable; a hot camp."
+    },
+    {
+      "name": "Lower Bull Creek",
+      "mile": 69.24,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Sandy beach with a short carry. Large group camp with a spring. Poison ivy near the creek."
+    },
+    {
+      "name": "Gold Rush Bar",
+      "mile": 70.97,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Small beach that changes yearly; cobble landing."
+    },
+    {
+      "name": "California Creek",
+      "mile": 71.15,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large, popular reservable camp with a sprawling beach."
+    },
+    {
+      "name": "T-Bone",
+      "mile": 72.81,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Low-water beach; reservable."
+    },
+    {
+      "name": "Maxwell Bar",
+      "mile": 73.4,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large reservable beach with little shade. A sand dune for jumping into the river; good for kids."
+    },
+    {
+      "name": "Johnson Creek",
+      "mile": 75.86,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Reservable."
     }
-   ]
-  },
-  {
-   "name": "Equipment and camping",
-   "rules": [
+  ],
+  "rapids": [
     {
-     "t": "Carry out solid human waste",
-     "d": "A portable toilet system is required. Do not bury waste or use vault toilets for it."
+      "name": "Killam Rapid",
+      "mile": 1.4,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Rocks and tricky current; the first swim of the trip for inflatable kayaks. Pushier at high water."
     },
     {
-     "t": "Fire pan and ash",
-     "d": "Fire pans and an ash container are required; carry a shovel, bucket and a food strainer for dishwater."
+      "name": "Gunbarrel Rapid",
+      "mile": 2,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Read and run; difficult at high water."
     },
     {
-     "t": "Group size",
-     "d": "Parties are limited to 30 people."
+      "name": "Horse Creek Rapid",
+      "mile": 3.6,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "At the Horse Creek confluence, between the upper and lower Horse Creek camps."
     },
     {
-     "t": "Leave No Trace",
-     "d": "Minimum-impact camping applies throughout the Wild section."
+      "name": "Stub Creek Rapids",
+      "mile": 4.2,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Read and run at normal and low flows; large waves at high water."
+    },
+    {
+      "name": "Ranier Rapid",
+      "mile": 8.05,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Big, fun waves. A good last rapid of the day above Alder Creek camp. Hard on inflatable kayaks."
+    },
+    {
+      "name": "Alder Creek Rapid",
+      "mile": 9.05,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Read and run, small splashy waves."
+    },
+    {
+      "name": "Lantz Rapid",
+      "mile": 11.3,
+      "civ": false,
+      "diff": 4,
+      "tier": "Class II+",
+      "desc": "Enter right of center, then work left past the wall. A large center hole can trouble small craft at some flows."
+    },
+    {
+      "name": "Devil's Teeth Rapid",
+      "mile": 12.9,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Run between the \"molars\". Many kayakers swim here. Pictographs just downstream on river left."
+    },
+    {
+      "name": "Little Devil's Teeth Rapid",
+      "mile": 16.34,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Mile and rating from a single source; verify."
+    },
+    {
+      "name": "Black Creek Rapid",
+      "mile": 20.9,
+      "civ": false,
+      "diff": 8,
+      "tier": "Class IV",
+      "desc": "Created by a debris flow in April 2011 and one of the most powerful rapids on the run. Scout from the left bank; the line changes with water level. It drowned the former Salmon Falls under its pool."
+    },
+    {
+      "name": "Barth Rapid",
+      "mile": 22.93,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Just below the hot springs. Mile and rating from a single source; verify."
+    },
+    {
+      "name": "Hancock Rapid",
+      "mile": 25.8,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "A large hole low in the rapid, right of center. More action on the right."
+    },
+    {
+      "name": "Wake Up Rapid (Maisie's)",
+      "mile": 26.5,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Large waves."
+    },
+    {
+      "name": "Hida Creek Rapid",
+      "mile": 30.9,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Read and run."
+    },
+    {
+      "name": "Andy the Russian Rapid",
+      "mile": 32.2,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "At the Bargamin Creek confluence. Very large waves at high water; read and run at lower flows."
+    },
+    {
+      "name": "Bailey Rapid",
+      "mile": 32.6,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Fun holes, but boats can flip here. An easy hike from Bargamin camp to scout."
+    },
+    {
+      "name": "Boy Scout Rock",
+      "mile": 33.4,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Known for flips and wraps at certain flows."
+    },
+    {
+      "name": "Five Mile Rapid",
+      "mile": 34.5,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Hard to spot on entry. Large hole in the center near the bottom; enter left."
+    },
+    {
+      "name": "Split Rock Rapid",
+      "mile": 34.8,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Pronounced waves and a big hole at high water. Enter right of center."
+    },
+    {
+      "name": "Stinker Rapid",
+      "mile": 35.1,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Short and sometimes splashy; difficult at low flows."
+    },
+    {
+      "name": "Big Mallard Rapid",
+      "mile": 37.18,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Probably the most famous rapid on the Main. A large hole that is easy to avoid but requires getting close to it. Trail from Upper Yellow Pine camp to look it over."
+    },
+    {
+      "name": "Little Mallard Rapid",
+      "mile": 39.05,
+      "civ": false,
+      "diff": 8,
+      "tier": "Class IV",
+      "desc": "Mile and rating from a single source; verify."
+    },
+    {
+      "name": "Elkhorn Rapid",
+      "mile": 40.6,
+      "civ": false,
+      "diff": 6,
+      "tier": "Class III+",
+      "desc": "The longest rapid on the river. Scout from the left; look for elk antlers in a tree upstream on the left."
+    },
+    {
+      "name": "Growler Rapid",
+      "mile": 41.91,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Difficult at low flows."
+    },
+    {
+      "name": "31 Rapid (Don't Lose Me Now)",
+      "mile": 43.9,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Named for outfitter Bob Smith."
+    },
+    {
+      "name": "Whiplash Rapid",
+      "mile": 44.27,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Much bigger at high flows; scout. A rock on river right at normal flows."
+    },
+    {
+      "name": "Reed Riffle",
+      "mile": 45.5,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Read and run."
+    },
+    {
+      "name": "China Bar Rapid",
+      "mile": 46.33,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Abrupt left turn. Stay inside left; a large shelf in the center can ruin your day."
+    },
+    {
+      "name": "Big Blowout Creek Rapid",
+      "mile": 48.25,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Mile and rating from a single source; verify."
+    },
+    {
+      "name": "Boise Bar Rapid",
+      "mile": 50.31,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Easy except for a very large hole near the bottom, right of center. Stay left."
+    },
+    {
+      "name": "Jackson Bar Riffle",
+      "mile": 54.25,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Watch for sleeper holes."
+    },
+    {
+      "name": "Ludwig Rapid",
+      "mile": 54.82,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "The last significant rapid for about 21 miles. Stay left of center and avoid the rocks at the bottom."
+    },
+    {
+      "name": "Polly Corner",
+      "mile": 66.21,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "A jarring right turn with tricky current."
+    },
+    {
+      "name": "Dried Meat Rapid",
+      "mile": 75.14,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Blasted with dynamite after a 1962 jet boat accident. Big waves today."
+    },
+    {
+      "name": "Chittam Rapid",
+      "mile": 77.98,
+      "civ": false,
+      "diff": 6,
+      "tier": "Class III+",
+      "desc": "Very difficult at high flows. Keep moving right throughout; scout from river right."
+    },
+    {
+      "name": "Vinegar Creek Rapid",
+      "mile": 78.78,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Steep, and more exciting as the water drops. Stay right for the cleanest line; avoid the large center wave or hole near the bottom."
+    },
+    {
+      "name": "Carey Falls (Gold Hole)",
+      "mile": 80.5,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Easy to avoid. Going right puts you in one of the larger holes on the river; run left. A popular kayak play hole."
     }
-   ]
-  }
- ],
- "landmarks": [
-  {
-   "name": "Corn Creek Boat Ramp",
-   "mile": 0,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Put-in, permit office and gear check. Campground with water and pit toilets next to the ramp."
+  ],
+  "hikes": [
+    {
+      "name": "Legend Creek Pictographs",
+      "mile": 4.4,
+      "bank": "R",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "A short walk, possibly tricky, to pictographs on the wall. Do not touch the paint."
+    },
+    {
+      "name": "Spindle Creek stone ruins",
+      "mile": 6.1,
+      "bank": "R",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "Stone ruins from a 1950s settler near the camp."
+    },
+    {
+      "name": "Devil's Teeth Pictographs",
+      "mile": 13.3,
+      "bank": "L",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "Pictographs on the rock face just below the lower camp."
+    },
+    {
+      "name": "Chamberlain Creek trail",
+      "mile": 15.5,
+      "bank": "L",
+      "time": null,
+      "diff": 3,
+      "qual": null,
+      "desc": "Trail climbing toward Chamberlain Basin, headwaters of Big Creek. Turn around anywhere."
+    },
+    {
+      "name": "Hot Tub Hot Springs",
+      "mile": 22.5,
+      "bank": "L",
+      "time": null,
+      "diff": 2,
+      "qual": null,
+      "desc": "A masonry-walled tub reached by climbing rocks. One of the best hot springs in Idaho. No camping or lunch stops."
+    },
+    {
+      "name": "Barth Hot Springs",
+      "mile": 23,
+      "bank": "L",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "At lower flows, names and dates are scratched into at least six rocks."
+    },
+    {
+      "name": "Idaho Centennial Trail crossing",
+      "mile": 29.2,
+      "bank": "R",
+      "time": null,
+      "diff": 3,
+      "qual": null,
+      "desc": "The trail crosses the river corridor here."
+    },
+    {
+      "name": "Bargamin Creek to scout Bailey",
+      "mile": 32,
+      "bank": "R",
+      "time": null,
+      "diff": 2,
+      "qual": null,
+      "desc": "An easy hike from camp to look over Bailey Rapid."
+    },
+    {
+      "name": "Mallard viewpoint",
+      "mile": 36.9,
+      "bank": "R",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "Short trail from Upper Yellow Pine camp to look over Big Mallard."
+    },
+    {
+      "name": "Campbell's Ferry",
+      "mile": 42.76,
+      "bank": "L",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "Site of a ferry operated from about 1890 to 1956, once the only dry crossing for 50 miles. The pack bridge is just downstream."
+    },
+    {
+      "name": "Buckskin Bill's",
+      "mile": 52.73,
+      "bank": "L",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "Former Five Mile Bar homestead of Sylvan Hart. A small museum and a resupply shop."
+    },
+    {
+      "name": "Indian Creek Ranch",
+      "mile": 62.22,
+      "bank": "R",
+      "time": null,
+      "diff": 2,
+      "qual": null,
+      "desc": "A shady trail up Indian Creek from camp."
+    }
+  ],
+  "geology": [],
+  "guide": [],
+  "almanac": {
+    "history": [
+      [
+        "Buckskin Bill",
+        "Sylvan Hart homesteaded Five Mile Bar. The gun tower and homestead now hold a small museum and a store."
+      ],
+      [
+        "Campbell's Ferry",
+        "A ferry ran here from about 1890 to 1956 and was the only dry crossing for 50 miles. The pack bridge that replaced it is named for Frances Zaunmiller Wisner."
+      ],
+      [
+        "Black Creek debris flow",
+        "In April 2011 a debris flow built the Black Creek rapid and drowned Salmon Falls under its pool."
+      ],
+      [
+        "Dried Meat Rapid",
+        "The rapid was blasted with dynamite after a 1962 jet boat accident that drowned five people."
+      ],
+      [
+        "Jim Moore's gold",
+        "Legend says a prospector's cache of gold from the bar has never been found."
+      ],
+      [
+        "The dam that never was",
+        "The Army Corps eyed Black Canyon as a dam site. Wild and Scenic designation in 1980 ended the threat."
+      ]
+    ]
   },
-  {
-   "name": "Wheat Creek",
-   "mile": 0.1,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Eastern boundary of the Frank Church River of No Return Wilderness."
+  "rules": [
+    {
+      "name": "Permit and season",
+      "rules": [
+        {
+          "t": "Permit required year-round",
+          "d": "A permit is required for float travel on the Wild section of the Main Salmon, upstream of Vinegar Boat Ramp (Corn Creek to Long Tom Bar)."
+        },
+        {
+          "t": "Control season",
+          "d": "June 20 to September 7. Launches are limited and assigned by lottery; applications are taken December 1 to January 31 on Recreation.gov. Outside the control season permits are still required but launches are not limited."
+        },
+        {
+          "t": "The permit holder must be on the trip",
+          "d": "Permits are not transferable. The permit holder must be at least 18 on the launch date."
+        },
+        {
+          "t": "Reserved camps",
+          "d": "Some camps are reservable and some are first-come. Camp assignments come with the permit packet and are issued at Corn Creek."
+        }
+      ]
+    },
+    {
+      "name": "Equipment and camping",
+      "rules": [
+        {
+          "t": "Carry out solid human waste",
+          "d": "A portable toilet system is required. Do not bury waste or use vault toilets for it."
+        },
+        {
+          "t": "Fire pan and ash",
+          "d": "Fire pans and an ash container are required; carry a shovel, bucket and a food strainer for dishwater."
+        },
+        {
+          "t": "Group size",
+          "d": "Parties are limited to 30 people."
+        },
+        {
+          "t": "Leave No Trace",
+          "d": "Minimum-impact camping applies throughout the Wild section."
+        }
+      ]
+    }
+  ],
+  "landmarks": [
+    {
+      "name": "Corn Creek Boat Ramp",
+      "mile": 0,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Put-in, permit office and gear check. Campground with water and pit toilets next to the ramp."
+    },
+    {
+      "name": "Wheat Creek",
+      "mile": 0.1,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Eastern boundary of the Frank Church River of No Return Wilderness."
+    },
+    {
+      "name": "Stub Creek Outfitters",
+      "mile": 4.3,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Cabins used by a fishing outfitter. No camping."
+    },
+    {
+      "name": "Black Canyon",
+      "mile": 20.4,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "The start of Black Canyon, with the first view of the Idaho Batholith. A 1935 National Geographic expedition passed through here."
+    },
+    {
+      "name": "Arctic Creek Lodge",
+      "mile": 20.4,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Cabins under Forest Service permit, at a former Army Corps dam site. Wild and Scenic designation in 1980 ended the dam threat."
+    },
+    {
+      "name": "Sabe Creek",
+      "mile": 21.9,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Described as one of the prettiest creeks on the river."
+    },
+    {
+      "name": "Dillinger Creek",
+      "mile": 27.1,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Yellow Pine Bar",
+      "mile": 36,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Whitewater Ranch",
+      "mile": 39.17,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Often used by vehicle campers."
+    },
+    {
+      "name": "Campbell Ferry Pack Bridge",
+      "mile": 42.96,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Frances Zaunmiller Wisner Memorial Pack Bridge, completed in 1956."
+    },
+    {
+      "name": "Lemhi Creek",
+      "mile": 45.95,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Marks China Bar Rapid, just around the corner."
+    },
+    {
+      "name": "Wilson Bar Airstrip",
+      "mile": 54.22,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Completed in 1958; the only public airstrip in the Main Salmon corridor."
+    },
+    {
+      "name": "Mackay Bar Airstrip",
+      "mile": 56.11,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Private airstrip."
+    },
+    {
+      "name": "Mackay Bar Ranch",
+      "mile": 56.38,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Lodging bookable through the ranch."
+    },
+    {
+      "name": "South Fork Salmon confluence",
+      "mile": 56.63,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "The South Fork joins on river left. The camp at the mouth is very difficult to reach."
+    },
+    {
+      "name": "Diversion Tunnel",
+      "mile": 56.73,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Tunnel blasted for a mining power project and abandoned in the early 1940s."
+    },
+    {
+      "name": "Start of the flat water",
+      "mile": 56.87,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Long pools and flat water from here to near the take-out."
+    },
+    {
+      "name": "Shepp Ranch",
+      "mile": 66,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Private ranch."
+    },
+    {
+      "name": "Polly Bemis Ranch",
+      "mile": 66.1,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Private ranch on river left, historic home of Polly Bemis."
+    },
+    {
+      "name": "Long Tom Creek",
+      "mile": 77.6,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "End of the permitted Wild section, named for a mining sluice tool."
+    },
+    {
+      "name": "Vinegar Creek Boat Ramp",
+      "mile": 78.17,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Narrow ramp used mostly by jet boats; limited parking."
+    },
+    {
+      "name": "Wind River Pack Bridge",
+      "mile": 81.01,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Rebuilt in 1962. A 24-mile trail starts here."
+    }
+  ],
+  "clusters": [],
+  "notes": {
+    "camp": "",
+    "hike": ""
   },
-  {
-   "name": "Stub Creek Outfitters",
-   "mile": 4.3,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Cabins used by a fishing outfitter. No camping."
+  "hdiff": {
+    "1": "Short, easy walk",
+    "2": "Easy trail or short scramble",
+    "3": "Trail with some climbing"
   },
-  {
-   "name": "Black Canyon",
-   "mile": 20.4,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "The start of Black Canyon, with the first view of the Idaho Batholith. A 1935 National Geographic expedition passed through here."
-  },
-  {
-   "name": "Arctic Creek Lodge",
-   "mile": 20.4,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Cabins under Forest Service permit, at a former Army Corps dam site. Wild and Scenic designation in 1980 ended the dam threat."
-  },
-  {
-   "name": "Sabe Creek",
-   "mile": 21.9,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Described as one of the prettiest creeks on the river."
-  },
-  {
-   "name": "Dillinger Creek",
-   "mile": 27.1,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Yellow Pine Bar",
-   "mile": 36,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Whitewater Ranch",
-   "mile": 39.17,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Often used by vehicle campers."
-  },
-  {
-   "name": "Campbell Ferry Pack Bridge",
-   "mile": 42.96,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Frances Zaunmiller Wisner Memorial Pack Bridge, completed in 1956."
-  },
-  {
-   "name": "Lemhi Creek",
-   "mile": 45.95,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Marks China Bar Rapid, just around the corner."
-  },
-  {
-   "name": "Wilson Bar Airstrip",
-   "mile": 54.22,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Completed in 1958; the only public airstrip in the Main Salmon corridor."
-  },
-  {
-   "name": "Mackay Bar Airstrip",
-   "mile": 56.11,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Private airstrip."
-  },
-  {
-   "name": "Mackay Bar Ranch",
-   "mile": 56.38,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Lodging bookable through the ranch."
-  },
-  {
-   "name": "South Fork Salmon confluence",
-   "mile": 56.63,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "The South Fork joins on river left. The camp at the mouth is very difficult to reach."
-  },
-  {
-   "name": "Diversion Tunnel",
-   "mile": 56.73,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Tunnel blasted for a mining power project and abandoned in the early 1940s."
-  },
-  {
-   "name": "Start of the flat water",
-   "mile": 56.87,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Long pools and flat water from here to near the take-out."
-  },
-  {
-   "name": "Shepp Ranch",
-   "mile": 66,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Private ranch."
-  },
-  {
-   "name": "Polly Bemis Ranch",
-   "mile": 66.1,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Private ranch on river left, historic home of Polly Bemis."
-  },
-  {
-   "name": "Long Tom Creek",
-   "mile": 77.6,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "End of the permitted Wild section, named for a mining sluice tool."
-  },
-  {
-   "name": "Vinegar Creek Boat Ramp",
-   "mile": 78.17,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Narrow ramp used mostly by jet boats; limited parking."
-  },
-  {
-   "name": "Wind River Pack Bridge",
-   "mile": 81.01,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Rebuilt in 1962. A 24-mile trail starts here."
-  }
- ],
- "clusters": [],
- "notes": {
-  "camp": "*Camps are rated for size only. Many are reservable; assignments come with your permit. Beaches shrink as the water drops.",
-  "hike": "*Times and difficulty are rough estimates. Ratings: 1 = short, easy walk; 3 = trail with some climbing."
- },
- "hdiff": {
-  "1": "Short, easy walk",
-  "2": "Easy trail or short scramble",
-  "3": "Trail with some climbing"
- },
- "access": [
-  {
-   "name": "Salmon",
-   "road": true,
-   "hub": true,
-   "note": "Nearest town to the put-in; permits are issued by the Salmon-Challis River Office",
-   "grid": [
-    2,
-    2
-   ]
-  },
-  {
-   "name": "Riggins",
-   "road": true,
-   "hub": true,
-   "note": "Nearest town to the take-out",
-   "grid": [
-    9,
-    2
-   ]
-  },
-  {
-   "name": "Corn Creek",
-   "road": true,
-   "mile": 0,
-   "park": true,
-   "note": "Put-in. Campground, water, toilets, permit office",
-   "grid": [
-    1,
-    6
-   ]
-  },
-  {
-   "name": "Wilson Bar",
-   "mile": 54.2,
-   "note": "Public airstrip; fly-in only",
-   "grid": [
+  "access": [
+    {
+      "name": "Salmon",
+      "road": true,
+      "hub": true,
+      "note": "Nearest town to the put-in; permits are issued by the Salmon-Challis River Office",
+      "grid": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "Riggins",
+      "road": true,
+      "hub": true,
+      "note": "Nearest town to the take-out",
+      "grid": [
+        9,
+        2
+      ]
+    },
+    {
+      "name": "Corn Creek",
+      "road": true,
+      "mile": 0,
+      "park": true,
+      "note": "Put-in. Campground, water, toilets, permit office",
+      "grid": [
+        1,
+        6
+      ]
+    },
+    {
+      "name": "Wilson Bar",
+      "mile": 54.2,
+      "note": "Public airstrip; fly-in only",
+      "grid": [
+        5,
+        6
+      ]
+    },
+    {
+      "name": "Mackay Bar",
+      "road": true,
+      "mile": 56.4,
+      "note": "Private airstrip and ranch; Painter Mine Road reaches the bridge camp",
+      "grid": [
+        6,
+        6
+      ]
+    },
+    {
+      "name": "Vinegar Creek",
+      "road": true,
+      "mile": 78.2,
+      "park": true,
+      "note": "Alternate take-out; narrow ramp, jet boat traffic, limited parking",
+      "grid": [
+        8,
+        6
+      ]
+    },
+    {
+      "name": "Carey Creek",
+      "road": true,
+      "mile": 81,
+      "park": true,
+      "note": "Take-out. Large lot, paved ramps, toilet",
+      "grid": [
+        10,
+        6
+      ]
+    }
+  ],
+  "yardGrid": [
     5,
-    6
-   ]
-  },
-  {
-   "name": "Mackay Bar",
-   "road": true,
-   "mile": 56.4,
-   "note": "Private airstrip and ranch; Painter Mine Road reaches the bridge camp",
-   "grid": [
-    6,
-    6
-   ]
-  },
-  {
-   "name": "Vinegar Creek",
-   "road": true,
-   "mile": 78.2,
-   "park": true,
-   "note": "Alternate take-out; narrow ramp, jet boat traffic, limited parking",
-   "grid": [
-    8,
-    6
-   ]
-  },
-  {
-   "name": "Carey Creek",
-   "road": true,
-   "mile": 81,
-   "park": true,
-   "note": "Take-out. Large lot, paved ramps, toilet",
-   "grid": [
-    10,
-    6
-   ]
+    1
+  ],
+  "roads": [
+    {
+      "a": "Salmon",
+      "b": "Corn Creek",
+      "h": ""
+    },
+    {
+      "a": "Riggins",
+      "b": "Carey Creek",
+      "h": ""
+    },
+    {
+      "a": "Riggins",
+      "b": "Vinegar Creek",
+      "h": ""
+    },
+    {
+      "a": "Salmon",
+      "b": "Riggins",
+      "h": ""
+    },
+    {
+      "a": "Outfitter",
+      "b": "Salmon",
+      "h": ""
+    }
+  ],
+  "permit": {
+    "status": "Required year-round · lottery June 20 to Sept 7",
+    "asOf": "October 2026",
+    "apply": {
+      "label": "Apply on Recreation.gov",
+      "url": "https://www.recreation.gov/permits/234622"
+    },
+    "contact": {
+      "phone": "208-481-2625",
+      "email": "sm.fs.salmonriver@usda.gov",
+      "web": "https://www.recreation.gov/permits/234622"
+    },
+    "sections": [
+      {
+        "name": "How to get one",
+        "items": [
+          {
+            "t": "Enter the lottery",
+            "d": "Apply on Recreation.gov for control-season dates (June 20 to September 7). Aggregator sites report applications December 1 to January 31 and results mid-February; confirm on the permit page."
+          },
+          {
+            "t": "Finalize the reservation",
+            "d": "Add group members, watercraft, launch and exit dates and pay fees on Recreation.gov no later than 7 days before launch."
+          },
+          {
+            "t": "Confirm with the River Office",
+            "d": "Call or email the Salmon-Challis River Office at least 4 days before launch to confirm the reservation is finalized."
+          },
+          {
+            "t": "Print the permit",
+            "d": "The office emails the permit. Print it, sign it and carry it for the whole trip. The Recreation.gov reservation is not the permit."
+          },
+          {
+            "t": "Outside the control season",
+            "d": "A permit is still required, and launches are not limited."
+          }
+        ]
+      },
+      {
+        "name": "Dates",
+        "items": [
+          {
+            "t": "Control season",
+            "d": "June 20 to September 7."
+          },
+          {
+            "t": "Cancel by",
+            "d": "Control season: 21 days before launch, by 11:59 p.m. Mountain. Outside it: 3 days before."
+          }
+        ]
+      },
+      {
+        "name": "Costs",
+        "items": [
+          {
+            "t": "Application",
+            "d": "$6, non-refundable."
+          },
+          {
+            "t": "Per person",
+            "d": "$4 per person per day."
+          }
+        ]
+      },
+      {
+        "name": "Limits and penalties",
+        "items": [
+          {
+            "t": "Group size and length (control season)",
+            "d": "1 to 10 people: up to 8 days. 11 to 20: up to 7 days. 21 to 30: up to 6 days."
+          },
+          {
+            "t": "Outside the control season",
+            "d": "Up to 30 people and 10 days."
+          },
+          {
+            "t": "Camp reservations",
+            "d": "Large camps are reserved for groups of 21 or more. You must camp at reserved camps on the listed dates."
+          },
+          {
+            "t": "Late cancellation",
+            "d": "A late cancellation or no-show brings a three-year ban on holding a permit or applying for this river. There is no penalty if water at Corn Creek is above 5.0 feet."
+          },
+          {
+            "t": "Launch cap",
+            "d": "Check the Recreation.gov calendar for the number of groups booked on each date."
+          }
+        ]
+      }
+    ]
   }
- ],
- "yardGrid": [
-  5,
-  1
- ],
- "roads": [
-  {
-   "a": "Salmon",
-   "b": "Corn Creek",
-   "h": ""
-  },
-  {
-   "a": "Riggins",
-   "b": "Carey Creek",
-   "h": ""
-  },
-  {
-   "a": "Riggins",
-   "b": "Vinegar Creek",
-   "h": ""
-  },
-  {
-   "a": "Salmon",
-   "b": "Riggins",
-   "h": ""
-  },
-  {
-   "a": "Outfitter",
-   "b": "Salmon",
-   "h": ""
-  }
- ],
- "permit": {
-  "status": "Required year-round · lottery June 20 to Sept 7",
-  "asOf": "October 2026",
-  "apply": {
-   "label": "Apply on Recreation.gov",
-   "url": "https://www.recreation.gov/permits/234622"
-  },
-  "contact": {
-   "phone": "208-481-2625",
-   "email": "sm.fs.salmonriver@usda.gov",
-   "web": "https://www.recreation.gov/permits/234622"
-  },
-  "sections": [
-   {
-    "name": "How to get one",
-    "items": [
-     {
-      "t": "Enter the lottery",
-      "d": "Apply on Recreation.gov for control-season dates (June 20 to September 7). Aggregator sites report applications December 1 to January 31 and results mid-February; confirm on the permit page."
-     },
-     {
-      "t": "Finalize the reservation",
-      "d": "Add group members, watercraft, launch and exit dates and pay fees on Recreation.gov no later than 7 days before launch."
-     },
-     {
-      "t": "Confirm with the River Office",
-      "d": "Call or email the Salmon-Challis River Office at least 4 days before launch to confirm the reservation is finalized."
-     },
-     {
-      "t": "Print the permit",
-      "d": "The office emails the permit. Print it, sign it and carry it for the whole trip. The Recreation.gov reservation is not the permit."
-     },
-     {
-      "t": "Outside the control season",
-      "d": "A permit is still required, and launches are not limited."
-     }
-    ]
-   },
-   {
-    "name": "Dates",
-    "items": [
-     {
-      "t": "Control season",
-      "d": "June 20 to September 7."
-     },
-     {
-      "t": "Cancel by",
-      "d": "Control season: 21 days before launch, by 11:59 p.m. Mountain. Outside it: 3 days before."
-     }
-    ]
-   },
-   {
-    "name": "Costs",
-    "items": [
-     {
-      "t": "Application",
-      "d": "$6, non-refundable."
-     },
-     {
-      "t": "Per person",
-      "d": "$4 per person per day."
-     }
-    ]
-   },
-   {
-    "name": "Limits and penalties",
-    "items": [
-     {
-      "t": "Group size and length (control season)",
-      "d": "1 to 10 people: up to 8 days. 11 to 20: up to 7 days. 21 to 30: up to 6 days."
-     },
-     {
-      "t": "Outside the control season",
-      "d": "Up to 30 people and 10 days."
-     },
-     {
-      "t": "Camp reservations",
-      "d": "Large camps are reserved for groups of 21 or more. You must camp at reserved camps on the listed dates."
-     },
-     {
-      "t": "Late cancellation",
-      "d": "A late cancellation or no-show brings a three-year ban on holding a permit or applying for this river. There is no penalty if water at Corn Creek is above 5.0 feet."
-     },
-     {
-      "t": "Launch cap",
-      "d": "Check the Recreation.gov calendar for the number of groups booked on each date."
-     }
-    ]
-   }
-  ]
- }
 }

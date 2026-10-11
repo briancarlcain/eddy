@@ -1,1720 +1,1720 @@
 {
- "name": "Rogue River",
- "reach": "Grave Creek to Foster Bar",
- "agency": "BLM Medford District / Rogue River-Siskiyou National Forest",
- "miles": [
-  0,
-  34.6
- ],
- "days": 4,
- "coords": [
-  42.63,
-  -123.8
- ],
- "tz": "America/Los_Angeles",
- "note": "The 34-mile Wild section: Rainie Falls, Mule Creek Canyon and Blossom Bar, with wilderness lodges along the way. Miles are from the Grave Creek ramp as in one mile-by-mile guide; the BLM counts the take-out a little farther. Camp capacities come from the BLM's scouted figures (people, tents, boats). Quality is not rated. Fire closures can shut the river, so check conditions. Compiled from public sources; verify with the BLM and a current guidebook.",
- "camps": [
-  {
-   "name": "First Stop Beach",
-   "mile": 0.45,
-   "size": 5,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 8 people, 5 tents and 8 boats."
-  },
-  {
-   "name": "Main Sanderson",
-   "mile": 0.52,
-   "size": 1,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 2 people, 1 tents and 8 boats."
-  },
-  {
-   "name": "Lower Sanderson",
-   "mile": 0.56,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 6 people, 2 tents and 3 boats."
-  },
-  {
-   "name": "Sanderson Left",
-   "mile": 0.6,
-   "size": 1,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 2 people, 1 tents and 2 boats."
-  },
-  {
-   "name": "Rainie Falls Left",
-   "mile": 1.53,
-   "size": 1,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 2 people, 1 tents and 5 boats."
-  },
-  {
-   "name": "Rainie Falls Right",
-   "mile": 1.55,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 12 people, 6 tents and 5 boats."
-  },
-  {
-   "name": "Upper Fishermans Haven",
-   "mile": 1.79,
-   "size": 2,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 6 people, 3 tents and 5 boats."
-  },
-  {
-   "name": "Whoo Beach",
-   "mile": 1.88,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 6 people, 3 tents and 6 boats."
-  },
-  {
-   "name": "Fishbone",
-   "mile": 1.9,
-   "size": 5,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 8 people, 5 tents and 8 boats."
-  },
-  {
-   "name": "China Gulch",
-   "mile": 2,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 10 people, 5 tents and 5 boats."
-  },
-  {
-   "name": "Pre-rum Creek",
-   "mile": 2.4,
-   "size": 1,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 4 people, 2 tents and 8 boats."
-  },
-  {
-   "name": "Too Tires",
-   "mile": 2.48,
-   "size": 1,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 2 people, 1 tents and 2 boats."
-  },
-  {
-   "name": "Whiskey Creek (Upper Whiskey)",
-   "mile": 2.96,
-   "size": 8,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 30 people, 15 tents and 11 boats. The Whisky Creek cabin is beside it."
-  },
-  {
-   "name": "Lower Whiskey",
-   "mile": 3.03,
-   "size": 8,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 20 people, 12 tents and 6 boats."
-  },
-  {
-   "name": "Lower Rum Creek Bar",
-   "mile": 3.2,
-   "size": 5,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 12 people, 6 tents and 12 boats."
-  },
-  {
-   "name": "BLS",
-   "mile": 3.22,
-   "size": 5,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 12 people, 6 tents and 12 boats."
-  },
-  {
-   "name": "Cave Rock (Big Slide Left)",
-   "mile": 3.29,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 16 people, 8 tents and 11 boats. Swimming."
-  },
-  {
-   "name": "Doe Creek",
-   "mile": 3.46,
-   "size": 8,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 20 people, 20 tents and 10 boats."
-  },
-  {
-   "name": "Fawn",
-   "mile": 3.46,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 6 people, 4 tents and 2 boats."
-  },
-  {
-   "name": "Buck",
-   "mile": 3.59,
-   "size": 1,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 4 people, 2 tents and 4 boats."
-  },
-  {
-   "name": "Tyee",
-   "mile": 4.33,
-   "size": 8,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 20 people, 10 tents and 10 boats. Room for more than 20."
-  },
-  {
-   "name": "Upper Wildcat",
-   "mile": 4.89,
-   "size": 8,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 20 people, 10 tents and 10 boats. Room for more than 20."
-  },
-  {
-   "name": "Wildcat (Lower Wildcat)",
-   "mile": 5,
-   "size": 8,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 20 people, 10 tents and 10 boats. Room for more than 20."
-  },
-  {
-   "name": "Slanted Slate",
-   "mile": 6.23,
-   "size": 2,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 6 people, 3 tents and 4 boats."
-  },
-  {
-   "name": "Roll Over Bar",
-   "mile": 7,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 10 people, 4 tents and 5 boats."
-  },
-  {
-   "name": "Island Beach",
-   "mile": 7.32,
-   "size": 2,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 6 people, 3 tents and 7 boats. A common lunch spot."
-  },
-  {
-   "name": "Gravel Slide",
-   "mile": 7.47,
-   "size": 1,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 4 people, 2 tents and 3 boats."
-  },
-  {
-   "name": "Sand Rock",
-   "mile": 7.64,
-   "size": 2,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 6 people, 3 tents and 3 boats."
-  },
-  {
-   "name": "Gravel Garden",
-   "mile": 7.81,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 6 people, 3 tents and 3 boats."
-  },
-  {
-   "name": "Sand Trap",
-   "mile": 7.84,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 6 people, 3 tents and 3 boats."
-  },
-  {
-   "name": "Big Windy",
-   "mile": 8.06,
-   "size": 5,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 8 people, 4 tents and 4 boats. A rocky carry."
-  },
-  {
-   "name": "Upper Black Bar",
-   "mile": 8.24,
-   "size": 1,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 2 people, 1 tents and 4 boats."
-  },
-  {
-   "name": "Little Windy",
-   "mile": 9.1,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 15 people, 7 tents and 8 boats."
-  },
-  {
-   "name": "Upper Jenny",
-   "mile": 9.97,
-   "size": 2,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 6 people, 3 tents and 5 boats."
-  },
-  {
-   "name": "Jenny Creek",
-   "mile": 10.02,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 16 people, 8 tents and 7 boats. Good for kayak groups, with a view and a jump spot from the rocks."
-  },
-  {
-   "name": "Upper Horseshoe Bend",
-   "mile": 10.36,
-   "size": 8,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 20 people, 8 tents and 8 boats. Room for more than 20."
-  },
-  {
-   "name": "Horseshoe Bend",
-   "mile": 10.48,
-   "size": 8,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 20 people, 12 tents and 8 boats. Room for more than 20. Bear fence."
-  },
-  {
-   "name": "Madrone Monkey (Cowley Creek)",
-   "mile": 10.71,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 6 people, 3 tents and 3 boats."
-  },
-  {
-   "name": "Middle Horseshoe Bend",
-   "mile": 10.89,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 12 people, 6 tents and 8 boats."
-  },
-  {
-   "name": "Lower Horseshoe Bend",
-   "mile": 10.97,
-   "size": 8,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 20 people, 12 tents and 12 boats."
-  },
-  {
-   "name": "Telephone Bar Left",
-   "mile": 11.04,
-   "size": 2,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 6 people, 3 tents and 10 boats."
-  },
-  {
-   "name": "Bar View",
-   "mile": 11.06,
-   "size": 1,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 4 people, 2 tents and 2 boats."
-  },
-  {
-   "name": "Mary's Beach (Upper Meadow)",
-   "mile": 11.4,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 6 people, 3 tents and 6 boats."
-  },
-  {
-   "name": "Meadow Creek",
-   "mile": 11.58,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 14 people, 7 tents and 7 boats."
-  },
-  {
-   "name": "Dulog (Upper Dulog)",
-   "mile": 12.19,
-   "size": 5,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 10 people, 5 tents and 6 boats."
-  },
-  {
-   "name": "Lower Dulog",
-   "mile": 12.31,
-   "size": 5,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 10 people, 5 tents and 5 boats."
-  },
-  {
-   "name": "Kelsey Creek",
-   "mile": 13.28,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 8 people, 4 tents and 4 boats."
-  },
-  {
-   "name": "Upper Kelsey Left",
-   "mile": 13.43,
-   "size": 8,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 20 people, 15 tents and 10 boats. Called Lower Kelsey in the BLM guidebook."
-  },
-  {
-   "name": "Lower Kelsey Left (Terraces)",
-   "mile": 13.47,
-   "size": null,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large; recognized by boaters but not in the BLM guidebook."
-  },
-  {
-   "name": "Kelsey Canyon Overflow (Geology)",
-   "mile": 13.49,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 6 people, 3 tents and 3 boats."
-  },
-  {
-   "name": "Green Rattlesnake",
-   "mile": 13.58,
-   "size": 2,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 6 people, 3 tents and 3 boats."
-  },
-  {
-   "name": "Battle Bar",
-   "mile": 14.27,
-   "size": 8,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 24 people, 12 tents and 12 boats. Named for an 1855-56 fight in the Rogue River Indian Wars."
-  },
-  {
-   "name": "Lower Winkle Bar",
-   "mile": 15.27,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 10 people, 5 tents and 5 boats."
-  },
-  {
-   "name": "J and J Rock Bar",
-   "mile": 15.48,
-   "size": 1,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 2 people, 1 tents and 5 boats."
-  },
-  {
-   "name": "J and B Rock Bar",
-   "mile": 15.63,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 6 people, 3 tents and 4 boats."
-  },
-  {
-   "name": "Turtle Rock",
-   "mile": 16.05,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Medium. On the BLM GPS files but not the map."
-  },
-  {
-   "name": "Upper Missouri (Missouri Bar)",
-   "mile": 16.43,
-   "size": 8,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 20 people, 10 tents and 10 boats. Room for more than 20."
-  },
-  {
-   "name": "Middle Missouri Bar",
-   "mile": 16.47,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 14 people, 6 tents and 6 boats."
-  },
-  {
-   "name": "Lower Missouri",
-   "mile": 16.54,
-   "size": 2,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 6 people, 4 tents and 4 boats."
-  },
-  {
-   "name": "Quail Creek",
-   "mile": 16.73,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 12 people, 6 tents and 6 boats. A small pool in the creek downstream."
-  },
-  {
-   "name": "Corner (Quail Creek Left)",
-   "mile": 16.8,
-   "size": 1,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 4 people, 3 tents and 4 boats."
-  },
-  {
-   "name": "Long Gulch",
-   "mile": 17.27,
-   "size": 2,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 6 people, 3 tents and 6 boats."
-  },
-  {
-   "name": "Long Beach (Long Gulch Right)",
-   "mile": 17.43,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 12 people, 5 tents and 12 boats. Cobbly."
-  },
-  {
-   "name": "Kai Beach",
-   "mile": 18.14,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 6 people, 3 tents and 4 boats. A lunch spot."
-  },
-  {
-   "name": "Little Maggie",
-   "mile": 18.89,
-   "size": 1,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 4 people, 2 tents and 3 boats."
-  },
-  {
-   "name": "Rogue River Ranch East (Upper)",
-   "mile": 19.75,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 16 people, 8 tents and 8 boats. Bear fence."
-  },
-  {
-   "name": "Rogue River Ranch West (Lower)",
-   "mile": 19.76,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 14 people, 7 tents and 7 boats. Bear fence."
-  },
-  {
-   "name": "Rogue River Ranch South Bank",
-   "mile": 19.78,
-   "size": 1,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 2 people, 1 tents and 2 boats."
-  },
-  {
-   "name": "Rogue River Ranch South Bank Overflow",
-   "mile": 19.84,
-   "size": 1,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 4 people, 2 tents and 4 boats."
-  },
-  {
-   "name": "Last Chance",
-   "mile": 19.9,
-   "size": 1,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 2 people, 1 tents and 2 boats."
-  },
-  {
-   "name": "East Mule Creek",
-   "mile": 19.9,
-   "size": 8,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 20 people, 10 tents and 10 boats. Room for more than 20. Mule Creek flows through camp."
-  },
-  {
-   "name": "West Mule Creek",
-   "mile": 19.92,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 10 people, 5 tents and 5 boats."
-  },
-  {
-   "name": "Marial Beach",
-   "mile": 20.17,
-   "size": 1,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 4 people, 4 tents and 6 boats."
-  },
-  {
-   "name": "Upper South Gleason",
-   "mile": 23.21,
-   "size": 1,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 4 people, 7 tents and 6 boats."
-  },
-  {
-   "name": "Lower South Gleason",
-   "mile": 23.23,
-   "size": 1,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 2 people, 1 tents and 4 boats."
-  },
-  {
-   "name": "North Gleason",
-   "mile": 23.26,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 6 people, 3 tents and 8 boats. A cobble bar below Blossom Bar with a steep beach, suited to small groups."
-  },
-  {
-   "name": "Pinnacle Point",
-   "mile": 23.45,
-   "size": 2,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 6 people, 3 tents and 3 boats."
-  },
-  {
-   "name": "Upper Half Moon Bar (Champagne)",
-   "mile": 24.5,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 18 people, 8 tents and 15 boats. Named for finishing Blossom Bar. Bear fence."
-  },
-  {
-   "name": "Middle Half Moon Bar",
-   "mile": 24.62,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 12 people, 6 tents and 6 boats. Bear fence."
-  },
-  {
-   "name": "Lower Half Moon Bar",
-   "mile": 24.65,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 14 people, 9 tents and 6 boats. Bear fence."
-  },
-  {
-   "name": "Sturgeon (Mimosa Beach)",
-   "mile": 25.99,
-   "size": 1,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 4 people, 2 tents and 4 boats."
-  },
-  {
-   "name": "Black Bear Bar",
-   "mile": 26.38,
-   "size": 5,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 12 people, 6 tents and 6 boats."
-  },
-  {
-   "name": "Brushy Bar",
-   "mile": 26.39,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 8 people, 5 tents and 5 boats. Bear fence."
-  },
-  {
-   "name": "Lower Brushy Bar",
-   "mile": 26.55,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 6 people, 4 tents and 4 boats."
-  },
-  {
-   "name": "Upper Solitude",
-   "mile": 27.2,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 18 people, 8 tents and 8 boats. Bear fence."
-  },
-  {
-   "name": "Lower Solitude",
-   "mile": 27.44,
-   "size": 8,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 20 people, 12 tents and 10 boats. Bear fence. Upper camp sites on the bar."
-  },
-  {
-   "name": "Yann's",
-   "mile": 27.67,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Small and not recommended; not in the BLM guide."
-  },
-  {
-   "name": "Penguin Beach",
-   "mile": 27.8,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Small; not in the BLM guide."
-  },
-  {
-   "name": "Tate Alcove",
-   "mile": 28.16,
-   "size": 1,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 4 people, 2 tents and 3 boats."
-  },
-  {
-   "name": "Upper Tate Creek",
-   "mile": 28.36,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 6 people, 3 tents and 4 boats. Bear fence."
-  },
-  {
-   "name": "Lower Tate Creek",
-   "mile": 28.55,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 12 people, 6 tents and 10 boats. Bear fence."
-  },
-  {
-   "name": "Upper Tacoma",
-   "mile": 28.62,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 17 people, 8 tents and 10 boats. Bear fence."
-  },
-  {
-   "name": "Tacoma (Middle Tacoma)",
-   "mile": 28.66,
-   "size": 8,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 20 people, 10 tents and 7 boats. Bear fence."
-  },
-  {
-   "name": "Lower Tacoma",
-   "mile": 28.7,
-   "size": 8,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 20 people, 10 tents and 8 boats. Bear fence."
-  },
-  {
-   "name": "Tacoma Boulders",
-   "mile": 28.79,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 6 people, 4 tents and 5 boats."
-  },
-  {
-   "name": "Tacoma Sandbar",
-   "mile": 28.83,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 18 people, 9 tents and 6 boats."
-  },
-  {
-   "name": "Tacoma Rapid Right",
-   "mile": 28.99,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 16 people, 8 tents and 5 boats."
-  },
-  {
-   "name": "Tacoma Rapid Left",
-   "mile": 29.02,
-   "size": 1,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 4 people, 2 tents and 4 boats."
-  },
-  {
-   "name": "Clay Hill",
-   "mile": 29.69,
-   "size": 8,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 20 people, 15 tents and 10 boats. Room for more than 20. The jump rock is reached from the upper camp."
-  },
-  {
-   "name": "Fall Creek Bar",
-   "mile": 30.17,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 6 people, 3 tents and 5 boats."
-  },
-  {
-   "name": "Flora Dell",
-   "mile": 30.72,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 6 people, 4 tents and 3 boats."
-  },
-  {
-   "name": "Bent Oak",
-   "mile": 30.78,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Fits about 6 people, 3 tents and 3 boats."
-  },
-  {
-   "name": "Burnt Rock (Oly Rock)",
-   "mile": 32.48,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Fits about 18 people, 8 tents and 7 boats."
-  },
-  {
-   "name": "Eagle Rock",
-   "mile": 32.67,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Small."
-  }
- ],
- "rapids": [
-  {
-   "name": "Grave Creek Riffle",
-   "mile": 0.04,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "An island split. Follow the main current down the tongue on the left. A boulder emerges below about 2,000 cfs."
-  },
-  {
-   "name": "Grave Creek Falls",
-   "mile": 0.23,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A ledge drop that can be run down the middle."
-  },
-  {
-   "name": "Sanderson Riffle",
-   "mile": 0.76,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "A surf wave at some flows. A plaque on the cliff marks the 1964 flood."
-  },
-  {
-   "name": "Fish Ladder",
-   "mile": 1.66,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "The standard run on the far right of Rainie Falls. There may be a queue; let boats clear the channel."
-  },
-  {
-   "name": "Middle Chute",
-   "mile": 1.66,
-   "civ": false,
-   "diff": 8,
-   "tier": "Class IV",
-   "desc": "An alternative line, sometimes the only option for large rafts."
-  },
-  {
-   "name": "Rainie Falls",
-   "mile": 1.66,
-   "civ": false,
-   "diff": 10,
-   "tier": "Class V",
-   "desc": "The main drop: a 10 to 12 ft bedrock ledge with powerful reversals. Scout from river left; most boats take the Fish Ladder."
-  },
-  {
-   "name": "China Gulch Riffles",
-   "mile": 2.1,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Named for 1800s Chinese miners."
-  },
-  {
-   "name": "Big Slide Riffle",
-   "mile": 3.2,
-   "civ": false,
-   "diff": 1,
-   "tier": "Class I",
-   "desc": "The site of a late-1800s landslide."
-  },
-  {
-   "name": "Tyee Rapid",
-   "mile": 4.13,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A large house rock on the left. Work left to avoid the right wall; a gravel bar pushes the flow right."
-  },
-  {
-   "name": "Wildcat Rapid",
-   "mile": 4.55,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "An island splits the flow; the right channel is usual. Willows and a wrap rock. Wrapping is reported at low flow."
-  },
-  {
-   "name": "Russian Rapid",
-   "mile": 5.12,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Long and splashy with several channels. Named for a legendary 1800s Russian miner."
-  },
-  {
-   "name": "Montgomery Chutes",
-   "mile": 5.42,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "A defined tongue into wave trains. The left side is cleaner at low water."
-  },
-  {
-   "name": "Howard Creek Chutes",
-   "mile": 5.68,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Wave trains in a fast chute; take the left for the third wave train."
-  },
-  {
-   "name": "Slim Pickins Rapid",
-   "mile": 6.76,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A large split rock. Drift boats must use the narrow right channel; left is recommended for rafts."
-  },
-  {
-   "name": "Washboard Rapids",
-   "mile": 7.38,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "A read-and-run wave train."
-  },
-  {
-   "name": "Plowshare Rapid",
-   "mile": 7.51,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Swirly. A pocket eddy on the left wall is a raft magnet."
-  },
-  {
-   "name": "Windy Creek Chutes",
-   "mile": 7.92,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Two chutes; oars may ship at low water."
-  },
-  {
-   "name": "Upper Black Bar Falls",
-   "mile": 8.28,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A steep drop into a large curling wave. Scout from river right and take the right line."
-  },
-  {
-   "name": "Lower Black Bar Falls",
-   "mile": 8.4,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A steep wave train. A rock on the left bank may cause a bump. Run the tongue right of center."
-  },
-  {
-   "name": "Little Windy Riffle",
-   "mile": 9.17,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Kayakers' \"Eddy Alley\", with small playful features below Black Bar Lodge."
-  },
-  {
-   "name": "Horseshoe Bend",
-   "mile": 10.33,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A tight right-left turn. Pass left of the bedrock island, then go right."
-  },
-  {
-   "name": "Telephone Hole",
-   "mile": 11.31,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Named for an old Forest Service telephone line. A ducky-flipping hole on the left."
-  },
-  {
-   "name": "Dulog Riffle",
-   "mile": 12.08,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Enter left and exit between the mid-river boulders. Scraping risk at low water."
-  },
-  {
-   "name": "Quiz Show",
-   "mile": 12.27,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A boulder garden. Move slowly."
-  },
-  {
-   "name": "Kelsey Creek Falls",
-   "mile": 12.77,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "A left-side wave train."
-  },
-  {
-   "name": "Lower Kelsey",
-   "mile": 12.9,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Run center and pass right of any log at the entrance."
-  },
-  {
-   "name": "Battle Bar Riffle",
-   "mile": 14.37,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Stay right; a pillow rock midway."
-  },
-  {
-   "name": "Boulder Alley",
-   "mile": 17.67,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "A boulder series; hidden rocks at lower water."
-  },
-  {
-   "name": "Big Boulder Rapids",
-   "mile": 17.81,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "A fast chute right of Elephant Rock."
-  },
-  {
-   "name": "Island Rapid",
-   "mile": 18.09,
-   "civ": false,
-   "diff": 1,
-   "tier": "Class I",
-   "desc": ""
-  },
-  {
-   "name": "John's Rapid",
-   "mile": 18.32,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Named for Chief John (Tecumtum). Enter in the middle and pass right of the boulder."
-  },
-  {
-   "name": "China Bar Rapid",
-   "mile": 19.5,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Enter left. A \"can opener\" rock sits right of center; holes at low water."
-  },
-  {
-   "name": "Narrows Rapid",
-   "mile": 20.68,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": ""
-  },
-  {
-   "name": "Jaws",
-   "mile": 20.97,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Two tooth-like boulders on the left. Pass left of both and avoid the left hole."
-  },
-  {
-   "name": "Wall One",
-   "mile": 21.09,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Avoid the wall."
-  },
-  {
-   "name": "Telfer's Hole",
-   "mile": 21.23,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A ducky-flipping hole."
-  },
-  {
-   "name": "The Narrows",
-   "mile": 21.3,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "The canyon tightens."
-  },
-  {
-   "name": "Coffee Pot",
-   "mile": 21.32,
-   "civ": false,
-   "diff": 6,
-   "tier": "Class III+",
-   "desc": "The signature rapid of Mule Creek Canyon: bedrock constrictions create boils and surging eddy lines. Rated III by one guide and IV by American Whitewater."
-  },
-  {
-   "name": "Blossom Bar",
-   "mile": 22.78,
-   "civ": false,
-   "diff": 7,
-   "tier": "Class IV-",
-   "desc": "The hardest rapid of the trip. Boulders force the flow left into the \"Picket Fence\": enter left, then cut right above it. Scouting is advised for every boater. Boats wrapping and blocking the channel are common."
-  },
-  {
-   "name": "Devils Staircase Rapid",
-   "mile": 23.1,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A wave train just below Blossom Bar. Avoid the bottom-right wall and the helicopter eddy."
-  },
-  {
-   "name": "Quarter Inch Rapid",
-   "mile": 25.29,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Jet boats have about a quarter inch of clearance at low water. Read and run for rafts."
-  },
-  {
-   "name": "Solitude Rapid",
-   "mile": 27.37,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "A \"decision rock\": pass left, since the right passage is now small."
-  },
-  {
-   "name": "Tacoma Rapids",
-   "mile": 28.95,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Enter right of center and exit left. Rocks on the right at low water."
-  },
-  {
-   "name": "Clay Hill Rapid",
-   "mile": 29.34,
-   "civ": false,
-   "diff": 4,
-   "tier": "Class III-",
-   "desc": "The last significant rapid before Foster Bar. Stay right of the island and ride the inside of the turn. Rated II by one guide and III by American Whitewater."
-  },
-  {
-   "name": "Payton Riffle",
-   "mile": 31.24,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Exit right to avoid the left-side ledges."
-  },
-  {
-   "name": "Burnt Rapids",
-   "mile": 32.13,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "The final Class II before the take-out."
-  },
-  {
-   "name": "Watson Riffle",
-   "mile": 32.89,
-   "civ": false,
-   "diff": 1,
-   "tier": "Class I",
-   "desc": "Most of the flow goes right around the island."
-  },
-  {
-   "name": "Foster Rapid",
-   "mile": 34.16,
-   "civ": false,
-   "diff": 1,
-   "tier": "Class I",
-   "desc": "The final riffle."
-  }
- ],
- "hikes": [
-  {
-   "name": "Whisky Creek cabin",
-   "mile": 2.99,
-   "bank": "R",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "An 1880 mining cabin on the National Register, the oldest standing mining cabin in the valley."
-  },
-  {
-   "name": "Howard Creek",
-   "mile": 5.96,
-   "bank": "L",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "A popular swimming hole with room for 2 to 3 rafts."
-  },
-  {
-   "name": "Big Windy Creek",
-   "mile": 8.08,
-   "bank": "L",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "A creek and swimming hole."
-  },
-  {
-   "name": "Kelsey Creek",
-   "mile": 13.25,
-   "bank": "R",
-   "time": null,
-   "diff": 3,
-   "qual": null,
-   "desc": "A worthwhile hike up the creek."
-  },
-  {
-   "name": "Sports Illustrated Rock",
-   "mile": 13.69,
-   "bank": "L",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "A large, popular jump rock."
-  },
-  {
-   "name": "Zane Grey's cabin",
-   "mile": 15.18,
-   "bank": "R",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "Built in 1926 by the novelist; a protected historic site on Winkle Bar."
-  },
-  {
-   "name": "Rogue River Ranch",
-   "mile": 19.75,
-   "bank": "R",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "A National Register site with a visitor center, swimming hole and toilets. Volunteer caretakers are there from May to October."
-  },
-  {
-   "name": "Inspiration Point",
-   "mile": 21.59,
-   "bank": "R",
-   "time": null,
-   "diff": 2,
-   "qual": null,
-   "desc": "A view of Stair Creek Falls, a popular stop on the Rogue River Trail."
-  },
-  {
-   "name": "Fall Creek",
-   "mile": 30.54,
-   "bank": "L",
-   "time": null,
-   "diff": 2,
-   "qual": null,
-   "desc": "A short hike to a waterfall."
-  }
- ],
- "geology": [],
- "guide": [],
- "almanac": {
-  "history": [
-   [
-    "Zane Grey",
-    "The western novelist Zane Grey owned the bar at Winkle Bar in the 1920s and built a cabin there in 1926."
-   ],
-   [
-    "The Rogue River Indian Wars",
-    "Battle Bar is named for a fight in 1855-56 during the Rogue River Indian Wars."
-   ],
-   [
-    "A dam that was blocked",
-    "Wild and Scenic designation in 1968 protected the Rogue from dams."
-   ]
-  ]
- },
- "rules": [
-  {
-   "name": "Required equipment",
-   "rules": [
+  "name": "Rogue River",
+  "reach": "Grave Creek to Foster Bar",
+  "agency": "BLM Medford District / Rogue River-Siskiyou National Forest",
+  "miles": [
+    0,
+    34.6
+  ],
+  "days": 4,
+  "coords": [
+    42.63,
+    -123.8
+  ],
+  "tz": "America/Los_Angeles",
+  "note": "",
+  "camps": [
     {
-     "t": "Toilet system",
-     "d": "A dedicated, reusable, washable, watertight system with a screw-on or latching gasket lid. Snap-on lids and RV toilets are not acceptable. Pouch systems (Biffy Bag, CleanWaste, ReStop2) are allowed with a watertight container for used pouches. Capacity is 1 pint per person per day."
+      "name": "First Stop Beach",
+      "mile": 0.45,
+      "size": 5,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 8 people, 5 tents and 8 boats."
     },
     {
-     "t": "Set it up",
-     "d": "Have the toilet out of the boat and accessible within 30 minutes of arriving at camp, away from the central camp area unless a pit toilet is on site. Urine may go in the river."
+      "name": "Main Sanderson",
+      "mile": 0.52,
+      "size": 1,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 2 people, 1 tents and 8 boats."
     },
     {
-     "t": "Empty it properly",
-     "d": "Untreated solid waste may be emptied only at the SCAT machine at Foster Bar or an RV dump station. The SCAT machine cannot take wipes, paper towels or trash."
+      "name": "Lower Sanderson",
+      "mile": 0.56,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 6 people, 2 tents and 3 boats."
     },
     {
-     "t": "Fire pan, shovel and bucket",
-     "d": "A fire pan is required year-round for all campfires within 400 feet of the river. A shovel and a bucket of at least one gallon are required per party. Fireworks are prohibited."
+      "name": "Sanderson Left",
+      "mile": 0.6,
+      "size": 1,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 2 people, 1 tents and 2 boats."
     },
     {
-     "t": "Life jackets",
-     "d": "A U.S. Coast Guard approved life jacket for each person, worn in Class III or greater rapids, and worn at all times by children 12 and younger on or near the water. Helmets are recommended in Class III and up."
+      "name": "Rainie Falls Left",
+      "mile": 1.53,
+      "size": 1,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 2 people, 1 tents and 5 boats."
+    },
+    {
+      "name": "Rainie Falls Right",
+      "mile": 1.55,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 12 people, 6 tents and 5 boats."
+    },
+    {
+      "name": "Upper Fishermans Haven",
+      "mile": 1.79,
+      "size": 2,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 6 people, 3 tents and 5 boats."
+    },
+    {
+      "name": "Whoo Beach",
+      "mile": 1.88,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 6 people, 3 tents and 6 boats."
+    },
+    {
+      "name": "Fishbone",
+      "mile": 1.9,
+      "size": 5,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 8 people, 5 tents and 8 boats."
+    },
+    {
+      "name": "China Gulch",
+      "mile": 2,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 10 people, 5 tents and 5 boats."
+    },
+    {
+      "name": "Pre-rum Creek",
+      "mile": 2.4,
+      "size": 1,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 4 people, 2 tents and 8 boats."
+    },
+    {
+      "name": "Too Tires",
+      "mile": 2.48,
+      "size": 1,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 2 people, 1 tents and 2 boats."
+    },
+    {
+      "name": "Whiskey Creek (Upper Whiskey)",
+      "mile": 2.96,
+      "size": 8,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 30 people, 15 tents and 11 boats. The Whisky Creek cabin is beside it."
+    },
+    {
+      "name": "Lower Whiskey",
+      "mile": 3.03,
+      "size": 8,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 20 people, 12 tents and 6 boats."
+    },
+    {
+      "name": "Lower Rum Creek Bar",
+      "mile": 3.2,
+      "size": 5,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 12 people, 6 tents and 12 boats."
+    },
+    {
+      "name": "BLS",
+      "mile": 3.22,
+      "size": 5,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 12 people, 6 tents and 12 boats."
+    },
+    {
+      "name": "Cave Rock (Big Slide Left)",
+      "mile": 3.29,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 16 people, 8 tents and 11 boats. Swimming."
+    },
+    {
+      "name": "Doe Creek",
+      "mile": 3.46,
+      "size": 8,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 20 people, 20 tents and 10 boats."
+    },
+    {
+      "name": "Fawn",
+      "mile": 3.46,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 6 people, 4 tents and 2 boats."
+    },
+    {
+      "name": "Buck",
+      "mile": 3.59,
+      "size": 1,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 4 people, 2 tents and 4 boats."
+    },
+    {
+      "name": "Tyee",
+      "mile": 4.33,
+      "size": 8,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 20 people, 10 tents and 10 boats. Room for more than 20."
+    },
+    {
+      "name": "Upper Wildcat",
+      "mile": 4.89,
+      "size": 8,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 20 people, 10 tents and 10 boats. Room for more than 20."
+    },
+    {
+      "name": "Wildcat (Lower Wildcat)",
+      "mile": 5,
+      "size": 8,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 20 people, 10 tents and 10 boats. Room for more than 20."
+    },
+    {
+      "name": "Slanted Slate",
+      "mile": 6.23,
+      "size": 2,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 6 people, 3 tents and 4 boats."
+    },
+    {
+      "name": "Roll Over Bar",
+      "mile": 7,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 10 people, 4 tents and 5 boats."
+    },
+    {
+      "name": "Island Beach",
+      "mile": 7.32,
+      "size": 2,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 6 people, 3 tents and 7 boats. A common lunch spot."
+    },
+    {
+      "name": "Gravel Slide",
+      "mile": 7.47,
+      "size": 1,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 4 people, 2 tents and 3 boats."
+    },
+    {
+      "name": "Sand Rock",
+      "mile": 7.64,
+      "size": 2,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 6 people, 3 tents and 3 boats."
+    },
+    {
+      "name": "Gravel Garden",
+      "mile": 7.81,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 6 people, 3 tents and 3 boats."
+    },
+    {
+      "name": "Sand Trap",
+      "mile": 7.84,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 6 people, 3 tents and 3 boats."
+    },
+    {
+      "name": "Big Windy",
+      "mile": 8.06,
+      "size": 5,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 8 people, 4 tents and 4 boats. A rocky carry."
+    },
+    {
+      "name": "Upper Black Bar",
+      "mile": 8.24,
+      "size": 1,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 2 people, 1 tents and 4 boats."
+    },
+    {
+      "name": "Little Windy",
+      "mile": 9.1,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 15 people, 7 tents and 8 boats."
+    },
+    {
+      "name": "Upper Jenny",
+      "mile": 9.97,
+      "size": 2,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 6 people, 3 tents and 5 boats."
+    },
+    {
+      "name": "Jenny Creek",
+      "mile": 10.02,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 16 people, 8 tents and 7 boats. Good for kayak groups, with a view and a jump spot from the rocks."
+    },
+    {
+      "name": "Upper Horseshoe Bend",
+      "mile": 10.36,
+      "size": 8,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 20 people, 8 tents and 8 boats. Room for more than 20."
+    },
+    {
+      "name": "Horseshoe Bend",
+      "mile": 10.48,
+      "size": 8,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 20 people, 12 tents and 8 boats. Room for more than 20. Bear fence."
+    },
+    {
+      "name": "Madrone Monkey (Cowley Creek)",
+      "mile": 10.71,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 6 people, 3 tents and 3 boats."
+    },
+    {
+      "name": "Middle Horseshoe Bend",
+      "mile": 10.89,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 12 people, 6 tents and 8 boats."
+    },
+    {
+      "name": "Lower Horseshoe Bend",
+      "mile": 10.97,
+      "size": 8,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 20 people, 12 tents and 12 boats."
+    },
+    {
+      "name": "Telephone Bar Left",
+      "mile": 11.04,
+      "size": 2,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 6 people, 3 tents and 10 boats."
+    },
+    {
+      "name": "Bar View",
+      "mile": 11.06,
+      "size": 1,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 4 people, 2 tents and 2 boats."
+    },
+    {
+      "name": "Mary's Beach (Upper Meadow)",
+      "mile": 11.4,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 6 people, 3 tents and 6 boats."
+    },
+    {
+      "name": "Meadow Creek",
+      "mile": 11.58,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 14 people, 7 tents and 7 boats."
+    },
+    {
+      "name": "Dulog (Upper Dulog)",
+      "mile": 12.19,
+      "size": 5,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 10 people, 5 tents and 6 boats."
+    },
+    {
+      "name": "Lower Dulog",
+      "mile": 12.31,
+      "size": 5,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 10 people, 5 tents and 5 boats."
+    },
+    {
+      "name": "Kelsey Creek",
+      "mile": 13.28,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 8 people, 4 tents and 4 boats."
+    },
+    {
+      "name": "Upper Kelsey Left",
+      "mile": 13.43,
+      "size": 8,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 20 people, 15 tents and 10 boats."
+    },
+    {
+      "name": "Lower Kelsey Left (Terraces)",
+      "mile": 13.47,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large; recognized by boaters but"
+    },
+    {
+      "name": "Kelsey Canyon Overflow (Geology)",
+      "mile": 13.49,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 6 people, 3 tents and 3 boats."
+    },
+    {
+      "name": "Green Rattlesnake",
+      "mile": 13.58,
+      "size": 2,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 6 people, 3 tents and 3 boats."
+    },
+    {
+      "name": "Battle Bar",
+      "mile": 14.27,
+      "size": 8,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 24 people, 12 tents and 12 boats. Named for an 1855-56 fight in the Rogue River Indian Wars."
+    },
+    {
+      "name": "Lower Winkle Bar",
+      "mile": 15.27,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 10 people, 5 tents and 5 boats."
+    },
+    {
+      "name": "J and J Rock Bar",
+      "mile": 15.48,
+      "size": 1,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 2 people, 1 tents and 5 boats."
+    },
+    {
+      "name": "J and B Rock Bar",
+      "mile": 15.63,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 6 people, 3 tents and 4 boats."
+    },
+    {
+      "name": "Turtle Rock",
+      "mile": 16.05,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Medium."
+    },
+    {
+      "name": "Upper Missouri (Missouri Bar)",
+      "mile": 16.43,
+      "size": 8,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 20 people, 10 tents and 10 boats. Room for more than 20."
+    },
+    {
+      "name": "Middle Missouri Bar",
+      "mile": 16.47,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 14 people, 6 tents and 6 boats."
+    },
+    {
+      "name": "Lower Missouri",
+      "mile": 16.54,
+      "size": 2,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 6 people, 4 tents and 4 boats."
+    },
+    {
+      "name": "Quail Creek",
+      "mile": 16.73,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 12 people, 6 tents and 6 boats. A small pool in the creek downstream."
+    },
+    {
+      "name": "Corner (Quail Creek Left)",
+      "mile": 16.8,
+      "size": 1,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 4 people, 3 tents and 4 boats."
+    },
+    {
+      "name": "Long Gulch",
+      "mile": 17.27,
+      "size": 2,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 6 people, 3 tents and 6 boats."
+    },
+    {
+      "name": "Long Beach (Long Gulch Right)",
+      "mile": 17.43,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 12 people, 5 tents and 12 boats. Cobbly."
+    },
+    {
+      "name": "Kai Beach",
+      "mile": 18.14,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 6 people, 3 tents and 4 boats. A lunch spot."
+    },
+    {
+      "name": "Little Maggie",
+      "mile": 18.89,
+      "size": 1,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 4 people, 2 tents and 3 boats."
+    },
+    {
+      "name": "Rogue River Ranch East (Upper)",
+      "mile": 19.75,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 16 people, 8 tents and 8 boats. Bear fence."
+    },
+    {
+      "name": "Rogue River Ranch West (Lower)",
+      "mile": 19.76,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 14 people, 7 tents and 7 boats. Bear fence."
+    },
+    {
+      "name": "Rogue River Ranch South Bank",
+      "mile": 19.78,
+      "size": 1,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 2 people, 1 tents and 2 boats."
+    },
+    {
+      "name": "Rogue River Ranch South Bank Overflow",
+      "mile": 19.84,
+      "size": 1,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 4 people, 2 tents and 4 boats."
+    },
+    {
+      "name": "Last Chance",
+      "mile": 19.9,
+      "size": 1,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 2 people, 1 tents and 2 boats."
+    },
+    {
+      "name": "East Mule Creek",
+      "mile": 19.9,
+      "size": 8,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 20 people, 10 tents and 10 boats. Room for more than 20. Mule Creek flows through camp."
+    },
+    {
+      "name": "West Mule Creek",
+      "mile": 19.92,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 10 people, 5 tents and 5 boats."
+    },
+    {
+      "name": "Marial Beach",
+      "mile": 20.17,
+      "size": 1,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 4 people, 4 tents and 6 boats."
+    },
+    {
+      "name": "Upper South Gleason",
+      "mile": 23.21,
+      "size": 1,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 4 people, 7 tents and 6 boats."
+    },
+    {
+      "name": "Lower South Gleason",
+      "mile": 23.23,
+      "size": 1,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 2 people, 1 tents and 4 boats."
+    },
+    {
+      "name": "North Gleason",
+      "mile": 23.26,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 6 people, 3 tents and 8 boats. A cobble bar below Blossom Bar with a steep beach, suited to small groups."
+    },
+    {
+      "name": "Pinnacle Point",
+      "mile": 23.45,
+      "size": 2,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 6 people, 3 tents and 3 boats."
+    },
+    {
+      "name": "Upper Half Moon Bar (Champagne)",
+      "mile": 24.5,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 18 people, 8 tents and 15 boats. Named for finishing Blossom Bar. Bear fence."
+    },
+    {
+      "name": "Middle Half Moon Bar",
+      "mile": 24.62,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 12 people, 6 tents and 6 boats. Bear fence."
+    },
+    {
+      "name": "Lower Half Moon Bar",
+      "mile": 24.65,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 14 people, 9 tents and 6 boats. Bear fence."
+    },
+    {
+      "name": "Sturgeon (Mimosa Beach)",
+      "mile": 25.99,
+      "size": 1,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 4 people, 2 tents and 4 boats."
+    },
+    {
+      "name": "Black Bear Bar",
+      "mile": 26.38,
+      "size": 5,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 12 people, 6 tents and 6 boats."
+    },
+    {
+      "name": "Brushy Bar",
+      "mile": 26.39,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 8 people, 5 tents and 5 boats. Bear fence."
+    },
+    {
+      "name": "Lower Brushy Bar",
+      "mile": 26.55,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 6 people, 4 tents and 4 boats."
+    },
+    {
+      "name": "Upper Solitude",
+      "mile": 27.2,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 18 people, 8 tents and 8 boats. Bear fence."
+    },
+    {
+      "name": "Lower Solitude",
+      "mile": 27.44,
+      "size": 8,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 20 people, 12 tents and 10 boats. Bear fence. Upper camp sites on the bar."
+    },
+    {
+      "name": "Yann's",
+      "mile": 27.67,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Small and not recommended;"
+    },
+    {
+      "name": "Penguin Beach",
+      "mile": 27.8,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Small;"
+    },
+    {
+      "name": "Tate Alcove",
+      "mile": 28.16,
+      "size": 1,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 4 people, 2 tents and 3 boats."
+    },
+    {
+      "name": "Upper Tate Creek",
+      "mile": 28.36,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 6 people, 3 tents and 4 boats. Bear fence."
+    },
+    {
+      "name": "Lower Tate Creek",
+      "mile": 28.55,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 12 people, 6 tents and 10 boats. Bear fence."
+    },
+    {
+      "name": "Upper Tacoma",
+      "mile": 28.62,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 17 people, 8 tents and 10 boats. Bear fence."
+    },
+    {
+      "name": "Tacoma (Middle Tacoma)",
+      "mile": 28.66,
+      "size": 8,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 20 people, 10 tents and 7 boats. Bear fence."
+    },
+    {
+      "name": "Lower Tacoma",
+      "mile": 28.7,
+      "size": 8,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 20 people, 10 tents and 8 boats. Bear fence."
+    },
+    {
+      "name": "Tacoma Boulders",
+      "mile": 28.79,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 6 people, 4 tents and 5 boats."
+    },
+    {
+      "name": "Tacoma Sandbar",
+      "mile": 28.83,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 18 people, 9 tents and 6 boats."
+    },
+    {
+      "name": "Tacoma Rapid Right",
+      "mile": 28.99,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 16 people, 8 tents and 5 boats."
+    },
+    {
+      "name": "Tacoma Rapid Left",
+      "mile": 29.02,
+      "size": 1,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 4 people, 2 tents and 4 boats."
+    },
+    {
+      "name": "Clay Hill",
+      "mile": 29.69,
+      "size": 8,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 20 people, 15 tents and 10 boats. Room for more than 20. The jump rock is reached from the upper camp."
+    },
+    {
+      "name": "Fall Creek Bar",
+      "mile": 30.17,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 6 people, 3 tents and 5 boats."
+    },
+    {
+      "name": "Flora Dell",
+      "mile": 30.72,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 6 people, 4 tents and 3 boats."
+    },
+    {
+      "name": "Bent Oak",
+      "mile": 30.78,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Fits about 6 people, 3 tents and 3 boats."
+    },
+    {
+      "name": "Burnt Rock (Oly Rock)",
+      "mile": 32.48,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Fits about 18 people, 8 tents and 7 boats."
+    },
+    {
+      "name": "Eagle Rock",
+      "mile": 32.67,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Small."
     }
-   ]
-  },
-  {
-   "name": "Camping",
-   "rules": [
+  ],
+  "rapids": [
     {
-     "t": "First come, first served",
-     "d": "Camping on the Wild section is first come, first served. Quiet hours are 10 p.m. to 6 a.m. Be prepared to share: large sites for 10 to 20 people are limited, so use one side if you are a small group."
+      "name": "Grave Creek Riffle",
+      "mile": 0.04,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "An island split. Follow the main current down the tongue on the left. A boulder emerges below about 2,000 cfs."
     },
     {
-     "t": "Fires",
-     "d": "Scavenged wood must be dead and down; cutting wood is prohibited. Fire restrictions change, so check with the Smullin Visitor Center. Gas and propane stoves are allowed."
+      "name": "Grave Creek Falls",
+      "mile": 0.23,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A ledge drop that can be run down the middle."
     },
     {
-     "t": "Pit toilets",
-     "d": "Some pit toilets are being phased out. Prefer sites without one."
+      "name": "Sanderson Riffle",
+      "mile": 0.76,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "A surf wave at some flows. A plaque on the cliff marks the 1964 flood."
+    },
+    {
+      "name": "Fish Ladder",
+      "mile": 1.66,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "The standard run on the far right of Rainie Falls. There may be a queue; let boats clear the channel."
+    },
+    {
+      "name": "Middle Chute",
+      "mile": 1.66,
+      "civ": false,
+      "diff": 8,
+      "tier": "Class IV",
+      "desc": "An alternative line, sometimes the only option for large rafts."
+    },
+    {
+      "name": "Rainie Falls",
+      "mile": 1.66,
+      "civ": false,
+      "diff": 10,
+      "tier": "Class V",
+      "desc": "The main drop: a 10 to 12 ft bedrock ledge with powerful reversals. Scout from river left; most boats take the Fish Ladder."
+    },
+    {
+      "name": "China Gulch Riffles",
+      "mile": 2.1,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Named for 1800s Chinese miners."
+    },
+    {
+      "name": "Big Slide Riffle",
+      "mile": 3.2,
+      "civ": false,
+      "diff": 1,
+      "tier": "Class I",
+      "desc": "The site of a late-1800s landslide."
+    },
+    {
+      "name": "Tyee Rapid",
+      "mile": 4.13,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A large house rock on the left. Work left to avoid the right wall; a gravel bar pushes the flow right."
+    },
+    {
+      "name": "Wildcat Rapid",
+      "mile": 4.55,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "An island splits the flow; the right channel is usual. Willows and a wrap rock. Wrapping is reported at low flow."
+    },
+    {
+      "name": "Russian Rapid",
+      "mile": 5.12,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Long and splashy with several channels. Named for a legendary 1800s Russian miner."
+    },
+    {
+      "name": "Montgomery Chutes",
+      "mile": 5.42,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "A defined tongue into wave trains. The left side is cleaner at low water."
+    },
+    {
+      "name": "Howard Creek Chutes",
+      "mile": 5.68,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Wave trains in a fast chute; take the left for the third wave train."
+    },
+    {
+      "name": "Slim Pickins Rapid",
+      "mile": 6.76,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A large split rock. Drift boats must use the narrow right channel; left is recommended for rafts."
+    },
+    {
+      "name": "Washboard Rapids",
+      "mile": 7.38,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "A read-and-run wave train."
+    },
+    {
+      "name": "Plowshare Rapid",
+      "mile": 7.51,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Swirly. A pocket eddy on the left wall is a raft magnet."
+    },
+    {
+      "name": "Windy Creek Chutes",
+      "mile": 7.92,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Two chutes; oars may ship at low water."
+    },
+    {
+      "name": "Upper Black Bar Falls",
+      "mile": 8.28,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A steep drop into a large curling wave. Scout from river right and take the right line."
+    },
+    {
+      "name": "Lower Black Bar Falls",
+      "mile": 8.4,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A steep wave train. A rock on the left bank may cause a bump. Run the tongue right of center."
+    },
+    {
+      "name": "Little Windy Riffle",
+      "mile": 9.17,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Kayakers' \"Eddy Alley\", with small playful features below Black Bar Lodge."
+    },
+    {
+      "name": "Horseshoe Bend",
+      "mile": 10.33,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A tight right-left turn. Pass left of the bedrock island, then go right."
+    },
+    {
+      "name": "Telephone Hole",
+      "mile": 11.31,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Named for an old Forest Service telephone line. A ducky-flipping hole on the left."
+    },
+    {
+      "name": "Dulog Riffle",
+      "mile": 12.08,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Enter left and exit between the mid-river boulders. Scraping risk at low water."
+    },
+    {
+      "name": "Quiz Show",
+      "mile": 12.27,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A boulder garden. Move slowly."
+    },
+    {
+      "name": "Kelsey Creek Falls",
+      "mile": 12.77,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "A left-side wave train."
+    },
+    {
+      "name": "Lower Kelsey",
+      "mile": 12.9,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Run center and pass right of any log at the entrance."
+    },
+    {
+      "name": "Battle Bar Riffle",
+      "mile": 14.37,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Stay right; a pillow rock midway."
+    },
+    {
+      "name": "Boulder Alley",
+      "mile": 17.67,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "A boulder series; hidden rocks at lower water."
+    },
+    {
+      "name": "Big Boulder Rapids",
+      "mile": 17.81,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "A fast chute right of Elephant Rock."
+    },
+    {
+      "name": "Island Rapid",
+      "mile": 18.09,
+      "civ": false,
+      "diff": 1,
+      "tier": "Class I",
+      "desc": ""
+    },
+    {
+      "name": "John's Rapid",
+      "mile": 18.32,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Named for Chief John (Tecumtum). Enter in the middle and pass right of the boulder."
+    },
+    {
+      "name": "China Bar Rapid",
+      "mile": 19.5,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Enter left. A \"can opener\" rock sits right of center; holes at low water."
+    },
+    {
+      "name": "Narrows Rapid",
+      "mile": 20.68,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": ""
+    },
+    {
+      "name": "Jaws",
+      "mile": 20.97,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Two tooth-like boulders on the left. Pass left of both and avoid the left hole."
+    },
+    {
+      "name": "Wall One",
+      "mile": 21.09,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Avoid the wall."
+    },
+    {
+      "name": "Telfer's Hole",
+      "mile": 21.23,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A ducky-flipping hole."
+    },
+    {
+      "name": "The Narrows",
+      "mile": 21.3,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "The canyon tightens."
+    },
+    {
+      "name": "Coffee Pot",
+      "mile": 21.32,
+      "civ": false,
+      "diff": 6,
+      "tier": "Class III+",
+      "desc": "The signature rapid of Mule Creek Canyon: bedrock constrictions create boils and surging eddy lines. Rated III by one guide and IV by American Whitewater."
+    },
+    {
+      "name": "Blossom Bar",
+      "mile": 22.78,
+      "civ": false,
+      "diff": 7,
+      "tier": "Class IV-",
+      "desc": "The hardest rapid of the trip. Boulders force the flow left into the \"Picket Fence\": enter left, then cut right above it. Scouting is advised for every boater. Boats wrapping and blocking the channel are common."
+    },
+    {
+      "name": "Devils Staircase Rapid",
+      "mile": 23.1,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A wave train just below Blossom Bar. Avoid the bottom-right wall and the helicopter eddy."
+    },
+    {
+      "name": "Quarter Inch Rapid",
+      "mile": 25.29,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Jet boats have about a quarter inch of clearance at low water. Read and run for rafts."
+    },
+    {
+      "name": "Solitude Rapid",
+      "mile": 27.37,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "A \"decision rock\": pass left, since the right passage is now small."
+    },
+    {
+      "name": "Tacoma Rapids",
+      "mile": 28.95,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Enter right of center and exit left. Rocks on the right at low water."
+    },
+    {
+      "name": "Clay Hill Rapid",
+      "mile": 29.34,
+      "civ": false,
+      "diff": 4,
+      "tier": "Class III-",
+      "desc": "The last significant rapid before Foster Bar. Stay right of the island and ride the inside of the turn. Rated II by one guide and III by American Whitewater."
+    },
+    {
+      "name": "Payton Riffle",
+      "mile": 31.24,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Exit right to avoid the left-side ledges."
+    },
+    {
+      "name": "Burnt Rapids",
+      "mile": 32.13,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "The final Class II before the take-out."
+    },
+    {
+      "name": "Watson Riffle",
+      "mile": 32.89,
+      "civ": false,
+      "diff": 1,
+      "tier": "Class I",
+      "desc": "Most of the flow goes right around the island."
+    },
+    {
+      "name": "Foster Rapid",
+      "mile": 34.16,
+      "civ": false,
+      "diff": 1,
+      "tier": "Class I",
+      "desc": "The final riffle."
     }
-   ]
-  },
-  {
-   "name": "Bears and food",
-   "rules": [
+  ],
+  "hikes": [
     {
-     "t": "Store food away",
-     "d": "Remove all coolers, food, trash and waste from boats at night. Leaving attractants in boats teaches wildlife to claw and chew them."
+      "name": "Whisky Creek cabin",
+      "mile": 2.99,
+      "bank": "R",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "An 1880 mining cabin on the National Register, the oldest standing mining cabin in the valley."
     },
     {
-     "t": "Bear fences",
-     "d": "From May 15 to October 15 the BLM maintains electric bear fences, food hoists and storage containers at some camps, including Whisky Creek, Horseshoe Bend, Rogue River Ranch, Half Moon Bar, Brushy Bar, Solitude, Tate Creek and Tacoma. Keep the fence turned on and closed at all times."
+      "name": "Howard Creek",
+      "mile": 5.96,
+      "bank": "L",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "A popular swimming hole with room for 2 to 3 rafts."
     },
     {
-     "t": "No habituating",
-     "d": "It is unlawful to habituate bears and other wildlife. Report sightings on the Bear Observation Form from permit check-in."
+      "name": "Big Windy Creek",
+      "mile": 8.08,
+      "bank": "L",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "A creek and swimming hole."
+    },
+    {
+      "name": "Kelsey Creek",
+      "mile": 13.25,
+      "bank": "R",
+      "time": null,
+      "diff": 3,
+      "qual": null,
+      "desc": "A worthwhile hike up the creek."
+    },
+    {
+      "name": "Sports Illustrated Rock",
+      "mile": 13.69,
+      "bank": "L",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "A large, popular jump rock."
+    },
+    {
+      "name": "Zane Grey's cabin",
+      "mile": 15.18,
+      "bank": "R",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "Built in 1926 by the novelist; a protected historic site on Winkle Bar."
+    },
+    {
+      "name": "Rogue River Ranch",
+      "mile": 19.75,
+      "bank": "R",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "A National Register site with a visitor center, swimming hole and toilets. Volunteer caretakers are there from May to October."
+    },
+    {
+      "name": "Inspiration Point",
+      "mile": 21.59,
+      "bank": "R",
+      "time": null,
+      "diff": 2,
+      "qual": null,
+      "desc": "A view of Stair Creek Falls, a popular stop on the Rogue River Trail."
+    },
+    {
+      "name": "Fall Creek",
+      "mile": 30.54,
+      "bank": "L",
+      "time": null,
+      "diff": 2,
+      "qual": null,
+      "desc": "A short hike to a waterfall."
     }
-   ]
-  },
-  {
-   "name": "Safety and etiquette",
-   "rules": [
-    {
-     "t": "Scout",
-     "d": "Scouting Blossom Bar is advised for all boaters. Passengers may walk around Rainie Falls, the Fish Ladder and Blossom Bar."
-    },
-    {
-     "t": "Water level",
-     "d": "Extreme low flows can be as risky as high flows. Watch for trees, debris, landslides and wildfire on the shoreline."
-    },
-    {
-     "t": "Pass in flatwater",
-     "d": "Pass other groups in flatwater, not in rapids. Give fishing parties a wide berth."
-    },
-    {
-     "t": "Dogs",
-     "d": "Bring a leash for use on shore. Pet waste is handled like human waste and carried out in a watertight container."
-    },
-    {
-     "t": "Shuttles",
-     "d": "The Bear Camp road is the fastest route but is closed November 5 to May 31 for snow and slides. Check road conditions first."
-    }
-   ]
-  }
- ],
- "landmarks": [
-  {
-   "name": "Grave Creek boat ramp",
-   "mile": 0,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Start of the Wild section, where permits are required. A small ramp with outhouses. Day use only; overnight parking is not permitted."
-  },
-  {
-   "name": "Sanderson bridge abutments",
-   "mile": 1.05,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Remnants of an early-1900s bridge lost in the 1927 flood."
-  },
-  {
-   "name": "Black Bar Lodge",
-   "mile": 8.69,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "The first lodge on the trip."
-  },
-  {
-   "name": "Battle Bar",
-   "mile": 14.27,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Named for an 1855-56 fight in the Rogue River Indian Wars."
-  },
-  {
-   "name": "BLM-USFS boundary",
-   "mile": 20.17,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "The BLM section ends and the Forest Service manages to the take-out."
-  },
-  {
-   "name": "Marial Lodge",
-   "mile": 20.37,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Reservations May to November."
-  },
-  {
-   "name": "Mule Creek Canyon",
-   "mile": 21.03,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "A half-mile narrow gorge with fast current. Avoid the walls."
-  },
-  {
-   "name": "Stair Creek",
-   "mile": 21.58,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "A waterfall cascading into the river from the left."
-  },
-  {
-   "name": "Start of jet boat section",
-   "mile": 23,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Jet boat traffic begins."
-  },
-  {
-   "name": "Paradise Creek waterfall",
-   "mile": 23.54,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "A small waterfall at the creek mouth."
-  },
-  {
-   "name": "Paradise Lodge",
-   "mile": 23.95,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "A lodge with a river-view deck."
-  },
-  {
-   "name": "Half Moon Bar Lodge",
-   "mile": 24.5,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Across the river from Paradise Lodge."
-  },
-  {
-   "name": "Clay Hill Lodge",
-   "mile": 29.2,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "The final lodge before the take-out."
-  },
-  {
-   "name": "Flora Dell Creek",
-   "mile": 30.73,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Used in the film The River Wild."
-  },
-  {
-   "name": "Checker Board Rocks",
-   "mile": 31.8,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "A checkerboard pattern at low water, near Wild River Ranch."
-  },
-  {
-   "name": "Watson Creek",
-   "mile": 32.75,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Marks the end of the Wild section; the take-out is just downstream."
-  },
-  {
-   "name": "Foster Bar",
-   "mile": 34.52,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Take-out, a large gravel bar below Foster Creek. A SCAT machine for toilets ($2). Do not leave vehicles on the ramp."
-  }
- ],
- "clusters": [
-  {
-   "s": 21,
-   "e": 21.6,
-   "n": "Mule Creek Canyon"
-  }
- ],
- "notes": {
-  "camp": "*Camps are first come, first served. Capacities are BLM scouted figures. Camps with bear fences are noted. Quality is not rated.",
-  "hike": "*Difficulty is a rough estimate (1 = short, easy walk; 3 = longer hike). Times are not given."
- },
- "hdiff": {
-  "1": "Short, easy walk",
-  "2": "Easy trail",
-  "3": "Longer hike"
- },
- "access": [
-  {
-   "name": "Grants Pass",
-   "road": true,
-   "hub": true,
-   "note": "Nearest city; shuttle base. The Smullin Visitor Center is at Rand",
-   "grid": [
-    2,
-    2
-   ]
-  },
-  {
-   "name": "Agness",
-   "road": true,
-   "hub": true,
-   "note": "Nearest community to the take-out",
-   "grid": [
-    9,
-    2
-   ]
-  },
-  {
-   "name": "Grave Creek",
-   "road": true,
-   "mile": 0,
-   "park": true,
-   "note": "Put-in. Day use only; no overnight parking",
-   "grid": [
-    1,
-    6
-   ]
-  },
-  {
-   "name": "Foster Bar",
-   "road": true,
-   "mile": 34.52,
-   "park": true,
-   "note": "Take-out. SCAT machine for toilets",
-   "grid": [
-    10,
-    6
-   ]
-  }
- ],
- "yardGrid": [
-  5,
-  1
- ],
- "roads": [
-  {
-   "a": "Grants Pass",
-   "b": "Grave Creek",
-   "h": ""
-  },
-  {
-   "a": "Grants Pass",
-   "b": "Foster Bar",
-   "h": ""
-  },
-  {
-   "a": "Agness",
-   "b": "Foster Bar",
-   "h": ""
-  },
-  {
-   "a": "Outfitter",
-   "b": "Grants Pass",
-   "h": ""
-  }
- ],
- "permit": {
-  "status": "Required year-round · lottery May 15 to Oct 15",
-  "asOf": "October 2026",
-  "apply": {
-   "label": "Apply on Recreation.gov",
-   "url": "https://www.recreation.gov/permits/251982"
-  },
-  "contact": {
-   "phone": "541-479-3735",
-   "web": "https://www.blm.gov/programs/national-conservation-lands/oregon-washington/rogue-wsr/permits"
-  },
-  "sections": [
-   {
-    "name": "How to get one",
-    "items": [
-     {
-      "t": "Enter the lottery",
-      "d": "For the control season (May 15 to October 15), apply on Recreation.gov from December 1 to January 31. Applications are online only. Results are emailed in mid-February with confirmation instructions."
-     },
-     {
-      "t": "April give-away",
-      "d": "Leftover dates are offered in a competitive phone call-in during the first five business days of April, 8 a.m. to 3 p.m., on 541-479-3735."
-     },
-     {
-      "t": "Open season",
-      "d": "From May 5 to October 15, new permits are allocated by competitive call-in, 8 a.m. to 3 p.m., phone only. BLM posts open dates and space counts. Day-of-launch spaces go first come, first served or from a waiting list at the Smullin Visitor Center at Rand."
-     },
-     {
-      "t": "Pick-up",
-      "d": "Control-season permits are picked up at the Smullin Visitor Center at Rand on launch day. Outside the control season you self-issue a permit at the Smullin Visitor Center or the Grave Creek drop box."
-     },
-     {
-      "t": "Every party leader",
-      "d": "Party leaders must watch the Wild Rogue permit guidelines video once a year."
-     }
+  ],
+  "geology": [],
+  "guide": [],
+  "almanac": {
+    "history": [
+      [
+        "Zane Grey",
+        "The western novelist Zane Grey owned the bar at Winkle Bar in the 1920s and built a cabin there in 1926."
+      ],
+      [
+        "The Rogue River Indian Wars",
+        "Battle Bar is named for a fight in 1855-56 during the Rogue River Indian Wars."
+      ],
+      [
+        "A dam that was blocked",
+        "Wild and Scenic designation in 1968 protected the Rogue from dams."
+      ]
     ]
-   },
-   {
-    "name": "Costs and limits",
-    "items": [
-     {
-      "t": "Fees",
-      "d": "$6 non-refundable lottery application fee. $10 per person, paid when a reservation becomes a permit."
-     },
-     {
-      "t": "Daily limit",
-      "d": "The river is regulated by the number of people launching each day, 120 in the control season, not by the number of groups."
-     },
-     {
-      "t": "Skills",
-      "d": "Boat operators need Class IV skills. The Wild section has about three Class IV and nine Class III rapids."
-     }
+  },
+  "rules": [
+    {
+      "name": "Required equipment",
+      "rules": [
+        {
+          "t": "Toilet system",
+          "d": "A dedicated, reusable, washable, watertight system with a screw-on or latching gasket lid. Snap-on lids and RV toilets are not acceptable. Pouch systems (Biffy Bag, CleanWaste, ReStop2) are allowed with a watertight container for used pouches. Capacity is 1 pint per person per day."
+        },
+        {
+          "t": "Set it up",
+          "d": "Have the toilet out of the boat and accessible within 30 minutes of arriving at camp, away from the central camp area unless a pit toilet is on site. Urine may go in the river."
+        },
+        {
+          "t": "Empty it properly",
+          "d": "Untreated solid waste may be emptied only at the SCAT machine at Foster Bar or an RV dump station. The SCAT machine cannot take wipes, paper towels or trash."
+        },
+        {
+          "t": "Fire pan, shovel and bucket",
+          "d": "A fire pan is required year-round for all campfires within 400 feet of the river. A shovel and a bucket of at least one gallon are required per party. Fireworks are prohibited."
+        },
+        {
+          "t": "Life jackets",
+          "d": "A U.S. Coast Guard approved life jacket for each person, worn in Class III or greater rapids, and worn at all times by children 12 and younger on or near the water. Helmets are recommended in Class III and up."
+        }
+      ]
+    },
+    {
+      "name": "Camping",
+      "rules": [
+        {
+          "t": "First come, first served",
+          "d": "Camping on the Wild section is first come, first served. Quiet hours are 10 p.m. to 6 a.m. Be prepared to share: large sites for 10 to 20 people are limited, so use one side if you are a small group."
+        },
+        {
+          "t": "Fires",
+          "d": "Scavenged wood must be dead and down; cutting wood is prohibited. Fire restrictions change, so check with the Smullin Visitor Center. Gas and propane stoves are allowed."
+        },
+        {
+          "t": "Pit toilets",
+          "d": "Some pit toilets are being phased out. Prefer sites without one."
+        }
+      ]
+    },
+    {
+      "name": "Bears and food",
+      "rules": [
+        {
+          "t": "Store food away",
+          "d": "Remove all coolers, food, trash and waste from boats at night. Leaving attractants in boats teaches wildlife to claw and chew them."
+        },
+        {
+          "t": "Bear fences",
+          "d": "From May 15 to October 15 the BLM maintains electric bear fences, food hoists and storage containers at some camps, including Whisky Creek, Horseshoe Bend, Rogue River Ranch, Half Moon Bar, Brushy Bar, Solitude, Tate Creek and Tacoma. Keep the fence turned on and closed at all times."
+        },
+        {
+          "t": "No habituating",
+          "d": "It is unlawful to habituate bears and other wildlife. Report sightings on the Bear Observation Form from permit check-in."
+        }
+      ]
+    },
+    {
+      "name": "Safety and etiquette",
+      "rules": [
+        {
+          "t": "Scout",
+          "d": "Scouting Blossom Bar is advised for all boaters. Passengers may walk around Rainie Falls, the Fish Ladder and Blossom Bar."
+        },
+        {
+          "t": "Water level",
+          "d": "Extreme low flows can be as risky as high flows. Watch for trees, debris, landslides and wildfire on the shoreline."
+        },
+        {
+          "t": "Pass in flatwater",
+          "d": "Pass other groups in flatwater, not in rapids. Give fishing parties a wide berth."
+        },
+        {
+          "t": "Dogs",
+          "d": "Bring a leash for use on shore. Pet waste is handled like human waste and carried out in a watertight container."
+        },
+        {
+          "t": "Shuttles",
+          "d": "The Bear Camp road is the fastest route but is closed November 5 to May 31 for snow and slides. Check road conditions first."
+        }
+      ]
+    }
+  ],
+  "landmarks": [
+    {
+      "name": "Grave Creek boat ramp",
+      "mile": 0,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Start of the Wild section, where permits are required. A small ramp with outhouses. Day use only; overnight parking is not permitted."
+    },
+    {
+      "name": "Sanderson bridge abutments",
+      "mile": 1.05,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Remnants of an early-1900s bridge lost in the 1927 flood."
+    },
+    {
+      "name": "Black Bar Lodge",
+      "mile": 8.69,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "The first lodge on the trip."
+    },
+    {
+      "name": "Battle Bar",
+      "mile": 14.27,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Named for an 1855-56 fight in the Rogue River Indian Wars."
+    },
+    {
+      "name": "BLM-USFS boundary",
+      "mile": 20.17,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "The BLM section ends and the Forest Service manages to the take-out."
+    },
+    {
+      "name": "Marial Lodge",
+      "mile": 20.37,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Reservations May to November."
+    },
+    {
+      "name": "Mule Creek Canyon",
+      "mile": 21.03,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "A half-mile narrow gorge with fast current. Avoid the walls."
+    },
+    {
+      "name": "Stair Creek",
+      "mile": 21.58,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "A waterfall cascading into the river from the left."
+    },
+    {
+      "name": "Start of jet boat section",
+      "mile": 23,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Jet boat traffic begins."
+    },
+    {
+      "name": "Paradise Creek waterfall",
+      "mile": 23.54,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "A small waterfall at the creek mouth."
+    },
+    {
+      "name": "Paradise Lodge",
+      "mile": 23.95,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "A lodge with a river-view deck."
+    },
+    {
+      "name": "Half Moon Bar Lodge",
+      "mile": 24.5,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Across the river from Paradise Lodge."
+    },
+    {
+      "name": "Clay Hill Lodge",
+      "mile": 29.2,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "The final lodge before the take-out."
+    },
+    {
+      "name": "Flora Dell Creek",
+      "mile": 30.73,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Used in the film The River Wild."
+    },
+    {
+      "name": "Checker Board Rocks",
+      "mile": 31.8,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "A checkerboard pattern at low water, near Wild River Ranch."
+    },
+    {
+      "name": "Watson Creek",
+      "mile": 32.75,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Marks the end of the Wild section; the take-out is just downstream."
+    },
+    {
+      "name": "Foster Bar",
+      "mile": 34.52,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Take-out, a large gravel bar below Foster Creek. A SCAT machine for toilets ($2). Do not leave vehicles on the ramp."
+    }
+  ],
+  "clusters": [
+    {
+      "s": 21,
+      "e": 21.6,
+      "n": "Mule Creek Canyon"
+    }
+  ],
+  "notes": {
+    "camp": "",
+    "hike": ""
+  },
+  "hdiff": {
+    "1": "Short, easy walk",
+    "2": "Easy trail",
+    "3": "Longer hike"
+  },
+  "access": [
+    {
+      "name": "Grants Pass",
+      "road": true,
+      "hub": true,
+      "note": "Nearest city; shuttle base. The Smullin Visitor Center is at Rand",
+      "grid": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "Agness",
+      "road": true,
+      "hub": true,
+      "note": "Nearest community to the take-out",
+      "grid": [
+        9,
+        2
+      ]
+    },
+    {
+      "name": "Grave Creek",
+      "road": true,
+      "mile": 0,
+      "park": true,
+      "note": "Put-in. Day use only; no overnight parking",
+      "grid": [
+        1,
+        6
+      ]
+    },
+    {
+      "name": "Foster Bar",
+      "road": true,
+      "mile": 34.52,
+      "park": true,
+      "note": "Take-out. SCAT machine for toilets",
+      "grid": [
+        10,
+        6
+      ]
+    }
+  ],
+  "yardGrid": [
+    5,
+    1
+  ],
+  "roads": [
+    {
+      "a": "Grants Pass",
+      "b": "Grave Creek",
+      "h": ""
+    },
+    {
+      "a": "Grants Pass",
+      "b": "Foster Bar",
+      "h": ""
+    },
+    {
+      "a": "Agness",
+      "b": "Foster Bar",
+      "h": ""
+    },
+    {
+      "a": "Outfitter",
+      "b": "Grants Pass",
+      "h": ""
+    }
+  ],
+  "permit": {
+    "status": "Required year-round · lottery May 15 to Oct 15",
+    "asOf": "October 2026",
+    "apply": {
+      "label": "Apply on Recreation.gov",
+      "url": "https://www.recreation.gov/permits/251982"
+    },
+    "contact": {
+      "phone": "541-479-3735",
+      "web": "https://www.blm.gov/programs/national-conservation-lands/oregon-washington/rogue-wsr/permits"
+    },
+    "sections": [
+      {
+        "name": "How to get one",
+        "items": [
+          {
+            "t": "Enter the lottery",
+            "d": "For the control season (May 15 to October 15), apply on Recreation.gov from December 1 to January 31. Applications are online only. Results are emailed in mid-February with confirmation instructions."
+          },
+          {
+            "t": "April give-away",
+            "d": "Leftover dates are offered in a competitive phone call-in during the first five business days of April, 8 a.m. to 3 p.m., on 541-479-3735."
+          },
+          {
+            "t": "Open season",
+            "d": "From May 5 to October 15, new permits are allocated by competitive call-in, 8 a.m. to 3 p.m., phone only. BLM posts open dates and space counts. Day-of-launch spaces go first come, first served or from a waiting list at the Smullin Visitor Center at Rand."
+          },
+          {
+            "t": "Pick-up",
+            "d": "Control-season permits are picked up at the Smullin Visitor Center at Rand on launch day. Outside the control season you self-issue a permit at the Smullin Visitor Center or the Grave Creek drop box."
+          },
+          {
+            "t": "Every party leader",
+            "d": "Party leaders must watch the Wild Rogue permit guidelines video once a year."
+          }
+        ]
+      },
+      {
+        "name": "Costs and limits",
+        "items": [
+          {
+            "t": "Fees",
+            "d": "$6 non-refundable lottery application fee. $10 per person, paid when a reservation becomes a permit."
+          },
+          {
+            "t": "Daily limit",
+            "d": "The river is regulated by the number of people launching each day, 120 in the control season, not by the number of groups."
+          },
+          {
+            "t": "Skills",
+            "d": "Boat operators need Class IV skills. The Wild section has about three Class IV and nine Class III rapids."
+          }
+        ]
+      },
+      {
+        "name": "Cancelling and penalties",
+        "items": [
+          {
+            "t": "Cancel a permit",
+            "d": "Cancel the entire permit by 3 p.m. the day before launch. Email the Rogue River Permits office (preferred), or from May 5 to October 15 call 541-479-3735. Give the party leader, launch date and party size."
+          },
+          {
+            "t": "Cancelling spaces",
+            "d": "You can cancel individual spaces on a permit at any time without penalty. Non-confirmation or non-payment of a reservation also carries no penalty."
+          },
+          {
+            "t": "No-show penalty",
+            "d": "Failing to cancel an entire permit by the deadline puts the party leader on the no-show list: no permit for the rest of the year and all of the next year, including the lottery."
+          }
+        ]
+      }
     ]
-   },
-   {
-    "name": "Cancelling and penalties",
-    "items": [
-     {
-      "t": "Cancel a permit",
-      "d": "Cancel the entire permit by 3 p.m. the day before launch. Email the Rogue River Permits office (preferred), or from May 5 to October 15 call 541-479-3735. Give the party leader, launch date and party size."
-     },
-     {
-      "t": "Cancelling spaces",
-      "d": "You can cancel individual spaces on a permit at any time without penalty. Non-confirmation or non-payment of a reservation also carries no penalty."
-     },
-     {
-      "t": "No-show penalty",
-      "d": "Failing to cancel an entire permit by the deadline puts the party leader on the no-show list: no permit for the rest of the year and all of the next year, including the lottery."
-     }
-    ]
-   }
-  ]
- }
+  }
 }

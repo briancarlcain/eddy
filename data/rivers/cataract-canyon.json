@@ -1,885 +1,885 @@
 {
- "name": "Cataract Canyon",
- "reach": "Potash to North Wash and Hite",
- "agency": "Canyonlands National Park",
- "miles": [
-  0,
-  96.2
- ],
- "days": 5,
- "coords": [
-  38.15,
-  -109.85
- ],
- "tz": "America/Denver",
- "note": "About 96 miles of the Colorado River from the Potash ramp: roughly 47 miles of flatwater through Meander Canyon, then about 15 miles of rapids from the Green River confluence, then Lake Powell backwater. Trips usually take 4 to 5 days. Miles above the confluence come from a commercial river log, and below it from American Whitewater distances added to 47.5, so they may differ a mile or two from other guides. Rapids change a lot with flow and with Lake Powell levels. Mineral Bottom, on the Green River, is the other common put-in and adds about 50 miles of flatwater. Other camps named in trip reports without miles include Fallen Slab and Kolb. Compiled from public sources; verify with the park and a current guidebook.",
- "camps": [
-  {
-   "name": "Little Bridge",
-   "mile": 17,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Named in trip reports, in Meander Canyon above the confluence."
-  },
-  {
-   "name": "Upper Lathrop Ledges",
-   "mile": 23.6,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Above Lathrop Canyon. River trips may not camp at Lathrop Canyon itself, where the road ends."
-  },
-  {
-   "name": "Upper Loop",
-   "mile": 36,
-   "size": null,
-   "qual": null,
-   "bank": "L",
-   "desc": "At The Loop, where the river nearly doubles back on itself."
-  },
-  {
-   "name": "Lower Red Lake",
-   "mile": 51,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Near Lower Red Lake Canyon, which has a trail to the Needles District."
-  },
-  {
-   "name": "Upper Spanish Bottom",
-   "mile": 51.4,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Above the first rapid."
-  },
-  {
-   "name": "Middle Spanish Bottom",
-   "mile": 51.55,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Above the first rapid."
-  },
-  {
-   "name": "Brown Bettie beach",
-   "mile": 51.9,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Below Rapid 1, with a trail upstream to the Dollhouse."
-  },
-  {
-   "name": "Upper X/Y Canyon",
-   "mile": 55,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Between Rapids 9 and 10."
-  },
-  {
-   "name": "Middle X/Y Canyon",
-   "mile": 55.6,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "At the top of Rapid 10."
-  },
-  {
-   "name": "Lower X/Y Canyon",
-   "mile": 55.7,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Beside the Rapid 10 surf wave."
-  },
-  {
-   "name": "Gypsum",
-   "mile": 67.5,
-   "size": 7,
-   "qual": null,
-   "bank": null,
-   "desc": "A large, silt-free beach below the rapids."
-  },
-  {
-   "name": "Clearwater Canyon",
-   "mile": 72.1,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Named in trip reports."
-  },
-  {
-   "name": "Millie Crag",
-   "mile": 85.5,
-   "size": null,
-   "qual": null,
-   "bank": "L",
-   "desc": "Near Millie Crag Bend."
-  }
- ],
- "rapids": [
-  {
-   "name": "Rapid 1 (Brown Bettie)",
-   "mile": 51.71,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Hole in the center at low water; an easy line right."
-  },
-  {
-   "name": "Rapid 2",
-   "mile": 51.94,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Rocks left at low water; go center-right."
-  },
-  {
-   "name": "Rapid 3",
-   "mile": 52.39,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Straightforward, center-right."
-  },
-  {
-   "name": "Rapid 4",
-   "mile": 53.01,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Long, with rocks right at low water."
-  },
-  {
-   "name": "Rapid 5 (Surprise)",
-   "mile": 53.32,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A hidden hole left at low water and pour-overs on the right."
-  },
-  {
-   "name": "Rapid 6",
-   "mile": 54.16,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Big rocks right at low water; a good line left."
-  },
-  {
-   "name": "Rapid 7",
-   "mile": 54.34,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Longer and straightforward; follow the main current."
-  },
-  {
-   "name": "Rapid 8",
-   "mile": 54.79,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Options. Rocks at low water, a wall at the bottom right; the right side is good."
-  },
-  {
-   "name": "Rapid 9",
-   "mile": 55.15,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Easy, down the middle."
-  },
-  {
-   "name": "Rapid 10",
-   "mile": 55.66,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A big low-water wave: a surf for kayaks, a hit for rafts."
-  },
-  {
-   "name": "Rapid 11",
-   "mile": 56.76,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "An inconsequential riffle."
-  },
-  {
-   "name": "Rapid 12",
-   "mile": 57.01,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "The channel is constrained by debris from a river-left side canyon."
-  },
-  {
-   "name": "Rapid 13",
-   "mile": 58.98,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Outwash from Range Canyon. The start of about 3 miles of whitewater, the Mile Long Rapids."
-  },
-  {
-   "name": "Rapid 14",
-   "mile": 59.17,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A hole in the center, also Range Canyon outwash."
-  },
-  {
-   "name": "Rapid 15 (Capsize)",
-   "mile": 59.33,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Midstream boulders; line center-right. Inscriptions on river right mark the 1891 Best party's lost boat."
-  },
-  {
-   "name": "Rapid 16",
-   "mile": 59.49,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A midstream boulder at low water."
-  },
-  {
-   "name": "Rapid 17",
-   "mile": 59.79,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Easy, down the middle."
-  },
-  {
-   "name": "Rapid 18",
-   "mile": 59.93,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Fun waves and hydraulics."
-  },
-  {
-   "name": "The Button (Rapid 19)",
-   "mile": 60.26,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A very large center hole at 35,000 cfs and up; a mid-river rock and wave hole left at low water."
-  },
-  {
-   "name": "Ben Hurt (Rapid 20)",
-   "mile": 60.74,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "The river splits around an island; take the river-right channel."
-  },
-  {
-   "name": "Big Drop 1 (Rapid 21)",
-   "mile": 61.18,
-   "civ": false,
-   "diff": 8,
-   "tier": "Class IV",
-   "desc": "The start of the main whitewater. Most pull out left at high water to scout."
-  },
-  {
-   "name": "Big Drop 2 (Rapid 22)",
-   "mile": 61.5,
-   "civ": false,
-   "diff": 8,
-   "tier": "Class IV",
-   "desc": "A ledge wave. Left to right is preferred below 40,000 cfs. Scout river left."
-  },
-  {
-   "name": "Big Drop 3, Satan's Gut (Rapid 23)",
-   "mile": 61.74,
-   "civ": false,
-   "diff": 8,
-   "tier": "Class IV",
-   "desc": "The biggest rapid. Right at high water, left at low water. Scout."
-  },
-  {
-   "name": "Rapid 24",
-   "mile": 62.08,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Read and run, down the middle."
-  },
-  {
-   "name": "Rapid 25",
-   "mile": 62.44,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Read and run, down the middle."
-  },
-  {
-   "name": "Ten Cent Rapid (Rapid 26)",
-   "mile": 62.89,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A midstream island; take the right channel."
-  },
-  {
-   "name": "Imperial Rapid (Rapid 27)",
-   "mile": 63.67,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Long, with big waves at the bottom. The first significant Lake Powell sediment deposits."
-  },
-  {
-   "name": "Short Rapid",
-   "mile": 64.03,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "The narrowest part of the canyon; waves down the middle."
-  },
-  {
-   "name": "The Chute",
-   "mile": 64.97,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Easy; carved from sediment between 2007 and 2012."
-  },
-  {
-   "name": "Water Hole Canyon Rapid",
-   "mile": 65.45,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A wave hole center-right."
-  },
-  {
-   "name": "Can Opener Rapid",
-   "mile": 66.05,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Named for the tower on river left."
-  },
-  {
-   "name": "Benchmark Riffle",
-   "mile": 66.45,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Near a USGS benchmark."
-  },
-  {
-   "name": "La Rue's Riffle",
-   "mile": 67.06,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Straightforward."
-  },
-  {
-   "name": "Gypsum Canyon Rapid",
-   "mile": 67.34,
-   "civ": false,
-   "diff": 7,
-   "tier": "Class IV-",
-   "desc": "Appeared as a riffle in 2018 and is now significant. Scout left. A large pour-over can form middle right."
-  }
- ],
- "hikes": [
-  {
-   "name": "Petrified wood",
-   "mile": 10,
-   "bank": "R",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "A pullout with petrified wood and a rock diving board."
-  },
-  {
-   "name": "Gooseneck",
-   "mile": 12,
-   "bank": null,
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "Hike across the neck of the meander; trip reports say it is faster than motoring around."
-  },
-  {
-   "name": "Lathrop Canyon ruins",
-   "mile": 23.5,
-   "bank": "R",
-   "time": null,
-   "diff": 2,
-   "qual": null,
-   "desc": "Ancestral Puebloan ruins at Lathrop Canyon, where the road from the rim ends."
-  },
-  {
-   "name": "Indian Creek ruins",
-   "mile": 30.5,
-   "bank": "L",
-   "time": null,
-   "diff": 2,
-   "qual": null,
-   "desc": "Ruins along the cliff walls up the creek."
-  },
-  {
-   "name": "The Loop",
-   "mile": 38,
-   "bank": "L",
-   "time": null,
-   "diff": 2,
-   "qual": null,
-   "desc": "Walk across the neck and rejoin the river, passing ruins and panoramic views."
-  },
-  {
-   "name": "Lower Red Lake Canyon",
-   "mile": 51.5,
-   "bank": "R",
-   "time": null,
-   "diff": 4,
-   "qual": null,
-   "desc": "A hiking trail up to the Needles District."
-  },
-  {
-   "name": "Dollhouse trail",
-   "mile": 52,
-   "bank": "R",
-   "time": null,
-   "diff": 3,
-   "qual": null,
-   "desc": "A trail from Spanish Bottom to the Doll House formations in the Maze District. Hiking is limited to designated trails."
-  },
-  {
-   "name": "Dark Canyon",
-   "mile": 81.2,
-   "bank": "L",
-   "time": null,
-   "diff": 3,
-   "qual": null,
-   "desc": "A creek-bed hike to waterfalls and rock formations. A designated camp no longer exists here."
-  }
- ],
- "geology": [],
- "guide": [],
- "almanac": {
-  "flows": [
-   [
-    "Water levels change everything",
-    "High water runs from early May to late June and can exceed 100,000 cfs; the same rapids at 3,000 cfs are a very different river. Rocks and holes show at low flow; at high flow features drown and big-water runs get pushy. The Button forms a very large center hole at 35,000 cfs and up, and the Big Drops carry more risk above 40,000."
-   ],
-   [
-    "Reported ratings by flow",
-    "At about 3,500 cfs reports describe a Class III river with holes and mid-channel rocks at Big Drop 3. At about 5,000 cfs Big Drop 3 is Class IV with the rest mostly III. At 6,000 to 7,000 cfs, reports describe more and larger rapids below Big Drop 3 and Gypsum Canyon at least Class IV."
-   ],
-   [
-    "Lake Powell",
-    "As the reservoir drops, rapids that were drowned begin to show, and Gypsum Canyon Rapid has become significant since 2018. Sediment (the Dominy Formation) buries other rapids, including Dark Canyon Rapid as of 2021."
-   ]
+  "name": "Cataract Canyon",
+  "reach": "Potash to North Wash and Hite",
+  "agency": "Canyonlands National Park",
+  "miles": [
+    0,
+    96.2
   ],
-  "history": [
-   [
-    "Capsize",
-    "The 1891 Best party lost a boat at what became Capsize Rapid. Their inscriptions are on river right."
-   ],
-   [
-    "The 1925 oil fire",
-    "A fire at an oil well near the Potash ramp spilled thousands of barrels of oil into the river over several months."
-   ]
-  ]
- },
- "rules": [
-  {
-   "name": "Required equipment",
-   "rules": [
+  "days": 5,
+  "coords": [
+    38.15,
+    -109.85
+  ],
+  "tz": "America/Denver",
+  "note": "",
+  "camps": [
     {
-     "t": "Life jackets",
-     "d": "One approved Type I, III or V whitewater life jacket per person, plus one spare per ten people or one per boat, whichever is fewer. Inflatable life jackets are not allowed on Utah rivers."
+      "name": "Little Bridge",
+      "mile": 17,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Named in trip reports, in Meander Canyon above the confluence."
     },
     {
-     "t": "Wear them in the canyon",
-     "d": "Between the Green and Colorado confluence and the last active rapid, life jackets must be worn, on the torso and fastened. Children 12 and under wear them at all times on the river."
+      "name": "Upper Lathrop Ledges",
+      "mile": 23.6,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Above Lathrop Canyon. River trips may not camp at Lathrop Canyon itself, where the road ends."
     },
     {
-     "t": "Spares",
-     "d": "One readily accessible spare oar, paddle or motor per boat. One spare paddle per three canoes or kayaks."
+      "name": "Upper Loop",
+      "mile": 36,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "At The Loop, where the river nearly doubles back on itself."
     },
     {
-     "t": "Throwables",
-     "d": "One Type IV throw cushion per boat 16 feet or longer. Smaller boats may carry a throw bag with at least 40 feet of line."
+      "name": "Lower Red Lake",
+      "mile": 51,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Near Lower Red Lake Canyon, which has a trail to the Needles District."
     },
     {
-     "t": "Repair and first aid",
-     "d": "A repair kit and air pump for inflatables, a bailing device or bilge pump for boats that are not self-bailing, and a first-aid kit adequate for the group."
+      "name": "Upper Spanish Bottom",
+      "mile": 51.4,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Above the first rapid."
     },
     {
-     "t": "Fire pan",
-     "d": "A rigid, durable metal fire pan large enough to hold all ash and debris. Turkey basting pans are not allowed."
+      "name": "Middle Spanish Bottom",
+      "mile": 51.55,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Above the first rapid."
     },
     {
-     "t": "Human waste",
-     "d": "A reusable, washable container with RV dump fittings, or a commercial bag system, stored in a hard-sided container or heavy-duty waterproof bag labelled \"Human Waste\". Pack all waste out."
+      "name": "Brown Bettie beach",
+      "mile": 51.9,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Below Rapid 1, with a trail upstream to the Dollhouse."
+    },
+    {
+      "name": "Upper X/Y Canyon",
+      "mile": 55,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Between Rapids 9 and 10."
+    },
+    {
+      "name": "Middle X/Y Canyon",
+      "mile": 55.6,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "At the top of Rapid 10."
+    },
+    {
+      "name": "Lower X/Y Canyon",
+      "mile": 55.7,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Beside the Rapid 10 surf wave."
+    },
+    {
+      "name": "Gypsum",
+      "mile": 67.5,
+      "size": 7,
+      "qual": null,
+      "bank": null,
+      "desc": "A large, silt-free beach below the rapids."
+    },
+    {
+      "name": "Clearwater Canyon",
+      "mile": 72.1,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Named in trip reports."
+    },
+    {
+      "name": "Millie Crag",
+      "mile": 85.5,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "Near Millie Crag Bend."
     }
-   ]
-  },
-  {
-   "name": "Camping and fire",
-   "rules": [
+  ],
+  "rapids": [
     {
-     "t": "One camp",
-     "d": "A group on one permit travels and camps together and occupies only one campsite."
+      "name": "Rapid 1 (Brown Bettie)",
+      "mile": 51.71,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Hole in the center at low water; an easy line right."
     },
     {
-     "t": "Distances",
-     "d": "Do not camp within 300 feet of springs, intermittent streams, or archeological and historic sites. Do not use soap within 100 feet of springs or streams."
+      "name": "Rapid 2",
+      "mile": 51.94,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Rocks left at low water; go center-right."
     },
     {
-     "t": "Where not to camp",
-     "d": "River trips may not camp at Lathrop Canyon, or at designated vehicle campsites on White Rim Road or in the Maze, unless the permit allows it."
+      "name": "Rapid 3",
+      "mile": 52.39,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Straightforward, center-right."
     },
     {
-     "t": "Firewood",
-     "d": "Collect only driftwood below the high-water mark. Dead and down wood does not count. Fires stay in the fire pan, and all ash is packed out. Fire blankets are recommended."
+      "name": "Rapid 4",
+      "mile": 53.01,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Long, with rocks right at low water."
+    },
+    {
+      "name": "Rapid 5 (Surprise)",
+      "mile": 53.32,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A hidden hole left at low water and pour-overs on the right."
+    },
+    {
+      "name": "Rapid 6",
+      "mile": 54.16,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Big rocks right at low water; a good line left."
+    },
+    {
+      "name": "Rapid 7",
+      "mile": 54.34,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Longer and straightforward; follow the main current."
+    },
+    {
+      "name": "Rapid 8",
+      "mile": 54.79,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Options. Rocks at low water, a wall at the bottom right; the right side is good."
+    },
+    {
+      "name": "Rapid 9",
+      "mile": 55.15,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Easy, down the middle."
+    },
+    {
+      "name": "Rapid 10",
+      "mile": 55.66,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A big low-water wave: a surf for kayaks, a hit for rafts."
+    },
+    {
+      "name": "Rapid 11",
+      "mile": 56.76,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "An inconsequential riffle."
+    },
+    {
+      "name": "Rapid 12",
+      "mile": 57.01,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "The channel is constrained by debris from a river-left side canyon."
+    },
+    {
+      "name": "Rapid 13",
+      "mile": 58.98,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Outwash from Range Canyon. The start of about 3 miles of whitewater, the Mile Long Rapids."
+    },
+    {
+      "name": "Rapid 14",
+      "mile": 59.17,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A hole in the center, also Range Canyon outwash."
+    },
+    {
+      "name": "Rapid 15 (Capsize)",
+      "mile": 59.33,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Midstream boulders; line center-right. Inscriptions on river right mark the 1891 Best party's lost boat."
+    },
+    {
+      "name": "Rapid 16",
+      "mile": 59.49,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A midstream boulder at low water."
+    },
+    {
+      "name": "Rapid 17",
+      "mile": 59.79,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Easy, down the middle."
+    },
+    {
+      "name": "Rapid 18",
+      "mile": 59.93,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Fun waves and hydraulics."
+    },
+    {
+      "name": "The Button (Rapid 19)",
+      "mile": 60.26,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A very large center hole at 35,000 cfs and up; a mid-river rock and wave hole left at low water."
+    },
+    {
+      "name": "Ben Hurt (Rapid 20)",
+      "mile": 60.74,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "The river splits around an island; take the river-right channel."
+    },
+    {
+      "name": "Big Drop 1 (Rapid 21)",
+      "mile": 61.18,
+      "civ": false,
+      "diff": 8,
+      "tier": "Class IV",
+      "desc": "The start of the main whitewater. Most pull out left at high water to scout."
+    },
+    {
+      "name": "Big Drop 2 (Rapid 22)",
+      "mile": 61.5,
+      "civ": false,
+      "diff": 8,
+      "tier": "Class IV",
+      "desc": "A ledge wave. Left to right is preferred below 40,000 cfs. Scout river left."
+    },
+    {
+      "name": "Big Drop 3, Satan's Gut (Rapid 23)",
+      "mile": 61.74,
+      "civ": false,
+      "diff": 8,
+      "tier": "Class IV",
+      "desc": "The biggest rapid. Right at high water, left at low water. Scout."
+    },
+    {
+      "name": "Rapid 24",
+      "mile": 62.08,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Read and run, down the middle."
+    },
+    {
+      "name": "Rapid 25",
+      "mile": 62.44,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Read and run, down the middle."
+    },
+    {
+      "name": "Ten Cent Rapid (Rapid 26)",
+      "mile": 62.89,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A midstream island; take the right channel."
+    },
+    {
+      "name": "Imperial Rapid (Rapid 27)",
+      "mile": 63.67,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Long, with big waves at the bottom. The first significant Lake Powell sediment deposits."
+    },
+    {
+      "name": "Short Rapid",
+      "mile": 64.03,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "The narrowest part of the canyon; waves down the middle."
+    },
+    {
+      "name": "The Chute",
+      "mile": 64.97,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Easy; carved from sediment between 2007 and 2012."
+    },
+    {
+      "name": "Water Hole Canyon Rapid",
+      "mile": 65.45,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A wave hole center-right."
+    },
+    {
+      "name": "Can Opener Rapid",
+      "mile": 66.05,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Named for the tower on river left."
+    },
+    {
+      "name": "Benchmark Riffle",
+      "mile": 66.45,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Near a USGS benchmark."
+    },
+    {
+      "name": "La Rue's Riffle",
+      "mile": 67.06,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Straightforward."
+    },
+    {
+      "name": "Gypsum Canyon Rapid",
+      "mile": 67.34,
+      "civ": false,
+      "diff": 7,
+      "tier": "Class IV-",
+      "desc": "Appeared as a riffle in 2018 and is now significant. Scout left. A large pour-over can form middle right."
     }
-   ]
-  },
-  {
-   "name": "Prohibited and closed",
-   "rules": [
+  ],
+  "hikes": [
     {
-     "t": "Prohibited",
-     "d": "Pets, firearms discharge, fireworks, personal watercraft, towing people behind boats, littering, and collecting or disturbing fossils, plants and rocks."
+      "name": "Petrified wood",
+      "mile": 10,
+      "bank": "R",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "A pullout with petrified wood and a rock diving board."
     },
     {
-     "t": "Up-running",
-     "d": "Traveling upstream between the first rapid in Cataract Canyon and Imperial Canyon is prohibited."
+      "name": "Gooseneck",
+      "mile": 12,
+      "bank": null,
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "Hike across the neck of the meander; trip reports say it is faster than motoring around."
     },
     {
-     "t": "Closures",
-     "d": "Salt Creek, Big Spring, Little Spring and Elephant Canyons (lower portions and mouths) are closed March 15 to September 1 for bighorn lambing. Jasper Canyon is closed above the first visible jump. The Doll House area is limited to designated trails."
+      "name": "Lathrop Canyon ruins",
+      "mile": 23.5,
+      "bank": "R",
+      "time": null,
+      "diff": 2,
+      "qual": null,
+      "desc": "Ancestral Puebloan ruins at Lathrop Canyon, where the road from the rim ends."
     },
     {
-     "t": "Eagles",
-     "d": "Lower Red Lake Canyon to Cross and Y Canyons is day use only from December 1 to February 28, for bald eagles."
+      "name": "Indian Creek ruins",
+      "mile": 30.5,
+      "bank": "L",
+      "time": null,
+      "diff": 2,
+      "qual": null,
+      "desc": "Ruins along the cliff walls up the creek."
+    },
+    {
+      "name": "The Loop",
+      "mile": 38,
+      "bank": "L",
+      "time": null,
+      "diff": 2,
+      "qual": null,
+      "desc": "Walk across the neck and rejoin the river, passing ruins and panoramic views."
+    },
+    {
+      "name": "Lower Red Lake Canyon",
+      "mile": 51.5,
+      "bank": "R",
+      "time": null,
+      "diff": 4,
+      "qual": null,
+      "desc": "A hiking trail up to the Needles District."
+    },
+    {
+      "name": "Dollhouse trail",
+      "mile": 52,
+      "bank": "R",
+      "time": null,
+      "diff": 3,
+      "qual": null,
+      "desc": "A trail from Spanish Bottom to the Doll House formations in the Maze District. Hiking is limited to designated trails."
+    },
+    {
+      "name": "Dark Canyon",
+      "mile": 81.2,
+      "bank": "L",
+      "time": null,
+      "diff": 3,
+      "qual": null,
+      "desc": "A creek-bed hike to waterfalls and rock formations. A designated camp no longer exists here."
     }
-   ]
-  }
- ],
- "landmarks": [
-  {
-   "name": "Potash boat ramp",
-   "mile": 0,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "The usual put-in, near Moab. A potash mine just upstream makes fertilizer."
-  },
-  {
-   "name": "Shafer oil well",
-   "mile": 1,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Site of a 1925 oil fire that spilled thousands of barrels into the river over several months."
-  },
-  {
-   "name": "Pyramid Butte",
-   "mile": 5,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "J.H. Shafer oil well",
-   "mile": 8.5,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Dead Horse Point",
-   "mile": 11,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Horse thieves corralled stolen horses on the cliff-top, where they died of thirst."
-  },
-  {
-   "name": "Lockhart Canyon",
-   "mile": 20,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Horsethief Canyon",
-   "mile": 21,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Coffee Pot Ruin",
-   "mile": 27,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "An Ancestral Puebloan granary built in a sandstone spire. Hard to reach but visible from the river."
-  },
-  {
-   "name": "Sheep Bottom",
-   "mile": 29,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Monument Creek",
-   "mile": 32,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Salt Creek",
-   "mile": 43,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "The mouth is closed March 15 to September 1 for bighorn lambing, as are Big Spring, Little Spring and Elephant Canyons."
-  },
-  {
-   "name": "Elephant Canyon",
-   "mile": 44,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Green River confluence",
-   "mile": 47.5,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "The start of Cataract Canyon. Life jackets must be worn from here to the last active rapid. Up-running is prohibited from the first rapid to Imperial Canyon. A courtesy register box is a little below."
-  },
-  {
-   "name": "Imperial Canyon",
-   "mile": 63.67,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "The first significant Lake Powell sediment deposits (the Dominy Formation) start here."
-  },
-  {
-   "name": "Dark Canyon Rapid",
-   "mile": 81.17,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Once a top rapid; buried by Lake Powell sediment as of 2021."
-  },
-  {
-   "name": "North Wash boat ramp",
-   "mile": 95.1,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "The usual take-out, on river right just below the Dirty Devil confluence. A steep, eroded ramp with mud flats and quicksand; a winch and rollers are often needed. Contact the NPS about conditions."
-  },
-  {
-   "name": "Hite Marina boat ramp",
-   "mile": 96.1,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "River left. Usually high and dry unless the reservoir is full."
-  }
- ],
- "clusters": [
-  {
-   "s": 51.7,
-   "e": 67.4,
-   "n": "Cataract rapids"
-  }
- ],
- "notes": {
-  "camp": "*Camps are named in trip reports and sizes are mostly unknown. Camps below the confluence are designated and must be registered. Quality is not rated.",
-  "hike": "*Difficulty is a rough estimate (1 = short, easy walk; 4 = a long, rugged trail). Times are not given."
- },
- "hdiff": {
-  "1": "Short, easy walk",
-  "2": "Easy trail",
-  "3": "Longer trail with some climbing",
-  "4": "Long, rugged trail"
- },
- "access": [
-  {
-   "name": "Moab",
-   "road": true,
-   "hub": true,
-   "note": "Nearest town to Potash; the park office is here",
-   "grid": [
-    2,
-    2
-   ]
-  },
-  {
-   "name": "Hanksville",
-   "road": true,
-   "hub": true,
-   "note": "Nearest town to North Wash and Hite",
-   "grid": [
-    10,
-    2
-   ]
-  },
-  {
-   "name": "Potash",
-   "road": true,
-   "mile": 0,
-   "park": true,
-   "note": "Put-in on the Colorado, reached from Moab",
-   "grid": [
-    1,
-    6
-   ]
-  },
-  {
-   "name": "North Wash",
-   "road": true,
-   "mile": 95.1,
-   "park": true,
-   "note": "Usual take-out. Steep, eroded ramp; may need a winch",
-   "grid": [
-    10,
-    6
-   ]
-  }
- ],
- "yardGrid": [
-  5,
-  1
- ],
- "roads": [
-  {
-   "a": "Moab",
-   "b": "Potash",
-   "h": ""
-  },
-  {
-   "a": "Hanksville",
-   "b": "North Wash",
-   "h": ""
-  },
-  {
-   "a": "Moab",
-   "b": "Hanksville",
-   "h": ""
-  },
-  {
-   "a": "Outfitter",
-   "b": "Moab",
-   "h": ""
-  }
- ],
- "permit": {
-  "status": "Required for overnight trips · reserve on Recreation.gov, no lottery",
-  "asOf": "October 2026",
-  "apply": {
-   "label": "Reserve on Recreation.gov",
-   "url": "https://www.recreation.gov/permits/621748"
-  },
-  "contact": {
-   "phone": "435-719-2313",
-   "web": "https://www.nps.gov/cany/planyourvisit/riverpermits.htm"
-  },
-  "sections": [
-   {
-    "name": "How to get one",
-    "items": [
-     {
-      "t": "Reserve online",
-      "d": "There is no lottery. Overnight river permits are reserved on Recreation.gov, up to four months before each season. Reservations close two days before the launch date."
-     },
-     {
-      "t": "Opening dates",
-      "d": "Launches April 14 to October 15 open on December 14. Launches October 16 to April 13 open on June 15."
-     },
-     {
-      "t": "Where it applies",
-      "d": "The permit is valid only within Canyonlands National Park, downstream of the Potash and Mineral Bottom boat ramps. If you launch upstream, the start date is the day you enter the park. Mineral Bottom trips on the Green River above that need a separate BLM permit (Labyrinth Canyon)."
-     },
-     {
-      "t": "Day use",
-      "d": "Day-use permits are separate and open up to 24 hours ahead."
-     },
-     {
-      "t": "Camp registration",
-      "d": "River users must register for campsites below the confluence. Designated campsites are along the rivers; sandbars are usually plentiful in late summer and fall, but camps can be hard to find at high water."
-     },
-     {
-      "t": "Experience",
-      "d": "Private trips need technical whitewater experience. Guided trips must use an NPS-authorized company."
-     }
+  ],
+  "geology": [],
+  "guide": [],
+  "almanac": {
+    "flows": [
+      [
+        "Water levels change everything",
+        "High water runs from early May to late June and can exceed 100,000 cfs; the same rapids at 3,000 cfs are a very different river. Rocks and holes show at low flow; at high flow features drown and big-water runs get pushy. The Button forms a very large center hole at 35,000 cfs and up, and the Big Drops carry more risk above 40,000."
+      ],
+      [
+        "Reported ratings by flow",
+        "At about 3,500 cfs reports describe a Class III river with holes and mid-channel rocks at Big Drop 3. At about 5,000 cfs Big Drop 3 is Class IV with the rest mostly III. At 6,000 to 7,000 cfs, reports describe more and larger rapids below Big Drop 3 and Gypsum Canyon at least Class IV."
+      ],
+      [
+        "Lake Powell",
+        "As the reservoir drops, rapids that were drowned begin to show, and Gypsum Canyon Rapid has become significant since 2018. Sediment (the Dominy Formation) buries other rapids, including Dark Canyon Rapid as of 2021."
+      ]
+    ],
+    "history": [
+      [
+        "Capsize",
+        "The 1891 Best party lost a boat at what became Capsize Rapid. Their inscriptions are on river right."
+      ],
+      [
+        "The 1925 oil fire",
+        "A fire at an oil well near the Potash ramp spilled thousands of barrels of oil into the river over several months."
+      ]
     ]
-   },
-   {
-    "name": "Costs and limits",
-    "items": [
-     {
-      "t": "Reservation fee",
-      "d": "$36 per permit, which includes the $6 Recreation.gov fee."
-     },
-     {
-      "t": "Per person",
-      "d": "$25 per person for overnight Cataract Canyon and flatwater trips. Older pages say $20. Day use is $6 plus $10 per person. Fees are non-refundable."
-     },
-     {
-      "t": "Group size",
-      "d": "Up to 40 people. Combined groups camping together may not exceed 40."
-     },
-     {
-      "t": "Length",
-      "d": "Up to 14 consecutive nights."
-     },
-     {
-      "t": "Launch limits",
-      "d": "There are no daily launch limits in Canyonlands."
-     }
+  },
+  "rules": [
+    {
+      "name": "Required equipment",
+      "rules": [
+        {
+          "t": "Life jackets",
+          "d": "One approved Type I, III or V whitewater life jacket per person, plus one spare per ten people or one per boat, whichever is fewer. Inflatable life jackets are not allowed on Utah rivers."
+        },
+        {
+          "t": "Wear them in the canyon",
+          "d": "Between the Green and Colorado confluence and the last active rapid, life jackets must be worn, on the torso and fastened. Children 12 and under wear them at all times on the river."
+        },
+        {
+          "t": "Spares",
+          "d": "One readily accessible spare oar, paddle or motor per boat. One spare paddle per three canoes or kayaks."
+        },
+        {
+          "t": "Throwables",
+          "d": "One Type IV throw cushion per boat 16 feet or longer. Smaller boats may carry a throw bag with at least 40 feet of line."
+        },
+        {
+          "t": "Repair and first aid",
+          "d": "A repair kit and air pump for inflatables, a bailing device or bilge pump for boats that are not self-bailing, and a first-aid kit adequate for the group."
+        },
+        {
+          "t": "Fire pan",
+          "d": "A rigid, durable metal fire pan large enough to hold all ash and debris. Turkey basting pans are not allowed."
+        },
+        {
+          "t": "Human waste",
+          "d": "A reusable, washable container with RV dump fittings, or a commercial bag system, stored in a hard-sided container or heavy-duty waterproof bag labelled \"Human Waste\". Pack all waste out."
+        }
+      ]
+    },
+    {
+      "name": "Camping and fire",
+      "rules": [
+        {
+          "t": "One camp",
+          "d": "A group on one permit travels and camps together and occupies only one campsite."
+        },
+        {
+          "t": "Distances",
+          "d": "Do not camp within 300 feet of springs, intermittent streams, or archeological and historic sites. Do not use soap within 100 feet of springs or streams."
+        },
+        {
+          "t": "Where not to camp",
+          "d": "River trips may not camp at Lathrop Canyon, or at designated vehicle campsites on White Rim Road or in the Maze, unless the permit allows it."
+        },
+        {
+          "t": "Firewood",
+          "d": "Collect only driftwood below the high-water mark. Dead and down wood does not count. Fires stay in the fire pan, and all ash is packed out. Fire blankets are recommended."
+        }
+      ]
+    },
+    {
+      "name": "Prohibited and closed",
+      "rules": [
+        {
+          "t": "Prohibited",
+          "d": "Pets, firearms discharge, fireworks, personal watercraft, towing people behind boats, littering, and collecting or disturbing fossils, plants and rocks."
+        },
+        {
+          "t": "Up-running",
+          "d": "Traveling upstream between the first rapid in Cataract Canyon and Imperial Canyon is prohibited."
+        },
+        {
+          "t": "Closures",
+          "d": "Salt Creek, Big Spring, Little Spring and Elephant Canyons (lower portions and mouths) are closed March 15 to September 1 for bighorn lambing. Jasper Canyon is closed above the first visible jump. The Doll House area is limited to designated trails."
+        },
+        {
+          "t": "Eagles",
+          "d": "Lower Red Lake Canyon to Cross and Y Canyons is day use only from December 1 to February 28, for bald eagles."
+        }
+      ]
+    }
+  ],
+  "landmarks": [
+    {
+      "name": "Potash boat ramp",
+      "mile": 0,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "The usual put-in, near Moab. A potash mine just upstream makes fertilizer."
+    },
+    {
+      "name": "Shafer oil well",
+      "mile": 1,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Site of a 1925 oil fire that spilled thousands of barrels into the river over several months."
+    },
+    {
+      "name": "Pyramid Butte",
+      "mile": 5,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "J.H. Shafer oil well",
+      "mile": 8.5,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Dead Horse Point",
+      "mile": 11,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Horse thieves corralled stolen horses on the cliff-top, where they died of thirst."
+    },
+    {
+      "name": "Lockhart Canyon",
+      "mile": 20,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Horsethief Canyon",
+      "mile": 21,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Coffee Pot Ruin",
+      "mile": 27,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "An Ancestral Puebloan granary built in a sandstone spire. Hard to reach but visible from the river."
+    },
+    {
+      "name": "Sheep Bottom",
+      "mile": 29,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Monument Creek",
+      "mile": 32,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Salt Creek",
+      "mile": 43,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "The mouth is closed March 15 to September 1 for bighorn lambing, as are Big Spring, Little Spring and Elephant Canyons."
+    },
+    {
+      "name": "Elephant Canyon",
+      "mile": 44,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Green River confluence",
+      "mile": 47.5,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "The start of Cataract Canyon. Life jackets must be worn from here to the last active rapid. Up-running is prohibited from the first rapid to Imperial Canyon. A courtesy register box is a little below."
+    },
+    {
+      "name": "Imperial Canyon",
+      "mile": 63.67,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "The first significant Lake Powell sediment deposits (the Dominy Formation) start here."
+    },
+    {
+      "name": "Dark Canyon Rapid",
+      "mile": 81.17,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Once a top rapid; buried by Lake Powell sediment as of 2021."
+    },
+    {
+      "name": "North Wash boat ramp",
+      "mile": 95.1,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "The usual take-out, on river right just below the Dirty Devil confluence. A steep, eroded ramp with mud flats and quicksand; a winch and rollers are often needed. Contact the NPS about conditions."
+    },
+    {
+      "name": "Hite Marina boat ramp",
+      "mile": 96.1,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "River left. Usually high and dry unless the reservoir is full."
+    }
+  ],
+  "clusters": [
+    {
+      "s": 51.7,
+      "e": 67.4,
+      "n": "Cataract rapids"
+    }
+  ],
+  "notes": {
+    "camp": "",
+    "hike": ""
+  },
+  "hdiff": {
+    "1": "Short, easy walk",
+    "2": "Easy trail",
+    "3": "Longer trail with some climbing",
+    "4": "Long, rugged trail"
+  },
+  "access": [
+    {
+      "name": "Moab",
+      "road": true,
+      "hub": true,
+      "note": "Nearest town to Potash; the park office is here",
+      "grid": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "Hanksville",
+      "road": true,
+      "hub": true,
+      "note": "Nearest town to North Wash and Hite",
+      "grid": [
+        10,
+        2
+      ]
+    },
+    {
+      "name": "Potash",
+      "road": true,
+      "mile": 0,
+      "park": true,
+      "note": "Put-in on the Colorado, reached from Moab",
+      "grid": [
+        1,
+        6
+      ]
+    },
+    {
+      "name": "North Wash",
+      "road": true,
+      "mile": 95.1,
+      "park": true,
+      "note": "Usual take-out. Steep, eroded ramp; may need a winch",
+      "grid": [
+        10,
+        6
+      ]
+    }
+  ],
+  "yardGrid": [
+    5,
+    1
+  ],
+  "roads": [
+    {
+      "a": "Moab",
+      "b": "Potash",
+      "h": ""
+    },
+    {
+      "a": "Hanksville",
+      "b": "North Wash",
+      "h": ""
+    },
+    {
+      "a": "Moab",
+      "b": "Hanksville",
+      "h": ""
+    },
+    {
+      "a": "Outfitter",
+      "b": "Moab",
+      "h": ""
+    }
+  ],
+  "permit": {
+    "status": "Required for overnight trips · reserve on Recreation.gov, no lottery",
+    "asOf": "October 2026",
+    "apply": {
+      "label": "Reserve on Recreation.gov",
+      "url": "https://www.recreation.gov/permits/621748"
+    },
+    "contact": {
+      "phone": "435-719-2313",
+      "web": "https://www.nps.gov/cany/planyourvisit/riverpermits.htm"
+    },
+    "sections": [
+      {
+        "name": "How to get one",
+        "items": [
+          {
+            "t": "Reserve online",
+            "d": "There is no lottery. Overnight river permits are reserved on Recreation.gov, up to four months before each season. Reservations close two days before the launch date."
+          },
+          {
+            "t": "Opening dates",
+            "d": "Launches April 14 to October 15 open on December 14. Launches October 16 to April 13 open on June 15."
+          },
+          {
+            "t": "Where it applies",
+            "d": "The permit is valid only within Canyonlands National Park, downstream of the Potash and Mineral Bottom boat ramps. If you launch upstream, the start date is the day you enter the park. Mineral Bottom trips on the Green River above that need a separate BLM permit (Labyrinth Canyon)."
+          },
+          {
+            "t": "Day use",
+            "d": "Day-use permits are separate and open up to 24 hours ahead."
+          },
+          {
+            "t": "Camp registration",
+            "d": "River users must register for campsites below the confluence. Designated campsites are along the rivers; sandbars are usually plentiful in late summer and fall, but camps can be hard to find at high water."
+          },
+          {
+            "t": "Experience",
+            "d": "Private trips need technical whitewater experience. Guided trips must use an NPS-authorized company."
+          }
+        ]
+      },
+      {
+        "name": "Costs and limits",
+        "items": [
+          {
+            "t": "Reservation fee",
+            "d": "$36 per permit, which includes the $6 Recreation.gov fee."
+          },
+          {
+            "t": "Per person",
+            "d": "$25 per person for overnight Cataract Canyon and flatwater trips. Older pages say $20. Day use is $6 plus $10 per person. Fees are non-refundable."
+          },
+          {
+            "t": "Group size",
+            "d": "Up to 40 people. Combined groups camping together may not exceed 40."
+          },
+          {
+            "t": "Length",
+            "d": "Up to 14 consecutive nights."
+          },
+          {
+            "t": "Launch limits",
+            "d": "There are no daily launch limits in Canyonlands."
+          }
+        ]
+      },
+      {
+        "name": "Getting out",
+        "items": [
+          {
+            "t": "North Wash",
+            "d": "The usual take-out at Lake Powell is the North Wash ramp. It is steep and eroded, and a winch or rollers are often needed. Check lake levels and the take-out calendar with the park."
+          },
+          {
+            "t": "Hite",
+            "d": "The Hite Marina ramp is usually high and dry. Bullfrog, about 48 river miles farther, is the alternative."
+          },
+          {
+            "t": "Invasive mussels",
+            "d": "Mussels are in Lake Powell. Utah and Arizona laws require you to clean, drain and dry your boat after take-out."
+          }
+        ]
+      }
     ]
-   },
-   {
-    "name": "Getting out",
-    "items": [
-     {
-      "t": "North Wash",
-      "d": "The usual take-out at Lake Powell is the North Wash ramp. It is steep and eroded, and a winch or rollers are often needed. Check lake levels and the take-out calendar with the park."
-     },
-     {
-      "t": "Hite",
-      "d": "The Hite Marina ramp is usually high and dry. Bullfrog, about 48 river miles farther, is the alternative."
-     },
-     {
-      "t": "Invasive mussels",
-      "d": "Mussels are in Lake Powell. Utah and Arizona laws require you to clean, drain and dry your boat after take-out."
-     }
-    ]
-   }
-  ]
- }
+  }
 }

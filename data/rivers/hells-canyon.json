@@ -1,1448 +1,1448 @@
 {
- "name": "Hells Canyon of the Snake River",
- "reach": "Hells Canyon Dam to Heller Bar",
- "agency": "Hells Canyon National Recreation Area, Wallowa-Whitman National Forest",
- "miles": [
-  0,
-  79.8
- ],
- "days": 5,
- "coords": [
-  45.1,
-  -116.7
- ],
- "tz": "America/Los_Angeles",
- "note": "The deepest river canyon in North America. The 32-mile Wild section from the dam to Pittsburg Landing holds the big rapids and usually takes 3 to 4 days; the river continues about 48 miles to Heller Bar. Miles are from the Hells Canyon launch as in one mile-by-mile guide. The Snake is dam-controlled, with trip-reported flows of about 8,500 to 20,000 cfs. Camp sizes are from that guide; quality is not rated. Compiled from public sources; verify with the Forest Service and the USFS Boater's Guide.",
- "camps": [
-  {
-   "name": "Stud Creek",
-   "mile": 1.1,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large and shaded. Named for a horse that fathered colts."
-  },
-  {
-   "name": "Lamont Springs",
-   "mile": 1.2,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large group, with a beach. A former mining claim."
-  },
-  {
-   "name": "Square Beach",
-   "mile": 1.8,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Small group, with a beach."
-  },
-  {
-   "name": "Brush Creek",
-   "mile": 2.3,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "A sandy beach for a medium group."
-  },
-  {
-   "name": "Rocky Point",
-   "mile": 3.4,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "Medium group, with shade and a steep bank."
-  },
-  {
-   "name": "Chimney Bar",
-   "mile": 3.6,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large group, with shade."
-  },
-  {
-   "name": "Warm Springs",
-   "mile": 4,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large group, with shade and a rocky landing."
-  },
-  {
-   "name": "Battle Creek",
-   "mile": 4.7,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large, with shade. The hike up Battle Creek is worthwhile."
-  },
-  {
-   "name": "Sand Dunes",
-   "mile": 5.2,
-   "size": 2,
-   "qual": null,
-   "bank": "L",
-   "desc": "Small group, with a sandy beach at some flows."
-  },
-  {
-   "name": "Birch Springs",
-   "mile": 5.5,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "A rocky beach for a medium group."
-  },
-  {
-   "name": "Wild Sheep",
-   "mile": 5.8,
-   "size": 5,
-   "qual": null,
-   "bank": "L",
-   "desc": "A rocky beach for a medium group, and a large bench camp. The scout for Wild Sheep Rapid."
-  },
-  {
-   "name": "Rock Bar",
-   "mile": 6.6,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large, with a rocky beach."
-  },
-  {
-   "name": "Upper Granite Creek",
-   "mile": 7.4,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large group, with a very difficult carry."
-  },
-  {
-   "name": "Lower Granite Creek",
-   "mile": 7.5,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large group, with a gravel beach at low water."
-  },
-  {
-   "name": "Cache Creek",
-   "mile": 7.9,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large group. The landing is in swift current."
-  },
-  {
-   "name": "Three Creek",
-   "mile": 9,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large group, with a steep climb and shade."
-  },
-  {
-   "name": "Upper Oregon Hole",
-   "mile": 9.1,
-   "size": 2,
-   "qual": null,
-   "bank": "L",
-   "desc": "Small group on a rocky shoreline."
-  },
-  {
-   "name": "Oregon Hole",
-   "mile": 9.2,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large group, with some shade."
-  },
-  {
-   "name": "Upper Dry Gulch",
-   "mile": 9.5,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large group, with shade and an easy landing."
-  },
-  {
-   "name": "Lower Dry Gulch",
-   "mile": 9.8,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large group. A spring above camp; treat the water."
-  },
-  {
-   "name": "Hastings",
-   "mile": 10.2,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "Medium group. Evidence of placer mining."
-  },
-  {
-   "name": "Saddle Creek",
-   "mile": 10.8,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large group. The eddy may vanish above 30,000 cfs."
-  },
-  {
-   "name": "Bernard Creek",
-   "mile": 11.8,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large group, with shade and water."
-  },
-  {
-   "name": "Sluice Creek",
-   "mile": 15.2,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large groups. A difficult landing. The airstrip is closed except for emergencies and Forest Service use."
-  },
-  {
-   "name": "Rush Creek",
-   "mile": 15.7,
-   "size": null,
-   "qual": null,
-   "bank": "L",
-   "desc": "A tough rocky landing; camping above."
-  },
-  {
-   "name": "Johnson Bar Landing",
-   "mile": 17.1,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large group, with a sandy beach and swimming holes."
-  },
-  {
-   "name": "Sheep Creek",
-   "mile": 17.6,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "A dynamic eddy, water, and cozy nooks with a flat bench."
-  },
-  {
-   "name": "Steep Creek",
-   "mile": 17.8,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "A beach at low water, for a medium group."
-  },
-  {
-   "name": "Yreka Bar",
-   "mile": 18.4,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large and shady."
-  },
-  {
-   "name": "Upper Sand Creek",
-   "mile": 18.7,
-   "size": 5,
-   "qual": null,
-   "bank": "L",
-   "desc": "Medium, with little shade."
-  },
-  {
-   "name": "Pine Bar",
-   "mile": 19.5,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large, with a beach and shade. Hunters camp here in fall."
-  },
-  {
-   "name": "Upper Quartz Creek",
-   "mile": 20.5,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large group, with little shade."
-  },
-  {
-   "name": "Lower Quartz Creek",
-   "mile": 20.8,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large group, with more shade."
-  },
-  {
-   "name": "Caribou Creek",
-   "mile": 21.8,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large group, with shade."
-  },
-  {
-   "name": "Dry Gulch",
-   "mile": 22.5,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large group, with a beach, some shade and a late sunset."
-  },
-  {
-   "name": "Big Bar",
-   "mile": 22.5,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large group, at the end of the airstrip."
-  },
-  {
-   "name": "Hominy Bar",
-   "mile": 24.1,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large group at low to medium water."
-  },
-  {
-   "name": "Salt Creek",
-   "mile": 24.4,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large group, with a beach, shade and water."
-  },
-  {
-   "name": "Two Corral Creek",
-   "mile": 24.8,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large group, with a beach and some shade."
-  },
-  {
-   "name": "Gracie Bar",
-   "mile": 25,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large group, with shade and a good landing. Suicide Point access."
-  },
-  {
-   "name": "Half Moon Bar",
-   "mile": 25.4,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Small group, with an easy landing. Hike to Suicide Point and Kirkwood."
-  },
-  {
-   "name": "Slaughter Gulch",
-   "mile": 26,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large group, with an easy landing."
-  },
-  {
-   "name": "Kirkwood Bar",
-   "mile": 26.7,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Four large group sites with toilets, tables and shade."
-  },
-  {
-   "name": "Yankee Bar",
-   "mile": 27,
-   "size": 2,
-   "qual": null,
-   "bank": "L",
-   "desc": "Small group, with little shade; rarely used."
-  },
-  {
-   "name": "Russel Bar",
-   "mile": 27.4,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large group, with some shade."
-  },
-  {
-   "name": "Cat Gulch",
-   "mile": 28.7,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "A small beach with shade, for a medium group."
-  },
-  {
-   "name": "Corral Creek",
-   "mile": 30,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "A cobble beach with shade and water upstream. A small camp at the creek mouth."
-  },
-  {
-   "name": "Fish Trap Bar",
-   "mile": 30.6,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large group, with a sandy beach."
-  },
-  {
-   "name": "Upper Pittsburg Landing",
-   "mile": 30.7,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Six road-accessible sites with tables and toilets, some shade and no water."
-  },
-  {
-   "name": "Wilson Eddy",
-   "mile": 31.3,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large group, with some shade."
-  },
-  {
-   "name": "Pleasant Valley",
-   "mile": 33,
-   "size": null,
-   "qual": null,
-   "bank": "R",
-   "desc": "Campsites used by road-access users."
-  },
-  {
-   "name": "Davis Creek",
-   "mile": 34.6,
-   "size": 5,
-   "qual": null,
-   "bank": "L",
-   "desc": "Medium group, with an easy landing."
-  },
-  {
-   "name": "McCarty Creek",
-   "mile": 35,
-   "size": 5,
-   "qual": null,
-   "bank": "L",
-   "desc": "Medium group."
-  },
-  {
-   "name": "Big Canyon",
-   "mile": 36.4,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large group, with water and shade."
-  },
-  {
-   "name": "Lower Big Canyon",
-   "mile": 36.6,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "A small sandy beach."
-  },
-  {
-   "name": "Somers Creek",
-   "mile": 37,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large, with shade."
-  },
-  {
-   "name": "Camp Creek",
-   "mile": 37.2,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large group, with a sandy beach."
-  },
-  {
-   "name": "Tyron Creek",
-   "mile": 37.6,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large group, with water and shade."
-  },
-  {
-   "name": "Lookout Creek",
-   "mile": 39,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large group, with minimal shade."
-  },
-  {
-   "name": "Bob Creek",
-   "mile": 42.5,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large group, with a sandy beach."
-  },
-  {
-   "name": "Bar Creek",
-   "mile": 45.1,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large group, with shade."
-  },
-  {
-   "name": "Deep Creek",
-   "mile": 47.7,
-   "size": 4,
-   "qual": null,
-   "bank": "L",
-   "desc": "Small to medium group, with a tough carry."
-  },
-  {
-   "name": "Robinson Gulch",
-   "mile": 48.6,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large group, with shade."
-  },
-  {
-   "name": "Dug Creek",
-   "mile": 48.8,
-   "size": 2,
-   "qual": null,
-   "bank": "L",
-   "desc": "Small group, with accessible water."
-  },
-  {
-   "name": "Zig Zag",
-   "mile": 53,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Small group, with a sandy beach."
-  },
-  {
-   "name": "Divide Creek",
-   "mile": 53.5,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "Small group, with a sandy beach."
-  },
-  {
-   "name": "China Bar",
-   "mile": 54.6,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large group, with a sandy beach."
-  },
-  {
-   "name": "Imnaha",
-   "mile": 55.3,
-   "size": 5,
-   "qual": null,
-   "bank": "L",
-   "desc": "Medium group, with a tough carry at low water. The mine tunnel is gated to protect Townsend's big-eared bats."
-  },
-  {
-   "name": "Fargo",
-   "mile": 55.5,
-   "size": 5,
-   "qual": null,
-   "bank": "L",
-   "desc": "Medium group, near the Fargo town and mining site."
-  },
-  {
-   "name": "Knight Creek",
-   "mile": 56.6,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large group, with shade and water."
-  },
-  {
-   "name": "Salmon Bar",
-   "mile": 59.1,
-   "size": null,
-   "qual": null,
-   "bank": "L",
-   "desc": "There is a seldom-used 762-ft airstrip behind camp."
-  },
-  {
-   "name": "Salmon Falls Beach",
-   "mile": 59.2,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "A medium to large sandy beach; windy."
-  },
-  {
-   "name": "Cave Cove",
-   "mile": 61,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large, with a shallow cave behind camp."
-  },
-  {
-   "name": "Upper Geneva Bar",
-   "mile": 62.5,
-   "size": 8,
-   "qual": null,
-   "bank": "L",
-   "desc": "Very large; often used by outfitters."
-  },
-  {
-   "name": "Lower Geneva Bar",
-   "mile": 62.6,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "A large beach; outfitters are common."
-  },
-  {
-   "name": "Taco Bell Beach",
-   "mile": 63.2,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "A large beach."
-  },
-  {
-   "name": "Sentinel Rock",
-   "mile": 64.4,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Medium to large, with a good eddy."
-  },
-  {
-   "name": "Jim Creek",
-   "mile": 65,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large; the creek enters downstream."
-  },
-  {
-   "name": "Lower Jim Creek",
-   "mile": 65.2,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large."
-  },
-  {
-   "name": "Across the Meat",
-   "mile": 65.4,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large."
-  },
-  {
-   "name": "Meat Hole",
-   "mile": 65.5,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large, with a strong eddy near the bottom."
-  },
-  {
-   "name": "Upper Cottonwood",
-   "mile": 66,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large, with a single tree in the center."
-  },
-  {
-   "name": "Lower Cottonwood",
-   "mile": 66.4,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large, below the creek."
-  },
-  {
-   "name": "Across from Upper Cougar",
-   "mile": 67.5,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "A large beach."
-  },
-  {
-   "name": "Upper Cougar",
-   "mile": 67.5,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large."
-  },
-  {
-   "name": "Upper Cache Creek",
-   "mile": 69.9,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "A large beach upstream of the ranch."
-  },
-  {
-   "name": "Upper China Garden",
-   "mile": 71.4,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large, near private homes."
-  },
-  {
-   "name": "China Garden",
-   "mile": 71.5,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "Large, near private homes."
-  },
-  {
-   "name": "Lower China Garden",
-   "mile": 71.9,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "A large beach that shrinks at high flow."
-  }
- ],
- "rapids": [
-  {
-   "name": "Cliff Mountain Rapids",
-   "mile": 0.5,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Easy and visible from the put-in. Keep off the right-side rock face."
-  },
-  {
-   "name": "Brush Creek Rapids",
-   "mile": 2.2,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "A read-and-run wave train."
-  },
-  {
-   "name": "Rocky Point Rapids",
-   "mile": 3.4,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Run best left of center."
-  },
-  {
-   "name": "Wild Sheep Rapid",
-   "mile": 5.8,
-   "civ": false,
-   "diff": 8,
-   "tier": "Class IV",
-   "desc": "The longest rapid on the river, with big waves; the line changes with flow. Scout from river left at the creek confluence."
-  },
-  {
-   "name": "Granite Rapid",
-   "mile": 7.8,
-   "civ": false,
-   "diff": 8,
-   "tier": "Class IV",
-   "desc": "A large submerged rock. The standard line is left under 20,000 cfs; the \"Green Room\" line opens around 19,000 cfs and up and few boats get through it without flipping. Scout river right just below Lower Granite Creek camp."
-  },
-  {
-   "name": "Three Creek Rapid",
-   "mile": 8.8,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A read-and-run wave train. Rated II+ by American Whitewater."
-  },
-  {
-   "name": "Upper Bernard Creek Rapid",
-   "mile": 11.7,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Short; the weakness is usually on the left."
-  },
-  {
-   "name": "Lower Bernard Creek Rapid",
-   "mile": 11.8,
-   "civ": false,
-   "diff": 6,
-   "tier": "Class III+",
-   "desc": "Longer, with a large standing wave in the lower half. Great surfing for kayakers."
-  },
-  {
-   "name": "Waterspout Rapid",
-   "mile": 13.3,
-   "civ": false,
-   "diff": 7,
-   "tier": "Class IV-",
-   "desc": "A rock creates a hole at some flows and a sleeper hole on the lower left. At low water run from center left and drive hard right before the bottom. Washes out at high water. The river-right scout trail is shorter. Rated III+ by American Whitewater."
-  },
-  {
-   "name": "Bills Creek Rapid",
-   "mile": 13.8,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A read-and-run wave train."
-  },
-  {
-   "name": "Sluice Creek Rapid",
-   "mile": 15.1,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Roller-coaster waves; a clear wave train down the right. Rated II by American Whitewater."
-  },
-  {
-   "name": "Rush Creek Rapids",
-   "mile": 15.6,
-   "civ": false,
-   "diff": 8,
-   "tier": "Class IV",
-   "desc": "A large mid-river rock at the top can form a boat-sized hydraulic. A clear wave train runs down the right; more technical at low water. Rated III+ by American Whitewater."
-  },
-  {
-   "name": "Sheep Creek Rapids",
-   "mile": 17.4,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Mostly read and run; avoid the rocks."
-  },
-  {
-   "name": "Hominy Creek Rapids",
-   "mile": 23.9,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Mostly read and run."
-  },
-  {
-   "name": "Kirby Creek Rapids",
-   "mile": 28.1,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A large read-and-run wave train."
-  },
-  {
-   "name": "Pleasant Valley Rapids",
-   "mile": 33.5,
-   "civ": false,
-   "diff": 4,
-   "tier": "Class III-",
-   "desc": "Class II or III depending on flow; hit the big features straight on."
-  },
-  {
-   "name": "Warm Springs Rapid",
-   "mile": 51.9,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Read and run; milder at low flow."
-  },
-  {
-   "name": "Imnaha Rapids",
-   "mile": 55.4,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Read and run at low flow; washes out at high flow."
-  },
-  {
-   "name": "Salmon River Falls",
-   "mile": 58.8,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Read and run, with camps on both sides below."
-  },
-  {
-   "name": "Frenchy Creek Rapid",
-   "mile": 62.3,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "A long, fun wave train."
-  },
-  {
-   "name": "Little Cougar Creek Rapid",
-   "mile": 69,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "The river splits; the right side of the island is the most fun."
-  },
-  {
-   "name": "China Garden Rapid",
-   "mile": 71.5,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Enter left and watch the rocks at the bottom."
-  },
-  {
-   "name": "Shovel Creek Rapid",
-   "mile": 73.3,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A medium wave train; watch for holes and rocks."
-  },
-  {
-   "name": "Wild Goose Rapid",
-   "mile": 74.8,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Stay left of the large island."
-  },
-  {
-   "name": "Deer Head Rapid",
-   "mile": 75.3,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Read and run, with fun waves."
-  },
-  {
-   "name": "Limekiln Rapid",
-   "mile": 78.3,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "The final rapid. Shallows on the left; stay right."
-  }
- ],
- "hikes": [
-  {
-   "name": "Warm Springs pit houses",
-   "mile": 3.9,
-   "bank": "R",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "Depressions where Native American pit houses stood. Respect the site."
-  },
-  {
-   "name": "Battle Creek",
-   "mile": 4.6,
-   "bank": "L",
-   "time": null,
-   "diff": 3,
-   "qual": null,
-   "desc": "A worthwhile hike up the creek from the confluence. Barton Cabin, built by Ralph Barton, is a short walk from the eddy."
-  },
-  {
-   "name": "Granite Rapids scout and pictographs",
-   "mile": 7.7,
-   "bank": "R",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "An overlook along the base of the cliff with pictographs. Do not touch."
-  },
-  {
-   "name": "McGaffee Cabin",
-   "mile": 11.7,
-   "bank": "R",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "Built in 1905 and on the National Register of Historic Places, at Bernard Creek."
-  },
-  {
-   "name": "Sheep Creek Cabin",
-   "mile": 17.7,
-   "bank": "R",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "An 1884 homestead, often leased; pit toilets may be available."
-  },
-  {
-   "name": "Suicide Point",
-   "mile": 24.2,
-   "bank": "R",
-   "time": null,
-   "diff": 3,
-   "qual": null,
-   "desc": "About a 400 ft climb to spectacular views. Watch for rattlesnakes."
-  },
-  {
-   "name": "Kirkwood Historic Ranch",
-   "mile": 26.3,
-   "bank": "R",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "A Forest Service staffed ranch with toilets, no drinking water and communications. A 6-mile trail leads to Pittsburg Landing."
-  },
-  {
-   "name": "Chinese Miners Massacre memorial",
-   "mile": 47.8,
-   "bank": "L",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "Stone wall remnants and a memorial for the 1887 killings, erected in 2012."
-  },
-  {
-   "name": "Imnaha steamboat rings",
-   "mile": 57.2,
-   "bank": null,
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "Iron rings in the walls used to winch steamboats upstream."
-  },
-  {
-   "name": "Cache Creek Ranch",
-   "mile": 70.5,
-   "bank": "L",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "A museum, orchard, boat ramp and toilets, for day use."
-  }
- ],
- "geology": [],
- "guide": [],
- "almanac": {
-  "history": [
-   [
-    "The canyon",
-    "Hells Canyon averages about 5,500 feet below the rim for roughly 75 miles, with the Seven Devils Mountains on the Idaho side. The dam complex upstream was built between 1959 and 1967."
-   ],
-   [
-    "Chinese miners",
-    "In 1887 a group of Chinese miners was killed on the Oregon side. A memorial was erected in 2012."
-   ],
-   [
-    "The Nez Perce",
-    "In 1877 the Nez Perce crossed the Snake near Dug Bar during spring flood."
-   ],
-   [
-    "Wild and Scenic",
-    "The river was designated Wild and Scenic in 1975. A 1954 proposal for a dam at Pleasant Valley was blocked by that protection."
-   ]
+  "name": "Hells Canyon of the Snake River",
+  "reach": "Hells Canyon Dam to Heller Bar",
+  "agency": "Hells Canyon National Recreation Area, Wallowa-Whitman National Forest",
+  "miles": [
+    0,
+    79.8
   ],
-  "flows": [
-   [
-    "Flows",
-    "Releases are controlled at the dam. Granite Rapid was \"juicing\" near 20,000 cfs and ran fine at 14,000 to 15,000. Waterspout has options above 14,000 cfs. Check Idaho Power's flow line at 800-422-3143."
-   ]
-  ]
- },
- "rules": [
-  {
-   "name": "Required equipment",
-   "rules": [
+  "days": 5,
+  "coords": [
+    45.1,
+    -116.7
+  ],
+  "tz": "America/Los_Angeles",
+  "note": "",
+  "camps": [
     {
-     "t": "Life jackets",
-     "d": "At least one U.S. Coast Guard approved life jacket per person."
+      "name": "Stud Creek",
+      "mile": 1.1,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large and shaded. Named for a horse that fathered colts."
     },
     {
-     "t": "Human waste",
-     "d": "A reusable, sealable, leak-proof human waste carry-out system."
+      "name": "Lamont Springs",
+      "mile": 1.2,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large group, with a beach. A former mining claim."
     },
     {
-     "t": "Fire pan",
-     "d": "A fire pan for all fires."
+      "name": "Square Beach",
+      "mile": 1.8,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Small group, with a beach."
     },
     {
-     "t": "Invasive species",
-     "d": "An Oregon or Idaho invasive species sticker."
+      "name": "Brush Creek",
+      "mile": 2.3,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "A sandy beach for a medium group."
+    },
+    {
+      "name": "Rocky Point",
+      "mile": 3.4,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "Medium group, with shade and a steep bank."
+    },
+    {
+      "name": "Chimney Bar",
+      "mile": 3.6,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large group, with shade."
+    },
+    {
+      "name": "Warm Springs",
+      "mile": 4,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large group, with shade and a rocky landing."
+    },
+    {
+      "name": "Battle Creek",
+      "mile": 4.7,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large, with shade. The hike up Battle Creek is worthwhile."
+    },
+    {
+      "name": "Sand Dunes",
+      "mile": 5.2,
+      "size": 2,
+      "qual": null,
+      "bank": "L",
+      "desc": "Small group, with a sandy beach at some flows."
+    },
+    {
+      "name": "Birch Springs",
+      "mile": 5.5,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "A rocky beach for a medium group."
+    },
+    {
+      "name": "Wild Sheep",
+      "mile": 5.8,
+      "size": 5,
+      "qual": null,
+      "bank": "L",
+      "desc": "A rocky beach for a medium group, and a large bench camp. The scout for Wild Sheep Rapid."
+    },
+    {
+      "name": "Rock Bar",
+      "mile": 6.6,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large, with a rocky beach."
+    },
+    {
+      "name": "Upper Granite Creek",
+      "mile": 7.4,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large group, with a very difficult carry."
+    },
+    {
+      "name": "Lower Granite Creek",
+      "mile": 7.5,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large group, with a gravel beach at low water."
+    },
+    {
+      "name": "Cache Creek",
+      "mile": 7.9,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large group. The landing is in swift current."
+    },
+    {
+      "name": "Three Creek",
+      "mile": 9,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large group, with a steep climb and shade."
+    },
+    {
+      "name": "Upper Oregon Hole",
+      "mile": 9.1,
+      "size": 2,
+      "qual": null,
+      "bank": "L",
+      "desc": "Small group on a rocky shoreline."
+    },
+    {
+      "name": "Oregon Hole",
+      "mile": 9.2,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large group, with some shade."
+    },
+    {
+      "name": "Upper Dry Gulch",
+      "mile": 9.5,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large group, with shade and an easy landing."
+    },
+    {
+      "name": "Lower Dry Gulch",
+      "mile": 9.8,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large group. A spring above camp; treat the water."
+    },
+    {
+      "name": "Hastings",
+      "mile": 10.2,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "Medium group. Evidence of placer mining."
+    },
+    {
+      "name": "Saddle Creek",
+      "mile": 10.8,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large group. The eddy may vanish above 30,000 cfs."
+    },
+    {
+      "name": "Bernard Creek",
+      "mile": 11.8,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large group, with shade and water."
+    },
+    {
+      "name": "Sluice Creek",
+      "mile": 15.2,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large groups. A difficult landing. The airstrip is closed except for emergencies and Forest Service use."
+    },
+    {
+      "name": "Rush Creek",
+      "mile": 15.7,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "A tough rocky landing; camping above."
+    },
+    {
+      "name": "Johnson Bar Landing",
+      "mile": 17.1,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large group, with a sandy beach and swimming holes."
+    },
+    {
+      "name": "Sheep Creek",
+      "mile": 17.6,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "A dynamic eddy, water, and cozy nooks with a flat bench."
+    },
+    {
+      "name": "Steep Creek",
+      "mile": 17.8,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "A beach at low water, for a medium group."
+    },
+    {
+      "name": "Yreka Bar",
+      "mile": 18.4,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large and shady."
+    },
+    {
+      "name": "Upper Sand Creek",
+      "mile": 18.7,
+      "size": 5,
+      "qual": null,
+      "bank": "L",
+      "desc": "Medium, with little shade."
+    },
+    {
+      "name": "Pine Bar",
+      "mile": 19.5,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large, with a beach and shade. Hunters camp here in fall."
+    },
+    {
+      "name": "Upper Quartz Creek",
+      "mile": 20.5,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large group, with little shade."
+    },
+    {
+      "name": "Lower Quartz Creek",
+      "mile": 20.8,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large group, with more shade."
+    },
+    {
+      "name": "Caribou Creek",
+      "mile": 21.8,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large group, with shade."
+    },
+    {
+      "name": "Dry Gulch",
+      "mile": 22.5,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large group, with a beach, some shade and a late sunset."
+    },
+    {
+      "name": "Big Bar",
+      "mile": 22.5,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large group, at the end of the airstrip."
+    },
+    {
+      "name": "Hominy Bar",
+      "mile": 24.1,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large group at low to medium water."
+    },
+    {
+      "name": "Salt Creek",
+      "mile": 24.4,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large group, with a beach, shade and water."
+    },
+    {
+      "name": "Two Corral Creek",
+      "mile": 24.8,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large group, with a beach and some shade."
+    },
+    {
+      "name": "Gracie Bar",
+      "mile": 25,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large group, with shade and a good landing. Suicide Point access."
+    },
+    {
+      "name": "Half Moon Bar",
+      "mile": 25.4,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Small group, with an easy landing. Hike to Suicide Point and Kirkwood."
+    },
+    {
+      "name": "Slaughter Gulch",
+      "mile": 26,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large group, with an easy landing."
+    },
+    {
+      "name": "Kirkwood Bar",
+      "mile": 26.7,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Four large group sites with toilets, tables and shade."
+    },
+    {
+      "name": "Yankee Bar",
+      "mile": 27,
+      "size": 2,
+      "qual": null,
+      "bank": "L",
+      "desc": "Small group, with little shade; rarely used."
+    },
+    {
+      "name": "Russel Bar",
+      "mile": 27.4,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large group, with some shade."
+    },
+    {
+      "name": "Cat Gulch",
+      "mile": 28.7,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "A small beach with shade, for a medium group."
+    },
+    {
+      "name": "Corral Creek",
+      "mile": 30,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "A cobble beach with shade and water upstream. A small camp at the creek mouth."
+    },
+    {
+      "name": "Fish Trap Bar",
+      "mile": 30.6,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large group, with a sandy beach."
+    },
+    {
+      "name": "Upper Pittsburg Landing",
+      "mile": 30.7,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Six road-accessible sites with tables and toilets, some shade and no water."
+    },
+    {
+      "name": "Wilson Eddy",
+      "mile": 31.3,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large group, with some shade."
+    },
+    {
+      "name": "Pleasant Valley",
+      "mile": 33,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Campsites used by road-access users."
+    },
+    {
+      "name": "Davis Creek",
+      "mile": 34.6,
+      "size": 5,
+      "qual": null,
+      "bank": "L",
+      "desc": "Medium group, with an easy landing."
+    },
+    {
+      "name": "McCarty Creek",
+      "mile": 35,
+      "size": 5,
+      "qual": null,
+      "bank": "L",
+      "desc": "Medium group."
+    },
+    {
+      "name": "Big Canyon",
+      "mile": 36.4,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large group, with water and shade."
+    },
+    {
+      "name": "Lower Big Canyon",
+      "mile": 36.6,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "A small sandy beach."
+    },
+    {
+      "name": "Somers Creek",
+      "mile": 37,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large, with shade."
+    },
+    {
+      "name": "Camp Creek",
+      "mile": 37.2,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large group, with a sandy beach."
+    },
+    {
+      "name": "Tyron Creek",
+      "mile": 37.6,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large group, with water and shade."
+    },
+    {
+      "name": "Lookout Creek",
+      "mile": 39,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large group, with minimal shade."
+    },
+    {
+      "name": "Bob Creek",
+      "mile": 42.5,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large group, with a sandy beach."
+    },
+    {
+      "name": "Bar Creek",
+      "mile": 45.1,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large group, with shade."
+    },
+    {
+      "name": "Deep Creek",
+      "mile": 47.7,
+      "size": 4,
+      "qual": null,
+      "bank": "L",
+      "desc": "Small to medium group, with a tough carry."
+    },
+    {
+      "name": "Robinson Gulch",
+      "mile": 48.6,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large group, with shade."
+    },
+    {
+      "name": "Dug Creek",
+      "mile": 48.8,
+      "size": 2,
+      "qual": null,
+      "bank": "L",
+      "desc": "Small group, with accessible water."
+    },
+    {
+      "name": "Zig Zag",
+      "mile": 53,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Small group, with a sandy beach."
+    },
+    {
+      "name": "Divide Creek",
+      "mile": 53.5,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "Small group, with a sandy beach."
+    },
+    {
+      "name": "China Bar",
+      "mile": 54.6,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large group, with a sandy beach."
+    },
+    {
+      "name": "Imnaha",
+      "mile": 55.3,
+      "size": 5,
+      "qual": null,
+      "bank": "L",
+      "desc": "Medium group, with a tough carry at low water. The mine tunnel is gated to protect Townsend's big-eared bats."
+    },
+    {
+      "name": "Fargo",
+      "mile": 55.5,
+      "size": 5,
+      "qual": null,
+      "bank": "L",
+      "desc": "Medium group, near the Fargo town and mining site."
+    },
+    {
+      "name": "Knight Creek",
+      "mile": 56.6,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large group, with shade and water."
+    },
+    {
+      "name": "Salmon Bar",
+      "mile": 59.1,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "There is a seldom-used 762-ft airstrip behind camp."
+    },
+    {
+      "name": "Salmon Falls Beach",
+      "mile": 59.2,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "A medium to large sandy beach; windy."
+    },
+    {
+      "name": "Cave Cove",
+      "mile": 61,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large, with a shallow cave behind camp."
+    },
+    {
+      "name": "Upper Geneva Bar",
+      "mile": 62.5,
+      "size": 8,
+      "qual": null,
+      "bank": "L",
+      "desc": "Very large; often used by outfitters."
+    },
+    {
+      "name": "Lower Geneva Bar",
+      "mile": 62.6,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "A large beach; outfitters are common."
+    },
+    {
+      "name": "Taco Bell Beach",
+      "mile": 63.2,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "A large beach."
+    },
+    {
+      "name": "Sentinel Rock",
+      "mile": 64.4,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Medium to large, with a good eddy."
+    },
+    {
+      "name": "Jim Creek",
+      "mile": 65,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large; the creek enters downstream."
+    },
+    {
+      "name": "Lower Jim Creek",
+      "mile": 65.2,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large."
+    },
+    {
+      "name": "Across the Meat",
+      "mile": 65.4,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large."
+    },
+    {
+      "name": "Meat Hole",
+      "mile": 65.5,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large, with a strong eddy near the bottom."
+    },
+    {
+      "name": "Upper Cottonwood",
+      "mile": 66,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large, with a single tree in the center."
+    },
+    {
+      "name": "Lower Cottonwood",
+      "mile": 66.4,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large, below the creek."
+    },
+    {
+      "name": "Across from Upper Cougar",
+      "mile": 67.5,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "A large beach."
+    },
+    {
+      "name": "Upper Cougar",
+      "mile": 67.5,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large."
+    },
+    {
+      "name": "Upper Cache Creek",
+      "mile": 69.9,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "A large beach upstream of the ranch."
+    },
+    {
+      "name": "Upper China Garden",
+      "mile": 71.4,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large, near private homes."
+    },
+    {
+      "name": "China Garden",
+      "mile": 71.5,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "Large, near private homes."
+    },
+    {
+      "name": "Lower China Garden",
+      "mile": 71.9,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "A large beach that shrinks at high flow."
     }
-   ]
-  },
-  {
-   "name": "On the river",
-   "rules": [
+  ],
+  "rapids": [
     {
-     "t": "Cultural sites",
-     "d": "Respect pictographs and pit house sites; do not touch pictographs."
+      "name": "Cliff Mountain Rapids",
+      "mile": 0.5,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Easy and visible from the put-in. Keep off the right-side rock face."
     },
     {
-     "t": "Water",
-     "d": "Treat all water before drinking. Pittsburg Landing has a spigot only in summer."
+      "name": "Brush Creek Rapids",
+      "mile": 2.2,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "A read-and-run wave train."
     },
     {
-     "t": "Rattlesnakes",
-     "d": "Rattlesnakes are present, including at the Suicide Point and Waterspout scout trails. Watch for poison ivy too."
+      "name": "Rocky Point Rapids",
+      "mile": 3.4,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Run best left of center."
     },
     {
-     "t": "Jet boats",
-     "d": "Jet boats share the river and trip reports describe heavy traffic. Hold your line, and pull aside only as needed."
+      "name": "Wild Sheep Rapid",
+      "mile": 5.8,
+      "civ": false,
+      "diff": 8,
+      "tier": "Class IV",
+      "desc": "The longest rapid on the river, with big waves; the line changes with flow. Scout from river left at the creek confluence."
     },
     {
-     "t": "Bats",
-     "d": "The Imnaha mine tunnel is gated to protect Townsend's big-eared bats."
+      "name": "Granite Rapid",
+      "mile": 7.8,
+      "civ": false,
+      "diff": 8,
+      "tier": "Class IV",
+      "desc": "A large submerged rock. The standard line is left under 20,000 cfs; the \"Green Room\" line opens around 19,000 cfs and up and few boats get through it without flipping. Scout river right just below Lower Granite Creek camp."
+    },
+    {
+      "name": "Three Creek Rapid",
+      "mile": 8.8,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A read-and-run wave train. Rated II+ by American Whitewater."
+    },
+    {
+      "name": "Upper Bernard Creek Rapid",
+      "mile": 11.7,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Short; the weakness is usually on the left."
+    },
+    {
+      "name": "Lower Bernard Creek Rapid",
+      "mile": 11.8,
+      "civ": false,
+      "diff": 6,
+      "tier": "Class III+",
+      "desc": "Longer, with a large standing wave in the lower half. Great surfing for kayakers."
+    },
+    {
+      "name": "Waterspout Rapid",
+      "mile": 13.3,
+      "civ": false,
+      "diff": 7,
+      "tier": "Class IV-",
+      "desc": "A rock creates a hole at some flows and a sleeper hole on the lower left. At low water run from center left and drive hard right before the bottom. Washes out at high water. The river-right scout trail is shorter. Rated III+ by American Whitewater."
+    },
+    {
+      "name": "Bills Creek Rapid",
+      "mile": 13.8,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A read-and-run wave train."
+    },
+    {
+      "name": "Sluice Creek Rapid",
+      "mile": 15.1,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Roller-coaster waves; a clear wave train down the right. Rated II by American Whitewater."
+    },
+    {
+      "name": "Rush Creek Rapids",
+      "mile": 15.6,
+      "civ": false,
+      "diff": 8,
+      "tier": "Class IV",
+      "desc": "A large mid-river rock at the top can form a boat-sized hydraulic. A clear wave train runs down the right; more technical at low water. Rated III+ by American Whitewater."
+    },
+    {
+      "name": "Sheep Creek Rapids",
+      "mile": 17.4,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Mostly read and run; avoid the rocks."
+    },
+    {
+      "name": "Hominy Creek Rapids",
+      "mile": 23.9,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Mostly read and run."
+    },
+    {
+      "name": "Kirby Creek Rapids",
+      "mile": 28.1,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A large read-and-run wave train."
+    },
+    {
+      "name": "Pleasant Valley Rapids",
+      "mile": 33.5,
+      "civ": false,
+      "diff": 4,
+      "tier": "Class III-",
+      "desc": "Class II or III depending on flow; hit the big features straight on."
+    },
+    {
+      "name": "Warm Springs Rapid",
+      "mile": 51.9,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Read and run; milder at low flow."
+    },
+    {
+      "name": "Imnaha Rapids",
+      "mile": 55.4,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Read and run at low flow; washes out at high flow."
+    },
+    {
+      "name": "Salmon River Falls",
+      "mile": 58.8,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Read and run, with camps on both sides below."
+    },
+    {
+      "name": "Frenchy Creek Rapid",
+      "mile": 62.3,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "A long, fun wave train."
+    },
+    {
+      "name": "Little Cougar Creek Rapid",
+      "mile": 69,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "The river splits; the right side of the island is the most fun."
+    },
+    {
+      "name": "China Garden Rapid",
+      "mile": 71.5,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Enter left and watch the rocks at the bottom."
+    },
+    {
+      "name": "Shovel Creek Rapid",
+      "mile": 73.3,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A medium wave train; watch for holes and rocks."
+    },
+    {
+      "name": "Wild Goose Rapid",
+      "mile": 74.8,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Stay left of the large island."
+    },
+    {
+      "name": "Deer Head Rapid",
+      "mile": 75.3,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Read and run, with fun waves."
+    },
+    {
+      "name": "Limekiln Rapid",
+      "mile": 78.3,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "The final rapid. Shallows on the left; stay right."
     }
-   ]
-  }
- ],
- "landmarks": [
-  {
-   "name": "Hells Canyon boat launch",
-   "mile": 0,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Day use only: a long ramp with limited parking, a bathroom, and no camping or water."
-  },
-  {
-   "name": "Dry Diggins view",
-   "mile": 18,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "A ridge described as the highest visible point on the Idaho side (7,828 ft)."
-  },
-  {
-   "name": "High Bar",
-   "mile": 20,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "A gravel bar from a landslide and the Bonneville Floods about 15,000 years ago."
-  },
-  {
-   "name": "Big Bar airstrip",
-   "mile": 22.5,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "The only public airstrip on the Idaho side."
-  },
-  {
-   "name": "Temperance Creek Lodge",
-   "mile": 23.3,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Cabins and a private airstrip."
-  },
-  {
-   "name": "Kirkwood Historic Ranch",
-   "mile": 26.3,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Staffed year-round by the Forest Service."
-  },
-  {
-   "name": "Kirby Creek Lodge",
-   "mile": 28.3,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "A lodge for up to 20 people."
-  },
-  {
-   "name": "Wild and Scenic boundary",
-   "mile": 30.5,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Scenic to the north and Wild to the south, designated in 1975."
-  },
-  {
-   "name": "Pittsburg Landing",
-   "mile": 32.1,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Road-accessible launch and take-out with a visitor center. No camping; a spigot in summer. Most 3 to 4 day trips end here."
-  },
-  {
-   "name": "Proposed Pleasant Valley dam",
-   "mile": 34,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "A 1954 dam proposal; yellow paint marks the site. Wild and Scenic protection blocked it."
-  },
-  {
-   "name": "Copper Creek Lodge",
-   "mile": 41.6,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "41 acres and 23 cabins. Reservations are required and camping is prohibited."
-  },
-  {
-   "name": "Nez Perce crossing",
-   "mile": 50.3,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "The 1877 river crossing during the spring flood."
-  },
-  {
-   "name": "Dug Bar landing",
-   "mile": 50.4,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "A primitive launch and airstrip. High-clearance 4WD only; toilets and camping."
-  },
-  {
-   "name": "Imnaha River confluence",
-   "mile": 55.3,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "A Wild and Scenic river known for fishing and wildlife."
-  },
-  {
-   "name": "Salmon River confluence",
-   "mile": 58.7,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "The longest undammed free-flowing river in the lower 48."
-  },
-  {
-   "name": "Mr. Peanut",
-   "mile": 59.3,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "A rock formation on the Oregon-side ridge."
-  },
-  {
-   "name": "Homes and lodges",
-   "mile": 73.3,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Private homes and lodges continue to the take-out."
-  },
-  {
-   "name": "Grande Ronde confluence",
-   "mile": 79.3,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Another whitewater river, just above the take-out."
-  },
-  {
-   "name": "Heller Bar",
-   "mile": 79.7,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Take-out. A paved ramp and restrooms; a Washington Discover Pass is required for vehicles."
-  }
- ],
- "clusters": [
-  {
-   "s": 0,
-   "e": 32.1,
-   "n": "Wild section"
-  },
-  {
-   "s": 32.1,
-   "e": 79.7,
-   "n": "Scenic section"
-  }
- ],
- "notes": {
-  "camp": "*Camp sizes are from one guide and vary with river level. Quality is not rated.",
-  "hike": "*Difficulty is a rough estimate (1 = short, easy walk; 3 = long or steep trail). Times are not given."
- },
- "hdiff": {
-  "1": "Short, easy walk",
-  "2": "Easy trail",
-  "3": "Long or steep trail"
- },
- "access": [
-  {
-   "name": "Oxbow",
-   "road": true,
-   "hub": true,
-   "note": "Nearest community to the put-in; Hells Canyon launch office",
-   "grid": [
-    1,
-    2
-   ]
-  },
-  {
-   "name": "Clarkston",
-   "road": true,
-   "hub": true,
-   "note": "Washington side; Snake River office and take-out region",
-   "grid": [
-    10,
-    2
-   ]
-  },
-  {
-   "name": "Hells Canyon launch",
-   "road": true,
-   "mile": 0,
-   "park": true,
-   "note": "Put-in below the dam",
-   "grid": [
-    1,
-    6
-   ]
-  },
-  {
-   "name": "Pittsburg Landing",
-   "road": true,
-   "mile": 32.1,
-   "park": true,
-   "note": "Take-out for the Wild section; visitor center",
-   "grid": [
-    4,
-    6
-   ]
-  },
-  {
-   "name": "Dug Bar",
-   "road": true,
-   "mile": 50.4,
-   "note": "Primitive access; high-clearance 4WD only",
-   "grid": [
-    7,
-    6
-   ]
-  },
-  {
-   "name": "Heller Bar",
-   "road": true,
-   "mile": 79.7,
-   "park": true,
-   "note": "Take-out. Paved ramp; Washington Discover Pass",
-   "grid": [
-    10,
-    6
-   ]
-  }
- ],
- "yardGrid": [
-  5,
-  1
- ],
- "roads": [
-  {
-   "a": "Oxbow",
-   "b": "Hells Canyon launch",
-   "h": ""
-  },
-  {
-   "a": "Clarkston",
-   "b": "Heller Bar",
-   "h": ""
-  },
-  {
-   "a": "Oxbow",
-   "b": "Pittsburg Landing",
-   "h": ""
-  },
-  {
-   "a": "Oxbow",
-   "b": "Clarkston",
-   "h": ""
-  },
-  {
-   "a": "Outfitter",
-   "b": "Oxbow",
-   "h": ""
-  }
- ],
- "permit": {
-  "status": "Required May 22 to Sept 10 (2026) · lottery for the Wild section",
-  "asOf": "October 2026",
-  "apply": {
-   "label": "Apply on Recreation.gov",
-   "url": "https://www.recreation.gov/permits/234625"
-  },
-  "contact": {
-   "phone": "509-758-0616",
-   "web": "https://www.recreation.gov/permits/234625"
-  },
-  "sections": [
-   {
-    "name": "How to get one",
-    "items": [
-     {
-      "t": "The primary season",
-      "d": "From the Friday before Memorial Day through September 10 (May 22 to September 10 in 2026), a Wild River Reservation is required seven days a week for the Wild section: Hells Canyon Dam to Upper Pittsburg Landing. Reservations are available only through Recreation.gov (877-444-6777)."
-     },
-     {
-      "t": "Lottery",
-      "d": "Hells Canyon is part of the Four Rivers Lottery, with applications due January 31. Cancellations can be picked up on Recreation.gov. Confirm the current dates there."
-     },
-     {
-      "t": "Secondary season",
-      "d": "Outside the primary season, and Monday through Thursday in the primary season, a self-issue permit is required for the whole corridor. No advance reservation is needed. Boat tags and permits come from the Clarkston, Washington Snake River office or a launch officer at Pittsburg Landing."
-     },
-     {
-      "t": "Eligibility",
-      "d": "The permit holder must be at least 18, must not be under a late-cancellation or no-show penalty on this river, must sign a statement that they understand the definition of a private float boat trip, and cannot transfer the permit."
-     },
-     {
-      "t": "Launches",
-      "d": "Three private permit launches are available daily in the primary season. Scenic floats launching from Pittsburg are limited to two a day on Fridays, Saturdays, Sundays and holidays."
-     }
+  ],
+  "hikes": [
+    {
+      "name": "Warm Springs pit houses",
+      "mile": 3.9,
+      "bank": "R",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "Depressions where Native American pit houses stood. Respect the site."
+    },
+    {
+      "name": "Battle Creek",
+      "mile": 4.6,
+      "bank": "L",
+      "time": null,
+      "diff": 3,
+      "qual": null,
+      "desc": "A worthwhile hike up the creek from the confluence. Barton Cabin, built by Ralph Barton, is a short walk from the eddy."
+    },
+    {
+      "name": "Granite Rapids scout and pictographs",
+      "mile": 7.7,
+      "bank": "R",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "An overlook along the base of the cliff with pictographs. Do not touch."
+    },
+    {
+      "name": "McGaffee Cabin",
+      "mile": 11.7,
+      "bank": "R",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "Built in 1905 and on the National Register of Historic Places, at Bernard Creek."
+    },
+    {
+      "name": "Sheep Creek Cabin",
+      "mile": 17.7,
+      "bank": "R",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "An 1884 homestead, often leased; pit toilets may be available."
+    },
+    {
+      "name": "Suicide Point",
+      "mile": 24.2,
+      "bank": "R",
+      "time": null,
+      "diff": 3,
+      "qual": null,
+      "desc": "About a 400 ft climb to spectacular views. Watch for rattlesnakes."
+    },
+    {
+      "name": "Kirkwood Historic Ranch",
+      "mile": 26.3,
+      "bank": "R",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "A Forest Service staffed ranch with toilets, no drinking water and communications. A 6-mile trail leads to Pittsburg Landing."
+    },
+    {
+      "name": "Chinese Miners Massacre memorial",
+      "mile": 47.8,
+      "bank": "L",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "Stone wall remnants and a memorial for the 1887 killings, erected in 2012."
+    },
+    {
+      "name": "Imnaha steamboat rings",
+      "mile": 57.2,
+      "bank": null,
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "Iron rings in the walls used to winch steamboats upstream."
+    },
+    {
+      "name": "Cache Creek Ranch",
+      "mile": 70.5,
+      "bank": "L",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "A museum, orchard, boat ramp and toilets, for day use."
+    }
+  ],
+  "geology": [],
+  "guide": [],
+  "almanac": {
+    "history": [
+      [
+        "The canyon",
+        "Hells Canyon averages about 5,500 feet below the rim for roughly 75 miles, with the Seven Devils Mountains on the Idaho side. The dam complex upstream was built between 1959 and 1967."
+      ],
+      [
+        "Chinese miners",
+        "In 1887 a group of Chinese miners was killed on the Oregon side. A memorial was erected in 2012."
+      ],
+      [
+        "The Nez Perce",
+        "In 1877 the Nez Perce crossed the Snake near Dug Bar during spring flood."
+      ],
+      [
+        "Wild and Scenic",
+        "The river was designated Wild and Scenic in 1975. A 1954 proposal for a dam at Pleasant Valley was blocked by that protection."
+      ]
+    ],
+    "flows": [
+      [
+        "Flows",
+        "Releases are controlled at the dam. Granite Rapid was \"juicing\" near 20,000 cfs and ran fine at 14,000 to 15,000. Waterspout has options above 14,000 cfs. Check Idaho Power's flow line at 800-422-3143."
+      ]
     ]
-   },
-   {
-    "name": "Costs and cancellation",
-    "items": [
-     {
-      "t": "Fees",
-      "d": "A $6 reservation fee, non-refundable, paid by card on Recreation.gov. There are no per-person recreation fees."
-     },
-     {
-      "t": "Group size",
-      "d": "Up to 24 people."
-     },
-     {
-      "t": "Cancellation",
-      "d": "Cancel on Recreation.gov no later than 15 days before launch. The deadline may be waived for extreme water conditions, but you must still cancel. A missed deadline is a no-show and affects permit eligibility for one year."
-     }
+  },
+  "rules": [
+    {
+      "name": "Required equipment",
+      "rules": [
+        {
+          "t": "Life jackets",
+          "d": "At least one U.S. Coast Guard approved life jacket per person."
+        },
+        {
+          "t": "Human waste",
+          "d": "A reusable, sealable, leak-proof human waste carry-out system."
+        },
+        {
+          "t": "Fire pan",
+          "d": "A fire pan for all fires."
+        },
+        {
+          "t": "Invasive species",
+          "d": "An Oregon or Idaho invasive species sticker."
+        }
+      ]
+    },
+    {
+      "name": "On the river",
+      "rules": [
+        {
+          "t": "Cultural sites",
+          "d": "Respect pictographs and pit house sites; do not touch pictographs."
+        },
+        {
+          "t": "Water",
+          "d": "Treat all water before drinking. Pittsburg Landing has a spigot only in summer."
+        },
+        {
+          "t": "Rattlesnakes",
+          "d": "Rattlesnakes are present, including at the Suicide Point and Waterspout scout trails. Watch for poison ivy too."
+        },
+        {
+          "t": "Jet boats",
+          "d": "Jet boats share the river and trip reports describe heavy traffic. Hold your line, and pull aside only as needed."
+        },
+        {
+          "t": "Bats",
+          "d": "The Imnaha mine tunnel is gated to protect Townsend's big-eared bats."
+        }
+      ]
+    }
+  ],
+  "landmarks": [
+    {
+      "name": "Hells Canyon boat launch",
+      "mile": 0,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Day use only: a long ramp with limited parking, a bathroom, and no camping or water."
+    },
+    {
+      "name": "Dry Diggins view",
+      "mile": 18,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "A ridge described as the highest visible point on the Idaho side (7,828 ft)."
+    },
+    {
+      "name": "High Bar",
+      "mile": 20,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "A gravel bar from a landslide and the Bonneville Floods about 15,000 years ago."
+    },
+    {
+      "name": "Big Bar airstrip",
+      "mile": 22.5,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "The only public airstrip on the Idaho side."
+    },
+    {
+      "name": "Temperance Creek Lodge",
+      "mile": 23.3,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Cabins and a private airstrip."
+    },
+    {
+      "name": "Kirkwood Historic Ranch",
+      "mile": 26.3,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Staffed year-round by the Forest Service."
+    },
+    {
+      "name": "Kirby Creek Lodge",
+      "mile": 28.3,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "A lodge for up to 20 people."
+    },
+    {
+      "name": "Wild and Scenic boundary",
+      "mile": 30.5,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Scenic to the north and Wild to the south, designated in 1975."
+    },
+    {
+      "name": "Pittsburg Landing",
+      "mile": 32.1,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Road-accessible launch and take-out with a visitor center. No camping; a spigot in summer. Most 3 to 4 day trips end here."
+    },
+    {
+      "name": "Proposed Pleasant Valley dam",
+      "mile": 34,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "A 1954 dam proposal; yellow paint marks the site. Wild and Scenic protection blocked it."
+    },
+    {
+      "name": "Copper Creek Lodge",
+      "mile": 41.6,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "41 acres and 23 cabins. Reservations are required and camping is prohibited."
+    },
+    {
+      "name": "Nez Perce crossing",
+      "mile": 50.3,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "The 1877 river crossing during the spring flood."
+    },
+    {
+      "name": "Dug Bar landing",
+      "mile": 50.4,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "A primitive launch and airstrip. High-clearance 4WD only; toilets and camping."
+    },
+    {
+      "name": "Imnaha River confluence",
+      "mile": 55.3,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "A Wild and Scenic river known for fishing and wildlife."
+    },
+    {
+      "name": "Salmon River confluence",
+      "mile": 58.7,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "The longest undammed free-flowing river in the lower 48."
+    },
+    {
+      "name": "Mr. Peanut",
+      "mile": 59.3,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "A rock formation on the Oregon-side ridge."
+    },
+    {
+      "name": "Homes and lodges",
+      "mile": 73.3,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Private homes and lodges continue to the take-out."
+    },
+    {
+      "name": "Grande Ronde confluence",
+      "mile": 79.3,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Another whitewater river, just above the take-out."
+    },
+    {
+      "name": "Heller Bar",
+      "mile": 79.7,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Take-out. A paved ramp and restrooms; a Washington Discover Pass is required for vehicles."
+    }
+  ],
+  "clusters": [
+    {
+      "s": 0,
+      "e": 32.1,
+      "n": "Wild section"
+    },
+    {
+      "s": 32.1,
+      "e": 79.7,
+      "n": "Scenic section"
+    }
+  ],
+  "notes": {
+    "camp": "",
+    "hike": ""
+  },
+  "hdiff": {
+    "1": "Short, easy walk",
+    "2": "Easy trail",
+    "3": "Long or steep trail"
+  },
+  "access": [
+    {
+      "name": "Oxbow",
+      "road": true,
+      "hub": true,
+      "note": "Nearest community to the put-in; Hells Canyon launch office",
+      "grid": [
+        1,
+        2
+      ]
+    },
+    {
+      "name": "Clarkston",
+      "road": true,
+      "hub": true,
+      "note": "Washington side; Snake River office and take-out region",
+      "grid": [
+        10,
+        2
+      ]
+    },
+    {
+      "name": "Hells Canyon launch",
+      "road": true,
+      "mile": 0,
+      "park": true,
+      "note": "Put-in below the dam",
+      "grid": [
+        1,
+        6
+      ]
+    },
+    {
+      "name": "Pittsburg Landing",
+      "road": true,
+      "mile": 32.1,
+      "park": true,
+      "note": "Take-out for the Wild section; visitor center",
+      "grid": [
+        4,
+        6
+      ]
+    },
+    {
+      "name": "Dug Bar",
+      "road": true,
+      "mile": 50.4,
+      "note": "Primitive access; high-clearance 4WD only",
+      "grid": [
+        7,
+        6
+      ]
+    },
+    {
+      "name": "Heller Bar",
+      "road": true,
+      "mile": 79.7,
+      "park": true,
+      "note": "Take-out. Paved ramp; Washington Discover Pass",
+      "grid": [
+        10,
+        6
+      ]
+    }
+  ],
+  "yardGrid": [
+    5,
+    1
+  ],
+  "roads": [
+    {
+      "a": "Oxbow",
+      "b": "Hells Canyon launch",
+      "h": ""
+    },
+    {
+      "a": "Clarkston",
+      "b": "Heller Bar",
+      "h": ""
+    },
+    {
+      "a": "Oxbow",
+      "b": "Pittsburg Landing",
+      "h": ""
+    },
+    {
+      "a": "Oxbow",
+      "b": "Clarkston",
+      "h": ""
+    },
+    {
+      "a": "Outfitter",
+      "b": "Oxbow",
+      "h": ""
+    }
+  ],
+  "permit": {
+    "status": "Required May 22 to Sept 10 (2026) · lottery for the Wild section",
+    "asOf": "October 2026",
+    "apply": {
+      "label": "Apply on Recreation.gov",
+      "url": "https://www.recreation.gov/permits/234625"
+    },
+    "contact": {
+      "phone": "509-758-0616",
+      "web": "https://www.recreation.gov/permits/234625"
+    },
+    "sections": [
+      {
+        "name": "How to get one",
+        "items": [
+          {
+            "t": "The primary season",
+            "d": "From the Friday before Memorial Day through September 10 (May 22 to September 10 in 2026), a Wild River Reservation is required seven days a week for the Wild section: Hells Canyon Dam to Upper Pittsburg Landing. Reservations are available only through Recreation.gov (877-444-6777)."
+          },
+          {
+            "t": "Lottery",
+            "d": "Hells Canyon is part of the Four Rivers Lottery, with applications due January 31. Cancellations can be picked up on Recreation.gov. Confirm the current dates there."
+          },
+          {
+            "t": "Secondary season",
+            "d": "Outside the primary season, and Monday through Thursday in the primary season, a self-issue permit is required for the whole corridor. No advance reservation is needed. Boat tags and permits come from the Clarkston, Washington Snake River office or a launch officer at Pittsburg Landing."
+          },
+          {
+            "t": "Eligibility",
+            "d": "The permit holder must be at least 18, must not be under a late-cancellation or no-show penalty on this river, must sign a statement that they understand the definition of a private float boat trip, and cannot transfer the permit."
+          },
+          {
+            "t": "Launches",
+            "d": "Three private permit launches are available daily in the primary season. Scenic floats launching from Pittsburg are limited to two a day on Fridays, Saturdays, Sundays and holidays."
+          }
+        ]
+      },
+      {
+        "name": "Costs and cancellation",
+        "items": [
+          {
+            "t": "Fees",
+            "d": "A $6 reservation fee, non-refundable, paid by card on Recreation.gov. There are no per-person recreation fees."
+          },
+          {
+            "t": "Group size",
+            "d": "Up to 24 people."
+          },
+          {
+            "t": "Cancellation",
+            "d": "Cancel on Recreation.gov no later than 15 days before launch. The deadline may be waived for extreme water conditions, but you must still cancel. A missed deadline is a no-show and affects permit eligibility for one year."
+          }
+        ]
+      },
+      {
+        "name": "Motors",
+        "items": [
+          {
+            "t": "Non-motorized periods",
+            "d": "Powerboats are prohibited in the Wild section from the top of Wild Sheep Rapids to Kirkwood Upper Landing during non-motorized periods. These fall on Monday through Wednesday, beginning the first Monday in June and continuing every other week through the primary season."
+          },
+          {
+            "t": "Kicker motors",
+            "d": "Operating a kicker motor in the Wild section, from the Hells Canyon launch to Upper Pittsburg Landing, is prohibited except in an emergency."
+          }
+        ]
+      }
     ]
-   },
-   {
-    "name": "Motors",
-    "items": [
-     {
-      "t": "Non-motorized periods",
-      "d": "Powerboats are prohibited in the Wild section from the top of Wild Sheep Rapids to Kirkwood Upper Landing during non-motorized periods. These fall on Monday through Wednesday, beginning the first Monday in June and continuing every other week through the primary season."
-     },
-     {
-      "t": "Kicker motors",
-      "d": "Operating a kicker motor in the Wild section, from the Hells Canyon launch to Upper Pittsburg Landing, is prohibited except in an emergency."
-     }
-    ]
-   }
-  ]
- }
+  }
 }

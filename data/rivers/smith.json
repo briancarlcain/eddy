@@ -1,137 +1,141 @@
 {
- "name": "Smith River",
- "reach": "Camp Baker to Eden Bridge",
- "agency": "Montana FWP / Lewis & Clark National Forest",
- "miles": [
-  0,
-  59
- ],
- "days": 4,
- "coords": [
-  46.89,
-  -111.17
- ],
- "tz": "America/Denver",
- "note": "Starter record: reach, mileage and put-in/take-out only (coordinates approximate). Permits are by lottery through Montana FWP. Add rapids, camps and hikes from your guidebook with the editor on the Rivers tab, or import a river JSON.",
- "access": [
-  {
-   "name": "Great Falls",
-   "road": true,
-   "hub": true,
-   "note": "Nearest city / airport; shuttle base"
+  "name": "Smith River",
+  "reach": "Camp Baker to Eden Bridge",
+  "agency": "Montana FWP / Lewis & Clark National Forest",
+  "miles": [
+    0,
+    59
+  ],
+  "days": 4,
+  "coords": [
+    46.89,
+    -111.17
+  ],
+  "tz": "America/Denver",
+  "note": "",
+  "access": [
+    {
+      "name": "Great Falls",
+      "road": true,
+      "hub": true,
+      "note": "Nearest city / airport; shuttle base"
+    },
+    {
+      "name": "Camp Baker",
+      "road": true,
+      "mile": 0,
+      "park": true,
+      "note": "Put-in"
+    },
+    {
+      "name": "Eden Bridge",
+      "road": true,
+      "mile": 59,
+      "park": true,
+      "note": "Take-out"
+    }
+  ],
+  "permit": {
+    "status": "Required · lottery",
+    "asOf": "October 2026",
+    "apply": {
+      "label": "Apply on the FWP licensing site",
+      "url": "https://ols.fwp.mt.gov"
+    },
+    "contact": {
+      "phone": "406-454-5861",
+      "email": "SmithRiver@mt.gov",
+      "web": "https://fwp.mt.gov/smith-river"
+    },
+    "sections": [
+      {
+        "name": "How to get one",
+        "items": [
+          {
+            "t": "Apply online",
+            "d": "Use the Montana FWP online licensing service during the application window. You can list several launch dates."
+          },
+          {
+            "t": "Wait for the drawing",
+            "d": "FWP emails winners. Unsuccessful applicants are not notified; results are also posted in your myfwp account."
+          },
+          {
+            "t": "Register by phone",
+            "d": "Winners are called about two days before launch to register the party, declare boat camps and pay float fees. Rangers assign a one-hour launch window."
+          },
+          {
+            "t": "Attend orientation",
+            "d": "Every group attends a mandatory safety and orientation talk at Camp Baker on launch day."
+          },
+          {
+            "t": "Leftover dates",
+            "d": "From early March, call the Smith River reservation line (406-454-5861, weekdays 8 a.m. to noon Mountain) to pick up cancelled dates or cancel yours. The page gives two different start dates for the line, so confirm."
+          }
+        ]
+      },
+      {
+        "name": "Dates",
+        "items": [
+          {
+            "t": "Application window",
+            "d": "January 1 to February 15. The drawing is held February 18 (2026 cycle; confirm the next dates)."
+          },
+          {
+            "t": "Super Permit",
+            "d": "A separate drawing: applications through March 15, drawn March 16. The winner may launch any date that season."
+          },
+          {
+            "t": "Season",
+            "d": "A permit is required year-round. Most floats run mid-April to mid-July, with some in September and October. From May 15 to July 15 you may camp a maximum of four nights."
+          }
+        ]
+      },
+      {
+        "name": "Costs",
+        "items": [
+          {
+            "t": "Application fee",
+            "d": "A small non-refundable fee per application ($15 in most FWP sources; one 2026 guide says about $10). Confirm on the licensing site."
+          },
+          {
+            "t": "Bonus points",
+            "d": "One point per year may be bought: $5 for residents, $125 for nonresidents. Points build until you draw, then reset."
+          },
+          {
+            "t": "Super Permit chances",
+            "d": "$5 each; buy as many as you like."
+          },
+          {
+            "t": "Float fees",
+            "d": "Per-person fees are set in the Smith River biennial rule and paid at phone registration."
+          }
+        ]
+      },
+      {
+        "name": "Limits",
+        "items": [
+          {
+            "t": "Party size",
+            "d": "Up to 15 people on one permit."
+          },
+          {
+            "t": "Route",
+            "d": "The permit covers the 59-mile float from Camp Baker to Eden Bridge with camping at designated boat camps only."
+          },
+          {
+            "t": "No motors",
+            "d": "Motorized boats are not allowed."
+          },
+          {
+            "t": "Daily launches",
+            "d": "Reported cap of nine float parties per day at Camp Baker."
+          }
+        ]
+      }
+    ]
   },
-  {
-   "name": "Camp Baker",
-   "road": true,
-   "mile": 0,
-   "park": true,
-   "note": "Put-in"
-  },
-  {
-   "name": "Eden Bridge",
-   "road": true,
-   "mile": 59,
-   "park": true,
-   "note": "Take-out"
+  "notes": {
+    "camp": "",
+    "hike": ""
   }
- ],
- "permit": {
-  "status": "Required · lottery",
-  "asOf": "October 2026",
-  "apply": {
-   "label": "Apply on the FWP licensing site",
-   "url": "https://ols.fwp.mt.gov"
-  },
-  "contact": {
-   "phone": "406-454-5861",
-   "email": "SmithRiver@mt.gov",
-   "web": "https://fwp.mt.gov/smith-river"
-  },
-  "sections": [
-   {
-    "name": "How to get one",
-    "items": [
-     {
-      "t": "Apply online",
-      "d": "Use the Montana FWP online licensing service during the application window. You can list several launch dates."
-     },
-     {
-      "t": "Wait for the drawing",
-      "d": "FWP emails winners. Unsuccessful applicants are not notified; results are also posted in your myfwp account."
-     },
-     {
-      "t": "Register by phone",
-      "d": "Winners are called about two days before launch to register the party, declare boat camps and pay float fees. Rangers assign a one-hour launch window."
-     },
-     {
-      "t": "Attend orientation",
-      "d": "Every group attends a mandatory safety and orientation talk at Camp Baker on launch day."
-     },
-     {
-      "t": "Leftover dates",
-      "d": "From early March, call the Smith River reservation line (406-454-5861, weekdays 8 a.m. to noon Mountain) to pick up cancelled dates or cancel yours. The page gives two different start dates for the line, so confirm."
-     }
-    ]
-   },
-   {
-    "name": "Dates",
-    "items": [
-     {
-      "t": "Application window",
-      "d": "January 1 to February 15. The drawing is held February 18 (2026 cycle; confirm the next dates)."
-     },
-     {
-      "t": "Super Permit",
-      "d": "A separate drawing: applications through March 15, drawn March 16. The winner may launch any date that season."
-     },
-     {
-      "t": "Season",
-      "d": "A permit is required year-round. Most floats run mid-April to mid-July, with some in September and October. From May 15 to July 15 you may camp a maximum of four nights."
-     }
-    ]
-   },
-   {
-    "name": "Costs",
-    "items": [
-     {
-      "t": "Application fee",
-      "d": "A small non-refundable fee per application ($15 in most FWP sources; one 2026 guide says about $10). Confirm on the licensing site."
-     },
-     {
-      "t": "Bonus points",
-      "d": "One point per year may be bought: $5 for residents, $125 for nonresidents. Points build until you draw, then reset."
-     },
-     {
-      "t": "Super Permit chances",
-      "d": "$5 each; buy as many as you like."
-     },
-     {
-      "t": "Float fees",
-      "d": "Per-person fees are set in the Smith River biennial rule and paid at phone registration."
-     }
-    ]
-   },
-   {
-    "name": "Limits",
-    "items": [
-     {
-      "t": "Party size",
-      "d": "Up to 15 people on one permit."
-     },
-     {
-      "t": "Route",
-      "d": "The permit covers the 59-mile float from Camp Baker to Eden Bridge with camping at designated boat camps only."
-     },
-     {
-      "t": "No motors",
-      "d": "Motorized boats are not allowed."
-     },
-     {
-      "t": "Daily launches",
-      "d": "Reported cap of nine float parties per day at Camp Baker."
-     }
-    ]
-   }
-  ]
- }
 }

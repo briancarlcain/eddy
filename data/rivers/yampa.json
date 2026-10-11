@@ -1,765 +1,765 @@
 {
- "name": "Yampa River",
- "reach": "Deerlodge Park to Split Mountain",
- "agency": "Dinosaur National Monument, River Permit Office",
- "miles": [
-  0,
-  71
- ],
- "days": 5,
- "coords": [
-  40.52,
-  -108.99
- ],
- "tz": "America/Denver",
- "note": "The permitted trip through Dinosaur National Monument: 46 miles of the free-flowing Yampa to Echo Park, then about 25 miles of the Green River to the Split Mountain take-out. Miles are from Deerlodge Park. Sources differ by a mile or two, so use the map for order, not for exact distances. Camps are shown by number of sites, not quality. Compiled from public sources; confirm camps, rules and flows with the park and a current guidebook.",
- "camps": [
-  {
-   "name": "Deerlodge Park",
-   "mile": 0,
-   "qual": null,
-   "bank": "L",
-   "desc": "7 sites. Pre-launch campground at the put-in: seven walk-in sites, first come first served, seasonal water and vault toilets."
-  },
-  {
-   "name": "Ponderosa",
-   "mile": 9.1,
-   "size": 2,
-   "qual": null,
-   "bank": "L",
-   "desc": "1 site. Ponderosa Beach; ponderosa pines line this part of the canyon."
-  },
-  {
-   "name": "Tepee Hole",
-   "mile": 9.9,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "1 site. At Tepee Beach, just above Tepee Rapid."
-  },
-  {
-   "name": "Big Joe",
-   "mile": 22.1,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "1 site. Big Joe Beach, in Starvation Valley by the rapid."
-  },
-  {
-   "name": "Harding Hole",
-   "mile": 25.8,
-   "size": 6,
-   "qual": null,
-   "bank": "L",
-   "desc": "4 sites. Several groups camp here, with marked site boundaries. Quiet hours 10 p.m. to 6 a.m. Trail to Wagon Wheel Point and Signature Cave."
-  },
-  {
-   "name": "Mather's Hole",
-   "mile": 27.8,
-   "size": 2,
-   "qual": null,
-   "bank": "L",
-   "desc": "1 site. Beneath a large overhanging cliff, between Big Joe and Warm Springs."
-  },
-  {
-   "name": "Laddie Park",
-   "mile": 35.6,
-   "size": 4,
-   "qual": null,
-   "bank": null,
-   "desc": "2 sites. A common camp after Mantle Cave and before Tiger Wall."
-  },
-  {
-   "name": "Warm Springs",
-   "mile": 41.7,
-   "size": 2,
-   "qual": null,
-   "bank": null,
-   "desc": "1 site. Camp at the rapid. Filter water here."
-  },
-  {
-   "name": "Box Elder",
-   "mile": 43.8,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "3 sites. Box Elder Beach, just above the confluence with the Green."
-  },
-  {
-   "name": "Sea Cliff",
-   "mile": 48.9,
-   "size": 2,
-   "qual": null,
-   "bank": null,
-   "desc": "1 site. Below Echo Park, in the upper Whirlpool Canyon reach. Mile is an estimate."
-  },
-  {
-   "name": "Jones Hole",
-   "mile": 51.8,
-   "size": 6,
-   "qual": null,
-   "bank": null,
-   "desc": "4 sites. Water can be filtered at Jones Creek. Marked site boundaries."
-  },
-  {
-   "name": "Island Park",
-   "mile": 58,
-   "size": 2,
-   "qual": null,
-   "bank": null,
-   "desc": "1 site. In the flatwater of Island Park, with views of Split Mountain."
-  }
- ],
- "rapids": [
-  {
-   "name": "Anderson Hole",
-   "mile": 1.2,
-   "civ": false,
-   "diff": 4,
-   "tier": "Class II+",
-   "desc": "An easy drop just after the box canyon opens, with a wide horizon line and some play waves."
-  },
-  {
-   "name": "Tepee Rapid",
-   "mile": 9.52,
-   "civ": false,
-   "diff": 4,
-   "tier": "Class II+",
-   "desc": "A wave train with large holes at high water. Tepee Beach is at the rapid."
-  },
-  {
-   "name": "Little Joe Rapid",
-   "mile": 16.5,
-   "civ": false,
-   "diff": 3,
-   "tier": "Unrated",
-   "desc": "Listed in a river log without a rating."
-  },
-  {
-   "name": "Five Springs Rapid",
-   "mile": 19.5,
-   "civ": false,
-   "diff": 3,
-   "tier": "Unrated",
-   "desc": "Listed in a river log without a rating; Five Springs Draw enters here."
-  },
-  {
-   "name": "Big Joe",
-   "mile": 21.94,
-   "civ": false,
-   "diff": 4,
-   "tier": "Class II+",
-   "desc": "The river constricts and rocky debris makes a rapid of waves and holes. Barely runnable at very low flows; scout from river right."
-  },
-  {
-   "name": "Warm Springs Rapid",
-   "mile": 41.59,
-   "civ": false,
-   "diff": 8,
-   "tier": "Class IV",
-   "desc": "The biggest rapid on the Yampa, formed by a 1965 flash flood down Warm Springs Draw. Scout from river right. Maytag, the last hole, can flip rafts or hold swimmers, and a flip often means a rough night and lost gear. Much tamer at low flows."
-  },
-  {
-   "name": "Moonshine Rapid",
-   "mile": 65,
-   "civ": false,
-   "diff": 4,
-   "tier": "Class II–III",
-   "desc": "In Split Mountain Gorge. Not rated individually; the gorge is Class II to III. Life jackets required."
-  },
-  {
-   "name": "S.O.B. Rapid",
-   "mile": 66,
-   "civ": false,
-   "diff": 4,
-   "tier": "Class II–III",
-   "desc": "In Split Mountain Gorge. Not rated individually."
-  },
-  {
-   "name": "Schoolboy Rapid",
-   "mile": 66.5,
-   "civ": false,
-   "diff": 4,
-   "tier": "Class II–III",
-   "desc": "In Split Mountain Gorge. Not rated individually."
-  },
-  {
-   "name": "Inglesby Rapid",
-   "mile": 69.5,
-   "civ": false,
-   "diff": 4,
-   "tier": "Class II–III",
-   "desc": "The last rapid in Split Mountain Gorge, just above the take-out. Not rated individually."
-  }
- ],
- "hikes": [
-  {
-   "name": "Stubs Cabin",
-   "mile": 4.5,
-   "bank": "R",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "A historic cabin a short walk from the river near Anderson Hole."
-  },
-  {
-   "name": "Wagon Wheel Point and Signature Cave",
-   "mile": 25.8,
-   "bank": "L",
-   "time": null,
-   "diff": 3,
-   "qual": null,
-   "desc": "A longer hike from Harding Hole up to the rim viewpoint. Signature Cave holds Fremont artifacts and historic names, including marks left by Pat Lynch between the 1880s and 1917."
-  },
-  {
-   "name": "Pat's Cave",
-   "mile": 33.7,
-   "bank": "R",
-   "time": null,
-   "diff": 2,
-   "qual": null,
-   "desc": "A hike across from Mantle Ranch."
-  },
-  {
-   "name": "Mantle Cave",
-   "mile": 34.1,
-   "bank": "L",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "Fremont ruins and artifacts. Visitors are welcome; take pictures only."
-  },
-  {
-   "name": "Tiger Wall",
-   "mile": 37.08,
-   "bank": "L",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "A tiger-striped, varnished wall rising straight from the water. Boaters traditionally kiss it for luck before Warm Springs Rapid."
-  },
-  {
-   "name": "Echo Park petroglyphs and Whispering Cave",
-   "mile": 46.5,
-   "bank": null,
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "Rock art, Pat Lynch inscriptions and Whispering Cave in the Echo Park area, below Steamboat Rock. Pool Creek enters here."
-  },
-  {
-   "name": "Jones Hole",
-   "mile": 51.8,
-   "bank": null,
-   "time": null,
-   "diff": 3,
-   "qual": null,
-   "desc": "A longer hike up Jones Creek with rock art and a waterfall."
-  }
- ],
- "geology": [],
- "guide": [],
- "almanac": {},
- "rules": [
-  {
-   "name": "Camping",
-   "rules": [
+  "name": "Yampa River",
+  "reach": "Deerlodge Park to Split Mountain",
+  "agency": "Dinosaur National Monument, River Permit Office",
+  "miles": [
+    0,
+    71
+  ],
+  "days": 5,
+  "coords": [
+    40.52,
+    -108.99
+  ],
+  "tz": "America/Denver",
+  "note": "",
+  "camps": [
     {
-     "t": "Camp in your assigned sites",
-     "d": "In the high-use season you camp only in the sites assigned to your trip; campsites for the whole trip are registered at the put-in. In the low-use season sites are first come, first served."
+      "name": "Deerlodge Park",
+      "mile": 0,
+      "qual": null,
+      "bank": "L",
+      "desc": "7 sites. Pre-launch campground at the put-in: seven walk-in sites, first come first served, seasonal water and vault toilets."
     },
     {
-     "t": "Be out by noon",
-     "d": "Pack up, load boats and clear the landing by noon so the next group can use the site."
+      "name": "Ponderosa",
+      "mile": 9.1,
+      "size": 2,
+      "qual": null,
+      "bank": "L",
+      "desc": "1 site. Ponderosa Beach; ponderosa pines line this part of the canyon."
     },
     {
-     "t": "Where you cannot camp",
-     "d": "No camping on multiday trips at Echo Park, Rainbow Park or in Split Mountain Gorge."
+      "name": "Tepee Hole",
+      "mile": 9.9,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "1 site. At Tepee Beach, just above Tepee Rapid."
     },
     {
-     "t": "One group per site",
-     "d": "One group per campsite, with up to 25 participants. Where sites are grouped, as at Jones Hole and Harding Hole, stay inside your assigned site; posts mark the boundaries."
+      "name": "Big Joe",
+      "mile": 22.1,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "1 site. Big Joe Beach, in Starvation Valley by the rapid."
     },
     {
-     "t": "Quiet hours",
-     "d": "10 p.m. to 6 a.m."
+      "name": "Harding Hole",
+      "mile": 25.8,
+      "size": 6,
+      "qual": null,
+      "bank": "L",
+      "desc": "4 sites. Several groups camp here, with marked site boundaries. Quiet hours 10 p.m. to 6 a.m. Trail to Wagon Wheel Point and Signature Cave."
     },
     {
-     "t": "Closures",
-     "d": "The Superintendent may close campsites for bighorn lambing, bear activity or wildfire."
+      "name": "Mather's Hole",
+      "mile": 27.8,
+      "size": 2,
+      "qual": null,
+      "bank": "L",
+      "desc": "1 site. Beneath a large overhanging cliff, between Big Joe and Warm Springs."
+    },
+    {
+      "name": "Laddie Park",
+      "mile": 35.6,
+      "size": 4,
+      "qual": null,
+      "bank": null,
+      "desc": "2 sites. A common camp after Mantle Cave and before Tiger Wall."
+    },
+    {
+      "name": "Warm Springs",
+      "mile": 41.7,
+      "size": 2,
+      "qual": null,
+      "bank": null,
+      "desc": "1 site. Camp at the rapid. Filter water here."
+    },
+    {
+      "name": "Box Elder",
+      "mile": 43.8,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "3 sites. Box Elder Beach, just above the confluence with the Green."
+    },
+    {
+      "name": "Sea Cliff",
+      "mile": 48.9,
+      "size": 2,
+      "qual": null,
+      "bank": null,
+      "desc": "1 site. Below Echo Park, in the upper Whirlpool Canyon reach. Mile is an estimate."
+    },
+    {
+      "name": "Jones Hole",
+      "mile": 51.8,
+      "size": 6,
+      "qual": null,
+      "bank": null,
+      "desc": "4 sites. Water can be filtered at Jones Creek. Marked site boundaries."
+    },
+    {
+      "name": "Island Park",
+      "mile": 58,
+      "size": 2,
+      "qual": null,
+      "bank": null,
+      "desc": "1 site. In the flatwater of Island Park, with views of Split Mountain."
     }
-   ]
-  },
-  {
-   "name": "Equipment",
-   "rules": [
+  ],
+  "rapids": [
     {
-     "t": "Documents",
-     "d": "Carry the printed, signed permit and the permit holder's ID, plus the NPS boater's guide."
+      "name": "Anderson Hole",
+      "mile": 1.2,
+      "civ": false,
+      "diff": 4,
+      "tier": "Class II+",
+      "desc": "An easy drop just after the box canyon opens, with a wide horizon line and some play waves."
     },
     {
-     "t": "Fire pan",
-     "d": "A fire pan with a 2.5-inch lip and at least 12 inches wide, with a fire blanket."
+      "name": "Tepee Rapid",
+      "mile": 9.52,
+      "civ": false,
+      "diff": 4,
+      "tier": "Class II+",
+      "desc": "A wave train with large holes at high water. Tepee Beach is at the rapid."
     },
     {
-     "t": "River toilet",
-     "d": "A river toilet system (groover or day-use kit)."
+      "name": "Little Joe Rapid",
+      "mile": 16.5,
+      "civ": false,
+      "diff": 3,
+      "tier": "Unrated",
+      "desc": "Listed in a river log without a rating."
     },
     {
-     "t": "Lifejackets and spares",
-     "d": "One life jacket per person, plus one spare per 10 people. Spare paddles or oars: one per raft, plus one per three small craft. Helmets for small craft, plus one extra per three craft. Life jackets are required from Rainbow Park to the take-out."
+      "name": "Five Springs Rapid",
+      "mile": 19.5,
+      "civ": false,
+      "diff": 3,
+      "tier": "Unrated",
+      "desc": "Listed in a river log without a rating; Five Springs Draw enters here."
     },
     {
-     "t": "Boats and soap",
-     "d": "Rafts need three chambers. Soap is restricted to use in the main river flow."
+      "name": "Big Joe",
+      "mile": 21.94,
+      "civ": false,
+      "diff": 4,
+      "tier": "Class II+",
+      "desc": "The river constricts and rocky debris makes a rapid of waves and holes. Barely runnable at very low flows; scout from river right."
     },
     {
-     "t": "Wildlife",
-     "d": "Bear-proof your food storage. Pets are not allowed on the river."
+      "name": "Warm Springs Rapid",
+      "mile": 41.59,
+      "civ": false,
+      "diff": 8,
+      "tier": "Class IV",
+      "desc": "The biggest rapid on the Yampa, formed by a 1965 flash flood down Warm Springs Draw. Scout from river right. Maytag, the last hole, can flip rafts or hold swimmers, and a flip often means a rough night and lost gear. Much tamer at low flows."
+    },
+    {
+      "name": "Moonshine Rapid",
+      "mile": 65,
+      "civ": false,
+      "diff": 4,
+      "tier": "Class II–III",
+      "desc": "In Split Mountain Gorge. Not rated individually; the gorge is Class II to III. Life jackets required."
+    },
+    {
+      "name": "S.O.B. Rapid",
+      "mile": 66,
+      "civ": false,
+      "diff": 4,
+      "tier": "Class II–III",
+      "desc": "In Split Mountain Gorge. Not rated individually."
+    },
+    {
+      "name": "Schoolboy Rapid",
+      "mile": 66.5,
+      "civ": false,
+      "diff": 4,
+      "tier": "Class II–III",
+      "desc": "In Split Mountain Gorge. Not rated individually."
+    },
+    {
+      "name": "Inglesby Rapid",
+      "mile": 69.5,
+      "civ": false,
+      "diff": 4,
+      "tier": "Class II–III",
+      "desc": "The last rapid in Split Mountain Gorge, just above the take-out. Not rated individually."
     }
-   ]
-  }
- ],
- "landmarks": [
-  {
-   "name": "Deerlodge Park boat ramp",
-   "mile": 0,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Put-in on river left, with a ranger station, information, vault toilets and seasonal water. Campsites for the whole trip are registered here."
+  ],
+  "hikes": [
+    {
+      "name": "Stubs Cabin",
+      "mile": 4.5,
+      "bank": "R",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "A historic cabin a short walk from the river near Anderson Hole."
+    },
+    {
+      "name": "Wagon Wheel Point and Signature Cave",
+      "mile": 25.8,
+      "bank": "L",
+      "time": null,
+      "diff": 3,
+      "qual": null,
+      "desc": "A longer hike from Harding Hole up to the rim viewpoint. Signature Cave holds Fremont artifacts and historic names, including marks left by Pat Lynch between the 1880s and 1917."
+    },
+    {
+      "name": "Pat's Cave",
+      "mile": 33.7,
+      "bank": "R",
+      "time": null,
+      "diff": 2,
+      "qual": null,
+      "desc": "A hike across from Mantle Ranch."
+    },
+    {
+      "name": "Mantle Cave",
+      "mile": 34.1,
+      "bank": "L",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "Fremont ruins and artifacts. Visitors are welcome; take pictures only."
+    },
+    {
+      "name": "Tiger Wall",
+      "mile": 37.08,
+      "bank": "L",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "A tiger-striped, varnished wall rising straight from the water. Boaters traditionally kiss it for luck before Warm Springs Rapid."
+    },
+    {
+      "name": "Echo Park petroglyphs and Whispering Cave",
+      "mile": 46.5,
+      "bank": null,
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "Rock art, Pat Lynch inscriptions and Whispering Cave in the Echo Park area, below Steamboat Rock. Pool Creek enters here."
+    },
+    {
+      "name": "Jones Hole",
+      "mile": 51.8,
+      "bank": null,
+      "time": null,
+      "diff": 3,
+      "qual": null,
+      "desc": "A longer hike up Jones Creek with rock art and a waterfall."
+    }
+  ],
+  "geology": [],
+  "guide": [],
+  "almanac": {},
+  "rules": [
+    {
+      "name": "Camping",
+      "rules": [
+        {
+          "t": "Camp in your assigned sites",
+          "d": "In the high-use season you camp only in the sites assigned to your trip; campsites for the whole trip are registered at the put-in. In the low-use season sites are first come, first served."
+        },
+        {
+          "t": "Be out by noon",
+          "d": "Pack up, load boats and clear the landing by noon so the next group can use the site."
+        },
+        {
+          "t": "Where you cannot camp",
+          "d": "No camping on multiday trips at Echo Park, Rainbow Park or in Split Mountain Gorge."
+        },
+        {
+          "t": "One group per site",
+          "d": "One group per campsite, with up to 25 participants. Where sites are grouped, as at Jones Hole and Harding Hole, stay inside your assigned site; posts mark the boundaries."
+        },
+        {
+          "t": "Quiet hours",
+          "d": "10 p.m. to 6 a.m."
+        },
+        {
+          "t": "Closures",
+          "d": "The Superintendent may close campsites for bighorn lambing, bear activity or wildfire."
+        }
+      ]
+    },
+    {
+      "name": "Equipment",
+      "rules": [
+        {
+          "t": "Documents",
+          "d": "Carry the printed, signed permit and the permit holder's ID, plus the NPS boater's guide."
+        },
+        {
+          "t": "Fire pan",
+          "d": "A fire pan with a 2.5-inch lip and at least 12 inches wide, with a fire blanket."
+        },
+        {
+          "t": "River toilet",
+          "d": "A river toilet system (groover or day-use kit)."
+        },
+        {
+          "t": "Lifejackets and spares",
+          "d": "One life jacket per person, plus one spare per 10 people. Spare paddles or oars: one per raft, plus one per three small craft. Helmets for small craft, plus one extra per three craft. Life jackets are required from Rainbow Park to the take-out."
+        },
+        {
+          "t": "Boats and soap",
+          "d": "Rafts need three chambers. Soap is restricted to use in the main river flow."
+        },
+        {
+          "t": "Wildlife",
+          "d": "Bear-proof your food storage. Pets are not allowed on the river."
+        }
+      ]
+    }
+  ],
+  "landmarks": [
+    {
+      "name": "Deerlodge Park boat ramp",
+      "mile": 0,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Put-in on river left, with a ranger station, information, vault toilets and seasonal water. Campsites for the whole trip are registered here."
+    },
+    {
+      "name": "Yampa Canyon",
+      "mile": 0.6,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "The river enters a box canyon almost right away."
+    },
+    {
+      "name": "Vale of Tears",
+      "mile": 1.4,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Disappointment Draw",
+      "mile": 1.8,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Happy Hollow Canyon",
+      "mile": 2.7,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Thanksgiving Gorge",
+      "mile": 7.3,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Corral Springs Draw",
+      "mile": 7.7,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Haystack Rock",
+      "mile": 11.5,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Haystack-shaped rock formations."
+    },
+    {
+      "name": "Bear Draw",
+      "mile": 12.5,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Browns Draw",
+      "mile": 13,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Bower Draw",
+      "mile": 17,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Dry Woman Canyon",
+      "mile": 18,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Starvation Valley",
+      "mile": 21.9,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Bull Canyon",
+      "mile": 25.4,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Cleopatra's Couch",
+      "mile": 29.3,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Grand Overhang",
+      "mile": 31.2,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Katy's Nipple",
+      "mile": 33.2,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Burro Park",
+      "mile": 33.2,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Mantle Ranch and Hell's Canyon",
+      "mile": 33.7,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Private land on river left; the ranch is still operating."
+    },
+    {
+      "name": "Red Rock Canyon",
+      "mile": 35.6,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Sand Canyon",
+      "mile": 44.9,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": ""
+    },
+    {
+      "name": "Echo Park and Green River confluence",
+      "mile": 46,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "The Yampa ends here and the trip continues down the Green around Steamboat Rock. The road-access campground is not for multiday river trips, and the tap was dry in one trip report. Vehicle access is for emergencies only."
+    },
+    {
+      "name": "Steamboat Rock",
+      "mile": 46.8,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "The massive prow the Green River wraps around."
+    },
+    {
+      "name": "Whirlpool Canyon",
+      "mile": 48,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "About ten miles of canyon on the Green below Echo Park."
+    },
+    {
+      "name": "Island Park",
+      "mile": 58,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Long flatwater reach with views of Split Mountain, Ruple Ranch and the occasional moose."
+    },
+    {
+      "name": "Rainbow Park boat ramp",
+      "mile": 63,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Not a camp for multiday trips. Life jackets are required from here to the take-out."
+    },
+    {
+      "name": "Split Mountain Gorge",
+      "mile": 64,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "The river cuts through the gorge in a short, rapid-filled run to the take-out. No camping in the gorge."
+    },
+    {
+      "name": "Warm spring",
+      "mile": 69,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "A natural warm spring flows into the river."
+    },
+    {
+      "name": "Split Mountain boat ramp",
+      "mile": 71,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Take-out. A working dinosaur quarry, museum and gift shop are nearby; the group campground can be reserved on Recreation.gov."
+    }
+  ],
+  "clusters": [
+    {
+      "s": 64,
+      "e": 71,
+      "n": "Split Mountain Gorge"
+    }
+  ],
+  "notes": {
+    "camp": "",
+    "hike": ""
   },
-  {
-   "name": "Yampa Canyon",
-   "mile": 0.6,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "The river enters a box canyon almost right away."
+  "hdiff": {
+    "1": "Short, easy walk",
+    "2": "Easy trail or short scramble",
+    "3": "Longer hike with some climbing"
   },
-  {
-   "name": "Vale of Tears",
-   "mile": 1.4,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Disappointment Draw",
-   "mile": 1.8,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Happy Hollow Canyon",
-   "mile": 2.7,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Thanksgiving Gorge",
-   "mile": 7.3,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Corral Springs Draw",
-   "mile": 7.7,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Haystack Rock",
-   "mile": 11.5,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Haystack-shaped rock formations."
-  },
-  {
-   "name": "Bear Draw",
-   "mile": 12.5,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Browns Draw",
-   "mile": 13,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Bower Draw",
-   "mile": 17,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Dry Woman Canyon",
-   "mile": 18,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Starvation Valley",
-   "mile": 21.9,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Bull Canyon",
-   "mile": 25.4,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Cleopatra's Couch",
-   "mile": 29.3,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Grand Overhang",
-   "mile": 31.2,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Katy's Nipple",
-   "mile": 33.2,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Burro Park",
-   "mile": 33.2,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Mantle Ranch and Hell's Canyon",
-   "mile": 33.7,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Private land on river left; the ranch is still operating."
-  },
-  {
-   "name": "Red Rock Canyon",
-   "mile": 35.6,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Sand Canyon",
-   "mile": 44.9,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": ""
-  },
-  {
-   "name": "Echo Park and Green River confluence",
-   "mile": 46,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "The Yampa ends here and the trip continues down the Green around Steamboat Rock. The road-access campground is not for multiday river trips, and the tap was dry in one trip report. Vehicle access is for emergencies only."
-  },
-  {
-   "name": "Steamboat Rock",
-   "mile": 46.8,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "The massive prow the Green River wraps around."
-  },
-  {
-   "name": "Whirlpool Canyon",
-   "mile": 48,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "About ten miles of canyon on the Green below Echo Park."
-  },
-  {
-   "name": "Island Park",
-   "mile": 58,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Long flatwater reach with views of Split Mountain, Ruple Ranch and the occasional moose."
-  },
-  {
-   "name": "Rainbow Park boat ramp",
-   "mile": 63,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Not a camp for multiday trips. Life jackets are required from here to the take-out."
-  },
-  {
-   "name": "Split Mountain Gorge",
-   "mile": 64,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "The river cuts through the gorge in a short, rapid-filled run to the take-out. No camping in the gorge."
-  },
-  {
-   "name": "Warm spring",
-   "mile": 69,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "A natural warm spring flows into the river."
-  },
-  {
-   "name": "Split Mountain boat ramp",
-   "mile": 71,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Take-out. A working dinosaur quarry, museum and gift shop are nearby; the group campground can be reserved on Recreation.gov."
-  }
- ],
- "clusters": [
-  {
-   "s": 64,
-   "e": 71,
-   "n": "Split Mountain Gorge"
-  }
- ],
- "notes": {
-  "camp": "*Camps are assigned with your permit and are listed by number of sites. No quality rating is available.",
-  "hike": "*Difficulty is a rough estimate (1 = short, easy walk; 3 = longer hike with climbing). Times are not given."
- },
- "hdiff": {
-  "1": "Short, easy walk",
-  "2": "Easy trail or short scramble",
-  "3": "Longer hike with some climbing"
- },
- "access": [
-  {
-   "name": "Dinosaur",
-   "road": true,
-   "hub": true,
-   "note": "Monument headquarters and River Permit Office are in Dinosaur, Colorado",
-   "grid": [
-    1,
-    2
-   ]
-  },
-  {
-   "name": "Jensen",
-   "road": true,
-   "hub": true,
-   "note": "Nearest town to the take-out",
-   "grid": [
-    10,
-    2
-   ]
-  },
-  {
-   "name": "Deerlodge Park",
-   "road": true,
-   "mile": 0,
-   "park": true,
-   "note": "Put-in. Campsites, ranger station, vault toilets, seasonal water",
-   "grid": [
-    1,
-    6
-   ]
-  },
-  {
-   "name": "Echo Park",
-   "road": true,
-   "mile": 46,
-   "note": "Road access for emergencies only; not a trip put-in or take-out",
-   "grid": [
+  "access": [
+    {
+      "name": "Dinosaur",
+      "road": true,
+      "hub": true,
+      "note": "Monument headquarters and River Permit Office are in Dinosaur, Colorado",
+      "grid": [
+        1,
+        2
+      ]
+    },
+    {
+      "name": "Jensen",
+      "road": true,
+      "hub": true,
+      "note": "Nearest town to the take-out",
+      "grid": [
+        10,
+        2
+      ]
+    },
+    {
+      "name": "Deerlodge Park",
+      "road": true,
+      "mile": 0,
+      "park": true,
+      "note": "Put-in. Campsites, ranger station, vault toilets, seasonal water",
+      "grid": [
+        1,
+        6
+      ]
+    },
+    {
+      "name": "Echo Park",
+      "road": true,
+      "mile": 46,
+      "note": "Road access for emergencies only; not a trip put-in or take-out",
+      "grid": [
+        5,
+        6
+      ]
+    },
+    {
+      "name": "Rainbow Park",
+      "road": true,
+      "mile": 63,
+      "note": "Boat ramp; not for multiday trips",
+      "grid": [
+        8,
+        6
+      ]
+    },
+    {
+      "name": "Split Mountain",
+      "road": true,
+      "mile": 71,
+      "park": true,
+      "note": "Take-out. Reservable group campground",
+      "grid": [
+        10,
+        6
+      ]
+    }
+  ],
+  "yardGrid": [
     5,
-    6
-   ]
-  },
-  {
-   "name": "Rainbow Park",
-   "road": true,
-   "mile": 63,
-   "note": "Boat ramp; not for multiday trips",
-   "grid": [
-    8,
-    6
-   ]
-  },
-  {
-   "name": "Split Mountain",
-   "road": true,
-   "mile": 71,
-   "park": true,
-   "note": "Take-out. Reservable group campground",
-   "grid": [
-    10,
-    6
-   ]
+    1
+  ],
+  "roads": [
+    {
+      "a": "Dinosaur",
+      "b": "Deerlodge Park",
+      "h": ""
+    },
+    {
+      "a": "Jensen",
+      "b": "Split Mountain",
+      "h": ""
+    },
+    {
+      "a": "Dinosaur",
+      "b": "Jensen",
+      "h": ""
+    },
+    {
+      "a": "Outfitter",
+      "b": "Dinosaur",
+      "h": ""
+    }
+  ],
+  "permit": {
+    "status": "Required year-round · lottery for high-use season",
+    "asOf": "October 2026",
+    "apply": {
+      "label": "Apply on Recreation.gov",
+      "url": "https://www.recreation.gov/permits/250014"
+    },
+    "contact": {
+      "phone": "970-374-2468",
+      "web": "https://www.nps.gov/dino/planyourvisit/boating-and-rafting.htm"
+    },
+    "sections": [
+      {
+        "name": "How to get one",
+        "items": [
+          {
+            "t": "Apply in the lottery",
+            "d": "Applications for the high-use season are taken on Recreation.gov from December 1 to January 31. Results are emailed by mid-February. Choose Deerlodge Park as the launch and Split Mountain as the take-out, not the Gates of Lodore Green River option."
+          },
+          {
+            "t": "One application each",
+            "d": "Each person may submit one high-use lottery application. Multiple applications forfeit any trip won. Applicants must be at least 18."
+          },
+          {
+            "t": "Confirm and pay",
+            "d": "Winners confirm and pay the permit fee by the deadline in their results email."
+          },
+          {
+            "t": "Unclaimed dates",
+            "d": "Low-use trips and unclaimed high-use dates open for reservation on March 6 at 8 a.m. Mountain Standard Time."
+          },
+          {
+            "t": "Camps are assigned",
+            "d": "Campsites for your whole trip are assigned and registered at Deerlodge Park before launch."
+          },
+          {
+            "t": "Extra day",
+            "d": "Standard high-season Yampa trips are 5 days. You may request one extra day for a $35 fee, refunded if denied. Requests are decided 30 days before launch, after campsites are assigned."
+          }
+        ]
+      },
+      {
+        "name": "Dates",
+        "items": [
+          {
+            "t": "Lottery",
+            "d": "December 1 to January 31, for the following season."
+          },
+          {
+            "t": "High-use season",
+            "d": "Second Monday of May through the second Saturday of July. The rest of the year is low-use. The season depends on snowmelt, since the Yampa is undammed."
+          },
+          {
+            "t": "Play permits",
+            "d": "Short day trips below Split Mountain are free and need no reservation."
+          }
+        ]
+      },
+      {
+        "name": "Costs",
+        "items": [
+          {
+            "t": "Application",
+            "d": "$15."
+          },
+          {
+            "t": "Multiday permit",
+            "d": "$185 per trip. Entrance and campground fees are separate."
+          },
+          {
+            "t": "One-day permit",
+            "d": "$20."
+          },
+          {
+            "t": "Refunds",
+            "d": "Permit fees are nonrefundable, except an overlength fee when the extra day is denied."
+          }
+        ]
+      },
+      {
+        "name": "Limits",
+        "items": [
+          {
+            "t": "Group size",
+            "d": "Up to 25 per site. Outfitter guides recommend 16 or fewer."
+          },
+          {
+            "t": "Experience",
+            "d": "Private boaters need qualifying experience and equipment. Trips must be self-guided."
+          },
+          {
+            "t": "The permit holder",
+            "d": "The permit holder must be on the trip and permits are not transferable. Cancellations less than two weeks out carry penalties."
+          },
+          {
+            "t": "Flows",
+            "d": "Rafts are runnable above about 1,000 cfs. At very low flows several rapids nearly disappear and Warm Springs is the only real challenge."
+          }
+        ]
+      }
+    ]
   }
- ],
- "yardGrid": [
-  5,
-  1
- ],
- "roads": [
-  {
-   "a": "Dinosaur",
-   "b": "Deerlodge Park",
-   "h": ""
-  },
-  {
-   "a": "Jensen",
-   "b": "Split Mountain",
-   "h": ""
-  },
-  {
-   "a": "Dinosaur",
-   "b": "Jensen",
-   "h": ""
-  },
-  {
-   "a": "Outfitter",
-   "b": "Dinosaur",
-   "h": ""
-  }
- ],
- "permit": {
-  "status": "Required year-round · lottery for high-use season",
-  "asOf": "October 2026",
-  "apply": {
-   "label": "Apply on Recreation.gov",
-   "url": "https://www.recreation.gov/permits/250014"
-  },
-  "contact": {
-   "phone": "970-374-2468",
-   "web": "https://www.nps.gov/dino/planyourvisit/boating-and-rafting.htm"
-  },
-  "sections": [
-   {
-    "name": "How to get one",
-    "items": [
-     {
-      "t": "Apply in the lottery",
-      "d": "Applications for the high-use season are taken on Recreation.gov from December 1 to January 31. Results are emailed by mid-February. Choose Deerlodge Park as the launch and Split Mountain as the take-out, not the Gates of Lodore Green River option."
-     },
-     {
-      "t": "One application each",
-      "d": "Each person may submit one high-use lottery application. Multiple applications forfeit any trip won. Applicants must be at least 18."
-     },
-     {
-      "t": "Confirm and pay",
-      "d": "Winners confirm and pay the permit fee by the deadline in their results email."
-     },
-     {
-      "t": "Unclaimed dates",
-      "d": "Low-use trips and unclaimed high-use dates open for reservation on March 6 at 8 a.m. Mountain Standard Time."
-     },
-     {
-      "t": "Camps are assigned",
-      "d": "Campsites for your whole trip are assigned and registered at Deerlodge Park before launch."
-     },
-     {
-      "t": "Extra day",
-      "d": "Standard high-season Yampa trips are 5 days. You may request one extra day for a $35 fee, refunded if denied. Requests are decided 30 days before launch, after campsites are assigned."
-     }
-    ]
-   },
-   {
-    "name": "Dates",
-    "items": [
-     {
-      "t": "Lottery",
-      "d": "December 1 to January 31, for the following season."
-     },
-     {
-      "t": "High-use season",
-      "d": "Second Monday of May through the second Saturday of July. The rest of the year is low-use. The season depends on snowmelt, since the Yampa is undammed."
-     },
-     {
-      "t": "Play permits",
-      "d": "Short day trips below Split Mountain are free and need no reservation."
-     }
-    ]
-   },
-   {
-    "name": "Costs",
-    "items": [
-     {
-      "t": "Application",
-      "d": "$15."
-     },
-     {
-      "t": "Multiday permit",
-      "d": "$185 per trip. Entrance and campground fees are separate."
-     },
-     {
-      "t": "One-day permit",
-      "d": "$20."
-     },
-     {
-      "t": "Refunds",
-      "d": "Permit fees are nonrefundable, except an overlength fee when the extra day is denied."
-     }
-    ]
-   },
-   {
-    "name": "Limits",
-    "items": [
-     {
-      "t": "Group size",
-      "d": "Up to 25 per site. Outfitter guides recommend 16 or fewer."
-     },
-     {
-      "t": "Experience",
-      "d": "Private boaters need qualifying experience and equipment. Trips must be self-guided."
-     },
-     {
-      "t": "The permit holder",
-      "d": "The permit holder must be on the trip and permits are not transferable. Cancellations less than two weeks out carry penalties."
-     },
-     {
-      "t": "Flows",
-      "d": "Rafts are runnable above about 1,000 cfs. At very low flows several rapids nearly disappear and Warm Springs is the only real challenge."
-     }
-    ]
-   }
-  ]
- }
 }
