@@ -75,7 +75,7 @@ If you do have a Mac, `npm run ios:sync && npm run ios:open` opens the project i
 **What's New (1.0):** First release.
 
 ### App privacy questionnaire
-**Data Collected:** *Contact Info → Email Address* and *User Content → Other User Content* (trips backed up to an account or shared with a join code), *Name* only if Google/Apple provide it. Account data: **linked to the user**, purpose *App Functionality*, **not used for tracking**. Shared-trip copies are stored under a code, not an identity. Everything else: not collected. Tracking: No. No analytics, no advertising identifiers.
+**Data Collected:** *Contact Info → Email Address* (account sign-in), *Contact Info → Name* (the display name a person enters when joining a shared trip) and *User Content → Other User Content* (trips backed up to an account or shared). Account and shared-trip data: **linked to the user**, purpose *App Functionality*, **not used for tracking**. Everything else: not collected. Tracking: No. No analytics, no advertising identifiers.
 
 ### Age rating
 Answer "None" to every content question → 4+. (Medical reference: choose *Infrequent/Mild Medical/Treatment Information* if asked.)

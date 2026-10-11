@@ -207,6 +207,44 @@ function hash53(str) {
 // "Erase all data" keeps the account link only if there is none to keep
 const st0cloud = () => null;
 
+// one-line description of what changed between two copies of a trip (for the activity feed)
+const KIND_LABEL = { crew: 'crew', meals: 'meal', gear: 'gear', boats: 'craft', cars: 'vehicle', places: 'place', log: 'journal entry', pay: 'payment' };
+function summarize(a, b) {
+  if (!a || !b) return null;
+  const out = [];
+  if (a.name !== b.name) out.push(`Renamed the trip to "${b.name}"`);
+  if (a.start !== b.start || a.days !== b.days) out.push('Changed the trip dates');
+  for (const [k, label] of Object.entries(KIND_LABEL)) {
+    const A = new Map((a[k] || []).map((x) => [x.id, x]));
+    const B = new Map((b[k] || []).map((x) => [x.id, x]));
+    const nm = (x) => x.name || x.n || x.text || x.title || '';
+    for (const [id, x] of B) {
+      const w = nm(x) ? ': ' + String(nm(x)).slice(0, 30) : '';
+      if (!A.has(id)) out.push('Added ' + label + w);
+      else if (canon(x) !== canon(A.get(id))) out.push('Updated ' + label + w);
+    }
+    for (const [id, x] of A) if (!B.has(id)) out.push('Removed ' + label + (nm(x) ? ': ' + String(nm(x)).slice(0, 30) : ''));
+  }
+  const days = new Set([...Object.keys(a.plans || {}), ...Object.keys(b.plans || {})]);
+  let changed = 0;
+  days.forEach((d) => {
+    if (canon((a.plans || {})[d] || {}) !== canon((b.plans || {})[d] || {})) changed++;
+  });
+  if (changed) out.push(changed === 1 ? 'Updated a day plan' : `Updated ${changed} day plans`);
+  if (!out.length) return null;
+  const shown = out.slice(0, 3).join('; ');
+  return (out.length > 3 ? shown + `; and ${out.length - 3} more` : shown).slice(0, 140);
+}
+
+const NAME_KEY = 'riverguide.name';
+const savedName = () => {
+  try {
+    return localStorage.getItem(NAME_KEY) || '';
+  } catch {
+    return '';
+  }
+};
+
 function useStore() {
   const [state, setState] = useState(() => {
     let st = { trips: [], active: null, rivers: {} };
@@ -237,7 +275,14 @@ function useStore() {
   const stateRef = useRef(state);
   const busy = useRef(new Set());
   const timers = useRef({});
-  const [status, setStatus] = useState({}); // tripId -> 'ok' | 'busy' | 'offline' | 'gone'
+  const [status, setStatus] = useState({}); // tripId -> 'ok' | 'busy' | 'offline' | 'gone' | 'removed'
+  const [info, setInfoState] = useState({}); // tripId -> { role, me, members, activity, inviteRole } from the server
+  const infoRef = useRef({});
+  const setInfo = (id, v) => {
+    infoRef.current = { ...infoRef.current, [id]: v };
+    setInfoState(infoRef.current);
+  };
+  const lastSrv = useRef({}); // tripId -> the copy the server held when we last talked to it (for activity notes)
   const setSt = (id, v) => setStatus((m) => (m[id] === v ? m : { ...m, [id]: v }));
 
   // every state change goes through here so async sync code always sees the latest state
@@ -262,34 +307,102 @@ function useStore() {
   // adopt a custom river that came along with a shared trip
   const adoptRiver = (s0, doc) => (doc._river && doc._river.id && !BUILTIN_RIVERS[doc._river.id] && !s0.rivers[doc._river.id] ? { ...s0.rivers, [doc._river.id]: doc._river } : s0.rivers);
 
+  // who this device is, as shown to the other members
+  const nameFor = (local) => {
+    const meId = local ? getMe(local.id) : '';
+    const crew = local && (local.crew || []).find((c) => c.id === meId);
+    if (crew && crew.name) return crew.name;
+    const n = savedName();
+    if (n) return n;
+    const em = sessionRef.current && sessionRef.current.user && sessionRef.current.user.email;
+    return em ? em.split('@')[0] : '';
+  };
+
+  // Make this device a member of the trip (upgrade it if we own a legacy share, otherwise join with the code).
+  // Returns the updated entry, null when the trip is still a legacy share, or 'gone'.
+  const ensureV2 = async (id, ent, local) => {
+    if (ent.trip) return ent;
+    const member = ent.member || remote.newSecret();
+    const name = nameFor(local);
+    const mine = ent.owner && ent.owner !== 'account' && ent.owner !== 'v2';
+    const r = mine ? await remote.v2Upgrade(ent.code, ent.owner, member, name) : await remote.v2Join(ent.code, member, name);
+    if (!r || r.missing) return mine ? 'gone' : null;
+    const next = { ...ent, trip: r.trip, member, me: r.me, role: r.role };
+    commit((s0) => ({ ...s0, sync: { ...(s0.sync || {}), [id]: { ...((s0.sync || {})[id] || ent), trip: r.trip, member, me: r.me, role: r.role } } }));
+    return next;
+  };
+
   const syncTrip = useCallback(async (id) => {
-    const ent = (stateRef.current.sync || {})[id];
+    let ent = (stateRef.current.sync || {})[id];
     const local = stateRef.current.trips.find((t) => t.id === id);
     if (!ent || !local || busy.current.has(id)) return;
+    if (ent.removed) return setSt(id, 'removed');
     busy.current.add(id);
     setSt(id, 'busy');
     try {
+      let v2 = !!ent.trip;
+      if (!v2) {
+        const r = await ensureV2(id, ent, local);
+        if (r === 'gone') return setSt(id, 'gone');
+        if (r) {
+          ent = r;
+          v2 = true;
+        }
+      }
       let version = ent.version || 0;
       let doc = local;
       let known = ent.h; // canonical form of the copy the server holds
-      const g = await remote.get(ent.code, version);
+      let role = ent.role;
+      const needInfo = v2 && !infoRef.current[id];
+      let g = v2 ? await remote.v2Get(ent.trip, ent.member, needInfo ? 0 : version) : await remote.get(ent.code, version);
+      if (g && g.upgraded) {
+        const r = await ensureV2(id, ent, local);
+        if (!r || r === 'gone') return setSt(id, 'gone');
+        ent = r;
+        v2 = true;
+        g = await remote.v2Get(ent.trip, ent.member, 0);
+      }
       if (g && g.missing) return setSt(id, 'gone');
+      if (g && g.removed) {
+        commit((s0) => ({ ...s0, sync: { ...(s0.sync || {}), [id]: { ...((s0.sync || {})[id] || ent), removed: true } } }));
+        return setSt(id, 'removed');
+      }
       if (g && g.data) {
         doc = mergeTrips(doc, g.data);
         version = g.version;
         known = hashOf(g.data);
+        const { _river: _gr, ...srv } = g.data;
+        lastSrv.current[id] = srv;
       }
-      if (hashOf(doc) !== known) {
+      if (g && v2 && g.role) {
+        role = g.role;
+        setInfo(id, { role: g.role, me: g.me, members: g.members || [], activity: g.activity || [], inviteRole: g.invite_role || 'editor' });
+      }
+      if (hashOf(doc) !== known && role !== 'viewer') {
         let done = false;
         for (let i = 0; i < 4 && !done; i++) {
-          const r = await remote.put(ent.code, version, withRiver(doc));
+          const r = v2
+            ? await remote.v2Put(ent.trip, ent.member, version, withRiver(doc), summarize(lastSrv.current[id], doc))
+            : await remote.put(ent.code, version, withRiver(doc));
           if (r.missing) return setSt(id, 'gone');
-          if (r.conflict) {
+          if (r.removed) {
+            commit((s0) => ({ ...s0, sync: { ...(s0.sync || {}), [id]: { ...((s0.sync || {})[id] || ent), removed: true } } }));
+            return setSt(id, 'removed');
+          }
+          if (r.forbidden) {
+            role = 'viewer';
+            doc = mergeTrips(doc, r.data);
+            version = r.version;
+            known = hashOf(r.data);
+            done = true;
+          } else if (r.conflict) {
             doc = mergeTrips(doc, r.data);
             version = r.version;
           } else {
             version = r.version;
             known = hashOf(doc);
+            const { _river: _dr, ...srv } = doc;
+            lastSrv.current[id] = srv;
             done = true;
           }
         }
@@ -303,7 +416,7 @@ function useStore() {
           ...s0,
           trips: s0.trips.map((t) => (t.id === id ? merged : t)),
           rivers: adoptRiver(s0, doc),
-          sync: { ...s0.sync, [id]: { ...(s0.sync || {})[id], version, h: known } },
+          sync: { ...s0.sync, [id]: { ...(s0.sync || {})[id], version, h: known, ...(role ? { role } : {}) } },
         };
       });
       setSt(id, 'ok');
@@ -400,7 +513,10 @@ function useStore() {
         // first sign-in on this device, or a different account: start with no links
         commit((s0) => ({ ...s0, cloud: { uid: sess.user.id, trips: {}, del: [] } }));
         // trips this device shared before signing in become the account's
-        for (const [id, e] of Object.entries(stateRef.current.sync || {})) if (e.owner && e.owner !== 'account') await remote.claim(e.code, e.owner).catch(() => {});
+        for (const [id, e] of Object.entries(stateRef.current.sync || {})) {
+          if (e.trip && e.role === 'owner') await remote.v2Claim(e.trip, e.member).catch(() => {});
+          else if (e.owner && e.owner !== 'account' && e.owner !== 'v2') await remote.claim(e.code, e.owner).catch(() => {});
+        }
       }
       for (const id of [...(stateRef.current.cloud.del || [])]) {
         await remote.acctDelete(id);
@@ -479,6 +595,8 @@ function useStore() {
 
   const edit = (fn) => {
     if (!trip) return;
+    const e0 = (stateRef.current.sync || {})[trip.id];
+    if (e0 && e0.role === 'viewer') return; // view-only member
     const t0 = now();
     const next = stamp(trip, { ...fn({ ...trip }), at: t0 }, t0);
     persist({ ...stateRef.current, trips: stateRef.current.trips.map((t) => (t.id === next.id ? next : t)) });
@@ -490,20 +608,39 @@ function useStore() {
     const t = stateRef.current.trips.find((x) => x.id === id);
     if (!t) throw new Error('no trip');
     const code = remote.newCode();
-    const owner = remote.newSecret();
-    await remote.create(code, owner, withRiver(t));
-    commit((s0) => ({ ...s0, sync: { ...(s0.sync || {}), [id]: { code, owner, version: 1, h: hashOf(t) } } }));
+    const member = remote.newSecret();
+    const r = await remote.v2Create(code, member, nameFor(t), withRiver(t));
+    const { _river: _x, ...srv } = withRiver(t);
+    lastSrv.current[id] = srv;
+    commit((s0) => ({ ...s0, sync: { ...(s0.sync || {}), [id]: { code, owner: 'v2', trip: r.trip, member, me: r.me, role: 'owner', version: r.version, h: hashOf(t) } } }));
     setSt(id, 'ok');
     if (sessionRef.current) cloudSyncTrip(id, undefined).catch(() => {});
+    syncTrip(id); // load the member list
     return code;
   };
-  const joinTrip = async (raw) => {
+  const joinTrip = async (raw, name) => {
     const code = remote.cleanCode(raw);
     if (!code) throw new Error('That code does not look right. It has 16 letters and numbers.');
-    const g = await remote.get(code, 0);
-    if (!g || g.missing || !g.data) throw new Error('No trip found for that code.');
+    const clean = String(name || '').trim().slice(0, 40);
+    if (clean) {
+      try {
+        localStorage.setItem(NAME_KEY, clean);
+      } catch {}
+    }
+    const prev = Object.values(stateRef.current.sync || {}).find((e) => e.code === code && e.member);
+    const member = prev ? prev.member : remote.newSecret();
+    let r = await remote.v2Join(code, member, clean || nameFor(null));
+    let g;
+    let ent;
+    if (r && !r.missing && r.data) {
+      g = r;
+      ent = { code, trip: r.trip, member, me: r.me, role: r.role, version: r.version, h: hashOf(r.data) };
+    } else {
+      g = await remote.get(code, 0); // a trip whose owner has not upgraded it yet
+      if (!g || g.missing || g.upgraded || !g.data) throw new Error('No trip found for that code. It may have been reset. Ask for a new link.');
+      ent = { code, version: g.version, h: hashOf(g.data) };
+    }
     const { _river, ...doc } = g.data;
-    const ent = { code, version: g.version, h: hashOf(g.data) };
     commit((s0) => {
       const have = s0.trips.find((t) => t.id === doc.id);
       const { _river: _r2, ...merged } = have ? mergeTrips(have, g.data) : { crew: [], boats: [], cars: [], places: [], gear: [], meals: [], log: [], pay: [], plans: {}, ...doc };
@@ -515,6 +652,8 @@ function useStore() {
         sync: { ...(s0.sync || {}), [doc.id]: ent },
       };
     });
+    lastSrv.current[doc.id] = doc;
+    if (ent.trip) setInfo(doc.id, { role: g.role, me: g.me, members: g.members || [], activity: g.activity || [], inviteRole: g.invite_role || 'editor' });
     setSt(doc.id, 'ok');
     syncTrip(doc.id);
     if (sessionRef.current) setTimeout(cloudSyncAll, 300);
@@ -523,7 +662,10 @@ function useStore() {
   const stopSharing = async (id) => {
     const ent = (stateRef.current.sync || {})[id];
     if (!ent) return;
-    if (ent.owner) await remote.del(ent.code, ent.owner); // removes the server copy for everyone
+    if (ent.trip && !ent.removed) {
+      if (ent.role === 'owner') await remote.v2Delete(ent.trip, ent.member); // removes the server copy for everyone
+      else await remote.v2Leave(ent.trip, ent.member).catch(() => {});
+    } else if (ent.owner && ent.owner !== 'v2') await remote.del(ent.code, ent.owner);
     commit((s0) => {
       const { [id]: _gone, ...rest } = s0.sync || {};
       return { ...s0, sync: rest };
@@ -533,6 +675,34 @@ function useStore() {
       const { [id]: _g, ...rest } = m;
       return rest;
     });
+    const { [id]: _i, ...restInfo } = infoRef.current;
+    infoRef.current = restInfo;
+    setInfoState(restInfo);
+  };
+
+  // owner / member controls (all go through the trip's member secret)
+  const memberCall = async (id, fn) => {
+    const ent = (stateRef.current.sync || {})[id];
+    if (!ent || !ent.trip) throw new Error('This trip is not shared.');
+    const ok = await fn(ent);
+    await syncTrip(id);
+    return ok;
+  };
+  const setMemberRole = (id, target, role) => memberCall(id, (e) => remote.v2Role(e.trip, e.member, target, role));
+  const removeMember = (id, target) => memberCall(id, (e) => remote.v2Remove(e.trip, e.member, target));
+  const setInviteRole = (id, role) => memberCall(id, (e) => remote.v2InviteRole(e.trip, e.member, role));
+  const renameMe = (id, name) => {
+    try {
+      localStorage.setItem(NAME_KEY, String(name).trim().slice(0, 40));
+    } catch {}
+    return memberCall(id, (e) => remote.v2Rename(e.trip, e.member, name));
+  };
+  const resetInvite = async (id) => {
+    const code = remote.newCode();
+    await memberCall(id, (e) => remote.v2Rotate(e.trip, e.member, code));
+    commit((s0) => ({ ...s0, sync: { ...(s0.sync || {}), [id]: { ...(s0.sync || {})[id], code } } }));
+    if (sessionRef.current) cloudSyncTrip(id, undefined, { share: code }).catch(() => {});
+    return code;
   };
 
   return {
@@ -541,6 +711,12 @@ function useStore() {
     rivers: state.rivers,
     sync: state.sync || {},
     syncStatus: status,
+    info,
+    setMemberRole,
+    removeMember,
+    setInviteRole,
+    renameMe,
+    resetInvite,
     syncNow: syncTrip,
     session,
     cloudStatus,
@@ -703,13 +879,45 @@ function Trip({ s, back, onAccount }) {
   const q = QS.get('sub');
   const [tab, setTab] = useState((q && (OLD[q] || q)) || 'Itinerary');
   if (!s.trip) return <NewTrip s={s} />;
-  const panels = { Itinerary, Crew, Meals, Gear, Shuttle, Costs: Ledger, Emergency: Card, Journal: Log, Notes: Info, Settings };
+  const tripEnt = s.sync[s.trip.id];
+  const tripStatus0 = s.syncStatus[s.trip.id];
+  const panels = { Itinerary, Crew, Meals, Gear, Shuttle, Costs: Ledger, Emergency: Card, Journal: Log, Notes: Info, People, Settings };
   const P = panels[tab] || Itinerary;
-  const items = ['Itinerary', 'Crew', 'Meals', 'Gear', 'Shuttle', 'Costs', 'Emergency', 'Journal', ...(REFS[s.trip.id] ? ['Notes'] : []), 'Settings'];
+  const items = ['Itinerary', 'Crew', 'Meals', 'Gear', 'Shuttle', 'Costs', 'Emergency', 'Journal', ...(REFS[s.trip.id] ? ['Notes'] : []), 'People', 'Settings'];
   return (
     <>
       <Tabs items={items} value={tab} onChange={setTab} tint="#7a3b28" />
       <div className="pad">
+        {tripEnt && tripEnt.role === 'viewer' && !tripEnt.removed ? (
+          <div className="notice mb note">
+            <div className="noticeHead">
+              <Icon name="alert" size={17} /> View only
+            </div>
+            <div className="muted">The owner can give you edit access from People.</div>
+          </div>
+        ) : null}
+        {tripEnt && (tripEnt.removed || tripStatus0 === 'removed') ? (
+          <div className="notice mb note">
+            <div className="noticeHead">
+              <Icon name="alert" size={17} /> You were removed from this trip
+            </div>
+            <div className="muted mb-s">This copy stays on your device but no longer syncs.</div>
+            <button className="btn ghost" onClick={() => s.stopSharing(s.trip.id)}>
+              Stop syncing
+            </button>
+          </div>
+        ) : null}
+        {tripStatus0 === 'gone' ? (
+          <div className="notice mb note">
+            <div className="noticeHead">
+              <Icon name="alert" size={17} /> Sharing was stopped
+            </div>
+            <div className="muted mb-s">The owner stopped sharing this trip. This copy stays on your device.</div>
+            <button className="btn ghost" onClick={() => s.stopSharing(s.trip.id)}>
+              Remove sync
+            </button>
+          </div>
+        ) : null}
         {nudge && !s.session ? (
           <div className="notice mb note">
             <div className="noticeHead">
@@ -961,9 +1169,11 @@ function Crew({ s }) {
 
   return (
     <>
-      <button className="btn ghost block mb" disabled={inv.busy} onClick={() => inv.send(false)}>
-        <Icon name="users" size={16} /> {inv.busy ? 'Preparing…' : 'Invite people to this trip'}
-      </button>
+      {!(s.sync[t.id] && (s.sync[t.id].removed || s.sync[t.id].role === 'viewer')) ? (
+        <button className="btn ghost block mb" disabled={inv.busy} onClick={() => inv.send(false)}>
+          <Icon name="users" size={16} /> {inv.busy ? 'Preparing…' : 'Invite people to this trip'}
+        </button>
+      ) : null}
       {inv.msg ? <div className="muted mb-s">{inv.msg}</div> : null}
       <div className="row">
         <Field value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" />
@@ -2739,6 +2949,169 @@ const setMeFor = (tripId, crewId) => {
   } catch {}
 };
 
+const ago = (iso) => {
+  const m = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 60000));
+  if (!isFinite(m)) return '';
+  if (m < 1) return 'just now';
+  if (m < 60) return m + ' min ago';
+  if (m < 1440) return Math.round(m / 60) + ' h ago';
+  return Math.round(m / 1440) + ' d ago';
+};
+const ROLE_LABEL = { owner: 'Owner', editor: 'Can edit', viewer: 'View only' };
+
+function People({ s }) {
+  const t = s.trip;
+  const ent = s.sync[t.id];
+  const info = s.info[t.id];
+  const inv = useInvite(s, t);
+  const [msg, setMsg] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [myName, setMyName] = useState(() => savedName());
+  const act = async (fn, done) => {
+    setBusy(true);
+    setMsg('');
+    try {
+      await fn();
+      if (done) setMsg(done);
+    } catch (e) {
+      setMsg(netMsg(e));
+    }
+    setBusy(false);
+  };
+  if (!ent)
+    return (
+      <>
+        <Empty icon="users" title="Just you so far">
+          Invite your crew to plan together. Everyone sees changes as they happen.
+        </Empty>
+        <button className="btn block" disabled={inv.busy} onClick={() => inv.send(false)}>
+          <Icon name="users" size={16} /> {inv.busy ? 'Preparing…' : 'Invite people'}
+        </button>
+        {inv.msg ? <div className="muted mt-s">{inv.msg}</div> : null}
+      </>
+    );
+  const role = (info && info.role) || ent.role || 'editor';
+  const owner = role === 'owner';
+  const members = (info && info.members) || [];
+  const byId = Object.fromEntries(members.map((m) => [m.id, m.n || 'Someone']));
+  const me = (info && info.me) || ent.me;
+  const myRec = members.find((m) => m.id === me);
+  const needName = ent.trip && myRec && !myRec.n;
+  const inviteRole = (info && info.inviteRole) || 'editor';
+  if (!ent.trip)
+    return <div className="muted">The member list appears once the trip owner opens the app.</div>;
+  return (
+    <>
+      {needName ? (
+        <div className="card formCard mb">
+          <span className="label">Your name</span>
+          <div className="muted mb-s">So the others know who you are.</div>
+          <div className="row">
+            <Field value={myName} onChange={(e) => setMyName(e.target.value)} placeholder="Your name" />
+            <button className="btn" disabled={busy || !myName.trim()} onClick={() => act(() => s.renameMe(t.id, myName))}>
+              Save
+            </button>
+          </div>
+        </div>
+      ) : null}
+      <div className="card mb">
+        <div className="serif">{ROLE_LABEL[role]}</div>
+        <div className="muted">
+          {owner ? 'You can invite people, change what they can do and remove them.' : role === 'viewer' ? 'You can see the trip but not change it.' : 'You can edit everything in this trip.'}
+        </div>
+      </div>
+
+      {role !== 'viewer' ? (
+        <div className="card formCard mb">
+          <span className="label">Invite</span>
+          <div className="row">
+            <button className="btn" disabled={inv.busy} onClick={() => inv.send(false)}>
+              Invite people
+            </button>
+            <button className="btn ghost" disabled={inv.busy} onClick={() => inv.send(true)}>
+              Copy link
+            </button>
+          </div>
+          {inv.msg ? <div className="muted mb-s">{inv.msg}</div> : null}
+          {owner ? (
+            <>
+              <div className="muted mb-s">People who join with the link can:</div>
+              <div className="chips">
+                {['editor', 'viewer'].map((r) => (
+                  <button key={r} className={'chip' + (inviteRole === r ? ' on' : '')} disabled={busy} onClick={() => inviteRole !== r && act(() => s.setInviteRole(t.id, r))}>
+                    {r === 'editor' ? 'Edit' : 'View only'}
+                  </button>
+                ))}
+              </div>
+              <button
+                className="btn ghost"
+                disabled={busy}
+                onClick={() =>
+                  window.confirm('Reset the invite link? Old links and codes stop working. People already in the trip stay.') &&
+                  act(() => s.resetInvite(t.id), 'Invite link reset. Send the new link to anyone who still needs it.')
+                }
+              >
+                Reset invite link
+              </button>
+            </>
+          ) : null}
+        </div>
+      ) : null}
+
+      <span className="label">People ({members.length || 1})</span>
+      {members.map((m) => (
+        <Acc key={m.id} lead={<Avatar name={m.n || '?'} />} title={m.n || 'Someone'} tag={m.id === me ? 'You' : undefined} note={ROLE_LABEL[m.r] + (m.t ? ' · joined ' + ago(m.t) : '')}>
+          {owner && m.r !== 'owner' ? (
+            <div className="row">
+              <button className="btn ghost" disabled={busy} onClick={() => act(() => s.setMemberRole(t.id, m.id, m.r === 'viewer' ? 'editor' : 'viewer'))}>
+                {m.r === 'viewer' ? 'Allow editing' : 'Make view only'}
+              </button>
+              <button
+                className="btn ghost danger"
+                disabled={busy}
+                onClick={() => window.confirm('Remove ' + (m.n || 'this person') + ' from the trip? They keep their own copy but stop syncing. To keep them out, also reset the invite link.') && act(() => s.removeMember(t.id, m.id))}
+              >
+                Remove
+              </button>
+            </div>
+          ) : m.id === me ? (
+            <div className="muted">This is you.</div>
+          ) : (
+            <div className="muted">{ROLE_LABEL[m.r]}</div>
+          )}
+        </Acc>
+      ))}
+      {msg ? <div className="warn mt-s">{msg}</div> : null}
+
+      {info && info.activity && info.activity.length ? (
+        <div className="mt">
+          <span className="label">Activity</span>
+          <div className="card permitList">
+            {[...info.activity].reverse().slice(0, 30).map((a, i) => {
+              const system = /^(.+ (joined|left|was removed|is now .+)|Invite link was reset|Someone joined)$/.test(a.s || '');
+              return (
+                <div className="permitItem" key={i}>
+                  <div className="permitT">{system ? a.s : byId[a.w] || 'Someone'}</div>
+                  <div className="permitD">
+                    {system ? '' : (a.s || 'Made a change') + ' · '}
+                    {ago(a.t)}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+
+      {!owner ? (
+        <button className="btn ghost danger mt" disabled={busy} onClick={() => window.confirm('Leave this trip? You keep your copy but it stops syncing.') && act(() => s.stopSharing(t.id))}>
+          Leave trip
+        </button>
+      ) : null}
+    </>
+  );
+}
+
 const INVITE_ORIGIN = 'https://briancarlcain.github.io/river-guide/';
 const inviteUrl = (code, by) => INVITE_ORIGIN + '?join=' + code + (by ? '&by=' + encodeURIComponent(by) : '');
 const inviteText = (t, code, by) =>
@@ -2755,7 +3128,7 @@ function useInvite(s, t) {
       let ent = s.sync[t.id];
       const code = ent ? ent.code : await s.shareTrip(t.id);
       const meCrew = (t.crew || []).find((c) => c.id === getMe(t.id));
-      const by = meCrew ? meCrew.name.trim().split(/\s+/)[0].slice(0, 24) : '';
+      const by = (meCrew ? meCrew.name : savedName()).trim().split(/\s+/)[0].slice(0, 24);
       success();
       if (copyOnly) {
         await navigator.clipboard.writeText(inviteUrl(code, by));
@@ -4199,7 +4572,7 @@ function NewTrip({ s, preset, onDone, onCancel }) {
   );
 }
 
-const syncLabel = (st, owner) => ({ busy: 'Syncing…', ok: owner ? 'Shared · up to date' : 'Shared with you · up to date', offline: 'Shared · offline, will sync later', gone: 'Sharing was stopped' }[st] || (owner ? 'Shared' : 'Shared with you'));
+const syncLabel = (st, owner) => ({ busy: 'Syncing…', ok: owner ? 'Shared · up to date' : 'Shared with you · up to date', offline: 'Shared · offline, will sync later', gone: 'Sharing was stopped', removed: 'You were removed from this trip' }[st] || (owner ? 'Shared' : 'Shared with you'));
 
 function tripStatus(t) {
   if (!okDate(t.start)) return null;
@@ -4214,9 +4587,10 @@ const netMsg = (e) => (/Failed to fetch|NetworkError|Load failed|network/i.test(
 
 function WhoAreYou({ s, tripId, onDone }) {
   const t = s.trips.find((x) => x.id === tripId);
-  const [name, setName] = useState('');
-  const finish = (crewId) => {
+  const [name, setName] = useState(() => savedName());
+  const finish = (crewId, crewName) => {
     if (crewId) setMeFor(tripId, crewId);
+    if (crewName) s.renameMe(tripId, crewName).catch(() => {});
     try {
       localStorage.setItem('riverguide.v1.joinedNudge', '1');
     } catch {}
@@ -4227,7 +4601,7 @@ function WhoAreYou({ s, tripId, onDone }) {
     <div className="pad">
       <h1>Which one are you?</h1>
       {(t.crew || []).map((c) => (
-        <button key={c.id} className="btn ghost block mb-s" onClick={() => finish(c.id)}>
+        <button key={c.id} className="btn ghost block mb-s" onClick={() => finish(c.id, c.name)}>
           {c.name}
         </button>
       ))}
@@ -4239,7 +4613,7 @@ function WhoAreYou({ s, tripId, onDone }) {
           onClick={() => {
             const id = uid();
             s.push('crew', { id, name: name.trim(), role: '', boat: '', ice: '', diet: '', days: '' });
-            finish(id);
+            finish(id, name.trim());
           }}
         >
           Add me
@@ -4257,6 +4631,7 @@ function JoinTrip({ s, initial, by, onJoined, onCancel }) {
   const [err, setErr] = useState('');
   const [busy, setBusy] = useState(false);
   const [peek, setPeek] = useState(null); // preview of the invited trip
+  const [yourName, setYourName] = useState(() => savedName());
   useEffect(() => {
     const c = remote.cleanCode(code);
     if (!c) {
@@ -4265,8 +4640,13 @@ function JoinTrip({ s, initial, by, onJoined, onCancel }) {
     }
     let live = true;
     remote
-      .get(c, 0)
-      .then((g) => live && setPeek(g && g.data && !g.missing ? { name: g.data.name, start: g.data.start, days: g.data.days, people: (g.data.crew || []).length } : { missing: true }))
+      .v2Peek(c)
+      .then(async (p) => {
+        if (p && !p.missing) return { name: p.name, start: p.start, days: p.days, people: p.people, role: p.role, by: p.by };
+        const g = await remote.get(c, 0); // a trip shared before members existed
+        return g && g.data && !g.missing && !g.upgraded ? { name: g.data.name, start: g.data.start, days: g.data.days, people: (g.data.crew || []).length } : { missing: true };
+      })
+      .then((p) => live && setPeek(p))
       .catch(() => live && setPeek(null));
     return () => {
       live = false;
@@ -4276,7 +4656,7 @@ function JoinTrip({ s, initial, by, onJoined, onCancel }) {
     setBusy(true);
     setErr('');
     try {
-      const id = await s.joinTrip(code);
+      const id = await s.joinTrip(code, yourName);
       success();
       onJoined(id);
     } catch (e) {
@@ -4286,13 +4666,14 @@ function JoinTrip({ s, initial, by, onJoined, onCancel }) {
   };
   return (
     <div className="pad">
-      <h1>{peek && peek.name ? (by ? by + ' invited you' : "You're invited") : 'Join a trip'}</h1>
+      <h1>{peek && peek.name ? (by || peek.by ? (by || peek.by) + ' invited you' : "You're invited") : 'Join a trip'}</h1>
       {peek && peek.name ? (
         <div className="card mb">
           <div className="serif">{peek.name}</div>
           <div className="muted">
             {okDate(peek.start) ? `${fmt(peek.start)} to ${fmt(addDays(peek.start, peek.days))} · ` : ''}
             {peek.people} {peek.people === 1 ? 'person' : 'people'}
+            {peek.role === 'viewer' ? ' · view only' : ''}
           </div>
         </div>
       ) : peek && peek.missing ? (
@@ -4310,9 +4691,10 @@ function JoinTrip({ s, initial, by, onJoined, onCancel }) {
         autoComplete="off"
         spellCheck={false}
       />
+      <Field label="Your name" value={yourName} onChange={(e) => setYourName(e.target.value)} placeholder="So the others know who you are" autoComplete="name" />
       {err ? <div className="warn mb-s">{err}</div> : null}
       <div className="row">
-        <button className="btn" disabled={busy || !remote.cleanCode(code)} onClick={join}>
+        <button className="btn" disabled={busy || !remote.cleanCode(code) || !yourName.trim()} onClick={join}>
           {busy ? 'Joining…' : 'Join trip'}
         </button>
         <button className="btn ghost" onClick={onCancel}>

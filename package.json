@@ -9,7 +9,8 @@
     "ios:sync": "node build.mjs app && cap sync ios",
     "ios:open": "cap open ios",
     "test": "node test/merge.test.mjs",
-    "screenshots": "node build.mjs app && node scripts/screenshots.mjs"
+    "screenshots": "node build.mjs app && node scripts/screenshots.mjs",
+    "test:server": "node scripts/test-members.mjs"
   },
   "dependencies": {
     "@capacitor/app": "^8.1.2",
