@@ -470,3 +470,9 @@ body.shot #fakeStatus { background: #faf8f3; }
 .gateLinks { text-align: center; margin-top: 14px; font-size: 14px; }
 
 .rg .legWay { display: inline-block; max-width: 100%; overflow-wrap: anywhere; }
+
+/* river detail header action; map height with the page header present */
+.pageHeader .hact { position: absolute; right: 10px; bottom: 5px; min-height: 40px; padding: 0 10px; font-size: 16px; font-weight: 500; color: var(--accent); background: none; border: 0; border-radius: 8px; }
+.pageHeader .hact:active { background: rgba(154, 74, 40, .1); }
+.shell:not(.onmap) .mapWindow { height: calc(100vh - var(--nav-h) - 132px - 42px); }
+#mapHeader .htitle { font-size: 18px; line-height: 1.2; }

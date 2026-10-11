@@ -36,7 +36,9 @@ function parse(dsl) {
   return out;
 }
 
+const STATE = {"grand-canyon":"Arizona","smith":"Montana","rogue":"Oregon","main-salmon":"Idaho","yampa":"Colorado","middle-fork-salmon":"Idaho","san-juan":"Utah","rio-chama":"New Mexico","cataract-canyon":"Utah","desolation-gray":"Utah","lodore":"Colorado","hells-canyon":"Idaho","ruby-horsethief":"Colorado","selway":"Idaho","green-flaming-gorge":"Utah","westwater":"Utah","illinois":"Oregon","tuolumne":"California","south-fork-american":"California","black-canyon":"Nevada","salt":"Arizona","dolores":"Colorado"};
 function write(id, river) {
+  if (STATE[id] && !river.state) river = { name: river.name, state: STATE[id], ...river };
   river.note = ''; river.notes = { camp: '', hike: '' };
   const f = `data/rivers/${id}.json`;
   fs.writeFileSync(f, JSON.stringify(river, null, 1) + '\n');

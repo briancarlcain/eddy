@@ -3364,45 +3364,68 @@ function Settings({ s, back }) {
 /* ---------- river ---------- */
 
 function River({ s, browse, onBrowse, onPlan }) {
+  if (!browse) return <RiverList s={s} onOpen={onBrowse} />;
+  return <RiverDetail s={s} />;
+}
+
+function RiverDetail({ s }) {
   const [tab, setTab] = useState(QS.get('sub') || 'Map');
-  const P = { Rapids, Camps, Hikes, Permits, Geology, Guide, Almanac, Rules }[tab];
+  const [editing, setEditing] = useState(false);
+  const [msg, setMsg] = useState('');
   // the trip's camp plan only means something on the trip's own river
   const sm = riverOf(s.trip) === RIVER.id ? s : { ...s, trip: null };
-  const empty = {
-    Rapids: !RIVER.rapids.length,
-    Camps: !RIVER.camps.length,
-    Hikes: !RIVER.hikes.length,
-    Geology: !RIVER.geology.length,
-    Guide: !RIVER.guide.length,
-    Almanac: !Object.keys(RIVER.almanac).length,
-    Rules: !RIVER.rules.length,
-    Permits: !RIVER.permit,
-  }[tab];
+  const has = {
+    Permits: !!RIVER.permit,
+    Rapids: RIVER.rapids.length > 0,
+    Camps: RIVER.camps.length > 0,
+    Hikes: RIVER.hikes.length > 0,
+    Geology: RIVER.geology.length > 0,
+    Guide: RIVER.guide.length > 0,
+    Almanac: Object.keys(RIVER.almanac).length > 0,
+    Rules: RIVER.rules.length > 0,
+  };
+  const items = ['Map', ...Object.keys(has).filter((k) => has[k]), 'More'];
+  const cur = items.includes(tab) ? tab : 'Map';
+  const P = { Rapids, Camps, Hikes, Permits, Geology, Guide, Almanac, Rules }[cur];
+  const rec = s.riverRec(RIVER.id);
   return (
     <>
-      <Tabs
-        items={['Rivers', 'Map', 'Permits', 'Rapids', 'Camps', 'Hikes', 'Geology', 'Guide', 'Almanac', 'Rules']}
-        value={tab}
-        onChange={setTab}
-        tint="#2f5d62"
-      />
-      {tab === 'Rivers' ? (
-        <Rivers
-          s={s}
-          browse={RIVER.id}
-          onBrowse={(id) => {
-            onBrowse(id);
-            setTab('Map');
-          }}
-          onPlan={onPlan}
-        />
-      ) : tab === 'Map' ? (
+      <Tabs items={items} value={cur} onChange={setTab} tint="#2f5d62" />
+      {cur === 'Map' ? (
         <RiverMap s={sm} />
-      ) : empty ? (
-        <div className="pad">
-          <div className="serif">{RIVER.name}</div>
-          <div className="muted mt">Nothing recorded here yet. Add entries from Rivers → Edit, or import a river JSON.</div>
-        </div>
+      ) : cur === 'More' ? (
+        editing ? (
+          <RiverEditor s={s} id={RIVER.id} onClose={() => setEditing(false)} />
+        ) : (
+          <div className="pad">
+            <div className="serif">{RIVER.name}</div>
+            <div className="muted">
+              {RIVER.reach ? RIVER.reach + ' · ' : ''}
+              {+(RIVER.miles[1] - RIVER.miles[0]).toFixed(1)} mi
+              {RIVER.agency ? ' · ' + RIVER.agency : ''}
+            </div>
+            <div className="row mt">
+              {RIVER.id !== DEFAULT_RIVER && (
+                <button className="btn" onClick={() => setEditing(true)}>
+                  Edit
+                </button>
+              )}
+              <button
+                className="btn ghost"
+                onClick={() => {
+                  const { custom: _c, edited: _e, ...r } = rec;
+                  navigator.clipboard?.writeText(JSON.stringify(r)).then(
+                    () => setMsg('Copied.'),
+                    () => setMsg('Copy failed.')
+                  );
+                }}
+              >
+                Copy JSON
+              </button>
+            </div>
+            {msg ? <div className="muted mt">{msg}</div> : null}
+          </div>
+        )
       ) : (
         <div className="pad"><P /></div>
       )}
@@ -3614,7 +3637,7 @@ function RiverMap({ s }) {
     <div className="gcmap">
       <header id="mapHeader">
         <div className="htop">
-          <div className="htitle">{/river/i.test(RIVER.name) ? RIVER.name : RIVER.name + " River"} Map</div>
+          <div className="htitle">{RIVER.reach || RIVER.name}</div>
           <div className="hreach">
             <span id="hmile">Mile {Math.round(mile)}</span>
           </div>
@@ -5056,7 +5079,7 @@ function RiverEditor({ s, id, onClose }) {
     name: id ? norm.name : '',
     reach: norm.reach,
     agency: norm.agency,
-    note: norm.note,
+    state: norm.state || '',
     tz: norm.tz,
     lat: id ? String(norm.coords[0]) : '',
     lon: id ? String(norm.coords[1]) : '',
@@ -5093,7 +5116,7 @@ function RiverEditor({ s, id, onClose }) {
       name: f.name.trim(),
       reach: f.reach.trim(),
       agency: f.agency.trim(),
-      note: f.note.trim(),
+      state: f.state.trim(),
       tz: f.tz.trim(),
       coords: [lat, lon],
       miles,
@@ -5110,6 +5133,7 @@ function RiverEditor({ s, id, onClose }) {
       <Field label="Name" value={f.name} onChange={set('name')} placeholder="Salmon River" />
       <Field label="Reach" value={f.reach} onChange={set('reach')} placeholder="Corn Creek to Carey Creek" />
       <Field label="Managing agency / permits" value={f.agency} onChange={set('agency')} />
+      <Field label="State" value={f.state} onChange={set('state')} placeholder="Idaho" />
       <div className="row">
         <Field label="Start mile" value={f.m0} onChange={set('m0')} inputMode="decimal" />
         <Field label="End mile" value={f.m1} onChange={set('m1')} inputMode="decimal" />
@@ -5120,7 +5144,6 @@ function RiverEditor({ s, id, onClose }) {
         <Field label="Put-in longitude" value={f.lon} onChange={set('lon')} inputMode="decimal" placeholder="-114.5" />
       </div>
       <Field label="Time zone" value={f.tz} onChange={set('tz')} placeholder="America/Denver" />
-      <Field label="Notes" area value={f.note} onChange={set('note')} />
 
       <div className="mt">
         <span className="label">Put-ins, take-outs &amp; hubs</span>
@@ -5194,11 +5217,12 @@ function RiverEditor({ s, id, onClose }) {
   );
 }
 
-function Rivers({ s, browse, onBrowse, onPlan }) {
-  const [edit, setEdit] = useState(null); // river id | 'new' | null
+function RiverList({ s, onOpen }) {
+  const [edit, setEdit] = useState(null); // 'new' | null
   const [json, setJson] = useState('');
   const [msg, setMsg] = useState('');
-  if (edit) return <RiverEditor s={s} id={edit === 'new' ? null : edit} onClose={() => setEdit(null)} />;
+  const [q, setQ] = useState('');
+  if (edit) return <RiverEditor s={s} id={null} onClose={() => setEdit(null)} />;
 
   const importJson = () => {
     try {
@@ -5215,54 +5239,47 @@ function Rivers({ s, browse, onBrowse, onPlan }) {
     }
   };
 
+  const term = q.trim().toLowerCase();
+  const rows = s
+    .riverList()
+    .map((r) => ({ r, n: normalizeRiver(r) }))
+    .filter(({ n }) => !term || [n.name, n.reach, n.state, n.agency].some((v) => (v || '').toLowerCase().includes(term)))
+    .sort((a, b) => a.n.name.localeCompare(b.n.name));
+  const mine = new Set(s.trips.map((t) => riverOf(t)));
+  const groups = [];
+  const onTrips = rows.filter(({ r }) => mine.has(r.id));
+  if (onTrips.length) groups.push(['Your trips', onTrips]);
+  const rest = rows.filter(({ r }) => !mine.has(r.id));
+  const states = [...new Set(rest.map(({ n }) => n.state || 'Other'))].sort((a, b) => (a === 'Other') - (b === 'Other') || a.localeCompare(b));
+  states.forEach((st) => groups.push([st, rest.filter(({ n }) => (n.state || 'Other') === st)]));
+
   return (
     <div className="pad">
-      <button className="btn" onClick={() => setEdit('new')}>
+      <Field value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search rivers" />
+      {groups.map(([label, list]) => (
+        <div className="mt" key={label}>
+          <span className="label">{label}</span>
+          {list.map(({ r, n }) => (
+            <div className="card mt tripCard" key={r.id} role="button" tabIndex={0} onClick={() => onOpen(r.id)}>
+              <div className="cardTop">
+                <div className="serif">{n.name}</div>
+              </div>
+              <div className="muted">
+                {n.reach ? n.reach + ' · ' : ''}
+                {+(n.miles[1] - n.miles[0]).toFixed(1)} mi
+              </div>
+            </div>
+          ))}
+        </div>
+      ))}
+      {!rows.length ? (
+        <Empty icon="search" title="No rivers">
+          Nothing matches.
+        </Empty>
+      ) : null}
+      <button className="btn ghost mt" onClick={() => setEdit('new')}>
         + Add river
       </button>
-      {s.riverList().map((r) => {
-        const n = normalizeRiver(r);
-        const trips = s.trips.filter((t) => riverOf(t) === r.id).length;
-        return (
-          <div className="card mt" key={r.id}>
-            <div className="serif">{n.name}</div>
-            <div className="muted">
-              {n.reach ? n.reach + ' · ' : ''}
-              {+(n.miles[1] - n.miles[0]).toFixed(1)} mi
-            </div>
-            <div className="muted">
-              {n.rapids.length} rapids · {n.camps.length} camps · {n.hikes.length} hikes · {trips} trip{trips === 1 ? '' : 's'}
-              {r.edited ? ' · edited' : ''}
-            </div>
-            {n.note ? <div className="muted mt">{n.note}</div> : null}
-            <div className="row mt">
-              <button className="btn" onClick={() => onBrowse(r.id)}>
-                {browse === r.id ? 'Open map' : 'View'}
-              </button>
-              <button className="btn ghost" onClick={() => onPlan(r.id)}>
-                Plan trip
-              </button>
-              {r.id !== DEFAULT_RIVER && (
-                <button className="btn ghost" onClick={() => setEdit(r.id)}>
-                  Edit
-                </button>
-              )}
-              <button
-                className="btn ghost"
-                onClick={() => {
-                  const { custom: _c, edited: _e, ...rec } = r;
-                  navigator.clipboard?.writeText(JSON.stringify(rec)).then(
-                    () => setMsg(`Copied ${n.name} JSON.`),
-                    () => setMsg('Copy failed.')
-                  );
-                }}
-              >
-                Copy JSON
-              </button>
-            </div>
-          </div>
-        );
-      })}
       <Acc title="Import river JSON" note="paste a river record, or { rivers: [...] }">
         <Field area value={json} onChange={(e) => setJson(e.target.value)} placeholder='{"name":"Salmon River","miles":[0,53],"coords":[45.2,-114.5],"tz":"America/Boise","access":[...]}' />
         <button className="btn" disabled={!json.trim()} onClick={importJson}>
@@ -5371,7 +5388,8 @@ function App() {
   const [welcome, setWelcome] = useState(''); // trip just joined; asks which crew member you are
   const [joinBy] = useState(() => (QS.get('by') || '').replace(/[^\p{L}\p{N} '.-]/gu, '').slice(0, 24));
   const [profSub, setProfSub] = useState(null); // open Profile on a given sub-tab
-  const onMap = tab === 'River';
+  const onMap = false;
+  const riverOpen = tab === 'River' && !!browse;
   const detail = tab === 'Trips' && inTrip && !!s.trip;
 
   const firstTrip = useRef(true);
@@ -5402,7 +5420,7 @@ function App() {
 
   // Trip screens use the trip's river; the River tab can browse any river.
   const tripRid = riverOf(s.trip);
-  const rid = onMap ? browse || tripRid : tripRid;
+  const rid = tab === 'River' ? browse || tripRid : tripRid;
   selectRiver(s.riverRec(rid));
 
   // the rock-art motif behind the page is keyed off body[data-tab]
@@ -5410,7 +5428,7 @@ function App() {
     document.body.dataset.tab = detail ? 'itinerary' : TABS.find((t) => t.id === tab).tab;
   }, [tab, detail]);
 
-  const title = detail ? s.trip.name : tab === 'Trips' ? 'Trips' : tab;
+  const title = detail ? s.trip.name : tab === 'River' ? (riverOpen ? RIVER.name : 'Rivers') : tab === 'Trips' ? 'Trips' : tab;
   if (!riskOk)
     return (
       <RiskGate
@@ -5434,7 +5452,24 @@ function App() {
               <Icon name="back" size={18} /> Trips
             </button>
           )}
+          {riverOpen && (
+            <button className="hback" onClick={() => setBrowse(null)} aria-label="Back to all rivers">
+              <Icon name="back" size={18} /> Rivers
+            </button>
+          )}
           <div className="phtitle">{title}</div>
+          {riverOpen && (
+            <button
+              className="hact"
+              onClick={() => {
+                setPreset(rid);
+                setInTrip(false);
+                setTab('Trips');
+              }}
+            >
+              Plan trip
+            </button>
+          )}
         </div>
       )}
 
@@ -5448,7 +5483,7 @@ function App() {
         {tab === 'River' && (
           <River
             s={s}
-            browse={rid}
+            browse={browse}
             onBrowse={setBrowse}
             onPlan={(id) => {
               setPreset(id);
@@ -5468,6 +5503,7 @@ function App() {
             className={'tabbtn' + (tab === t.id ? ' on' : '')}
             onClick={() => {
               if (t.id === 'Trips') setInTrip(false); // tapping Trips always returns to the overview
+              if (t.id === 'River') setBrowse(null); // and Rivers to the list
               setTab(t.id);
             }}
           >
