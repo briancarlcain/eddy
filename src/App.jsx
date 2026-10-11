@@ -15,6 +15,7 @@ import * as authApi from './auth.js';
 const IS_STORE = typeof __STORE__ !== 'undefined' && __STORE__;
 const APP_VERSION = typeof __VERSION__ !== 'undefined' ? __VERSION__ : 'dev';
 const POLICY_URL = 'https://briancarlcain.github.io/river-guide/privacy.html';
+const TERMS_URL = 'https://briancarlcain.github.io/river-guide/terms.html';
 const SUPPORT_URL = 'https://github.com/briancarlcain/river-guide/issues';
 // outfitter-specific price lines are left out of the public catalog
 const GEAR = IS_STORE ? GEAR_ALL.filter((g) => !/Ceiba|^Truck & Trailer|^Van Passenger|^Shuttle -|^Vehicle Shuttle|Gear (Pickup|Delivery) Tip|^Parking -|^Hualapai/i.test(g.n)) : GEAR_ALL;
@@ -4262,10 +4263,21 @@ function Account({ s }) {
                 >
                   {busy ? 'Sending…' : 'Email me a sign-in code'}
                 </button>
+                <div className="muted mt-s">
+                  By continuing you agree to the{' '}
+                  <button className="linkBtn inline" onClick={() => openUrl(TERMS_URL)}>
+                    Terms of use
+                  </button>{' '}
+                  and{' '}
+                  <button className="linkBtn inline" onClick={() => openUrl(POLICY_URL)}>
+                    Privacy policy
+                  </button>
+                  .
+                </div>
               </>
             ) : (
               <>
-                <div className="muted mb-s">We sent a code to {email.trim()}. Enter it below, or open the link in the email on this device.</div>
+                <div className="muted mb-s">We sent a code to {email.trim()}. Enter it below.</div>
                 <Field label="Code" value={code} onChange={(e) => setCode(e.target.value)} placeholder="123456" inputMode="numeric" autoComplete="one-time-code" />
                 <button className="btn block" disabled={busy || code.replace(/\s/g, '').length < 6} onClick={() => run(() => authApi.verifyCode(email, code))}>
                   {busy ? 'Checking…' : 'Sign in'}
@@ -4387,6 +4399,9 @@ function About({ s, part = 'about' }) {
         <span className="label">Help</span>
         <button className="btn ghost block" onClick={() => openUrl(POLICY_URL)}>
           Privacy policy
+        </button>
+        <button className="btn ghost block" onClick={() => openUrl(TERMS_URL)}>
+          Terms of use
         </button>
         <button className="btn ghost block" onClick={() => openUrl(SUPPORT_URL)}>
           Support &amp; feedback
@@ -4736,6 +4751,17 @@ function JoinTrip({ s, initial, by, onJoined, onCancel }) {
       />
       <Field label="Your name" value={yourName} onChange={(e) => setYourName(e.target.value)} placeholder="First name or nickname" autoComplete="name" />
       {err ? <div className="warn mb-s">{err}</div> : null}
+      <div className="muted mb-s">
+        By joining you agree to the{' '}
+        <button className="linkBtn inline" onClick={() => openUrl(TERMS_URL)}>
+          Terms of use
+        </button>{' '}
+        and{' '}
+        <button className="linkBtn inline" onClick={() => openUrl(POLICY_URL)}>
+          Privacy policy
+        </button>
+        .
+      </div>
       <div className="row">
         <button className="btn" disabled={busy || !remote.cleanCode(code) || !yourName.trim()} onClick={join}>
           {busy ? 'Joining…' : 'Join trip'}

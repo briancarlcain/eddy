@@ -440,3 +440,5 @@ body.shot #fakeStatus { background: #faf8f3; }
 .rg .permitT { font-weight: 600; font-size: 15.5px; }
 .rg .permitD { color: var(--ink-dim); font-size: 15px; line-height: 1.5; margin-top: 3px; }
 .rg input[hidden], .rg [hidden] { display: none !important; }
+
+.rg .linkBtn.inline { display: inline; min-height: 0; padding: 0; color: var(--accent); font-size: inherit; text-decoration: underline; }
