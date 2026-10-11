@@ -1,0 +1,1272 @@
+{
+ "name": "Desolation and Gray Canyons",
+ "reach": "Sand Wash to Swasey's",
+ "agency": "Bureau of Land Management, Price Field Office",
+ "miles": [
+  0,
+  84.1
+ ],
+ "days": 6,
+ "coords": [
+  39.3,
+  -110.05
+ ],
+ "tz": "America/Denver",
+ "note": "About 84 miles of the Green River through the remote Book Cliffs: Desolation Canyon to mile 59.3, then Gray Canyon to Swasey's. Mostly Class II with a few Class III rapids. Miles are from Sand Wash as in one mile-by-mile guide and may differ a mile or two from others. River left from Sand Wash to Coal Creek is Ute Tribal land and closed to all activity. Camp sizes are from that guide. Quality is not rated. Compiled from public sources; verify with the BLM and a current guidebook.",
+ "camps": [
+  {
+   "name": "Gold Hole 1",
+   "mile": 13.7,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "Medium. Best at medium to high water."
+  },
+  {
+   "name": "Gold Hole 2",
+   "mile": 13.9,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "Medium, with more shade than Gold Hole 1. Best at low to medium water. Dense vegetation."
+  },
+  {
+   "name": "Lower Gold Hole",
+   "mile": 14.6,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large. Best at medium to high water."
+  },
+  {
+   "name": "Rock House",
+   "mile": 15.6,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large. Hike up the wash to reach the sites; avoid dry washes because of flash floods."
+  },
+  {
+   "name": "Opposite Stampede Flat",
+   "mile": 17.6,
+   "size": 1,
+   "qual": null,
+   "bank": "R",
+   "desc": "Very small after rockfall; fits a couple of people."
+  },
+  {
+   "name": "Low-water sandbar",
+   "mile": 18.7,
+   "size": null,
+   "qual": null,
+   "bank": "R",
+   "desc": "Occasionally available at low water."
+  },
+  {
+   "name": "Fossil 1",
+   "mile": 18.9,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large. Best at medium to high water; hard to identify at high water."
+  },
+  {
+   "name": "Fossil (Turtle) 2",
+   "mile": 18.95,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large. Same water notes as Fossil 1."
+  },
+  {
+   "name": "Jack Creek",
+   "mile": 25.8,
+   "size": null,
+   "qual": null,
+   "bank": "R",
+   "desc": "If it is taken, use a site farther downstream. Pull over quickly after entering the rapid."
+  },
+  {
+   "name": "Lower Jack Creek",
+   "mile": 25.85,
+   "size": null,
+   "qual": null,
+   "bank": "R",
+   "desc": "Morning shade."
+  },
+  {
+   "name": "Mushroom",
+   "mile": 26.8,
+   "size": 2,
+   "qual": null,
+   "bank": "R",
+   "desc": "Small after a fallen cottonwood. Good for lunch and access to the petroglyphs."
+  },
+  {
+   "name": "Upper Cedar Ridge",
+   "mile": 29.9,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large and very nice. A deep eddy good for swimming and kayak rolls. A cut bank to the beach at low water."
+  },
+  {
+   "name": "Cedar Ridge 1",
+   "mile": 30.1,
+   "size": 8,
+   "qual": null,
+   "bank": "R",
+   "desc": "Very large."
+  },
+  {
+   "name": "Cedar Ridge 2",
+   "mile": 30.2,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "Medium."
+  },
+  {
+   "name": "Cedar Ridge 3",
+   "mile": 30.3,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "Medium."
+  },
+  {
+   "name": "Flat Canyon",
+   "mile": 32.8,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large and very rocky at low water. Spring runoff can block the petroglyph hike. Arch hike up the canyon."
+  },
+  {
+   "name": "Dripping Springs",
+   "mile": 33.9,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large."
+  },
+  {
+   "name": "Fretwater",
+   "mile": 36.3,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large."
+  },
+  {
+   "name": "Steer Ridge",
+   "mile": 39.2,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large."
+  },
+  {
+   "name": "Surprise",
+   "mile": 39.8,
+   "size": 2,
+   "qual": null,
+   "bank": "R",
+   "desc": "Small, best at lower water."
+  },
+  {
+   "name": "Calf Canyon",
+   "mile": 43.6,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "Medium."
+  },
+  {
+   "name": "Snap Canyon",
+   "mile": 44.5,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "Medium."
+  },
+  {
+   "name": "Three Canyon",
+   "mile": 45.9,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large, with a big beach at low water. A popular layover spot."
+  },
+  {
+   "name": "Three Canyon 2",
+   "mile": 46,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "Medium. Best at medium to high water."
+  },
+  {
+   "name": "Lower Three Canyon",
+   "mile": 46.2,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large."
+  },
+  {
+   "name": "Lion Hollow",
+   "mile": 47.8,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large and sandy."
+  },
+  {
+   "name": "Chandler",
+   "mile": 48.6,
+   "size": 4,
+   "qual": null,
+   "bank": "R",
+   "desc": "Small to medium."
+  },
+  {
+   "name": "Trail Canyon 1",
+   "mile": 49.7,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large."
+  },
+  {
+   "name": "Trail Canyon 2",
+   "mile": 49.8,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large."
+  },
+  {
+   "name": "Above Bull Canyon",
+   "mile": 51.1,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large, sandy and shaded."
+  },
+  {
+   "name": "Moonwater",
+   "mile": 52.2,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large."
+  },
+  {
+   "name": "Red Point",
+   "mile": 52.9,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "Medium."
+  },
+  {
+   "name": "Below Red Point",
+   "mile": 53.4,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large, with a sandy beach at medium to low water."
+  },
+  {
+   "name": "Joe Hutch",
+   "mile": 55.3,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large. A tight pull-in that is hard at high water and rocky at low."
+  },
+  {
+   "name": "McPherson",
+   "mile": 56.3,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large. Take the right channel around the island; sandy beach at low water."
+  },
+  {
+   "name": "Above Wire Fence",
+   "mile": 58.5,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large and shady."
+  },
+  {
+   "name": "Wire Fence 2",
+   "mile": 58.7,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "Medium and shady."
+  },
+  {
+   "name": "Wire Fence 3",
+   "mile": 59,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "The largest Wire Fence camp with the least shade. Difficult pull-in at high water."
+  },
+  {
+   "name": "Emergency camp",
+   "mile": 60.2,
+   "size": null,
+   "qual": null,
+   "bank": "R",
+   "desc": "An option at lower water. No shade, and no viable camps until Range Creek."
+  },
+  {
+   "name": "Lower Range Creek",
+   "mile": 64.5,
+   "size": null,
+   "qual": null,
+   "bank": "R",
+   "desc": "Sunny, with a late sunset. The upper Range Creek camp is no longer viable after a large fire."
+  },
+  {
+   "name": "Upper Rabbit Valley",
+   "mile": 67,
+   "size": 2,
+   "qual": null,
+   "bank": "R",
+   "desc": "Small. Only viable at medium to high water."
+  },
+  {
+   "name": "Rabbit Valley",
+   "mile": 67.2,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large and sandy."
+  },
+  {
+   "name": "Poverty",
+   "mile": 70.8,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Large. Late sun and no shade."
+  },
+  {
+   "name": "School Section",
+   "mile": 73.6,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Large. Many bugs from the willows."
+  },
+  {
+   "name": "Rattlesnake",
+   "mile": 73.7,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Large, popular for swimming and very sunny. Hike up Rattlesnake Canyon."
+  },
+  {
+   "name": "Nefertiti",
+   "mile": 75.7,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Large. A pit toilet, picnic tables and road access, so expect other users."
+  },
+  {
+   "name": "Upper Butler",
+   "mile": 79.9,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "Medium."
+  },
+  {
+   "name": "Lower Butler",
+   "mile": 80.1,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "Medium."
+  },
+  {
+   "name": "Sand Knolls",
+   "mile": 80.3,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "A big sandy beach with lots of shade, good at all levels."
+  },
+  {
+   "name": "Short Canyon",
+   "mile": 82.9,
+   "size": null,
+   "qual": null,
+   "bank": "R",
+   "desc": "About a mile above the take-out. Sandy beach at lower flows."
+  },
+  {
+   "name": "Swasey's Beach",
+   "mile": 83.8,
+   "size": null,
+   "qual": null,
+   "bank": "L",
+   "desc": "A BLM campground with 12 sites, fire rings, tables and an outhouse, $15 per night."
+  }
+ ],
+ "rapids": [
+  {
+   "name": "Tabyago Riffle",
+   "mile": 9.1,
+   "civ": false,
+   "diff": 1,
+   "tier": "Class I",
+   "desc": "Read and run."
+  },
+  {
+   "name": "Rock House Rapid",
+   "mile": 15.6,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Read and run."
+  },
+  {
+   "name": "Little Rock House Riffle",
+   "mile": 16.6,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Run the right side."
+  },
+  {
+   "name": "Jack Creek Rapid",
+   "mile": 25.7,
+   "civ": false,
+   "diff": 3,
+   "tier": "Unrated",
+   "desc": "Read and run, with rocks on the left at low water. Life jackets are mandatory from here to the take-out."
+  },
+  {
+   "name": "Big Canyon Rapid",
+   "mile": 28.6,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Firewater Rapid",
+   "mile": 29.6,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Cedar Ridge Rapid",
+   "mile": 30.4,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Flat Canyon Rapid",
+   "mile": 32.7,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Dripping Springs Rapid",
+   "mile": 33.7,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Very shallow on the left at low water."
+  },
+  {
+   "name": "Fretwater Falls Rapid",
+   "mile": 36.2,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Upper Wild Horse Rapid",
+   "mile": 37.2,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Lower Wild Horse Rapid",
+   "mile": 37.9,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Upper Steer Ridge Rapid",
+   "mile": 39,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Scout from the left and run left of center. A sharp rock from 2022 rockfall sits in the left channel and wraps and tears boats; it is hard to see at medium flows."
+  },
+  {
+   "name": "Lower Steer Ridge Rapid",
+   "mile": 39.2,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Surprise Rapid",
+   "mile": 39.7,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "A flat rock center-left can be a pour-over at high water; easily avoided on the right."
+  },
+  {
+   "name": "Log Cabin Rapid",
+   "mile": 41,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Rock Creek Rapid",
+   "mile": 41.7,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Calf Canyon Rapid",
+   "mile": 43.3,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Upper Snap Canyon Rapid",
+   "mile": 44.4,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Large holes on the left at high water."
+  },
+  {
+   "name": "Lower Snap Canyon Rapid",
+   "mile": 44.7,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Three Canyons Rapid",
+   "mile": 45.7,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Belknap Falls",
+   "mile": 47.1,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Chandler Falls Rapid",
+   "mile": 48.7,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Run right of center."
+  },
+  {
+   "name": "Trail Canyon Rapid",
+   "mile": 50,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Bull Canyon Rapid",
+   "mile": 51.5,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Moonwater Rapid",
+   "mile": 52.8,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Pass either side of the island at high water; use the left channel at medium to low."
+  },
+  {
+   "name": "Red Point Rapid",
+   "mile": 53.2,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "A large hole on the left at high water. The common line threads boulders mid-rapid; watch the right."
+  },
+  {
+   "name": "Joe Hutch Creek Rapid",
+   "mile": 54.2,
+   "civ": false,
+   "diff": 3,
+   "tier": "Unrated",
+   "desc": "Read and run. A large hole above it at high water (over 30,000 cfs); run center or right of center."
+  },
+  {
+   "name": "Joe Hutch Canyon Rapid (Cow Swim)",
+   "mile": 55.2,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Scouting recommended. Run left of the main features, then move right near the bottom."
+  },
+  {
+   "name": "Florence Creek Rapid",
+   "mile": 57,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Wire Fence Rapid",
+   "mile": 58.8,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Right or left at high water; left at medium to low."
+  },
+  {
+   "name": "Three Fords Rapid",
+   "mile": 59.2,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Take the right channel for a fun wave train. Optional right-bank scout. A possible undercut wall on the right."
+  },
+  {
+   "name": "Range Creek Rapid",
+   "mile": 64.2,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "At low to medium flow take the left channel above and run left."
+  },
+  {
+   "name": "Rabbit Valley Rapid",
+   "mile": 66.9,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Curry Rapid",
+   "mile": 67.7,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Saleratus Rapid",
+   "mile": 69,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Coal Creek Rapid",
+   "mile": 69.8,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Run right of center: left of the \"thunderous\" feature at the top and right of the large rock below."
+  },
+  {
+   "name": "Poverty Rapid",
+   "mile": 70.5,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Rattlesnake Rapid",
+   "mile": 73.7,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Pull left to avoid rocks on the right."
+  },
+  {
+   "name": "Nefertiti Rapid",
+   "mile": 75.7,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Butler Rapid",
+   "mile": 79.8,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Sand Knolls Rapid",
+   "mile": 80.3,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Stone Cabin Rapid",
+   "mile": 81.4,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Watch the boulders at the top."
+  },
+  {
+   "name": "Short Canyon Rapid",
+   "mile": 82.7,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Swasey's Rapid",
+   "mile": 83.6,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  }
+ ],
+ "hikes": [
+  {
+   "name": "Rock House Canyon petroglyphs",
+   "mile": 15.6,
+   "bank": "R",
+   "time": null,
+   "diff": 2,
+   "qual": null,
+   "desc": "Hike up the wash from camp. Do not touch the rock art."
+  },
+  {
+   "name": "Mushroom Rock petroglyphs",
+   "mile": 26.8,
+   "bank": "R",
+   "time": null,
+   "diff": 1,
+   "qual": null,
+   "desc": "Fremont rock art about a quarter mile from camp. Do not touch."
+  },
+  {
+   "name": "Flat Canyon petroglyphs",
+   "mile": 32.4,
+   "bank": "R",
+   "time": null,
+   "diff": 1,
+   "qual": null,
+   "desc": "A short walk to Fremont figures (arrived around 600 AD) and fainter Desert Archaic designs. A sacred site: stay on the trail."
+  },
+  {
+   "name": "Flat Canyon arch",
+   "mile": 32.8,
+   "bank": "R",
+   "time": null,
+   "diff": 2,
+   "qual": null,
+   "desc": "An arch hike up the canyon."
+  },
+  {
+   "name": "Rock Creek petroglyphs",
+   "mile": 41.6,
+   "bank": "R",
+   "time": null,
+   "diff": 3,
+   "qual": null,
+   "desc": "About 4 miles round trip. Stay on the upstream-side trail and do not cross the creek. A Fremont panel is at the mouth."
+  },
+  {
+   "name": "Three Canyons overlook",
+   "mile": 46,
+   "bank": "R",
+   "time": null,
+   "diff": 3,
+   "qual": null,
+   "desc": "An overlook and loop hike from the trailhead."
+  },
+  {
+   "name": "Range Creek",
+   "mile": 64.5,
+   "bank": "R",
+   "time": null,
+   "diff": 3,
+   "qual": null,
+   "desc": "A major Fremont site area with over 500 identified sites. Hiking is restricted and allowed only through the north gate, May through November."
+  },
+  {
+   "name": "Coal Creek overlook",
+   "mile": 69.8,
+   "bank": "L",
+   "time": null,
+   "diff": 3,
+   "qual": null,
+   "desc": "A hike from camp. Ute land ends above Coal Creek."
+  },
+  {
+   "name": "Rattlesnake Canyon",
+   "mile": 73.6,
+   "bank": "L",
+   "time": null,
+   "diff": 2,
+   "qual": null,
+   "desc": "A hike up the canyon from camp."
+  },
+  {
+   "name": "School Section overlook",
+   "mile": 73.8,
+   "bank": "R",
+   "time": null,
+   "diff": 2,
+   "qual": null,
+   "desc": "A hike from camp."
+  },
+  {
+   "name": "Desert Archaic petroglyphs",
+   "mile": 77.5,
+   "bank": "R",
+   "time": null,
+   "diff": 1,
+   "qual": null,
+   "desc": "A panel at the petroglyph parking. Watch for poison ivy and do not touch."
+  }
+ ],
+ "geology": [],
+ "guide": [],
+ "almanac": {
+  "history": [
+   [
+    "The Fremont",
+    "Rock art along the canyon was made by the Fremont people, who arrived around 600 AD, and earlier Desert Archaic people. The Range Creek side canyon has over 500 identified Fremont sites."
+   ],
+   [
+    "Flat Nose George Curry",
+    "Curry Canyon is named for Flat Nose George Curry, a member of the Wild Bunch."
+   ],
+   [
+    "Dam surveyors",
+    "A cabin in Gray Canyon was used by dam surveyors in 1911."
+   ]
+  ]
+ },
+ "rules": [
+  {
+   "name": "Required at launch",
+   "rules": [
+    {
+     "t": "Permit and ID",
+     "d": "A physical copy of the permit and photo ID for the permit check. Rangers also check equipment and give a safety and etiquette orientation. Boat tags stay attached to the boats for the whole trip."
+    },
+    {
+     "t": "Life jackets",
+     "d": "A properly sized Type I, III or V PFD approved for paddling or whitewater for each person. Children 12 and under wear theirs at all times, and everyone wears one from Jack Creek Rapid to the take-out."
+    },
+    {
+     "t": "First aid and repair",
+     "d": "A first-aid kit adequate for the group and for serious injuries, repair kits for the types of boats, and air pumps to reinflate after repairs."
+    },
+    {
+     "t": "Toilet",
+     "d": "A washable, leak-proof, reusable system sized for the group and trip length. Leaving solid human waste, or dumping it in vault toilets or trash at BLM facilities, is prohibited."
+    },
+    {
+     "t": "Fire pan",
+     "d": "A durable metal fire pan at least 12 inches wide with a lip of at least 1.5 inches, carried on all trips even if you cook on stoves. A fire blanket under it is recommended."
+    },
+    {
+     "t": "Each raft or dory",
+     "d": "An extra oar, paddle or motor, and a bail bucket or bilge pump unless self-bailing."
+    },
+    {
+     "t": "Spare paddles for small craft",
+     "d": "One spare paddle for 1 to 3 kayaks, canoes or inflatable kayaks, two for 4 to 6, three for 7 to 9, and so on."
+    },
+    {
+     "t": "Boats 16 feet or longer",
+     "d": "A Type IV throwable or a rescue rope with at least 40 feet of line, and a whistle or horn."
+    }
+   ]
+  },
+  {
+   "name": "On the river",
+   "rules": [
+    {
+     "t": "Stay together",
+     "d": "Launch, travel within visual contact, and camp together. Boats may not be sent ahead to secure campsites."
+    },
+    {
+     "t": "Leave no trace",
+     "d": "Carry out charcoal, ash, garbage and human waste. Dishwater strainers are recommended. Keep side-canyon streams and springs free of soap."
+    },
+    {
+     "t": "Fires",
+     "d": "Fires only in fire pans, and only with driftwood found along the banks and beaches."
+    },
+    {
+     "t": "Rock Creek",
+     "d": "Do not camp or build fires on public land within half a mile of the mouth of Rock Creek."
+    },
+    {
+     "t": "Cultural sites",
+     "d": "Do not remove, damage or destroy archaeological or historical resources. Do not touch rock art."
+    },
+    {
+     "t": "Not for profit",
+     "d": "The trip must not be commercial: participants share actual costs equally and no one profits."
+    },
+    {
+     "t": "Motors",
+     "d": "No upstream motorized travel except in emergencies, and slow, wakeless speed downstream."
+    }
+   ]
+  }
+ ],
+ "landmarks": [
+  {
+   "name": "Sand Wash",
+   "mile": 0,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Put-in. A primitive ramp and campground with first-come sites, plus \"bug huts\" that can be reserved and are recommended in spring and early summer. No running water; pack out trash."
+  },
+  {
+   "name": "Undercut wall",
+   "mile": 38.5,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "An undercut rock wall that is hazardous to smaller craft."
+  },
+  {
+   "name": "Steer Ridge scout parking",
+   "mile": 38.9,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "River-left parking for scouting the rapid, approved by the Ute Tribe."
+  },
+  {
+   "name": "Rock Creek Ranch",
+   "mile": 42.4,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "A historic ranch. Do not camp on the property or within half a mile of the mouth of Rock Creek."
+  },
+  {
+   "name": "Ouray Lodge and McPherson Ranch",
+   "mile": 56.3,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "River left, no access: Ute land."
+  },
+  {
+   "name": "Jack's Rock",
+   "mile": 57.7,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "A large mid-channel rock."
+  },
+  {
+   "name": "End of Desolation Canyon",
+   "mile": 59.3,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Gray Canyon begins. The K-T boundary shows in the rock here."
+  },
+  {
+   "name": "Curry Canyon",
+   "mile": 67.7,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Named for Flat Nose George Curry, a Wild Bunch member."
+  },
+  {
+   "name": "Historic cabin",
+   "mile": 70.1,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Used by dam surveyors in 1911. River-left access is permitted from here to the take-out."
+  },
+  {
+   "name": "Price River confluence",
+   "mile": 77.7,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": ""
+  },
+  {
+   "name": "Swasey's Beach",
+   "mile": 83.8,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "A BLM campground, formerly free camping."
+  },
+  {
+   "name": "Swasey's boat ramp",
+   "mile": 84,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "The take-out."
+  }
+ ],
+ "clusters": [
+  {
+   "s": 0,
+   "e": 59.3,
+   "n": "Desolation Canyon"
+  },
+  {
+   "s": 59.3,
+   "e": 84,
+   "n": "Gray Canyon"
+  }
+ ],
+ "notes": {
+  "camp": "*Camps are on river right (BLM land) until below Coal Creek. Sizes come from one guide and change with water level. Quality is not rated.",
+  "hike": "*Difficulty is a rough estimate (1 = short, easy walk; 3 = longer trail with climbing). Times are not given."
+ },
+ "hdiff": {
+  "1": "Short, easy walk",
+  "2": "Easy trail",
+  "3": "Longer trail with some climbing"
+ },
+ "access": [
+  {
+   "name": "Price",
+   "road": true,
+   "hub": true,
+   "note": "BLM Price Field Office, permits and shuttle information",
+   "grid": [
+    2,
+    2
+   ]
+  },
+  {
+   "name": "Green River",
+   "road": true,
+   "hub": true,
+   "note": "Nearest town to the take-out",
+   "grid": [
+    10,
+    2
+   ]
+  },
+  {
+   "name": "Sand Wash",
+   "road": true,
+   "mile": 0,
+   "park": true,
+   "note": "Put-in. Primitive ramp, 8-site campground, ranger station, toilets",
+   "grid": [
+    1,
+    6
+   ]
+  },
+  {
+   "name": "Nefertiti",
+   "road": true,
+   "mile": 75.7,
+   "note": "Road access to the lower canyon; permit boundary",
+   "grid": [
+    8,
+    6
+   ]
+  },
+  {
+   "name": "Swasey's",
+   "road": true,
+   "mile": 84,
+   "park": true,
+   "note": "Take-out. BLM campground with 12 sites",
+   "grid": [
+    10,
+    6
+   ]
+  }
+ ],
+ "yardGrid": [
+  5,
+  1
+ ],
+ "roads": [
+  {
+   "a": "Price",
+   "b": "Sand Wash",
+   "h": ""
+  },
+  {
+   "a": "Green River",
+   "b": "Swasey's",
+   "h": ""
+  },
+  {
+   "a": "Price",
+   "b": "Green River",
+   "h": ""
+  },
+  {
+   "a": "Outfitter",
+   "b": "Price",
+   "h": ""
+  }
+ ],
+ "permit": {
+  "status": "Required year-round · lottery May 1 to Sept 30",
+  "asOf": "October 2026",
+  "apply": {
+   "label": "Apply on Recreation.gov",
+   "url": "https://www.recreation.gov/permits/233393"
+  },
+  "contact": {
+   "phone": "435-636-3600",
+   "email": "utprmail@blm.gov",
+   "web": "https://www.blm.gov/programs/recreation/passes-and-permits/lotteries/utah/desolationgray"
+  },
+  "sections": [
+   {
+    "name": "How to get one",
+    "items": [
+     {
+      "t": "Where it applies",
+      "d": "A permit is required year-round for travel on the Green River between Sand Wash and Nefertiti Rapid. Boating season is usually March through November; the river freezes from December through February."
+     },
+     {
+      "t": "Peak season lottery: May 1 to September 30",
+      "d": "Apply on Recreation.gov from December 1 to January 31, one entry per person. Notifications are emailed on February 15. You must accept awarded dates by March 14, or they are cancelled on March 15."
+     },
+     {
+      "t": "Leftover dates",
+      "d": "Unawarded and cancelled dates become reservable on Recreation.gov on March 15 at 8 a.m. Mountain. Later cancellations reappear at random times."
+     },
+     {
+      "t": "Outside the peak season",
+      "d": "Launches before May 1 and after September 30 are not in the lottery. They can be reserved starting December 1."
+     },
+     {
+      "t": "Alternates",
+      "d": "An alternate trip leader can be added only at the time of reservation."
+     },
+     {
+      "t": "Finish and print",
+      "d": "Payment for everyone must be completed and the permit printed in the two weeks before launch, or the reservation is cancelled. No changes can be made once it is printed."
+     },
+     {
+      "t": "Odds",
+      "d": "One report from 2023 put the success rate at about 6 percent."
+     }
+    ]
+   },
+   {
+    "name": "Costs and limits",
+    "items": [
+     {
+      "t": "Fees",
+      "d": "$6, one time and non-refundable, plus $40 per person. The first person is paid at booking."
+     },
+     {
+      "t": "Launches",
+      "d": "Reported at six groups per day in the peak season."
+     },
+     {
+      "t": "Group size",
+      "d": "25 people or fewer, and no more than the number prepaid. Groups launching separately may not camp together if that puts more than 25 people at one campsite."
+     },
+     {
+      "t": "Trip length",
+      "d": "At least 3 and at most 9 calendar days."
+     },
+     {
+      "t": "Pets",
+      "d": "Pets are prohibited year-round on Desolation and Gray Canyons."
+     },
+     {
+      "t": "Refunds",
+      "d": "Cancel more than 30 days before launch for a refund of everything but the $6. There is no refund within 30 days, or for reducing the group. Permits cannot be transferred or sold."
+     }
+    ]
+   },
+   {
+    "name": "Ute Tribal land",
+    "items": [
+     {
+      "t": "River left to Coal Creek",
+      "d": "The east bank from Sand Wash to Coal Creek is Ute Tribal land. All activity there has been prohibited since September 2018: no landing, no visiting sites, no camping, no hiking. Plan every camp on river right, which is BLM land."
+     },
+     {
+      "t": "Questions",
+      "d": "Ute Tribe Fish and Wildlife: 435-722-5511."
+     },
+     {
+      "t": "River left below Coal Creek",
+      "d": "River-left access is permitted from below Coal Creek to the take-out."
+     }
+    ]
+   }
+  ]
+ }
+}

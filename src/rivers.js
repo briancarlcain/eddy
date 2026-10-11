@@ -9,6 +9,7 @@ import middleForkSalmon from '../data/rivers/middle-fork-salmon.json';
 import sanJuan from '../data/rivers/san-juan.json';
 import rioChama from '../data/rivers/rio-chama.json';
 import cataractCanyon from '../data/rivers/cataract-canyon.json';
+import desolationGray from '../data/rivers/desolation-gray.json';
 
 export const DEFAULT_RIVER = 'grand-canyon';
 
@@ -22,6 +23,7 @@ export const BUILTIN_RIVERS = {
   'san-juan': { id: 'san-juan', ...sanJuan },
   'rio-chama': { id: 'rio-chama', ...rioChama },
   'cataract-canyon': { id: 'cataract-canyon', ...cataractCanyon },
+  'desolation-gray': { id: 'desolation-gray', ...desolationGray },
 };
 
 // Fill every field the views read, so a bare-bones river (just a name, reach
