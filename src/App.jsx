@@ -240,6 +240,26 @@ function summarize(a, b) {
   return (out.length > 3 ? shown + `; and ${out.length - 3} more` : shown).slice(0, 140);
 }
 
+// A built-in river that the user edited is stored as a patch (only the fields they changed), so every
+// other field keeps receiving updates when the built-in data improves.
+const riverDiff = (id, r) => {
+  const nb = normalizeRiver(BUILTIN_RIVERS[id]);
+  const patch = {};
+  for (const k of Object.keys(r)) {
+    if (k === 'id' || k === 'at' || k === '_patch' || r[k] === undefined) continue;
+    if (canon(r[k]) !== canon(nb[k])) patch[k] = r[k];
+  }
+  return patch;
+};
+const effRiver = (id, rivers) => {
+  const b = BUILTIN_RIVERS[id];
+  const o = rivers && rivers[id];
+  if (!b) return o || null;
+  if (!o) return b;
+  const { _patch: _p, ...rest } = o;
+  return { ...b, ...rest, id };
+};
+
 const NAME_KEY = 'riverguide.name';
 const savedName = () => {
   try {
@@ -274,6 +294,19 @@ function useStore() {
       }
     } catch {}
     st.rivers = st.rivers || {};
+    let migrated = false;
+    for (const [id, o] of Object.entries(st.rivers)) {
+      if (!BUILTIN_RIVERS[id] || !o || o._patch) continue;
+      const patch = riverDiff(id, o);
+      if (Object.keys(patch).length) st.rivers[id] = { id, at: o.at, ...patch, _patch: true };
+      else delete st.rivers[id];
+      migrated = true;
+    }
+    if (migrated) {
+      try {
+        localStorage.setItem(LOCAL, JSON.stringify(st));
+      } catch {}
+    }
     return st;
   });
   const stateRef = useRef(state);
@@ -305,7 +338,7 @@ function useStore() {
   };
   const withRiver = (doc) => {
     const id = doc.river || DEFAULT_RIVER;
-    const custom = stateRef.current.rivers[id];
+    const custom = !BUILTIN_RIVERS[id] && stateRef.current.rivers[id];
     return custom ? { ...doc, _river: custom } : doc;
   };
   // adopt a custom river that came along with a shared trip
@@ -758,7 +791,7 @@ function useStore() {
     // all rivers (built-in + added/edited), built-ins first
     riverList: () => {
       const ids = [...Object.keys(BUILTIN_RIVERS), ...Object.keys(state.rivers).filter((k) => !BUILTIN_RIVERS[k])];
-      return ids.map((id) => ({ id, ...(state.rivers[id] || BUILTIN_RIVERS[id]), custom: !BUILTIN_RIVERS[id], edited: !!(BUILTIN_RIVERS[id] && state.rivers[id]) }));
+      return ids.map((id) => ({ ...effRiver(id, state.rivers), id, custom: !BUILTIN_RIVERS[id], edited: !!(BUILTIN_RIVERS[id] && state.rivers[id]) }));
     },
     // merge a backup file into the current state (newer copy of a trip wins)
     restore: (data) => {
@@ -775,9 +808,17 @@ function useStore() {
       return incoming.length;
     },
     wipe: () => persist({ trips: [], active: null, rivers: {}, sync: {}, cloud: st0cloud() }),
-    riverRec: (id) => state.rivers[id] || BUILTIN_RIVERS[id] || { id, name: 'Unknown river' },
+    riverRec: (id) => effRiver(id, state.rivers) || { id, name: 'Unknown river' },
     saveRiver: (r) => {
-      const rec = { ...r, id: r.id || uid(), at: now() };
+      const id = r.id || uid();
+      if (BUILTIN_RIVERS[id]) {
+        const patch = riverDiff(id, r);
+        const { [id]: _old, ...others } = stateRef.current.rivers;
+        const rivers = Object.keys(patch).length ? { ...others, [id]: { id, at: now(), ...patch, _patch: true } } : others;
+        persist({ ...stateRef.current, rivers });
+        return id;
+      }
+      const rec = { ...r, id, at: now() };
       persist({ ...stateRef.current, rivers: { ...stateRef.current.rivers, [rec.id]: rec } });
       return rec.id;
     },
