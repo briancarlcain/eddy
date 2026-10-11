@@ -1,0 +1,622 @@
+{
+ "name": "Ruby-Horsethief Canyons",
+ "reach": "Loma to Westwater",
+ "agency": "Bureau of Land Management, Grand Junction Field Office",
+ "miles": [
+  0,
+  25.1
+ ],
+ "days": 2,
+ "coords": [
+  39.15,
+  -109.05
+ ],
+ "tz": "America/Denver",
+ "note": "About 25 miles of the Colorado River from Loma, Colorado to the Westwater ranger station in Utah: mostly flat water with one Class II spot at Black Rocks, usually a two-day trip. Miles and the 34 designated sites are from the BLM's official site list; descriptions come from a commercial guide and are rescaled to it. Camp quality is not rated. Compiled from public sources; verify with the BLM.",
+ "camps": [
+  {
+   "name": "Rattlesnake",
+   "mile": 3.2,
+   "size": 2,
+   "qual": null,
+   "bank": "L",
+   "desc": "A small site, good for a short first day, on the upstream side of Rattlesnake Canyon."
+  },
+  {
+   "name": "Beaver Tail 1",
+   "mile": 3.5,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "A cobblestone landing with no shade; tricky at high water. Up to 25 people."
+  },
+  {
+   "name": "Beaver Tail 2",
+   "mile": 3.6,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "Shaded, flat and large. Up to 25 people."
+  },
+  {
+   "name": "Bull Draw",
+   "mile": 3.7,
+   "size": null,
+   "qual": null,
+   "bank": "L",
+   "desc": "One of the 34 designated sites."
+  },
+  {
+   "name": "Banjo",
+   "mile": 5.6,
+   "size": null,
+   "qual": null,
+   "bank": "L",
+   "desc": "One of the 34 designated sites."
+  },
+  {
+   "name": "Cottonwood 1",
+   "mile": 5.8,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Shares a bar with the other Cottonwood sites. Up to 25. Dogs leashed."
+  },
+  {
+   "name": "Cottonwood 2",
+   "mile": 5.9,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A cobble and clay landing with shade. Up to 25. Dogs leashed."
+  },
+  {
+   "name": "Cottonwood 3",
+   "mile": 6,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A sand landing with shade. Up to 25. Dogs leashed."
+  },
+  {
+   "name": "Cottonwood 4",
+   "mile": 6.1,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A sand beach with shade. Up to 25. Dogs leashed."
+  },
+  {
+   "name": "Cottonwood 5",
+   "mile": 6.2,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Many trees. Up to 25. Dogs leashed."
+  },
+  {
+   "name": "Salt Creek 1",
+   "mile": 7.9,
+   "size": 5,
+   "qual": null,
+   "bank": "L",
+   "desc": "A grass landing with no shade. Up to 14 people. Hug the left bank two miles past Cottonwood."
+  },
+  {
+   "name": "Salt Creek 2",
+   "mile": 8,
+   "size": 5,
+   "qual": null,
+   "bank": "L",
+   "desc": "A grass landing with shade. Up to 14 people."
+  },
+  {
+   "name": "Fault Line 1",
+   "mile": 10.3,
+   "size": 5,
+   "qual": null,
+   "bank": "L",
+   "desc": "A grass landing with shade. Up to 14 people. Easy to miss at high flows: look for large cottonwoods at the river fork. Burned in May 2025."
+  },
+  {
+   "name": "Fault Line 2",
+   "mile": 10.5,
+   "size": 5,
+   "qual": null,
+   "bank": "L",
+   "desc": "A cobble and sand beach with limited shade. Up to 14. Difficult at high water; take the left channel at Fault Line 1. Burned in May 2025."
+  },
+  {
+   "name": "Mee Corner",
+   "mile": 12.7,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A cobble and sand beach with shade. Up to 25. Hiking to Mee Canyon, though access is better from the other Mee sites."
+  },
+  {
+   "name": "Mee 1",
+   "mile": 13.1,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A clay and grass landing with some shade. Up to 25. Easy Mee Canyon hiking. Dogs leashed."
+  },
+  {
+   "name": "Mee 2",
+   "mile": 13.2,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Clay and grass with no shade. Up to 25. Dogs leashed."
+  },
+  {
+   "name": "Mee 3",
+   "mile": 13.3,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Clay and grass with no shade. Up to 25. Dogs leashed."
+  },
+  {
+   "name": "Mee 4",
+   "mile": 13.4,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "Clay and grass with no shade. Dogs leashed."
+  },
+  {
+   "name": "Mee Canyon",
+   "mile": 13.6,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A sand landing with shade. Up to 25. The best access for Mee Canyon hiking. Dogs leashed."
+  },
+  {
+   "name": "Dog Island",
+   "mile": 14.7,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A campsite on an island with a cobble landing and shade. Up to 25. Use the right channel. Swimming is good at suitable flows."
+  },
+  {
+   "name": "Split Rock",
+   "mile": 15.8,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A cobble landing with great shade. Up to 25. Hard to land at high water, so use a rope. Access to Black Rocks and Moore Canyon."
+  },
+  {
+   "name": "Black Rocks 1",
+   "mile": 16,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A sand landing with some shade. Up to 25. Very difficult at high water."
+  },
+  {
+   "name": "Black Rocks 2",
+   "mile": 16.1,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A sand beach with no shade. Up to 25."
+  },
+  {
+   "name": "Black Rocks 3",
+   "mile": 16.2,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A sand beach with no shade. Up to 25."
+  },
+  {
+   "name": "Black Rocks 4",
+   "mile": 16.4,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A beach with no shade. Up to 25."
+  },
+  {
+   "name": "Black Rocks 5",
+   "mile": 16.5,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A sand beach with some shade. Up to 25."
+  },
+  {
+   "name": "Black Rocks 6",
+   "mile": 16.6,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A sand beach with no shade. Up to 25."
+  },
+  {
+   "name": "Black Rocks 7",
+   "mile": 16.7,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A steep sand beach with no shade. Up to 25. The eddy can be hard to catch."
+  },
+  {
+   "name": "Black Rocks 8",
+   "mile": 16.8,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A sand beach with no shade. Up to 25."
+  },
+  {
+   "name": "Black Rocks 9",
+   "mile": 17,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A sand beach with no shade. Up to 25. The Moore Canyon trail starts here."
+  },
+  {
+   "name": "Island Camp",
+   "mile": 18.1,
+   "size": 2,
+   "qual": null,
+   "bank": null,
+   "desc": "A cobble and sand landing with no shade. Up to 5 people. Take the left channel of the island."
+  },
+  {
+   "name": "Knowles",
+   "mile": 18.3,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A cobble and sand beach with shade. Up to 25. Difficult at high flows; look for the cottonwood grove."
+  },
+  {
+   "name": "May Flats",
+   "mile": 20.3,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "A cobble landing with no shade. Up to 25. Hard to locate: look for boulders on the left bank."
+  }
+ ],
+ "rapids": [
+  {
+   "name": "Black Rocks Rapid",
+   "mile": 16.45,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Swirling currents at Black Rocks. The only rapid in this flatwater stretch."
+  }
+ ],
+ "hikes": [
+  {
+   "name": "Rattlesnake Canyon",
+   "mile": 3.18,
+   "bank": "L",
+   "time": null,
+   "diff": 4,
+   "qual": null,
+   "desc": "A hike to a large concentration of natural arches, about 5 miles round trip with some scrambling. A milder option follows the canyon path."
+  },
+  {
+   "name": "Abandoned cabin",
+   "mile": 9.82,
+   "bank": "L",
+   "time": null,
+   "diff": 1,
+   "qual": null,
+   "desc": "An old cabin a short distance off the bank."
+  },
+  {
+   "name": "Mee Canyon",
+   "mile": 13.6,
+   "bank": "L",
+   "time": null,
+   "diff": 5,
+   "qual": null,
+   "desc": "A large canyon with a very large alcove at the end, a long and challenging hike, and easier spires. The trailhead is reached by road about 8 miles from the river. Climbing routes exist."
+  },
+  {
+   "name": "Black Rocks Canyon rim",
+   "mile": 16.4,
+   "bank": "L",
+   "time": null,
+   "diff": 2,
+   "qual": null,
+   "desc": "About a 30-minute hike for views from the rim of some of the oldest exposed rock on Earth."
+  },
+  {
+   "name": "Moore Canyon",
+   "mile": 17,
+   "bank": "L",
+   "time": null,
+   "diff": 3,
+   "qual": null,
+   "desc": "A trail from Black Rocks 9 into a large canyon with extensive exploring."
+  },
+  {
+   "name": "McDonald Creek pictographs",
+   "mile": 18.07,
+   "bank": "R",
+   "time": null,
+   "diff": 3,
+   "qual": null,
+   "desc": "About 4 miles round trip with little shade. Take the right channel of the island to reach it."
+  },
+  {
+   "name": "Knowles Canyon",
+   "mile": 18.3,
+   "bank": "L",
+   "time": null,
+   "diff": 4,
+   "qual": null,
+   "desc": "A huge side canyon that parallels Mee Canyon. The trail starts at Knowles camp and a longer hike of about 5 miles reaches the desert waterfall of Hell's Hole."
+  }
+ ],
+ "geology": [],
+ "guide": [],
+ "almanac": {
+  "history": [
+   [
+    "Black Rocks",
+    "The Black Rocks section exposes Precambrian granite and gneiss up to 1.8 billion years old, similar in age and composition to the Black Canyon of the Gunnison and the bottom of the Grand Canyon. Most of Ruby Canyon cuts through Mesozoic sandstone and shale."
+   ],
+   [
+    "Dog Island",
+    "An illegal-fireworks fire in 2015 destroyed 168 cottonwoods and burned 50 acres at Dog Island."
+   ]
+  ]
+ },
+ "rules": [
+  {
+   "name": "Etiquette and rules",
+   "rules": [
+    {
+     "t": "Gear and waste",
+     "d": "See Recreation.gov for the current requirements on waste containment systems and fires. Pack it in, pack it out."
+    },
+    {
+     "t": "Micro-trash",
+     "d": "Strain dishwater and pick up every scrap so food does not attract insects and animals."
+    },
+    {
+     "t": "Cultural sites",
+     "d": "It is illegal to deface or remove historical, archaeological or paleontological resources."
+    },
+    {
+     "t": "Ramps",
+     "d": "Leave room for others, including jet boats, which need deeper water. Consolidate gear and move vehicles off the ramp quickly."
+    },
+    {
+     "t": "Shooting",
+     "d": "Target shooting is prohibited in McInnis Canyons National Conservation Area. Hunting follows Colorado Parks and Wildlife regulations."
+    },
+    {
+     "t": "Fire damage",
+     "d": "A 2015 illegal-fireworks fire destroyed 168 cottonwoods at Dog Island, and the Fault Line sites burned in May 2025. Check fire restrictions."
+    }
+   ]
+  }
+ ],
+ "landmarks": [
+  {
+   "name": "Loma boat launch",
+   "mile": 0,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Put-in, off I-70 exit 15. A large rigging area. No camping at the launch or parking; parking is 200 yards upriver."
+  },
+  {
+   "name": "Salt Creek",
+   "mile": 8.35,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Salt Creek enters on river right."
+  },
+  {
+   "name": "Start of the train section",
+   "mile": 8.74,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Union Pacific tracks run alongside the river to the take-out. Amtrak's California Zephyr uses this line."
+  },
+  {
+   "name": "Black Rocks",
+   "mile": 16,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Some of the oldest exposed rock on Earth: Precambrian granite and gneiss up to 1.8 billion years old (Vishnu Schist), like the bottom of the Grand Canyon."
+  },
+  {
+   "name": "USGS gaging station",
+   "mile": 18.27,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Flow records since 1951."
+  },
+  {
+   "name": "Utah-Colorado border",
+   "mile": 20.64,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "\"Welcome to Utah\" is painted on the canyon wall. Upstream motorized travel is prohibited in Utah."
+  },
+  {
+   "name": "Westwater ranger station and take-out",
+   "mile": 25,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Reached from I-70 exit 227, 9 miles south. A paved ramp for 2 to 3 vehicles; park upstream until ready. A Westwater permit is needed beyond this point."
+  }
+ ],
+ "clusters": [
+  {
+   "s": 15.5,
+   "e": 17.5,
+   "n": "Black Rocks"
+  }
+ ],
+ "notes": {
+  "camp": "*The 34 designated campsites are reserved ahead on Recreation.gov. Quality is not rated.",
+  "hike": "*Difficulty is a rough estimate (1 = short, easy walk; 5 = long, challenging). Times are not given."
+ },
+ "hdiff": {
+  "1": "Short, easy walk",
+  "2": "Easy trail",
+  "3": "Trail with some climbing",
+  "4": "Long hike with scrambling",
+  "5": "Long and challenging"
+ },
+ "access": [
+  {
+   "name": "Grand Junction",
+   "road": true,
+   "hub": true,
+   "note": "BLM Grand Junction Field Office; I-70 west to Loma",
+   "grid": [
+    3,
+    2
+   ]
+  },
+  {
+   "name": "Loma",
+   "road": true,
+   "mile": 0,
+   "park": true,
+   "note": "Put-in at I-70 exit 15. Parking 200 yards upriver",
+   "grid": [
+    1,
+    6
+   ]
+  },
+  {
+   "name": "Westwater",
+   "road": true,
+   "mile": 25,
+   "park": true,
+   "note": "Take-out at the ranger station; I-70 exit 227, then 9 miles south",
+   "grid": [
+    10,
+    6
+   ]
+  }
+ ],
+ "yardGrid": [
+  5,
+  1
+ ],
+ "roads": [
+  {
+   "a": "Grand Junction",
+   "b": "Loma",
+   "h": ""
+  },
+  {
+   "a": "Grand Junction",
+   "b": "Westwater",
+   "h": ""
+  },
+  {
+   "a": "Outfitter",
+   "b": "Grand Junction",
+   "h": ""
+  }
+ ],
+ "permit": {
+  "status": "Overnight permit required year-round · reserve on Recreation.gov",
+  "asOf": "October 2026",
+  "apply": {
+   "label": "Reserve on Recreation.gov",
+   "url": "https://www.recreation.gov/permits/74466"
+  },
+  "contact": {
+   "phone": "970-244-3000",
+   "web": "https://www.recreation.gov/permits/74466"
+  },
+  "sections": [
+   {
+    "name": "How to get one",
+    "items": [
+     {
+      "t": "Overnight permits",
+      "d": "Overnight camping permits are required year-round and must be reserved in advance on Recreation.gov for one of the 34 designated campsites. You may camp only at the site you reserved."
+     },
+     {
+      "t": "Day use",
+      "d": "A day trip needs no permit."
+     },
+     {
+      "t": "When to book",
+      "d": "Reservations can be made two months ahead on a daily rolling window, opening at 8 a.m. Mountain."
+     },
+     {
+      "t": "Black Rocks",
+      "d": "The Black Rocks sites are limited to one night on Fridays and Saturdays, with no layovers."
+     },
+     {
+      "t": "Printing",
+      "d": "Once a permit is printed it cannot be edited."
+     },
+     {
+      "t": "Westwater",
+      "d": "Boating in Westwater Canyon in Utah, beyond the take-out, needs a separate permit from the Moab Field Office (435-259-2100)."
+     }
+    ]
+   },
+   {
+    "name": "Costs",
+    "items": [
+     {
+      "t": "Reservation fee",
+      "d": "$6 on every reservation, non-refundable."
+     },
+     {
+      "t": "April 1 to October 31",
+      "d": "Per camp, per night: $20 for 1 to 5 people, $50 for 6 to 14, and $100 for 15 to 25. Children 16 and under camp free but count toward the group size, as do dogs."
+     },
+     {
+      "t": "November 1 to March 31",
+      "d": "No camping fee, only the reservation fee."
+     },
+     {
+      "t": "Cancelling",
+      "d": "Cancel at least 8 days before the trip for a refund of the camping fees."
+     }
+    ]
+   },
+   {
+    "name": "Limits",
+    "items": [
+     {
+      "t": "Group size",
+      "d": "Up to 25 people including adults, children and dogs. Some sites are smaller: Salt Creek and Fault Line hold up to 14, and Island Camp up to 5."
+     },
+     {
+      "t": "Dogs",
+      "d": "A maximum of two dogs, leashed at campsites, put-ins and take-outs, and in the Mee Canyon and Black Rocks sections."
+     },
+     {
+      "t": "Motors",
+      "d": "Motorized use is allowed. Slow down and yield to non-motorized boats. Upstream motorized travel is prohibited in Utah."
+     }
+    ]
+   }
+  ]
+ }
+}
