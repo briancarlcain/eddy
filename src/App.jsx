@@ -685,7 +685,20 @@ const Field = ({ label, area, ...p }) => (
 
 /* ---------- trip ---------- */
 
-function Trip({ s, back }) {
+function Trip({ s, back, onAccount }) {
+  const [nudge, setNudge] = useState(() => {
+    try {
+      return localStorage.getItem('riverguide.v1.joinedNudge') === '1';
+    } catch {
+      return false;
+    }
+  });
+  const hideNudge = () => {
+    try {
+      localStorage.removeItem('riverguide.v1.joinedNudge');
+    } catch {}
+    setNudge(false);
+  };
   const OLD = { 'Crew & Crafts': 'Crew', Ledger: 'Costs', Log: 'Journal', Info: 'Notes', Card: 'Emergency' };
   const q = QS.get('sub');
   const [tab, setTab] = useState((q && (OLD[q] || q)) || 'Itinerary');
@@ -697,6 +710,27 @@ function Trip({ s, back }) {
     <>
       <Tabs items={items} value={tab} onChange={setTab} tint="#7a3b28" />
       <div className="pad">
+        {nudge && !s.session ? (
+          <div className="notice mb note">
+            <div className="noticeHead">
+              <Icon name="cloud" size={17} /> Keep this trip on all your devices
+            </div>
+            <div className="row">
+              <button
+                className="btn"
+                onClick={() => {
+                  hideNudge();
+                  onAccount();
+                }}
+              >
+                Sign in
+              </button>
+              <button className="btn ghost" onClick={hideNudge}>
+                Not now
+              </button>
+            </div>
+          </div>
+        ) : null}
         <P s={s} back={back} />
       </div>
     </>
@@ -923,6 +957,7 @@ function Crew({ s }) {
   const [open, setOpen] = useState(null);
   const aboard = (id) => t.crew.filter((m) => m.boat === id);
   const inv = useInvite(s, t);
+  const [meId, setMeId] = useState(() => getMe(t.id));
 
   return (
     <>
@@ -944,7 +979,16 @@ function Crew({ s }) {
         </button>
       </div>
       {t.crew.map((m) => (
-        <Acc key={m.id} lead={<Avatar name={m.name} />} title={m.name} note={[m.role, boats.find((b) => b.id === m.boat)?.name].filter(Boolean).join(' · ') || null}>
+        <Acc key={m.id} lead={<Avatar name={m.name} />} title={m.name} tag={meId === m.id ? 'You' : undefined} note={[m.role, boats.find((b) => b.id === m.boat)?.name].filter(Boolean).join(' · ') || null}>
+          <button
+            className="btn ghost mb-s"
+            onClick={() => {
+              setMeFor(t.id, meId === m.id ? '' : m.id);
+              setMeId(meId === m.id ? '' : m.id);
+            }}
+          >
+            {meId === m.id ? "This isn't me" : 'This is me'}
+          </button>
           <Field label="Role" value={m.role} onChange={(e) => s.patch('crew', m.id, { role: e.target.value })} />
           <Sel label="Craft" value={m.boat} onChange={(v) => s.patch('crew', m.id, { boat: v })}>
             <option value="">—</option>
@@ -1196,7 +1240,11 @@ const Num = ({ label, value, onChange }) => (
 
 function Gear({ s }) {
   const t = s.trip;
-  const [me, setMe] = useState('');
+  const [me, setMeState] = useState(() => getMe(s.trip.id));
+  const setMe = (id) => {
+    setMeState(id);
+    setMeFor(s.trip.id, id);
+  };
   const [cat, setCat] = useState('All');
   const [find, setFind] = useState('');
   const [open, setOpen] = useState(null);
@@ -2675,10 +2723,26 @@ function Log({ s }) {
   );
 }
 
+// "I'm this crew member" is a note on this device, not an account and not synced
+const meKey = (tripId) => 'riverguide.me.' + tripId;
+const getMe = (tripId) => {
+  try {
+    return localStorage.getItem(meKey(tripId)) || '';
+  } catch {
+    return '';
+  }
+};
+const setMeFor = (tripId, crewId) => {
+  try {
+    if (crewId) localStorage.setItem(meKey(tripId), crewId);
+    else localStorage.removeItem(meKey(tripId));
+  } catch {}
+};
+
 const INVITE_ORIGIN = 'https://briancarlcain.github.io/river-guide/';
-const inviteUrl = (code) => INVITE_ORIGIN + '?join=' + code;
-const inviteText = (t, code) =>
-  `You're invited to "${t.name}" on River Guide.\n\n${okDate(t.start) ? fmt(t.start) + ' to ' + fmt(addDays(t.start, t.days)) + '\n\n' : ''}Join: ${inviteUrl(code)}\n\nOr enter code ${remote.showCode(code)} under Trips, Join a trip.`;
+const inviteUrl = (code, by) => INVITE_ORIGIN + '?join=' + code + (by ? '&by=' + encodeURIComponent(by) : '');
+const inviteText = (t, code, by) =>
+  `${by ? by + ' invited you to' : "You're invited to"} "${t.name}" on River Guide.\n\n${okDate(t.start) ? fmt(t.start) + ' to ' + fmt(addDays(t.start, t.days)) + '\n\n' : ''}Join: ${inviteUrl(code, by)}\n\nOr enter code ${remote.showCode(code)} under Trips, Join a trip.`;
 
 // share the trip first if needed, then open the share sheet with the invite
 function useInvite(s, t) {
@@ -2690,12 +2754,14 @@ function useInvite(s, t) {
     try {
       let ent = s.sync[t.id];
       const code = ent ? ent.code : await s.shareTrip(t.id);
+      const meCrew = (t.crew || []).find((c) => c.id === getMe(t.id));
+      const by = meCrew ? meCrew.name.trim().split(/\s+/)[0].slice(0, 24) : '';
       success();
       if (copyOnly) {
-        await navigator.clipboard.writeText(inviteUrl(code));
+        await navigator.clipboard.writeText(inviteUrl(code, by));
         setMsg('Link copied.');
       } else {
-        const r = await shareText(t.name, inviteText(t, code));
+        const r = await shareText(t.name, inviteText(t, code, by));
         if (r === 'copied') setMsg('Invite copied.');
       }
     } catch (e) {
@@ -4146,7 +4212,47 @@ function tripStatus(t) {
 
 const netMsg = (e) => (/Failed to fetch|NetworkError|Load failed|network/i.test(String((e && e.message) || e)) ? 'No internet connection. Try again when you are online.' : (e && e.message) || 'Something went wrong.');
 
-function JoinTrip({ s, initial, onDone, onCancel }) {
+function WhoAreYou({ s, tripId, onDone }) {
+  const t = s.trips.find((x) => x.id === tripId);
+  const [name, setName] = useState('');
+  const finish = (crewId) => {
+    if (crewId) setMeFor(tripId, crewId);
+    try {
+      localStorage.setItem('riverguide.v1.joinedNudge', '1');
+    } catch {}
+    onDone();
+  };
+  if (!t) return <div className="pad muted">Joining…</div>;
+  return (
+    <div className="pad">
+      <h1>Which one are you?</h1>
+      {(t.crew || []).map((c) => (
+        <button key={c.id} className="btn ghost block mb-s" onClick={() => finish(c.id)}>
+          {c.name}
+        </button>
+      ))}
+      <div className="mt">
+        <Field label="Not listed? Add your name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" />
+        <button
+          className="btn block"
+          disabled={!name.trim()}
+          onClick={() => {
+            const id = uid();
+            s.push('crew', { id, name: name.trim(), role: '', boat: '', ice: '', diet: '', days: '' });
+            finish(id);
+          }}
+        >
+          Add me
+        </button>
+      </div>
+      <button className="linkBtn mt" onClick={() => finish('')}>
+        Skip
+      </button>
+    </div>
+  );
+}
+
+function JoinTrip({ s, initial, by, onJoined, onCancel }) {
   const [code, setCode] = useState(initial || '');
   const [err, setErr] = useState('');
   const [busy, setBusy] = useState(false);
@@ -4170,9 +4276,9 @@ function JoinTrip({ s, initial, onDone, onCancel }) {
     setBusy(true);
     setErr('');
     try {
-      await s.joinTrip(code);
+      const id = await s.joinTrip(code);
       success();
-      onDone();
+      onJoined(id);
     } catch (e) {
       setErr(netMsg(e));
     }
@@ -4180,7 +4286,7 @@ function JoinTrip({ s, initial, onDone, onCancel }) {
   };
   return (
     <div className="pad">
-      <h1>{peek && peek.name ? "You're invited" : 'Join a trip'}</h1>
+      <h1>{peek && peek.name ? (by ? by + ' invited you' : "You're invited") : 'Join a trip'}</h1>
       {peek && peek.name ? (
         <div className="card mb">
           <div className="serif">{peek.name}</div>
@@ -4217,7 +4323,7 @@ function JoinTrip({ s, initial, onDone, onCancel }) {
   );
 }
 
-function Trips({ s, preset, clearPreset, joinCode, clearJoin, onOpen, onAccount }) {
+function Trips({ s, preset, clearPreset, joinCode, joinBy, clearJoin, welcome, setWelcome, onOpen, onAccount }) {
   const [adding, setAdding] = useState(!!preset);
   const [joining, setJoining] = useState(!!joinCode);
   useEffect(() => {
@@ -4226,19 +4332,31 @@ function Trips({ s, preset, clearPreset, joinCode, clearJoin, onOpen, onAccount 
   useEffect(() => {
     if (preset) setAdding(true);
   }, [preset]);
+  if (welcome)
+    return (
+      <WhoAreYou
+        s={s}
+        tripId={welcome}
+        onDone={() => {
+          setWelcome('');
+          onOpen();
+        }}
+      />
+    );
   if (joining)
     return (
       <JoinTrip
         s={s}
         initial={joinCode}
+        by={joinBy}
         onCancel={() => {
           setJoining(false);
           clearJoin();
         }}
-        onDone={() => {
+        onJoined={(id) => {
           setJoining(false);
           clearJoin();
-          onOpen();
+          setWelcome(id);
         }}
       />
     );
@@ -4732,6 +4850,8 @@ function App() {
   const [browse, setBrowse] = useState(QS.get('river') || null); // river being browsed on the River tab (null = the trip's own)
   const [preset, setPreset] = useState(null); // river chosen from the library for a new trip
   const [joinCode, setJoinCode] = useState(() => remote.cleanCode(QS.get('join')) || ''); // from an invite link or riverguide://join/CODE
+  const [welcome, setWelcome] = useState(''); // trip just joined; asks which crew member you are
+  const [joinBy] = useState(() => (QS.get('by') || '').replace(/[^\p{L}\p{N} '.-]/gu, '').slice(0, 24));
   const [profSub, setProfSub] = useState(null); // open Profile on a given sub-tab
   const onMap = tab === 'River';
   const detail = tab === 'Trips' && inTrip && !!s.trip;
@@ -4792,9 +4912,9 @@ function App() {
       <main key={rid}>
         {tab === 'Trips' &&
           (detail ? (
-            <Trip s={s} back={() => setInTrip(false)} />
+            <Trip s={s} back={() => setInTrip(false)} onAccount={() => { setProfSub('Account'); setTab('Profile'); }} />
           ) : (
-            <Trips s={s} preset={preset} clearPreset={() => setPreset(null)} joinCode={joinCode} clearJoin={() => { setJoinCode(''); try { history.replaceState(null, '', location.pathname); } catch {} }} onOpen={() => setInTrip(true)} onAccount={() => { setProfSub('Account'); setTab('Profile'); }} />
+            <Trips s={s} preset={preset} clearPreset={() => setPreset(null)} joinCode={joinCode} joinBy={joinBy} welcome={welcome} setWelcome={setWelcome} clearJoin={() => { setJoinCode(''); try { history.replaceState(null, '', location.pathname); } catch {} }} onOpen={() => setInTrip(true)} onAccount={() => { setProfSub('Account'); setTab('Profile'); }} />
           ))}
         {tab === 'River' && (
           <River
