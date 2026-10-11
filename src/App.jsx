@@ -922,9 +922,14 @@ function Crew({ s }) {
   const [craft, setCraft] = useState('');
   const [open, setOpen] = useState(null);
   const aboard = (id) => t.crew.filter((m) => m.boat === id);
+  const inv = useInvite(s, t);
 
   return (
     <>
+      <button className="btn ghost block mb" disabled={inv.busy} onClick={() => inv.send(false)}>
+        <Icon name="users" size={16} /> {inv.busy ? 'Preparing…' : 'Invite people to this trip'}
+      </button>
+      {inv.msg ? <div className="muted mb-s">{inv.msg}</div> : null}
       <div className="row">
         <Field value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" />
         <button
@@ -2670,32 +2675,52 @@ function Log({ s }) {
   );
 }
 
-function SyncCard({ s, t }) {
-  const ent = s.sync[t.id];
-  const st = s.syncStatus[t.id];
-  const [msg, setMsg] = useState('');
+const INVITE_ORIGIN = 'https://briancarlcain.github.io/river-guide/';
+const inviteUrl = (code) => INVITE_ORIGIN + '?join=' + code;
+const inviteText = (t, code) =>
+  `You're invited to "${t.name}" on River Guide.\n\n${okDate(t.start) ? fmt(t.start) + ' to ' + fmt(addDays(t.start, t.days)) + '\n\n' : ''}Join: ${inviteUrl(code)}\n\nOr enter code ${remote.showCode(code)} under Trips, Join a trip.`;
+
+// share the trip first if needed, then open the share sheet with the invite
+function useInvite(s, t) {
   const [busy, setBusy] = useState(false);
-  const invite = (code) => `Join my river trip "${t.name}" in River Guide.\n\nOpen the app → Trips → Join a trip, and enter this code:\n${remote.showCode(code)}\n\nOr tap: riverguide://join/${code}`;
-  const start = async () => {
+  const [msg, setMsg] = useState('');
+  const send = async (copyOnly) => {
     setBusy(true);
     setMsg('');
     try {
-      const code = await s.shareTrip(t.id);
+      let ent = s.sync[t.id];
+      const code = ent ? ent.code : await s.shareTrip(t.id);
       success();
-      await shareText(t.name, invite(code));
+      if (copyOnly) {
+        await navigator.clipboard.writeText(inviteUrl(code));
+        setMsg('Link copied.');
+      } else {
+        const r = await shareText(t.name, inviteText(t, code));
+        if (r === 'copied') setMsg('Invite copied.');
+      }
     } catch (e) {
       setMsg(netMsg(e));
     }
     setBusy(false);
   };
+  return { send, busy, msg };
+}
+
+function SyncCard({ s, t }) {
+  const ent = s.sync[t.id];
+  const st = s.syncStatus[t.id];
+  const [msg, setMsg] = useState('');
+  const [busy, setBusy] = useState(false);
+  const inv = useInvite(s, t);
+  const start = () => inv.send(false);
   return (
     <div className="card formCard mt">
       <span className="label">Crew sync</span>
       {!ent ? (
         <>
           <div className="muted mb-s">Share this trip with your crew. Everyone you give the code to can edit the same trip, and changes appear on all devices. Needs an internet connection to sync; the app still works offline.</div>
-          <button className="btn" disabled={busy} onClick={start}>
-            <Icon name="users" size={16} /> {busy ? 'Sharing…' : 'Share with crew'}
+          <button className="btn" disabled={inv.busy} onClick={start}>
+            <Icon name="users" size={16} /> {inv.busy ? 'Sharing…' : 'Invite people'}
           </button>
         </>
       ) : (
@@ -2705,8 +2730,11 @@ function SyncCard({ s, t }) {
             <Icon name="cloud" size={14} /> {syncLabel(st, !!ent.owner)}. Anyone with this code can view and edit the trip.
           </div>
           <div className="row">
-            <button className="btn" onClick={() => shareText(t.name, invite(ent.code))}>
-              Invite crew
+            <button className="btn" onClick={() => inv.send(false)}>
+              Invite people
+            </button>
+            <button className="btn ghost" onClick={() => inv.send(true)}>
+              Copy link
             </button>
             <button className="btn ghost" onClick={() => s.syncNow(t.id)}>
               <Icon name="refresh" size={16} /> Sync now
@@ -2730,6 +2758,7 @@ function SyncCard({ s, t }) {
         </>
       )}
       {msg ? <div className="warn mb-s">{msg}</div> : null}
+      {inv.msg ? <div className="muted mb-s">{inv.msg}</div> : null}
     </div>
   );
 }
@@ -4121,6 +4150,22 @@ function JoinTrip({ s, initial, onDone, onCancel }) {
   const [code, setCode] = useState(initial || '');
   const [err, setErr] = useState('');
   const [busy, setBusy] = useState(false);
+  const [peek, setPeek] = useState(null); // preview of the invited trip
+  useEffect(() => {
+    const c = remote.cleanCode(code);
+    if (!c) {
+      setPeek(null);
+      return;
+    }
+    let live = true;
+    remote
+      .get(c, 0)
+      .then((g) => live && setPeek(g && g.data && !g.missing ? { name: g.data.name, start: g.data.start, days: g.data.days, people: (g.data.crew || []).length } : { missing: true }))
+      .catch(() => live && setPeek(null));
+    return () => {
+      live = false;
+    };
+  }, [code]);
   const join = async () => {
     setBusy(true);
     setErr('');
@@ -4135,8 +4180,20 @@ function JoinTrip({ s, initial, onDone, onCancel }) {
   };
   return (
     <div className="pad">
-      <h1>Join a trip</h1>
-      <div className="muted mb-s">Enter the 16-character code from the person who shared the trip with you.</div>
+      <h1>{peek && peek.name ? "You're invited" : 'Join a trip'}</h1>
+      {peek && peek.name ? (
+        <div className="card mb">
+          <div className="serif">{peek.name}</div>
+          <div className="muted">
+            {okDate(peek.start) ? `${fmt(peek.start)} to ${fmt(addDays(peek.start, peek.days))} · ` : ''}
+            {peek.people} {peek.people === 1 ? 'person' : 'people'}
+          </div>
+        </div>
+      ) : peek && peek.missing ? (
+        <div className="warn mb-s">This invite is no longer active. Ask for a new one.</div>
+      ) : (
+        <div className="muted mb-s">Paste the invite code you were sent.</div>
+      )}
       <Field
         label="Join code"
         value={code}
@@ -4670,11 +4727,11 @@ const TABS = [
 
 function App() {
   const s = useStore();
-  const [tab, setTab] = useState({ General: 'Safety' }[QS.get('tab')] || QS.get('tab') || 'Trips');
+  const [tab, setTab] = useState(QS.get('join') ? 'Trips' : { General: 'Safety' }[QS.get('tab')] || QS.get('tab') || 'Trips');
   const [inTrip, setInTrip] = useState(QS.get('open') === '1'); // Trips tab: false = overview list, true = inside the active trip
   const [browse, setBrowse] = useState(QS.get('river') || null); // river being browsed on the River tab (null = the trip's own)
   const [preset, setPreset] = useState(null); // river chosen from the library for a new trip
-  const [joinCode, setJoinCode] = useState(''); // from a riverguide://join/CODE link
+  const [joinCode, setJoinCode] = useState(() => remote.cleanCode(QS.get('join')) || ''); // from an invite link or riverguide://join/CODE
   const [profSub, setProfSub] = useState(null); // open Profile on a given sub-tab
   const onMap = tab === 'River';
   const detail = tab === 'Trips' && inTrip && !!s.trip;
@@ -4737,7 +4794,7 @@ function App() {
           (detail ? (
             <Trip s={s} back={() => setInTrip(false)} />
           ) : (
-            <Trips s={s} preset={preset} clearPreset={() => setPreset(null)} joinCode={joinCode} clearJoin={() => setJoinCode('')} onOpen={() => setInTrip(true)} onAccount={() => { setProfSub('Account'); setTab('Profile'); }} />
+            <Trips s={s} preset={preset} clearPreset={() => setPreset(null)} joinCode={joinCode} clearJoin={() => { setJoinCode(''); try { history.replaceState(null, '', location.pathname); } catch {} }} onOpen={() => setInTrip(true)} onAccount={() => { setProfSub('Account'); setTab('Profile'); }} />
           ))}
         {tab === 'River' && (
           <River
