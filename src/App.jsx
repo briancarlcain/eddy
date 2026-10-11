@@ -3897,7 +3897,7 @@ function DetailSheet({ sheet, onClose }) {
     );
     desc = d.desc || (sw && qw ? `A ${sw}, ${qw} campsite.` : 'Camp size and quality not recorded for this site.');
     if (/Hualapai Permit/i.test(d.name)) desc += ' Requires a Hualapai permit.';
-    foot = RIVER.notes.camp;
+    foot = [RIVER.notes.camp, 'Conditions change. Verify with current sources and decide for yourself.'].filter(Boolean).join(' ');
   } else if (kind === 'geo') {
     name = d.full;
     meta = (
@@ -5294,7 +5294,48 @@ const TABS = [
   },
 ];
 
+const RISK_KEY = 'riverguide.risk';
+const RISK_VERSION = '1';
+function RiskGate({ onAccept }) {
+  return (
+    <div className="gate">
+      <div className="gateCard">
+        <div className="gateIcon">
+          <Icon name="alert" size={28} />
+        </div>
+        <h1>River trips are dangerous</h1>
+        <p>
+          Rafting, kayaking and backcountry travel can cause serious injury or death. River Guide is a planning tool. Its information can be wrong or out of date and cannot account for changing conditions.
+        </p>
+        <p>
+          <strong>You alone are responsible for your safety and your decisions.</strong> River Guide is not responsible for them or for unforeseen circumstances.
+        </p>
+        <button className="btn block" onClick={onAccept}>
+          I understand and accept the risk
+        </button>
+        <div className="muted gateLinks">
+          <button className="linkBtn inline" onClick={() => openUrl(TERMS_URL)}>
+            Terms of use
+          </button>
+          {' · '}
+          <button className="linkBtn inline" onClick={() => openUrl(POLICY_URL)}>
+            Privacy policy
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function App() {
+  const [riskOk, setRiskOk] = useState(() => {
+    if (QS.get('shot')) return true;
+    try {
+      return localStorage.getItem(RISK_KEY) === RISK_VERSION;
+    } catch {
+      return false;
+    }
+  });
   const s = useStore();
   const [tab, setTab] = useState(QS.get('join') ? 'Trips' : { General: 'Safety' }[QS.get('tab')] || QS.get('tab') || 'Trips');
   const [inTrip, setInTrip] = useState(QS.get('open') === '1'); // Trips tab: false = overview list, true = inside the active trip
@@ -5343,7 +5384,18 @@ function App() {
     document.body.dataset.tab = detail ? 'itinerary' : TABS.find((t) => t.id === tab).tab;
   }, [tab, detail]);
 
-  const title = detail ? s.trip.name : tab;
+  const title = detail ? s.trip.name : tab === 'Trips' ? 'Trips' : tab;
+  if (!riskOk)
+    return (
+      <RiskGate
+        onAccept={() => {
+          try {
+            localStorage.setItem(RISK_KEY, RISK_VERSION);
+          } catch {}
+          setRiskOk(true);
+        }}
+      />
+    );
 
   return (
     <div className={'shell rg' + (onMap ? ' onmap' : '')}>

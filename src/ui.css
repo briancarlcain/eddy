@@ -442,3 +442,12 @@ body.shot #fakeStatus { background: #faf8f3; }
 .rg input[hidden], .rg [hidden] { display: none !important; }
 
 .rg .linkBtn.inline { display: inline; min-height: 0; padding: 0; color: var(--accent); font-size: inherit; text-decoration: underline; }
+
+/* first-launch risk acknowledgement */
+.gate { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px 16px; background: #f4f1ea; }
+.gateCard { width: 100%; max-width: 440px; background: #fff; border-radius: 18px; box-shadow: 0 0 0 1px var(--line), var(--shadow-2); padding: 28px 24px 22px; }
+.gateIcon { width: 52px; height: 52px; border-radius: 14px; background: #fbe9e3; color: #b3341a; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+.gateCard h1 { font-size: 26px; margin-bottom: 12px; }
+.gateCard p { font-size: 16px; line-height: 1.5; color: var(--ink-dim); margin-bottom: 12px; }
+.gateCard p strong { color: var(--ink); }
+.gateLinks { text-align: center; margin-top: 14px; font-size: 14px; }
