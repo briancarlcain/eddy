@@ -38,5 +38,115 @@
     "title": "Add your sources here",
     "note": "Set \"confirmed\": true on an entry to show it in General → About → Sources & credits.",
     "confirmed": false
+  },
+  {
+    "title": "Middle Fork of the Salmon: river guide and features (American Whitewater)",
+    "note": "Rapid classes, miles and access. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "Middle Fork of the Salmon permit and regulations (Salmon-Challis National Forest)",
+    "note": "Permit lottery, season, launch limits, camping rules. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "San Juan River: mile-by-mile guide (GoRafting)",
+    "note": "Camps, rapids, landmarks and mileage. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "San Juan River permits (BLM / Recreation.gov)",
+    "note": "Permit lottery, fees, rules. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "Rio Chama: river features (American Whitewater)",
+    "note": "Rapids and access; thin camp data. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "Rio Chama Wild and Scenic River brochure (BLM)",
+    "note": "Permits, rules and camps. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "Cataract Canyon river log (Mild to Wild Rafting)",
+    "note": "Rapids, camps and mileage. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "Cataract Canyon (American Whitewater, NPS Canyonlands)",
+    "note": "Secondary rapid ratings, permits and rules. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "Desolation and Gray Canyons: river guide (GoRafting)",
+    "note": "Camps, rapids and mileage. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "Desolation Canyon permits and stipulations (BLM / Recreation.gov)",
+    "note": "Permit lottery, fees, rules. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "Lodore Canyon river log (Adventure Bound)",
+    "note": "Rapids, camps and mileage. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "Green River through Lodore (American Whitewater, NPS Dinosaur)",
+    "note": "Secondary ratings, permits and rules. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "Hells Canyon of the Snake: river guide (GoRafting)",
+    "note": "Camps, rapids and mileage. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "Hells Canyon permits (Recreation.gov, USFS)",
+    "note": "Permit lottery, fees, rules. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "Ruby-Horsethief Canyon brochure (BLM)",
+    "note": "Camps, rules and fees. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "Ruby-Horsethief Canyon guide (GoRafting)",
+    "note": "Rapids, hikes and mileage. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "Wild Rogue River mile-by-mile guide (GoRafting)",
+    "note": "Camps with capacities, rapids, landmarks and mileage. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "Rogue River (American Whitewater)",
+    "note": "Secondary rapid ratings. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "Rogue River information and ethics (BLM Medford District)",
+    "note": "Permit lottery, cancellations, required equipment, camping and bear rules. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "Selway River Paradise to Race Creek log (cacreeks.com)",
+    "note": "Rapids, camps, landmarks and mileage. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "Selway River (American Whitewater)",
+    "note": "Secondary rapid ratings and flows. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "Selway River Four Rivers lottery and permit (USFS Bitterroot / Recreation.gov)",
+    "note": "Season, fees, limits, cancellation. Facts reworded; confirm licence or replace.",
+    "confirmed": false
   }
 ]

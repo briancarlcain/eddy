@@ -1,0 +1,895 @@
+{
+ "name": "Selway River",
+ "reach": "Paradise to Race Creek",
+ "agency": "USFS Bitterroot National Forest, West Fork Ranger District",
+ "miles": [
+  0,
+  48
+ ],
+ "days": 5,
+ "coords": [
+  46,
+  -114.85
+ ],
+ "tz": "America/Boise",
+ "note": "The 48-mile Wild and Scenic Selway through the Selway-Bitterroot Wilderness. One of the hardest permits to draw in the country; the Ladle is its hardest rapid. Miles follow one river log and run a few tenths different from American Whitewater. Camp quality is not rated. Rapid classes at low water are the log authors' estimates and may be harder than the Forest Service map shows. Compiled from public sources; verify with the West Fork Ranger Station and a current guidebook.",
+ "camps": [
+  {
+   "name": "Bad Luck Bar",
+   "mile": 2.1,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A large high-water camp. Bad Luck Creek enters on the right 0.3 mile downstream."
+  },
+  {
+   "name": "Waldo Bar",
+   "mile": 4.6,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "A large high-water camp with few trees."
+  },
+  {
+   "name": "Driftwood Bar",
+   "mile": 5,
+   "size": 5,
+   "qual": null,
+   "bank": "L",
+   "desc": "A medium camp at moderate flow."
+  },
+  {
+   "name": "Running Creek bridge camp",
+   "mile": 6.6,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "A camp before the trail bridge to a private ranch on the left. Often has horseflies."
+  },
+  {
+   "name": "Running Creek Flat",
+   "mile": 6.7,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A large wooded high-water camp with no sandy beach; a swimming hole by the trail."
+  },
+  {
+   "name": "Archer",
+   "mile": 8.7,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A large high-water camp with a sandy beach. North Star ranch (private) is across the river."
+  },
+  {
+   "name": "Goat Creek",
+   "mile": 10.8,
+   "size": 2,
+   "qual": null,
+   "bank": "L",
+   "desc": "A small high-water camp and lunch stop."
+  },
+  {
+   "name": "Pom Beach",
+   "mile": 11.1,
+   "size": 2,
+   "qual": null,
+   "bank": "R",
+   "desc": "A small low-water camp. Mile approximate."
+  },
+  {
+   "name": "Little Goat Creek",
+   "mile": 11.8,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "An excellent large camp at moderate flow, in a rapid, with a swimming hole below."
+  },
+  {
+   "name": "Cougar Flats",
+   "mile": 14.5,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "Near Ditch Creek and the private Selway Lodge."
+  },
+  {
+   "name": "White Trail Flats",
+   "mile": 15.6,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "A large high-water camp."
+  },
+  {
+   "name": "Mills Camp",
+   "mile": 15.8,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A large high-water camp, 0.2 mile below White Trail Flats."
+  },
+  {
+   "name": "Bear Creek",
+   "mile": 16,
+   "size": 2,
+   "qual": null,
+   "bank": "R",
+   "desc": "A small low-water camp at the creek mouth."
+  },
+  {
+   "name": "Big Cedar (island camp)",
+   "mile": 16.5,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A large high-water camp on the left; a medium low-water camp on the right. An island splits the river."
+  },
+  {
+   "name": "Black Sands",
+   "mile": 17.8,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "A large camp at moderate flow, with a cave and a swimming hole nearby."
+  },
+  {
+   "name": "Dead Elk",
+   "mile": 18.5,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "A medium low-water camp with a sandy beach and a swimming hole."
+  },
+  {
+   "name": "Rattlesnake Bar",
+   "mile": 20.8,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "A medium high-water camp with no swimming hole."
+  },
+  {
+   "name": "Roots",
+   "mile": 24,
+   "size": 2,
+   "qual": null,
+   "bank": "L",
+   "desc": "A small camp at moderate flow."
+  },
+  {
+   "name": "Tony Point bridge camp",
+   "mile": 25.9,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "A medium high-water camp above the suspension bridge; an emergency camp on the left below. A trail leads about a mile to the Moose Creek ranger station."
+  },
+  {
+   "name": "Tony Point",
+   "mile": 26.1,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "An excellent medium high-water camp with a sandy beach and a shallow swimming hole."
+  },
+  {
+   "name": "Divide Creek",
+   "mile": 26.5,
+   "size": 5,
+   "qual": null,
+   "bank": "L",
+   "desc": "A medium camp at moderate flow. Position approximate."
+  },
+  {
+   "name": "Meeker Creek",
+   "mile": 31.5,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "A good camp at moderate flow at the creek mouth."
+  },
+  {
+   "name": "Tango Bar",
+   "mile": 31.6,
+   "size": 7,
+   "qual": null,
+   "bank": "L",
+   "desc": "An excellent large camp at moderate flow with a big sandy beach and a swimming hole."
+  },
+  {
+   "name": "Trapper Camp (Marten Creek)",
+   "mile": 33.3,
+   "size": 5,
+   "qual": null,
+   "bank": "L",
+   "desc": "Marten Creek enters on the left; this camp is about 0.2 mile upstream."
+  },
+  {
+   "name": "Boulder Bar",
+   "mile": 35.9,
+   "size": 2,
+   "qual": null,
+   "bank": "R",
+   "desc": "0.3 mile above Dry Bar."
+  },
+  {
+   "name": "Dry Bar",
+   "mile": 36.2,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "A beautiful medium camp at moderate flow."
+  },
+  {
+   "name": "Upper Pinchot",
+   "mile": 37.4,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "A medium camp at moderate flow."
+  },
+  {
+   "name": "Lower Pinchot",
+   "mile": 37.6,
+   "size": 7,
+   "qual": null,
+   "bank": "R",
+   "desc": "A large high-water camp."
+  },
+  {
+   "name": "Ballinger",
+   "mile": 39.2,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "A medium high-water camp at the creek mouth."
+  },
+  {
+   "name": "Tee Kem",
+   "mile": 40.4,
+   "size": 5,
+   "qual": null,
+   "bank": "L",
+   "desc": "An excellent medium camp at moderate flow just below the falls, with a swimming hole."
+  },
+  {
+   "name": "Cupboard",
+   "mile": 40.8,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "A medium camp at moderate flow near Cupboard Creek."
+  },
+  {
+   "name": "Trapper Camp (lower)",
+   "mile": 42.4,
+   "size": null,
+   "qual": null,
+   "bank": "L",
+   "desc": "Not on the Forest Service inventory; an alternative to Tee Kem or Renshaw."
+  },
+  {
+   "name": "Renshaw",
+   "mile": 42.5,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "A good camp below Renshaw Rapid with a sandy beach and a swimming hole. Not on the Forest Service inventory."
+  }
+ ],
+ "rapids": [
+  {
+   "name": "Rocky rapids below launch",
+   "mile": 0.2,
+   "civ": false,
+   "diff": 3,
+   "tier": "Unrated",
+   "desc": "Tight for rafts."
+  },
+  {
+   "name": "Slalom Slide",
+   "mile": 3.5,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "A boulder bar with a diagonal channel."
+  },
+  {
+   "name": "Galloping Gertie",
+   "mile": 4.2,
+   "civ": false,
+   "diff": 6,
+   "tier": "Class III+",
+   "desc": "Hard at low water; rafts can wedge on the left. Enter right."
+  },
+  {
+   "name": "Washer Woman",
+   "mile": 4.4,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Scout from the center or right. Especially hard for rafts at low flow, with a good chance of sticking: pick where to stick. American Whitewater rates it IV."
+  },
+  {
+   "name": "Cougar Bluff",
+   "mile": 4.7,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "A wave train along the left cliff."
+  },
+  {
+   "name": "Holy Smokes",
+   "mile": 5.5,
+   "civ": false,
+   "diff": 4,
+   "tier": "Class III-",
+   "desc": "Possibly II+ at low water."
+  },
+  {
+   "name": "Ping Pong Alley",
+   "mile": 9.3,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Rated II on the Forest Service map but hard for rafts at low flow, with a lot of pushing off rocks."
+  },
+  {
+   "name": "Goat Creek Rapid",
+   "mile": 11.5,
+   "civ": false,
+   "diff": 8,
+   "tier": "Class IV",
+   "desc": "Large boulders; a boulder garden. Watch for logs early in the season."
+  },
+  {
+   "name": "Selway Lodge Bridge Rapid",
+   "mile": 14.9,
+   "civ": false,
+   "diff": 4,
+   "tier": "Class II+",
+   "desc": "Rafts often stick on exposed rocks at low flow."
+  },
+  {
+   "name": "Bear Creek Rapid",
+   "mile": 16.2,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "About 0.2 mile below Bear Creek camp."
+  },
+  {
+   "name": "Rodeo Rapid",
+   "mile": 17.8,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Likely just below Black Sands. Position approximate."
+  },
+  {
+   "name": "Pettibone Rapid",
+   "mile": 18.5,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Follows Dead Elk camp. Position approximate."
+  },
+  {
+   "name": "False Ham",
+   "mile": 23.3,
+   "civ": false,
+   "diff": 4,
+   "tier": "Class III-",
+   "desc": "Just above Ham."
+  },
+  {
+   "name": "Ham Rapid",
+   "mile": 23.3,
+   "civ": false,
+   "diff": 7,
+   "tier": "Class IV-",
+   "desc": "Two major drops through big boulders and a narrow channel; precise moves are required. Named for a dinner ham lost there in 1961."
+  },
+  {
+   "name": "Hell Creek rapids",
+   "mile": 24.1,
+   "civ": false,
+   "diff": 4,
+   "tier": "Class II+",
+   "desc": "The start of nearly continuous Class II+ rapids."
+  },
+  {
+   "name": "Tony Point Rapid",
+   "mile": 26,
+   "civ": false,
+   "diff": 4,
+   "tier": "Class II+",
+   "desc": "Plan your route at low water."
+  },
+  {
+   "name": "Divide Creek Rapid",
+   "mile": 26.5,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Double Drop",
+   "mile": 27.2,
+   "civ": false,
+   "diff": 8,
+   "tier": "Class IV",
+   "desc": "Two drops after Jake Creek. At higher flows they merge into one big rapid; good recovery at low flow."
+  },
+  {
+   "name": "Wa-Poots (Grizzly Saddle)",
+   "mile": 27.9,
+   "civ": false,
+   "diff": 6,
+   "tier": "Class III+",
+   "desc": "A steep bedrock chute at low flow; an S-turn with rocks on the outside corners."
+  },
+  {
+   "name": "The Ladle",
+   "mile": 28.2,
+   "civ": false,
+   "diff": 9,
+   "tier": "Class IV+",
+   "desc": "The hardest rapid on the run at any flow. A complex boulder garden; scout from the trail on river right. A sneak route on the far left works for kayaks and canoes."
+  },
+  {
+   "name": "Little Niagara",
+   "mile": 28.5,
+   "civ": false,
+   "diff": 7,
+   "tier": "Class IV-",
+   "desc": "Big hydraulics at higher flows; usually run down the right side, close to the cliff."
+  },
+  {
+   "name": "Puzzle Creek",
+   "mile": 28.8,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "A waterfall over a meter high, right of center."
+  },
+  {
+   "name": "No Slouch",
+   "mile": 29,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": ""
+  },
+  {
+   "name": "Miranda Jane",
+   "mile": 29.5,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "A Class II rapid comes first."
+  },
+  {
+   "name": "Meeker Rapid",
+   "mile": 31,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Per the Forest Service map; location unconfirmed, about half a mile above Osprey."
+  },
+  {
+   "name": "Osprey",
+   "mile": 31.5,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "A steep drop among boulders."
+  },
+  {
+   "name": "Three Links Rapid",
+   "mile": 34.6,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Per the Forest Service map; about 0.4 mile below the pack bridge."
+  },
+  {
+   "name": "Wolf Creek Rapid",
+   "mile": 37.7,
+   "civ": false,
+   "diff": 8,
+   "tier": "Class IV",
+   "desc": "Scout from the trail or island. Rafts usually run the right tongue and ferry right; watch for laterals at higher flows and a ledge hole at the bottom at low flow."
+  },
+  {
+   "name": "Tee Kem Falls (Jims Creek Falls)",
+   "mile": 40.4,
+   "civ": false,
+   "diff": 6,
+   "tier": "Class III+",
+   "desc": "Jims Creek's debris fan pushes the river to the right bank; follow the tongue right. Rated IV by American Whitewater."
+  },
+  {
+   "name": "Cupboard Rapid",
+   "mile": 40.8,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Per the Forest Service map; may be easier at low flow."
+  },
+  {
+   "name": "Renshaw Rapid",
+   "mile": 42.5,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "A stiff drop along the left bank into a cliff."
+  },
+  {
+   "name": "Selway Falls",
+   "mile": 47.9,
+   "civ": false,
+   "diff": 3,
+   "tier": "Unrated",
+   "desc": "Not runnable. Selway Falls is a Class VI hazard just below the take-out, with massive boulders, surging boils and sieves. Take out at Race Creek and view it from the overlook on the road."
+  }
+ ],
+ "hikes": [
+  {
+   "name": "White Cap Creek guard station",
+   "mile": 0,
+   "bank": "L",
+   "time": null,
+   "diff": 1,
+   "qual": null,
+   "desc": "About half a mile up White Cap Creek from the launch, with a nice campsite."
+  },
+  {
+   "name": "Running Creek swimming hole",
+   "mile": 6.9,
+   "bank": "L",
+   "time": null,
+   "diff": 1,
+   "qual": null,
+   "desc": "Around the corner below the creek mouth."
+  },
+  {
+   "name": "Shearer guard station",
+   "mile": 13.7,
+   "bank": "L",
+   "time": null,
+   "diff": 1,
+   "qual": null,
+   "desc": "A Forest Service station with a public airstrip upstream."
+  },
+  {
+   "name": "Black Sands cave",
+   "mile": 17.8,
+   "bank": "L",
+   "time": null,
+   "diff": 1,
+   "qual": null,
+   "desc": "A cave and swimming hole near camp."
+  },
+  {
+   "name": "Moose Creek ranger station",
+   "mile": 25.9,
+   "bank": "R",
+   "time": null,
+   "diff": 2,
+   "qual": null,
+   "desc": "About a mile on trail from the suspension bridge at Tony Point."
+  }
+ ],
+ "geology": [],
+ "guide": [],
+ "almanac": {},
+ "rules": [
+  {
+   "name": "The permit",
+   "rules": [
+    {
+     "t": "Float only",
+     "d": "The Four Rivers permit covers private, non-commercial floats. Outfitted trips follow separate authorizations."
+    },
+    {
+     "t": "Wilderness",
+     "d": "The Selway runs through the Selway-Bitterroot Wilderness. Leave No Trace applies, with no motorized equipment and no mechanized travel."
+    },
+    {
+     "t": "Gauge",
+     "d": "The Paradise gauge is the one that matters at the ramp. Rafts need about 0.9 ft to launch, kayaks 0.5 ft and inflatable kayaks 0.1 ft; above about 5 ft the river is dangerous."
+    }
+   ]
+  },
+  {
+   "name": "Camping and sanitation",
+   "rules": [
+    {
+     "t": "Camp choice",
+     "d": "Camp at moderate-flow sites in normal water; at high flow use the ones marked high-water. After Moose Creek about 7 miles have no large camps, so plan your night before scouting the Ladle."
+    },
+    {
+     "t": "Human waste",
+     "d": "Pack out solid waste in a washable, reusable toilet system. Giardia is a risk; filter or treat all drinking water."
+    },
+    {
+     "t": "Fires",
+     "d": "Fire restrictions change through the season. Use a fire pan and burn only small dead wood. Check with the West Fork Ranger Station."
+    },
+    {
+     "t": "Bears and cougars",
+     "d": "Store food and trash away from the boats and camp. Selway corridor is active bear country."
+    }
+   ]
+  },
+  {
+   "name": "Safety",
+   "rules": [
+    {
+     "t": "Scout",
+     "d": "Scout the Ladle from the trail on river right. Wolf Creek is also scouted, from the trail or island."
+    },
+    {
+     "t": "Selway Falls",
+     "d": "Do not float past the take-out. Selway Falls, less than half a mile below, is Class VI."
+    },
+    {
+     "t": "Water level",
+     "d": "Late June is usually the most dependable. Peak melt in early June can be dangerous, and flows are often too low by mid-July. Flows can rise sharply overnight."
+    }
+   ]
+  }
+ ],
+ "landmarks": [
+  {
+   "name": "Paradise launch",
+   "mile": 0,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Wooden boat ramp at 3,050 ft below the White Cap Creek confluence. Campground with 11 sites, vault toilets and a host who checks permits."
+  },
+  {
+   "name": "Running Creek bridge",
+   "mile": 6.6,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "A trail bridge to a private ranch; the first place below the launch to cross on foot."
+  },
+  {
+   "name": "Shearer",
+   "mile": 13.7,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Forest Service guard station and airstrip."
+  },
+  {
+   "name": "Selway Lodge",
+   "mile": 14.5,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Private lodge reached by a pack bridge; the river crossing at Ditch Creek."
+  },
+  {
+   "name": "Hell Creek",
+   "mile": 24.1,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "The start of continuous Class II+ rapids."
+  },
+  {
+   "name": "Tony Point suspension bridge",
+   "mile": 25.9,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "A trail to the Moose Creek ranger station."
+  },
+  {
+   "name": "Moose Creek confluence",
+   "mile": 26.2,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "The largest tributary; nearly doubles the flow and picks up the gradient to about 50 feet per mile. About 7 miles with no large camps follow."
+  },
+  {
+   "name": "Pack bridge",
+   "mile": 34.6,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Three Links Creek enters right, Mink Creek left."
+  },
+  {
+   "name": "Wilderness boundary",
+   "mile": 44.9,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Selway-Bitterroot Wilderness boundary."
+  },
+  {
+   "name": "Race Creek campground",
+   "mile": 46.7,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "On the right bank, reached by road."
+  },
+  {
+   "name": "Race Creek take-out",
+   "mile": 47.7,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "A boat ramp below the campground and above the bridge to Selway Falls. Selway Falls is just downstream."
+  }
+ ],
+ "clusters": [
+  {
+   "s": 26.2,
+   "e": 29,
+   "n": "Moose Creek to Puzzle Creek"
+  }
+ ],
+ "notes": {
+  "camp": "*Size: l = large, m = medium, s = small, from a river log. Quality is not rated. Camps marked high-water are usable in high flows.",
+  "hike": "*Difficulty is a rough estimate (1 = short, easy; 2 = a mile or so of trail)."
+ },
+ "hdiff": {
+  "1": "Short, easy walk",
+  "2": "Easy trail",
+  "3": "Longer hike"
+ },
+ "access": [
+  {
+   "name": "Darby, MT",
+   "road": true,
+   "hub": true,
+   "note": "Shuttle base and the West Fork Ranger Station",
+   "grid": [
+    3,
+    2
+   ]
+  },
+  {
+   "name": "Lowell, ID",
+   "road": true,
+   "hub": true,
+   "note": "Nearest town to the take-out",
+   "grid": [
+    9,
+    2
+   ]
+  },
+  {
+   "name": "Paradise",
+   "road": true,
+   "mile": 0,
+   "park": true,
+   "note": "Launch. Campground with vault toilets and a permit host",
+   "grid": [
+    2,
+    6
+   ]
+  },
+  {
+   "name": "Race Creek",
+   "road": true,
+   "mile": 47.7,
+   "park": true,
+   "note": "Take-out. Selway Falls is just below",
+   "grid": [
+    10,
+    6
+   ]
+  }
+ ],
+ "yardGrid": [
+  5,
+  1
+ ],
+ "roads": [
+  {
+   "a": "Darby, MT",
+   "b": "Paradise",
+   "h": ""
+  },
+  {
+   "a": "Lowell, ID",
+   "b": "Race Creek",
+   "h": ""
+  },
+  {
+   "a": "Darby, MT",
+   "b": "Lowell, ID",
+   "h": ""
+  }
+ ],
+ "permit": {
+  "status": "Required May 15 to July 31 · one party per day · lottery",
+  "asOf": "October 2026",
+  "apply": {
+   "label": "Apply on Recreation.gov",
+   "url": "https://www.recreation.gov/permits/234624"
+  },
+  "contact": {
+   "phone": "406-821-3269",
+   "web": "https://www.fs.usda.gov/r01/bitterroot/permits/selway-river-four-rivers-lottery"
+  },
+  "sections": [
+   {
+    "name": "How to get one",
+    "items": [
+     {
+      "t": "Apply",
+      "d": "Apply online on Recreation.gov from December 1 to January 31. Hard copy applications are not accepted. The Selway is part of the Four Rivers lottery, with one application per lottery and one permit and launch reservation during the season."
+     },
+     {
+      "t": "Results",
+      "d": "Results are emailed on February 14 and are viewable in your Recreation.gov profile."
+     },
+     {
+      "t": "Confirm",
+      "d": "Accept your reservation by March 15. After confirming you receive regulations you must read in full."
+     },
+     {
+      "t": "Left over",
+      "d": "Cancelled or unconfirmed dates are released March 16 at 8:00 a.m. Mountain, first come, first served. Late-season dates in mid to late July are easiest to get, but flows are often too low."
+     },
+     {
+      "t": "Pick up",
+      "d": "Pick up the permit at the West Fork Ranger Station in Darby, Montana, up to 14 days before launch."
+     }
+    ]
+   },
+   {
+    "name": "Costs and limits",
+    "items": [
+     {
+      "t": "Fees",
+      "d": "$6 non-refundable application fee. No per-person recreation fee."
+     },
+     {
+      "t": "Season",
+      "d": "The control season is May 15 to July 31. Pre-season trips must be off the river by 11:59 p.m. May 14; post-season trips cannot launch before August 1. No permit is required outside the control season."
+     },
+     {
+      "t": "Launches",
+      "d": "One party of up to 16 people may launch each day in the control season. Outside it, groups are limited to 20 and there is no daily limit."
+     },
+     {
+      "t": "Who can hold one",
+      "d": "The permit holder must be 18 by the launch date and is the responsible person. Private non-commercial floats only. Launch date and holder cannot be changed after issuance; group size, exit date and watercraft can be changed before issuance."
+     }
+    ]
+   },
+   {
+    "name": "Cancelling and penalties",
+    "items": [
+     {
+      "t": "Cancel early",
+      "d": "Cancel on Recreation.gov at least 15 days before launch."
+     },
+     {
+      "t": "Penalty",
+      "d": "A late cancellation or no-show bars you from holding a Selway permit for one year."
+     },
+     {
+      "t": "Waiver",
+      "d": "The 15-day rule is waived if the river is above 5 feet at the Paradise gauge or snow blocks the road to Paradise, but you must still cancel."
+     }
+    ]
+   }
+  ]
+ }
+}
