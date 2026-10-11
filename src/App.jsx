@@ -4393,7 +4393,7 @@ function About({ s, part = 'about' }) {
       {part === 'about' && (
       <div className="card formCard">
         <span className="label">River Guide</span>
-        <div className="line">Plan river trips: crew, itinerary, meals, gear, shuttles and costs, with built-in guides for the Grand Canyon, Smith River and Rogue River.</div>
+        <div className="line">Plan river trips: crew, itinerary, meals, gear, shuttles and costs, with built-in guides for more than 20 western rivers.</div>
         <div className="muted mt-s">Version {APP_VERSION}</div>
       </div>
       )}
@@ -4493,17 +4493,111 @@ function Safety() {
   );
 }
 
-function Profile({ s, initial }) {
-  const [tab, setTab] = useState(initial || (['Account', 'Data', 'About'].includes(QS.get('sub')) ? QS.get('sub') : 'Account'));
+function Profile({ s, initial, ctx }) {
+  const [tab, setTab] = useState(initial || (['Account', 'Data', 'Feedback', 'About'].includes(QS.get('sub')) ? QS.get('sub') : 'Account'));
   return (
     <>
-      <Tabs items={['Account', 'Data', 'About']} value={tab} onChange={setTab} tint="#7a3b28" />
+      <Tabs items={['Account', 'Data', 'Feedback', 'About']} value={tab} onChange={setTab} tint="#7a3b28" />
       <div className="pad">
         {tab === 'Account' && <Account s={s} />}
         {tab === 'Data' && <About s={s} part="data" />}
+        {tab === 'Feedback' && <Feedback s={s} ctx={ctx} />}
         {tab === 'About' && <About s={s} part="about" />}
       </div>
     </>
+  );
+}
+
+const DEVICE_KEY = 'riverguide.device';
+const deviceId = () => {
+  try {
+    let d = localStorage.getItem(DEVICE_KEY);
+    if (!d) {
+      d = remote.newSecret();
+      localStorage.setItem(DEVICE_KEY, d);
+    }
+    return d;
+  } catch {
+    return remote.newSecret();
+  }
+};
+
+function Feedback({ s, ctx }) {
+  const user = s.session && s.session.user;
+  const [kind, setKind] = useState('idea');
+  const [text, setText] = useState('');
+  const [reply, setReply] = useState(false);
+  const [email, setEmail] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState('');
+  const [sent, setSent] = useState(false);
+  const KINDS = [
+    ['idea', 'Idea'],
+    ['problem', 'Problem'],
+    ['other', 'Other'],
+  ];
+  const contact = reply ? (user && user.email) || email.trim() : '';
+  const ok = text.trim().length >= 3 && (!reply || /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(contact));
+
+  const send = async () => {
+    setBusy(true);
+    setMsg('');
+    try {
+      await remote.feedbackSubmit(kind, text.trim(), contact, deviceId(), {
+        screen: ctx && ctx.screen,
+        river: ctx && ctx.river,
+        version: APP_VERSION,
+        platform: isNative ? 'ios' : 'web',
+        locale: navigator.language,
+      });
+      success();
+      setSent(true);
+      setText('');
+    } catch (e) {
+      setMsg(/too many/.test(e.message) ? 'Too many messages in a short time. Try again later.' : 'Could not send. Check your connection and try again.');
+    }
+    setBusy(false);
+  };
+
+  if (sent)
+    return (
+      <div className="card formCard">
+        <span className="label">Sent</span>
+        <div className="line">Thank you.</div>
+        <button className="btn ghost block mt" onClick={() => setSent(false)}>
+          Send another
+        </button>
+      </div>
+    );
+
+  return (
+    <div className="card formCard">
+      <div className="tabs" style={{ position: 'static', padding: 0, border: 0, background: 'none' }}>
+        {KINDS.map(([k, label]) => (
+          <button key={k} className={'tab' + (kind === k ? ' on' : '')} onClick={() => setKind(k)}>
+            {label}
+          </button>
+        ))}
+      </div>
+      <Field
+        area
+        rows={6}
+        maxLength={4000}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder={kind === 'idea' ? 'What should River Guide do?' : kind === 'problem' ? 'What went wrong?' : 'Tell us anything.'}
+      />
+      <label className="checkRow">
+        <input type="checkbox" checked={reply} onChange={(e) => setReply(e.target.checked)} />
+        <span>You can email me about this</span>
+      </label>
+      {reply && !user ? <Field value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" inputMode="email" autoComplete="email" /> : null}
+      {reply && user ? <div className="muted">{user.email}</div> : null}
+      <button className="btn block mt" disabled={!ok || busy} onClick={send}>
+        {busy ? 'Sending' : 'Send'}
+      </button>
+      {msg ? <div className="muted mt">{msg}</div> : null}
+    </div>
   );
 }
 
@@ -5390,6 +5484,7 @@ function App() {
   const [welcome, setWelcome] = useState(''); // trip just joined; asks which crew member you are
   const [joinBy] = useState(() => (QS.get('by') || '').replace(/[^\p{L}\p{N} '.-]/gu, '').slice(0, 24));
   const [profSub, setProfSub] = useState(null); // open Profile on a given sub-tab
+  const lastCtx = useRef({ screen: 'Trips', river: null });
   const onMap = false;
   const riverOpen = tab === 'River' && !!browse;
   const detail = tab === 'Trips' && inTrip && !!s.trip;
@@ -5430,6 +5525,7 @@ function App() {
     document.body.dataset.tab = detail ? 'itinerary' : TABS.find((t) => t.id === tab).tab;
   }, [tab, detail]);
 
+  if (tab !== 'Profile') lastCtx.current = { screen: tab === 'Trips' && detail ? 'Trip' : tab, river: rid || null };
   const title = detail ? s.trip.name : tab === 'River' ? (riverOpen ? RIVER.name : 'Rivers') : tab === 'Trips' ? 'Trips' : tab;
   if (!riskOk)
     return (
@@ -5495,7 +5591,7 @@ function App() {
           />
         )}
         {tab === 'Safety' && <Safety />}
-        {tab === 'Profile' && <Profile s={s} initial={profSub} />}
+        {tab === 'Profile' && <Profile s={s} initial={profSub} ctx={lastCtx.current} />}
       </main>
 
       <nav className="tabbar">

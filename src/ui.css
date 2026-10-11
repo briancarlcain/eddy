@@ -481,3 +481,5 @@ body.shot #fakeStatus { background: #faf8f3; }
 .pageHeader .hact:active { background: rgba(154, 74, 40, .1); }
 .shell:not(.onmap) .mapWindow { height: calc(100vh - var(--nav-h) - 132px - 42px); }
 #mapHeader .htitle { font-size: 18px; line-height: 1.2; }
+.checkRow { display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: 15px; }
+.checkRow input { width: 20px; height: 20px; accent-color: var(--accent); flex: none; }

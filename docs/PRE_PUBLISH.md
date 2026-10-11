@@ -22,3 +22,7 @@ Fill every [BRACKETED] item, get a lawyer's review, then delete the red "Draft f
 
 ## 3. Reviewer notes
 - Accounts are optional. Shared trips are invite-only (guideline 1.2 notes in docs/APP_STORE.md).
+
+## Feedback
+- Review feedback in Supabase: Table editor > feedback, or SQL editor on the views feedback_inbox, feedback_weekly, feedback_by_river. Triage by setting status, priority, tags and notes.
+- Confirm the privacy policy Feedback section and the App Store privacy answers (Device ID, optional contact email) with counsel.
