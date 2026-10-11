@@ -13,7 +13,7 @@ Never ship the web build inside the app: `build.mjs` swaps the seed files for th
 ## What is already done
 
 - iOS project in `ios/` (bundle ID `com.briancarlcain.riverguide`, iPhone only, portrait, iOS 15+)
-- App icon (1024 px) and splash from `resources/icon.svg` (replace `resources/icon.svg` with final artwork any time, then run `node resources/make-assets.mjs`)
+- App icon (1024 px) and splash from `resources/icon-1024.png` (replace `resources/icon-1024.png` with final artwork any time, then run `node resources/make-assets.mjs`)
 - `ITSAppUsesNonExemptEncryption = false`, privacy manifest (`PrivacyInfo.xcprivacy`: no tracking, no data collected)
 - Data survives iOS storage clean-up (mirrored to native Preferences)
 - Native touches: haptics, share sheet (trip summary, backup file), opt-in trip reminders (local notifications), status bar and keyboard handling

@@ -1,10 +1,10 @@
-// Regenerates the iOS app icon and splash from resources/icon.svg.  node resources/make-assets.mjs
+// Regenerates the iOS app icon and splash from resources/icon-1024.png.  node resources/make-assets.mjs
 import sharp from 'sharp';
 import { readFileSync, writeFileSync } from 'node:fs';
 
-const svg = readFileSync('resources/icon.svg');
+const svg = readFileSync('resources/icon-1024.png');
 const set = 'ios/App/App/Assets.xcassets';
-await sharp(svg).resize(1024, 1024).flatten({ background: '#c8643a' }).png().toFile(`${set}/AppIcon.appiconset/AppIcon-512@2x.png`);
+await sharp(svg).resize(1024, 1024).png().toFile(`${set}/AppIcon.appiconset/AppIcon-512@2x.png`);
 const mark = await sharp(svg).resize(720, 720).png().toBuffer();
 const rounded = await sharp(mark)
   .composite([{ input: Buffer.from('<svg width="720" height="720"><rect width="720" height="720" rx="160"/></svg>'), blend: 'dest-in' }])
