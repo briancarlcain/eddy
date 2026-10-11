@@ -1,0 +1,478 @@
+{
+ "name": "Dolores River",
+ "reach": "Bradfield Bridge to Bedrock",
+ "agency": "BLM Tres Rios Field Office / San Juan National Forest",
+ "miles": [
+  0,
+  96
+ ],
+ "days": 5,
+ "coords": [
+  37.85,
+  -108.7
+ ],
+ "tz": "America/Denver",
+ "camps": [
+  {
+   "name": "Bradfield Recreation Site",
+   "mile": 0.25,
+   "size": 5,
+   "qual": null,
+   "bank": "L",
+   "desc": "A campground a quarter mile below the bridge, with toilets, potable water, a ramp and parking. $8 a night."
+  },
+  {
+   "name": "Box Elder",
+   "mile": 19.5,
+   "size": 2,
+   "qual": null,
+   "bank": null,
+   "desc": "Limited primitive camping just below Mountain Sheep Point Recreation Site. No fee."
+  },
+  {
+   "name": "Roadside camps",
+   "mile": 23,
+   "size": 5,
+   "qual": null,
+   "bank": "L",
+   "desc": "An unimproved dirt road runs along river left for the first half of this reach, with roadside campsites."
+  },
+  {
+   "name": "River-right camps",
+   "mile": 25,
+   "size": 2,
+   "qual": null,
+   "bank": "R",
+   "desc": "A couple of good campsites on river right."
+  }
+ ],
+ "rapids": [
+  {
+   "name": "Ponderosa Gorge",
+   "mile": 2,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "The first ten miles run Class II through ponderosa pine and Douglas fir on the benches above the river."
+  },
+  {
+   "name": "Cottonwood",
+   "mile": 22.4,
+   "civ": false,
+   "diff": 4,
+   "tier": "Class III-",
+   "desc": ""
+  },
+  {
+   "name": "Lunchbox",
+   "mile": 22.9,
+   "civ": false,
+   "diff": 6,
+   "tier": "Class III+",
+   "desc": ""
+  },
+  {
+   "name": "Molly's Turn",
+   "mile": 24,
+   "civ": false,
+   "diff": 4,
+   "tier": "Class III-",
+   "desc": ""
+  },
+  {
+   "name": "Ionesco",
+   "mile": 24.9,
+   "civ": false,
+   "diff": 4,
+   "tier": "Class III-",
+   "desc": ""
+  },
+  {
+   "name": "Little Snag",
+   "mile": 26.3,
+   "civ": false,
+   "diff": 6,
+   "tier": "Class III+",
+   "desc": ""
+  },
+  {
+   "name": "Snaggletooth",
+   "mile": 27.2,
+   "civ": false,
+   "diff": 9,
+   "tier": "Class IV+",
+   "desc": "The biggest rapid on the upper river, with the line changing with flow, and it has been portaged as often as run. Easy to run into before you realize it: approach carefully and scout from river left. A dirt road on river left offers a portage."
+  },
+  {
+   "name": "Island",
+   "mile": 27.4,
+   "civ": false,
+   "diff": 4,
+   "tier": "Class II+",
+   "desc": "Long and continuous. Below about 800 cfs exposed rocks create hazards for rafts."
+  },
+  {
+   "name": "The Wall (Cannonball)",
+   "mile": 28,
+   "civ": false,
+   "diff": 7,
+   "tier": "Class IV-",
+   "desc": "A bedrock wall at the bottom right requires a hard left pull."
+  },
+  {
+   "name": "The Narrows",
+   "mile": 38.4,
+   "civ": false,
+   "diff": 4,
+   "tier": "Class III-",
+   "desc": ""
+  },
+  {
+   "name": "Bull Canyon",
+   "mile": 65.8,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "An outwash rapid entering from river right; much bigger than usual at high flows."
+  },
+  {
+   "name": "Sleeping Rock",
+   "mile": 67,
+   "civ": false,
+   "diff": 4,
+   "tier": "Class III-",
+   "desc": "Emerges at flows under 1,000 cfs; easier at higher flows."
+  },
+  {
+   "name": "Spring Canyon",
+   "mile": 81.2,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "An outwash rapid. A hike to a pool and grotto about a mile up the canyon."
+  },
+  {
+   "name": "One Holer",
+   "mile": 90.9,
+   "civ": false,
+   "diff": 6,
+   "tier": "Class III+",
+   "desc": "Stay left of the island to reach the hole at the bottom."
+  },
+  {
+   "name": "La Sal",
+   "mile": 91.6,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Above La Sal Canyon. Scout it, especially at lower flows."
+  },
+  {
+   "name": "S-Curve",
+   "mile": 92.7,
+   "civ": false,
+   "diff": 6,
+   "tier": "Class III+",
+   "desc": ""
+  },
+  {
+   "name": "Madame Curie",
+   "mile": 94.1,
+   "civ": false,
+   "diff": 4,
+   "tier": "Class II+",
+   "desc": ""
+  }
+ ],
+ "hikes": [
+  {
+   "name": "Spring Canyon",
+   "mile": 81.2,
+   "bank": null,
+   "time": null,
+   "diff": 2,
+   "qual": null,
+   "desc": "A hike to a pool and grotto about a mile up the canyon."
+  },
+  {
+   "name": "La Sal Canyon",
+   "mile": 91.6,
+   "bank": null,
+   "time": null,
+   "diff": 2,
+   "qual": null,
+   "desc": "A side canyon hike below La Sal Rapid."
+  }
+ ],
+ "geology": [],
+ "guide": [],
+ "almanac": {},
+ "rules": [
+  {
+   "name": "Flows",
+   "rules": [
+    {
+     "t": "McPhee Dam",
+     "d": "The river runs only when McPhee Dam releases. The season is usually April to early June, depending on snowpack, and can be short or absent. Check the Dolores Water Conservancy District for the release schedule."
+    },
+    {
+     "t": "Minimums",
+     "d": "About 200 cfs for canoes, kayaks and duckies; 800 cfs for rafts under 14 feet; 1,000 cfs for larger rafts."
+    },
+    {
+     "t": "Peak",
+     "d": "Flows generally peak late April to early May. Releases of about 3,400 cfs have been reported in May."
+    }
+   ]
+  },
+  {
+   "name": "Safety",
+   "rules": [
+    {
+     "t": "Scout",
+     "d": "Scout Snaggletooth and The Wall, and La Sal Rapid at lower flows. Snaggletooth is easy to run into before you realize it."
+    },
+    {
+     "t": "Vegetation",
+     "d": "Willows have encroached on the channel in low-flow years, making it harder to eddy out and reach camp."
+    },
+    {
+     "t": "Remote",
+     "d": "Once in Slick Rock Canyon, exit options are limited."
+    },
+    {
+     "t": "Water",
+     "d": "The Dolores and its tributaries are not fit to drink. Bring your drinking water."
+    }
+   ]
+  },
+  {
+   "name": "Land",
+   "rules": [
+    {
+     "t": "Private land",
+     "d": "Much of the first 15 miles below Slickrock crosses private ranch land. Respect landowners; the BLM manages the river corridor."
+    },
+    {
+     "t": "Camps",
+     "d": "Campsites in Slick Rock Canyon are infrequent because of surrounding private land, and popular ones fill quickly."
+    }
+   ]
+  }
+ ],
+ "landmarks": [
+  {
+   "name": "Bradfield Bridge",
+   "mile": 0,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Put-in. Bradfield Recreation Site is on river left a quarter mile below the bridge, about 6 miles east of Cahone. Sign in at the put-in. Likely the 1776 camp of the Dominguez-Escalante expedition."
+  },
+  {
+   "name": "Mountain Sheep Point",
+   "mile": 19.2,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Recreation site with a ramp, toilets and limited parking, also called Dove Creek Pump Station. Reached by County Road J from Highway 666. A common stopping point and take-out for a one-day trip of 19 miles."
+  },
+  {
+   "name": "Slickrock",
+   "mile": 47,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "The Highway 141 bridge. The access is on private land, with a landowner fee of $10 per day for parking and launching. Once in Slick Rock Canyon, exits are limited."
+  },
+  {
+   "name": "Gypsum Valley",
+   "mile": 60.65,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "BLM boat ramp on river right, reached by Highway 20 off Highway 141. Skips about 14 miles through private ranchland."
+  },
+  {
+   "name": "Bedrock",
+   "mile": 95.8,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Take-out on river left just upstream of the Highway 90 bridge. Beyond it the river continues 10 miles to the San Miguel confluence and on to Gateway."
+  }
+ ],
+ "clusters": [
+  {
+   "s": 0,
+   "e": 19.2,
+   "n": "Ponderosa Gorge"
+  },
+  {
+   "s": 19.2,
+   "e": 47,
+   "n": "Dove Creek to Slickrock"
+  },
+  {
+   "s": 47,
+   "e": 95.8,
+   "n": "Slick Rock Canyon"
+  }
+ ],
+ "hdiff": {
+  "1": "Short, easy walk",
+  "2": "Easy trail",
+  "3": "Longer hike"
+ },
+ "access": [
+  {
+   "name": "Cortez",
+   "road": true,
+   "hub": true,
+   "note": "Nearest city to the put-in",
+   "grid": [
+    2,
+    2
+   ]
+  },
+  {
+   "name": "Grand Junction",
+   "road": true,
+   "hub": true,
+   "note": "Nearest large city to the take-out",
+   "grid": [
+    9,
+    2
+   ]
+  },
+  {
+   "name": "Bradfield Bridge",
+   "road": true,
+   "mile": 0,
+   "park": true,
+   "note": "Put-in",
+   "grid": [
+    1,
+    6
+   ]
+  },
+  {
+   "name": "Mountain Sheep Point",
+   "road": true,
+   "mile": 19.2,
+   "park": true,
+   "note": "Mid-point access, one-day take-out",
+   "grid": [
+    3,
+    6
+   ]
+  },
+  {
+   "name": "Slickrock",
+   "road": true,
+   "mile": 47,
+   "park": true,
+   "note": "Private land; $10 a day",
+   "grid": [
+    5,
+    6
+   ]
+  },
+  {
+   "name": "Gypsum Valley",
+   "road": true,
+   "mile": 60.65,
+   "park": true,
+   "note": "BLM ramp",
+   "grid": [
+    7,
+    6
+   ]
+  },
+  {
+   "name": "Bedrock",
+   "road": true,
+   "mile": 95.8,
+   "park": true,
+   "note": "Take-out above the Highway 90 bridge",
+   "grid": [
+    10,
+    6
+   ]
+  }
+ ],
+ "yardGrid": [
+  5,
+  1
+ ],
+ "roads": [
+  {
+   "a": "Cortez",
+   "b": "Bradfield Bridge",
+   "h": ""
+  },
+  {
+   "a": "Cortez",
+   "b": "Mountain Sheep Point",
+   "h": ""
+  },
+  {
+   "a": "Grand Junction",
+   "b": "Bedrock",
+   "h": ""
+  },
+  {
+   "a": "Grand Junction",
+   "b": "Slickrock",
+   "h": ""
+  }
+ ],
+ "permit": {
+  "status": "No permit · sign in at the put-in",
+  "apply": {
+   "label": "Lower Dolores permit (Recreation.gov)",
+   "url": "https://www.recreation.gov/permits/621749"
+  },
+  "contact": {
+   "phone": "970-882-7296",
+   "web": "https://www.blm.gov/visit/dolores-river-co"
+  },
+  "sections": [
+   {
+    "name": "This reach",
+    "items": [
+     {
+      "t": "No permit",
+      "d": "Permits are not required to float the Dolores in Colorado. Boaters sign in at the put-in."
+     },
+     {
+      "t": "Group size",
+      "d": "Groups are limited to 25 people."
+     },
+     {
+      "t": "Overnight",
+      "d": "Overnight trips need a fire pan, a portable toilet and a dishwater strainer."
+     },
+     {
+      "t": "Fees",
+      "d": "Bradfield campsites are $8 a night. Slickrock parking and launching is $10 a day, paid to the landowner."
+     }
+    ]
+   },
+   {
+    "name": "Below Gateway",
+    "items": [
+     {
+      "t": "Gateway to Dewey Bridge",
+      "d": "A free permit is required year-round for private trips from Gateway, Colorado, to Dewey Bridge, Utah, through Recreation.gov (or by phone to the Moab office at 435-259-7012, 8 a.m. to noon weekdays). The trip leader signs and carries it."
+     }
+    ]
+   }
+  ]
+ },
+ "note": "",
+ "notes": {
+  "camp": "",
+  "hike": ""
+ }
+}

@@ -1,0 +1,700 @@
+{
+ "name": "Salt River",
+ "reach": "Highway 60 to Highway 288",
+ "agency": "USFS Tonto National Forest / White Mountain Apache Tribe",
+ "miles": [
+  0,
+  53
+ ],
+ "days": 4,
+ "coords": [
+  33.8,
+  -110.45
+ ],
+ "tz": "America/Phoenix",
+ "camps": [
+  {
+   "name": "First Campground",
+   "mile": 0,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "The put-in camp, with separate public and outfitter launches. Good for the night before."
+  },
+  {
+   "name": "Second Campground",
+   "mile": 6.07,
+   "size": 5,
+   "qual": null,
+   "bank": "R",
+   "desc": "A designated primitive tribal campground, popular with outfitters on day trips."
+  },
+  {
+   "name": "Below Three Way",
+   "mile": 7.3,
+   "size": null,
+   "qual": null,
+   "bank": null,
+   "desc": ""
+  },
+  {
+   "name": "Unmarked camp",
+   "mile": 14.8,
+   "size": null,
+   "qual": null,
+   "bank": null,
+   "desc": ""
+  },
+  {
+   "name": "Above Hess",
+   "mile": 25.4,
+   "size": null,
+   "qual": null,
+   "bank": null,
+   "desc": ""
+  },
+  {
+   "name": "Mile 36 camp",
+   "mile": 35.9,
+   "size": null,
+   "qual": null,
+   "bank": null,
+   "desc": ""
+  },
+  {
+   "name": "Coon Creek",
+   "mile": 44.6,
+   "size": null,
+   "qual": null,
+   "bank": null,
+   "desc": ""
+  }
+ ],
+ "rapids": [
+  {
+   "name": "Apache Falls",
+   "mile": 0,
+   "civ": false,
+   "diff": 10,
+   "tier": "Class V",
+   "desc": "A large, nearly unrunnable ledge a quarter mile above the Highway 60 bridge. Boating upstream of it is prohibited by the White Mountain Apache Tribe."
+  },
+  {
+   "name": "Island Rapid",
+   "mile": 0.68,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "A wave train with holes. Below 1,200 cfs use the First Campground access to avoid it."
+  },
+  {
+   "name": "Kiss and Tell",
+   "mile": 0.95,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "A short drop over a cobble bar just below the put-in."
+  },
+  {
+   "name": "Bump and Grind",
+   "mile": 1.81,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "A drop over a gravel bar. Route choice matters at low water."
+  },
+  {
+   "name": "Maytag",
+   "mile": 2,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "An island splits the flow. The deepest channel is river right."
+  },
+  {
+   "name": "Grumman",
+   "mile": 2.5,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "A wave train with a big hole on river left."
+  },
+  {
+   "name": "Mother Rock",
+   "mile": 2.81,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "A boulder in the channel. The main line is right."
+  },
+  {
+   "name": "Overboard",
+   "mile": 3.19,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "A shallow shoal on river left. Run the chute to the far right bank."
+  },
+  {
+   "name": "Exhibition",
+   "mile": 6.4,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "A big wave train with play waves."
+  },
+  {
+   "name": "Cibecue Rapid",
+   "mile": 7.24,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Formed by outwash from Cibecue Creek."
+  },
+  {
+   "name": "Three Way",
+   "mile": 7.92,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Islands split the flow, most going river right."
+  },
+  {
+   "name": "Raft Ripper",
+   "mile": 8.42,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Boulders to avoid, especially at low flows."
+  },
+  {
+   "name": "Mescal Falls",
+   "mile": 9.42,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "A rock-strewn wave train with occasional play holes."
+  },
+  {
+   "name": "Salt Banks",
+   "mile": 10.81,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "A cobble bar pushes the flow right. Saline deposits at the bottom on river right."
+  },
+  {
+   "name": "Ledges",
+   "mile": 11.08,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Low-angle quartzite ledges with good play waves and holes."
+  },
+  {
+   "name": "Little Boat Eater",
+   "mile": 11.68,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Avoid the hydraulic on river left over a rock ledge."
+  },
+  {
+   "name": "Rock Garden",
+   "mile": 12.69,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Many rocks to navigate."
+  },
+  {
+   "name": "The Cheese",
+   "mile": 14.13,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "A cobble bar just above Rat Trap."
+  },
+  {
+   "name": "Rat Trap",
+   "mile": 14.2,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "A long rapid with large exploding waves and holes. The start of the micro canyon. Trip reports describe swims and difficult current crossings."
+  },
+  {
+   "name": "White Rock",
+   "mile": 14.39,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Polished boulders, boiling eddies, and irregular waves and holes."
+  },
+  {
+   "name": "Granite",
+   "mile": 16.77,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "The largest rapid in the micro gorge, the final drop before Gleason Flat."
+  },
+  {
+   "name": "Gleason",
+   "mile": 19.91,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "A minor rapid above South Gleason access."
+  },
+  {
+   "name": "Eye of the Needle",
+   "mile": 22.07,
+   "civ": false,
+   "diff": 8,
+   "tier": "Class IV",
+   "desc": "A pinch over a ledge with a powerful hole. Scout river left. Oars have snapped here when not fully stowed."
+  },
+  {
+   "name": "Black Rock",
+   "mile": 22.71,
+   "civ": false,
+   "diff": 8,
+   "tier": "Class IV",
+   "desc": "The final rapid of a small micro gorge, with sharp boulders and ledges; the line varies with flow. Rafts run near river right over a six-foot pourover; kayaks drop the ledge or punch the hole on river left. An undercut rock follows. Rafts scout from upstream river right, kayaks from river left."
+  },
+  {
+   "name": "Devils Pendejo",
+   "mile": 27.12,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "A huge boulder splits the flow. Rafts go right; hard boats can take slots left."
+  },
+  {
+   "name": "Upper Corral",
+   "mile": 27.67,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "Easy, with boulders and cobbles."
+  },
+  {
+   "name": "Lower Corral",
+   "mile": 29.7,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "A wave train with a huge center hole at higher flows. Marks the boundary of tribal lands and Tonto National Forest."
+  },
+  {
+   "name": "Pinball",
+   "mile": 29.93,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "Large waves, holes and boiling eddies. Do not swim here: it leads into the Maze."
+  },
+  {
+   "name": "The Maze",
+   "mile": 30.28,
+   "civ": false,
+   "diff": 8,
+   "tier": "Class IV",
+   "desc": "A pair of big holes on river left, then a turn right into a narrow canyon with boiling eddies. Hard to swim or flip here."
+  },
+  {
+   "name": "Quartzite Falls",
+   "mile": 32.17,
+   "civ": false,
+   "diff": 8,
+   "tier": "Class IV",
+   "desc": "Once Class V, now Class IV after being blasted. A shallow hole at the base on river right can flip loaded rafts. Scout from the ridge on river left. The standard line is center right, with a lateral from the right needing a pivot. A short recovery pool precedes Corkscrew."
+  },
+  {
+   "name": "Corkscrew",
+   "mile": 32.29,
+   "civ": false,
+   "diff": 8,
+   "tier": "Class IV",
+   "desc": "A complex wave train with a huge hole and exploding waves; rafts can flip at high water. Portage on river left."
+  },
+  {
+   "name": "Sleeper",
+   "mile": 32.44,
+   "civ": false,
+   "diff": 5,
+   "tier": "Class III",
+   "desc": "An easy line right after a hole near the top right."
+  },
+  {
+   "name": "Cliffhanger",
+   "mile": 34.77,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "A shoal with a huge rock in the main flow. The eddy on river left is hard to escape in a raft."
+  },
+  {
+   "name": "Horseshoe Bend",
+   "mile": 39.53,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "A gravel bar rapid at a right bend."
+  },
+  {
+   "name": "Redmond",
+   "mile": 44.37,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": "A minor riffle, the end of the whitewater."
+  },
+  {
+   "name": "Coon Creek",
+   "mile": 44.75,
+   "civ": false,
+   "diff": 3,
+   "tier": "Class II",
+   "desc": ""
+  },
+  {
+   "name": "Diversion Dam",
+   "mile": 53.55,
+   "civ": false,
+   "diff": 10,
+   "tier": "Class V",
+   "desc": "A 3-foot dam with a lethal hole. Take out at the bridge above it."
+  }
+ ],
+ "hikes": [
+  {
+   "name": "Canyon Creek",
+   "mile": 16.65,
+   "bank": null,
+   "time": null,
+   "diff": 2,
+   "qual": null,
+   "desc": "A lunch stop and hike; boatable at higher flows."
+  },
+  {
+   "name": "Cherry Creek",
+   "mile": 36.31,
+   "bank": "R",
+   "time": null,
+   "diff": 2,
+   "qual": null,
+   "desc": "A side hike with clear water."
+  },
+  {
+   "name": "Coon Creek",
+   "mile": 44.75,
+   "bank": null,
+   "time": null,
+   "diff": 3,
+   "qual": null,
+   "desc": "A side hike; the ridge hike over to Dry and Chalk Creeks takes a few hours."
+  }
+ ],
+ "geology": [],
+ "guide": [],
+ "almanac": {},
+ "rules": [
+  {
+   "name": "Required equipment",
+   "rules": [
+    {
+     "t": "Fire pan",
+     "d": "A fire pan with sides at least 3 inches high; all fires stay in it. Self-supporting kayak trips may use a fire blanket."
+    },
+    {
+     "t": "Toilet",
+     "d": "A portable toilet system. All solid waste is carried out."
+    },
+    {
+     "t": "Life jackets",
+     "d": "A life jacket for each person; the Coast Guard recommends Type III or V."
+    }
+   ]
+  },
+  {
+   "name": "Rules",
+   "rules": [
+    {
+     "t": "Wood",
+     "d": "Collect only dead and down wood. Cutting or stripping limbs is prohibited."
+    },
+    {
+     "t": "Motors",
+     "d": "Motorized equipment and boats are prohibited."
+    },
+    {
+     "t": "Plants",
+     "d": "Possessing or transporting native plants is prohibited."
+    },
+    {
+     "t": "Litter",
+     "d": "Pack out all trash and food remains."
+    }
+   ]
+  },
+  {
+   "name": "Safety",
+   "rules": [
+    {
+     "t": "Flows",
+     "d": "Gear rafts need about 1,200 cfs or more; kayaks and packrafts run down to about 400. Water can rise to flood stage within hours."
+    },
+    {
+     "t": "Scout",
+     "d": "Scout Eye of the Needle, Black Rock and Quartzite Falls. Do not swim Pinball into the Maze."
+    },
+    {
+     "t": "Diversion Dam",
+     "d": "Take out at the Highway 288 bridge. Diversion Dam just below has a lethal hole."
+    },
+    {
+     "t": "Remote",
+     "d": "There is no cell service in the canyon."
+    }
+   ]
+  }
+ ],
+ "landmarks": [
+  {
+   "name": "First Campground",
+   "mile": 0,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Put-in on river right at the Highway 60 bridge, on Apache Road 1. Separate public and outfitter launches."
+  },
+  {
+   "name": "Second Campground",
+   "mile": 6.07,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "A primitive tribal campground with river access."
+  },
+  {
+   "name": "Cibecue Creek access",
+   "mile": 6.9,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Can wash out in Cibecue Creek floods."
+  },
+  {
+   "name": "Mescal access",
+   "mile": 9.71,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Unimproved; the end of the day-trip section."
+  },
+  {
+   "name": "Hoodoo access",
+   "mile": 10.09,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Unimproved; the last option at the end of the day-trip section."
+  },
+  {
+   "name": "South Gleason access",
+   "mile": 19.9,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "By a 4WD road off FR 303B. Wilderness boundary: the Tonto wilderness permit applies below this point."
+  },
+  {
+   "name": "Tribal land boundary",
+   "mile": 29.7,
+   "civ": false,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "The White Mountain Apache reservation ends and Tonto National Forest begins."
+  },
+  {
+   "name": "Horseshoe Bend",
+   "mile": 39.53,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Alternate access and a tuber launch in summer."
+  },
+  {
+   "name": "Highway 288 bridge",
+   "mile": 52.68,
+   "civ": true,
+   "diff": null,
+   "tier": "Landmark",
+   "desc": "Take-out on river left just below the bridge, with a ramp. Diversion Dam lies below."
+  }
+ ],
+ "clusters": [
+  {
+   "s": 14.1,
+   "e": 16.8,
+   "n": "Micro gorge"
+  },
+  {
+   "s": 29.7,
+   "e": 32.5,
+   "n": "Pinball to Sleeper"
+  }
+ ],
+ "hdiff": {
+  "1": "Short, easy walk",
+  "2": "Easy trail",
+  "3": "Longer hike"
+ },
+ "access": [
+  {
+   "name": "Show Low",
+   "road": true,
+   "hub": true,
+   "note": "Nearest city to the put-in",
+   "grid": [
+    3,
+    2
+   ]
+  },
+  {
+   "name": "Globe",
+   "road": true,
+   "hub": true,
+   "note": "Nearest city to the take-out",
+   "grid": [
+    9,
+    2
+   ]
+  },
+  {
+   "name": "First Campground",
+   "road": true,
+   "mile": 0,
+   "park": true,
+   "note": "Put-in at the Highway 60 bridge",
+   "grid": [
+    1,
+    6
+   ]
+  },
+  {
+   "name": "South Gleason",
+   "road": true,
+   "mile": 19.9,
+   "park": false,
+   "note": "4WD access; wilderness boundary",
+   "grid": [
+    5,
+    6
+   ]
+  },
+  {
+   "name": "Highway 288",
+   "road": true,
+   "mile": 52.68,
+   "park": true,
+   "note": "Take-out with a ramp",
+   "grid": [
+    10,
+    6
+   ]
+  }
+ ],
+ "yardGrid": [
+  5,
+  1
+ ],
+ "roads": [
+  {
+   "a": "Show Low",
+   "b": "First Campground",
+   "h": ""
+  },
+  {
+   "a": "Globe",
+   "b": "Highway 288",
+   "h": ""
+  },
+  {
+   "a": "Globe",
+   "b": "First Campground",
+   "h": ""
+  }
+ ],
+ "permit": {
+  "status": "Lottery · March 1 to May 15 · plus tribal permit",
+  "apply": {
+   "label": "Apply on Recreation.gov",
+   "url": "https://www.recreation.gov/permits/249275"
+  },
+  "contact": {
+   "phone": "928-402-6236",
+   "web": "https://www.fs.usda.gov/r03/tonto/permits/salt-river-canyon-wilderness"
+  },
+  "sections": [
+   {
+    "name": "How to get one",
+    "items": [
+     {
+      "t": "Apply",
+      "d": "Apply on Recreation.gov from December 1 to January 31. One application per person. The lottery application fee is $16, non-refundable ($10 for the Wilderness River Program and $6 reservation)."
+     },
+     {
+      "t": "Pay",
+      "d": "Lottery winners pay the $125 permit fee by February 20."
+     },
+     {
+      "t": "Leftover",
+      "d": "Unclaimed dates are first come, first served at $125 plus a reservation fee, and cancelled dates are posted at a random time within 24 hours."
+     },
+     {
+      "t": "Season",
+      "d": "A permit is required from March 1 to May 15 for the wilderness section below South Gleason access."
+     }
+    ]
+   },
+   {
+    "name": "Tribal permit",
+    "items": [
+     {
+      "t": "White Mountain Apache",
+      "d": "A tribal permit is required for the roughly 29 miles through the Fort Apache Indian Reservation, from the Highway 60 put-in down to the Tonto National Forest boundary. For multiday trips buy two days. Call 928-338-4385 for costs and rules. The tribe enforces it."
+     },
+     {
+      "t": "Upstream",
+      "d": "Whitewater boating is prohibited upstream of Apache Falls."
+     }
+    ]
+   },
+   {
+    "name": "Limits and cancelling",
+    "items": [
+     {
+      "t": "Group",
+      "d": "Up to 15 people. The permit holder must be 18 or older and on the trip with the signed permit. Everyone carries photo ID. Non-commercial only."
+     },
+     {
+      "t": "Launch",
+      "d": "Launch only on the date on the permit."
+     },
+     {
+      "t": "Cancel",
+      "d": "Cancel at least 21 days before launch for a refund. To change the date, cancel and rebook."
+     }
+    ]
+   }
+  ]
+ },
+ "note": "",
+ "notes": {
+  "camp": "",
+  "hike": ""
+ }
+}
