@@ -127,7 +127,8 @@ html { -webkit-tap-highlight-color: transparent; }
 .rg .row > .field { flex: 1 1 140px; }
 .rg .row > .field.narrow { flex: 0 1 120px; }
 .rg .row > .btn { flex: 0 0 auto; }
-.rg .listRow .btn, .rg .gearRow .btn, .rg .legBox .btn.ghost { min-height: 34px; padding: 0 12px; }
+.rg .listRow .btn,
+.rg .gearRow .btn { min-height: 34px; padding: 0 12px; }
 .rg .x { min-width: 40px; min-height: 40px; display: inline-flex; align-items: center; justify-content: center; font-size: 15px; border-radius: 8px; color: var(--ink-dim); }
 .rg .x:active { background: rgba(154, 74, 40, .1); }
 .rg .addSlot { min-height: 40px; font-size: 11.5px; display: flex; align-items: center; }
@@ -217,8 +218,6 @@ html { -webkit-tap-highlight-color: transparent; }
 
 /* ---------- shuttle / leg editor ---------- */
 .rg .carName { font-size: 13.5px; }
-.rg .legBox { border-radius: var(--r-s); padding: 12px; }
-.rg .legKey { font-size: 10.5px; }
 .rg .warn { font-size: 12.5px; border-radius: var(--r-s); padding: 8px 11px; }
 
 /* ---------- empty states ---------- */
@@ -227,11 +226,13 @@ html { -webkit-tap-highlight-color: transparent; }
 .rg .emptyText { font-size: 14.5px; line-height: 1.5; color: var(--ink-dim); max-width: 30ch; }
 
 /* ---------- sheets (filters / details / calculator) ---------- */
-.rg .sheet, .rg .fsheet, .rg .calcSheet { box-shadow: var(--shadow-2); }
+.rg .sheet,
+.rg .fsheet { box-shadow: var(--shadow-2); }
 .rg .sheet .iname { font-size: 19px; }
 .rg .sheet .imeta { font-size: 12px; }
 .rg .sheet .idesc { font-size: 15px; }
-.rg .sheet .close, .rg .fsclose, .rg .calcClose { min-width: 40px; min-height: 40px; display: inline-flex; align-items: center; justify-content: center; }
+.rg .sheet .close,
+.rg .fsclose { min-width: 40px; min-height: 40px; display: inline-flex; align-items: center; justify-content: center; }
 
 /* ---------- desktop hover feedback ---------- */
 @media (hover: hover) {
@@ -286,7 +287,6 @@ select:required:invalid { color: var(--ink-faint); }
 /* App Store screenshot mode (?shot=1): fake status bar so captures look like a device */
 body.shot .pageHeader { top: 54px; }
 body.shot .shell main { padding-top: calc(52px + 54px); }
-body.shot.onmapshot .shell main { padding-top: 54px; }
 body.shot .tabs { top: calc(52px + 54px); }
 body.shot .shell.onmap .tabs { top: 54px; }
 body.shot .gcmap #mapHeader { top: calc(59px + 54px); }
@@ -315,10 +315,23 @@ body.shot .shell.onmap main { padding-top: 54px; }
 html, body { background: #f4f1ea; }
 body { font-family: var(--font); -webkit-font-smoothing: antialiased; }
 #bgmotif { display: none !important; }
-.rg, .rg button, .rg input, .rg select, .rg textarea, header, .tabbar, .sheet, .fsheet, .calcSheet { font-family: var(--font); }
+.rg,
+.rg button,
+.rg input,
+.rg select,
+.rg textarea,
+header,
+.tabbar,
+.sheet,
+.fsheet { font-family: var(--font); }
 
 /* kill shouty caps and tracking everywhere */
-.rg *, .tabbar *, header *, .sheet *, .fsheet *, .calcSheet *, .pageHeader * { text-transform: none !important; letter-spacing: 0 !important; }
+.rg *,
+.tabbar *,
+header *,
+.sheet *,
+.fsheet *,
+.pageHeader * { text-transform: none !important; letter-spacing: 0 !important; }
 .rg { font-size: 16px; color: var(--ink); }
 .rg h1, .rg .serif, .rg .emptyTitle, .pageHeader .phtitle, .htitle { font-weight: 650; color: var(--ink); }
 .rg h1 { font-size: 28px; letter-spacing: -.02em !important; line-height: 1.12; }
@@ -344,7 +357,9 @@ body { font-family: var(--font); -webkit-font-smoothing: antialiased; }
 .rg .tab.on { background: var(--ink); color: #fff; }
 
 /* labels */
-.rg .label, .rg .sectionLabel, .rg .numKey, .rg .legKey { font-size: 13px; font-weight: 500; color: var(--ink-dim); }
+.rg .label,
+.rg .sectionLabel,
+.rg .numKey { font-size: 13px; font-weight: 500; color: var(--ink-dim); }
 .rg .sectionLabel { font-size: 13px; font-weight: 600; color: var(--ink-faint); margin: 20px 4px 8px; }
 .rg .formCard > .label:first-child { font-size: 15px; font-weight: 650; color: var(--ink); border: 0; padding-bottom: 0; margin-bottom: 14px; }
 .rg .mealBlock > .label:first-child { color: var(--ink); font-weight: 650; }
@@ -378,7 +393,9 @@ body { font-family: var(--font); -webkit-font-smoothing: antialiased; }
 .rg .btn.ghost { background: #fff; color: var(--ink); border: 1px solid rgba(30, 24, 16, .16); box-shadow: none; }
 .rg .btn.danger { background: #fff; color: #b3341a; border-color: #ecc6bb; }
 .rg .btn:disabled { background: var(--surface-3); color: var(--ink-faint); border-color: transparent; }
-.rg .listRow .btn, .rg .gearRow .btn, .rg .legBox .btn.ghost, .rg .card .row.mt .btn { font-size: 14px; min-height: 38px; }
+.rg .listRow .btn,
+.rg .gearRow .btn,
+.rg .card .row.mt .btn { font-size: 14px; min-height: 38px; }
 .rg .chip { font-family: var(--font); font-size: 14px; font-weight: 500; background: #fff; border: 1px solid rgba(30, 24, 16, .14); box-shadow: none; }
 .rg .chip.on { background: var(--ink); border-color: var(--ink); color: #fff; }
 .rg .badge { font-family: var(--font); font-size: 12px; font-weight: 600; }
@@ -393,15 +410,15 @@ body { font-family: var(--font); -webkit-font-smoothing: antialiased; }
 .rg .emptyText { font-size: 15px; }
 
 /* sheets */
-.sheet, .fsheet, .calcSheet { background: #fff; border-top: 0; }
-.sheet .iname, .fstitle, .calcTitle { font-weight: 650; color: var(--ink); }
+.sheet,
+.fsheet { background: #fff; border-top: 0; }
+.sheet .iname,
+.fstitle { font-weight: 650; color: var(--ink); }
 .sheet .imeta, .sheet .hdiff { color: var(--accent); }
-.fseckicker, .ablabel, .splabel { color: var(--ink-faint); }
+.fseckicker { color: var(--ink-faint); }
 
 /* map header legend */
 .chip.off { opacity: .3; }
-.timefab { font-size: 14px; font-weight: 600; background: var(--accent); border-color: var(--accent); }
-.rbig, .cxbig { color: var(--ink); }
 
 /* v2 refinements */
 body.shot #fakeStatus { background: #faf8f3; }
@@ -451,3 +468,5 @@ body.shot #fakeStatus { background: #faf8f3; }
 .gateCard p { font-size: 16px; line-height: 1.5; color: var(--ink-dim); margin-bottom: 12px; }
 .gateCard p strong { color: var(--ink); }
 .gateLinks { text-align: center; margin-top: 14px; font-size: 14px; }
+
+.rg .legWay { display: inline-block; max-width: 100%; overflow-wrap: anywhere; }

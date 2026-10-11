@@ -7,7 +7,7 @@ import SEED from '../data/trip.json';
 import SOURCES from '../data/sources.json';
 import GC_REF from '../data/trips/gc2026-ref.json';
 import { askReminders, boot, clearReminders, hideSplash, isNative, onOpenUrl, onResume, openUrl, remindersAllowed, saveBackup, saveFile, scheduleReminders, shareText, success } from './native.js';
-import { canon, mergeTrips, stamp } from './merge.js';
+import { canon, mergeTrips, stamp, strip } from './merge.js';
 import * as remote from './sync.js';
 import * as authApi from './auth.js';
 
@@ -96,7 +96,6 @@ const Empty = ({ icon = 'inbox', title, children }) => (
 const QS = typeof location !== 'undefined' ? new URLSearchParams(location.search) : new URLSearchParams();
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 const now = () => Date.now();
-const KINDS = ['crew', 'boats', 'cars', 'places', 'gear', 'meals', 'log', 'pay', 'plans'];
 const SLOTS = ['Breakfast', 'Lunch', 'Snack', 'Dinner', 'Happy hour'];
 const EVAC = { 1: '#6b6154', 2: '#a8722a', 3: '#c0562f', 4: '#9c3326' };
 
@@ -104,7 +103,11 @@ const EVAC = { 1: '#6b6154', 2: '#a8722a', 3: '#c0562f', 4: '#9c3326' };
 const DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const okDate = (s) => /^\d{4}-\d{2}-\d{2}$/.test(s) && !isNaN(new Date(s + 'T12:00:00Z'));
-const today = () => new Date().toISOString().slice(0, 10);
+// the device's local calendar date (not UTC, which flips to tomorrow in the US evening)
+const today = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+};
 
 function addDays(iso, n) {
   const d = new Date(iso + 'T12:00:00Z');
@@ -222,14 +225,14 @@ function summarize(a, b) {
     for (const [id, x] of B) {
       const w = nm(x) ? ': ' + String(nm(x)).slice(0, 30) : '';
       if (!A.has(id)) out.push('Added ' + label + w);
-      else if (canon(x) !== canon(A.get(id))) out.push('Updated ' + label + w);
+      else if (canon(strip(x)) !== canon(strip(A.get(id)))) out.push('Updated ' + label + w);
     }
     for (const [id, x] of A) if (!B.has(id)) out.push('Removed ' + label + (nm(x) ? ': ' + String(nm(x)).slice(0, 30) : ''));
   }
   const days = new Set([...Object.keys(a.plans || {}), ...Object.keys(b.plans || {})]);
   let changed = 0;
   days.forEach((d) => {
-    if (canon((a.plans || {})[d] || {}) !== canon((b.plans || {})[d] || {})) changed++;
+    if (canon(strip((a.plans || {})[d] || {})) !== canon(strip((b.plans || {})[d] || {}))) changed++;
   });
   if (changed) out.push(changed === 1 ? 'Updated a day plan' : `Updated ${changed} day plans`);
   if (!out.length) return null;
@@ -516,7 +519,7 @@ function useStore() {
         // first sign-in on this device, or a different account: start with no links
         commit((s0) => ({ ...s0, cloud: { uid: sess.user.id, trips: {}, del: [] } }));
         // trips this device shared before signing in become the account's
-        for (const [id, e] of Object.entries(stateRef.current.sync || {})) {
+        for (const e of Object.values(stateRef.current.sync || {})) {
           if (e.trip && e.role === 'owner') await remote.v2Claim(e.trip, e.member).catch(() => {});
           else if (e.owner && e.owner !== 'account' && e.owner !== 'v2') await remote.claim(e.code, e.owner).catch(() => {});
         }
@@ -553,7 +556,7 @@ function useStore() {
     } finally {
       cloudBusy.current = false;
     }
-  }, [commit]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [commit]);
 
   const cloudTimers = useRef({});
   const cloudSoon = (id) => {
@@ -581,11 +584,11 @@ function useStore() {
       } catch {}
     }
     if (u && !nm) authApi.refreshProfile().catch(() => {}); // the profile may have been named on the server
-  }, [session && session.user && session.user.id, session && session.user && session.user.user_metadata && session.user.user_metadata.name]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [session && session.user && session.user.id, session && session.user && session.user.user_metadata && session.user.user_metadata.name]);
   useEffect(() => {
     if (session) cloudSyncAll();
     else setCloudStatus('');
-  }, [session && session.user && session.user.id, cloudSyncAll]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [session && session.user && session.user.id, cloudSyncAll]);
 
   const syncAll = useCallback(() => {
     Object.keys(stateRef.current.sync || {}).forEach((id) => syncTrip(id));
@@ -1661,22 +1664,6 @@ const CarIcon = ({ trailer }) => (
   </svg>
 );
 
-const Car = ({ c, crew, tint, onClick }) => (
-  <button className="car" onClick={onClick} disabled={!onClick}>
-    <span className="carIconWrap" style={tint ? { color: tint } : null}>
-      <CarIcon trailer={c.trailer} />
-    </span>
-    <span className="carText">
-      <span className="carName">{c.name}</span>
-      <span className="muted">
-        {crew.find((x) => x.id === c.owner)?.name || 'No owner'}
-        {num(c.seats) ? ` · ${num(c.seats)} seats` : ''}
-        {c.trailer ? ' · trailer' : ''}
-      </span>
-    </span>
-  </button>
-);
-
 const Sel = ({ label, value, onChange, children }) => (
   <label className="field">
     {label ? <span className="label">{label}</span> : null}
@@ -1978,7 +1965,7 @@ const textW = (s) => s.length * 4.3;
 
 function Story({ S, L, tt }) {
   const { byId, cars, boats, people, mileAt, at } = S;
-  const { W, H, edges, pos, route, along, rx, ry, water } = L;
+  const { W, H, pos, route, along, rx, ry, water } = L;
   const fx = rx(mileAt(tt));
   const xy = (a) => (a === 'river' ? { x: fx, y: ry(fx) } : pos[a]);
 
@@ -3165,7 +3152,6 @@ function SyncCard({ s, t }) {
   const ent = s.sync[t.id];
   const st = s.syncStatus[t.id];
   const [msg, setMsg] = useState('');
-  const [busy, setBusy] = useState(false);
   const inv = useInvite(s, t);
   const start = () => inv.send(false);
   return (
@@ -4317,7 +4303,7 @@ function About({ s, part = 'about' }) {
       const n = s.restore(data);
       success();
       setMsg(`Restored ${n} trip${n === 1 ? '' : 's'}.`);
-    } catch (err) {
+    } catch {
       setMsg('That file is not a River Guide backup.');
     }
   };
@@ -5460,6 +5446,10 @@ if (QS.get('shot')) {
   f.id = 'fakeStatus';
   f.innerHTML = '<span>9:41</span><span class="ind"><svg width="18" height="12" viewBox="0 0 18 12" fill="#1b130c"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><svg width="26" height="12" viewBox="0 0 26 12"><rect x=".5" y=".5" width="22" height="11" rx="3.5" fill="none" stroke="#1b130c" opacity=".5"/><rect x="2" y="2" width="19" height="8" rx="2.5" fill="#1b130c"/><rect x="24" y="4" width="2" height="4" rx="1" fill="#1b130c" opacity=".5"/></svg></span>';
   document.body.appendChild(f);
+}
+// web app: keep a saved copy so it opens with no signal (the native app already ships its files)
+if (!IS_STORE && !isNative && 'serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
 }
 boot().finally(() => {
   createRoot(document.getElementById('root')).render(<App />);

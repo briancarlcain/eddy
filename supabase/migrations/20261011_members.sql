@@ -294,3 +294,8 @@ grant execute on function
 
 -- tp_claim (added in a follow-up migration) uses the same owner check:
 --   if not found or _role(r, p_owner) is distinct from 'owner' then return false; end if;
+
+-- Follow-up (applied as "members_harden_helpers"): helpers are not callable through the API.
+--   revoke execute on function public._role(public.shared_trips, text), public._members_out(jsonb),
+--     public._clean_name(text), public._act_push(jsonb, text, text), public._sha(text) from public, anon, authenticated;
+--   alter function ... set search_path = pg_catalog, public;   -- _members_out, _clean_name, _act_push

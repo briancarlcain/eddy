@@ -83,7 +83,7 @@ export async function shareText(title, text) {
     }
     await navigator.clipboard.writeText(text);
     return 'copied';
-  } catch (e) {
+  } catch {
     return false;
   }
 }

@@ -66,7 +66,7 @@ const html = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f5eede">
+<meta name="theme-color" content="#faf8f3">
 ${store ? app : web}
 ${head}</head>
 <body data-tab="itinerary">
