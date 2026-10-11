@@ -68,7 +68,9 @@ html { -webkit-tap-highlight-color: transparent; }
 .rg .pairKey { font-size: 13.5px; }
 
 /* ---------- unified form controls ---------- */
-.rg .field { margin-bottom: 12px; min-width: 0; }
+.rg .field { margin-bottom: 16px; min-width: 0; }
+.rg .field + .btn, .rg .field + .chips, .rg .field + .row, .rg .accBody > .btn { margin-top: 4px; }
+.rg .field:has(textarea) + .btn { margin-top: 8px; }
 .rg .field .label, .rg .num .numKey { color: var(--ink-faint); }
 .rg input:not([type=checkbox]):not([type=radio]):not([type=range]),
 .rg textarea,
