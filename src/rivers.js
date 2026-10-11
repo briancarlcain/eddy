@@ -14,6 +14,12 @@ import lodore from '../data/rivers/lodore.json';
 import hellsCanyon from '../data/rivers/hells-canyon.json';
 import rubyHorsethief from '../data/rivers/ruby-horsethief.json';
 import selway from '../data/rivers/selway.json';
+import greenFlamingGorge from '../data/rivers/green-flaming-gorge.json';
+import westwater from '../data/rivers/westwater.json';
+import illinois from '../data/rivers/illinois.json';
+import tuolumne from '../data/rivers/tuolumne.json';
+import southForkAmerican from '../data/rivers/south-fork-american.json';
+import blackCanyon from '../data/rivers/black-canyon.json';
 
 export const DEFAULT_RIVER = 'grand-canyon';
 
@@ -32,6 +38,12 @@ export const BUILTIN_RIVERS = {
   'hells-canyon': { id: 'hells-canyon', ...hellsCanyon },
   'ruby-horsethief': { id: 'ruby-horsethief', ...rubyHorsethief },
   selway: { id: 'selway', ...selway },
+  'green-flaming-gorge': { id: 'green-flaming-gorge', ...greenFlamingGorge },
+  westwater: { id: 'westwater', ...westwater },
+  illinois: { id: 'illinois', ...illinois },
+  tuolumne: { id: 'tuolumne', ...tuolumne },
+  'south-fork-american': { id: 'south-fork-american', ...southForkAmerican },
+  'black-canyon': { id: 'black-canyon', ...blackCanyon },
 };
 
 // Fill every field the views read, so a bare-bones river (just a name, reach
