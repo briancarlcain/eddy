@@ -314,8 +314,10 @@ function useStore() {
     if (crew && crew.name) return crew.name;
     const n = savedName();
     if (n) return n;
-    const em = sessionRef.current && sessionRef.current.user && sessionRef.current.user.email;
-    return em ? em.split('@')[0] : '';
+    const u = sessionRef.current && sessionRef.current.user;
+    const meta = u && u.user_metadata && (u.user_metadata.full_name || u.user_metadata.name);
+    if (meta) return meta;
+    return u && u.email ? u.email.split('@')[0] : '';
   };
 
   // Make this device a member of the trip (upgrade it if we own a legacy share, otherwise join with the code).
@@ -569,6 +571,16 @@ function useStore() {
       setSession(x);
     });
   }, []);
+  useEffect(() => {
+    const u = session && session.user;
+    const nm = u && u.user_metadata && (u.user_metadata.full_name || u.user_metadata.name);
+    if (u && nm && !savedName()) {
+      try {
+        localStorage.setItem(NAME_KEY, nm);
+      } catch {}
+    }
+    if (u && !nm) authApi.refreshProfile().catch(() => {}); // the profile may have been named on the server
+  }, [session && session.user && session.user.id, session && session.user && session.user.user_metadata && session.user.user_metadata.name]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (session) cloudSyncAll();
     else setCloudStatus('');
@@ -3103,6 +3115,9 @@ function People({ s }) {
         </div>
       ) : null}
 
+      <button className="linkBtn mt" onClick={() => openUrl(SUPPORT_URL)}>
+        Report a problem
+      </button>
       {!owner ? (
         <button className="btn ghost danger mt" disabled={busy} onClick={() => window.confirm('Leave this trip? You keep your copy but it stops syncing.') && act(() => s.stopSharing(t.id))}>
           Leave trip
@@ -4112,6 +4127,10 @@ function Account({ s }) {
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const [step, setStep] = useState('email'); // email -> code
+  const [dn, setDn] = useState(() => {
+    const m = s.session && s.session.user && s.session.user.user_metadata;
+    return (m && (m.full_name || m.name)) || savedName();
+  });
   const [msg, setMsg] = useState('');
   const [busy, setBusy] = useState(false);
   useEffect(() => {
@@ -4135,6 +4154,30 @@ function Account({ s }) {
     return (
       <>
         <div className="card formCard">
+          <span className="label">Display name</span>
+          <div className="muted mb-s">Shown to people on trips you share. A first name or nickname is fine.</div>
+          <div className="row">
+            <Field value={dn} onChange={(e) => setDn(e.target.value)} placeholder="Your name" />
+            <button
+              className="btn"
+              disabled={busy || !dn.trim() || dn.trim() === name}
+              onClick={() =>
+                run(async () => {
+                  const v = dn.trim().slice(0, 40);
+                  await authApi.setDisplayName(v);
+                  try {
+                    localStorage.setItem(NAME_KEY, v);
+                  } catch {}
+                  for (const [id, e] of Object.entries(s.sync)) if (e.trip && !e.removed) await s.renameMe(id, v).catch(() => {});
+                  setMsg('Saved.');
+                })
+              }
+            >
+              Save
+            </button>
+          </div>
+        </div>
+        <div className="card formCard mt">
           <span className="label">Signed in</span>
           <div className="serif" style={{ marginBottom: 4 }}>{name || user.email}</div>
           {name ? <div className="muted">{user.email}</div> : null}
@@ -4691,7 +4734,7 @@ function JoinTrip({ s, initial, by, onJoined, onCancel }) {
         autoComplete="off"
         spellCheck={false}
       />
-      <Field label="Your name" value={yourName} onChange={(e) => setYourName(e.target.value)} placeholder="So the others know who you are" autoComplete="name" />
+      <Field label="Your name" value={yourName} onChange={(e) => setYourName(e.target.value)} placeholder="First name or nickname" autoComplete="name" />
       {err ? <div className="warn mb-s">{err}</div> : null}
       <div className="row">
         <button className="btn" disabled={busy || !remote.cleanCode(code) || !yourName.trim()} onClick={join}>

@@ -74,3 +74,8 @@ export async function handleAuthUrl(url) {
 }
 
 export const signOut = () => A().signOut({ scope: 'local' });
+
+// the display name lives in the account profile and is shown to people on shared trips
+export const setDisplayName = async (name) => must(await A().updateUser({ data: { name, full_name: name } }));
+// pull the latest profile from the server (the cached session can be stale)
+export const refreshProfile = async () => (await A().refreshSession()).data.session;

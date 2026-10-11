@@ -98,3 +98,12 @@ iPhone 6.9" (1320 × 2868) — 3 to 10 images. Already generated in `store/scree
 ## Releasing updates
 
 Bump `version` in `package.json` and `MARKETING_VERSION` in the Xcode project for a new store version; the workflow sets the build number automatically. Run the workflow again; add the build to a new version in App Store Connect and resubmit.
+
+## User-generated content (guideline 1.2)
+Shared trips let members see each other's display names and free-text trip notes. Where the app stands:
+- **Private by design:** no public feed, search or discovery. A shared trip is reachable only through an invite link or code.
+- **Reporting:** *Report a problem* on the People screen and *Profile → About → Support & feedback* open the support page.
+- **Blocking:** the trip owner can remove any member and reset the invite link, which locks them out.
+- **Terms:** the "Acceptable use" section of the privacy policy states what is not allowed and that offending content is removed.
+- **Age rating:** answer the questionnaire's user-generated-content question honestly (yes, limited to invite-only groups).
+- **Names:** a display name is free text. Real names are not required and no username system exists.
