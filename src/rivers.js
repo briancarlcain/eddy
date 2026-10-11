@@ -10,6 +10,7 @@ import sanJuan from '../data/rivers/san-juan.json';
 import rioChama from '../data/rivers/rio-chama.json';
 import cataractCanyon from '../data/rivers/cataract-canyon.json';
 import desolationGray from '../data/rivers/desolation-gray.json';
+import lodore from '../data/rivers/lodore.json';
 
 export const DEFAULT_RIVER = 'grand-canyon';
 
@@ -24,6 +25,7 @@ export const BUILTIN_RIVERS = {
   'rio-chama': { id: 'rio-chama', ...rioChama },
   'cataract-canyon': { id: 'cataract-canyon', ...cataractCanyon },
   'desolation-gray': { id: 'desolation-gray', ...desolationGray },
+  lodore: { id: 'lodore', ...lodore },
 };
 
 // Fill every field the views read, so a bare-bones river (just a name, reach
