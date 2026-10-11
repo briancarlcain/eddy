@@ -30,7 +30,8 @@ const shots = [
   ['06-river-map', 'tab=River&sub=Map'],
   ['07-safety', 'tab=General&sub=Medical'],
 ];
-const out = resolve('store/screenshots');
+if (process.env.SHOTS) { shots.length = 0; for (const x of process.env.SHOTS.split(';')) shots.push(x.split('|')); }
+const out = resolve(process.env.OUT || 'store/screenshots');
 mkdirSync(out, { recursive: true });
 
 // Start the browser ourselves (throwaway profile, debugging port) and attach: launching through

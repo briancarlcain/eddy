@@ -1,5 +1,20 @@
 [
   {
+    "title": "Main Salmon River: mile-by-mile guide (GoRafting)",
+    "note": "Camps, rapids, landmarks and mileage for Corn Creek to Carey Creek. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "Main Salmon River features (American Whitewater)",
+    "note": "Secondary source for rapid ratings, extra rapids and access points; miles converted to the primary scale.",
+    "confirmed": false
+  },
+  {
+    "title": "Salmon-Challis National Forest, Main Salmon River permit and regulations",
+    "note": "Permit season, lottery and equipment rules; U.S. government material. Verify against the current permit packet.",
+    "confirmed": false
+  },
+  {
     "title": "National Park Service, Noncommercial River Trip Regulations",
     "note": "Basis of the permit and park rules (U.S. government work).",
     "confirmed": false

@@ -36,7 +36,7 @@ function selectRiver(rec) {
   YARD = { id: 'yard', name: 'Outfitter', yard: true, grid: RIVER.yardGrid };
   MAXMILE = RIVER.miles[1];
 }
-selectRiver(BUILTIN_RIVERS[DEFAULT_RIVER]);
+selectRiver(BUILTIN_RIVERS[new URLSearchParams(location.search).get('river')] || BUILTIN_RIVERS[DEFAULT_RIVER]);
 
 /* ---------- icons ---------- */
 // 24px stroke icons (Lucide set, ISC licence)
@@ -865,7 +865,7 @@ function CampPick({ min, current, onPick }) {
         >
           <span className="mile">{c.mile.toFixed(1)}</span>
           <span>
-            {c.name} <span className="muted">{c.bank} · {c.size}</span>
+            {c.name} <span className="muted">{[c.bank, c.size].filter((v) => v != null && v !== '').join(' · ')}</span>
           </span>
         </button>
       ))}
@@ -3405,7 +3405,7 @@ function DetailSheet({ sheet, onClose }) {
         </span>
       </>
     );
-    desc = sw && qw ? `A ${sw}, ${qw} campsite.` : 'Camp size and quality not recorded for this site.';
+    desc = d.desc || (sw && qw ? `A ${sw}, ${qw} campsite.` : 'Camp size and quality not recorded for this site.');
     if (/Hualapai Permit/i.test(d.name)) desc += ' Requires a Hualapai permit.';
     foot = RIVER.notes.camp;
   } else if (kind === 'geo') {
@@ -3440,7 +3440,7 @@ function DetailSheet({ sheet, onClose }) {
     desc = (
       <>
         <div className="hdiff">
-          <b>Difficulty {d.diff}/5</b> — {RIVER.hdiff[d.diff] || ''}
+          {d.diff != null ? (<><b>Difficulty {d.diff}/5</b> — {RIVER.hdiff[d.diff] || ''}</>) : null}
         </div>
         <div>{d.desc || ''}</div>
       </>
@@ -3503,7 +3503,7 @@ const Camps = () => (
       <div className="listRow" key={i}>
         <span className="mile">{c.mile.toFixed(1)}</span>
         <span>
-          {c.name} <span className="muted">{c.bank} · size {c.size} · qual {c.qual}</span>
+          {c.name} <span className="muted">{[c.bank, c.size != null ? 'size ' + c.size : '', c.qual != null ? 'qual ' + c.qual : ''].filter(Boolean).join(' · ')}</span>
         </span>
       </div>
     )}
@@ -4587,14 +4587,18 @@ function App() {
   const s = useStore();
   const [tab, setTab] = useState(QS.get('tab') || 'Trips');
   const [inTrip, setInTrip] = useState(QS.get('open') === '1'); // Trips tab: false = overview list, true = inside the active trip
-  const [browse, setBrowse] = useState(null); // river being browsed on the River tab (null = the trip's own)
+  const [browse, setBrowse] = useState(QS.get('river') || null); // river being browsed on the River tab (null = the trip's own)
   const [preset, setPreset] = useState(null); // river chosen from the library for a new trip
   const [joinCode, setJoinCode] = useState(''); // from a riverguide://join/CODE link
   const [genSub, setGenSub] = useState(null); // open General on a given sub-tab (e.g. Account)
   const onMap = tab === 'River';
   const detail = tab === 'Trips' && inTrip && !!s.trip;
 
-  useEffect(() => setBrowse(null), [s.trip?.id]);
+  const firstTrip = useRef(true);
+  useEffect(() => {
+    if (firstTrip.current) firstTrip.current = false;
+    else setBrowse(null);
+  }, [s.trip?.id]);
 
   useEffect(() => {
     onOpenUrl((url) => {
