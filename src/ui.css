@@ -483,3 +483,4 @@ body.shot #fakeStatus { background: #faf8f3; }
 #mapHeader .htitle { font-size: 18px; line-height: 1.2; }
 .checkRow { display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: 15px; }
 .checkRow input { width: 20px; height: 20px; accent-color: var(--accent); flex: none; }
+.rg .card > .tabs { margin-bottom: 14px; }
