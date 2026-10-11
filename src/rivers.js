@@ -6,6 +6,7 @@ import rogue from '../data/rivers/rogue.json';
 import mainSalmon from '../data/rivers/main-salmon.json';
 import yampa from '../data/rivers/yampa.json';
 import middleForkSalmon from '../data/rivers/middle-fork-salmon.json';
+import sanJuan from '../data/rivers/san-juan.json';
 
 export const DEFAULT_RIVER = 'grand-canyon';
 
@@ -16,6 +17,7 @@ export const BUILTIN_RIVERS = {
   'main-salmon': { id: 'main-salmon', ...mainSalmon },
   yampa: { id: 'yampa', ...yampa },
   'middle-fork-salmon': { id: 'middle-fork-salmon', ...middleForkSalmon },
+  'san-juan': { id: 'san-juan', ...sanJuan },
 };
 
 // Fill every field the views read, so a bare-bones river (just a name, reach
