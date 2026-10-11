@@ -27,7 +27,7 @@ const REFS = { [GC_REF.id]: GC_REF };
 // The views read these module-level bindings. selectRiver() points them at one
 // river; App calls it during render (and re-keys <main>) so a switch remounts
 // everything that cached the old river's data.
-let RIVER, ACCESS, YARD, MAXMILE;
+let RIVER, ACCESS, YARD, MAXMILE, PPM;
 let SRC = null;
 function selectRiver(rec) {
   if (rec === SRC) return;
@@ -36,6 +36,9 @@ function selectRiver(rec) {
   ACCESS = (RIVER.access || []).map((p, i) => ({ ...p, id: 'r' + i, fixed: true }));
   YARD = { id: 'yard', name: 'Outfitter', yard: true, grid: RIVER.yardGrid };
   MAXMILE = RIVER.miles[1];
+  // map scale: short or crowded rivers get more vertical room per mile
+  const n = RIVER.rapids.length + RIVER.camps.length + RIVER.hikes.length;
+  PPM = Math.round(Math.min(150, Math.max(21, 2200 / MAXMILE, (22 * n) / MAXMILE)));
 }
 selectRiver(BUILTIN_RIVERS[new URLSearchParams(location.search).get('river')] || BUILTIN_RIVERS[DEFAULT_RIVER]);
 
@@ -3435,7 +3438,6 @@ function RiverDetail({ s }) {
 
 /* ---------- map — ported from the original HTML app ---------- */
 
-const PPM = 21;
 const TOPPAD = 22;
 const BOTPAD = 30;
 const QCOLORS = ['#cbbf9a', '#bdba84', '#aab472', '#96ac62', '#82a455', '#6f9a4e', '#5b8a48', '#477841', '#33653a'];
