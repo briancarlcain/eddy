@@ -28,6 +28,7 @@ const REFS = { [GC_REF.id]: GC_REF };
 // river; App calls it during render (and re-keys <main>) so a switch remounts
 // everything that cached the old river's data.
 let RIVER, ACCESS, YARD, MAXMILE, PPM;
+const TOPPAD = 22;
 let SRC = null;
 function selectRiver(rec) {
   if (rec === SRC) return;
@@ -36,11 +37,37 @@ function selectRiver(rec) {
   ACCESS = (RIVER.access || []).map((p, i) => ({ ...p, id: 'r' + i, fixed: true }));
   YARD = { id: 'yard', name: 'Outfitter', yard: true, grid: RIVER.yardGrid };
   MAXMILE = RIVER.miles[1];
-  // map scale: short or crowded rivers get more vertical room per mile
+  // map scale: short or crowded rivers get more vertical room per mile, until markers sit within half a mile of true
   const n = RIVER.rapids.length + RIVER.camps.length + RIVER.hikes.length;
   PPM = Math.round(Math.min(150, Math.max(21, 2200 / MAXMILE, (22 * n) / MAXMILE)));
+  while (PPM < 150 && PPM * MAXMILE < 12000 && layoutTops(PPM).drift > 0.5) PPM = Math.round(PPM * 1.1) + 1;
 }
 selectRiver(BUILTIN_RIVERS[new URLSearchParams(location.search).get('river')] || BUILTIN_RIVERS[DEFAULT_RIVER]);
+
+// keep markers apart so each stays tappable: walk downstream-first and push a marker down
+// until it clears the previous one on its side (rapids cross the river, so they take both)
+function layoutTops(ppm) {
+  const GAP = 11;
+  const items = [
+    ...RIVER.rapids.map((d, i) => ({ k: 'r', i, mile: d.mile, side: 'B' })),
+    ...RIVER.camps.map((c, i) => ({ k: 'c', i, mile: c.mile, side: c.bank === 'R' ? 'R' : 'L' })),
+    ...RIVER.hikes.map((h, i) => ({ k: 'h', i, mile: h.mile, side: h.bank === 'R' ? 'R' : 'L' })),
+  ].sort((a, b) => b.mile - a.mile);
+  const last = { L: -1e9, R: -1e9 };
+  const out = { r: [], c: [], h: [], max: 0, drift: 0 };
+  items.forEach((it) => {
+    const base = TOPPAD + (MAXMILE - it.mile) * ppm;
+    let top = base;
+    const prev = it.side === 'B' ? Math.max(last.L, last.R) : last[it.side];
+    if (top < prev + GAP) top = prev + GAP;
+    if (it.side === 'B') last.L = last.R = top;
+    else last[it.side] = top;
+    out[it.k][it.i] = top;
+    out.max = Math.max(out.max, top);
+    out.drift = Math.max(out.drift, (top - base) / ppm);
+  });
+  return out;
+}
 
 /* ---------- icons ---------- */
 // 24px stroke icons (Lucide set, ISC licence)
@@ -3438,7 +3465,6 @@ function RiverDetail({ s }) {
 
 /* ---------- map — ported from the original HTML app ---------- */
 
-const TOPPAD = 22;
 const BOTPAD = 30;
 const QCOLORS = ['#cbbf9a', '#bdba84', '#aab472', '#96ac62', '#82a455', '#6f9a4e', '#5b8a48', '#477841', '#33653a'];
 const HQCOLORS = ['#dcb096', '#c98b66', '#b26840', '#9a4a28', '#74301a'];
@@ -3581,49 +3607,7 @@ function RiverMap({ s }) {
     });
   }, []);
 
-  // stack markers that share a mile so each stays tappable
-  const rapidNudge = useMemo(() => {
-    const cnt = {};
-    RIVER.rapids.forEach((d) => (cnt[d.mile] = (cnt[d.mile] || 0) + 1));
-    const seen = {};
-    return RIVER.rapids.map((d) => {
-      if (cnt[d.mile] < 2) return 0;
-      const i = seen[d.mile] || 0;
-      seen[d.mile] = i + 1;
-      return (i - (cnt[d.mile] - 1) / 2) * 6;
-    });
-  }, []);
-
-  const campNudge = useMemo(() => {
-    const side = (c) => (c.bank === 'R' ? 'R' : 'L');
-    const cnt = {};
-    RIVER.camps.forEach((c) => {
-      const k = c.mile + side(c);
-      cnt[k] = (cnt[k] || 0) + 1;
-    });
-    const seen = {};
-    return RIVER.camps.map((c) => {
-      const k = c.mile + side(c);
-      if (cnt[k] < 2) return 0;
-      const i = seen[k] || 0;
-      seen[k] = i + 1;
-      return (i - (cnt[k] - 1) / 2) * 6;
-    });
-  }, []);
-
-  const hikeTops = useMemo(() => {
-    const last = { L: -1e9, R: -1e9 };
-    const sorted = RIVER.hikes.map((h, i) => ({ h, i })).sort((a, b) => b.h.mile - a.h.mile);
-    const tops = new Array(RIVER.hikes.length);
-    sorted.forEach(({ h, i }) => {
-      const side = h.bank === 'R' ? 'R' : 'L';
-      let top = y(h.mile);
-      if (Math.abs(top - last[side]) < 8) top = last[side] + 8;
-      last[side] = top;
-      tops[i] = top;
-    });
-    return tops;
-  }, []);
+  const tops = useMemo(() => layoutTops(PPM), []);
 
   const campVis = (c) =>
     !hide.c && (c.qual == null || sets.q.has(clamp19(c.qual))) && (c.size == null || sets.s.has(clamp19(c.size)));
@@ -3673,7 +3657,7 @@ function RiverMap({ s }) {
 
       <div className="mapWindow" ref={scroller} onScroll={onScroll}>
         <div className="plot">
-          <div className="chart" ref={chart} style={{ height: TOPPAD + MAXMILE * PPM + BOTPAD }}>
+          <div className="chart" ref={chart} style={{ height: Math.max(TOPPAD + MAXMILE * PPM, tops.max + 16) + BOTPAD }}>
             {RIVER.clusters.map((cl) => (
               <React.Fragment key={cl.n}>
                 <div className="cluster" style={{ top: y(cl.e), height: (cl.e - cl.s) * PPM, left: riverX, right: 0 }} />
@@ -3719,7 +3703,7 @@ function RiverMap({ s }) {
                   <div
                     key={'r' + i}
                     className={'bar rapid' + (sel === 'r' + i ? ' sel' : '')}
-                    style={{ left: riverX - armL, width: armL + armR, top: y(d.mile) - 7 + rapidNudge[i], height: 14 }}
+                    style={{ left: riverX - armL, width: armL + armR, top: tops.r[i] - 7, height: 14 }}
                     onClick={() => open('rapid', d, 'r' + i)}
                   >
                     <div
@@ -3743,7 +3727,7 @@ function RiverMap({ s }) {
                   style={{
                     left: right ? riverX + 4 : riverX - 4 - len,
                     width: len,
-                    top: y(c.mile) - 7 + campNudge[i],
+                    top: tops.c[i] - 7,
                     height: 14,
                   }}
                   onClick={() => open('camp', c, 'c' + i)}
@@ -3779,7 +3763,7 @@ function RiverMap({ s }) {
                 <div
                   key={'h' + i}
                   className={'hike ' + (right ? 'bright' : 'bleft') + (sel === 'h' + i ? ' sel' : '')}
-                  style={{ left: right ? riverX + 4 : riverX - 4 - w, width: w, top: hikeTops[i] - 9, height: 18 }}
+                  style={{ left: right ? riverX + 4 : riverX - 4 - w, width: w, top: tops.h[i] - 9, height: 18 }}
                   onClick={() => open('hike', h, 'h' + i)}
                 >
                   <div className="hdash" style={{ background: hColor(h.qual) }} />
