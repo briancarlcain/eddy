@@ -727,7 +727,6 @@ function Itinerary({ s }) {
   const O = ramps.find((p) => p.id === t.out) || ramps[ramps.length - 1];
   return (
     <>
-      <div className="serif">{t.name}</div>
       <div className="muted mb">
         {L ? L.name : 'Launch'} → {O ? O.name : 'take-out'} · {RIVER.name}
       </div>
@@ -3107,17 +3106,17 @@ function RiverMap({ s }) {
           <div className="kgrp">
             <span className="klabel">Camps</span>
             <div className="kbar kqual" />
-            <span className="knote">bank · color = quality · length = size</span>
+            <span className="knote">quality · size</span>
           </div>
           <div className="kgrp">
             <span className="klabel">Rapids</span>
             <div className="kbar krapid" />
-            <span className="knote">both banks · width = difficulty</span>
+            <span className="knote">difficulty</span>
           </div>
           <div className="kgrp">
             <span className="klabel">Hikes</span>
             <div className="kbar khike" />
-            <span className="knote">bank · length = difficulty · darker = quality</span>
+            <span className="knote">difficulty · quality</span>
           </div>
         </div>
         <div className="fbar">
@@ -3246,7 +3245,7 @@ function RiverMap({ s }) {
               );
             })}
           </div>
-          <div className="foot">Scroll up to travel downstream — tap any marker</div>
+          <div className="foot">Tap a marker for details</div>
         </div>
       </div>
 
@@ -3869,7 +3868,7 @@ function Disclaimer() {
         <Icon name="alert" size={17} /> Reference only
       </div>
       <div className="muted">
-        This is general wilderness first-aid and river-safety reference, not medical advice, and it does not replace training, a first-aid course or professional care. In an emergency call 911 or use your satellite communicator's SOS. Conditions, regulations and permit rules change; confirm them with the managing agency before you launch.
+        Not medical advice. This does not replace training or professional care. In an emergency call 911 or use your satellite SOS. Rules change: confirm with the managing agency.
       </div>
     </div>
   );
@@ -4146,10 +4145,10 @@ function Trips({ s, preset, clearPreset, joinCode, clearJoin, onOpen, onAccount 
           <div className="noticeHead">
             <Icon name="cloud" size={17} /> Back up your trips
           </div>
-          <div className="muted mb-s">Create a free account to back up trips and keep them in sync on all your devices.</div>
+          <div className="muted mb-s">Sign in to sync across your devices.</div>
           <div className="row">
             <button className="btn" onClick={onAccount}>
-              Create account
+              Sign in
             </button>
             <button
               className="btn ghost"
@@ -4175,7 +4174,16 @@ function Trips({ s, preset, clearPreset, joinCode, clearJoin, onOpen, onAccount 
             .filter((t) => riverOf(t) === g)
             .sort((a, b) => (a.start < b.start ? 1 : -1))
             .map((t) => (
-              <div className="card mt" key={t.id}>
+              <div
+                className="card mt tripCard"
+                key={t.id}
+                role="button"
+                tabIndex={0}
+                onClick={() => {
+                  s.activate(t.id);
+                  onOpen();
+                }}
+              >
                 <div className="cardTop">
                   <div className="serif">{t.name}</div>
                   {tripStatus(t) ? <span className={'badge ' + tripStatus(t).cls}>{tripStatus(t).text}</span> : null}
@@ -4196,18 +4204,9 @@ function Trips({ s, preset, clearPreset, joinCode, clearJoin, onOpen, onAccount 
                     </span>
                   ) : null}
                 </div>
-                <div className="row mt">
+                <div className="tripActs" onClick={(e) => e.stopPropagation()}>
                   <button
-                    className="btn"
-                    onClick={() => {
-                      s.activate(t.id);
-                      onOpen();
-                    }}
-                  >
-                    Open
-                  </button>
-                  <button
-                    className="btn ghost"
+                    className="linkBtn"
                     onClick={() => {
                       const { id: _i, code: _c, at: _a, ...rest } = t;
                       s.create({ ...rest, name: t.name + ' (copy)' });
@@ -4216,7 +4215,7 @@ function Trips({ s, preset, clearPreset, joinCode, clearJoin, onOpen, onAccount 
                     Duplicate
                   </button>
                   <button
-                    className="btn ghost danger"
+                    className="linkBtn danger"
                     onClick={() => window.confirm(`Delete "${t.name}"? This cannot be undone.`) && s.remove(t.id)}
                   >
                     Delete
