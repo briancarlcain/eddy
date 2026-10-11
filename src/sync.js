@@ -77,3 +77,7 @@ export const v2Rename = (trip, member, name) => rpc('tp_rename', { p_trip: trip,
 export const v2Delete = (trip, owner) => rpc('tp_delete', { p_trip: trip, p_owner: owner });
 export const v2Claim = (trip, owner) => rpc('tp_claim', { p_trip: trip, p_owner: owner });
 export const v2Peek = (invite) => rpc('share_peek', { p_invite: invite });
+
+// ---- feedback (anyone; signed-in requests carry the user id server-side) ----
+export const feedbackSubmit = (kind, message, email, device, meta) =>
+  rpc('feedback_submit', { p_kind: kind, p_message: message, p_email: email || null, p_device: device, p_meta: meta || {} });
