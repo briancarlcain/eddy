@@ -3402,7 +3402,7 @@ function DetailSheet({ sheet, onClose }) {
           Size <b>{d.size == null ? '—' : d.size + '/9'}</b>
         </span>
         <span>
-          River <b>{d.bank === 'R' ? 'right' : 'left'}</b>
+          River <b>{d.bank === 'R' ? 'right' : d.bank === 'L' ? 'left' : '—'}</b>
         </span>
       </>
     );
