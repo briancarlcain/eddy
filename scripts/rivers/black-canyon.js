@@ -27,7 +27,6 @@ L|11.5|Willow Beach|1|River mile 52.5. Paddlecraft launch and take out here at a
 
 const permit = {
   status: 'Required to launch at Hoover Dam · through approved vendors',
-  asOf: 'October 2026',
   apply: { label: 'Approved vendors (NPS)', url: 'https://www.nps.gov/lake/getinvolved/cua-directory.htm' },
   contact: { phone: '702-293-8990', web: 'https://www.nps.gov/lame/planyourvisit/black-canyon-water-trail.htm' },
   sections: [

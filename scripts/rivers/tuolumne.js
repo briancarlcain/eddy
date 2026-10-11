@@ -56,7 +56,6 @@ L|18.0|Ward's Ferry Bridge|1|Take-out. A steep, slippery carry; rafts use a winc
 
 const permit = {
   status: 'Required May 1 to Oct 15 from 2027 · reserved on Recreation.gov',
-  asOf: 'October 2026',
   apply: { label: 'Reserve on Recreation.gov', url: 'https://www.recreation.gov/permits/621750' },
   contact: { phone: '209-962-7825', web: 'https://www.fs.usda.gov/r05/stanislaus' },
   sections: [

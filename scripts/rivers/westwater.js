@@ -43,7 +43,6 @@ L|17.55|Cisco boat ramp|1|Take-out with a three-lane concrete ramp, pit toilets,
 
 const permit = {
   status: 'Required year-round · reserved on Recreation.gov',
-  asOf: 'October 2026',
   apply: { label: 'Reserve on Recreation.gov', url: 'https://www.recreation.gov/permits/621744' },
   contact: { phone: '435-259-2100', web: 'https://www.blm.gov/visit/westwater-canyon' },
   sections: [

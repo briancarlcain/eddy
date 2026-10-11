@@ -85,7 +85,6 @@ L|${m(48.6)}|Hite Marina boat ramp|1|River left. Usually high and dry unless the
 
 const permit = {
   status: 'Required for overnight trips · reserve on Recreation.gov, no lottery',
-  asOf: 'October 2026',
   apply: { label: 'Reserve on Recreation.gov', url: 'https://www.recreation.gov/permits/621748' },
   contact: { phone: '435-719-2313', web: 'https://www.nps.gov/cany/planyourvisit/riverpermits.htm' },
   sections: [

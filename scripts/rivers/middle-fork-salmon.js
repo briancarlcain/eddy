@@ -189,7 +189,6 @@ L|98.97|Cache Bar|1|The standard take-out with paved ramps. Heavy traffic 9 to 1
 
 const permit = {
   status: 'Required year-round · lottery May 28 to Sept 3',
-  asOf: 'October 2026',
   apply: { label: 'Apply on Recreation.gov', url: 'https://www.recreation.gov/permits/234623' },
   contact: { phone: '208-481-2625', email: 'sm.fs.middlefork@usda.gov', web: 'https://www.fs.usda.gov/r04/salmon-challis/recreation/epic-adventures/middle-fork-salmon-river' },
   sections: [

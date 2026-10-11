@@ -3924,7 +3924,7 @@ function DetailSheet({ sheet, onClose }) {
     );
     desc = d.desc || (sw && qw ? `A ${sw}, ${qw} campsite.` : 'Camp size and quality not recorded for this site.');
     if (/Hualapai Permit/i.test(d.name)) desc += ' Requires a Hualapai permit.';
-    foot = [RIVER.notes.camp, 'Conditions change. Verify with current sources and decide for yourself.'].filter(Boolean).join(' ');
+    foot = RIVER.notes.camp;
   } else if (kind === 'geo') {
     name = d.full;
     meta = (
@@ -4117,7 +4117,6 @@ const Permits = () => {
             </button>
           ) : null}
         </div>
-        <div className="muted">Checked {p.asOf}. Dates and fees change; confirm with the agency before you apply.</div>
       </div>
       {p.sections.map((g) => (
         <div className="mt" key={g.name}>
@@ -4492,7 +4491,7 @@ function Disclaimer() {
         <Icon name="alert" size={17} /> Reference only
       </div>
       <div className="muted">
-        Not medical advice. This does not replace training or professional care. In an emergency call 911 or use your satellite SOS. Rules change: confirm with the managing agency.
+        Not medical advice. This does not replace training or professional care. In an emergency call 911 or use your satellite SOS.
       </div>
     </div>
   );

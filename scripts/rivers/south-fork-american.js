@@ -58,7 +58,6 @@ L|20.5|Salmon Falls Bridge|1|Take-out on the right bank upstream of the bridge. 
 
 const permit = {
   status: 'No permit · free annual boat tag',
-  asOf: 'October 2026',
   contact: { phone: '530-621-5349', web: 'https://www.edcgov.us/Government/Parks/Pages/south-fork-american-river.aspx' },
   sections: [
     {

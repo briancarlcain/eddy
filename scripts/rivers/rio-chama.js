@@ -25,7 +25,6 @@ L|30.32|Big Eddy take-out|1|River left, off Forest Road 151. Open year-round. A 
 
 const permit = {
   status: 'Required April 15 to Sept 15 · lottery for weekends',
-  asOf: 'October 2026',
   apply: { label: 'Apply on Recreation.gov', url: 'https://www.recreation.gov/gateways/14575' },
   contact: { phone: '575-758-8851', email: 'blm_nm_tafo_admin@blm.gov', web: 'https://www.blm.gov/programs/recreation/permits-and-passes/lotteries-and-permit-systems/new-mexico/rio-chama-river' },
   sections: [

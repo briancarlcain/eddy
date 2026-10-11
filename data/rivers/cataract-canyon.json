@@ -799,7 +799,6 @@
   ],
   "permit": {
     "status": "Required for overnight trips · reserve on Recreation.gov, no lottery",
-    "asOf": "October 2026",
     "apply": {
       "label": "Reserve on Recreation.gov",
       "url": "https://www.recreation.gov/permits/621748"

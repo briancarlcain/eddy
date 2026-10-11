@@ -53,7 +53,6 @@ L|44.0|Split Mountain boat ramp|1|Take-out. A working dinosaur quarry, museum an
 
 const permit = {
   status: 'Required year-round · lottery May to September',
-  asOf: 'October 2026',
   apply: { label: 'Apply on Recreation.gov', url: 'https://www.recreation.gov/permits/250014' },
   contact: { phone: '970-374-2468', web: 'https://www.nps.gov/dino/planyourvisit/boating-and-rafting.htm' },
   sections: [

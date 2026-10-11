@@ -154,7 +154,6 @@ L|79.7|Heller Bar|1|Take-out. A paved ramp and restrooms; a Washington Discover 
 
 const permit = {
   status: 'Required May 22 to Sept 10 (2026) · lottery for the Wild section',
-  asOf: 'October 2026',
   apply: { label: 'Apply on Recreation.gov', url: 'https://www.recreation.gov/permits/234625' },
   contact: { phone: '509-758-0616', web: 'https://www.recreation.gov/permits/234625' },
   sections: [

@@ -49,7 +49,6 @@ L|47.42|Gates of Lodore|1|Take-out at the head of Lodore Canyon in Dinosaur Nati
 
 const permit = {
   status: 'No permit to float · float-in camps reserved on Recreation.gov',
-  asOf: 'October 2026',
   apply: { label: 'Reserve camps on Recreation.gov', url: 'https://www.recreation.gov/camping/campgrounds/250036' },
   contact: { phone: '435-781-5244', web: 'https://www.fs.usda.gov/r04/ashley/recreation/green-river-camps' },
   sections: [

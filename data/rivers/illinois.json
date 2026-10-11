@@ -1,759 +1,758 @@
 {
- "name": "Illinois River",
- "reach": "Miami Bar to Oak Flat",
- "agency": "USFS Rogue River-Siskiyou National Forest",
- "miles": [
-  0,
-  32.3
- ],
- "days": 3,
- "coords": [
-  42.32,
-  -123.85
- ],
- "tz": "America/Los_Angeles",
- "camps": [
-  {
-   "name": "Miami Bar",
-   "mile": 0,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "The put-in, a gravel beach with an outhouse above the high-water mark. Camping on the beach or on a wooded point 0.5 mile downstream. No running water."
-  },
-  {
-   "name": "First Camp",
-   "mile": 1.7,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "A good place to camp after a late start."
-  },
-  {
-   "name": "Sandy beach",
-   "mile": 6.3,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "A small camp or lunch spot."
-  },
-  {
-   "name": "Pine Flat",
-   "mile": 8,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "Large camps under pines on both sides of the river."
-  },
-  {
-   "name": "Weaver Ranch camps",
-   "mile": 8.2,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "Several camps on the right if the pine camp is full."
-  },
-  {
-   "name": "Klondike Creek",
-   "mile": 10,
-   "size": 5,
-   "qual": null,
-   "bank": "L",
-   "desc": "A medium camp, hard to reach at high flows."
-  },
-  {
-   "name": "Deadman's Bar",
-   "mile": 12.5,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "An excellent large camp about 30 feet above the river, running 0.4 mile. Poison oak on uphill trails. A small stream at the lower end provides drinking water."
-  },
-  {
-   "name": "Tony's Camp",
-   "mile": 13.5,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "Just below the rapid where the river bends left between rock walls."
-  },
-  {
-   "name": "Red Rock Bar (South Bend)",
-   "mile": 17.1,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "A gravel-beach camp on the right just past the bend, below Tin Cabin Pass. A large pinkish-red radiolarian chert boulder marks it."
-  },
-  {
-   "name": "Collier Creek",
-   "mile": 21.7,
-   "size": 7,
-   "qual": null,
-   "bank": "L",
-   "desc": "An excellent camp on the left bank just below the creek, with steep access over bare rock. Sandy beaches begin below here."
-  },
-  {
-   "name": "Silver Creek",
-   "mile": 25.4,
-   "size": 2,
-   "qual": null,
-   "bank": "R",
-   "desc": "A camp on a high bench with no kitchen near the water."
-  },
-  {
-   "name": "Sandy Beach",
-   "mile": 26.1,
-   "size": 5,
-   "qual": null,
-   "bank": "L",
-   "desc": "A medium camp below the Class III rapid. Gather firewood in advance."
-  },
-  {
-   "name": "Horsesign Creek",
-   "mile": 29.5,
-   "size": 5,
-   "qual": null,
-   "bank": "R",
-   "desc": "A good camp above the rapid."
-  },
-  {
-   "name": "Lynch Bar",
-   "mile": 31.3,
-   "size": 7,
-   "qual": null,
-   "bank": "R",
-   "desc": "A large sandy beach, the popular last-night camp. The best camp is at the downstream end, reached by a small creek leading to a large flat. Gather firewood in advance."
-  }
- ],
- "rapids": [
-  {
-   "name": "Baker Creek rapid",
-   "mile": 0.5,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Choppy water near the mouth of Baker Creek on the left, then flatwater."
-  },
-  {
-   "name": "Briggs Creek",
-   "mile": 2.5,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "The largest rapid so far, just above Briggs Creek on the right. The road ends here."
-  },
-  {
-   "name": "Panther Creek",
-   "mile": 2.9,
-   "civ": false,
-   "diff": 4,
-   "tier": "Class II+",
-   "desc": "A long, technical rapid about 50 meters below Panther Creek on the right. It begins a series of closely spaced rapids."
-  },
-  {
-   "name": "Rapid 11",
-   "mile": 3,
-   "civ": false,
-   "diff": 4,
-   "tier": "Class II+",
-   "desc": "Pass right of the boulder field on the left."
-  },
-  {
-   "name": "Rapid 12",
-   "mile": 3.1,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Avoid the camel humps in the center."
-  },
-  {
-   "name": "Rapid 13",
-   "mile": 3.2,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A midstream boulder at a left bend."
-  },
-  {
-   "name": "Labrador Creek",
-   "mile": 3.3,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Labrador Creek enters on the left before a long straightaway rapid. The Kalmiopsis Wilderness begins just downstream."
-  },
-  {
-   "name": "Nome Creek",
-   "mile": 3.7,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Nome Creek enters on the left above a drop with a rock wall on the left."
-  },
-  {
-   "name": "Rapid 16",
-   "mile": 4,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Boulder-bar shelves at the top and bottom."
-  },
-  {
-   "name": "Rocky Top",
-   "mile": 4.1,
-   "civ": false,
-   "diff": 8,
-   "tier": "Class IV",
-   "desc": "Causes more first-timer trouble than any other rapid, and many rafts flip. A large boulder sits above the horizon on the left. Enter left of center in line with the boulder, wait to clear the guard rocks, then move right quickly. A sneak route far right works at high flow."
-  },
-  {
-   "name": "False York Creek",
-   "mile": 4.2,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Resembles York Creek but is easier. Pass right of the boulder bar and prepare for a drop at the bottom."
-  },
-  {
-   "name": "York Creek",
-   "mile": 4.8,
-   "civ": false,
-   "diff": 8,
-   "tier": "Class IV",
-   "desc": "York Creek enters on the right. Scout from rocks near the left bank. Enter left of center and drop into the deep channel against the left wall, avoiding the large holes halfway down and on the left at the bottom. A big pool follows."
-  },
-  {
-   "name": "Mossy Left Bank",
-   "mile": 5.3,
-   "civ": false,
-   "diff": 6,
-   "tier": "Class III+",
-   "desc": "Large holes on the left and center push boats toward the wall."
-  },
-  {
-   "name": "Clear Creek",
-   "mile": 5.5,
-   "civ": false,
-   "diff": 8,
-   "tier": "Class IV",
-   "desc": "A long Class II-III lead-in with the main action at the bottom. Stay slightly left at high and low flows, enter the lower section in the center and exit mid-channel or near the left bank. Clear Creek enters over a waterfall just below."
-  },
-  {
-   "name": "Five rapids",
-   "mile": 6.1,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Rapids spaced about 0.1 mile apart: II, II, III, III, II."
-  },
-  {
-   "name": "Rapid at the canyon opening",
-   "mile": 6.9,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A drop into the left wall where a creek enters. The canyon then opens into Pine Flat."
-  },
-  {
-   "name": "Pine Creek (Boat Eater)",
-   "mile": 7.9,
-   "civ": false,
-   "diff": 8,
-   "tier": "Class IV",
-   "desc": "Pine Creek enters on the right. The left side of the big boulder is easier and lower risk; Boat Eater is on the right side. Scout from the right bank if running it. Sneak routes exist on both sides."
-  },
-  {
-   "name": "Wallbanger (Florence Creek)",
-   "mile": 8.9,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A rock bar from the right forces the current into the left wall."
-  },
-  {
-   "name": "Landslide rapid",
-   "mile": 9.1,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "A boulder-bar rapid with the deepest channel far left. A landslide below shows red soil and red chert boulders."
-  },
-  {
-   "name": "Klondike Creek",
-   "mile": 10,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Klondike Creek enters on the left as the rapid begins. The rapid intensifies at a sharp right turn."
-  },
-  {
-   "name": "Three rapids",
-   "mile": 11.4,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Easy, easier, harder. A waterfall appears on the left below the harder one."
-  },
-  {
-   "name": "Mike's Nemesis",
-   "mile": 11.7,
-   "civ": false,
-   "diff": 8,
-   "tier": "Class IV",
-   "desc": "Identified by white-striated cliffs at a right bend. The river drops about 8 feet around several midstream boulders. Enter center, avoid the right-side guard rocks and work right to avoid the major holes. Easy to flip at high water."
-  },
-  {
-   "name": "South Bend Mountain",
-   "mile": 12.9,
-   "civ": false,
-   "diff": 4,
-   "tier": "Class II+",
-   "desc": "A Class II-III drop about every 0.1 mile as the river bends left around South Bend Mountain."
-  },
-  {
-   "name": "Pre-Prelude",
-   "mile": 17.6,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "After a long slow stretch, rock slides appear on both sides with fallen boulders in the river on the right."
-  },
-  {
-   "name": "Prelude (Fawn Falls)",
-   "mile": 17.8,
-   "civ": false,
-   "diff": 8,
-   "tier": "Class IV",
-   "desc": "A long boulder-bar rapid ending in a sharp final drop. Start left. Scout the falls from the eddy where a small stream enters on the left; scout the sneak route from the right bank well upstream. Green Wall is 0.2 mile downstream."
-  },
-  {
-   "name": "Green Wall",
-   "mile": 18.1,
-   "civ": false,
-   "diff": 10,
-   "tier": "Class V",
-   "desc": "The crux of the river. A long right-curving Class III leads to a Class V section; scout from a small eddy on the left between the two. Scouting at least the bottom is essentially mandatory. A huge hole sits at the top right and a rock cluster called Harvey at the bottom. At most flows start left to avoid the first hole, move right along the wall to miss Harvey, then away from the wall. Portage on the left is possible but difficult. A short pool below is too small for unassisted recovery."
-  },
-  {
-   "name": "Little Green Wall",
-   "mile": 18.8,
-   "civ": false,
-   "diff": 8,
-   "tier": "Class IV",
-   "desc": "A large rockslide from the left dams the river. The standard route is left of one large midstream boulder, quickly left of another, between two midstream boulders, right of the next cluster and quickly left again."
-  },
-  {
-   "name": "Whitewater Primer",
-   "mile": 19,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "About 20 minutes of closely spaced rapids: II, III, III, III, III, II, then a lull and a III."
-  },
-  {
-   "name": "Catatonic",
-   "mile": 19.5,
-   "civ": false,
-   "diff": 8,
-   "tier": "Class IV",
-   "desc": "Two Class III+ drops at low flow. Run the first section starting left and moving to center; the second starting center and moving slightly left. Catarafts can flip going right at the bottom at high flows."
-  },
-  {
-   "name": "False Submarine A",
-   "mile": 20.1,
-   "civ": false,
-   "diff": 6,
-   "tier": "Class III+",
-   "desc": "Enter left of center between two large boulders, then work far right. A pine tree stands on the right."
-  },
-  {
-   "name": "False Submarine B",
-   "mile": 20.4,
-   "civ": false,
-   "diff": 6,
-   "tier": "Class III+",
-   "desc": "Enter left of center between two small boulders and stay left. Alders on both banks."
-  },
-  {
-   "name": "Pre-Submarine",
-   "mile": 20.7,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "Starts with a cabin-sized boulder midstream."
-  },
-  {
-   "name": "Submarine Hole",
-   "mile": 21,
-   "civ": false,
-   "diff": 9,
-   "tier": "Class IV+",
-   "desc": "Steep and rocky, with a large plug rock at the bottom. At low flow the passage between the left wall and plug rock is very narrow and below 800 cfs rafts may have to deflate tubes. At low flow enter far right, work left, pass the big boulder on the right and move to the extreme left. At moderate and high flow enter center, clear the big boulder and ferry left. Keep the boat straight through the narrows."
-  },
-  {
-   "name": "Submarine Hole second drop",
-   "mile": 21.2,
-   "civ": false,
-   "diff": 8,
-   "tier": "Class IV",
-   "desc": "A rapid with three distinct drops. At high flow a huge hole against the right wall can flip the largest rafts."
-  },
-  {
-   "name": "Sandy Beach rapid",
-   "mile": 26.1,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A rapid at a left bend with Sandy Beach camp below on the left."
-  },
-  {
-   "name": "Horsesign Creek",
-   "mile": 29.5,
-   "civ": false,
-   "diff": 6,
-   "tier": "Class III+",
-   "desc": "At some flows this rapid has the largest hole you must run. Horsesign Creek enters on the left below."
-  },
-  {
-   "name": "Lynch Bar rapid",
-   "mile": 31.3,
-   "civ": false,
-   "diff": 5,
-   "tier": "Class III",
-   "desc": "A midstream rock above a large sandbar."
-  },
-  {
-   "name": "Dunbar Riffle",
-   "mile": 31.6,
-   "civ": false,
-   "diff": 3,
-   "tier": "Class II",
-   "desc": "Below Nancy Creek. The only rapid between Ethels Creek and the take-out."
-  }
- ],
- "hikes": [
-  {
-   "name": "Briggs Creek trail",
-   "mile": 2.5,
-   "bank": "R",
-   "time": null,
-   "diff": 2,
-   "qual": null,
-   "desc": "A trail follows the right bank to Pine Flat from the end of the road."
-  },
-  {
-   "name": "Weaver Ranch",
-   "mile": 8.2,
-   "bank": "R",
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "A historic homestead well back from the right bank."
-  },
-  {
-   "name": "Three Waterfalls",
-   "mile": 25.2,
-   "bank": null,
-   "time": null,
-   "diff": 1,
-   "qual": null,
-   "desc": "A scenic landmark."
-  },
-  {
-   "name": "Silver Creek and Illinois River Trail",
-   "mile": 25.4,
-   "bank": "R",
-   "time": null,
-   "diff": 3,
-   "qual": null,
-   "desc": "A hiking bridge crosses the creek; a trail follows the right bank for two miles downstream, and a side hike leads to Conner's Place."
-  },
-  {
-   "name": "Indigo Creek",
-   "mile": 28.4,
-   "bank": "R",
-   "time": null,
-   "diff": 2,
-   "qual": null,
-   "desc": "Darlingtonia pitcher plants and other rare plants on the left bank."
-  }
- ],
- "geology": [],
- "guide": [],
- "almanac": {},
- "rules": [
-  {
-   "name": "Season and flows",
-   "rules": [
+  "name": "Illinois River",
+  "reach": "Miami Bar to Oak Flat",
+  "agency": "USFS Rogue River-Siskiyou National Forest",
+  "miles": [
+    0,
+    32.3
+  ],
+  "days": 3,
+  "coords": [
+    42.32,
+    -123.85
+  ],
+  "tz": "America/Los_Angeles",
+  "camps": [
     {
-     "t": "Season",
-     "d": "There is no dam, so flows follow weather. The typical window is March through mid-May; boatable flows can occur through the winter rainy season."
+      "name": "Miami Bar",
+      "mile": 0,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "The put-in, a gravel beach with an outhouse above the high-water mark. Camping on the beach or on a wooded point 0.5 mile downstream. No running water."
     },
     {
-     "t": "Flows",
-     "d": "Rafts and kayaks need about 800 to 3,500 cfs at the Kerby gauge, 15 miles upstream of the put-in; inflatable kayaks about 400. Take-out flow is usually two to three times the put-in flow because of side streams."
+      "name": "First Camp",
+      "mile": 1.7,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "A good place to camp after a late start."
     },
     {
-     "t": "Rain",
-     "d": "Avoid starting when significant rain is forecast. If rain falls unexpectedly while camped at Pine Flat, cross right, tie up boats and walk out; if the flow is rising, start early and reach below Collier Creek (mile 21.7) before dark."
+      "name": "Sandy beach",
+      "mile": 6.3,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "A small camp or lunch spot."
+    },
+    {
+      "name": "Pine Flat",
+      "mile": 8,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "Large camps under pines on both sides of the river."
+    },
+    {
+      "name": "Weaver Ranch camps",
+      "mile": 8.2,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "Several camps on the right if the pine camp is full."
+    },
+    {
+      "name": "Klondike Creek",
+      "mile": 10,
+      "size": 5,
+      "qual": null,
+      "bank": "L",
+      "desc": "A medium camp, hard to reach at high flows."
+    },
+    {
+      "name": "Deadman's Bar",
+      "mile": 12.5,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "An excellent large camp about 30 feet above the river, running 0.4 mile. Poison oak on uphill trails. A small stream at the lower end provides drinking water."
+    },
+    {
+      "name": "Tony's Camp",
+      "mile": 13.5,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "Just below the rapid where the river bends left between rock walls."
+    },
+    {
+      "name": "Red Rock Bar (South Bend)",
+      "mile": 17.1,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "A gravel-beach camp on the right just past the bend, below Tin Cabin Pass. A large pinkish-red radiolarian chert boulder marks it."
+    },
+    {
+      "name": "Collier Creek",
+      "mile": 21.7,
+      "size": 7,
+      "qual": null,
+      "bank": "L",
+      "desc": "An excellent camp on the left bank just below the creek, with steep access over bare rock. Sandy beaches begin below here."
+    },
+    {
+      "name": "Silver Creek",
+      "mile": 25.4,
+      "size": 2,
+      "qual": null,
+      "bank": "R",
+      "desc": "A camp on a high bench with no kitchen near the water."
+    },
+    {
+      "name": "Sandy Beach",
+      "mile": 26.1,
+      "size": 5,
+      "qual": null,
+      "bank": "L",
+      "desc": "A medium camp below the Class III rapid. Gather firewood in advance."
+    },
+    {
+      "name": "Horsesign Creek",
+      "mile": 29.5,
+      "size": 5,
+      "qual": null,
+      "bank": "R",
+      "desc": "A good camp above the rapid."
+    },
+    {
+      "name": "Lynch Bar",
+      "mile": 31.3,
+      "size": 7,
+      "qual": null,
+      "bank": "R",
+      "desc": "A large sandy beach, the popular last-night camp. The best camp is at the downstream end, reached by a small creek leading to a large flat. Gather firewood in advance."
     }
-   ]
-  },
-  {
-   "name": "Scouting and portages",
-   "rules": [
+  ],
+  "rapids": [
     {
-     "t": "Green Wall",
-     "d": "Scouting at least the bottom is essentially mandatory. Preferred lines change with flow and rock movement."
+      "name": "Baker Creek rapid",
+      "mile": 0.5,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Choppy water near the mouth of Baker Creek on the left, then flatwater."
     },
     {
-     "t": "Portage",
-     "d": "Green Wall can be portaged on the left with considerable effort, and is very difficult to line or portage with rafts."
+      "name": "Briggs Creek",
+      "mile": 2.5,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "The largest rapid so far, just above Briggs Creek on the right. The road ends here."
     },
     {
-     "t": "Safety boat",
-     "d": "The pool below Green Wall is too small for unassisted recovery. Set throw bags for the first boat."
+      "name": "Panther Creek",
+      "mile": 2.9,
+      "civ": false,
+      "diff": 4,
+      "tier": "Class II+",
+      "desc": "A long, technical rapid about 50 meters below Panther Creek on the right. It begins a series of closely spaced rapids."
+    },
+    {
+      "name": "Rapid 11",
+      "mile": 3,
+      "civ": false,
+      "diff": 4,
+      "tier": "Class II+",
+      "desc": "Pass right of the boulder field on the left."
+    },
+    {
+      "name": "Rapid 12",
+      "mile": 3.1,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Avoid the camel humps in the center."
+    },
+    {
+      "name": "Rapid 13",
+      "mile": 3.2,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A midstream boulder at a left bend."
+    },
+    {
+      "name": "Labrador Creek",
+      "mile": 3.3,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Labrador Creek enters on the left before a long straightaway rapid. The Kalmiopsis Wilderness begins just downstream."
+    },
+    {
+      "name": "Nome Creek",
+      "mile": 3.7,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Nome Creek enters on the left above a drop with a rock wall on the left."
+    },
+    {
+      "name": "Rapid 16",
+      "mile": 4,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Boulder-bar shelves at the top and bottom."
+    },
+    {
+      "name": "Rocky Top",
+      "mile": 4.1,
+      "civ": false,
+      "diff": 8,
+      "tier": "Class IV",
+      "desc": "Causes more first-timer trouble than any other rapid, and many rafts flip. A large boulder sits above the horizon on the left. Enter left of center in line with the boulder, wait to clear the guard rocks, then move right quickly. A sneak route far right works at high flow."
+    },
+    {
+      "name": "False York Creek",
+      "mile": 4.2,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Resembles York Creek but is easier. Pass right of the boulder bar and prepare for a drop at the bottom."
+    },
+    {
+      "name": "York Creek",
+      "mile": 4.8,
+      "civ": false,
+      "diff": 8,
+      "tier": "Class IV",
+      "desc": "York Creek enters on the right. Scout from rocks near the left bank. Enter left of center and drop into the deep channel against the left wall, avoiding the large holes halfway down and on the left at the bottom. A big pool follows."
+    },
+    {
+      "name": "Mossy Left Bank",
+      "mile": 5.3,
+      "civ": false,
+      "diff": 6,
+      "tier": "Class III+",
+      "desc": "Large holes on the left and center push boats toward the wall."
+    },
+    {
+      "name": "Clear Creek",
+      "mile": 5.5,
+      "civ": false,
+      "diff": 8,
+      "tier": "Class IV",
+      "desc": "A long Class II-III lead-in with the main action at the bottom. Stay slightly left at high and low flows, enter the lower section in the center and exit mid-channel or near the left bank. Clear Creek enters over a waterfall just below."
+    },
+    {
+      "name": "Five rapids",
+      "mile": 6.1,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Rapids spaced about 0.1 mile apart: II, II, III, III, II."
+    },
+    {
+      "name": "Rapid at the canyon opening",
+      "mile": 6.9,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A drop into the left wall where a creek enters. The canyon then opens into Pine Flat."
+    },
+    {
+      "name": "Pine Creek (Boat Eater)",
+      "mile": 7.9,
+      "civ": false,
+      "diff": 8,
+      "tier": "Class IV",
+      "desc": "Pine Creek enters on the right. The left side of the big boulder is easier and lower risk; Boat Eater is on the right side. Scout from the right bank if running it. Sneak routes exist on both sides."
+    },
+    {
+      "name": "Wallbanger (Florence Creek)",
+      "mile": 8.9,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A rock bar from the right forces the current into the left wall."
+    },
+    {
+      "name": "Landslide rapid",
+      "mile": 9.1,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "A boulder-bar rapid with the deepest channel far left. A landslide below shows red soil and red chert boulders."
+    },
+    {
+      "name": "Klondike Creek",
+      "mile": 10,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Klondike Creek enters on the left as the rapid begins. The rapid intensifies at a sharp right turn."
+    },
+    {
+      "name": "Three rapids",
+      "mile": 11.4,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Easy, easier, harder. A waterfall appears on the left below the harder one."
+    },
+    {
+      "name": "Mike's Nemesis",
+      "mile": 11.7,
+      "civ": false,
+      "diff": 8,
+      "tier": "Class IV",
+      "desc": "Identified by white-striated cliffs at a right bend. The river drops about 8 feet around several midstream boulders. Enter center, avoid the right-side guard rocks and work right to avoid the major holes. Easy to flip at high water."
+    },
+    {
+      "name": "South Bend Mountain",
+      "mile": 12.9,
+      "civ": false,
+      "diff": 4,
+      "tier": "Class II+",
+      "desc": "A Class II-III drop about every 0.1 mile as the river bends left around South Bend Mountain."
+    },
+    {
+      "name": "Pre-Prelude",
+      "mile": 17.6,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "After a long slow stretch, rock slides appear on both sides with fallen boulders in the river on the right."
+    },
+    {
+      "name": "Prelude (Fawn Falls)",
+      "mile": 17.8,
+      "civ": false,
+      "diff": 8,
+      "tier": "Class IV",
+      "desc": "A long boulder-bar rapid ending in a sharp final drop. Start left. Scout the falls from the eddy where a small stream enters on the left; scout the sneak route from the right bank well upstream. Green Wall is 0.2 mile downstream."
+    },
+    {
+      "name": "Green Wall",
+      "mile": 18.1,
+      "civ": false,
+      "diff": 10,
+      "tier": "Class V",
+      "desc": "The crux of the river. A long right-curving Class III leads to a Class V section; scout from a small eddy on the left between the two. Scouting at least the bottom is essentially mandatory. A huge hole sits at the top right and a rock cluster called Harvey at the bottom. At most flows start left to avoid the first hole, move right along the wall to miss Harvey, then away from the wall. Portage on the left is possible but difficult. A short pool below is too small for unassisted recovery."
+    },
+    {
+      "name": "Little Green Wall",
+      "mile": 18.8,
+      "civ": false,
+      "diff": 8,
+      "tier": "Class IV",
+      "desc": "A large rockslide from the left dams the river. The standard route is left of one large midstream boulder, quickly left of another, between two midstream boulders, right of the next cluster and quickly left again."
+    },
+    {
+      "name": "Whitewater Primer",
+      "mile": 19,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "About 20 minutes of closely spaced rapids: II, III, III, III, III, II, then a lull and a III."
+    },
+    {
+      "name": "Catatonic",
+      "mile": 19.5,
+      "civ": false,
+      "diff": 8,
+      "tier": "Class IV",
+      "desc": "Two Class III+ drops at low flow. Run the first section starting left and moving to center; the second starting center and moving slightly left. Catarafts can flip going right at the bottom at high flows."
+    },
+    {
+      "name": "False Submarine A",
+      "mile": 20.1,
+      "civ": false,
+      "diff": 6,
+      "tier": "Class III+",
+      "desc": "Enter left of center between two large boulders, then work far right. A pine tree stands on the right."
+    },
+    {
+      "name": "False Submarine B",
+      "mile": 20.4,
+      "civ": false,
+      "diff": 6,
+      "tier": "Class III+",
+      "desc": "Enter left of center between two small boulders and stay left. Alders on both banks."
+    },
+    {
+      "name": "Pre-Submarine",
+      "mile": 20.7,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "Starts with a cabin-sized boulder midstream."
+    },
+    {
+      "name": "Submarine Hole",
+      "mile": 21,
+      "civ": false,
+      "diff": 9,
+      "tier": "Class IV+",
+      "desc": "Steep and rocky, with a large plug rock at the bottom. At low flow the passage between the left wall and plug rock is very narrow and below 800 cfs rafts may have to deflate tubes. At low flow enter far right, work left, pass the big boulder on the right and move to the extreme left. At moderate and high flow enter center, clear the big boulder and ferry left. Keep the boat straight through the narrows."
+    },
+    {
+      "name": "Submarine Hole second drop",
+      "mile": 21.2,
+      "civ": false,
+      "diff": 8,
+      "tier": "Class IV",
+      "desc": "A rapid with three distinct drops. At high flow a huge hole against the right wall can flip the largest rafts."
+    },
+    {
+      "name": "Sandy Beach rapid",
+      "mile": 26.1,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A rapid at a left bend with Sandy Beach camp below on the left."
+    },
+    {
+      "name": "Horsesign Creek",
+      "mile": 29.5,
+      "civ": false,
+      "diff": 6,
+      "tier": "Class III+",
+      "desc": "At some flows this rapid has the largest hole you must run. Horsesign Creek enters on the left below."
+    },
+    {
+      "name": "Lynch Bar rapid",
+      "mile": 31.3,
+      "civ": false,
+      "diff": 5,
+      "tier": "Class III",
+      "desc": "A midstream rock above a large sandbar."
+    },
+    {
+      "name": "Dunbar Riffle",
+      "mile": 31.6,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Below Nancy Creek. The only rapid between Ethels Creek and the take-out."
     }
-   ]
-  },
-  {
-   "name": "Camping",
-   "rules": [
+  ],
+  "hikes": [
     {
-     "t": "Where",
-     "d": "Camps are limited at the put-in. After South Bend there are almost no good camps until below Submarine Hole."
+      "name": "Briggs Creek trail",
+      "mile": 2.5,
+      "bank": "R",
+      "time": null,
+      "diff": 2,
+      "qual": null,
+      "desc": "A trail follows the right bank to Pine Flat from the end of the road."
     },
     {
-     "t": "Leave no trace",
-     "d": "Leave No Trace principles apply. Gather firewood in advance at Sandy Beach and Lynch Bar."
+      "name": "Weaver Ranch",
+      "mile": 8.2,
+      "bank": "R",
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "A historic homestead well back from the right bank."
     },
     {
-     "t": "Poison oak",
-     "d": "Poison oak grows on uphill trails at Deadman's Bar."
+      "name": "Three Waterfalls",
+      "mile": 25.2,
+      "bank": null,
+      "time": null,
+      "diff": 1,
+      "qual": null,
+      "desc": "A scenic landmark."
+    },
+    {
+      "name": "Silver Creek and Illinois River Trail",
+      "mile": 25.4,
+      "bank": "R",
+      "time": null,
+      "diff": 3,
+      "qual": null,
+      "desc": "A hiking bridge crosses the creek; a trail follows the right bank for two miles downstream, and a side hike leads to Conner's Place."
+    },
+    {
+      "name": "Indigo Creek",
+      "mile": 28.4,
+      "bank": "R",
+      "time": null,
+      "diff": 2,
+      "qual": null,
+      "desc": "Darlingtonia pitcher plants and other rare plants on the left bank."
     }
-   ]
-  }
- ],
- "landmarks": [
-  {
-   "name": "Miami Bar",
-   "mile": 0,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Put-in, a gravel beach reached by a side road. An alternate put-in lies 4 miles upstream at McCaleb Ranch."
+  ],
+  "geology": [],
+  "guide": [],
+  "almanac": {},
+  "rules": [
+    {
+      "name": "Season and flows",
+      "rules": [
+        {
+          "t": "Season",
+          "d": "There is no dam, so flows follow weather. The typical window is March through mid-May; boatable flows can occur through the winter rainy season."
+        },
+        {
+          "t": "Flows",
+          "d": "Rafts and kayaks need about 800 to 3,500 cfs at the Kerby gauge, 15 miles upstream of the put-in; inflatable kayaks about 400. Take-out flow is usually two to three times the put-in flow because of side streams."
+        },
+        {
+          "t": "Rain",
+          "d": "Avoid starting when significant rain is forecast. If rain falls unexpectedly while camped at Pine Flat, cross right, tie up boats and walk out; if the flow is rising, start early and reach below Collier Creek (mile 21.7) before dark."
+        }
+      ]
+    },
+    {
+      "name": "Scouting and portages",
+      "rules": [
+        {
+          "t": "Green Wall",
+          "d": "Scouting at least the bottom is essentially mandatory. Preferred lines change with flow and rock movement."
+        },
+        {
+          "t": "Portage",
+          "d": "Green Wall can be portaged on the left with considerable effort, and is very difficult to line or portage with rafts."
+        },
+        {
+          "t": "Safety boat",
+          "d": "The pool below Green Wall is too small for unassisted recovery. Set throw bags for the first boat."
+        }
+      ]
+    },
+    {
+      "name": "Camping",
+      "rules": [
+        {
+          "t": "Where",
+          "d": "Camps are limited at the put-in. After South Bend there are almost no good camps until below Submarine Hole."
+        },
+        {
+          "t": "Leave no trace",
+          "d": "Leave No Trace principles apply. Gather firewood in advance at Sandy Beach and Lynch Bar."
+        },
+        {
+          "t": "Poison oak",
+          "d": "Poison oak grows on uphill trails at Deadman's Bar."
+        }
+      ]
+    }
+  ],
+  "landmarks": [
+    {
+      "name": "Miami Bar",
+      "mile": 0,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Put-in, a gravel beach reached by a side road. An alternate put-in lies 4 miles upstream at McCaleb Ranch."
+    },
+    {
+      "name": "Last residences",
+      "mile": 1.5,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "The last houses on the river. Dead trees from the 2002 Biscuit Fire appear from here on."
+    },
+    {
+      "name": "Kalmiopsis Wilderness",
+      "mile": 3.3,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "The wilderness begins just below Labrador Creek, with no marker."
+    },
+    {
+      "name": "Weaver Ranch",
+      "mile": 8.2,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "A historic ranch back from the right bank."
+    },
+    {
+      "name": "Red Rock Bar",
+      "mile": 17.1,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Tin Cabin Pass is higher up."
+    },
+    {
+      "name": "Green Wall pool",
+      "mile": 18.3,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "A short pool at the bottom of Green Wall. Two Class II rapids follow."
+    },
+    {
+      "name": "Three Waterfalls",
+      "mile": 25.2,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "A scenic landmark."
+    },
+    {
+      "name": "Indigo Creek",
+      "mile": 28.4,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Indigo Creek enters on the right."
+    },
+    {
+      "name": "Buzzard's Roost",
+      "mile": 28.9,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Cliffs on both sides mark the proposed dam site that would have flooded the entire run. Wild and Scenic protection stopped it in 1984."
+    },
+    {
+      "name": "Nancy Creek",
+      "mile": 30.4,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Nancy Creek enters on the left."
+    },
+    {
+      "name": "Oak Flat",
+      "mile": 32.3,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Take-out on the right bank above the Rogue confluence, with restrooms behind a row of trees. A dirt road climbs to the paved road to Agness."
+    }
+  ],
+  "clusters": [
+    {
+      "s": 17.6,
+      "e": 21.5,
+      "n": "Prelude to Submarine Hole"
+    }
+  ],
+  "hdiff": {
+    "1": "Short, easy walk",
+    "2": "Easy trail",
+    "3": "Longer hike"
   },
-  {
-   "name": "Last residences",
-   "mile": 1.5,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "The last houses on the river. Dead trees from the 2002 Biscuit Fire appear from here on."
-  },
-  {
-   "name": "Kalmiopsis Wilderness",
-   "mile": 3.3,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "The wilderness begins just below Labrador Creek, with no marker."
-  },
-  {
-   "name": "Weaver Ranch",
-   "mile": 8.2,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "A historic ranch back from the right bank."
-  },
-  {
-   "name": "Red Rock Bar",
-   "mile": 17.1,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Tin Cabin Pass is higher up."
-  },
-  {
-   "name": "Green Wall pool",
-   "mile": 18.3,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "A short pool at the bottom of Green Wall. Two Class II rapids follow."
-  },
-  {
-   "name": "Three Waterfalls",
-   "mile": 25.2,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "A scenic landmark."
-  },
-  {
-   "name": "Indigo Creek",
-   "mile": 28.4,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Indigo Creek enters on the right."
-  },
-  {
-   "name": "Buzzard's Roost",
-   "mile": 28.9,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Cliffs on both sides mark the proposed dam site that would have flooded the entire run. Wild and Scenic protection stopped it in 1984."
-  },
-  {
-   "name": "Nancy Creek",
-   "mile": 30.4,
-   "civ": false,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Nancy Creek enters on the left."
-  },
-  {
-   "name": "Oak Flat",
-   "mile": 32.3,
-   "civ": true,
-   "diff": null,
-   "tier": "Landmark",
-   "desc": "Take-out on the right bank above the Rogue confluence, with restrooms behind a row of trees. A dirt road climbs to the paved road to Agness."
-  }
- ],
- "clusters": [
-  {
-   "s": 17.6,
-   "e": 21.5,
-   "n": "Prelude to Submarine Hole"
-  }
- ],
- "hdiff": {
-  "1": "Short, easy walk",
-  "2": "Easy trail",
-  "3": "Longer hike"
- },
- "access": [
-  {
-   "name": "Cave Junction",
-   "road": true,
-   "hub": true,
-   "note": "Nearest town; Selma is just north",
-   "grid": [
-    2,
-    2
-   ]
-  },
-  {
-   "name": "Grants Pass",
-   "road": true,
-   "hub": true,
-   "note": "Nearest city",
-   "grid": [
+  "access": [
+    {
+      "name": "Cave Junction",
+      "road": true,
+      "hub": true,
+      "note": "Nearest town; Selma is just north",
+      "grid": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "Grants Pass",
+      "road": true,
+      "hub": true,
+      "note": "Nearest city",
+      "grid": [
+        5,
+        2
+      ]
+    },
+    {
+      "name": "Agness",
+      "road": true,
+      "hub": true,
+      "note": "Nearest community to the take-out",
+      "grid": [
+        9,
+        2
+      ]
+    },
+    {
+      "name": "Miami Bar",
+      "road": true,
+      "mile": 0,
+      "park": true,
+      "note": "Put-in. A 16 mile dirt road from Selma",
+      "grid": [
+        1,
+        6
+      ]
+    },
+    {
+      "name": "Oak Flat",
+      "road": true,
+      "mile": 32.3,
+      "park": true,
+      "note": "Take-out, above the Rogue confluence",
+      "grid": [
+        10,
+        6
+      ]
+    }
+  ],
+  "yardGrid": [
     5,
-    2
-   ]
-  },
-  {
-   "name": "Agness",
-   "road": true,
-   "hub": true,
-   "note": "Nearest community to the take-out",
-   "grid": [
-    9,
-    2
-   ]
-  },
-  {
-   "name": "Miami Bar",
-   "road": true,
-   "mile": 0,
-   "park": true,
-   "note": "Put-in. A 16 mile dirt road from Selma",
-   "grid": [
-    1,
-    6
-   ]
-  },
-  {
-   "name": "Oak Flat",
-   "road": true,
-   "mile": 32.3,
-   "park": true,
-   "note": "Take-out, above the Rogue confluence",
-   "grid": [
-    10,
-    6
-   ]
-  }
- ],
- "yardGrid": [
-  5,
-  1
- ],
- "roads": [
-  {
-   "a": "Cave Junction",
-   "b": "Miami Bar",
-   "h": ""
-  },
-  {
-   "a": "Grants Pass",
-   "b": "Cave Junction",
-   "h": ""
-  },
-  {
-   "a": "Agness",
-   "b": "Oak Flat",
-   "h": ""
-  }
- ],
- "permit": {
-  "status": "Required year-round · free, self-issued",
-  "asOf": "October 2026",
-  "contact": {
-   "web": "https://www.fs.usda.gov/r06/rogue-siskiyou"
-  },
-  "sections": [
-   {
-    "name": "How to get one",
-    "items": [
-     {
-      "t": "Where",
-      "d": "Permits are free and available 24 hours a day at the self-issue display at the entrance to the Selma Market, at Highway 199 and the Illinois River Road (Deer Creek Road) in Selma, Oregon."
-     },
-     {
-      "t": "What it covers",
-      "d": "A permit is required year-round for all trips on the Wild section between Briggs Creek and Nancy Creek."
-     },
-     {
-      "t": "Return",
-      "d": "Drop your copy of the permit in the box at the Oak Flat take-out to confirm your safe return."
-     }
+    1
+  ],
+  "roads": [
+    {
+      "a": "Cave Junction",
+      "b": "Miami Bar",
+      "h": ""
+    },
+    {
+      "a": "Grants Pass",
+      "b": "Cave Junction",
+      "h": ""
+    },
+    {
+      "a": "Agness",
+      "b": "Oak Flat",
+      "h": ""
+    }
+  ],
+  "permit": {
+    "status": "Required year-round · free, self-issued",
+    "contact": {
+      "web": "https://www.fs.usda.gov/r06/rogue-siskiyou"
+    },
+    "sections": [
+      {
+        "name": "How to get one",
+        "items": [
+          {
+            "t": "Where",
+            "d": "Permits are free and available 24 hours a day at the self-issue display at the entrance to the Selma Market, at Highway 199 and the Illinois River Road (Deer Creek Road) in Selma, Oregon."
+          },
+          {
+            "t": "What it covers",
+            "d": "A permit is required year-round for all trips on the Wild section between Briggs Creek and Nancy Creek."
+          },
+          {
+            "t": "Return",
+            "d": "Drop your copy of the permit in the box at the Oak Flat take-out to confirm your safe return."
+          }
+        ]
+      },
+      {
+        "name": "Limits",
+        "items": [
+          {
+            "t": "Group size",
+            "d": "Groups are limited to 12 people."
+          },
+          {
+            "t": "Drones",
+            "d": "Drones are prohibited."
+          }
+        ]
+      }
     ]
-   },
-   {
-    "name": "Limits",
-    "items": [
-     {
-      "t": "Group size",
-      "d": "Groups are limited to 12 people."
-     },
-     {
-      "t": "Drones",
-      "d": "Drones are prohibited."
-     }
-    ]
-   }
-  ]
- },
- "note": "",
- "notes": {
-  "camp": "",
-  "hike": ""
- }
+  },
+  "note": "",
+  "notes": {
+    "camp": "",
+    "hike": ""
+  }
 }

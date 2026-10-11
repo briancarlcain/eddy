@@ -199,7 +199,6 @@ L|34.52|Foster Bar|1|Take-out, a large gravel bar below Foster Creek. A SCAT mac
 
 const permit = {
   status: 'Required year-round · lottery May 15 to Oct 15',
-  asOf: 'October 2026',
   apply: { label: 'Apply on Recreation.gov', url: 'https://www.recreation.gov/permits/251982' },
   contact: { phone: '541-479-3735', web: 'https://www.blm.gov/programs/national-conservation-lands/oregon-washington/rogue-wsr/permits' },
   sections: [

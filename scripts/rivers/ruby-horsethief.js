@@ -60,7 +60,6 @@ L|25.00|Westwater ranger station and take-out|1|Reached from I-70 exit 227, 9 mi
 
 const permit = {
   status: 'Overnight permit required year-round · reserve on Recreation.gov',
-  asOf: 'October 2026',
   apply: { label: 'Reserve on Recreation.gov', url: 'https://www.recreation.gov/permits/74466' },
   contact: { phone: '970-244-3000', web: 'https://www.recreation.gov/permits/74466' },
   sections: [

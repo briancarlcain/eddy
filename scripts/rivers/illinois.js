@@ -77,7 +77,6 @@ L|32.3|Oak Flat|1|Take-out on the right bank above the Rogue confluence, with re
 
 const permit = {
   status: 'Required year-round · free, self-issued',
-  asOf: 'October 2026',
   contact: { web: 'https://www.fs.usda.gov/r06/rogue-siskiyou' },
   sections: [
     {

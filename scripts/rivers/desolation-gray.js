@@ -129,7 +129,6 @@ L|84.0|Swasey's boat ramp|1|The take-out.
 
 const permit = {
   status: 'Required year-round · lottery May 1 to Sept 30',
-  asOf: 'October 2026',
   apply: { label: 'Apply on Recreation.gov', url: 'https://www.recreation.gov/permits/233393' },
   contact: { phone: '435-636-3600', email: 'utprmail@blm.gov', web: 'https://www.blm.gov/programs/recreation/passes-and-permits/lotteries/utah/desolationgray' },
   sections: [

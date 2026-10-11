@@ -121,7 +121,6 @@ L|84.32|Clay Hills boat ramp|1|Take-out. A toilet only, with no trash service or
 
 const permit = {
   status: 'Required year-round · lottery April 15 to July 15',
-  asOf: 'October 2026',
   apply: { label: 'Apply on Recreation.gov', url: 'https://www.recreation.gov/permits/250986' },
   contact: { phone: '435-587-1544', email: 'blm_ut_sanjuan_permits@blm.gov', web: 'https://www.blm.gov/programs/recreation/passes-and-permits/lotteries/utah/sanjuanriver' },
   sections: [

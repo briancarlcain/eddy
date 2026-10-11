@@ -37,7 +37,6 @@
   ],
   "permit": {
     "status": "Required · lottery",
-    "asOf": "October 2026",
     "apply": {
       "label": "Apply on the FWP licensing site",
       "url": "https://ols.fwp.mt.gov"

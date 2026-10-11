@@ -91,7 +91,6 @@ L|47.7|Race Creek take-out|1|A boat ramp below the campground and above the brid
 
 const permit = {
   status: 'Required May 15 to July 31 · one party per day · lottery',
-  asOf: 'October 2026',
   apply: { label: 'Apply on Recreation.gov', url: 'https://www.recreation.gov/permits/234624' },
   contact: { phone: '406-821-3269', web: 'https://www.fs.usda.gov/r01/bitterroot/permits/selway-river-four-rivers-lottery' },
   sections: [
