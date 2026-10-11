@@ -2849,7 +2849,7 @@ function Settings({ s, back }) {
 
 function River({ s, browse, onBrowse, onPlan }) {
   const [tab, setTab] = useState(QS.get('sub') || 'Map');
-  const P = { Rapids, Camps, Hikes, Geology, Guide, Almanac, Rules }[tab];
+  const P = { Rapids, Camps, Hikes, Permits, Geology, Guide, Almanac, Rules }[tab];
   // the trip's camp plan only means something on the trip's own river
   const sm = riverOf(s.trip) === RIVER.id ? s : { ...s, trip: null };
   const empty = {
@@ -2860,11 +2860,12 @@ function River({ s, browse, onBrowse, onPlan }) {
     Guide: !RIVER.guide.length,
     Almanac: !Object.keys(RIVER.almanac).length,
     Rules: !RIVER.rules.length,
+    Permits: !RIVER.permit,
   }[tab];
   return (
     <>
       <Tabs
-        items={['Rivers', 'Map', 'Rapids', 'Camps', 'Hikes', 'Geology', 'Guide', 'Almanac', 'Rules']}
+        items={['Rivers', 'Map', 'Permits', 'Rapids', 'Camps', 'Hikes', 'Geology', 'Guide', 'Almanac', 'Rules']}
         value={tab}
         onChange={setTab}
         tint="#2f5d62"
@@ -3574,6 +3575,50 @@ function Almanac() {
     </>
   );
 }
+
+const Permits = () => {
+  const p = RIVER.permit;
+  if (!p) return null;
+  const c = p.contact || {};
+  return (
+    <>
+      <div className="card permitHead">
+        <div className="cardTop">
+          <div className="serif">{RIVER.name}</div>
+        </div>
+        <div className="permitStatus">{p.status}</div>
+        {p.apply ? (
+          <button className="btn block" onClick={() => openUrl(p.apply.url)}>
+            {p.apply.label}
+          </button>
+        ) : null}
+        <div className="permitContact">
+          {c.phone ? <a href={'tel:' + c.phone.replace(/[^0-9+]/g, '')}>{c.phone}</a> : null}
+          {c.email ? <a href={'mailto:' + c.email}>{c.email}</a> : null}
+          {c.web ? (
+            <button className="linkBtn" onClick={() => openUrl(c.web)}>
+              Agency page
+            </button>
+          ) : null}
+        </div>
+        <div className="muted">Checked {p.asOf}. Dates and fees change; confirm with the agency before you apply.</div>
+      </div>
+      {p.sections.map((g) => (
+        <div className="mt" key={g.name}>
+          <span className="label">{g.name}</span>
+          <div className="card permitList">
+            {g.items.map((r, i) => (
+              <div className="permitItem" key={i}>
+                <div className="permitT">{r.t}</div>
+                <div className="permitD">{clean(r.d)}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </>
+  );
+};
 
 const Rules = () =>
   RIVER.rules.map((g) => (

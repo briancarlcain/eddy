@@ -430,3 +430,12 @@ body.shot #fakeStatus { background: #faf8f3; }
 .keys { gap: 6px; }
 .cluster, .gband { opacity: .6; }
 .rg .accNote.clamp { font-family: var(--font); }
+.rg .permitHead .permitStatus { color: var(--accent); font-weight: 600; margin: 4px 0 14px; }
+.rg .permitContact { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 12px 0 10px; font-size: 15px; }
+.rg .permitContact a { color: var(--accent); text-decoration: none; font-weight: 500; }
+.rg .permitContact .linkBtn { color: var(--accent); }
+.rg .permitList { padding: 4px 16px; margin-top: 8px; }
+.rg .permitItem { padding: 13px 0; }
+.rg .permitItem + .permitItem { border-top: 1px solid var(--line); }
+.rg .permitT { font-weight: 600; font-size: 15.5px; }
+.rg .permitD { color: var(--ink-dim); font-size: 15px; line-height: 1.5; margin-top: 3px; }

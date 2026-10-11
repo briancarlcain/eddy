@@ -1,15 +1,120 @@
 {
-  "name": "Rogue River",
-  "reach": "Grave Creek to Foster Bar",
-  "agency": "BLM Medford District / Rogue River-Siskiyou National Forest",
-  "miles": [0, 34],
-  "days": 4,
-  "coords": [42.64, -123.6],
-  "tz": "America/Los_Angeles",
-  "note": "Starter record: reach, mileage (from Grave Creek) and put-in/take-out only (coordinates approximate). Wild section floats require a BLM permit in the summer season. Add rapids, camps and lodges from your guidebook with the editor on the Rivers tab, or import a river JSON.",
-  "access": [
-    { "name": "Grants Pass", "road": true, "hub": true, "note": "Nearest city; shuttle base" },
-    { "name": "Grave Creek", "road": true, "mile": 0, "park": true, "note": "Put-in" },
-    { "name": "Foster Bar", "road": true, "mile": 34, "park": true, "note": "Take-out" }
+ "name": "Rogue River",
+ "reach": "Grave Creek to Foster Bar",
+ "agency": "BLM Medford District / Rogue River-Siskiyou National Forest",
+ "miles": [
+  0,
+  34
+ ],
+ "days": 4,
+ "coords": [
+  42.64,
+  -123.6
+ ],
+ "tz": "America/Los_Angeles",
+ "note": "Starter record: reach, mileage (from Grave Creek) and put-in/take-out only (coordinates approximate). Wild section floats require a BLM permit in the summer season. Add rapids, camps and lodges from your guidebook with the editor on the Rivers tab, or import a river JSON.",
+ "access": [
+  {
+   "name": "Grants Pass",
+   "road": true,
+   "hub": true,
+   "note": "Nearest city; shuttle base"
+  },
+  {
+   "name": "Grave Creek",
+   "road": true,
+   "mile": 0,
+   "park": true,
+   "note": "Put-in"
+  },
+  {
+   "name": "Foster Bar",
+   "road": true,
+   "mile": 34,
+   "park": true,
+   "note": "Take-out"
+  }
+ ],
+ "permit": {
+  "status": "Required May 15 to Oct 15 · lottery",
+  "asOf": "October 2026",
+  "apply": {
+   "label": "Open the BLM permit page",
+   "url": "https://www.blm.gov/programs/national-conservation-lands/oregon-washington/rogue-wsr/permits"
+  },
+  "contact": {
+   "phone": "541-479-3735",
+   "web": "https://www.blm.gov/programs/national-conservation-lands/oregon-washington/rogue-wsr/permits"
+  },
+  "sections": [
+   {
+    "name": "How to get one",
+    "items": [
+     {
+      "t": "Enter the lottery",
+      "d": "Apply on Recreation.gov from December 1 to January 31 for the regulated season. Check the BLM page for the current window; one older guide gives a January 15 close."
+     },
+     {
+      "t": "Pay if you win",
+      "d": "The per-person fee is due no later than 10 days before launch."
+     },
+     {
+      "t": "Leftover spaces",
+      "d": "BLM lists open dates and space counts daily from May 5 to October 15. Call 541-479-3735 between 8 a.m. and 3 p.m. Day-of-launch permits go first-come, or by waiting list, at the Smullin Visitor Center at Rand."
+     },
+     {
+      "t": "Outside the season",
+      "d": "From October 16 to May 14 you self-issue a permit at the drop boxes at Grave Creek (north end of the bridge) and the Smullin Visitor Center."
+     }
+    ]
+   },
+   {
+    "name": "Dates",
+    "items": [
+     {
+      "t": "Lottery",
+      "d": "December 1 to January 31."
+     },
+     {
+      "t": "Regulated season",
+      "d": "May 15 to October 15."
+     },
+     {
+      "t": "Cancel by",
+      "d": "3 p.m. the day before launch."
+     }
+    ]
+   },
+   {
+    "name": "Costs",
+    "items": [
+     {
+      "t": "Application",
+      "d": "$6, non-refundable."
+     },
+     {
+      "t": "Permit",
+      "d": "$10 per person per trip."
+     }
+    ]
+   },
+   {
+    "name": "Limits and penalties",
+    "items": [
+     {
+      "t": "Daily cap",
+      "d": "BLM and the Forest Service allow 120 people a day to launch. The cap counts people, not groups."
+     },
+     {
+      "t": "Regulated reach",
+      "d": "Grave Creek to Watson Creek, with Foster Bar as the take-out."
+     },
+     {
+      "t": "No-shows",
+      "d": "Missing the cancellation deadline makes you a no-show. You cannot hold a float permit for the rest of that year or through the next year's lottery and regulated season."
+     }
+    ]
+   }
   ]
+ }
 }
