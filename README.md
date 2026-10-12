@@ -24,7 +24,7 @@ trips (localStorage, and the shared db when available).
 - `src/TopoMap.jsx` - River > Map > Topo map (Leaflet): terrain basemap, pins, dropped pins, sun & shade day timeline, offline download
 - `src/SunChart.jsx` - the skyline-and-sun-path chart for a camp or dropped pin
 - `src/geo/` - geo code shared by the app and the build: centerline (`line.js`), sun position and canyon sun times (`sun.js`), horizon casting (`horizon.js`), DEM tiles (`dem.js`) and their offline store (`store.js`), shade worker pool (`shade.js`), per-river state, dropped pins and GPX tracks (`index.js`)
-- `data/geo/anchors.json` - per river: known `{mile, lat, lon}` points the centerline is traced between
+- `data/geo/anchors.json` - per river: known `{mile, lat, lon}` points the centerline is traced between (an anchor with `"snap": 0` is used exactly, not snapped to the lowest nearby cell: for surveyed river-mile points on a reservoir, where the DEM is flat water)
 - `data/geo/<river>.json` - **generated** by `npm run geo`: centerline + a terrain horizon for every camp
 
 ## Build
