@@ -8,9 +8,10 @@
     "build:app": "node build.mjs app",
     "ios:sync": "node build.mjs app && cap sync ios",
     "ios:open": "cap open ios",
-    "test": "node test/merge.test.mjs",
+    "test": "node test/merge.test.mjs && node test/geo.test.mjs",
     "screenshots": "node build.mjs app && node scripts/screenshots.mjs",
-    "test:server": "node scripts/test-members.mjs"
+    "test:server": "node scripts/test-members.mjs",
+    "geo": "node --max-old-space-size=8000 scripts/geo/build.mjs"
   },
   "dependencies": {
     "@capacitor/app": "^8.1.2",
@@ -26,6 +27,7 @@
     "@capacitor/splash-screen": "^8.0.2",
     "@capacitor/status-bar": "^8.0.4",
     "@supabase/auth-js": "^2.117.3",
+    "leaflet": "^1.9.4",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
@@ -33,6 +35,7 @@
     "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "^8.5.3",
     "esbuild": "^0.25.0",
+    "pngjs": "^7.0.0",
     "puppeteer-core": "^25.13.0"
   },
   "type": "module"

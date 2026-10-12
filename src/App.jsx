@@ -10,6 +10,11 @@ import { askReminders, boot, clearReminders, hideSplash, isNative, onOpenUrl, on
 import { canon, mergeTrips, stamp, strip } from './merge.js';
 import * as remote from './sync.js';
 import * as authApi from './auth.js';
+import TopoMap from './TopoMap.jsx';
+import { campSun, hasGeo, movePin, parseGPX, position, resetPin, setHikeTrack, hikeTrack, trackStats } from './geo/index.js';
+import { horizon } from './geo/horizon.js';
+import { encodeHorizon } from './geo/sun.js';
+import { sampler } from './geo/dem.js';
 
 // set by build.mjs: the App Store build ships a fictional sample trip, never the crew's real one
 const IS_STORE = typeof __STORE__ !== 'undefined' && __STORE__;
@@ -95,8 +100,8 @@ const Icon = ({ name, size = 18, className = '' }) => (
   </svg>
 );
 
-const SunTimes = ({ rise, set }) => (
-  <span className="sun">
+const SunTimes = ({ rise, set, canyon }) => (
+  <span className="sun" title={canyon ? 'First and last direct sun in camp, past the canyon walls' : undefined}>
     <span className="sunUp">
       <Icon name="sunrise" size={20} />
       <span className="sr">Sunrise </span>
@@ -187,6 +192,44 @@ function sun(iso, lat, lon) {
   return { rise: at(noon - h), set: at(noon + h) };
 }
 const clock = (d) => (d ? d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: RIVER.tz }) : '—');
+const todayISO = () => new Intl.DateTimeFormat('en-CA', { timeZone: RIVER.tz }).format(new Date());
+const campOf = (p) => (p && p.camp ? RIVER.camps.find((c) => c.name === p.camp && (p.mile == null || c.mile === p.mile)) || RIVER.camps.find((c) => c.name === p.camp) : null);
+// the night a trip spends at this camp, else the launch day (if a trip is open on this river), else today
+function campDate(trip, c) {
+  if (trip && okDate(trip.start)) {
+    const i = Object.keys(trip.plans || {}).find((k) => trip.plans[k]?.camp === c.name);
+    return i != null ? addDays(trip.start, +i) : trip.start;
+  }
+  return todayISO();
+}
+// terrain-aware sun for a camp: { on, off, hours, spans, rise, set } or null when the river has no terrain data
+const campSunOn = (c, iso) => (c && iso ? campSun(RIVER.id, c, iso, RIVER.tz) : null);
+const sunOff = (c, iso) => {
+  const cs = campSunOn(c, iso);
+  return cs ? (cs.off ? 'sun off ' + clock(cs.off) : 'no sun') : null;
+};
+
+function CampSunLine({ c, iso }) {
+  const cs = campSunOn(c, iso);
+  if (!cs) return null;
+  const many = cs.spans.length > 1;
+  return (
+    <div className="campSun">
+      <Icon name="sunset" size={16} />
+      <span>
+        {cs.on ? (
+          <>
+            Direct sun in camp <b>{clock(cs.on)}</b> – <b>{clock(cs.off)}</b> · {cs.hours.toFixed(1)} h
+            {many ? <> (in {cs.spans.length} spells: {cs.spans.map(([a, b]) => `${clock(a)}–${clock(b)}`).join(', ')})</> : null}
+          </>
+        ) : (
+          <>No direct sun in camp</>
+        )}
+        <span className="muted"> · {fmt(iso)} · open-sky sunrise {clock(cs.rise)}, sunset {clock(cs.set)}</span>
+      </span>
+    </div>
+  );
+}
 
 const clean = (h) =>
   String(h)
@@ -1101,6 +1144,9 @@ function Itinerary({ s }) {
         const leg = from != null && p.mile != null ? Math.round((p.mile - from) * 10) / 10 : null;
         const runs = from != null && p.mile != null ? RIVER.rapids.filter((r) => r.mile > from && r.mile <= p.mile) : [];
         const sn = d.date && sun(d.date, RIVER.coords[0], RIVER.coords[1]);
+        // canyon sun: the morning at the camp you woke in, the evening at tonight's camp
+        const tonight = campOf(p), woke = d.i > 0 ? campOf(prev) : null;
+        const am = d.date && campSunOn(woke, d.date), pm = d.date && campSunOn(tonight, d.date);
         const meals = t.meals.filter((m) => m.day === d.i);
         return (
           <Acc
@@ -1115,12 +1161,19 @@ function Itinerary({ s }) {
                       {leg != null ? ` · ${leg} mi` : ''}
                     </span>
                   ) : null}
-                  {sn ? <SunTimes rise={clock(sn.rise)} set={clock(sn.set)} /> : null}
+                  {sn ? (
+                    <SunTimes
+                      rise={am ? (am.on ? clock(am.on) : 'no sun') : clock(sn.rise)}
+                      set={pm ? (pm.off ? clock(pm.off) : 'no sun') : clock(sn.set)}
+                      canyon={!!(am || pm)}
+                    />
+                  ) : null}
                 </>
               ) : null
             }
           >
-            <CampPick min={from} current={p.camp} onPick={(c) => s.plan(d.i, { camp: c.name, mile: c.mile })} />
+            <CampPick min={from} current={p.camp} date={d.date} onPick={(c) => s.plan(d.i, { camp: c.name, mile: c.mile })} />
+            {d.date && tonight ? <CampSunLine c={tonight} iso={d.date} /> : null}
             {runs.length > 0 && (
               <div className="mt">
                 {runs.map((r) => (
@@ -1164,7 +1217,7 @@ function Sky({ t, date }) {
   );
 }
 
-function CampPick({ min, current, onPick }) {
+function CampPick({ min, current, date, onPick }) {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState('');
   const hits = useMemo(
@@ -1197,7 +1250,7 @@ function CampPick({ min, current, onPick }) {
         >
           <span className="mile">{c.mile.toFixed(1)}</span>
           <span>
-            {c.name} <span className="muted">{[c.bank, c.size].filter((v) => v != null && v !== '').join(' · ')}</span>
+            {c.name} <span className="muted">{[c.bank, c.size, sunOff(c, date)].filter((v) => v != null && v !== '').join(' · ')}</span>
           </span>
         </button>
       ))}
@@ -3400,6 +3453,7 @@ function River({ s, browse, onBrowse, onPlan }) {
 
 function RiverDetail({ s }) {
   const [tab, setTab] = useState(QS.get('sub') || 'Map');
+  const [mapMode, setMapMode] = useState(QS.get('map') || 'chart');
   const [editing, setEditing] = useState(false);
   const [msg, setMsg] = useState('');
   // the trip's camp plan only means something on the trip's own river
@@ -3422,7 +3476,15 @@ function RiverDetail({ s }) {
     <>
       <Tabs items={items} value={cur} onChange={setTab} tint="#2f5d62" />
       {cur === 'Map' ? (
-        <RiverMap s={sm} />
+        <>
+          {hasGeo(RIVER.id) ? (
+            <div className="mapMode">
+              <button className={'chip' + (mapMode !== 'topo' ? ' on river' : '')} onClick={() => setMapMode('chart')}>Mile chart</button>
+              <button className={'chip' + (mapMode === 'topo' ? ' on river' : '')} onClick={() => setMapMode('topo')}>Topo map</button>
+            </div>
+          ) : null}
+          {mapMode === 'topo' && hasGeo(RIVER.id) ? <RiverTopo s={sm} /> : <RiverMap s={sm} />}
+        </>
       ) : cur === 'More' ? (
         editing ? (
           <RiverEditor s={s} id={RIVER.id} onClose={() => setEditing(false)} />
@@ -3457,7 +3519,7 @@ function RiverDetail({ s }) {
           </div>
         )
       ) : (
-        <div className="pad"><P /></div>
+        <div className="pad"><P s={sm} /></div>
       )}
     </>
   );
@@ -3821,11 +3883,121 @@ function RiverMap({ s }) {
 
       <DetailSheet
         sheet={sheet}
+        trip={s.trip}
         onClose={() => {
           setSheet(null);
           setSel(null);
         }}
       />
+    </div>
+  );
+}
+
+// River > Map > Topo: the real map, with the same detail sheet plus pin and track corrections
+function RiverTopo({ s }) {
+  const [sheet, setSheet] = useState(null);
+  const [picking, setPicking] = useState(null);
+  const [msg, setMsg] = useState('');
+  const planned = useMemo(
+    () => new Set(Object.values(s.trip?.plans || {}).filter((p) => p.camp).map((p) => p.camp)),
+    [s.trip]
+  );
+  const colors = useMemo(() => ({ camp: qColor, hike: hColor, rapid: RAPIDCOL }), []);
+  const date = s.trip && okDate(s.trip.start) ? s.trip.start : null;
+  const onPicked = async (lat, lon) => {
+    const { kind, item } = picking;
+    setPicking(null);
+    if (kind !== 'camp') {
+      movePin(RIVER.id, kind, item, lat, lon);
+      return;
+    }
+    // a moved camp sees different walls: recompute its horizon from terrain around the new spot
+    setMsg('Recomputing sun for the new spot…');
+    try {
+      const { elev, missing } = await sampler(lat, lon, 3300, 25500);
+      if (missing) throw new Error('missing terrain');
+      movePin(RIVER.id, kind, item, lat, lon, encodeHorizon(horizon(lat, lon, elev)));
+      setMsg('');
+    } catch {
+      movePin(RIVER.id, kind, item, lat, lon);
+      setMsg('Pin moved. Sun times still use the old spot until terrain loads (needs signal or the offline download).');
+    }
+  };
+  return (
+    <div className="topoWrap">
+      <TopoMap
+        rid={RIVER.id}
+        river={RIVER}
+        planned={planned}
+        colors={colors}
+        date={date}
+        onOpen={(kind, item) => setSheet({ kind: kind === 'landmark' ? 'rapid' : kind, item, geoKind: kind })}
+        picking={picking?.item}
+        onPicked={onPicked}
+        onCancelPick={() => setPicking(null)}
+      />
+      {msg ? <div className="topoMsg muted small">{msg}</div> : null}
+      <DetailSheet
+        sheet={sheet}
+        trip={s.trip}
+        onClose={() => setSheet(null)}
+        actions={sheet ? <PinActions sheet={sheet} onMove={() => { setPicking({ kind: sheet.geoKind, item: sheet.item }); setSheet(null); }} /> : null}
+      />
+    </div>
+  );
+}
+
+function PinActions({ sheet, onMove }) {
+  const { geoKind: kind, item } = sheet;
+  const [err, setErr] = useState('');
+  const [, bump] = useState(0);
+  const p = position(RIVER.id, kind, item);
+  const track = kind === 'hike' ? hikeTrack(RIVER.id, item) : null;
+  const st = track ? trackStats(track) : null;
+  return (
+    <div className="pinActions">
+      {p ? (
+        <div className="muted small">
+          {p.lat.toFixed(5)}, {p.lon.toFixed(5)} {p.moved ? '· moved by you' : '· placed from the river mile'}
+        </div>
+      ) : null}
+      {st ? (
+        <div className="small">
+          Track {st.miles.toFixed(1)} mi{st.gainFt != null ? ` · ${Math.round(st.gainFt).toLocaleString()} ft gain` : ''}
+        </div>
+      ) : null}
+      <div className="row">
+        <button className="btn ghost" onClick={onMove}>Move pin</button>
+        {p?.moved ? (
+          <button className="btn ghost" onClick={() => { resetPin(RIVER.id, kind, item); bump((n) => n + 1); }}>Reset pin</button>
+        ) : null}
+        {kind === 'hike' ? (
+          <label className="btn ghost">
+            {track ? 'Replace GPX' : 'Attach GPX track'}
+            <input
+              type="file"
+              accept=".gpx,application/gpx+xml,application/xml,text/xml"
+              hidden
+              onChange={async (e) => {
+                const f = e.target.files?.[0];
+                e.target.value = '';
+                if (!f) return;
+                try {
+                  setHikeTrack(RIVER.id, item, parseGPX(await f.text()));
+                  setErr('');
+                  bump((n) => n + 1);
+                } catch (x) {
+                  setErr(x.message);
+                }
+              }}
+            />
+          </label>
+        ) : null}
+        {track && kind === 'hike' ? (
+          <button className="btn ghost" onClick={() => { setHikeTrack(RIVER.id, item, null); bump((n) => n + 1); }}>Remove track</button>
+        ) : null}
+      </div>
+      {err ? <div className="muted small">{err}</div> : null}
     </div>
   );
 }
@@ -3881,7 +4053,7 @@ function FGrp({ name, kind, sets, toggle }) {
   );
 }
 
-function DetailSheet({ sheet, onClose }) {
+function DetailSheet({ sheet, onClose, trip, actions }) {
   if (!sheet) return <div className="sheet" />;
   const { kind, item: d } = sheet;
   let name = '';
@@ -3933,6 +4105,12 @@ function DetailSheet({ sheet, onClose }) {
     );
     desc = d.desc || (sw && qw ? `A ${sw}, ${qw} campsite.` : 'Camp size and quality not recorded for this site.');
     if (/Hualapai Permit/i.test(d.name)) desc += ' Requires a Hualapai permit.';
+    desc = (
+      <>
+        <div>{desc}</div>
+        <CampSunLine c={d} iso={campDate(trip, d)} />
+      </>
+    );
     foot = RIVER.notes.camp;
   } else if (kind === 'geo') {
     name = d.full;
@@ -3983,6 +4161,7 @@ function DetailSheet({ sheet, onClose }) {
       <div className="iname">{name}</div>
       <div className="imeta">{meta}</div>
       <div className="idesc">{desc}</div>
+      {actions}
       <div className="ifoot" style={{ whiteSpace: 'pre-line' }}>
         {foot}
       </div>
@@ -4021,20 +4200,40 @@ const Rapids = () => (
   />
 );
 
-const Camps = () => (
-  <Search
-    data={RIVER.camps}
-    placeholder="Camp"
-    render={(c, i) => (
-      <div className="listRow" key={i}>
-        <span className="mile">{c.mile.toFixed(1)}</span>
-        <span>
-          {c.name} <span className="muted">{[c.bank, c.size != null ? 'size ' + c.size : '', c.qual != null ? 'qual ' + c.qual : ''].filter(Boolean).join(' · ')}</span>
-        </span>
-      </div>
-    )}
-  />
-);
+function Camps({ s }) {
+  const t = s?.trip;
+  const [iso, setIso] = useState(t && okDate(t.start) ? t.start : todayISO());
+  const geo = hasGeo(RIVER.id);
+  return (
+    <>
+      {geo ? (
+        <div className="row mb campSunDate">
+          <Field label="Sun in camp on" type="date" value={iso} onChange={(e) => okDate(e.target.value) && setIso(e.target.value)} />
+        </div>
+      ) : null}
+      <Search
+        data={RIVER.camps}
+        placeholder="Camp"
+        render={(c, i) => {
+          const cs = geo ? campSunOn(c, iso) : null;
+          return (
+            <div className="listRow" key={i}>
+              <span className="mile">{c.mile.toFixed(1)}</span>
+              <span>
+                {c.name} <span className="muted">{[c.bank, c.size != null ? 'size ' + c.size : '', c.qual != null ? 'qual ' + c.qual : ''].filter(Boolean).join(' · ')}</span>
+                {cs ? (
+                  <span className="campSunRow">
+                    {cs.on ? `sun ${clock(cs.on)} – ${clock(cs.off)} · ${cs.hours.toFixed(1)} h` : 'no direct sun'}
+                  </span>
+                ) : null}
+              </span>
+            </div>
+          );
+        }}
+      />
+    </>
+  );
+}
 
 const Hikes = () => (
   <Search

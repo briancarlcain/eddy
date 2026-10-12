@@ -21,6 +21,10 @@ trips (localStorage, and the shared db when available).
 - `data/gear.json`, `data/general.json`, `data/trip.json` - gear catalog, safety reference, seeded Grand Canyon trip
 - `build.mjs` - bundles `App.jsx` with esbuild, inlines it into the shell and wraps it in a full HTML document -> `index.html`
 - `index.html` - **generated**; this is what GitHub Pages serves. Do not edit by hand.
+- `src/TopoMap.jsx` - River > Map > Topo map (Leaflet): terrain basemap, pins, sun & shade overlay, offline download
+- `src/geo/` - geo code shared by the app and the build: centerline (`line.js`), sun position and canyon sun times (`sun.js`), horizon casting (`horizon.js`), browser DEM tiles + offline cache (`dem.js`), shade worker (`shade.js`), per-river state and on-device pin / GPX corrections (`index.js`)
+- `data/geo/anchors.json` - per river: known `{mile, lat, lon}` points the centerline is traced between
+- `data/geo/<river>.json` - **generated** by `npm run geo`: centerline + a terrain horizon for every camp
 
 ## Build
 
@@ -53,3 +57,19 @@ Itinerary day) were generated from the planning spreadsheet. Course logins from 
 deliberately not copied. Seed key `riverguide.v1.seed5`: a never-edited seeded trip is replaced; an
 edited one keeps its data and only gets the sheet's gear, menu, payments and day notes where empty.
 Trip > Trip > "Reload planning-sheet data" replaces everything from the seed.
+
+## Topo map and canyon sun
+
+See `docs/TOPO_MAP_PLAN.md`. In short: elevation comes from the open AWS Terrain Tiles (USGS 3DEP/NED). The
+river centerline is traced from that elevation between the anchors in `data/geo/anchors.json`, and every
+rapid / camp / hike is placed on it by river mile (camps and hikes pushed to their bank). Each camp gets a
+360-degree terrain horizon at build time, which gives "direct sun in camp" times for any date with no
+network.
+
+    npm run geo                 # every river with anchors (DEM tiles cache in .cache/dem)
+    npm run geo -- grand-canyon # one river
+    node scripts/geo/preview.mjs grand-canyon 130 140 out.png   # eyeball the line and pins on a hillshade
+
+Rerun `npm run geo` after adding or renaming camps (horizons are keyed by `name@mile`). The trace report
+prints traced vs official miles per segment; a `climb` warning means the path left the canyon floor, which
+needs an extra anchor between those two.

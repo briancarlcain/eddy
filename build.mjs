@@ -46,7 +46,8 @@ const js = result.outputFiles[0].text.replace(/<\/script/gi, '<\\/script');
 const shell = readFileSync('src/shell.html', 'utf8');
 const cut = shell.indexOf('<div id="root">');
 if (cut < 0) throw new Error('shell.html: <div id="root"> not found');
-const ui = readFileSync('src/ui.css', 'utf8');
+// Leaflet's own stylesheet (topo map) goes in ahead of ui.css so the app's rules win
+const ui = readFileSync('node_modules/leaflet/dist/leaflet.css', 'utf8') + '\n' + readFileSync('src/ui.css', 'utf8');
 const head = shell.slice(0, cut).replace(/<\/style>\s*$/, () => `\n/* ---- ui.css ---- */\n${ui}\n</style>\n`);
 const body = shell.slice(cut).replace(/<script src="app\.js"><\/script>/, () => `<script>${js}</script>`);
 if (!body.includes(js.slice(0, 40))) throw new Error('shell.html: <script src="app.js"> not found');
@@ -59,7 +60,7 @@ const web = `<meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">`;
 const app = `<meta name="format-detection" content="telephone=no">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' capacitor: data: blob: 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' capacitor: https://nhplgoetehrydaeoyrgz.supabase.co">`;
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' capacitor: data: blob: 'unsafe-inline'; img-src 'self' data: blob: https://s3.amazonaws.com https://basemap.nationalmap.gov; font-src 'self' data:; connect-src 'self' capacitor: https://nhplgoetehrydaeoyrgz.supabase.co https://s3.amazonaws.com https://basemap.nationalmap.gov">`;
 
 const html = `<!doctype html>
 <html lang="en">
