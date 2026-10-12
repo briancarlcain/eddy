@@ -3583,6 +3583,8 @@ function RiverMap({ s }) {
   const [width, setWidth] = useState(0);
   const scroller = useRef(null);
   const chart = useRef(null);
+  const [chartLeft, setChartLeft] = useState(0);
+  const [paneH, setPaneH] = useState(null);
 
   const planned = useMemo(
     () => new Set(Object.values(s.trip?.plans || {}).filter((p) => p.camp).map((p) => p.camp)),
@@ -3590,7 +3592,16 @@ function RiverMap({ s }) {
   );
 
   useEffect(() => {
-    const measure = () => setWidth(chart.current ? chart.current.clientWidth : 0);
+    const measure = () => {
+      setWidth(chart.current ? chart.current.clientWidth : 0);
+      setChartLeft(chart.current ? chart.current.offsetLeft : 0);
+      // fill from the window's top edge to the tab bar, whatever the header and safe areas add up to
+      const el = scroller.current;
+      if (el) {
+        const nav = document.querySelector('.tabbar')?.getBoundingClientRect().height || 58;
+        setPaneH(Math.max(240, Math.round(window.innerHeight - el.getBoundingClientRect().top - window.scrollY - nav)));
+      }
+    };
     measure();
     window.addEventListener('resize', measure);
     return () => window.removeEventListener('resize', measure);
@@ -3606,9 +3617,11 @@ function RiverMap({ s }) {
   const barMaxR = width - riverX - 15;
   const barMaxL = riverX - 30;
 
+  // the mile in the header is read at this height in the window; the raft sits there on the river
+  const REF = 0.75;
   const onScroll = (e) => {
     const el = e.currentTarget;
-    const ref = el.clientHeight * 0.75;
+    const ref = el.clientHeight * REF;
     const m = MAXMILE - (el.scrollTop + ref - TOPPAD) / PPM;
     setMile(Math.max(0, Math.min(MAXMILE, m)));
   };
@@ -3733,7 +3746,9 @@ function RiverMap({ s }) {
         </div>
       </header>
 
-      <div className="mapWindow" ref={scroller} onScroll={onScroll}>
+      <div className="mapPane">
+      {width ? <RaftMark style={{ left: chartLeft + riverX, top: REF * 100 + '%' }} /> : null}
+      <div className="mapWindow" ref={scroller} onScroll={onScroll} style={paneH ? { height: paneH } : undefined}>
         <div className="plot">
           <div className="chart" ref={chart} style={{ height: Math.max(TOPPAD + MAXMILE * PPM, tops.max + 16) + BOTPAD }}>
             {RIVER.clusters.map((cl) => (
@@ -3851,6 +3866,7 @@ function RiverMap({ s }) {
           </div>
           <div className="foot">Tap a marker for details</div>
         </div>
+      </div>
       </div>
 
       <div className={'fsheetWrap' + (filters ? ' show' : '')} onClick={(e) => e.target === e.currentTarget && setFilters(false)}>
@@ -4045,6 +4061,18 @@ function DropDetails({ d, trip }) {
     </>
   );
 }
+
+// a raft seen from above, bow downstream (up the chart), marking the mile shown in the header
+const RaftMark = ({ style }) => (
+  <div className="reachraft" style={style} aria-hidden="true">
+    <svg width="17" height="25" viewBox="0 0 17 25">
+      <path d="M1 12.5h3M13 12.5h3" stroke="#5a3a1e" strokeWidth="1.4" strokeLinecap="round" />
+      <rect x="2.5" y="1" width="12" height="23" rx="6" fill="#c0532f" stroke="#6e2414" strokeWidth="1" />
+      <rect x="5.2" y="4.6" width="6.6" height="15.8" rx="3.3" fill="#ead6b8" />
+      <path d="M4.2 9.4h8.6M4.2 15.6h8.6" stroke="#6e2414" strokeWidth="1.5" />
+    </svg>
+  </div>
+);
 
 const FSec = ({ title, onAll, onNone, children }) => (
   <div className="fsec">

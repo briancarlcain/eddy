@@ -558,3 +558,8 @@ body.shot #fakeStatus { background: #faf8f3; }
 .topo .toolBtn.on { background: #2f5d62; color: #fff; }
 .topo .topoNote { right: 56px; }
 .topo .leaflet-image-layer { image-rendering: auto; }
+/* mile chart: the raft at the reading line */
+.gcmap .mapPane { position: relative; }
+.gcmap .reachraft { position: absolute; z-index: 15; width: 17px; height: 25px; margin-left: -8.5px; margin-top: -12.5px;
+  pointer-events: none; filter: drop-shadow(0 1px 2px rgba(40, 20, 10, .45)); }
+.gcmap .reachraft svg { display: block; }
