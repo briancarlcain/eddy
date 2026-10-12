@@ -1618,7 +1618,7 @@ body.shot #fakeStatus { background: #faf8f3; }
 .rg .card > .tabs { margin-bottom: 14px; }
 
 /* ---- topo map ---- */
-.rg .mapMode { display: flex; gap: 8px; padding: 8px 15px 0; }
+.rg .mapMode { display: flex; gap: 8px; padding: 10px 15px 12px; }
 .topoWrap { position: relative; }
 .topo { position: relative; overflow: hidden; }
 .topoMap { height: calc(100vh - var(--nav-h) - 150px); min-height: 320px; background: #e8e2d2; }
@@ -1650,7 +1650,7 @@ body.shot #fakeStatus { background: #faf8f3; }
 .topoWrap .sheet.show { z-index: 1100; }
 .topoMap:focus, .topoMap:focus-visible { outline: none; }
 /* the Mile chart / Topo map switch sits above the chart: take its height out of the chart window */
-.shell:not(.onmap) .mapMode + .gcmap .mapWindow { height: calc(100vh - var(--nav-h) - 132px - 42px - 44px); }
+.shell:not(.onmap) .mapMode + .gcmap .mapWindow { height: calc(100vh - var(--nav-h) - 132px - 42px - 58px); }
 /* topo: v2 controls */
 .topo .topoBar { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; right: 56px; pointer-events: auto; padding-bottom: 4px; }
 .topo .topoBar::-webkit-scrollbar { display: none; }
