@@ -10,11 +10,10 @@ import { askReminders, boot, clearReminders, hideSplash, isNative, onOpenUrl, on
 import { canon, mergeTrips, stamp, strip } from './merge.js';
 import * as remote from './sync.js';
 import * as authApi from './auth.js';
-import TopoMap from './TopoMap.jsx';
-import { campSun, hasGeo, movePin, parseGPX, position, resetPin, setHikeTrack, hikeTrack, trackStats } from './geo/index.js';
-import { horizon } from './geo/horizon.js';
-import { encodeHorizon } from './geo/sun.js';
-import { sampler } from './geo/dem.js';
+import TopoMap, { OfflinePanel } from './TopoMap.jsx';
+import SunChart from './SunChart.jsx';
+import { campHorizon, campSun, dropHorizon, drops, dropsGPX, hasGeo, hikeTrack, onGeoChange, parseGPX, position, removeDrop, setHikeTrack, trackStats, updateDrop } from './geo/index.js';
+import { sunDay } from './geo/sun.js';
 
 // set by build.mjs: the App Store build ships a fictional sample trip, never the crew's real one
 const IS_STORE = typeof __STORE__ !== 'undefined' && __STORE__;
@@ -3453,7 +3452,19 @@ function River({ s, browse, onBrowse, onPlan }) {
 
 function RiverDetail({ s }) {
   const [tab, setTab] = useState(QS.get('sub') || 'Map');
-  const [mapMode, setMapMode] = useState(QS.get('map') || 'chart');
+  const [mapMode, setMapModeRaw] = useState(() => {
+    try {
+      return QS.get('map') || localStorage.getItem('riverguide.mapMode') || 'chart';
+    } catch {
+      return 'chart';
+    }
+  });
+  const setMapMode = (m) => {
+    setMapModeRaw(m);
+    try {
+      localStorage.setItem('riverguide.mapMode', m);
+    } catch {}
+  };
   const [editing, setEditing] = useState(false);
   const [msg, setMsg] = useState('');
   // the trip's camp plan only means something on the trip's own river
@@ -3516,6 +3527,11 @@ function RiverDetail({ s }) {
               </button>
             </div>
             {msg ? <div className="muted mt">{msg}</div> : null}
+            {hasGeo(RIVER.id) ? (
+              <div className="card mt">
+                <OfflinePanel rid={RIVER.id} />
+              </div>
+            ) : null}
           </div>
         )
       ) : (
@@ -3893,36 +3909,30 @@ function RiverMap({ s }) {
   );
 }
 
-// River > Map > Topo: the real map, with the same detail sheet plus pin and track corrections
+// River > Map > Topo: the real map, the same detail sheet, and dropped pins with their own sun data
 function RiverTopo({ s }) {
   const [sheet, setSheet] = useState(null);
-  const [picking, setPicking] = useState(null);
-  const [msg, setMsg] = useState('');
+  const [focus, setFocus] = useState(null);
+  const [, setRev] = useState(0);
+  useEffect(() => onGeoChange(() => setRev((r) => r + 1)), []);
   const planned = useMemo(
     () => new Set(Object.values(s.trip?.plans || {}).filter((p) => p.camp).map((p) => p.camp)),
     [s.trip]
   );
   const colors = useMemo(() => ({ camp: qColor, hike: hColor, rapid: RAPIDCOL }), []);
   const date = s.trip && okDate(s.trip.start) ? s.trip.start : null;
-  const onPicked = async (lat, lon) => {
-    const { kind, item } = picking;
-    setPicking(null);
-    if (kind !== 'camp') {
-      movePin(RIVER.id, kind, item, lat, lon);
-      return;
-    }
-    // a moved camp sees different walls: recompute its horizon from terrain around the new spot
-    setMsg('Recomputing sun for the new spot…');
-    try {
-      const { elev, missing } = await sampler(lat, lon, 3300, 25500);
-      if (missing) throw new Error('missing terrain');
-      movePin(RIVER.id, kind, item, lat, lon, encodeHorizon(horizon(lat, lon, elev)));
-      setMsg('');
-    } catch {
-      movePin(RIVER.id, kind, item, lat, lon);
-      setMsg('Pin moved. Sun times still use the old spot until terrain loads (needs signal or the offline download).');
-    }
+  const open = (kind, item) => {
+    setSheet({ kind: kind === 'landmark' ? 'rapid' : kind, item, geoKind: kind });
+    // the shade timeline shows direct sun for the last camp or pin you opened
+    if (kind === 'camp') {
+      const p = position(RIVER.id, 'camp', item), h = campHorizon(RIVER.id, item);
+      if (p && h) setFocus({ id: 'c:' + item.name, name: item.name, lat: p.lat, lon: p.lon, h });
+    } else if (kind === 'drop') setFocus({ id: item.id, name: item.name, lat: item.lat, lon: item.lon, h: dropHorizon(item) });
   };
+  // a dropped pin's horizon arrives a moment after the pin: keep the sheet and the focus on the live record
+  const live = sheet?.kind === 'drop' ? drops().find((d) => d.id === sheet.item.id) : null;
+  const shown = sheet?.kind === 'drop' ? (live ? { ...sheet, item: live } : null) : sheet;
+  const f = focus && live && focus.id === live.id && !focus.h && live.h ? { ...focus, h: dropHorizon(live) } : focus;
   return (
     <div className="topoWrap">
       <TopoMap
@@ -3931,74 +3941,108 @@ function RiverTopo({ s }) {
         planned={planned}
         colors={colors}
         date={date}
-        onOpen={(kind, item) => setSheet({ kind: kind === 'landmark' ? 'rapid' : kind, item, geoKind: kind })}
-        picking={picking?.item}
-        onPicked={onPicked}
-        onCancelPick={() => setPicking(null)}
+        onOpen={open}
+        focus={f}
+        onClearFocus={() => setFocus(null)}
       />
-      {msg ? <div className="topoMsg muted small">{msg}</div> : null}
       <DetailSheet
-        sheet={sheet}
+        sheet={shown}
         trip={s.trip}
         onClose={() => setSheet(null)}
-        actions={sheet ? <PinActions sheet={sheet} onMove={() => { setPicking({ kind: sheet.geoKind, item: sheet.item }); setSheet(null); }} /> : null}
+        actions={shown && shown.kind === 'hike' ? <HikeTrack item={shown.item} /> : null}
       />
     </div>
   );
 }
 
-function PinActions({ sheet, onMove }) {
-  const { geoKind: kind, item } = sheet;
+function HikeTrack({ item }) {
   const [err, setErr] = useState('');
   const [, bump] = useState(0);
-  const p = position(RIVER.id, kind, item);
-  const track = kind === 'hike' ? hikeTrack(RIVER.id, item) : null;
+  const track = hikeTrack(RIVER.id, item);
   const st = track ? trackStats(track) : null;
   return (
     <div className="pinActions">
-      {p ? (
-        <div className="muted small">
-          {p.lat.toFixed(5)}, {p.lon.toFixed(5)} {p.moved ? '· moved by you' : '· placed from the river mile'}
-        </div>
-      ) : null}
       {st ? (
         <div className="small">
           Track {st.miles.toFixed(1)} mi{st.gainFt != null ? ` · ${Math.round(st.gainFt).toLocaleString()} ft gain` : ''}
         </div>
       ) : null}
       <div className="row">
-        <button className="btn ghost" onClick={onMove}>Move pin</button>
-        {p?.moved ? (
-          <button className="btn ghost" onClick={() => { resetPin(RIVER.id, kind, item); bump((n) => n + 1); }}>Reset pin</button>
-        ) : null}
-        {kind === 'hike' ? (
-          <label className="btn ghost">
-            {track ? 'Replace GPX' : 'Attach GPX track'}
-            <input
-              type="file"
-              accept=".gpx,application/gpx+xml,application/xml,text/xml"
-              hidden
-              onChange={async (e) => {
-                const f = e.target.files?.[0];
-                e.target.value = '';
-                if (!f) return;
-                try {
-                  setHikeTrack(RIVER.id, item, parseGPX(await f.text()));
-                  setErr('');
-                  bump((n) => n + 1);
-                } catch (x) {
-                  setErr(x.message);
-                }
-              }}
-            />
-          </label>
-        ) : null}
-        {track && kind === 'hike' ? (
+        <label className="btn ghost">
+          {track ? 'Replace GPX' : 'Attach GPX track'}
+          <input
+            type="file"
+            accept=".gpx,application/gpx+xml,application/xml,text/xml"
+            hidden
+            onChange={async (e) => {
+              const file = e.target.files?.[0];
+              e.target.value = '';
+              if (!file) return;
+              try {
+                setHikeTrack(RIVER.id, item, parseGPX(await file.text()));
+                setErr('');
+                bump((n) => n + 1);
+              } catch (x) {
+                setErr(x.message);
+              }
+            }}
+          />
+        </label>
+        {track ? (
           <button className="btn ghost" onClick={() => { setHikeTrack(RIVER.id, item, null); bump((n) => n + 1); }}>Remove track</button>
         ) : null}
       </div>
       {err ? <div className="muted small">{err}</div> : null}
     </div>
+  );
+}
+
+// the sky from one spot for one day: when the sun clears the walls and when it goes behind them
+function SpotSun({ lat, lon, h, iso }) {
+  if (!h) return null;
+  const cs = sunDay(iso, lat, lon, RIVER.tz, h);
+  return (
+    <div className="spotSun">
+      <div className="campSun">
+        <Icon name="sunset" size={16} />
+        <span>
+          {cs.on ? (
+            <>
+              Direct sun <b>{clock(cs.on)}</b> – <b>{clock(cs.off)}</b> · {cs.hours.toFixed(1)} h
+              {cs.spans.length > 1 ? <> (in {cs.spans.length} spells: {cs.spans.map(([a, b]) => `${clock(a)}–${clock(b)}`).join(', ')})</> : null}
+            </>
+          ) : (
+            <>No direct sun</>
+          )}
+          <span className="muted"> · {fmt(iso)} · open-sky sunrise {clock(cs.rise)}, sunset {clock(cs.set)}</span>
+        </span>
+      </div>
+      <SunChart h={h} lat={lat} lon={lon} iso={iso} tz={RIVER.tz} />
+      <div className="muted small">The shaded shape is the skyline from this spot; the line is the sun's path. Solid = direct sun, dashed = behind the walls.</div>
+    </div>
+  );
+}
+
+function DropDetails({ d, trip }) {
+  const [iso, setIso] = useState(trip && okDate(trip.start) ? trip.start : todayISO());
+  const h = dropHorizon(d);
+  return (
+    <>
+      <div className="row mb-s">
+        <Field value={d.name} onChange={(e) => updateDrop(d.id, { name: e.target.value })} placeholder="Name" />
+        <Field type="date" value={iso} onChange={(e) => okDate(e.target.value) && setIso(e.target.value)} />
+      </div>
+      {h ? <SpotSun lat={d.lat} lon={d.lon} h={h} iso={iso} /> : <div className="muted">Working out the walls around this spot…</div>}
+      <div className="row mt">
+        <button
+          className="btn ghost"
+          onClick={() => saveFile('river-guide-pins.gpx', dropsGPX(drops()), 'application/gpx+xml')}
+        >
+          Export pins (GPX)
+        </button>
+        <button className="btn ghost danger" onClick={() => removeDrop(d.id)}>Delete pin</button>
+      </div>
+    </>
   );
 }
 
@@ -4105,13 +4149,35 @@ function DetailSheet({ sheet, onClose, trip, actions }) {
     );
     desc = d.desc || (sw && qw ? `A ${sw}, ${qw} campsite.` : 'Camp size and quality not recorded for this site.');
     if (/Hualapai Permit/i.test(d.name)) desc += ' Requires a Hualapai permit.';
+    const cp = position(RIVER.id, 'camp', d), ch = campHorizon(RIVER.id, d);
     desc = (
       <>
         <div>{desc}</div>
-        <CampSunLine c={d} iso={campDate(trip, d)} />
+        {cp && ch ? <SpotSun lat={cp.lat} lon={cp.lon} h={ch} iso={campDate(trip, d)} /> : <CampSunLine c={d} iso={campDate(trip, d)} />}
+        {cp ? <div className="muted small mt">{cp.lat.toFixed(5)}, {cp.lon.toFixed(5)} · {cp.gps ? 'GPS position' : 'placed from the river mile'}</div> : null}
       </>
     );
     foot = RIVER.notes.camp;
+  } else if (kind === 'drop') {
+    name = d.name || 'Pin';
+    meta = (
+      <>
+        <span>
+          <b>{d.lat.toFixed(5)}, {d.lon.toFixed(5)}</b>
+        </span>
+        {d.elev != null ? (
+          <span>
+            Elevation <b>{Math.round(d.elev * 3.28084).toLocaleString()} ft</b>
+          </span>
+        ) : null}
+        {d.near ? (
+          <span>
+            Near mile <b>{d.near.mile}</b> · river {d.near.side === 'R' ? 'right' : 'left'} · {Math.round(d.near.m * 3.28084).toLocaleString()} ft from the river
+          </span>
+        ) : null}
+      </>
+    );
+    desc = <DropDetails d={d} trip={trip} />;
   } else if (kind === 'geo') {
     name = d.full;
     meta = (

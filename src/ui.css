@@ -519,3 +519,42 @@ body.shot #fakeStatus { background: #faf8f3; }
 .topoMap:focus, .topoMap:focus-visible { outline: none; }
 /* the Mile chart / Topo map switch sits above the chart: take its height out of the chart window */
 .shell:not(.onmap) .mapMode + .gcmap .mapWindow { height: calc(100vh - var(--nav-h) - 132px - 42px - 44px); }
+/* topo: v2 controls */
+.topo .topoBar { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; right: 56px; pointer-events: auto; padding-bottom: 4px; }
+.topo .topoBar::-webkit-scrollbar { display: none; }
+.topo .topoBar .chip { flex: none; }
+.topo .topoNote { position: absolute; left: 10px; right: 56px; top: 58px; z-index: 500; display: flex; gap: 10px; align-items: center; justify-content: space-between;
+  padding: 9px 12px; border-radius: 10px; background: rgba(250, 248, 243, .96); box-shadow: 0 1px 6px rgba(40, 30, 10, .2); font-size: 13.5px; }
+.linkBtn { background: none; border: 0; padding: 4px 6px; color: #2f5d62; font: inherit; font-weight: 600; cursor: pointer; }
+.topo .playBtn { min-width: 44px; padding: 0 12px; }
+.topo .topoTime { flex: 1; min-width: 150px; font-variant-numeric: tabular-nums; }
+.topo .topoTrack { position: relative; height: 26px; display: flex; align-items: center; }
+.topo .topoTrack .litSpan { position: absolute; top: 3px; height: 5px; border-radius: 3px; background: #e2a33a; pointer-events: none; }
+.topo .topoTrack .topoRange { position: relative; margin: 0; }
+.topo .topoTicks { position: relative; height: 14px; margin: -4px 9px 0; font-size: 11px; color: var(--ink-faint, #9d9385); font-variant-numeric: tabular-nums; }
+.topo .topoTicks span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.topo .litSw { background: #e2a33a; }
+.topo .focusName { display: inline-flex; align-items: center; gap: 2px; }
+.dropPin span { display: block; width: 22px; height: 22px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: #b26840; border: 2px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.35); }
+.dropPin.on span { background: #9c3326; }
+.offline { display: grid; gap: 8px; }
+.offline .offlineHead { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.offline .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.spotSun { display: grid; gap: 6px; margin-top: 6px; }
+.sunChart { width: 100%; height: auto; display: block; margin-top: 4px; }
+.sunChart .scGrid { stroke: rgba(74, 42, 18, .1); stroke-width: 1; }
+.sunChart .scAxis, .sunChart .scHour { font-size: 9px; fill: #8d8272; font-family: inherit; }
+.sunChart .scHour { fill: #6b5a44; }
+.sunChart .scTerrain { fill: rgba(150, 110, 70, .32); stroke: #8a6a48; stroke-width: 1; }
+.sunChart .scSun { fill: none; stroke: #e2a33a; stroke-width: 2.5; stroke-linecap: round; }
+.sunChart .scShade { fill: none; stroke: #8d8272; stroke-width: 1.5; stroke-dasharray: 3 3; }
+.sunChart .scDot { fill: #e2a33a; }
+.sunChart .scDotOff { fill: #a99c8a; }
+.sunChart .scNow { fill: none; stroke: #9c3326; stroke-width: 2; }
+.sheet .mb-s { margin-bottom: 6px; }
+.topo .topoBar { right: 10px; overflow: visible; flex-wrap: wrap; }
+.topo .topoTools { position: absolute; right: 10px; top: 140px; z-index: 500; display: grid; gap: 8px; }
+.topo .toolBtn { width: 34px; height: 34px; border-radius: 4px; border: 2px solid rgba(0,0,0,.2); background: #fff; color: #3a3226; display: grid; place-items: center; padding: 0; cursor: pointer; background-clip: padding-box; }
+.topo .toolBtn.on { background: #2f5d62; color: #fff; }
+.topo .topoNote { right: 56px; }
+.topo .leaflet-image-layer { image-rendering: auto; }

@@ -1,15 +1,25 @@
 // Browser DEM tiles (Terrarium PNG from AWS Terrain Tiles), kept in Cache Storage so the topo map and the
 // shade overlay work on the river with no signal. A tile that can't be fetched falls back to the nearest
 // cached ancestor, upsampled, so an offline map at any zoom still draws from the lower zooms downloaded.
+import { tileStore, persist } from './store.js';
+
 export const DEM_URL = 'https://s3.amazonaws.com/elevation-tiles-prod/terrarium';
 export const DEM_MAX = 15;
-const CACHE = 'riverguide-dem-v1';
 
 const mem = new Map(); // "z/x/y" -> Promise<Float32Array|null>
 const MEM_MAX = 400;
 
-let cachePromise = null;
-const openCache = () => (cachePromise ||= typeof caches !== 'undefined' ? caches.open(CACHE).catch(() => null) : Promise.resolve(null));
+// no service, or one bar that never delivers: after a failed request, use saved tiles for a minute
+// instead of making every tile wait on the network
+let downUntil = 0;
+const online = () => Date.now() > downUntil && (typeof navigator === 'undefined' || navigator.onLine !== false);
+// a weak signal can hang a request for a minute; give up quickly and fall back to saved tiles
+function fetchSoon(url, ms = 6000, signal) {
+  const ctl = new AbortController();
+  const t = setTimeout(() => ctl.abort(), ms);
+  signal?.addEventListener('abort', () => ctl.abort());
+  return fetch(url, { mode: 'cors', signal: ctl.signal }).finally(() => clearTimeout(t));
+}
 
 async function decode(blob) {
   const bmp = await createImageBitmap(blob);
@@ -22,23 +32,23 @@ async function decode(blob) {
   return a;
 }
 
-// raw tile from cache or network (no fallback); null when unavailable
+// raw tile from the device store or the network (no fallback); null when unavailable
 async function raw(z, x, y, { network = true } = {}) {
-  const url = `${DEM_URL}/${z}/${x}/${y}.png`;
-  const cache = await openCache();
-  let res = cache && (await cache.match(url).catch(() => null));
-  if (!res && network) {
+  const k = `${z}/${x}/${y}`;
+  let blob = await tileStore.get(k).catch(() => null);
+  if (!blob && network && online()) {
     try {
-      res = await fetch(url, { mode: 'cors' });
+      const res = await fetchSoon(`${DEM_URL}/${k}.png`);
       if (!res.ok) return null;
-      if (cache) cache.put(url, res.clone()).catch(() => {});
+      blob = await res.blob();
     } catch {
+      downUntil = Date.now() + 60000;
       return null;
     }
   }
-  if (!res) return null;
+  if (!blob) return null;
   try {
-    return await decode(await res.blob());
+    return await decode(blob);
   } catch {
     return null;
   }
@@ -138,11 +148,13 @@ export async function sampler(lat, lon, near, far) {
   return { elev, missing };
 }
 
-// Offline pack: every tile z8..z13 within `buf` metres of the line (wider at low zoom). -> ["z/x/y"]
-export function corridorTiles(ll, { near = 4000, far = 15000 } = {}) {
+// Offline pack: every tile z8..z13 around the line, wide enough to take in both rims and the terrain beyond
+// them that throws shadows into the canyon. -> ["z/x/y"]
+export const PACK = { 8: 30000, 9: 30000, 10: 30000, 11: 25000, 12: 15000, 13: 10000 };
+export function corridorTiles(ll, bufs = PACK) {
   const set = new Set();
-  for (let z = 8; z <= 13; z++) {
-    const r = z >= 12 ? near : far;
+  for (const [zs, r] of Object.entries(bufs)) {
+    const z = +zs;
     for (let i = 0; i < ll.length; i++) {
       const [lat, lon] = ll[i];
       const dl = r / 110540, dn = r / (111320 * Math.cos((lat * Math.PI) / 180));
@@ -154,33 +166,51 @@ export function corridorTiles(ll, { near = 4000, far = 15000 } = {}) {
 }
 
 export async function cachedCount(keys) {
-  const cache = await openCache();
-  if (!cache) return 0;
-  const have = new Set((await cache.keys()).map((r) => r.url.slice(DEM_URL.length + 1).replace(/\.png$/, '')));
+  const have = await tileStore.keys().catch(() => new Set());
   return keys.filter((k) => have.has(k)).length;
 }
 
 export async function download(keys, onProgress, signal) {
-  const cache = await openCache();
-  if (!cache) throw new Error('This browser has no offline storage');
-  const have = new Set((await cache.keys()).map((r) => r.url));
-  const todo = keys.map((k) => `${DEM_URL}/${k}.png`).filter((u) => !have.has(u));
-  let done = keys.length - todo.length, failed = 0, next = 0;
-  onProgress(done, keys.length, failed);
+  await persist();
+  const have = await tileStore.keys();
+  const todo = keys.filter((k) => !have.has(k));
+  let done = keys.length - todo.length, next = 0;
+  const failed = [];
+  onProgress(done, keys.length, 0);
+  const one = async (k) => {
+    if (tileStore.fetchTo) return tileStore.fetchTo(k, `${DEM_URL}/${k}.png`);
+    const r = await fetchSoon(`${DEM_URL}/${k}.png`, 20000, signal);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    await tileStore.put(k, await r.blob());
+  };
   await Promise.all(
     Array.from({ length: 6 }, async () => {
       while (next < todo.length && !signal?.aborted) {
-        const u = todo[next++];
+        const k = todo[next++];
         try {
-          const r = await fetch(u, { mode: 'cors', signal });
-          if (r.ok) await cache.put(u, r);
-          else failed++;
+          await one(k);
+          onProgress(++done, keys.length, failed.length);
         } catch {
-          failed++;
+          failed.push(k);
         }
-        onProgress(++done, keys.length, failed);
+        if (done % 50 === 0) tileStore.flush();
       }
     })
   );
-  return { failed };
+  // a second, one-at-a-time pass for anything that failed (a dropped connection, a busy moment)
+  const left = [];
+  for (const k of failed) {
+    if (signal?.aborted) { left.push(k); continue; }
+    try {
+      await one(k);
+      onProgress(++done, keys.length, left.length);
+    } catch {
+      left.push(k);
+    }
+  }
+  await tileStore.flush();
+  return { failed: left.length };
 }
+
+export const removeDownloads = () => tileStore.clear().then(() => mem.clear());
+export { tileStore };

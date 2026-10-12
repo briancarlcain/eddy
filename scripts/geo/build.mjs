@@ -39,6 +39,37 @@ function elev(lat, lon, far) {
   return (sample(x0, y0) * (1 - tx) + sample(x0 + 1, y0) * tx) * (1 - ty) + (sample(x0, y0 + 1) * (1 - tx) + sample(x0 + 1, y0 + 1) * tx) * ty;
 }
 
+// Anchor marks plus one mark per surveyed item that sits on the line, kept only where miles still run
+// downstream. Between marks, miles are spread by distance, so every surveyed camp sharpens its neighbours.
+function calibrate(geo, coords, river) {
+  const base = (geo.anchorMarks ||= geo.marks);
+  const L = decodeLine({ ...geo, marks: base });
+  const byKey = {};
+  for (const k of ['camps', 'rapids', 'hikes']) for (const it of river[k] || []) byKey[k.slice(0, -1) + ':' + itemKey(it)] = it;
+  const cand = [];
+  for (const [k, [lat, lon]] of Object.entries(coords)) {
+    const it = byKey[k];
+    if (!it) continue;
+    let bi = 0, bd = Infinity;
+    L.ll.forEach(([a, b], i) => {
+      const d = Math.hypot((a - lat) * 110540, (b - lon) * 111320 * Math.cos((lat * Math.PI) / 180));
+      if (d < bd) { bd = d; bi = i; }
+    });
+    if (bd < 250) cand.push([bi, it.mile]);
+  }
+  const all = [...base.map((m) => [...m, true]), ...cand.map((m) => [...m, false])].sort((a, b) => a[0] - b[0] || (b[2] ? 1 : -1));
+  const kept = [];
+  for (let i = 0; i < all.length; i++) {
+    const [idx, mile, fixed] = all[i];
+    const prev = kept[kept.length - 1];
+    const nextFixed = all.slice(i + 1).find((m) => m[2]);
+    if (fixed || (prev && idx > prev[0] && mile > prev[1] && (!nextFixed || (idx < nextFixed[0] && mile < nextFixed[1])))) kept.push([idx, mile, fixed]);
+  }
+  const used = kept.length - base.length;
+  if (cand.length) console.log(`calibration: ${used} of ${cand.length} surveyed points used as mile marks`);
+  return kept.map(([i, m]) => [i, m]);
+}
+
 for (const id of todo) {
   const river = JSON.parse(readFileSync(`data/rivers/${id}.json`, 'utf8'));
   const out = `data/geo/${id}.json`;
@@ -52,8 +83,13 @@ for (const id of todo) {
     console.table(report);
     geo = encodeLine(pts, marks, river.geoOffset || 40);
   }
+  // surveyed positions (scripts/geo/import-coords.mjs): ship them, and let each one pin its river mile to the line
+  const coordsFile = `data/geo/coords/${id}.json`;
+  const coords = existsSync(coordsFile) ? JSON.parse(readFileSync(coordsFile, 'utf8')) : {};
+  geo.ll = Object.fromEntries(Object.entries(coords).map(([k, v]) => [k, [v[0], v[1]]]));
+  geo.marks = calibrate(geo, coords, river);
   const L = decodeLine(geo);
-  const camps = river.camps || [];
+  const camps = (river.camps || []).map((c) => (geo.ll['camp:' + itemKey(c)] ? { ...c, ll: geo.ll['camp:' + itemKey(c)] } : c));
   const horizons = {};
   const t0 = Date.now();
   for (const [n, c] of camps.entries()) {

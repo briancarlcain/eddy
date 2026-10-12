@@ -21,8 +21,9 @@ trips (localStorage, and the shared db when available).
 - `data/gear.json`, `data/general.json`, `data/trip.json` - gear catalog, safety reference, seeded Grand Canyon trip
 - `build.mjs` - bundles `App.jsx` with esbuild, inlines it into the shell and wraps it in a full HTML document -> `index.html`
 - `index.html` - **generated**; this is what GitHub Pages serves. Do not edit by hand.
-- `src/TopoMap.jsx` - River > Map > Topo map (Leaflet): terrain basemap, pins, sun & shade overlay, offline download
-- `src/geo/` - geo code shared by the app and the build: centerline (`line.js`), sun position and canyon sun times (`sun.js`), horizon casting (`horizon.js`), browser DEM tiles + offline cache (`dem.js`), shade worker (`shade.js`), per-river state and on-device pin / GPX corrections (`index.js`)
+- `src/TopoMap.jsx` - River > Map > Topo map (Leaflet): terrain basemap, pins, dropped pins, sun & shade day timeline, offline download
+- `src/SunChart.jsx` - the skyline-and-sun-path chart for a camp or dropped pin
+- `src/geo/` - geo code shared by the app and the build: centerline (`line.js`), sun position and canyon sun times (`sun.js`), horizon casting (`horizon.js`), DEM tiles (`dem.js`) and their offline store (`store.js`), shade worker pool (`shade.js`), per-river state, dropped pins and GPX tracks (`index.js`)
 - `data/geo/anchors.json` - per river: known `{mile, lat, lon}` points the centerline is traced between
 - `data/geo/<river>.json` - **generated** by `npm run geo`: centerline + a terrain horizon for every camp
 
@@ -69,6 +70,21 @@ network.
     npm run geo                 # every river with anchors (DEM tiles cache in .cache/dem)
     npm run geo -- grand-canyon # one river
     node scripts/geo/preview.mjs grand-canyon 130 140 out.png   # eyeball the line and pins on a hillshade
+
+Surveyed GPS positions beat mile placement. To add them (from a guidebook GPX, a GIS export, or pins dropped
+on a trip and exported from the app):
+
+    node scripts/geo/import-coords.mjs grand-canyon camps.gpx           # dry run: shows each match
+    node scripts/geo/import-coords.mjs grand-canyon camps.gpx --write   # saves data/geo/coords/grand-canyon.json
+    npm run geo -- grand-canyon
+
+Each matched camp then uses its GPS position for the map and its horizon, and also becomes a mile mark that
+re-calibrates the river miles around it.
+
+Offline: River > More (or Offline on the topo map) downloads a river's terrain, about 130 MB for the Grand
+Canyon (10 km either side at full detail, wider at lower detail). On the iPhone it is saved as files in the
+app's data folder (`src/geo/store.js`); on the web, in Cache Storage. The map, sun & shade and dropped pins
+read only from there when there's no signal.
 
 Rerun `npm run geo` after adding or renaming camps (horizons are keyed by `name@mile`). The trace report
 prints traced vs official miles per segment; a `climb` warning means the path left the canyon floor, which

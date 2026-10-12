@@ -81,26 +81,45 @@ There's no signal on the river, so this matters:
 
 ## Status
 
-Built and checked in headless Chromium against the real app (Grand Canyon):
+Round 2 (after first review):
+- **No editing of rapids or camps on the device.** Their positions come from the data: a surveyed GPS point
+  when there is one (`data/geo/coords/<river>.json`, from `scripts/geo/import-coords.mjs`), otherwise the
+  river mile. Every surveyed point also becomes a mile mark that re-calibrates the line around it.
+- **Drop pin / My location**: any spot gets its own terrain horizon computed on the device (from saved
+  terrain when offline), its sun times for any date, a skyline-and-sun-path chart, and "near mile 94.1, river
+  right, 574 ft from the river". Pins export as GPX, which is also how camp positions recorded on a trip get
+  back into the data.
+- **Day timeline**: Sun & shade precomputes the whole day in 10-minute frames in a worker pool (Grand
+  Canyon view: ~2 s for 60 frames in desktop Chromium), so the slider scrubs instantly and ▶ plays the day. The
+  last opened camp or pin shows its direct-sun spells along the slider.
+- **Wider terrain**: the offline pack is 10 km either side at z13 (~15 m), 15 km at z12 and 25-30 km below,
+  which covers both rims and the terrain beyond (1,256 tiles, ~130 MB for the Grand Canyon). Online, the map
+  goes anywhere.
+- **Offline on the iPhone**: terrain is saved as files in the app's data folder (Capacitor Filesystem; iOS
+  doesn't purge it), downloaded natively straight to disk, and read back through the WebView's file URL.
+  Requests time out after 6 s and back off for a minute, so a weak signal doesn't stall the map. Tested in
+  Chromium with all map traffic blocked, on both the browser store and the Filesystem store: terrain draws at
+  every zoom, the day shades, and dropped pins get horizons.
+- Satellite (USGS imagery) and USGS Topo layers for checking the line and camps by eye (online only).
 
-- [x] **Phase 1, pipeline.** 8 anchors; every traced segment is within 3.5% of official miles and climbs ≤ 9 m off
-  the river (a first run caught the Deer Creek loop leaving its search box, which is now guarded by the climb check).
-  272 camp horizons. `data/geo/grand-canyon.json` is 88 KB.
-- [x] **Phase 2, sun.** NOAA solar position checked against Flagstaff (05:14 / 19:46 on the June solstice,
-  published 05:10 / 19:47). Shown in Camps (date picker), the camp sheet, the camp picker ("sun off 3:52 PM"),
-  and Itinerary days (morning = camp you woke at, evening = tonight's camp; "no sun" when the walls win).
-- [x] **Phase 3, topo map.** River > Map > Mile chart | Topo map. Pins show from zoom 11; planned camps show at
-  every zoom. Optional USGS topo layer (online).
-- [x] **Phase 4, shade overlay.** Date + time slider; cast shadow plus self-shading in a worker.
-- [x] **Phase 5, offline.** Cache Storage for every DEM read, plus a corridor download (Grand Canyon: 656 tiles,
-  ~70 MB). iOS CSP allows the tile hosts.
-- [x] **Phase 6, corrections.** Move pin (a camp's horizon is recomputed on device) and Reset pin; GPX attach /
-  replace / remove on hikes with length and gain.
-- [ ] **Phase 7, other rivers.** Each needs anchors in `data/geo/anchors.json`, then `npm run geo -- <id>`.
-- [ ] Check on an iPhone: Cache Storage inside the Capacitor WebView (if it's missing there, the map still works
-  online but Download reports no offline storage; the fallback is Capacitor Filesystem).
-- [ ] Sync moved pins and GPX tracks through the shared db (today they're per device).
-- [ ] Offline download limited to the trip's put-in / take-out miles, instead of the whole river.
+Still open:
+- [ ] Anchors for the other 21 rivers, then `npm run geo -- <id>`.
+- [ ] Surveyed camp coordinates for the Grand Canyon (see "Higher resolution and accuracy" below).
+- [ ] 1 m lidar at build time for camp horizons (USGS 3DEP `AZ_GrandCanyonNP_2019` and others cover parts of
+  the canyon).
+- [ ] Sync dropped pins and GPX tracks through the shared db (today they're per device).
+
+## Higher resolution and accuracy
+
+- On device the terrain is USGS 3DEP 1/3 arc-second (~10 m), drawn at up to ~15 m per pixel offline. For
+  canyon-wall shade that's the right size: the walls are hundreds of metres tall, and phones can hold it.
+- USGS has **1 m lidar** for parts of the Grand Canyon (`AZ_GrandCanyonNP_2019_B19`, 51 tiles, plus
+  Coconino / Navajo Nation / Mohave projects). It is far too large to ship (many GB), but it could sharpen each
+  camp's horizon at build time (close ledges and boulders) and refine the river line.
+- The river line is traced from the 10 m terrain between surveyed anchors (within 3.5% of official miles
+  everywhere). Pins placed by mile can still be a few hundred feet along the river from the real camp. The
+  fix is surveyed GPS per camp, and the importer and calibration are built for it. Satellite view lets you
+  eyeball both the line and the pins.
 
 ## Phases
 

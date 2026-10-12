@@ -1,5 +1,5 @@
 // App-side geo state for the active river: centerline, item positions, camp horizons and sun times,
-// plus on-device corrections (moved pins, recomputed horizons, GPX tracks) kept in localStorage.
+// plus what lives on this device: dropped pins (with their own horizon) and GPX tracks, kept in localStorage.
 import grandCanyon from '../../data/geo/grand-canyon.json';
 import { decodeLine, atMile, itemKey } from './line.js';
 import { decodeHorizon, sunDay } from './sun.js';
@@ -24,7 +24,7 @@ function save() {
 }
 export const onGeoChange = (f) => (listeners.add(f), () => listeners.delete(f));
 
-const local = (rid) => (store[rid] ||= { pins: {}, horizons: {}, tracks: {} });
+const local = (rid) => (store[rid] ||= { tracks: {} });
 
 const lines = new Map();
 export function riverLine(rid) {
@@ -33,44 +33,58 @@ export function riverLine(rid) {
 }
 export const hasGeo = (rid) => !!GEO[rid];
 
-// kind: 'camp' | 'hike' | 'rapid' | 'landmark' | 'access'. Returns { lat, lon, moved } or null.
+// kind: 'camp' | 'hike' | 'rapid' | 'landmark' | 'access'. Returns { lat, lon, gps } or null.
+// A surveyed `ll` in the river data wins; otherwise the river mile is placed on the centerline.
 export function position(rid, kind, it) {
-  const pin = store[rid]?.pins[kind + ':' + itemKey(it)];
-  if (pin) return { lat: pin[0], lon: pin[1], moved: true };
-  if (it.ll) return { lat: it.ll[0], lon: it.ll[1], moved: false };
+  const ll = it.ll || GEO[rid]?.ll?.[kind + ':' + itemKey(it)];
+  if (ll) return { lat: ll[0], lon: ll[1], gps: true };
   const L = riverLine(rid);
   if (!L || it.mile == null) return null;
   const onBank = kind === 'camp' || kind === 'hike';
-  return { ...atMile(L, it.mile, onBank ? it.bank : null), moved: false };
+  return { ...atMile(L, it.mile, onBank ? it.bank : null), gps: false };
 }
 
-export function movePin(rid, kind, it, lat, lon, horizonB64) {
-  const s = local(rid);
-  s.pins[kind + ':' + itemKey(it)] = [+lat.toFixed(6), +lon.toFixed(6)];
-  if (kind === 'camp') {
-    if (horizonB64) s.horizons[itemKey(it)] = horizonB64;
-    else delete s.horizons[itemKey(it)];
-  }
-  hcache.delete(rid + '|' + itemKey(it));
-  save();
-}
-export function resetPin(rid, kind, it) {
-  const s = local(rid);
-  delete s.pins[kind + ':' + itemKey(it)];
-  if (kind === 'camp') delete s.horizons[itemKey(it)];
-  hcache.delete(rid + '|' + itemKey(it));
-  save();
-}
-
-// a moved camp without a recomputed horizon falls back to the shipped one (walls are far; close enough)
 const hcache = new Map();
 export function campHorizon(rid, c) {
   const k = rid + '|' + itemKey(c);
   if (!hcache.has(k)) {
-    const b64 = store[rid]?.horizons[itemKey(c)] || GEO[rid]?.horizons?.[itemKey(c)];
+    const b64 = GEO[rid]?.horizons?.[itemKey(c)];
     hcache.set(k, b64 ? decodeHorizon(b64) : null);
   }
   return hcache.get(k);
+}
+
+// --- dropped pins: any spot on the map, with its own terrain horizon (computed on the device)
+// { id, lat, lon, name, h (base64 horizon), elev, at }
+export const drops = () => (store.drops ||= []);
+export function addDrop(p) {
+  const d = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), at: new Date().toISOString(), ...p };
+  drops().push(d);
+  save();
+  return d;
+}
+export function updateDrop(id, patch) {
+  const d = drops().find((x) => x.id === id);
+  if (d) Object.assign(d, patch);
+  save();
+}
+export function removeDrop(id) {
+  store.drops = drops().filter((x) => x.id !== id);
+  save();
+}
+const dh = new Map();
+export function dropHorizon(d) {
+  if (!d?.h) return null;
+  if (!dh.has(d.h)) dh.set(d.h, decodeHorizon(d.h));
+  return dh.get(d.h);
+}
+export function dropsGPX(list) {
+  const esc = (t) => String(t).replace(/[<>&"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' })[c]);
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="River Guide" xmlns="http://www.topografix.com/GPX/1/1">
+${list.map((d) => `  <wpt lat="${d.lat}" lon="${d.lon}">${d.elev != null ? `<ele>${Math.round(d.elev)}</ele>` : ''}<time>${d.at}</time><name>${esc(d.name || 'Pin')}</name></wpt>`).join('\n')}
+</gpx>
+`;
 }
 
 // Sun for a camp on a local date: evening uses iso, and `next` (the following morning) gives first sun.
