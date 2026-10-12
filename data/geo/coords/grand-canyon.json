@@ -1,0 +1,1352 @@
+{
+ "camp:(Upper) Fence Fault Camp@30.6": [
+  36.518205,
+  -111.847166,
+  "master-camp-data.csv"
+ ],
+ "camp:118.6 Mile Camp@118.6": [
+  36.216468,
+  -112.454211,
+  "master-camp-data.csv"
+ ],
+ "camp:119.1 Mile Camp@119.1": [
+  36.223222,
+  -112.454915,
+  "master-camp-data.csv"
+ ],
+ "camp:119.8 Mile Camp@119.8": [
+  36.232924,
+  -112.459226,
+  "master-camp-data.csv"
+ ],
+ "camp:12.4 Mile Camp@12.4": [
+  36.72608,
+  -111.699313,
+  "master-camp-data.csv"
+ ],
+ "camp:121.4 Mile Camp@121.4": [
+  36.241345,
+  -112.484625,
+  "master-camp-data.csv"
+ ],
+ "camp:122.2 Mile Camp@122.2": [
+  36.243009,
+  -112.498848,
+  "master-camp-data.csv"
+ ],
+ "camp:13 Mile Camp@13": [
+  36.720489,
+  -111.708594,
+  "master-camp-data.csv"
+ ],
+ "camp:136.1 Mile Camp@136.1": [
+  36.383214,
+  -112.49551,
+  "master-camp-data.csv"
+ ],
+ "camp:138.9 Mile@138.9": [
+  36.399498,
+  -112.540927,
+  "master-camp-data.csv"
+ ],
+ "camp:139.1 Mile@139.1": [
+  36.399676,
+  -112.543935,
+  "master-camp-data.csv"
+ ],
+ "camp:158.7 Mile Camp@158.7": [
+  36.301842,
+  -112.786812,
+  "master-camp-data.csv"
+ ],
+ "camp:160.5 Mile Camp@160.5": [
+  36.284482,
+  -112.80195,
+  "master-camp-data.csv"
+ ],
+ "camp:161.3 Mile Camp@161.3": [
+  36.28881,
+  -112.815477,
+  "master-camp-data.csv"
+ ],
+ "camp:167.7 Mile (Hualapai Permit)@167.7": [
+  36.254001,
+  -112.905182,
+  "master-camp-data.csv"
+ ],
+ "camp:172.6 Mile Camp (Hualapai Permit)@172.6": [
+  36.231875,
+  -112.978178,
+  "master-camp-data.csv"
+ ],
+ "camp:173.5 Mile Camp@173.5": [
+  36.23561,
+  -112.99671,
+  "master-camp-data.csv"
+ ],
+ "camp:183.1 Mile Camp (Hualapai Permit)@183.1": [
+  36.16857,
+  -113.128917,
+  "master-camp-data.csv"
+ ],
+ "camp:185.0 Mile Camp (Hualapai Permit)@185": [
+  36.173624,
+  -113.157169,
+  "master-camp-data.csv"
+ ],
+ "camp:186.4 Mile Camp (Hualapai Permit)@186.4": [
+  36.160555,
+  -113.175571,
+  "master-camp-data.csv"
+ ],
+ "camp:186.6 Mile Camp (Hualapai Permit)@186.6": [
+  36.158993,
+  -113.178296,
+  "master-camp-data.csv"
+ ],
+ "camp:189.3 Mile Camp (Hualapai Permit)@189.3": [
+  36.132508,
+  -113.20434,
+  "master-camp-data.csv"
+ ],
+ "camp:189.8 Mile Camp (Hualapai Permit)@189.8": [
+  36.126321,
+  -113.203107,
+  "master-camp-data.csv"
+ ],
+ "camp:19.2 Mile Camp@19.2": [
+  36.650442,
+  -111.758476,
+  "master-camp-data.csv"
+ ],
+ "camp:19.4 Mile Camp@19.4": [
+  36.647918,
+  -111.760554,
+  "master-camp-data.csv"
+ ],
+ "camp:190.2 Mile Camp@190.2": [
+  36.121139,
+  -113.200759,
+  "master-camp-data.csv"
+ ],
+ "camp:190.7 Mile Camp (Hualapai Permit)@190.7": [
+  36.114319,
+  -113.205683,
+  "master-camp-data.csv"
+ ],
+ "camp:192.8 Mile Camp@192.8": [
+  36.091698,
+  -113.22497,
+  "master-camp-data.csv"
+ ],
+ "camp:193.3 Mile Camp (Hualapai Permit)@193.3": [
+  36.089795,
+  -113.233615,
+  "master-camp-data.csv"
+ ],
+ "camp:196.5 Mile Camp@196.5": [
+  36.098007,
+  -113.286079,
+  "master-camp-data.csv"
+ ],
+ "camp:196.8 Mile Camp@196.8": [
+  36.098007,
+  -113.286079,
+  "master-camp-data.csv"
+ ],
+ "camp:20 Mile Camp@20.2": [
+  36.637654,
+  -111.760758,
+  "master-camp-data.csv"
+ ],
+ "camp:201.6 Mile Camp@201.6": [
+  36.059989,
+  -113.3433,
+  "master-camp-data.csv"
+ ],
+ "camp:209.6 Mile Camp@209.6": [
+  35.96249,
+  -113.318268,
+  "master-camp-data.csv"
+ ],
+ "camp:209.8 Mile Camp@209.8": [
+  35.960064,
+  -113.318937,
+  "master-camp-data.csv"
+ ],
+ "camp:21.7 Mile Camp@21.7": [
+  36.617151,
+  -111.757983,
+  "master-camp-data.csv"
+ ],
+ "camp:210.2 Mile Camp@210.2": [
+  35.956234,
+  -113.324824,
+  "master-camp-data.csv"
+ ],
+ "camp:217.2 Mile Camp (Hualapai Permit)@217.2": [
+  35.869604,
+  -113.311892,
+  "master-camp-data.csv"
+ ],
+ "camp:218.0 Mile Camp (Hualapai Permit)@218": [
+  35.857978,
+  -113.31266,
+  "master-camp-data.csv"
+ ],
+ "camp:221 Mile Camp@221.6": [
+  35.813834,
+  -113.330509,
+  "master-camp-data.csv"
+ ],
+ "camp:222 Mile Camp (Hualapai Permit)@222.2": [
+  35.804912,
+  -113.332458,
+  "master-camp-data.csv"
+ ],
+ "camp:223.2 Mile Camp@223.2": [
+  35.792414,
+  -113.33931,
+  "master-camp-data.csv"
+ ],
+ "camp:224 Mile Camp@223.7": [
+  35.785736,
+  -113.343896,
+  "master-camp-data.csv"
+ ],
+ "camp:224.9 Mile Camp (Hualapai Permit)@224.9": [
+  35.775334,
+  -113.358206,
+  "master-camp-data.csv"
+ ],
+ "camp:226.2 Mile Camp@226.2": [
+  35.762282,
+  -113.378901,
+  "master-camp-data.csv"
+ ],
+ "camp:227.3 Mile Camp@227.3": [
+  35.752866,
+  -113.390793,
+  "master-camp-data.csv"
+ ],
+ "camp:231 Mile Camp@231": [
+  35.758773,
+  -113.452586,
+  "master-camp-data.csv"
+ ],
+ "camp:235.1 Mile Camp (Hualapai Permit)@235.1": [
+  35.772002,
+  -113.521297,
+  "master-camp-data.csv"
+ ],
+ "camp:242.6 Mile Camp@242.6": [
+  35.850373,
+  -113.60785,
+  "master-camp-data.csv"
+ ],
+ "camp:243 Mile Camp@243": [
+  35.849346,
+  -113.613861,
+  "master-camp-data.csv"
+ ],
+ "camp:243.1 Mile Camp@243.1": [
+  35.849346,
+  -113.613861,
+  "master-camp-data.csv"
+ ],
+ "camp:247.8 Mile Camp@247.8": [
+  35.84386,
+  -113.655293,
+  "master-camp-data.csv"
+ ],
+ "camp:250 Mile Camp@250": [
+  35.869194,
+  -113.675057,
+  "master-camp-data.csv"
+ ],
+ "camp:252.1 Mile Camp (Hualapai Permit)@252.1": [
+  35.879677,
+  -113.707794,
+  "master-camp-data.csv"
+ ],
+ "camp:259 Mile@259": [
+  35.959533,
+  -113.742037,
+  "master-camp-data.csv"
+ ],
+ "camp:260.4 Mile@260.4": [
+  35.967498,
+  -113.759414,
+  "master-camp-data.csv"
+ ],
+ "camp:264.8 Mile@264.8": [
+  36.02611,
+  -113.78393,
+  "master-camp-data.csv"
+ ],
+ "camp:269.9 Mile@269.9": [
+  36.05269,
+  -113.857978,
+  "master-camp-data.csv"
+ ],
+ "camp:274 Mile@274": [
+  36.093215,
+  -113.899838,
+  "master-camp-data.csv"
+ ],
+ "camp:275.5 Mile Camp@275.5": [
+  36.098839,
+  -113.923467,
+  "master-camp-data.csv"
+ ],
+ "camp:276 Mile Camp@276": [
+  36.1059,
+  -113.924407,
+  "master-camp-data.csv"
+ ],
+ "camp:277.5 Mile Camp@277.5": [
+  36.126899,
+  -113.929867,
+  "master-camp-data.csv"
+ ],
+ "camp:278 Mile Camp@278": [
+  36.132225,
+  -113.935524,
+  "master-camp-data.csv"
+ ],
+ "camp:279 Mile@279": [
+  36.132513,
+  -113.953292,
+  "master-camp-data.csv"
+ ],
+ "camp:280 Mile@280": [
+  36.129737,
+  -113.969211,
+  "master-camp-data.csv"
+ ],
+ "camp:44.9 Mile Camp@44.9": [
+  36.384299,
+  -111.855436,
+  "master-camp-data.csv"
+ ],
+ "camp:61.1 Mile Camp@61.1": [
+  36.202251,
+  -111.80102,
+  "master-camp-data.csv"
+ ],
+ "camp:Above Anvil Camp (Hualapai Permit)@178": [
+  36.207842,
+  -113.055582,
+  "master-camp-data.csv"
+ ],
+ "camp:Above Espejo Camp@66.8": [
+  36.126629,
+  -111.819923,
+  "master-camp-data.csv"
+ ],
+ "camp:Above Fossil Camp@125.04": [
+  36.266274,
+  -112.530287,
+  "master-camp-data.csv"
+ ],
+ "camp:Above Kanab Camp@143.9": [
+  36.391367,
+  -112.626372,
+  "master-camp-data.csv"
+ ],
+ "camp:Above Lava (Hualapai Permit)@179.5": [
+  36.198423,
+  -113.078049,
+  "master-camp-data.csv"
+ ],
+ "camp:Above LCR Camp@61.6": [
+  36.195366,
+  -111.800145,
+  "master-camp-data.csv"
+ ],
+ "camp:Above Martha's Camp@38.3": [
+  36.433824,
+  -111.857512,
+  "master-camp-data.csv"
+ ],
+ "camp:Above Olo Camp@145.9": [
+  36.374153,
+  -112.649435,
+  "master-camp-data.csv"
+ ],
+ "camp:Above Owl Eyes Camp@134.7": [
+  36.37344,
+  -112.476815,
+  "master-camp-data.csv"
+ ],
+ "camp:Above Salt Creek Camp@92.8": [
+  36.101231,
+  -112.163625,
+  "master-camp-data.csv"
+ ],
+ "camp:Above Tiger Wash Camp@26.4": [
+  36.567722,
+  -111.810613,
+  "master-camp-data.csv"
+ ],
+ "camp:Across from Deer Creek Camp@136.8": [
+  36.387528,
+  -112.507394,
+  "master-camp-data.csv"
+ ],
+ "camp:Anasazi Bridge Camp@43.5": [
+  36.397638,
+  -111.855454,
+  "master-camp-data.csv"
+ ],
+ "camp:Awatubi Camp@58.7": [
+  36.232837,
+  -111.821887,
+  "master-camp-data.csv"
+ ],
+ "camp:Backeddy Camp@137.8": [
+  36.391587,
+  -112.523631,
+  "master-camp-data.csv"
+ ],
+ "camp:Badger Camp@8.1": [
+  36.77268,
+  -111.65744,
+  "master-camp-data.csv"
+ ],
+ "camp:Basalt Camp@70.1": [
+  36.094944,
+  -111.84151,
+  "master-camp-data.csv"
+ ],
+ "camp:Bass Camp@109": [
+  36.237941,
+  -112.344658,
+  "master-camp-data.csv"
+ ],
+ "camp:Bass Crossing Camp@108.9": [
+  36.23709,
+  -112.342417,
+  "master-camp-data.csv"
+ ],
+ "camp:Below Awatubi Left Camp@59.1": [
+  36.227722,
+  -111.81698,
+  "master-camp-data.csv"
+ ],
+ "camp:Below Awatubi Right Camp@59.4": [
+  36.224371,
+  -111.815543,
+  "master-camp-data.csv"
+ ],
+ "camp:Below Bedrock Camp@131.7": [
+  36.336701,
+  -112.45566,
+  "master-camp-data.csv"
+ ],
+ "camp:Below Blacktail Camp@120.9": [
+  36.239917,
+  -112.476007,
+  "master-camp-data.csv"
+ ],
+ "camp:Below Chevron (Exchangers Only) Camp@183.3": [
+  36.168805,
+  -113.132056,
+  "master-camp-data.csv"
+ ],
+ "camp:Below Clear Creek Camp (Exchangers Only)@84.8": [
+  36.082825,
+  -112.038833,
+  "master-camp-data.csv"
+ ],
+ "camp:Below Forster Camp@123.6": [
+  36.248539,
+  -112.521568,
+  "master-camp-data.csv"
+ ],
+ "camp:Below Fossil Camp@126.1": [
+  36.277271,
+  -112.517842,
+  "master-camp-data.csv"
+ ],
+ "camp:Below Granary Camp@74.2": [
+  36.068257,
+  -111.882265,
+  "master-camp-data.csv"
+ ],
+ "camp:Below Jackass Camp@8.9": [
+  36.762428,
+  -111.663325,
+  "master-camp-data.csv"
+ ],
+ "camp:Below Kanab Camp@144.8": [
+  36.388199,
+  -112.642139,
+  "master-camp-data.csv"
+ ],
+ "camp:Below Kwagunt Camp@57.1": [
+  36.255378,
+  -111.826044,
+  "master-camp-data.csv"
+ ],
+ "camp:Below LCR Camp@62.2": [
+  36.189904,
+  -111.806589,
+  "master-camp-data.csv"
+ ],
+ "camp:Below Lower Lava Camp@180.1": [
+  36.195346,
+  -113.088908,
+  "master-camp-data.csv"
+ ],
+ "camp:Below Matkat Camp@148.9": [
+  36.34125,
+  -112.681587,
+  "master-camp-data.csv"
+ ],
+ "camp:Below National Camp (Hualapai Permit)@167.5": [
+  36.25366,
+  -112.900783,
+  "master-camp-data.csv"
+ ],
+ "camp:Below Nevills Camp@76.2": [
+  36.047213,
+  -111.905351,
+  "master-camp-data.csv"
+ ],
+ "camp:Below Old Helipad Camp (Hualapai Permit)@183.31": [
+  36.167676,
+  -113.131351,
+  "master-camp-data.csv"
+ ],
+ "camp:Below Parashant Camp@199": [
+  36.088192,
+  -113.324511,
+  "master-camp-data.csv"
+ ],
+ "camp:Below Pipe Creek@89.9": [
+  36.098094,
+  -112.116877,
+  "master-camp-data.csv"
+ ],
+ "camp:Below Red Slide Camp (Hualapai Permit)@176.3": [
+  36.227434,
+  -113.036599,
+  "master-camp-data.csv"
+ ],
+ "camp:Below Redwall Camp@33.8": [
+  36.485441,
+  -111.843826,
+  "master-camp-data.csv"
+ ],
+ "camp:Below Tanner Rapid Camp@69.4": [
+  36.102147,
+  -111.838865,
+  "master-camp-data.csv"
+ ],
+ "camp:Below Tapeats Camp@134.5": [
+  36.371739,
+  -112.471822,
+  "master-camp-data.csv"
+ ],
+ "camp:Below Tuckup Camp (Hualapai Permit)@165.3": [
+  36.277035,
+  -112.877131,
+  "master-camp-data.csv"
+ ],
+ "camp:Big Bar Camp (Hualapai Permit)@207.9": [
+  35.979156,
+  -113.332391,
+  "master-camp-data.csv"
+ ],
+ "camp:Big Cedar Camp@211": [
+  35.945444,
+  -113.328459,
+  "master-camp-data.csv"
+ ],
+ "camp:Big Dune Camp@119.4": [
+  36.228261,
+  -112.456231,
+  "master-camp-data.csv"
+ ],
+ "camp:Boucher Camp@97.2": [
+  36.116484,
+  -112.230765,
+  "master-camp-data.csv"
+ ],
+ "camp:Bridge Canyon Camp (Hualapai Permit)@235.3": [
+  35.773978,
+  -113.523388,
+  "master-camp-data.csv"
+ ],
+ "camp:Bridge City Camp (Hualapai Permit)@238.7": [
+  35.807414,
+  -113.566157,
+  "master-camp-data.csv"
+ ],
+ "camp:Brown's Inscription Camp@12.1": [
+  36.728795,
+  -111.694947,
+  "master-camp-data.csv"
+ ],
+ "camp:Buck Farm Camp@41.2": [
+  36.40361,
+  -111.879691,
+  "master-camp-data.csv"
+ ],
+ "camp:Buckhorn Canyon Camp@117.6": [
+  36.202335,
+  -112.455846,
+  "master-camp-data.csv"
+ ],
+ "camp:Bull Schist (Upper Schist) Camp@96.4": [
+  36.107448,
+  -112.223621,
+  "master-camp-data.csv"
+ ],
+ "camp:Carbon Camp@65.1": [
+  36.151082,
+  -111.816191,
+  "master-camp-data.csv"
+ ],
+ "camp:Cardenas Camp@71.6": [
+  36.086652,
+  -111.864252,
+  "master-camp-data.csv"
+ ],
+ "camp:Clear Creek Camp (Exchangers Only)@84.6": [
+  36.081643,
+  -112.033799,
+  "master-camp-data.csv"
+ ],
+ "camp:Crash Canyon Camp@62.9": [
+  36.180253,
+  -111.81467,
+  "master-camp-data.csv"
+ ],
+ "camp:Dinosaur Camp@50.1": [
+  36.337788,
+  -111.861761,
+  "master-camp-data.csv"
+ ],
+ "camp:Doris Camp@138.5": [
+  36.397751,
+  -112.534898,
+  "master-camp-data.csv"
+ ],
+ "camp:Duck n Quack Camp@47.2": [
+  36.371142,
+  -111.8905,
+  "master-camp-data.csv"
+ ],
+ "camp:Eighteen Mile Ledges Camp@18.5": [
+  36.655125,
+  -111.745834,
+  "master-camp-data.csv"
+ ],
+ "camp:Emerald Camp@104.4": [
+  36.179868,
+  -112.308743,
+  "master-camp-data.csv"
+ ],
+ "camp:Eminence Camp@44.5": [
+  36.386851,
+  -111.848974,
+  "master-camp-data.csv"
+ ],
+ "camp:Enfilade Camp@124.2": [
+  36.254427,
+  -112.527734,
+  "master-camp-data.csv"
+ ],
+ "camp:Espejo Camp@67.3": [
+  36.120919,
+  -111.824046,
+  "master-camp-data.csv"
+ ],
+ "camp:Fat City Camp (Hualapai Permit)@192.2": [
+  36.097046,
+  -113.220768,
+  "master-camp-data.csv"
+ ],
+ "camp:Fern Glen Camp@168.6": [
+  36.258933,
+  -112.919559,
+  "master-camp-data.csv"
+ ],
+ "camp:First Chance Camp@158.3": [
+  36.303113,
+  -112.778965,
+  "master-camp-data.csv"
+ ],
+ "camp:Fishtail Camp@139.6": [
+  36.400894,
+  -112.553182,
+  "master-camp-data.csv"
+ ],
+ "camp:Football Field Camp@137.7": [
+  36.391069,
+  -112.522223,
+  "master-camp-data.csv"
+ ],
+ "camp:Fossil Camp@125.4": [
+  36.270785,
+  -112.525798,
+  "master-camp-data.csv"
+ ],
+ "camp:Frogy Fault Camp (Hualapai Permit)@196.9": [
+  36.096845,
+  -113.292104,
+  "master-camp-data.csv"
+ ],
+ "camp:Galloway Camp@132.2": [
+  36.343483,
+  -112.453947,
+  "master-camp-data.csv"
+ ],
+ "camp:Gneiss Canyon Camp@236.1": [
+  35.782842,
+  -113.531924,
+  "master-camp-data.csv"
+ ],
+ "camp:Granite (Monument Creek) Camp@93.8": [
+  36.097397,
+  -112.181812,
+  "master-camp-data.csv"
+ ],
+ "camp:Granite Park Camp (Hualapai Permit)@209.1": [
+  35.968594,
+  -113.316482,
+  "master-camp-data.csv"
+ ],
+ "camp:Grapevine (Vishnu Creek) Camp (Exchangers Only)@81.7": [
+  36.054761,
+  -111.996665,
+  "master-camp-data.csv"
+ ],
+ "camp:Hance Camp@77.1": [
+  36.044378,
+  -111.919139,
+  "master-camp-data.csv"
+ ],
+ "camp:Hermit Camp@95.4": [
+  36.099157,
+  -112.208749,
+  "master-camp-data.csv"
+ ],
+ "camp:Honga Springs Camp (Hualapai Permit)@177.6": [
+  36.212251,
+  -113.049266,
+  "master-camp-data.csv"
+ ],
+ "camp:Hot Na Na Camp@16.7": [
+  36.680794,
+  -111.739032,
+  "master-camp-data.csv"
+ ],
+ "camp:Hotauta Camp@108.1": [
+  36.227024,
+  -112.33684,
+  "master-camp-data.csv"
+ ],
+ "camp:House Rock Camp@17.2": [
+  36.673025,
+  -111.74063,
+  "master-camp-data.csv"
+ ],
+ "camp:Hualapai Acres Camp (Hualapai Permit)@194.6": [
+  36.088532,
+  -113.254085,
+  "master-camp-data.csv"
+ ],
+ "camp:Hundred and Ten Mile Camp@110": [
+  36.243174,
+  -112.357526,
+  "master-camp-data.csv"
+ ],
+ "camp:Hundred and Twenty Mile Camp@120.3": [
+  36.237858,
+  -112.466848,
+  "master-camp-data.csv"
+ ],
+ "camp:Hundred Ninetyfour Mile Camp (Hualapai Permit)@194.9": [
+  36.089367,
+  -113.259409,
+  "master-camp-data.csv"
+ ],
+ "camp:Hundred Twentytwo Mile Camp@122.8": [
+  36.244278,
+  -112.507785,
+  "master-camp-data.csv"
+ ],
+ "camp:Indian Canyon Camp@207": [
+  35.989149,
+  -113.341598,
+  "master-camp-data.csv"
+ ],
+ "camp:Indian Dick@22.8": [
+  36.604033,
+  -111.765159,
+  "master-camp-data.csv"
+ ],
+ "camp:Jackass Camp@8.1": [
+  36.771847,
+  -111.655947,
+  "master-camp-data.csv"
+ ],
+ "camp:Junebug Camp@136.6": [
+  36.386749,
+  -112.5041,
+  "master-camp-data.csv"
+ ],
+ "camp:Just Above Lava (Hualapai Permit)@179.7": [
+  36.198591,
+  -113.079214,
+  "master-camp-data.csv"
+ ],
+ "camp:Keyhole Camp@140.4": [
+  36.398784,
+  -112.567182,
+  "master-camp-data.csv"
+ ],
+ "camp:Kwagunt Camp@56.6": [
+  36.261264,
+  -111.826414,
+  "master-camp-data.csv"
+ ],
+ "camp:Last Chance above Diamond@225.7": [
+  35.771494,
+  -113.369819,
+  "master-camp-data.csv"
+ ],
+ "camp:Last Chance Camp@156.3": [
+  36.321824,
+  -112.758788,
+  "master-camp-data.csv"
+ ],
+ "camp:Lava Canyon Camp@65.9": [
+  36.139913,
+  -111.816835,
+  "master-camp-data.csv"
+ ],
+ "camp:Ledges Camp@152.1": [
+  36.345622,
+  -112.724896,
+  "master-camp-data.csv"
+ ],
+ "camp:Little Nankoweap@52.1": [
+  36.310795,
+  -111.864564,
+  "master-camp-data.csv"
+ ],
+ "camp:Little Redwall Camp@34.1": [
+  36.48214,
+  -111.846294,
+  "master-camp-data.csv"
+ ],
+ "camp:Lone Cedar@23.54": [
+  36.593978,
+  -111.771598,
+  "master-camp-data.csv"
+ ],
+ "camp:Lower Anasazi Bridge Camp@43.7": [
+  36.396386,
+  -111.850228,
+  "master-camp-data.csv"
+ ],
+ "camp:Lower Blacktail Camp@120.7": [
+  36.240138,
+  -112.47298,
+  "master-camp-data.csv"
+ ],
+ "camp:Lower Chevron Camp@183": [
+  36.170878,
+  -113.126329,
+  "master-camp-data.csv"
+ ],
+ "camp:Lower Cove@174.8": [
+  36.238207,
+  -113.014578,
+  "master-camp-data.csv"
+ ],
+ "camp:Lower Cremation Camp (Exchangers Only)@87.74": [
+  36.100345,
+  -112.08389,
+  "master-camp-data.csv"
+ ],
+ "camp:Lower Crystal (Ego Beach) Camp@98.9": [
+  36.136374,
+  -112.245474,
+  "master-camp-data.csv"
+ ],
+ "camp:Lower Fall Canyon Camp@212": [
+  35.932626,
+  -113.327245,
+  "master-camp-data.csv"
+ ],
+ "camp:Lower Garnet Camp@115.1": [
+  36.212534,
+  -112.424644,
+  "master-camp-data.csv"
+ ],
+ "camp:Lower Nankoweap Camp@53.5": [
+  36.295067,
+  -111.858597,
+  "master-camp-data.csv"
+ ],
+ "camp:Lower National Camp (Hualapai Permit)@167.03": [
+  36.257182,
+  -112.893537,
+  "master-camp-data.csv"
+ ],
+ "camp:Lower North Canyon Camp@20.8": [
+  36.62911,
+  -111.764322,
+  "master-camp-data.csv"
+ ],
+ "camp:Lower Saddle Camp@47.6": [
+  36.36538,
+  -111.887949,
+  "master-camp-data.csv"
+ ],
+ "camp:Lower Tuna Camp@100.1": [
+  36.145,
+  -112.263782,
+  "master-camp-data.csv"
+ ],
+ "camp:Lower Two Hundred Twenty Mile Camp@220.2": [
+  35.830226,
+  -113.326967,
+  "master-camp-data.csv"
+ ],
+ "camp:Lower Whitmore Camp@188.7": [
+  36.142327,
+  -113.202607,
+  "master-camp-data.csv"
+ ],
+ "camp:Main Nankoweap Camp@53.44": [
+  36.296513,
+  -111.860307,
+  "master-camp-data.csv"
+ ],
+ "camp:Malgosa Camp@57.9": [
+  36.242975,
+  -111.824813,
+  "master-camp-data.csv"
+ ],
+ "camp:Martha's Camp@38.6": [
+  36.433105,
+  -111.864239,
+  "master-camp-data.csv"
+ ],
+ "camp:Matkat Hotel Camp@148.8": [
+  36.34125,
+  -112.681587,
+  "master-camp-data.csv"
+ ],
+ "camp:Middle Two Hundred Twenty Mile Camp@220.1": [
+  35.831947,
+  -113.326634,
+  "master-camp-data.csv"
+ ],
+ "camp:Mohawk Camp (Hualapai Permit)@172.1": [
+  36.23436,
+  -112.968186,
+  "master-camp-data.csv"
+ ],
+ "camp:Nautiloid Camp@35.04": [
+  36.469964,
+  -111.840356,
+  "master-camp-data.csv"
+ ],
+ "camp:Nevills Camp@76.1": [
+  36.049367,
+  -111.903207,
+  "master-camp-data.csv"
+ ],
+ "camp:New Shady Grove Camp@103.5": [
+  36.1656,
+  -112.306445,
+  "master-camp-data.csv"
+ ],
+ "camp:Ninetyfour Mile Canyon Camp@94.8": [
+  36.097431,
+  -112.198667,
+  "master-camp-data.csv"
+ ],
+ "camp:Ninetyone Mile Creek Camp@91.7": [
+  36.106666,
+  -112.146813,
+  "master-camp-data.csv"
+ ],
+ "camp:O.C.'s Camp@137.1": [
+  36.388251,
+  -112.512783,
+  "master-camp-data.csv"
+ ],
+ "camp:Olo Camp@146.1": [
+  36.37073,
+  -112.649785,
+  "master-camp-data.csv"
+ ],
+ "camp:Opposite Blacktail Camp@120.6": [
+  36.239081,
+  -112.471016,
+  "master-camp-data.csv"
+ ],
+ "camp:Opposite Malgosa Camp@58.1": [
+  36.240165,
+  -111.823823,
+  "master-camp-data.csv"
+ ],
+ "camp:Opposite Three Springs Camp@216.1": [
+  35.884954,
+  -113.310029,
+  "master-camp-data.csv"
+ ],
+ "camp:Opposite Travertine Canyon@229.4": [
+  35.751677,
+  -113.426381,
+  "master-camp-data.csv"
+ ],
+ "camp:Owl Eyes Camp@135.1": [
+  36.376887,
+  -112.481943,
+  "master-camp-data.csv"
+ ],
+ "camp:Palisades Creek Camp@66.1": [
+  36.136023,
+  -111.816622,
+  "master-camp-data.csv"
+ ],
+ "camp:Pancho's Kitchen@137.6": [
+  36.390719,
+  -112.520892,
+  "master-camp-data.csv"
+ ],
+ "camp:Papago Camp@76.5": [
+  36.045712,
+  -111.907693,
+  "master-camp-data.csv"
+ ],
+ "camp:Parashant Camp@198.9": [
+  36.093744,
+  -113.323076,
+  "master-camp-data.csv"
+ ],
+ "camp:Parkins Inscription Camp@108.6": [
+  36.232908,
+  -112.339352,
+  "master-camp-data.csv"
+ ],
+ "camp:President Harding Camp@44.04": [
+  36.392735,
+  -111.847174,
+  "master-camp-data.csv"
+ ],
+ "camp:Pumpkin Spring Camp (Hualapai Permit)@213.2": [
+  35.915279,
+  -113.334417,
+  "master-camp-data.csv"
+ ],
+ "camp:Racetrack Camp@134.2": [
+  36.368988,
+  -112.46632,
+  "master-camp-data.csv"
+ ],
+ "camp:Randy's Rock Camp@127": [
+  36.28258,
+  -112.503585,
+  "master-camp-data.csv"
+ ],
+ "camp:Redbud Alcove (Brower's Bower) Camp@39.3": [
+  36.427301,
+  -111.871559,
+  "master-camp-data.csv"
+ ],
+ "camp:River Camp@0.1": [
+  36.865633,
+  -111.588174,
+  "master-camp-data.csv"
+ ],
+ "camp:Ross Wheeler Camp@108.3": [
+  36.229357,
+  -112.338801,
+  "master-camp-data.csv"
+ ],
+ "camp:Sandpile (Lower Fence Fault) Camp@30.8": [
+  36.515977,
+  -111.847688,
+  "master-camp-data.csv"
+ ],
+ "camp:Schist Camp@96.5": [
+  36.107948,
+  -112.225387,
+  "master-camp-data.csv"
+ ],
+ "camp:Second Chance Camp@159.2": [
+  36.295356,
+  -112.789886,
+  "master-camp-data.csv"
+ ],
+ "camp:Separation Canyon Camp@239.8": [
+  35.822905,
+  -113.570177,
+  "master-camp-data.csv"
+ ],
+ "camp:Sheer Wall Camp@14.2": [
+  36.704786,
+  -111.710445,
+  "master-camp-data.csv"
+ ],
+ "camp:Shinumo Wash Camp@29.5": [
+  36.530408,
+  -111.834499,
+  "master-camp-data.csv"
+ ],
+ "camp:Sixmile Camp@5.9": [
+  36.80064,
+  -111.644529,
+  "master-camp-data.csv"
+ ],
+ "camp:Sixtyeight Mile (Upper Tanner) Camp@68.3": [
+  36.107152,
+  -111.827311,
+  "master-camp-data.csv"
+ ],
+ "camp:Sixtymile Camp@60.2": [
+  36.213868,
+  -111.809671,
+  "master-camp-data.csv"
+ ],
+ "camp:Soap Creek Camp@11.3": [
+  36.74017,
+  -111.694265,
+  "master-camp-data.csv"
+ ],
+ "camp:South Canyon Camp@31.9": [
+  36.502489,
+  -111.857904,
+  "master-camp-data.csv"
+ ],
+ "camp:Spencer Canyon Camp (Hualapai Permit)@246.3": [
+  35.823352,
+  -113.647089,
+  "master-camp-data.csv"
+ ],
+ "camp:Stairway Canyon Camp@171.6": [
+  36.236689,
+  -112.960524,
+  "master-camp-data.csv"
+ ],
+ "camp:Stone Creek Camp@132.4": [
+  36.347594,
+  -112.454593,
+  "master-camp-data.csv"
+ ],
+ "camp:Surprise Canyon Camp@248.8": [
+  35.854671,
+  -113.662437,
+  "master-camp-data.csv"
+ ],
+ "camp:Talking Heads Camp@133.7": [
+  36.363281,
+  -112.461552,
+  "master-camp-data.csv"
+ ],
+ "camp:Tanner Camp@68.7": [
+  36.103376,
+  -111.829674,
+  "master-camp-data.csv"
+ ],
+ "camp:Tatahatso Camp (Destroyed)@37.9": [
+  36.434522,
+  -111.851525,
+  "master-camp-data.csv"
+ ],
+ "camp:Travertine Falls (Hualapai Permit)@230.6": [
+  35.756249,
+  -113.44755,
+  "master-camp-data.csv"
+ ],
+ "camp:Trinity Creek Camp@92.1": [
+  36.106226,
+  -112.152915,
+  "master-camp-data.csv"
+ ],
+ "camp:Tuckup Camp@165.1": [
+  36.279329,
+  -112.875636,
+  "master-camp-data.csv"
+ ],
+ "camp:Twentyfour and One-Half Mile Camp@24.6": [
+  36.582401,
+  -111.785413,
+  "master-camp-data.csv"
+ ],
+ "camp:Twentythree Mile Camp@22.7": [
+  36.604033,
+  -111.765159,
+  "master-camp-data.csv"
+ ],
+ "camp:Twentytwo Mile Camp@22.1": [
+  36.612365,
+  -111.760392,
+  "master-camp-data.csv"
+ ],
+ "camp:Two Hundred Five Mile Camp (Hualapai Permit)@205.7": [
+  36.006412,
+  -113.341451,
+  "master-camp-data.csv"
+ ],
+ "camp:Two Hundred Fourteen Mile Camp@214.5": [
+  35.901102,
+  -113.324146,
+  "master-camp-data.csv"
+ ],
+ "camp:Two Hundred Three Mile Camp@202.9": [
+  36.044255,
+  -113.354157,
+  "master-camp-data.csv"
+ ],
+ "camp:Two Hundred Two Mile Camp@202.3": [
+  36.052284,
+  -113.349922,
+  "master-camp-data.csv"
+ ],
+ "camp:Unkar Camp@72.74": [
+  36.081724,
+  -111.876274,
+  "master-camp-data.csv"
+ ],
+ "camp:Up Fall Canyon Camp@211.8": [
+  35.934915,
+  -113.325985,
+  "master-camp-data.csv"
+ ],
+ "camp:Upper Blacktail Camp@120.61": [
+  36.239959,
+  -112.471828,
+  "master-camp-data.csv"
+ ],
+ "camp:Upper Chevron Camp@182.8": [
+  36.17176,
+  -113.124961,
+  "master-camp-data.csv"
+ ],
+ "camp:Upper Cove@174.7": [
+  36.238912,
+  -113.013616,
+  "master-camp-data.csv"
+ ],
+ "camp:Upper Cremation Camp (Exchangers Only)@87.7": [
+  36.100345,
+  -112.08389,
+  "master-camp-data.csv"
+ ],
+ "camp:Upper Crystal Camp@98.7": [
+  36.134909,
+  -112.242789,
+  "master-camp-data.csv"
+ ],
+ "camp:Upper Fat City Camp@191.5": [
+  36.106958,
+  -113.217017,
+  "master-camp-data.csv"
+ ],
+ "camp:Upper Forster Camp@123.2": [
+  36.244749,
+  -112.517469,
+  "master-camp-data.csv"
+ ],
+ "camp:Upper Garnet Camp@114.9": [
+  36.215021,
+  -112.424231,
+  "master-camp-data.csv"
+ ],
+ "camp:Upper Hundred and Eightyfive Mile Camp@185.9": [
+  36.16603,
+  -113.168584,
+  "master-camp-data.csv"
+ ],
+ "camp:Upper Hundred Eightyfive Mile Camp@185.9": [
+  36.16603,
+  -113.168584,
+  "master-camp-data.csv"
+ ],
+ "camp:Upper Ledges Camp@151.9": [
+  36.347191,
+  -112.722435,
+  "master-camp-data.csv"
+ ],
+ "camp:Upper Nankoweap Camp@53.1": [
+  36.300362,
+  -111.858088,
+  "master-camp-data.csv"
+ ],
+ "camp:Upper National Camp (Hualapai Permit)@167.02": [
+  36.257182,
+  -112.893537,
+  "master-camp-data.csv"
+ ],
+ "camp:Upper Nevills Camp@75.7": [
+  36.053351,
+  -111.899978,
+  "master-camp-data.csv"
+ ],
+ "camp:Upper North Canyon Camp@20.65": [
+  36.630157,
+  -111.764065,
+  "master-camp-data.csv"
+ ],
+ "camp:Upper Rattlesnake Camp@74.6": [
+  36.067084,
+  -111.889895,
+  "master-camp-data.csv"
+ ],
+ "camp:Upper Saddle Camp@47.5": [
+  36.367873,
+  -111.889167,
+  "master-camp-data.csv"
+ ],
+ "camp:Upper Two Hundred Twenty Mile Camp@220": [
+  35.832816,
+  -113.327752,
+  "master-camp-data.csv"
+ ],
+ "camp:Upper Unkar Camp@72.4": [
+  36.085155,
+  -111.878137,
+  "master-camp-data.csv"
+ ],
+ "camp:Upset Hotel Camp@150.9": [
+  36.353823,
+  -112.702383,
+  "master-camp-data.csv"
+ ],
+ "camp:Very Last Chance Camp (Any Boulder You Can Find)@156.4": [
+  36.321824,
+  -112.758788,
+  "master-camp-data.csv"
+ ],
+ "camp:Walthenberg Camp@112.8": [
+  36.239573,
+  -112.405765,
+  "master-camp-data.csv"
+ ],
+ "camp:Whitmore Wash Camp@188.4": [
+  36.144917,
+  -113.201339,
+  "master-camp-data.csv"
+ ],
+ "camp:Willie Taylor Camp@45": [
+  36.383848,
+  -111.858482,
+  "master-camp-data.csv"
+ ],
+ "camp:Zoroaster Camp (Exchangers Only)@85": [
+  36.083284,
+  -112.041159,
+  "master-camp-data.csv"
+ ]
+}
