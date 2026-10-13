@@ -13,6 +13,7 @@
     -120.9
   ],
   "tz": "America/Los_Angeles",
+  "note": "",
   "camps": [
     {
       "name": "Miner's Creek lunch area",
@@ -78,7 +79,7 @@
       "civ": false,
       "diff": 6,
       "tier": "Class III+",
-      "desc": "The opening rapid below Chili Bar."
+      "desc": "The opening rapid below Chili Bar. Also called Quarter Mile: long, rocky and continuous."
     },
     {
       "name": "Racehorse Bend",
@@ -126,7 +127,7 @@
       "civ": false,
       "diff": 6,
       "tier": "Class III+",
-      "desc": "The last major rapid of the Chili Bar run. Commercial photographers often stand along it."
+      "desc": "The last major rapid of the Chili Bar run. Commercial photographers often stand along it. Also known as S-Turn, with two holes."
     },
     {
       "name": "Old Scary",
@@ -238,7 +239,7 @@
       "civ": false,
       "diff": 5,
       "tier": "Class III",
-      "desc": "Past boulders and down a chute with the largest wave on the river."
+      "desc": "Past boulders and down a chute with the largest wave on the river. A diagonal hole sits in the rapid."
     },
     {
       "name": "Recovery Room",
@@ -304,8 +305,334 @@
     }
   ],
   "geology": [],
-  "guide": [],
-  "almanac": {},
+  "guide": [
+    {
+      "name": "Fish",
+      "subs": [
+        {
+          "name": "Trout",
+          "items": [
+            {
+              "n": "Rainbow Trout",
+              "d": "A resident of the cold, regulated river."
+            }
+          ],
+          "sci": "Salmonidae"
+        },
+        {
+          "name": "Introduced Fish",
+          "items": [
+            {
+              "n": "Smallmouth Bass",
+              "d": "An introduced predator in the slower pools toward Folsom Lake.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mammals",
+      "subs": [
+        {
+          "name": "Deer",
+          "items": [
+            {
+              "n": "Mule Deer",
+              "d": "Common on the canyon slopes."
+            }
+          ]
+        },
+        {
+          "name": "Predators",
+          "items": [
+            {
+              "n": "Black Bear",
+              "d": "Occasionally seen in the foothills."
+            },
+            {
+              "n": "Coyote",
+              "d": "Calls at dusk from the oak woodland."
+            },
+            {
+              "n": "Gray Fox",
+              "d": "A nighttime visitor around camp."
+            },
+            {
+              "n": "Bobcat",
+              "d": "A shy cat of the wooded slopes."
+            }
+          ]
+        },
+        {
+          "name": "Small Mammals",
+          "items": [
+            {
+              "n": "River Otter",
+              "d": "Seen in the pools and eddies."
+            },
+            {
+              "n": "Ringtail",
+              "d": "A cat-like night forager."
+            },
+            {
+              "n": "Raccoon",
+              "d": "A cheeky camp visitor."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Birds",
+      "subs": [
+        {
+          "name": "Hawks & Eagles",
+          "items": [
+            {
+              "n": "Osprey",
+              "d": "Dives for fish along the river."
+            },
+            {
+              "n": "Bald Eagle",
+              "d": "Hunts the river and the lake, especially in winter."
+            },
+            {
+              "n": "Red-shouldered Hawk",
+              "d": "Cries from the riverside oaks."
+            }
+          ],
+          "sci": "Accipitridae"
+        },
+        {
+          "name": "Waterbirds",
+          "items": [
+            {
+              "n": "Common Merganser",
+              "d": "A fish-eating duck that leads broods through the rapids."
+            },
+            {
+              "n": "Wood Duck",
+              "d": "A colorful cavity-nesting duck of quiet backwaters."
+            },
+            {
+              "n": "Great Blue Heron",
+              "d": "Stands in the shallows."
+            },
+            {
+              "n": "Belted Kingfisher",
+              "d": "Rattles along the bank."
+            }
+          ]
+        },
+        {
+          "name": "Songbirds",
+          "items": [
+            {
+              "n": "American Dipper",
+              "d": "Bobs on rocks and walks the stream bottom."
+            },
+            {
+              "n": "Acorn Woodpecker",
+              "d": "A clown-faced woodpecker that stores acorns in dead trees."
+            },
+            {
+              "n": "California Scrub-Jay",
+              "d": "A noisy blue jay of the oaks."
+            }
+          ]
+        },
+        {
+          "name": "Ground Birds",
+          "items": [
+            {
+              "n": "California Quail",
+              "d": "Runs in coveys; the male wears a curved topknot."
+            },
+            {
+              "n": "Wild Turkey",
+              "d": "A large introduced bird of the oak woodland.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reptiles & Amphibians",
+      "subs": [
+        {
+          "name": "Snakes & Lizards",
+          "items": [
+            {
+              "n": "Northern Pacific Rattlesnake",
+              "d": "A rattlesnake of rocky slopes. Watch where you put your hands and feet."
+            },
+            {
+              "n": "Western Fence Lizard",
+              "d": "Common on warm rocks."
+            },
+            {
+              "n": "Gopher Snake",
+              "d": "A harmless constrictor."
+            }
+          ]
+        },
+        {
+          "name": "Frogs, Turtles & Newts",
+          "items": [
+            {
+              "n": "Foothill Yellow-legged Frog",
+              "d": "A small, river-dwelling frog that lays its eggs in gravel; protected in California."
+            },
+            {
+              "n": "Western Pond Turtle",
+              "d": "A native turtle that basks on logs and rocks; keep your distance."
+            },
+            {
+              "n": "California Newt",
+              "d": "A rough-skinned newt of quiet pools."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Plants",
+      "subs": [
+        {
+          "name": "Oaks & Pines",
+          "items": [
+            {
+              "n": "Blue Oak",
+              "d": "A pale-leaved oak of the dry foothill slopes."
+            },
+            {
+              "n": "Interior Live Oak",
+              "d": "An evergreen oak of the canyon sides."
+            },
+            {
+              "n": "Gray Pine",
+              "d": "A thin-needled, drought-tolerant pine with big cones."
+            },
+            {
+              "n": "Ponderosa Pine",
+              "d": "On the cooler slopes."
+            },
+            {
+              "n": "California Buckeye",
+              "d": "A tree that drops its leaves in summer and blooms white in spring."
+            }
+          ]
+        },
+        {
+          "name": "Riverside Trees & Shrubs",
+          "items": [
+            {
+              "n": "White Alder",
+              "d": "Lines the river and creek mouths."
+            },
+            {
+              "n": "Fremont Cottonwood",
+              "d": "Found on gravel bars."
+            },
+            {
+              "n": "Willow",
+              "d": "Thick along the water's edge."
+            },
+            {
+              "n": "Redbud",
+              "d": "Magenta flowers in early spring."
+            }
+          ]
+        },
+        {
+          "name": "Shrubs",
+          "items": [
+            {
+              "n": "Poison Oak",
+              "d": "Common on trails and landings. Learn to recognize it: three shiny leaflets."
+            },
+            {
+              "n": "Manzanita",
+              "d": "A shrub with smooth red-brown bark."
+            },
+            {
+              "n": "Toyon",
+              "d": "An evergreen shrub with red winter berries."
+            }
+          ]
+        },
+        {
+          "name": "Wildflowers",
+          "items": [
+            {
+              "n": "California Poppy",
+              "d": "Orange blossoms on the open slopes in spring."
+            },
+            {
+              "n": "Lupine",
+              "d": "Blue and purple spikes in spring."
+            }
+          ]
+        },
+        {
+          "name": "Invasive Plants",
+          "items": [
+            {
+              "n": "Spanish Broom",
+              "d": "A yellow-flowered shrub that crowds out native plants.",
+              "inv": 1
+            },
+            {
+              "n": "Yellow Starthistle",
+              "d": "A spiny yellow thistle of the dry slopes.",
+              "inv": 1
+            },
+            {
+              "n": "Himalayan Blackberry",
+              "d": "A thorny thicket along the shore.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "almanac": {
+    "indigenous": [
+      [
+        "Nisenan homeland",
+        "The Nisenan, who are related by language to the Maidu, lived along the American River and called their home here Cullumah, the origin of the name Coloma. The gold rush uprooted their communities. The grinding holes atop a boulder on river right, near the start of the Gorge, are a trace of that long presence."
+      ]
+    ],
+    "history": [
+      [
+        "Gold at Sutter’s Mill",
+        "On January 24, 1848, James Marshall found gold flakes in the tailrace of the sawmill he was building for John Sutter at Coloma. The discovery set off the California Gold Rush, one of history’s largest migrations. Marshall tried to defend the Nisenan people the gold seekers displaced and was scorned for it."
+      ],
+      [
+        "Marshall Gold Discovery State Historic Park",
+        "California set aside much of the town of Coloma, the mill site and Marshall’s cabin as a state historic park in 1927. The park straddles the river and allows put-ins but no take-outs."
+      ],
+      [
+        "Folsom Lake",
+        "The Gorge ends where the river meets Folsom Lake. When the lake is low, extra rapids such as Surprise emerge near the take-out, and when it is full they are drowned."
+      ]
+    ],
+    "geology": [
+      [
+        "Gold-bearing foothills",
+        "The river runs through the western foothills of the Sierra Nevada, an older belt of metamorphic rock cut by gold-bearing quartz veins that made this the Mother Lode country. The Gorge below Greenwood Creek is a narrow, bouldery canyon that opens into Folsom Lake."
+      ]
+    ],
+    "flows": [
+      [
+        "Dam-controlled river",
+        "Flows from Chili Bar Dam are usually 1,000 to 2,000 cfs in summer. Riverbrain lists about 800 to 4,000 cfs as the recommended range for both the Chili Bar and Gorge runs, and the river can surge quickly on midweek evenings."
+      ]
+    ]
+  },
   "rules": [
     {
       "name": "Equipment",
@@ -481,6 +808,10 @@
       "n": "The Gorge"
     }
   ],
+  "notes": {
+    "camp": "*Most riverside land is private, so camp and stop only on public land or at fee campgrounds. Camps and lunch spots on BLM land are primitive. Poison oak and rattlesnakes are common, and midweek evening surges can raise the river quickly.",
+    "hike": "*Stay on public land and trails; most riverside property is private. Marshall Gold Discovery State Historic Park prohibits take-outs. Poison oak and rattlesnakes are common on trails."
+  },
   "hdiff": {
     "1": "Short, easy walk",
     "2": "Easy trail",
@@ -600,10 +931,5 @@
         ]
       }
     ]
-  },
-  "note": "",
-  "notes": {
-    "camp": "",
-    "hike": ""
   }
 }
