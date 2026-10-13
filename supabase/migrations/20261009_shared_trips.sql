@@ -1,4 +1,4 @@
--- Crew sync for River Guide (applied to the river-guide-sync Supabase project).
+-- Crew sync for Eddy (applied to the river-guide-sync Supabase project).
 -- One row per shared trip. The join code is never stored, only its hash, and the
 -- table is closed to direct access: the app can only call the functions below.
 create extension if not exists pgcrypto with schema extensions;

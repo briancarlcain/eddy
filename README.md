@@ -1,4 +1,4 @@
-# River Guide
+# Eddy
 
 A river-trip planning app: a library of rivers plus any number of trips on them.
 Trips (itinerary, crew & crafts, meals, gear, shuttle, ledger, log) are saved

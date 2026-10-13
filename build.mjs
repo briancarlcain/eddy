@@ -55,7 +55,7 @@ if (!body.includes(js.slice(0, 40))) throw new Error('shell.html: <script src="a
 const web = `<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="River Guide">
+<meta name="apple-mobile-web-app-title" content="Eddy">
 <meta name="robots" content="noindex, nofollow">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">`;

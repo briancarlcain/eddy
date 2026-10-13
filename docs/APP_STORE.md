@@ -1,4 +1,4 @@
-# Publishing River Guide on the App Store
+# Publishing Eddy on the App Store
 
 The app is the same React code as the website, wrapped with [Capacitor](https://capacitorjs.com) as a native iPhone app.
 There are two builds from one codebase:
@@ -30,7 +30,7 @@ Never ship the web build inside the app: `build.mjs` swaps the seed files for th
 
 1. **Apple Developer Program** ($99/year) at developer.apple.com/programs. Individual enrollment is fine.
 2. **Pick the bundle ID.** The placeholder is `com.briancarlcain.riverguide`. If you want another, change `appId` in `capacitor.config.json` and `PRODUCT_BUNDLE_IDENTIFIER` in `ios/App/App.xcodeproj/project.pbxproj` (two places) before registering it.
-3. In **App Store Connect → Apps → +**, create the app (iOS, name "River Guide" or whatever is free, primary language English, that bundle ID, SKU anything).
+3. In **App Store Connect → Apps → +**, create the app (iOS, name "Eddy" or whatever is free, primary language English, that bundle ID, SKU anything).
 4. **API key for CI:** App Store Connect → Users and Access → Integrations → Team Keys → generate a key with *App Manager* role. Download the `.p8` once. In the GitHub repo (Settings → Secrets and variables → Actions) add:
    `APPLE_TEAM_ID` (Membership page), `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_KEY_P8` (paste the whole file).
 5. **Run the build:** GitHub → Actions → *iOS TestFlight* → Run workflow. About 10–15 minutes later the build appears in App Store Connect → TestFlight. Install it on your phone with the TestFlight app and test.
@@ -40,7 +40,7 @@ If you do have a Mac, `npm run ios:sync && npm run ios:open` opens the project i
 
 ## Listing copy (edit freely)
 
-**Name:** River Guide  
+**Name:** Eddy  
 **Subtitle (30 chars):** Plan multi-day river trips  
 **Category:** Travel (secondary: Sports)  
 **Price:** Free  
@@ -52,7 +52,7 @@ If you do have a Mac, `npm run ios:sync && npm run ios:open` opens the project i
 
 **Description:**
 
-> River Guide is a planner for multi-day river trips: Grand Canyon, Smith River, Rogue River and any river you add.
+> Eddy is a planner for multi-day river trips: Grand Canyon, Smith River, Rogue River and any river you add.
 >
 > TRIPS — Keep as many trips as you like, each tied to a river. Duplicate last year's trip, share a summary with your crew.
 >
@@ -84,7 +84,7 @@ Answer "None" to every content question → 4+. (Medical reference: choose *Infr
 iPhone 6.9" (1320 × 2868) — 3 to 10 images. Already generated in `store/screenshots/` (Trips, Itinerary with sunrise/sunset, Crew & Crafts, Gear, Shuttle, River map, Safety reference). Upload them as-is for the 6.9" slot; App Store Connect scales them for smaller iPhones. Re-run `npm run screenshots` after UI changes. You can swap in real-device screenshots from TestFlight later.
 
 ### Notes for App Review
-> River Guide needs no login. On first launch it loads a fictional "Sample trip" so every screen has content: Trips tab → Open → Itinerary, Crew, Meals, Gear, Shuttle, Ledger, Info. The River tab shows the built-in Grand Canyon, Smith and Rogue guides, and General has the safety reference and About (backup/restore, optional reminders). The app works fully offline. Trip reminders use local notifications and are off until the user turns them on in General → About.
+> Eddy needs no login. On first launch it loads a fictional "Sample trip" so every screen has content: Trips tab → Open → Itinerary, Crew, Meals, Gear, Shuttle, Ledger, Info. The River tab shows the built-in Grand Canyon, Smith and Rogue guides, and General has the safety reference and About (backup/restore, optional reminders). The app works fully offline. Trip reminders use local notifications and are off until the user turns them on in General → About.
 
 ## Review risks to be aware of
 

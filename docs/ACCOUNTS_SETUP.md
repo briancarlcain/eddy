@@ -17,7 +17,7 @@ Authentication → Emails → Templates. Edit **Magic Link** *and* **Confirm sig
 (the app has a box for it; the link alone only works when opened on the same device). Suggested body:
 
 ```html
-<h2>Your River Guide code</h2>
+<h2>Your Eddy code</h2>
 <p>Enter this code in the app to sign in:</p>
 <p style="font-size:28px;font-weight:700;letter-spacing:4px">{{ .Token }}</p>
 <p>If you did not ask for this, you can ignore this email.</p>
@@ -30,7 +30,7 @@ Authentication → Emails → **SMTP Settings** → enable custom SMTP with a pr
 Authentication → Rate Limits → *Emails sent per hour* to something sensible.
 
 ## 4. Sign in with Google (optional)
-1. Google Cloud Console → APIs & Services → OAuth consent screen (External; app name River Guide; add your privacy-policy URL).
+1. Google Cloud Console → APIs & Services → OAuth consent screen (External; app name Eddy; add your privacy-policy URL).
 2. Credentials → Create credentials → **OAuth client ID** → *Web application*.
    Authorized redirect URI: `https://nhplgoetehrydaeoyrgz.supabase.co/auth/v1/callback`
 3. Supabase → Authentication → Sign In / Providers → **Google** → paste the client ID and secret → enable.

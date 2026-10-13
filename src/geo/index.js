@@ -81,7 +81,7 @@ export function dropHorizon(d) {
 export function dropsGPX(list) {
   const esc = (t) => String(t).replace(/[<>&"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' })[c]);
   return `<?xml version="1.0" encoding="UTF-8"?>
-<gpx version="1.1" creator="River Guide" xmlns="http://www.topografix.com/GPX/1/1">
+<gpx version="1.1" creator="Eddy" xmlns="http://www.topografix.com/GPX/1/1">
 ${list.map((d) => `  <wpt lat="${d.lat}" lon="${d.lon}">${d.elev != null ? `<ele>${Math.round(d.elev)}</ele>` : ''}<time>${d.at}</time><name>${esc(d.name || 'Pin')}</name></wpt>`).join('\n')}
 </gpx>
 `;

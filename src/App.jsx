@@ -3241,7 +3241,7 @@ function People({ s }) {
 const INVITE_ORIGIN = 'https://briancarlcain.github.io/river-guide/';
 const inviteUrl = (code, by) => INVITE_ORIGIN + '?join=' + code + (by ? '&by=' + encodeURIComponent(by) : '');
 const inviteText = (t, code, by) =>
-  `${by ? by + ' invited you to' : "You're invited to"} "${t.name}" on River Guide.\n\n${okDate(t.start) ? fmt(t.start) + ' to ' + fmt(addDays(t.start, t.days)) + '\n\n' : ''}Join: ${inviteUrl(code, by)}\n\nOr enter code ${remote.showCode(code)} under Trips, Join a trip.`;
+  `${by ? by + ' invited you to' : "You're invited to"} "${t.name}" on Eddy.\n\n${okDate(t.start) ? fmt(t.start) + ' to ' + fmt(addDays(t.start, t.days)) + '\n\n' : ''}Join: ${inviteUrl(code, by)}\n\nOr enter code ${remote.showCode(code)} under Trips, Join a trip.`;
 
 // share the trip first if needed, then open the share sheet with the invite
 function useInvite(s, t) {
@@ -3334,7 +3334,7 @@ function tripICS(t, riverName) {
   const stampNow = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z';
   const ev = (uid, date, endDate, summary, desc) =>
     ['BEGIN:VEVENT', `UID:${uid}@river-guide`, `DTSTAMP:${stampNow}`, `DTSTART;VALUE=DATE:${ymd(date)}`, `DTEND;VALUE=DATE:${ymd(endDate)}`, `SUMMARY:${icsEsc(summary)}`, desc ? `DESCRIPTION:${icsEsc(desc)}` : null, 'END:VEVENT'].filter(Boolean).join('\r\n');
-  const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//River Guide//EN', 'CALSCALE:GREGORIAN', `X-WR-CALNAME:${icsEsc(t.name)}`];
+  const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Eddy//EN', 'CALSCALE:GREGORIAN', `X-WR-CALNAME:${icsEsc(t.name)}`];
   if (okDate(t.start)) {
     lines.push(ev(t.id + '-trip', t.start, addDays(t.start, t.days + 1), `${t.name} (${riverName})`, `${(t.crew || []).length} people, ${t.days + 1} days`));
     tripDays(t).forEach((d) => {
@@ -4641,12 +4641,12 @@ function About({ s, part = 'about' }) {
     if (!f) return;
     try {
       const data = JSON.parse(await f.text());
-      if (data.app !== 'river-guide' || !Array.isArray(data.trips)) throw new Error('not a River Guide backup');
+      if (data.app !== 'river-guide' || !Array.isArray(data.trips)) throw new Error('not an Eddy backup');
       const n = s.restore(data);
       success();
       setMsg(`Restored ${n} trip${n === 1 ? '' : 's'}.`);
     } catch {
-      setMsg('That file is not a River Guide backup.');
+      setMsg('That file is not an Eddy backup.');
     }
   };
   const toggleRem = async () => {
@@ -4658,7 +4658,7 @@ function About({ s, part = 'about' }) {
       return;
     }
     if (!(await remindersAllowed()) && !(await askReminders())) {
-      setMsg('Notifications are off for River Guide. Turn them on in Settings → Notifications.');
+      setMsg('Notifications are off for Eddy. Turn them on in Settings → Notifications.');
       return;
     }
     localStorage.setItem(REMINDERS_KEY, '1');
@@ -4671,7 +4671,7 @@ function About({ s, part = 'about' }) {
     <>
       {part === 'about' && (
       <div className="card formCard">
-        <span className="label">River Guide</span>
+        <span className="label">Eddy</span>
         <div className="line">Plan river trips: crew, itinerary, meals, gear, shuttles and costs, with built-in guides for more than 20 western rivers.</div>
         <div className="muted mt-s">Version {APP_VERSION}</div>
       </div>
@@ -4864,7 +4864,7 @@ function Feedback({ s, ctx }) {
         maxLength={4000}
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder={kind === 'idea' ? 'What should River Guide do?' : kind === 'problem' ? 'What went wrong?' : 'Tell us anything.'}
+        placeholder={kind === 'idea' ? 'What should Eddy do?' : kind === 'problem' ? 'What went wrong?' : 'Tell us anything.'}
       />
       <label className="checkRow">
         <input type="checkbox" checked={reply} onChange={(e) => setReply(e.target.checked)} />
@@ -5723,10 +5723,10 @@ function RiskGate({ onAccept }) {
         </div>
         <h1>River trips are dangerous</h1>
         <p>
-          Rafting, kayaking and backcountry travel can cause serious injury or death. River Guide is a planning tool. Its information can be wrong or out of date and cannot account for changing conditions.
+          Rafting, kayaking and backcountry travel can cause serious injury or death. Eddy is a planning tool. Its information can be wrong or out of date and cannot account for changing conditions.
         </p>
         <p>
-          <strong>You alone are responsible for your safety and your decisions.</strong> River Guide is not responsible for them or for unforeseen circumstances.
+          <strong>You alone are responsible for your safety and your decisions.</strong> Eddy is not responsible for them or for unforeseen circumstances.
         </p>
         <button className="btn block" onClick={onAccept}>
           I understand and accept the risk
