@@ -219,11 +219,13 @@
           "items": [
             {
               "n": "Brown Trout",
-              "d": "Introduced. The river holds large populations of wild browns, which generally outnumber the rainbows."
+              "d": "Introduced. The river holds large populations of wild browns, which generally outnumber the rainbows.",
+              "inv": 1
             },
             {
               "n": "Rainbow Trout",
-              "d": "Wild rainbows share the river with the browns. Rises to hatches in the cool of morning and evening."
+              "d": "Wild rainbows share the river with the browns. Rises to hatches in the cool of morning and evening.",
+              "inv": 1
             },
             {
               "n": "Westslope Cutthroat Trout",

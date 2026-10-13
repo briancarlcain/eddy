@@ -308,7 +308,8 @@
           "items": [
             {
               "n": "Rainbow Trout",
-              "d": "Raised at the Willow Beach fish hatchery and caught in the cold river."
+              "d": "Raised at the Willow Beach fish hatchery and caught in the cold river.",
+              "inv": 1
             },
             {
               "n": "Razorback Sucker",
