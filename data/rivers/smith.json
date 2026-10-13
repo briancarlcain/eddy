@@ -14,6 +14,692 @@
   ],
   "tz": "America/Denver",
   "note": "",
+  "camps": [
+    {
+      "name": "Spring Creek",
+      "mile": 4.4,
+      "size": null,
+      "qual": null,
+      "bank": null,
+      "desc": "Upper and lower sites. The first boat camps below Camp Baker."
+    },
+    {
+      "name": "Indian Springs",
+      "mile": 6,
+      "size": null,
+      "qual": null,
+      "bank": null,
+      "desc": "Upper, middle and lower sites."
+    },
+    {
+      "name": "Rock Creek",
+      "mile": 8.9,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "A sandbar camp."
+    },
+    {
+      "name": "Scotty Allen",
+      "mile": 12,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "Upper, middle and lower sites."
+    },
+    {
+      "name": "Syringa",
+      "mile": 15.2,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": ""
+    },
+    {
+      "name": "Canyon Depth",
+      "mile": 16.9,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Under the cliff, with morning shade."
+    },
+    {
+      "name": "Two Creek",
+      "mile": 17.8,
+      "size": null,
+      "qual": null,
+      "bank": null,
+      "desc": "A single-party camp, so more privacy than the split camps."
+    },
+    {
+      "name": "Sheep Wagon",
+      "mile": 18.4,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "A very nice sandbar beach camp. A single-party site."
+    },
+    {
+      "name": "Cow Coulee",
+      "mile": 22.8,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "A smaller, shady camp with upper, middle and lower sites."
+    },
+    {
+      "name": "Sunset Cliff",
+      "mile": 23.6,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Upper, middle and lower sites."
+    },
+    {
+      "name": "County Line",
+      "mile": 25.5,
+      "size": null,
+      "qual": null,
+      "bank": null,
+      "desc": "A single-party camp with extra privacy."
+    },
+    {
+      "name": "Bear Gulch",
+      "mile": 29,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Upper and lower sites."
+    },
+    {
+      "name": "Trout Creek",
+      "mile": 30.3,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "Upper, middle and lower sites."
+    },
+    {
+      "name": "Table Rock",
+      "mile": 33.5,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Upper, middle and lower sites."
+    },
+    {
+      "name": "Meadow Bend",
+      "mile": 36,
+      "size": null,
+      "qual": null,
+      "bank": null,
+      "desc": ""
+    },
+    {
+      "name": "Deep Creek",
+      "mile": 38.7,
+      "size": null,
+      "qual": null,
+      "bank": null,
+      "desc": "A single site."
+    },
+    {
+      "name": "Paradise Bend",
+      "mile": 39.5,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": ""
+    },
+    {
+      "name": "Staigmiller",
+      "mile": 44,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": ""
+    },
+    {
+      "name": "Merganser Bend",
+      "mile": 44.5,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": ""
+    },
+    {
+      "name": "Black Butte",
+      "mile": 44.8,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Upper and lower sites."
+    },
+    {
+      "name": "Ridgetop",
+      "mile": 45,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "Upper, middle and lower sites."
+    },
+    {
+      "name": "Rattlesnake",
+      "mile": 47.4,
+      "size": null,
+      "qual": null,
+      "bank": "R",
+      "desc": "Upper and lower sites. The last boat camps in the permitted section, about 11 miles above Eden Bridge."
+    }
+  ],
+  "rapids": [
+    {
+      "name": "Mile 47 Class II",
+      "mile": 47,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "One section of Class II water, which Montana FWP lists near the end of the float. Riverbrain describes the Smith as technical Class I overall, with Givens Gulch as the one technical Class II."
+    },
+    {
+      "name": "Mile 49 Class II",
+      "mile": 49,
+      "civ": false,
+      "diff": 3,
+      "tier": "Class II",
+      "desc": "Several short Class II sections, per Montana FWP. Mostly wave trains. Expect the current to push you to the outside of the turns toward the walls."
+    }
+  ],
+  "guide": [
+    {
+      "name": "Fish",
+      "subs": [
+        {
+          "name": "Trout",
+          "items": [
+            {
+              "n": "Brown Trout",
+              "d": "Introduced. The river holds large populations of wild browns, which generally outnumber the rainbows."
+            },
+            {
+              "n": "Rainbow Trout",
+              "d": "Wild rainbows share the river with the browns. Rises to hatches in the cool of morning and evening."
+            },
+            {
+              "n": "Westslope Cutthroat Trout",
+              "d": "Montana's native trout and state fish. A remnant population survives in Tenderfoot Creek."
+            }
+          ],
+          "sci": "Salmonidae"
+        },
+        {
+          "name": "Whitefish",
+          "items": [
+            {
+              "n": "Mountain Whitefish",
+              "d": "A silvery native with a small mouth, found in the runs and deeper pools. Rises to hatches and often bites a nymph."
+            }
+          ],
+          "sci": "Salmonidae"
+        },
+        {
+          "name": "Suckers",
+          "items": [
+            {
+              "n": "Longnose Sucker",
+              "d": "A bottom-feeding native that sweeps rocky riffles for insects."
+            },
+            {
+              "n": "White Sucker",
+              "d": "Round-snouted bottom feeder of slower pools and edges."
+            }
+          ],
+          "sci": "Catostomidae"
+        }
+      ]
+    },
+    {
+      "name": "Birds",
+      "subs": [
+        {
+          "name": "Hawks & Eagles",
+          "items": [
+            {
+              "n": "Bald Eagle",
+              "d": "Perches in cottonwoods and on cliff snags and fishes the river."
+            },
+            {
+              "n": "Golden Eagle",
+              "d": "Hunts the canyon rims and nests on the limestone cliffs."
+            },
+            {
+              "n": "Red-tailed Hawk",
+              "d": "The common soaring hawk over the benches above the river."
+            }
+          ],
+          "sci": "Accipitridae"
+        },
+        {
+          "name": "Osprey",
+          "items": [
+            {
+              "n": "Osprey",
+              "d": "Hovers and dives for trout; nests on snags and cliff ledges."
+            }
+          ],
+          "sci": "Pandionidae"
+        },
+        {
+          "name": "Falcons",
+          "items": [
+            {
+              "n": "Peregrine Falcon",
+              "d": "Stoops after swallows and doves along the cliff faces."
+            },
+            {
+              "n": "American Kestrel",
+              "d": "The small falcon of the fence lines and open benches."
+            }
+          ],
+          "sci": "Falconidae"
+        },
+        {
+          "name": "Ducks & Geese",
+          "items": [
+            {
+              "n": "Canada Goose",
+              "d": "Pairs raise goslings on the sandbars in early summer."
+            },
+            {
+              "n": "Common Merganser",
+              "d": "Fish-eating duck that leads broods down the riffles. Merganser Bend camp shares its name."
+            },
+            {
+              "n": "Mallard",
+              "d": "The familiar green-headed duck of backwaters and side channels."
+            }
+          ],
+          "sci": "Anatidae"
+        },
+        {
+          "name": "Kingfishers",
+          "items": [
+            {
+              "n": "Belted Kingfisher",
+              "d": "Rattling call and a diving flight along the bank."
+            }
+          ],
+          "sci": "Alcedinidae"
+        },
+        {
+          "name": "Dippers",
+          "items": [
+            {
+              "n": "American Dipper",
+              "d": "The slate-gray bird that bobs on rocks and walks underwater for insects."
+            }
+          ],
+          "sci": "Cinclidae"
+        },
+        {
+          "name": "Herons",
+          "items": [
+            {
+              "n": "Great Blue Heron",
+              "d": "Stands still at the edge of the pools, hunting fish."
+            }
+          ],
+          "sci": "Ardeidae"
+        },
+        {
+          "name": "Sandpipers",
+          "items": [
+            {
+              "n": "Spotted Sandpiper",
+              "d": "Teeters along the shore and flies low over the water."
+            }
+          ],
+          "sci": "Scolopacidae"
+        },
+        {
+          "name": "Wrens",
+          "items": [
+            {
+              "n": "Canyon Wren",
+              "d": "A falling, silvery song that rings off the limestone."
+            }
+          ],
+          "sci": "Troglodytidae"
+        }
+      ]
+    },
+    {
+      "name": "Mammals",
+      "subs": [
+        {
+          "name": "Deer",
+          "items": [
+            {
+              "n": "Mule Deer",
+              "d": "Common on the benches and drinking at the water's edge at dawn and dusk."
+            },
+            {
+              "n": "White-tailed Deer",
+              "d": "Found in the cottonwood bottoms."
+            },
+            {
+              "n": "Elk",
+              "d": "Seen on the grassy slopes, often in small bands."
+            },
+            {
+              "n": "Moose",
+              "d": "A few use the willow bottoms; keep your distance, especially cows with calves."
+            }
+          ],
+          "sci": "Cervidae"
+        },
+        {
+          "name": "Bears",
+          "items": [
+            {
+              "n": "Black Bear",
+              "d": "Seen along the banks and in the berry thickets. Keep food and scented gear stored away from camp."
+            }
+          ],
+          "sci": "Ursidae"
+        },
+        {
+          "name": "Cats & Dogs",
+          "items": [
+            {
+              "n": "Mountain Lion",
+              "d": "Present in the canyon but rarely seen."
+            },
+            {
+              "n": "Coyote",
+              "d": "Calls from the benches at night."
+            }
+          ],
+          "sci": "Felidae"
+        },
+        {
+          "name": "Beaver & Otter",
+          "items": [
+            {
+              "n": "Beaver",
+              "d": "Lodges and bank dens; the gnawed willows are common sign."
+            },
+            {
+              "n": "River Otter",
+              "d": "Seen in pairs or families in the pools."
+            }
+          ]
+        },
+        {
+          "name": "Marmots & Porcupines",
+          "items": [
+            {
+              "n": "Yellow-bellied Marmot",
+              "d": "Whistles from boulder piles on the slopes."
+            },
+            {
+              "n": "Porcupine",
+              "d": "A slow night visitor to camps; it chews gear for the salt."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reptiles",
+      "subs": [
+        {
+          "name": "Snakes",
+          "items": [
+            {
+              "n": "Prairie Rattlesnake",
+              "d": "Uses rock outcrops and warm benches. Watch where you step and reach in the heat of the day, around camp and on hikes."
+            }
+          ],
+          "sci": "Viperidae"
+        },
+        {
+          "name": "Garter Snakes",
+          "items": [
+            {
+              "n": "Common Garter Snake",
+              "d": "A harmless snake often seen in the shallows and reeds."
+            }
+          ],
+          "sci": "Colubridae"
+        }
+      ]
+    },
+    {
+      "name": "Plants",
+      "subs": [
+        {
+          "name": "Conifers",
+          "items": [
+            {
+              "n": "Douglas-fir",
+              "d": "Dominant tree of the cooler slopes and the north-facing canyon walls."
+            },
+            {
+              "n": "Ponderosa Pine",
+              "d": "Orange-barked pine of the drier benches."
+            },
+            {
+              "n": "Limber Pine",
+              "d": "Grows in rocky, windy places along the rim."
+            }
+          ],
+          "sci": "Pinaceae"
+        },
+        {
+          "name": "Junipers",
+          "items": [
+            {
+              "n": "Rocky Mountain Juniper",
+              "d": "Gnarled and blue-berried, rooted into the limestone."
+            }
+          ],
+          "sci": "Cupressaceae"
+        },
+        {
+          "name": "Riverside Trees & Shrubs",
+          "items": [
+            {
+              "n": "Narrowleaf Cottonwood",
+              "d": "Lines the banks and shades many of the camps."
+            },
+            {
+              "n": "Water Birch",
+              "d": "Dark, shiny bark along the creek mouths."
+            },
+            {
+              "n": "Red-osier Dogwood",
+              "d": "Red stems and white berries in the wet bottoms."
+            },
+            {
+              "n": "Chokecherry",
+              "d": "Dark fruit in late summer."
+            },
+            {
+              "n": "Wood's Rose",
+              "d": "Pink flowers in June and red hips in autumn."
+            }
+          ]
+        },
+        {
+          "name": "Wildflowers",
+          "items": [
+            {
+              "n": "Arrowleaf Balsamroot",
+              "d": "Yellow sunflowers that blanket the slopes in May and June."
+            },
+            {
+              "n": "Lupine",
+              "d": "Blue spikes on the benches in early summer."
+            },
+            {
+              "n": "Blanketflower",
+              "d": "Red and yellow daisy-like flowers on dry slopes."
+            },
+            {
+              "n": "Syringa",
+              "d": "Mock orange, with fragrant white flowers in June. A camp is named for it."
+            }
+          ]
+        },
+        {
+          "name": "Invasive Plants",
+          "items": [
+            {
+              "n": "Spotted Knapweed",
+              "d": "Spreads along roads and trails and into camps. Clean boots and gear to avoid carrying seed.",
+              "inv": 1
+            },
+            {
+              "n": "Leafy Spurge",
+              "d": "Aggressive, with yellow-green bracts; hard to remove once established.",
+              "inv": 1
+            },
+            {
+              "n": "Cheatgrass",
+              "d": "A weedy annual that dries early and raises fire risk on the benches.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "almanac": {
+    "indigenous": [
+      [
+        "A long-used corridor",
+        "Many nations have used the Smith River corridor for thousands of years, including the Salish, Kootenai, Blackfeet, Crow, Shoshone and Gros Ventre. The canyon was a travel route, a hunting ground and a place to camp long before it was a float trip."
+      ],
+      [
+        "Rock art",
+        "More than 70 pictograph and rock-art sites have been recorded along the float. Look and photograph, but never touch, trace or chalk the panels, and do not move anything at the sites."
+      ]
+    ],
+    "history": [
+      [
+        "Named by Lewis and Clark",
+        "On July 15, 1805, the Corps of Discovery reached the mouth of this river on the Missouri. Meriwether Lewis described a beautiful river about 80 yards wide and named it Smith’s River for Robert Smith, the Secretary of the Navy."
+      ],
+      [
+        "Camp Baker and Fort Logan",
+        "The army set up Camp Baker in 1869 to guard the freight route from Fort Benton and the nearby mining camps. It was renamed Fort Logan in 1877 for Captain William Logan, killed at the Battle of the Big Hole, abandoned in 1880 and sold at auction in 1881. The blockhouse is what remains."
+      ],
+      [
+        "A river for the public",
+        "Use of the river grew sharply in the 1960s and brought safety problems and conflict with private landowners along the banks. The corridor is now managed by the state as a recreational waterway, with permits, designated boat camps and a lottery."
+      ]
+    ],
+    "geology": [
+      [
+        "The limestone canyon",
+        "The canyon walls are mostly Madison Limestone, laid down in warm shallow seas during the Mississippian, about 359 to 326 million years ago. Folding has tilted the beds into long gray palisades, and limestone walls rise about 300 feet from the water in places. Caves have been reported high on the cliffs, as they are wherever water has dissolved the Madison."
+      ]
+    ],
+    "flows": [
+      [
+        "Water decides the trip",
+        "The Smith is free-flowing through the float, fed by snowmelt and tributaries such as Tenderfoot Creek. A good year gives a pleasant 3 to 4 day float; a dry year can mean dragging boats by midsummer. Recommended flow guidance: 150 cfs canoes and kayaks, 250 rafts, 350 drift boats."
+      ]
+    ]
+  },
+  "rules": [
+    {
+      "name": "Flows",
+      "rules": [
+        {
+          "t": "Minimum flows",
+          "d": "Montana FWP's usual guidance is about 350 cfs for drift boats, 250 cfs for rafts and 150 cfs for canoes and kayaks. Below that the float gets scrapey, and in low years it can be nearly impossible."
+        },
+        {
+          "t": "Season",
+          "d": "Peak season is generally mid-May to mid-July, and most floats run between mid-April and mid-July. In a dry year the river can drop too low to float comfortably by midsummer; some years are boatable into September."
+        },
+        {
+          "t": "Gauges",
+          "d": "Watch the USGS gauges Smith River near Fort Logan (06076690) and Smith River below Eagle Creek near Fort Logan (06077200), and check the FWP river updates before you launch."
+        }
+      ]
+    },
+    {
+      "name": "Safety",
+      "rules": [
+        {
+          "t": "Class II water",
+          "d": "The river is mostly Class I with a few Class II sections, reported near miles 47 and 49. Givens Gulch is the technical one: scout it from river left above the drop, and expect the current to push you to the outside of the turn against the wall."
+        },
+        {
+          "t": "Remote",
+          "d": "There are no services, potable water, trash facilities or cell service along the 59 miles. Carry everything you need and a way to call for help."
+        },
+        {
+          "t": "Water",
+          "d": "Treat or filter all drinking water."
+        },
+        {
+          "t": "Warm water",
+          "d": "Low midsummer water warms enough to stress trout. In hot weather keep fish wet and release them quickly."
+        }
+      ]
+    },
+    {
+      "name": "Camping & waste",
+      "rules": [
+        {
+          "t": "Boat camps only",
+          "d": "Camp only at the designated boat camps. Sites are signed and marked on the FWP maps given out at Camp Baker."
+        },
+        {
+          "t": "Pack out human waste",
+          "d": "FWP requires human waste to be carried out in an approved portable toilet system. Check the current floater packet for the exact rules."
+        },
+        {
+          "t": "Last camps",
+          "d": "Rattlesnake (mile 47.4) holds the last boat camps; Eden Bridge is about 11.5 miles below it."
+        }
+      ]
+    }
+  ],
+  "landmarks": [
+    {
+      "name": "Camp Baker",
+      "mile": 0,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "The put-in, named for the army post set up here in 1869 (renamed Fort Logan in 1877, abandoned 1880). The blockhouse survives and is on the National Register of Historic Places. Highway 89 to Highway 360 (Fort Logan Road) reaches it."
+    },
+    {
+      "name": "Tenderfoot Creek",
+      "mile": 16,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Joins the Smith near here (reported near mile 16) and adds noticeable volume to the river. Remnant westslope cutthroat trout still live in the creek."
+    },
+    {
+      "name": "Eden Bridge",
+      "mile": 58.9,
+      "civ": true,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "The take-out: the first bridge you meet on the run. By road it is reached from Cascade on Hound Creek Road."
+    }
+  ],
+  "notes": {
+    "camp": "*Camping is at designated boat camps only. This list is partial: Montana FWP lists about 27 named camps and over 50 sites, and several camps are split into upper, middle and lower sites that each hold one party. Use the map and mileage sheet you get at Camp Baker for the full set.",
+    "hike": ""
+  },
   "access": [
     {
       "name": "Great Falls",
@@ -133,9 +819,5 @@
         ]
       }
     ]
-  },
-  "notes": {
-    "camp": "",
-    "hike": ""
   }
 }
