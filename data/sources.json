@@ -210,16 +210,6 @@
     "confirmed": false
   },
   {
-    "title": "Black Canyon National Water Trail (NPS Lake Mead)",
-    "note": "Access, boat zones, vendors. Facts reworded; confirm licence or replace.",
-    "confirmed": false
-  },
-  {
-    "title": "Black Canyon Water Trail trip reports (bearfoottheory.com, evansoutdooradventures.com)",
-    "note": "Landmarks and mileage. Facts reworded; confirm licence or replace.",
-    "confirmed": false
-  },
-  {
     "title": "Salt River: US 60 to Hwy 288 (American Whitewater)",
     "note": "Rapids, access and camps. Facts reworded; confirm licence or replace.",
     "confirmed": false
@@ -227,6 +217,11 @@
   {
     "title": "Salt River Canyon Wilderness permit (USFS Tonto National Forest, Recreation.gov)",
     "note": "Lottery, fees, rules. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "American Whitewater permit list (americanwhitewater.org/content/River/list-permits)",
+    "note": "Defines the app's river scope and the permit rules on the preliminary entries. Mileage and positions on those entries are approximate.",
     "confirmed": false
   }
 ]

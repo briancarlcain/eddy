@@ -18,8 +18,15 @@ import greenFlamingGorge from '../data/rivers/green-flaming-gorge.json';
 import westwater from '../data/rivers/westwater.json';
 import illinois from '../data/rivers/illinois.json';
 import tuolumne from '../data/rivers/tuolumne.json';
-import blackCanyon from '../data/rivers/black-canyon.json';
 import salt from '../data/rivers/salt.json';
+import alsek from '../data/rivers/alsek.json';
+import tatshenshini from '../data/rivers/tatshenshini.json';
+import bruneauJarbidge from '../data/rivers/bruneau-jarbidge.json';
+import deschutes from '../data/rivers/deschutes.json';
+import johnDay from '../data/rivers/john-day.json';
+import owyhee from '../data/rivers/owyhee.json';
+import greenLabyrinth from '../data/rivers/green-labyrinth.json';
+import dolores from '../data/rivers/dolores.json';
 
 export const DEFAULT_RIVER = 'grand-canyon';
 
@@ -42,8 +49,15 @@ export const BUILTIN_RIVERS = {
   westwater: { id: 'westwater', ...westwater },
   illinois: { id: 'illinois', ...illinois },
   tuolumne: { id: 'tuolumne', ...tuolumne },
-  'black-canyon': { id: 'black-canyon', ...blackCanyon },
   salt: { id: 'salt', ...salt },
+  alsek: { id: 'alsek', ...alsek },
+  tatshenshini: { id: 'tatshenshini', ...tatshenshini },
+  'bruneau-jarbidge': { id: 'bruneau-jarbidge', ...bruneauJarbidge },
+  deschutes: { id: 'deschutes', ...deschutes },
+  'john-day': { id: 'john-day', ...johnDay },
+  owyhee: { id: 'owyhee', ...owyhee },
+  'green-labyrinth': { id: 'green-labyrinth', ...greenLabyrinth },
+  dolores: { id: 'dolores', ...dolores },
 };
 
 // Fill every field the views read, so a bare-bones river (just a name, reach

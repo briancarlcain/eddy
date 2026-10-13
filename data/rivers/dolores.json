@@ -1,0 +1,51 @@
+{
+  "name": "Dolores River",
+  "state": "Colorado",
+  "reach": "Gateway to the Colorado River (Utah)",
+  "agency": "BLM Grand Junction / Moab",
+  "miles": [
+    0,
+    35
+  ],
+  "coords": [
+    38.7,
+    -109
+  ],
+  "tz": "America/Denver",
+  "note": "Preliminary entry: reach, access points and permit rules only. Mileage and map position are approximate; confirm against the managing agency.",
+  "access": [
+    {
+      "name": "Gateway",
+      "road": true,
+      "mile": 0,
+      "park": true,
+      "note": "Put-in"
+    },
+    {
+      "name": "Colorado River confluence",
+      "road": true,
+      "mile": 35,
+      "park": true,
+      "note": "Take-out"
+    }
+  ],
+  "permit": {
+    "status": "Required year-round · available from January 1",
+    "sections": [
+      {
+        "name": "Rules",
+        "items": [
+          {
+            "t": "Permits",
+            "d": "Permits are required year-round and become available starting January 1 for that year."
+          }
+        ]
+      }
+    ],
+    "source": "American Whitewater permit list"
+  },
+  "notes": {
+    "camp": "",
+    "hike": ""
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "name": "Bruneau and Jarbidge Rivers",
+  "state": "Idaho",
+  "reach": "Jarbidge Forks to 8 miles south of Bruneau (via Indian Hot Springs)",
+  "agency": "BLM Boise District",
+  "miles": [
+    0,
+    80
+  ],
+  "coords": [
+    42.5,
+    -115.7
+  ],
+  "tz": "America/Boise",
+  "note": "Preliminary entry: reach, access points and permit rules only. Mileage and map position are approximate; confirm against the managing agency.",
+  "access": [
+    {
+      "name": "Jarbidge Forks",
+      "road": true,
+      "mile": 0,
+      "park": true,
+      "note": "Put-in"
+    },
+    {
+      "name": "Indian Hot Springs",
+      "road": true,
+      "mile": 40,
+      "park": true,
+      "note": "Access"
+    },
+    {
+      "name": "8 miles south of Bruneau",
+      "road": true,
+      "mile": 80,
+      "park": true,
+      "note": "Take-out"
+    }
+  ],
+  "permit": {
+    "status": "Required · free, self-issued",
+    "sections": [
+      {
+        "name": "Rules",
+        "items": [
+          {
+            "t": "Self-issue permit",
+            "d": "Download a self-issue permit from the BLM website, or fill one out at the self-registration stations at the put-in and take-out. This covers both the Jarbidge (Jarbidge Forks to Indian Hot Springs) and the Bruneau (Indian Hot Springs to 8 miles south of Bruneau)."
+          }
+        ]
+      }
+    ],
+    "source": "American Whitewater permit list"
+  },
+  "notes": {
+    "camp": "",
+    "hike": ""
+  }
+}
