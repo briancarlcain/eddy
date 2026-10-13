@@ -13,6 +13,7 @@
     -114.73
   ],
   "tz": "America/Los_Angeles",
+  "note": "",
   "camps": [
     {
       "name": "Arizona Hot Springs",
@@ -97,7 +98,326 @@
     }
   ],
   "geology": [],
-  "guide": [],
+  "guide": [
+    {
+      "name": "Mammals",
+      "subs": [
+        {
+          "name": "Sheep",
+          "items": [
+            {
+              "n": "Desert Bighorn Sheep",
+              "d": "Often seen on the steep slopes and coming to the water's edge to drink; watch for them from the river."
+            }
+          ],
+          "sci": "Bovidae"
+        },
+        {
+          "name": "Cats & Dogs",
+          "items": [
+            {
+              "n": "Bobcat",
+              "d": "A shy, spotted cat of the rocky slopes."
+            },
+            {
+              "n": "Mountain Lion",
+              "d": "Present but rarely seen."
+            },
+            {
+              "n": "Coyote",
+              "d": "Calls from the benches at night."
+            }
+          ],
+          "sci": "Felidae"
+        },
+        {
+          "name": "Rabbits & Squirrels",
+          "items": [
+            {
+              "n": "Desert Cottontail",
+              "d": "Common around camps at dusk."
+            },
+            {
+              "n": "Antelope Ground Squirrel",
+              "d": "Streaks across hot ground with its tail curled over its back."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Birds",
+      "subs": [
+        {
+          "name": "Falcons",
+          "items": [
+            {
+              "n": "Peregrine Falcon",
+              "d": "Lives and nests in the canyon walls."
+            }
+          ],
+          "sci": "Falconidae"
+        },
+        {
+          "name": "Hawks, Vultures & Osprey",
+          "items": [
+            {
+              "n": "Osprey",
+              "d": "Fishes the river, hovering before a dive."
+            },
+            {
+              "n": "Red-tailed Hawk",
+              "d": "Soars above the rim."
+            },
+            {
+              "n": "Turkey Vulture",
+              "d": "Rides canyon updrafts."
+            },
+            {
+              "n": "Bald Eagle",
+              "d": "A winter visitor along the river."
+            }
+          ]
+        },
+        {
+          "name": "Herons & Egrets",
+          "items": [
+            {
+              "n": "Great Blue Heron",
+              "d": "Stands in the shallows and eddies hunting fish."
+            },
+            {
+              "n": "Great Egret",
+              "d": "A tall white heron of the quiet water and marshes near Willow Beach."
+            }
+          ],
+          "sci": "Ardeidae"
+        },
+        {
+          "name": "Waterbirds",
+          "items": [
+            {
+              "n": "American Coot",
+              "d": "Slate-gray swimmer of the quiet backwaters."
+            },
+            {
+              "n": "Common Merganser",
+              "d": "A winter fish-eating duck."
+            }
+          ]
+        },
+        {
+          "name": "Songbirds",
+          "items": [
+            {
+              "n": "Canyon Wren",
+              "d": "A descending, silvery song off the walls."
+            },
+            {
+              "n": "Common Raven",
+              "d": "Cruises the cliffs and checks the camps."
+            },
+            {
+              "n": "Cliff Swallow",
+              "d": "Mud nests under ledges and bridges."
+            },
+            {
+              "n": "Black-throated Sparrow",
+              "d": "Sings from the creosote on the benches."
+            },
+            {
+              "n": "Say's Phoebe",
+              "d": "Hunts insects from low perches."
+            },
+            {
+              "n": "Phainopepla",
+              "d": "A glossy black, crested bird of the mesquite and mistletoe."
+            }
+          ]
+        },
+        {
+          "name": "Quail & Roadrunners",
+          "items": [
+            {
+              "n": "Gambel's Quail",
+              "d": "Runs the ground in coveys; the males wear a curled topknot."
+            },
+            {
+              "n": "Greater Roadrunner",
+              "d": "Sprints along trails after lizards."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reptiles",
+      "subs": [
+        {
+          "name": "Lizards",
+          "items": [
+            {
+              "n": "Chuckwalla",
+              "d": "A large, plump lizard that wedges into rock cracks."
+            },
+            {
+              "n": "Zebra-tailed Lizard",
+              "d": "Runs with its banded tail curled up."
+            },
+            {
+              "n": "Desert Iguana",
+              "d": "Pale lizard of the creosote flats."
+            },
+            {
+              "n": "Side-blotched Lizard",
+              "d": "Small and common on every rock."
+            }
+          ]
+        },
+        {
+          "name": "Tortoises",
+          "items": [
+            {
+              "n": "Desert Tortoise",
+              "d": "A protected, long-lived tortoise of the desert slopes; do not touch or move one."
+            }
+          ],
+          "sci": "Testudinidae"
+        },
+        {
+          "name": "Snakes",
+          "items": [
+            {
+              "n": "Mojave Rattlesnake",
+              "d": "A venomous rattlesnake of the desert flats. Watch where you put your hands and feet."
+            },
+            {
+              "n": "Sidewinder",
+              "d": "Moves sideways across loose sand; active at night."
+            }
+          ],
+          "sci": "Viperidae"
+        }
+      ]
+    },
+    {
+      "name": "Fish & Aquatic Life",
+      "subs": [
+        {
+          "name": "Trout & Suckers",
+          "items": [
+            {
+              "n": "Rainbow Trout",
+              "d": "Raised at the Willow Beach fish hatchery and caught in the cold river."
+            },
+            {
+              "n": "Razorback Sucker",
+              "d": "A rare native with a sharp keel on its back; hatchery fish are raised here to restore it."
+            }
+          ]
+        },
+        {
+          "name": "Introduced Fish",
+          "items": [
+            {
+              "n": "Striped Bass",
+              "d": "A big predator that follows the cold water up from the lake.",
+              "inv": 1
+            },
+            {
+              "n": "Largemouth Bass",
+              "d": "Lurks in the warm backwaters.",
+              "inv": 1
+            },
+            {
+              "n": "Common Carp",
+              "d": "Roots around in the shallows.",
+              "inv": 1
+            }
+          ]
+        },
+        {
+          "name": "Mussels",
+          "items": [
+            {
+              "n": "Quagga Mussel",
+              "d": "An invasive mussel that coats rocks and hulls. Clean, drain and dry boats before leaving the lake system.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Plants",
+      "subs": [
+        {
+          "name": "Riverside Trees & Shrubs",
+          "items": [
+            {
+              "n": "Goodding's Willow",
+              "d": "Grows along the river."
+            },
+            {
+              "n": "Fremont Cottonwood",
+              "d": "A big tree at spring-fed spots."
+            },
+            {
+              "n": "Honey Mesquite",
+              "d": "Feathery desert tree with bean pods."
+            },
+            {
+              "n": "Arrowweed",
+              "d": "A dense shrub of the water's edge."
+            },
+            {
+              "n": "Common Reed",
+              "d": "Tall grass in the marshes at the lower end."
+            }
+          ]
+        },
+        {
+          "name": "Desert Plants",
+          "items": [
+            {
+              "n": "Creosote Bush",
+              "d": "The resinous shrub of the dry benches; smells of rain."
+            },
+            {
+              "n": "Brittlebush",
+              "d": "Gray leaves and yellow daisies in spring."
+            },
+            {
+              "n": "Desert Globemallow",
+              "d": "Orange flowers along the washes in spring."
+            },
+            {
+              "n": "Beavertail Cactus",
+              "d": "Flat pads and magenta flowers in spring."
+            },
+            {
+              "n": "Teddybear Cholla",
+              "d": "A cactus covered in glowing spines."
+            },
+            {
+              "n": "Desert Holly",
+              "d": "Silvery-leaved shrub of the washes."
+            }
+          ]
+        },
+        {
+          "name": "Invasive Plants",
+          "items": [
+            {
+              "n": "Tamarisk",
+              "d": "Also called saltcedar, it lines the banks and crowds out willows.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "almanac": {
     "trail": [
       [
@@ -107,6 +427,38 @@
       [
         "Below Willow Beach",
         "The trail continues 18 miles to Eldorado Canyon, named by Spanish gold seekers. Expect open water, wind and fast current with hidden rocks. Paddlers carry watercraft about a quarter mile up a desert wash to reach a vehicle."
+      ]
+    ],
+    "indigenous": [
+      [
+        "A river homeland",
+        "The Colorado River corridor through Black Canyon lies in the homelands of the Mojave and Southern Paiute peoples, who traveled and lived along the river and in the desert uplands on either side long before the dam."
+      ]
+    ],
+    "history": [
+      [
+        "Hoover Dam",
+        "Black Canyon was chosen as the site for the dam authorized in 1928. Construction ran from 1931 to 1936. The 726-foot concrete arch holds back Lake Mead and sets the cold, clear flow you float on."
+      ],
+      [
+        "Ives and the steamer Explorer",
+        "In 1858 the army’s Ives expedition pushed the small steamer Explorer up the Colorado as far as Black Canyon, where it struck a rock. It was an early steamboat attempt on the river above the Gulf."
+      ],
+      [
+        "The bypass bridge",
+        "The Mike O’Callaghan–Pat Tillman Memorial Bridge, opened in 2010, carries US 93 across the canyon just below the dam, about 900 feet above the water. Look up from the first mile."
+      ]
+    ],
+    "geology": [
+      [
+        "Volcanic walls and hot springs",
+        "The canyon walls are volcanic rock, lava flows, ash and breccia from the Miocene, roughly 13 to 16 million years ago, broken by faults. Water heated deep underground rises along those fractures to feed the hot springs in Gold Strike, Boy Scout and Arizona Hot Springs canyons, which is why the side canyons run warm and steamy."
+      ]
+    ],
+    "flows": [
+      [
+        "Cold, clear, controlled",
+        "Water comes from deep in Lake Mead, so the river runs clear and about 54 degrees all year. Releases change with power demand and the level can move several feet in a day, so tie up before you hike."
       ]
     ]
   },
@@ -248,6 +600,10 @@
       "n": "Hot springs"
     }
   ],
+  "notes": {
+    "camp": "*Camp well above the waterline: Hoover Dam releases can raise or lower the river several feet in a day. There are no designated sites; use any available beach and carry out all waste.",
+    "hike": "*The hot-spring hikes are steep, rope-assisted scrambles in slot canyons that can flash flood. Pools can be well over 100 degrees; soak briefly and keep water out of your nose. Gold Strike and Arizona Hot Springs close in summer heat."
+  },
   "hdiff": {
     "1": "Short, easy walk",
     "2": "Scramble",
@@ -355,10 +711,5 @@
         ]
       }
     ]
-  },
-  "note": "",
-  "notes": {
-    "camp": "",
-    "hike": ""
   }
 }
