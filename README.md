@@ -29,6 +29,9 @@ trips (localStorage, and the shared db when available).
 - `src/TopoMap.jsx` - River > Map > Topo map (Leaflet): terrain basemap, pins, dropped pins, sun & shade day timeline, offline download
 - `src/SunChart.jsx` - the skyline-and-sun-path chart for a camp or dropped pin
 - `src/geo/` - geo code shared by the app and the build: centerline (`line.js`), sun position and canyon sun times (`sun.js`), horizon casting (`horizon.js`), DEM tiles (`dem.js`) and their offline store (`store.js`), shade worker pool (`shade.js`), per-river state, dropped pins and GPX tracks (`index.js`)
+- `src/BasinMap.jsx`, `src/geo/basin.js` - River > Map > Basin: the drainage basin above the take-out (streams by size, basin outline, reservoirs and lakes, dams, the trip's run). Draws from `data/basin/<river>.json` with no map tiles, so it works offline
+- `data/basin/*.json` - **generated** by `python3 scripts/basin/build.py` (see below); `index.json` lists the rivers that have one
+- `scripts/basin/` - the basin pipeline: `rivers.json` (per river: HU4 group, main-stem name, put-in or take-out point), `dams.json` (reservoir name -> dam name), `build.py`
 - `data/geo/anchors.json` - per river: known `{mile, lat, lon}` points the centerline is traced between
 - `data/geo/<river>.json` - **generated** by `npm run geo`: centerline + a terrain horizon for every camp
 
@@ -45,6 +48,37 @@ take-outs, hubs: `{name, mile?, road?, hub?, park?, note?}`), and optional
 `rapids[]`, `camps[]`, `hikes[]`, `geology[]`, `guide[]`, `almanac{}`, `rules[]`,
 `landmarks[]`, `clusters[]`, `notes{camp,hike}`, `hdiff{}`, `roads[]`. See
 `data/rivers/grand-canyon.json`. Missing fields are filled in by `normalizeRiver`.
+
+## Basin maps
+
+`data/basin/<river>.json` is built from the USGS National Hydrography Dataset (high resolution, one GeoPackage per
+4-digit hydrologic unit) and Watershed Boundary Dataset, both public domain. For each river `scripts/basin/build.py`
+snaps the put-in (or take-out) to the named main stem, walks the guide's run length to find the other end, traces
+every natural channel upstream of the take-out, keeps the biggest channels that fit a size budget, outlines the
+basin from the HUC12 watersheds that hold those channels, and picks the biggest reservoirs and lakes. A dam marker
+goes at each reservoir's outlet, but only for reservoirs named in `dams.json`; the dam's name comes from there.
+
+    pip install geopandas pyogrio shapely numpy pandas      # matplotlib too for --preview
+    python3 scripts/basin/build.py                           # all rivers (downloads about 5 GB into .cache/basin once)
+    python3 scripts/basin/build.py dolores --preview /tmp/p  # one river, with a PNG to check
+    python3 scripts/basin/build.py --list-reservoirs         # what it would label, to fill in dams.json
+    python3 scripts/basin/build.py --dams-only               # after editing dams.json: re-apply it in seconds
+    npm test                                                 # checks every file decodes and lines up
+
+Things worth knowing:
+
+- A trip that ends on a bigger river (Yampa, Middle Fork Salmon) uses `basin_until` so the basin stops at the
+  tributary's mouth; the map then says "the whole ... basin". Add a river by giving it an entry in `rivers.json`.
+- The flow table has no link across a dam, so the script joins a named channel's loose end to the same-named channel
+  that starts within about a kilometre below it (and a tributary that stops a few metres short of the river it joins).
+  Without that, Hells Canyon would stop at Oxbow Dam and Black Canyon at Hoover Dam.
+- The area is the sum of whole HUC12 watersheds that hold a traced channel, so it is shown to three figures ("About
+  68,500 sq mi"). It runs under the official drainage area where water is lost to sinks and diversions (the Lost
+  Rivers and Raft River in the Snake basin, the Great Divide Basin in the Green) because those channels never reach
+  the river on the map.
+- `dams.json` maps a reservoir name to its dam. Natural lakes and any dam whose name could not be confirmed are left
+  out, so they show as lakes without a dam marker. A `"<river id>/<name>"` key applies to one river only (two unrelated
+  lakes are both called Emigrant Lake).
 
 ## Data notes
 

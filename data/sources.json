@@ -273,5 +273,10 @@
     "title": "Indigenous history entries for the added rivers",
     "note": "Short summaries naming the peoples whose homelands the rivers cross. Written from general sources, not tribal ones. Have them reviewed by, or attributed to, the relevant tribes before publishing.",
     "confirmed": false
+  },
+  {
+    "title": "National Hydrography Dataset and Watershed Boundary Dataset (USGS National Map)",
+    "note": "Streams, reservoirs and lakes, drainage areas and the basin outlines behind each river's Basin map. U.S. government data. Dam names come from the project's own list (scripts/basin/dams.json), not from this dataset.",
+    "confirmed": false
   }
 ]
