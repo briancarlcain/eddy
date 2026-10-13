@@ -259,8 +259,384 @@
     }
   ],
   "geology": [],
-  "guide": [],
-  "almanac": {},
+  "guide": [
+    {
+      "name": "Fish",
+      "subs": [
+        {
+          "name": "Native Fish",
+          "items": [
+            {
+              "n": "Colorado Pikeminnow",
+              "d": "The big native predator of the Colorado River basin, and a protected species the Yampa still supports."
+            },
+            {
+              "n": "Humpback Chub",
+              "d": "A protected native fish with a distinct hump, found in the canyons' swift, turbulent water."
+            },
+            {
+              "n": "Roundtail Chub",
+              "d": "A native chub of the river's quieter stretches."
+            }
+          ],
+          "sci": "Cyprinidae"
+        },
+        {
+          "name": "Suckers",
+          "items": [
+            {
+              "n": "Flannelmouth Sucker",
+              "d": "A native of the main channel."
+            },
+            {
+              "n": "Bluehead Sucker",
+              "d": "A native that scrapes algae from rocks."
+            },
+            {
+              "n": "Razorback Sucker",
+              "d": "A protected native with a sharp keel behind its head."
+            }
+          ],
+          "sci": "Catostomidae"
+        },
+        {
+          "name": "Introduced Fish",
+          "items": [
+            {
+              "n": "Smallmouth Bass",
+              "d": "An introduced predator that threatens the native fish.",
+              "inv": 1
+            },
+            {
+              "n": "Northern Pike",
+              "d": "An introduced predator in the river.",
+              "inv": 1
+            },
+            {
+              "n": "Channel Catfish",
+              "d": "An introduced catfish.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mammals",
+      "subs": [
+        {
+          "name": "Sheep",
+          "items": [
+            {
+              "n": "Desert Bighorn Sheep",
+              "d": "Often seen on the cliffs, especially at dawn. Lambing can close nearby campsites."
+            }
+          ],
+          "sci": "Bovidae"
+        },
+        {
+          "name": "Deer, Elk & Moose",
+          "items": [
+            {
+              "n": "Mule Deer",
+              "d": "Common along the river."
+            },
+            {
+              "n": "Elk",
+              "d": "Seen in the park-like valleys."
+            },
+            {
+              "n": "Moose",
+              "d": "Seen occasionally in the willow flats, as around Island Park."
+            }
+          ]
+        },
+        {
+          "name": "Bears & Cats",
+          "items": [
+            {
+              "n": "Black Bear",
+              "d": "Present throughout. Store food in bear-proof containers."
+            },
+            {
+              "n": "Mountain Lion",
+              "d": "Elusive."
+            },
+            {
+              "n": "Bobcat",
+              "d": "A shy cat of the cliffs."
+            }
+          ]
+        },
+        {
+          "name": "Small Mammals",
+          "items": [
+            {
+              "n": "North American River Otter",
+              "d": "Seen in the quiet stretches."
+            },
+            {
+              "n": "Beaver",
+              "d": "Bank dens and gnawed cottonwoods are common."
+            },
+            {
+              "n": "Ringtail",
+              "d": "A cat-like night forager."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Birds",
+      "subs": [
+        {
+          "name": "Hawks & Eagles",
+          "items": [
+            {
+              "n": "Golden Eagle",
+              "d": "Nests on the cliffs."
+            },
+            {
+              "n": "Bald Eagle",
+              "d": "A frequent sight in winter and spring."
+            },
+            {
+              "n": "Osprey",
+              "d": "Dives for fish in summer."
+            }
+          ],
+          "sci": "Accipitridae"
+        },
+        {
+          "name": "Falcons",
+          "items": [
+            {
+              "n": "Peregrine Falcon",
+              "d": "Nests on the high walls."
+            }
+          ],
+          "sci": "Falconidae"
+        },
+        {
+          "name": "Waterbirds",
+          "items": [
+            {
+              "n": "Great Blue Heron",
+              "d": "Stands in the shallows."
+            },
+            {
+              "n": "Canada Goose",
+              "d": "Nests on gravel bars."
+            },
+            {
+              "n": "Common Merganser",
+              "d": "A fish-eating duck of the flowing water."
+            },
+            {
+              "n": "Belted Kingfisher",
+              "d": "Rattles along the bank."
+            }
+          ]
+        },
+        {
+          "name": "Songbirds",
+          "items": [
+            {
+              "n": "Canyon Wren",
+              "d": "A falling song that rings off the walls."
+            },
+            {
+              "n": "White-throated Swift",
+              "d": "Streaks past the cliffs."
+            },
+            {
+              "n": "Violet-green Swallow",
+              "d": "Nests in crevices."
+            },
+            {
+              "n": "Common Raven",
+              "d": "Checks out every camp."
+            }
+          ]
+        },
+        {
+          "name": "Upland Birds",
+          "items": [
+            {
+              "n": "Chukar",
+              "d": "Heard calling on the rocky slopes.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reptiles",
+      "subs": [
+        {
+          "name": "Lizards & Snakes",
+          "items": [
+            {
+              "n": "Plateau Fence Lizard",
+              "d": "Common on warm rocks."
+            },
+            {
+              "n": "Eastern Collared Lizard",
+              "d": "A large, bright lizard."
+            },
+            {
+              "n": "Midget Faded Rattlesnake",
+              "d": "A pale rattler of the rocky ledges. Watch where you put your hands and feet."
+            },
+            {
+              "n": "Gopher Snake",
+              "d": "A harmless constrictor."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Plants",
+      "subs": [
+        {
+          "name": "Conifers",
+          "items": [
+            {
+              "n": "Ponderosa Pine",
+              "d": "Lines the upper canyon benches; Ponderosa Beach is named for it."
+            },
+            {
+              "n": "Douglas-fir",
+              "d": "In cool alcoves and side canyons."
+            },
+            {
+              "n": "Utah Juniper",
+              "d": "Rooted into the cliffs."
+            },
+            {
+              "n": "Pinyon Pine",
+              "d": "On the dry slopes."
+            }
+          ]
+        },
+        {
+          "name": "Riverside Trees & Shrubs",
+          "items": [
+            {
+              "n": "Narrowleaf Cottonwood",
+              "d": "Shades the river banks and camps."
+            },
+            {
+              "n": "Box Elder",
+              "d": "A maple of the river banks; Box Elder Beach shares its name."
+            },
+            {
+              "n": "Coyote Willow",
+              "d": "A thin-leaved willow at the water's edge."
+            },
+            {
+              "n": "Skunkbush Sumac",
+              "d": "Lemon-scented, with red berries in late summer."
+            }
+          ]
+        },
+        {
+          "name": "Wildflowers & Cacti",
+          "items": [
+            {
+              "n": "Yampa",
+              "d": "Perideridia, the wild root the river is named for, with white umbrella flowers."
+            },
+            {
+              "n": "Indian Paintbrush",
+              "d": "Red and orange bracts."
+            },
+            {
+              "n": "Scarlet Gilia",
+              "d": "Red trumpets in summer."
+            },
+            {
+              "n": "Prickly Pear",
+              "d": "Pads and yellow flowers in late spring."
+            }
+          ]
+        },
+        {
+          "name": "Invasive Plants",
+          "items": [
+            {
+              "n": "Tamarisk",
+              "d": "A saltcedar that crowds the banks.",
+              "inv": 1
+            },
+            {
+              "n": "Russian Olive",
+              "d": "Silver leaves and thorns.",
+              "inv": 1
+            },
+            {
+              "n": "Cheatgrass",
+              "d": "A weedy grass that dries early and fuels fires.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "almanac": {
+    "indigenous": [
+      [
+        "The Yampa plant",
+        "The river takes its name from the yampa, a wild root dug and eaten by the Ute people. Ute peoples have used this river corridor for centuries and remain connected to the land."
+      ],
+      [
+        "Fremont farmers and rock art",
+        "About a thousand years ago the Fremont culture built granaries and shelters and left rock art in the canyons. Mantle Cave holds Fremont ruins and artifacts. Photograph only, and never touch the walls or remove a single piece."
+      ]
+    ],
+    "history": [
+      [
+        "Powell at Echo Park",
+        "John Wesley Powell’s 1869 expedition camped at the confluence below Steamboat Rock and named Echo Park for the way the cliffs sent back their voices. The expedition floated the Green down through Whirlpool Canyon and Split Mountain."
+      ],
+      [
+        "Pat Lynch",
+        "Pat Lynch left his name and inscriptions on the rock near Echo Park, close to Whispering Cave."
+      ],
+      [
+        "The Echo Park dam fight",
+        "In the 1950s the Bureau of Reclamation proposed dams at Echo Park and Split Mountain that would have flooded these canyons. A national campaign led by the Sierra Club’s David Brower stopped them in 1956, and the fight helped launch the modern environmental movement."
+      ],
+      [
+        "Warm Springs Rapid",
+        "A flash flood down Warm Springs Draw in 1965 dumped boulders into the Yampa and created what is now the river’s biggest rapid."
+      ]
+    ],
+    "geology": [
+      [
+        "Sandstone walls of the Yampa Canyon",
+        "The river flows northwest across tilted beds, cutting steadily down through older and older rock. The upper walls are Weber Sandstone, about 900 feet thick, pale and loosely cemented. Below it lies the Morgan Formation, about 1,200 feet of sandstone and limestone, over the Round Valley limestone, laid down in the Pennsylvanian and early Permian roughly 300 million years ago. Where the soft shale in the Morgan gives way, the cliffs above collapse as landslides."
+      ],
+      [
+        "Where the Yampa meets the Green",
+        "The Yampa joins the Green near Echo Park in a triangular, down-dropped block (a graben) between the Mitten Park and Red Rock faults. Farther down, the Green cuts through the Split Mountain anticline."
+      ]
+    ],
+    "flows": [
+      [
+        "A short, free-flowing season",
+        "The National Park Service calls the Yampa the only remaining free-flowing tributary in the Colorado River system, so its flow follows the snowmelt. It typically peaks in late May or early June and drops fast, leaving a short rafting season that runs from the start of runoff into early summer."
+      ],
+      [
+        "Warm Springs and flow",
+        "Riverbrain lists a recommended flow of about 1,000 cfs minimum to 20,000 cfs maximum for Warm Springs Rapid. Its line changes with flow, and the usual advice is to scout from river right and stay right as you enter."
+      ]
+    ]
+  },
   "rules": [
     {
       "name": "Camping",
@@ -344,7 +720,7 @@
       "civ": false,
       "diff": null,
       "tier": "Landmark",
-      "desc": ""
+      "desc": "On river right, per the mile log."
     },
     {
       "name": "Disappointment Draw",
@@ -352,7 +728,7 @@
       "civ": false,
       "diff": null,
       "tier": "Landmark",
-      "desc": ""
+      "desc": "A side draw on river left."
     },
     {
       "name": "Happy Hollow Canyon",
@@ -563,8 +939,8 @@
     }
   ],
   "notes": {
-    "camp": "",
-    "hike": ""
+    "camp": "*Camps are assigned by site for the whole trip in the high-use season, and you must be out by noon. Camp high: side-canyon sites can flood in a storm, and bighorn lambing or bear activity can close sites.",
+    "hike": "*Look at rock art, Fremont ruins and historic inscriptions but never touch or take anything. Side-canyon hikes are hot and flash flood prone; carry water."
   },
   "hdiff": {
     "1": "Short, easy walk",
