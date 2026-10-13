@@ -944,7 +944,315 @@
     }
   ],
   "geology": [],
-  "guide": [],
+  "guide": [
+    {
+      "name": "Fish",
+      "subs": [
+        {
+          "name": "Salmon & Trout",
+          "items": [
+            {
+              "n": "Chinook Salmon",
+              "d": "Spring and summer fish that return to the Salmon River to spawn; the run is a conservation concern, so do not disturb spawning fish."
+            },
+            {
+              "n": "Steelhead",
+              "d": "Sea-run rainbow trout that migrate up the river."
+            },
+            {
+              "n": "Bull Trout",
+              "d": "A protected native char of cold streams."
+            },
+            {
+              "n": "Westslope Cutthroat Trout",
+              "d": "A native trout of the tributaries."
+            },
+            {
+              "n": "Mountain Whitefish",
+              "d": "A silvery native of the pools."
+            }
+          ],
+          "sci": "Salmonidae"
+        },
+        {
+          "name": "Introduced Fish",
+          "items": [
+            {
+              "n": "Smallmouth Bass",
+              "d": "An introduced predator in the lower river.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mammals",
+      "subs": [
+        {
+          "name": "Sheep & Goats",
+          "items": [
+            {
+              "n": "Bighorn Sheep",
+              "d": "Seen on the grassy slopes and cliffs."
+            },
+            {
+              "n": "Mountain Goat",
+              "d": "Found on the high peaks and sometimes seen on the rocky slopes of the canyon."
+            }
+          ],
+          "sci": "Bovidae"
+        },
+        {
+          "name": "Deer, Elk & Moose",
+          "items": [
+            {
+              "n": "Mule Deer",
+              "d": "Common along the river."
+            },
+            {
+              "n": "White-tailed Deer",
+              "d": "Found in the river bottoms and side canyons."
+            },
+            {
+              "n": "Elk",
+              "d": "Seen on the high benches and meadows."
+            },
+            {
+              "n": "Moose",
+              "d": "Found in willow thickets and wet meadows."
+            }
+          ],
+          "sci": "Cervidae"
+        },
+        {
+          "name": "Bears, Cats & Wolves",
+          "items": [
+            {
+              "n": "Black Bear",
+              "d": "Present throughout; store food and scented gear securely."
+            },
+            {
+              "n": "Mountain Lion",
+              "d": "Elusive, though tracks show on the sandbars."
+            },
+            {
+              "n": "Gray Wolf",
+              "d": "Reintroduced to central Idaho in the 1990s; heard more often than seen."
+            }
+          ]
+        },
+        {
+          "name": "Small Mammals",
+          "items": [
+            {
+              "n": "Beaver",
+              "d": "Gnawed willows and bank dens."
+            },
+            {
+              "n": "River Otter",
+              "d": "An occasional sight in the eddies."
+            },
+            {
+              "n": "Yellow-bellied Marmot",
+              "d": "Whistles from rock piles."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Birds",
+      "subs": [
+        {
+          "name": "Hawks & Eagles",
+          "items": [
+            {
+              "n": "Bald Eagle",
+              "d": "Hunts the river, especially in winter."
+            },
+            {
+              "n": "Golden Eagle",
+              "d": "Nests on the cliffs."
+            },
+            {
+              "n": "Osprey",
+              "d": "Dives for fish along the river."
+            }
+          ],
+          "sci": "Accipitridae"
+        },
+        {
+          "name": "Falcons",
+          "items": [
+            {
+              "n": "Peregrine Falcon",
+              "d": "Nests on the high walls."
+            }
+          ],
+          "sci": "Falconidae"
+        },
+        {
+          "name": "Waterbirds",
+          "items": [
+            {
+              "n": "Harlequin Duck",
+              "d": "A small, brightly patterned duck of fast mountain streams."
+            },
+            {
+              "n": "Common Merganser",
+              "d": "A fish-eating duck."
+            },
+            {
+              "n": "Great Blue Heron",
+              "d": "Stands in the shallows."
+            },
+            {
+              "n": "Belted Kingfisher",
+              "d": "Rattles along the bank."
+            }
+          ]
+        },
+        {
+          "name": "Songbirds",
+          "items": [
+            {
+              "n": "American Dipper",
+              "d": "Bobs on rocks at the creek mouths."
+            },
+            {
+              "n": "Canyon Wren",
+              "d": "A falling song off the cliffs."
+            },
+            {
+              "n": "White-throated Swift",
+              "d": "Streaks past the walls."
+            },
+            {
+              "n": "Lazuli Bunting",
+              "d": "A bright blue bird of brushy slopes."
+            },
+            {
+              "n": "Western Tanager",
+              "d": "A yellow-and-red bird of the pines."
+            }
+          ]
+        },
+        {
+          "name": "Upland Birds",
+          "items": [
+            {
+              "n": "Chukar",
+              "d": "An introduced partridge heard on the rocky slopes.",
+              "inv": 1
+            },
+            {
+              "n": "Ruffed Grouse",
+              "d": "Drums from the wooded side canyons."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reptiles",
+      "subs": [
+        {
+          "name": "Snakes",
+          "items": [
+            {
+              "n": "Northern Pacific Rattlesnake",
+              "d": "A rattlesnake of rocky slopes and camps. Watch where you put your hands and feet."
+            },
+            {
+              "n": "Gopher Snake",
+              "d": "A harmless constrictor."
+            },
+            {
+              "n": "Rubber Boa",
+              "d": "A small, gentle, rubbery-skinned snake of wooded slopes."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Plants",
+      "subs": [
+        {
+          "name": "Trees",
+          "items": [
+            {
+              "n": "Ponderosa Pine",
+              "d": "On the drier slopes."
+            },
+            {
+              "n": "Douglas-fir",
+              "d": "On cooler north-facing slopes."
+            },
+            {
+              "n": "Black Cottonwood",
+              "d": "Lines the river and shades camps."
+            },
+            {
+              "n": "Alder",
+              "d": "Thick along creek mouths."
+            }
+          ]
+        },
+        {
+          "name": "Shrubs",
+          "items": [
+            {
+              "n": "Syringa",
+              "d": "Mock orange, Idaho's state flower, with fragrant white blooms in early summer."
+            },
+            {
+              "n": "Ocean Spray",
+              "d": "Cream plumes in early summer."
+            },
+            {
+              "n": "Red-osier Dogwood",
+              "d": "Red stems and white berries in wet places."
+            },
+            {
+              "n": "Poison Ivy",
+              "d": "Common along the shore and camp edges. Learn to recognize it."
+            }
+          ]
+        },
+        {
+          "name": "Wildflowers",
+          "items": [
+            {
+              "n": "Arrowleaf Balsamroot",
+              "d": "Yellow sunflowers that carpet the slopes in spring."
+            }
+          ]
+        },
+        {
+          "name": "Invasive Plants",
+          "items": [
+            {
+              "n": "Yellow Starthistle",
+              "d": "A spiny yellow thistle that spreads along trails and camps.",
+              "inv": 1
+            },
+            {
+              "n": "Spotted Knapweed",
+              "d": "A weed that spreads along roads and trails; clean boots and gear.",
+              "inv": 1
+            },
+            {
+              "n": "Cheatgrass",
+              "d": "A weedy grass that dries early and fuels fires.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "almanac": {
     "history": [
       [
@@ -970,6 +1278,36 @@
       [
         "The dam that never was",
         "The Army Corps eyed Black Canyon as a dam site. Wild and Scenic designation in 1980 ended the threat."
+      ],
+      [
+        "The River of No Return",
+        "The Salmon was called the River of No Return because its rapids made it nearly impossible to travel upstream by boat. Lewis and Clark considered running it in 1805 but turned back."
+      ],
+      [
+        "A protected wilderness",
+        "Congress created the River of No Return Wilderness in 1980 from the older Idaho Primitive Area and other roadless land. It was renamed the Frank Church–River of No Return Wilderness in 1984, and at about 2.3 million acres it is one of the largest wilderness areas in the lower 48. The Salmon flows through the second-deepest gorge on the continent, after the Snake River’s Hells Canyon."
+      ],
+      [
+        "Polly Bemis",
+        "Polly Bemis (1853–1933) was born in China, came to Idaho in the 1870s and made a life on the Salmon River with her husband, Charlie Bemis, on the ranch that carries her name. Her story is one of the best known in the canyon."
+      ]
+    ],
+    "indigenous": [
+      [
+        "Nez Perce and Shoshone country",
+        "The Salmon River canyon lies in the homelands of the Nez Perce (Nimiipuu) and of Shoshone bands, including the Tukudika, or “Sheepeaters,” who lived year-round in the rugged mountains. The pictographs at Legend Creek and Devil’s Teeth are reminders of that long presence. Look and photograph, but never touch the paint."
+      ]
+    ],
+    "geology": [
+      [
+        "Granite of the Idaho Batholith",
+        "From Black Canyon on, the walls are granite-like rock of the Idaho Batholith, which cooled deep underground in the Cretaceous, roughly 100 to 70 million years ago. Steep, bare slopes and big boulder bars come from this hard rock, and the river carves one of the deepest gorges in North America."
+      ]
+    ],
+    "flows": [
+      [
+        "Recommended flows",
+        "Riverbrain lists a recommended range of about 4,000 to 35,000 cfs for the run. Landings, camps and rapids such as Big Mallard, Black Creek and Chittam change a great deal across that range, so plan for the water you will actually have."
       ]
     ]
   },
@@ -1197,8 +1535,8 @@
   ],
   "clusters": [],
   "notes": {
-    "camp": "",
-    "hike": ""
+    "camp": "*Reservable camps are marked on the permit; other camps are first come. Landings are difficult at high flows, and several large bars are not reachable at the top of the runoff. Rattlesnakes, ticks and poison ivy are common around camps.",
+    "hike": "*Look at pictographs, ruins and old homesteads but never touch or take anything. Trails are steep and hot in summer, with rattlesnakes and poison ivy."
   },
   "hdiff": {
     "1": "Short, easy walk",
