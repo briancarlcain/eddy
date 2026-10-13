@@ -253,5 +253,25 @@
     "title": "Dolores River (BLM Tres Rios, Dolores River SRMA)",
     "note": "Access, permits, flows. Facts reworded; confirm licence or replace.",
     "confirmed": false
+  },
+  {
+    "title": "Smith River boat camps and mileages, floater information packet (Montana FWP)",
+    "note": "Camp names and miles, the two Class II sections, flow guidance, gauges and camping rules for the Smith River. The camp list is partial (22 of about 27 named camps); confirm against the current FWP sheet or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "River Brain (riverbrain.com): run, camp and rapid notes",
+    "note": "User-contributed camp banks, scouting lines and recommended flows used for Smith, Westwater, Ruby-Horsethief, Lodore, Cataract, Desolation-Gray and South Fork American. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "Geology, natural history and history summaries (USGS, NPS, BLM, USFS and state agency pages)",
+    "note": "Rock sequences, fish and wildlife lists and history entries added for all rivers. Written as original summaries from general knowledge and agency and encyclopedia pages; species lists are regional, not surveys. Check before store submission.",
+    "confirmed": false
+  },
+  {
+    "title": "Indigenous history entries for the added rivers",
+    "note": "Short summaries naming the peoples whose homelands the rivers cross. Written from general sources, not tribal ones. Have them reviewed by, or attributed to, the relevant tribes before publishing.",
+    "confirmed": false
   }
 ]

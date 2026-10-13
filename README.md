@@ -4,8 +4,13 @@ A river-trip planning app: a library of rivers plus any number of trips on them.
 Trips (itinerary, crew & crafts, meals, gear, shuttle, ledger, log) are saved
 separately and each belongs to a river; the River tab shows map, rapids, camps,
 hikes, geology, guide, almanac and rules for the river you pick. Built-in
-rivers: Grand Canyon (full data), Smith River and Rogue River (starter records
-- reach and put-in/take-out only; fill in the rest in the app).
+rivers (22): Grand Canyon (full data) plus Smith, Rogue, Main Salmon, Middle
+Fork Salmon, Selway, Hells Canyon, Yampa, Lodore, Green (Flaming Gorge), Desolation-Gray,
+Cataract, Westwater, Ruby-Horsethief, Black Canyon, San Juan, Dolores, Rio Chama,
+Salt, Illinois, Tuolumne and South Fork American. Each has rapids, camps, access
+points, rules, a regional species guide and almanac (history, Indigenous
+homeland notes, geology, flows). Camp sizes and ratings, and some hike times, are
+still blank where no source gave them.
 
 Add or edit rivers in **River -> Rivers** (form editor, or paste/import river
 JSON; "Copy JSON" exports one). Rivers you add or edit are stored with your
