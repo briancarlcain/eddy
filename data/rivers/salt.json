@@ -13,6 +13,7 @@
     -110.45
   ],
   "tz": "America/Phoenix",
+  "note": "",
   "camps": [
     {
       "name": "First Campground",
@@ -399,8 +400,387 @@
     }
   ],
   "geology": [],
-  "guide": [],
-  "almanac": {},
+  "guide": [
+    {
+      "name": "Mammals",
+      "subs": [
+        {
+          "name": "Sheep",
+          "items": [
+            {
+              "n": "Desert Bighorn Sheep",
+              "d": "Seen on the steep slopes and cliffs above the canyon."
+            }
+          ],
+          "sci": "Bovidae"
+        },
+        {
+          "name": "Deer, Elk & Peccary",
+          "items": [
+            {
+              "n": "Mule Deer",
+              "d": "Common along the river."
+            },
+            {
+              "n": "Elk",
+              "d": "Found on the high benches and forested rim."
+            },
+            {
+              "n": "Collared Peccary",
+              "d": "A pig-like javelina of the desert slopes."
+            }
+          ]
+        },
+        {
+          "name": "Bears & Cats",
+          "items": [
+            {
+              "n": "Black Bear",
+              "d": "Present in the canyon. Store food securely."
+            },
+            {
+              "n": "Mountain Lion",
+              "d": "Elusive but present."
+            },
+            {
+              "n": "Bobcat",
+              "d": "A shy cat of the rocky slopes."
+            }
+          ]
+        },
+        {
+          "name": "Small Mammals",
+          "items": [
+            {
+              "n": "White-nosed Coati",
+              "d": "A long-tailed relative of the raccoon seen foraging in groups in the riparian woods."
+            },
+            {
+              "n": "Ringtail",
+              "d": "A cat-like night forager."
+            },
+            {
+              "n": "Gray Fox",
+              "d": "A nighttime visitor around camp."
+            },
+            {
+              "n": "Beaver",
+              "d": "Gnawed willows and bank dens along the river."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Birds",
+      "subs": [
+        {
+          "name": "Eagles & Hawks",
+          "items": [
+            {
+              "n": "Bald Eagle",
+              "d": "Nests along the river in Arizona; keep your distance from nests."
+            },
+            {
+              "n": "Golden Eagle",
+              "d": "Nests on the cliffs."
+            },
+            {
+              "n": "Common Black Hawk",
+              "d": "A riparian hawk that hunts frogs and fish along the river."
+            },
+            {
+              "n": "Zone-tailed Hawk",
+              "d": "A black hawk that soars like a vulture over the canyon."
+            }
+          ],
+          "sci": "Accipitridae"
+        },
+        {
+          "name": "Falcons",
+          "items": [
+            {
+              "n": "Peregrine Falcon",
+              "d": "Nests on the high walls."
+            }
+          ],
+          "sci": "Falconidae"
+        },
+        {
+          "name": "Waterbirds",
+          "items": [
+            {
+              "n": "Great Blue Heron",
+              "d": "Stands in the shallows."
+            },
+            {
+              "n": "Belted Kingfisher",
+              "d": "Rattles along the bank."
+            }
+          ]
+        },
+        {
+          "name": "Songbirds",
+          "items": [
+            {
+              "n": "Canyon Wren",
+              "d": "A falling song that rings off the walls."
+            },
+            {
+              "n": "Black Phoebe",
+              "d": "Hunts insects from perches by the water."
+            },
+            {
+              "n": "Vermilion Flycatcher",
+              "d": "A flash of red along the river."
+            },
+            {
+              "n": "Summer Tanager",
+              "d": "A red bird in the riparian trees."
+            }
+          ]
+        },
+        {
+          "name": "Ground Birds",
+          "items": [
+            {
+              "n": "Gambel's Quail",
+              "d": "Runs in coveys; the male wears a curved topknot."
+            },
+            {
+              "n": "Greater Roadrunner",
+              "d": "Sprints along trails after lizards."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reptiles & Amphibians",
+      "subs": [
+        {
+          "name": "Lizards",
+          "items": [
+            {
+              "n": "Desert Spiny Lizard",
+              "d": "Basks on rocks and walls."
+            },
+            {
+              "n": "Chuckwalla",
+              "d": "A large, plump lizard that wedges into rock cracks."
+            },
+            {
+              "n": "Gila Monster",
+              "d": "A rare, slow, venomous lizard. Do not touch."
+            }
+          ]
+        },
+        {
+          "name": "Snakes",
+          "items": [
+            {
+              "n": "Western Diamondback Rattlesnake",
+              "d": "A big rattlesnake. Watch where you put your hands and feet."
+            },
+            {
+              "n": "Black-tailed Rattlesnake",
+              "d": "A rattlesnake with a dark tail, found on rocky slopes."
+            }
+          ],
+          "sci": "Viperidae"
+        },
+        {
+          "name": "Frogs & Toads",
+          "items": [
+            {
+              "n": "Canyon Treefrog",
+              "d": "Calls from side-canyon pools."
+            },
+            {
+              "n": "Sonoran Desert Toad",
+              "d": "A very large toad whose skin secretions are toxic; keep dogs and children away."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Fish",
+      "subs": [
+        {
+          "name": "Native Fish",
+          "items": [
+            {
+              "n": "Roundtail Chub",
+              "d": "A native chub of the pools."
+            },
+            {
+              "n": "Speckled Dace",
+              "d": "A small native of the riffles."
+            }
+          ],
+          "sci": "Cyprinidae"
+        },
+        {
+          "name": "Suckers",
+          "items": [
+            {
+              "n": "Sonora Sucker",
+              "d": "A native sucker of the main channel."
+            },
+            {
+              "n": "Desert Sucker",
+              "d": "A native that scrapes algae from rocks."
+            }
+          ],
+          "sci": "Catostomidae"
+        },
+        {
+          "name": "Introduced Fish",
+          "items": [
+            {
+              "n": "Flathead Catfish",
+              "d": "A big introduced predator.",
+              "inv": 1
+            },
+            {
+              "n": "Channel Catfish",
+              "d": "An introduced catfish.",
+              "inv": 1
+            },
+            {
+              "n": "Smallmouth Bass",
+              "d": "An introduced predator.",
+              "inv": 1
+            },
+            {
+              "n": "Green Sunfish",
+              "d": "A small introduced sunfish.",
+              "inv": 1
+            },
+            {
+              "n": "Common Carp",
+              "d": "Introduced and widespread.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Plants",
+      "subs": [
+        {
+          "name": "Riverside Trees & Shrubs",
+          "items": [
+            {
+              "n": "Arizona Sycamore",
+              "d": "A white-barked tree of the creek mouths."
+            },
+            {
+              "n": "Fremont Cottonwood",
+              "d": "The big shade tree of the camps."
+            },
+            {
+              "n": "Goodding's Willow",
+              "d": "A tall willow along the water."
+            },
+            {
+              "n": "Velvet Ash",
+              "d": "Common along the canyon bottoms."
+            },
+            {
+              "n": "Arizona Walnut",
+              "d": "A native walnut in side canyons."
+            },
+            {
+              "n": "Seepwillow",
+              "d": "A dense shrub of the water's edge."
+            }
+          ]
+        },
+        {
+          "name": "Desert Plants",
+          "items": [
+            {
+              "n": "Catclaw Acacia",
+              "d": "A thorny shrub with hooked spines that snag skin and gear."
+            },
+            {
+              "n": "Honey Mesquite",
+              "d": "A feathery desert tree."
+            },
+            {
+              "n": "Palmer's Agave",
+              "d": "A century plant that Apache people have long harvested and roasted."
+            },
+            {
+              "n": "Brittlebush",
+              "d": "Silver leaves and yellow daisies in spring."
+            },
+            {
+              "n": "Prickly Pear",
+              "d": "Pads and yellow flowers in late spring."
+            },
+            {
+              "n": "Saguaro",
+              "d": "The tall cactus of the lower canyon."
+            }
+          ]
+        },
+        {
+          "name": "Invasive Plants",
+          "items": [
+            {
+              "n": "Tamarisk",
+              "d": "A saltcedar that crowds the banks.",
+              "inv": 1
+            },
+            {
+              "n": "Giant Reed",
+              "d": "A tall bamboo-like grass that chokes the river's edge.",
+              "inv": 1
+            },
+            {
+              "n": "Red Brome",
+              "d": "A weedy grass that fuels fires.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "almanac": {
+    "indigenous": [
+      [
+        "White Mountain Apache land",
+        "The upper canyon, from the put-in to Lower Corral, flows through the White Mountain Apache Tribe’s reservation. The tribe manages access and requires a tribal permit, and the canyon is part of a homeland that Apache people have known for centuries. Camp only where the tribe allows and treat the land with respect."
+      ]
+    ],
+    "history": [
+      [
+        "The bombing of Quartzite Falls",
+        "In 1993, after a Class V–VI drop that had backed up rafters and drowned two adventurers that year, a group of boaters blasted Quartzite Falls with explosives. Eight men were indicted on federal charges. The rapid is easier now, a Class IV, though a shallow hole at the base can still flip a loaded raft. Biologists also noted that the falls had been a barrier protecting native fish from non-native species downstream."
+      ],
+      [
+        "Wilderness",
+        "Congress protected the Salt River Canyon as a wilderness in the Arizona Wilderness Act of 1984. Motors are banned."
+      ]
+    ],
+    "geology": [
+      [
+        "A billion years of rock",
+        "The canyon cuts through very old rock. The oldest is Pinal Schist, over 1.7 billion years old, topped by the Apache Group, mostly quartzites with shales and conglomerates, including the Dripping Spring Quartzite. About 1.05 to 1.14 billion years ago these layers were intruded by basalt and diabase, which baked limestone to marble. The quartzite ledges and polished rock at rapids such as Ledges and Quartzite Falls are hard rock that the river has shaped slowly."
+      ]
+    ],
+    "flows": [
+      [
+        "A flashy river",
+        "Flows come from snowmelt in the White Mountains and from storms, and the river can rise to flood stage within hours. Gear rafts need about 1,200 cfs; kayaks and packrafts run at about 400. Check the Salt River near Chrysotile gauge and the forecast before launching. Riverbrain lists the one-day Upper Salt run (Highway 60 to Hoodoo) as about 8 miles at about 35 feet per mile."
+      ]
+    ]
+  },
   "rules": [
     {
       "name": "Required equipment",
@@ -548,6 +928,10 @@
       "n": "Pinball to Sleeper"
     }
   ],
+  "notes": {
+    "camp": "*Above mile 29.7 the river runs through White Mountain Apache land and a tribal permit is required. Flash floods can raise the river within hours, so camp high.",
+    "hike": "*Side canyons flash flood and the desert heat is severe. Do not take plants, artifacts or rock from tribal land or the wilderness."
+  },
   "hdiff": {
     "1": "Short, easy walk",
     "2": "Easy trail",
@@ -692,10 +1076,5 @@
         ]
       }
     ]
-  },
-  "note": "",
-  "notes": {
-    "camp": "",
-    "hike": ""
   }
 }
