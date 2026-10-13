@@ -18,10 +18,8 @@ import greenFlamingGorge from '../data/rivers/green-flaming-gorge.json';
 import westwater from '../data/rivers/westwater.json';
 import illinois from '../data/rivers/illinois.json';
 import tuolumne from '../data/rivers/tuolumne.json';
-import southForkAmerican from '../data/rivers/south-fork-american.json';
 import blackCanyon from '../data/rivers/black-canyon.json';
 import salt from '../data/rivers/salt.json';
-import dolores from '../data/rivers/dolores.json';
 
 export const DEFAULT_RIVER = 'grand-canyon';
 
@@ -44,10 +42,8 @@ export const BUILTIN_RIVERS = {
   westwater: { id: 'westwater', ...westwater },
   illinois: { id: 'illinois', ...illinois },
   tuolumne: { id: 'tuolumne', ...tuolumne },
-  'south-fork-american': { id: 'south-fork-american', ...southForkAmerican },
   'black-canyon': { id: 'black-canyon', ...blackCanyon },
   salt: { id: 'salt', ...salt },
-  dolores: { id: 'dolores', ...dolores },
 };
 
 // Fill every field the views read, so a bare-bones river (just a name, reach
