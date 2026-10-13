@@ -6,7 +6,7 @@ import { decodeHorizon, sunDay } from './sun.js';
 
 export const GEO = { 'grand-canyon': grandCanyon };
 
-const KEY = 'riverguide.geo.v1';
+const KEY = 'eddy.geo.v1';
 let store = {};
 try {
   store = JSON.parse(localStorage.getItem(KEY) || '{}') || {};

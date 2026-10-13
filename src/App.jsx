@@ -18,9 +18,9 @@ import { sunDay } from './geo/sun.js';
 // set by build.mjs: the App Store build ships a fictional sample trip, never the crew's real one
 const IS_STORE = typeof __STORE__ !== 'undefined' && __STORE__;
 const APP_VERSION = typeof __VERSION__ !== 'undefined' ? __VERSION__ : 'dev';
-const POLICY_URL = 'https://briancarlcain.github.io/river-guide/privacy.html';
-const TERMS_URL = 'https://briancarlcain.github.io/river-guide/terms.html';
-const SUPPORT_URL = 'https://github.com/briancarlcain/river-guide/issues';
+const POLICY_URL = 'https://briancarlcain.github.io/eddy/privacy.html';
+const TERMS_URL = 'https://briancarlcain.github.io/eddy/terms.html';
+const SUPPORT_URL = 'https://github.com/briancarlcain/eddy/issues';
 // outfitter-specific price lines are left out of the public catalog
 const GEAR = IS_STORE ? GEAR_ALL.filter((g) => !/Ceiba|^Truck & Trailer|^Van Passenger|^Shuttle -|^Vehicle Shuttle|Gear (Pickup|Delivery) Tip|^Parking -|^Hualapai/i.test(g.n)) : GEAR_ALL;
 
@@ -248,7 +248,7 @@ const clean = (h) =>
 // Local state is authoritative while you type. `db`, when the viewer can
 // run it, mirrors every record so the crew sees each other's edits live.
 
-const LOCAL = 'riverguide.v1';
+const LOCAL = 'eddy.v1';
 
 function mergeSeed(have) {
   if ((have.at || 0) <= 2) return SEED;
@@ -332,7 +332,7 @@ const effRiver = (id, rivers) => {
   return { ...b, ...rest, id };
 };
 
-const NAME_KEY = 'riverguide.name';
+const NAME_KEY = 'eddy.name';
 const savedName = () => {
   try {
     return localStorage.getItem(NAME_KEY) || '';
@@ -993,14 +993,14 @@ const Field = ({ label, area, ...p }) => (
 function Trip({ s, back, onAccount }) {
   const [nudge, setNudge] = useState(() => {
     try {
-      return localStorage.getItem('riverguide.v1.joinedNudge') === '1';
+      return localStorage.getItem('eddy.v1.joinedNudge') === '1';
     } catch {
       return false;
     }
   });
   const hideNudge = () => {
     try {
-      localStorage.removeItem('riverguide.v1.joinedNudge');
+      localStorage.removeItem('eddy.v1.joinedNudge');
     } catch {}
     setNudge(false);
   };
@@ -3057,7 +3057,7 @@ function Log({ s }) {
 }
 
 // "I'm this crew member" is a note on this device, not an account and not synced
-const meKey = (tripId) => 'riverguide.me.' + tripId;
+const meKey = (tripId) => 'eddy.me.' + tripId;
 const getMe = (tripId) => {
   try {
     return localStorage.getItem(meKey(tripId)) || '';
@@ -3238,7 +3238,7 @@ function People({ s }) {
   );
 }
 
-const INVITE_ORIGIN = 'https://briancarlcain.github.io/river-guide/';
+const INVITE_ORIGIN = 'https://briancarlcain.github.io/eddy/';
 const inviteUrl = (code, by) => INVITE_ORIGIN + '?join=' + code + (by ? '&by=' + encodeURIComponent(by) : '');
 const inviteText = (t, code, by) =>
   `${by ? by + ' invited you to' : "You're invited to"} "${t.name}" on Eddy.\n\n${okDate(t.start) ? fmt(t.start) + ' to ' + fmt(addDays(t.start, t.days)) + '\n\n' : ''}Join: ${inviteUrl(code, by)}\n\nOr enter code ${remote.showCode(code)} under Trips, Join a trip.`;
@@ -3333,7 +3333,7 @@ function tripICS(t, riverName) {
   const ymd = (iso) => iso.replace(/-/g, '');
   const stampNow = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z';
   const ev = (uid, date, endDate, summary, desc) =>
-    ['BEGIN:VEVENT', `UID:${uid}@river-guide`, `DTSTAMP:${stampNow}`, `DTSTART;VALUE=DATE:${ymd(date)}`, `DTEND;VALUE=DATE:${ymd(endDate)}`, `SUMMARY:${icsEsc(summary)}`, desc ? `DESCRIPTION:${icsEsc(desc)}` : null, 'END:VEVENT'].filter(Boolean).join('\r\n');
+    ['BEGIN:VEVENT', `UID:${uid}@eddy`, `DTSTAMP:${stampNow}`, `DTSTART;VALUE=DATE:${ymd(date)}`, `DTEND;VALUE=DATE:${ymd(endDate)}`, `SUMMARY:${icsEsc(summary)}`, desc ? `DESCRIPTION:${icsEsc(desc)}` : null, 'END:VEVENT'].filter(Boolean).join('\r\n');
   const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Eddy//EN', 'CALSCALE:GREGORIAN', `X-WR-CALNAME:${icsEsc(t.name)}`];
   if (okDate(t.start)) {
     lines.push(ev(t.id + '-trip', t.start, addDays(t.start, t.days + 1), `${t.name} (${riverName})`, `${(t.crew || []).length} people, ${t.days + 1} days`));
@@ -3454,7 +3454,7 @@ function RiverDetail({ s }) {
   const [tab, setTab] = useState(QS.get('sub') || 'Map');
   const [mapMode, setMapModeRaw] = useState(() => {
     try {
-      return QS.get('map') || localStorage.getItem('riverguide.mapMode') || 'chart';
+      return QS.get('map') || localStorage.getItem('eddy.mapMode') || 'chart';
     } catch {
       return 'chart';
     }
@@ -3462,7 +3462,7 @@ function RiverDetail({ s }) {
   const setMapMode = (m) => {
     setMapModeRaw(m);
     try {
-      localStorage.setItem('riverguide.mapMode', m);
+      localStorage.setItem('eddy.mapMode', m);
     } catch {}
   };
   const [editing, setEditing] = useState(false);
@@ -4052,7 +4052,7 @@ function DropDetails({ d, trip }) {
       <div className="row mt">
         <button
           className="btn ghost"
-          onClick={() => saveFile('river-guide-pins.gpx', dropsGPX(drops()), 'application/gpx+xml')}
+          onClick={() => saveFile('eddy-pins.gpx', dropsGPX(drops()), 'application/gpx+xml')}
         >
           Export pins (GPX)
         </button>
@@ -4623,7 +4623,7 @@ function Account({ s }) {
   );
 }
 
-const REMINDERS_KEY = 'riverguide.v1.reminders';
+const REMINDERS_KEY = 'eddy.v1.reminders';
 
 function About({ s, part = 'about' }) {
   const [msg, setMsg] = useState('');
@@ -4631,8 +4631,8 @@ function About({ s, part = 'about' }) {
   const file = useRef(null);
 
   const backup = async () => {
-    const data = { app: 'river-guide', format: 1, exported: new Date().toISOString(), trips: s.trips, rivers: s.rivers };
-    const ok = await saveBackup(`river-guide-backup-${today()}.json`, JSON.stringify(data));
+    const data = { app: 'eddy', format: 1, exported: new Date().toISOString(), trips: s.trips, rivers: s.rivers };
+    const ok = await saveBackup(`eddy-backup-${today()}.json`, JSON.stringify(data));
     setMsg(ok ? 'Backup ready.' : 'Could not create the backup.');
   };
   const restore = async (e) => {
@@ -4641,7 +4641,7 @@ function About({ s, part = 'about' }) {
     if (!f) return;
     try {
       const data = JSON.parse(await f.text());
-      if (data.app !== 'river-guide' || !Array.isArray(data.trips)) throw new Error('not an Eddy backup');
+      if (!['eddy', 'river-guide'].includes(data.app) || !Array.isArray(data.trips)) throw new Error('not an Eddy backup');
       const n = s.restore(data);
       success();
       setMsg(`Restored ${n} trip${n === 1 ? '' : 's'}.`);
@@ -4787,7 +4787,7 @@ function Profile({ s, initial, ctx }) {
   );
 }
 
-const DEVICE_KEY = 'riverguide.device';
+const DEVICE_KEY = 'eddy.device';
 const deviceId = () => {
   try {
     let d = localStorage.getItem(DEVICE_KEY);
@@ -5072,7 +5072,7 @@ function WhoAreYou({ s, tripId, onDone }) {
     if (crewId) setMeFor(tripId, crewId);
     if (crewName) s.renameMe(tripId, crewName).catch(() => {});
     try {
-      localStorage.setItem('riverguide.v1.joinedNudge', '1');
+      localStorage.setItem('eddy.v1.joinedNudge', '1');
     } catch {}
     onDone();
   };
@@ -5262,7 +5262,7 @@ function Trips({ s, preset, clearPreset, joinCode, joinBy, clearJoin, welcome, s
           </button>
         </div>
       )}
-      {!s.session && !adding && s.trips.length > 0 && localStorage.getItem('riverguide.v1.hideBanner') !== '1' ? (
+      {!s.session && !adding && s.trips.length > 0 && localStorage.getItem('eddy.v1.hideBanner') !== '1' ? (
         <div className="notice mt note">
           <div className="noticeHead">
             <Icon name="cloud" size={17} /> Back up your trips
@@ -5275,7 +5275,7 @@ function Trips({ s, preset, clearPreset, joinCode, joinBy, clearJoin, welcome, s
             <button
               className="btn ghost"
               onClick={() => {
-                localStorage.setItem('riverguide.v1.hideBanner', '1');
+                localStorage.setItem('eddy.v1.hideBanner', '1');
                 s.activate(s.trip ? s.trip.id : s.trips[0].id); // re-render
               }}
             >
@@ -5712,7 +5712,7 @@ const TABS = [
   },
 ];
 
-const RISK_KEY = 'riverguide.risk';
+const RISK_KEY = 'eddy.risk';
 const RISK_VERSION = '1';
 function RiskGate({ onAccept }) {
   return (
@@ -5759,7 +5759,7 @@ function App() {
   const [inTrip, setInTrip] = useState(QS.get('open') === '1'); // Trips tab: false = overview list, true = inside the active trip
   const [browse, setBrowse] = useState(QS.get('river') || null); // river being browsed on the River tab (null = the trip's own)
   const [preset, setPreset] = useState(null); // river chosen from the library for a new trip
-  const [joinCode, setJoinCode] = useState(() => remote.cleanCode(QS.get('join')) || ''); // from an invite link or riverguide://join/CODE
+  const [joinCode, setJoinCode] = useState(() => remote.cleanCode(QS.get('join')) || ''); // from an invite link or eddy://join/CODE
   const [welcome, setWelcome] = useState(''); // trip just joined; asks which crew member you are
   const [joinBy] = useState(() => (QS.get('by') || '').replace(/[^\p{L}\p{N} '.-]/gu, '').slice(0, 24));
   const [profSub, setProfSub] = useState(null); // open Profile on a given sub-tab

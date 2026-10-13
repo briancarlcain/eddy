@@ -9,8 +9,8 @@ Project: **river-guide-sync** · dashboard: https://supabase.com/dashboard/proje
 
 ## 1. Redirect URLs (required)
 Authentication → URL Configuration
-- **Site URL:** `https://briancarlcain.github.io/river-guide/`
-- **Redirect URLs** (add both): `https://briancarlcain.github.io/river-guide/` and `riverguide://auth-callback`
+- **Site URL:** `https://briancarlcain.github.io/eddy/`
+- **Redirect URLs** (add both): `https://briancarlcain.github.io/eddy/` and `eddy://auth-callback`
 
 ## 2. Email: send a code, not just a link (required)
 Authentication → Emails → Templates. Edit **Magic Link** *and* **Confirm signup** so the email shows the six-digit code
@@ -38,8 +38,8 @@ Authentication → Rate Limits → *Emails sent per hour* to something sensible.
 ## 5. Sign in with Apple (required if you turn on Google)
 App Store rule 4.8: an iPhone app that offers Google sign-in must also offer Sign in with Apple. The app enforces this: on
 iPhone it hides the Google button unless Apple is enabled too.
-1. Apple Developer → Identifiers → your App ID `com.briancarlcain.riverguide` → enable **Sign in with Apple**.
-2. Identifiers → **Services IDs** → create e.g. `com.briancarlcain.riverguide.signin` → enable Sign in with Apple → Configure:
+1. Apple Developer → Identifiers → your App ID `com.briancarlcain.eddy` → enable **Sign in with Apple**.
+2. Identifiers → **Services IDs** → create e.g. `com.briancarlcain.eddy.signin` → enable Sign in with Apple → Configure:
    primary App ID above, domain `nhplgoetehrydaeoyrgz.supabase.co`, return URL `https://nhplgoetehrydaeoyrgz.supabase.co/auth/v1/callback`.
 3. Keys → create a key with Sign in with Apple enabled; download the `.p8`; note the Key ID and your Team ID.
 4. Supabase → Authentication → Sign In / Providers → **Apple** → Client ID = the Services ID; paste the secret key JWT

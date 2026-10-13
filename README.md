@@ -45,7 +45,7 @@ take-outs, hubs: `{name, mile?, road?, hub?, park?, note?}`), and optional
 
 - Trips have a `river` field (river id); trips without one are Grand Canyon.
 - The seed trip is written to localStorage once, guarded by the key
-  `riverguide.v1.seed2`. If you change the seed trip's shape, bump that key.
+  `eddy.v1.seed2`. If you change the seed trip's shape, bump that key.
 - Access points get ids `r0, r1, ...` by position in `access[]`; trips refer to
   launch/take-out by those ids, so append rather than reorder.
 
@@ -55,7 +55,7 @@ take-outs, hubs: `{name, mile?, road?, hub?, park?, note?}`), and optional
 `data/trips/gc2026-ref.json` (read-only Info tab: constraints, camp jobs, Ceiba Q&A, shopping list,
 Crew Council agendas and minutes, education plan, and the sunrise-to-sunrise sky log shown on each
 Itinerary day) were generated from the planning spreadsheet. Course logins from the sheet are
-deliberately not copied. Seed key `riverguide.v1.seed5`: a never-edited seeded trip is replaced; an
+deliberately not copied. Seed key `eddy.v1.seed5`: a never-edited seeded trip is replaced; an
 edited one keeps its data and only gets the sheet's gear, menu, payments and day notes where empty.
 Trip > Trip > "Reload planning-sheet data" replaces everything from the seed.
 

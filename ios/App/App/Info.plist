@@ -26,9 +26,10 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>com.briancarlcain.riverguide</string>
+			<string>com.briancarlcain.eddy</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>eddy</string>
 				<string>riverguide</string>
 			</array>
 		</dict>

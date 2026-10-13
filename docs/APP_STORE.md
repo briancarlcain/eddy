@@ -12,16 +12,16 @@ Never ship the web build inside the app: `build.mjs` swaps the seed files for th
 
 ## What is already done
 
-- iOS project in `ios/` (bundle ID `com.briancarlcain.riverguide`, iPhone only, portrait, iOS 15+)
+- iOS project in `ios/` (bundle ID `com.briancarlcain.eddy`, iPhone only, portrait, iOS 15+)
 - App icon (1024 px) and splash from `resources/icon-1024.png` (replace `resources/icon-1024.png` with final artwork any time, then run `node resources/make-assets.mjs`)
 - `ITSAppUsesNonExemptEncryption = false`, privacy manifest (`PrivacyInfo.xcprivacy`: no tracking, no data collected)
 - Data survives iOS storage clean-up (mirrored to native Preferences)
 - Native touches: haptics, share sheet (trip summary, backup file), opt-in trip reminders (local notifications), status bar and keyboard handling
 - Profile → Data and About: backup / restore, reminders, erase-all-data, version, safety and sources, privacy policy, support
 - Safety disclaimer on the Medical tab (App Review guideline 1.4.1)
-- Privacy policy page: `privacy.html` (published at https://briancarlcain.github.io/river-guide/privacy.html)
+- Privacy policy page: `privacy.html` (published at https://briancarlcain.github.io/eddy/privacy.html)
 - CI that builds and uploads to TestFlight from GitHub (no Mac needed): `.github/workflows/ios-testflight.yml`
-- **Crew sync** (Share with crew / Join a trip, no accounts): Supabase project `river-guide-sync`, schema in `supabase/migrations/`, merge logic in `src/merge.js` (tested with `npm test`), `riverguide://join/CODE` links
+- **Crew sync** (Share with crew / Join a trip, no accounts): Supabase project `river-guide-sync`, schema in `supabase/migrations/`, merge logic in `src/merge.js` (tested with `npm test`), `eddy://join/CODE` links
 - **Add to Calendar** (.ics) and **Share trip summary** from a trip's Settings
 - **App Store screenshots**: seven 1320 x 2868 PNGs in `store/screenshots/`, regenerated with `npm run screenshots` (headless Edge/Chrome, fake status bar, fictional sample trip)
 - **Content review checklist:** `docs/CONTENT_REVIEW.md` (open questions only you can answer)
@@ -29,7 +29,7 @@ Never ship the web build inside the app: `build.mjs` swaps the seed files for th
 ## What you need to do
 
 1. **Apple Developer Program** ($99/year) at developer.apple.com/programs. Individual enrollment is fine.
-2. **Pick the bundle ID.** The placeholder is `com.briancarlcain.riverguide`. If you want another, change `appId` in `capacitor.config.json` and `PRODUCT_BUNDLE_IDENTIFIER` in `ios/App/App.xcodeproj/project.pbxproj` (two places) before registering it.
+2. **Pick the bundle ID.** The placeholder is `com.briancarlcain.eddy`. If you want another, change `appId` in `capacitor.config.json` and `PRODUCT_BUNDLE_IDENTIFIER` in `ios/App/App.xcodeproj/project.pbxproj` (two places) before registering it.
 3. In **App Store Connect → Apps → +**, create the app (iOS, name "Eddy" or whatever is free, primary language English, that bundle ID, SKU anything).
 4. **API key for CI:** App Store Connect → Users and Access → Integrations → Team Keys → generate a key with *App Manager* role. Download the `.p8` once. In the GitHub repo (Settings → Secrets and variables → Actions) add:
    `APPLE_TEAM_ID` (Membership page), `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_KEY_P8` (paste the whole file).
@@ -44,8 +44,8 @@ If you do have a Mac, `npm run ios:sync && npm run ios:open` opens the project i
 **Subtitle (30 chars):** Plan multi-day river trips  
 **Category:** Travel (secondary: Sports)  
 **Price:** Free  
-**Support URL:** https://github.com/briancarlcain/river-guide/issues (a page you control is better)  
-**Privacy policy URL:** https://briancarlcain.github.io/river-guide/privacy.html  
+**Support URL:** https://github.com/briancarlcain/eddy/issues (a page you control is better)  
+**Privacy policy URL:** https://briancarlcain.github.io/eddy/privacy.html  
 **Keywords (100 chars):** rafting,river,canyon,float,whitewater,itinerary,campsite,shuttle,gear,outfitter,permit,crew,kayak,raft
 
 **Promotional text:** Plan the whole trip in one place: crew, boats, camps, meals, gear costs and shuttles.
@@ -109,7 +109,7 @@ Shared trips let members see each other's display names and free-text trip notes
 - **Names:** a display name is free text. Real names are not required and no username system exists.
 
 ## Terms of use
-- Draft: `terms.html` (published at https://briancarlcain.github.io/river-guide/terms.html). It is linked from Profile → About, the sign-in screen, the join screen and the privacy policy.
+- Draft: `terms.html` (published at https://briancarlcain.github.io/eddy/terms.html). It is linked from Profile → About, the sign-in screen, the join screen and the privacy policy.
 - **Needs a lawyer before publishing:** fill every [BRACKETED] item (legal name, governing law and venue, liability cap, contact), then delete the red "Draft for legal review" box.
 - App Store Connect → App Information → *License Agreement*: either keep Apple's standard EULA, or choose a custom EULA and paste the text of `terms.html`. Section 20 already contains the minimum terms Apple requires of a custom EULA.
 - Put the same URL in the app's *Terms of Use (EULA)* field if you add one to the listing.
