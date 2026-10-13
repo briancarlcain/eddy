@@ -21,7 +21,7 @@
       "size": 2,
       "qual": null,
       "bank": "L",
-      "desc": "A small site, good for a short first day, on the upstream side of Rattlesnake Canyon."
+      "desc": "A small site, good for a short first day, on the upstream side of Rattlesnake Canyon. Room for about eight people."
     },
     {
       "name": "Beaver Tail 1",
@@ -141,7 +141,7 @@
       "size": 7,
       "qual": null,
       "bank": "L",
-      "desc": "A clay and grass landing with some shade. Up to 25. Easy Mee Canyon hiking. Dogs leashed."
+      "desc": "A clay and grass landing with some shade. Up to 25. Easy Mee Canyon hiking. Dogs leashed. The shadiest site on the river and the best in hot weather."
     },
     {
       "name": "Mee 2",
@@ -173,7 +173,7 @@
       "size": 7,
       "qual": null,
       "bank": "L",
-      "desc": "A sand landing with shade. Up to 25. The best access for Mee Canyon hiking. Dogs leashed."
+      "desc": "A sand landing with shade. Up to 25. The best access for Mee Canyon hiking. Dogs leashed. Recommended for multi-day trips with hikes into Mee Canyon."
     },
     {
       "name": "Dog Island",
@@ -261,7 +261,7 @@
       "size": 7,
       "qual": null,
       "bank": "L",
-      "desc": "A sand beach with no shade. Up to 25. The Moore Canyon trail starts here."
+      "desc": "A sand beach with no shade. Up to 25. The Moore Canyon trail starts here. A popular site with a calm eddy and plenty of beach, usually the first to be taken."
     },
     {
       "name": "Island Camp",
@@ -295,7 +295,7 @@
       "civ": false,
       "diff": 3,
       "tier": "Class II",
-      "desc": "Swirling currents at Black Rocks. The only rapid in this flatwater stretch."
+      "desc": "Swirling currents at Black Rocks, the only rapid in this flatwater stretch. The river bends sharply left into about a mile of narrow, turbulent water; reports suggest taking the left side at the top. Do not jump or dive from the rocks: hidden rocks and suck holes have trapped and killed swimmers."
     }
   ],
   "hikes": [
@@ -363,8 +363,377 @@
       "desc": "A huge side canyon that parallels Mee Canyon. The trail starts at Knowles camp and a longer hike of about 5 miles reaches the desert waterfall of Hell's Hole."
     }
   ],
-  "geology": [],
-  "guide": [],
+  "geology": [
+    {
+      "s": 0,
+      "e": 15.5,
+      "n": "Mesozoic sandstone",
+      "full": "Mesozoic sandstone and shale",
+      "era": "Mesozoic",
+      "age": "roughly 250 to 150 million years ago",
+      "c": "#b5623a",
+      "d": "Most of Ruby Canyon is cut through Mesozoic sandstone and shale: red and tan cliffs and ledges laid down by ancient rivers, dunes and floodplains long before the Colorado River began carving. The walls steepen as the canyon deepens toward Black Rocks."
+    },
+    {
+      "s": 15.5,
+      "e": 17.5,
+      "n": "Black Rocks",
+      "full": "Black Rocks · Precambrian basement",
+      "era": "Paleoproterozoic",
+      "age": "about 1.7 to 1.8 billion years old",
+      "c": "#3a3540",
+      "d": "Here the river drops through dark Precambrian granite, gneiss and schist, some of the oldest exposed rock on Earth. It is the same kind of rock found at the bottom of the Grand Canyon and the Black Canyon of the Gunnison. The line where younger sandstone rests on this ancient basement is a gap in the record of well over a billion years."
+    },
+    {
+      "s": 17.5,
+      "e": 25.1,
+      "n": "Horsethief walls",
+      "full": "Mesozoic sandstone and shale",
+      "era": "Mesozoic",
+      "age": "roughly 250 to 150 million years ago",
+      "c": "#a9542f",
+      "d": "Below Black Rocks the canyon returns to Mesozoic sandstone and shale. Side canyons such as Knowles and McDonald Creek cut into the walls, and the river crosses the Utah state line at mile 20.6 before reaching Westwater."
+    }
+  ],
+  "guide": [
+    {
+      "name": "Mammals",
+      "subs": [
+        {
+          "name": "Sheep",
+          "items": [
+            {
+              "n": "Desert Bighorn Sheep",
+              "d": "Often seen on the ledges above the river; BLM lists them among the stretch's wildlife."
+            }
+          ],
+          "sci": "Bovidae"
+        },
+        {
+          "name": "Deer",
+          "items": [
+            {
+              "n": "Mule Deer",
+              "d": "Common along the river and in the side canyons."
+            }
+          ],
+          "sci": "Cervidae"
+        },
+        {
+          "name": "Beaver & Otter",
+          "items": [
+            {
+              "n": "Beaver",
+              "d": "Gnawed willows and bank dens line the river."
+            }
+          ]
+        },
+        {
+          "name": "Cats & Dogs",
+          "items": [
+            {
+              "n": "Coyote",
+              "d": "Calls at night from the benches."
+            },
+            {
+              "n": "Bobcat",
+              "d": "A shy cat of the rocky ledges."
+            }
+          ]
+        },
+        {
+          "name": "Small Mammals",
+          "items": [
+            {
+              "n": "Ringtail",
+              "d": "A cat-like night forager."
+            },
+            {
+              "n": "Rock Squirrel",
+              "d": "A bold camp visitor."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Birds",
+      "subs": [
+        {
+          "name": "Hawks & Eagles",
+          "items": [
+            {
+              "n": "Bald Eagle",
+              "d": "Nests in the cottonwoods between the state line and Westwater. Stay at least half a mile from nests."
+            },
+            {
+              "n": "Golden Eagle",
+              "d": "Nests on the cliffs."
+            },
+            {
+              "n": "Red-tailed Hawk",
+              "d": "A common sight over the canyon."
+            }
+          ],
+          "sci": "Accipitridae"
+        },
+        {
+          "name": "Falcons",
+          "items": [
+            {
+              "n": "Peregrine Falcon",
+              "d": "Lives on the high walls."
+            }
+          ],
+          "sci": "Falconidae"
+        },
+        {
+          "name": "Waterbirds",
+          "items": [
+            {
+              "n": "Great Blue Heron",
+              "d": "Stands in the shallows and eddies."
+            },
+            {
+              "n": "Canada Goose",
+              "d": "Pairs on the quiet stretches."
+            },
+            {
+              "n": "Common Merganser",
+              "d": "Fish-eating duck of the flowing water."
+            },
+            {
+              "n": "Belted Kingfisher",
+              "d": "Rattles along the bank."
+            }
+          ]
+        },
+        {
+          "name": "Songbirds",
+          "items": [
+            {
+              "n": "Canyon Wren",
+              "d": "A falling song off the walls."
+            },
+            {
+              "n": "White-throated Swift",
+              "d": "Streaks past the cliffs."
+            },
+            {
+              "n": "Black-throated Sparrow",
+              "d": "Sings from desert shrubs on the benches."
+            },
+            {
+              "n": "Common Raven",
+              "d": "A wary camp scavenger."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reptiles & Amphibians",
+      "subs": [
+        {
+          "name": "Lizards",
+          "items": [
+            {
+              "n": "Eastern Collared Lizard",
+              "d": "A large, bright lizard that runs on its hind legs."
+            },
+            {
+              "n": "Plateau Fence Lizard",
+              "d": "Common on warm rocks."
+            },
+            {
+              "n": "Western Whiptail",
+              "d": "A fast, striped lizard."
+            }
+          ]
+        },
+        {
+          "name": "Snakes",
+          "items": [
+            {
+              "n": "Midget Faded Rattlesnake",
+              "d": "A pale rattlesnake of the sandstone ledges. Watch where you put your hands and feet."
+            },
+            {
+              "n": "Gopher Snake",
+              "d": "A harmless constrictor."
+            }
+          ]
+        },
+        {
+          "name": "Frogs & Toads",
+          "items": [
+            {
+              "n": "Canyon Treefrog",
+              "d": "Calls from side-canyon pools after rain."
+            },
+            {
+              "n": "Red-spotted Toad",
+              "d": "Trills in the side canyons after rain."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Fish",
+      "subs": [
+        {
+          "name": "Minnows",
+          "items": [
+            {
+              "n": "Humpback Chub",
+              "d": "A protected native fish with a distinct hump behind its head, found in the fast, turbulent water."
+            },
+            {
+              "n": "Colorado Pikeminnow",
+              "d": "A large, protected native minnow that spawns in the backwaters near the state line."
+            },
+            {
+              "n": "Roundtail Chub",
+              "d": "A native chub of the river."
+            }
+          ],
+          "sci": "Leuciscidae"
+        },
+        {
+          "name": "Suckers",
+          "items": [
+            {
+              "n": "Flannelmouth Sucker",
+              "d": "A native of the main channel."
+            },
+            {
+              "n": "Bluehead Sucker",
+              "d": "A native that scrapes algae from rocks."
+            },
+            {
+              "n": "Razorback Sucker",
+              "d": "A protected native with a sharp keel behind its head."
+            }
+          ],
+          "sci": "Catostomidae"
+        },
+        {
+          "name": "Introduced Fish",
+          "items": [
+            {
+              "n": "Channel Catfish",
+              "d": "A whiskered introduced catfish.",
+              "inv": 1
+            },
+            {
+              "n": "Smallmouth Bass",
+              "d": "An introduced predator.",
+              "inv": 1
+            },
+            {
+              "n": "Red Shiner",
+              "d": "A small introduced minnow.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Plants",
+      "subs": [
+        {
+          "name": "Riverside Trees & Shrubs",
+          "items": [
+            {
+              "n": "Fremont Cottonwood",
+              "d": "The big shade tree of the camps."
+            },
+            {
+              "n": "Coyote Willow",
+              "d": "A thin-leaved willow at the water's edge."
+            },
+            {
+              "n": "Netleaf Hackberry",
+              "d": "Common in the side canyons."
+            }
+          ]
+        },
+        {
+          "name": "Junipers & Pines",
+          "items": [
+            {
+              "n": "Utah Juniper",
+              "d": "Shreddy bark and blue berries on the rim."
+            },
+            {
+              "n": "Pinyon Pine",
+              "d": "On the dry slopes above the canyon."
+            }
+          ]
+        },
+        {
+          "name": "Desert Plants",
+          "items": [
+            {
+              "n": "Cliffrose",
+              "d": "Fragrant white flowers in spring."
+            },
+            {
+              "n": "Mormon Tea",
+              "d": "A jointed, leafless shrub."
+            },
+            {
+              "n": "Prickly Pear",
+              "d": "Pads and yellow flowers in late spring."
+            },
+            {
+              "n": "Narrowleaf Yucca",
+              "d": "Tall creamy blooms in late spring."
+            },
+            {
+              "n": "Scarlet Globemallow",
+              "d": "Orange flowers along the washes."
+            }
+          ]
+        },
+        {
+          "name": "Seep Plants",
+          "items": [
+            {
+              "n": "Golden Columbine",
+              "d": "Yellow flowers at damp seeps in some side canyons."
+            },
+            {
+              "n": "Maidenhair Fern",
+              "d": "Lush green fronds under dripping alcoves in the side canyons."
+            }
+          ]
+        },
+        {
+          "name": "Invasive Plants",
+          "items": [
+            {
+              "n": "Tamarisk",
+              "d": "A saltcedar that crowds the banks.",
+              "inv": 1
+            },
+            {
+              "n": "Russian Olive",
+              "d": "Silver leaves and thorns; it crowds out native cottonwoods.",
+              "inv": 1
+            },
+            {
+              "n": "Cheatgrass",
+              "d": "A weedy grass that dries early and fuels fires.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "almanac": {
     "history": [
       [
@@ -374,6 +743,36 @@
       [
         "Dog Island",
         "An illegal-fireworks fire in 2015 destroyed 168 cottonwoods and burned 50 acres at Dog Island."
+      ],
+      [
+        "Horsethief Canyon",
+        "Local lore says the canyon was named for outlaws who hid stolen horses in the side canyons of this remote stretch of the river."
+      ],
+      [
+        "The railroad",
+        "The Union Pacific line that runs beside the river from mile 8.7 to Westwater follows a route first built in the 1880s. Amtrak’s California Zephyr uses it today."
+      ],
+      [
+        "Early river voyages",
+        "Harold Leich’s 1933 river voyage passed through here and photographed Horsethief Canyon near the state line."
+      ]
+    ],
+    "indigenous": [
+      [
+        "Rock art",
+        "The canyons hold pictographs and petroglyphs left by the peoples who lived and traveled here, including those at McDonald Creek. The area is part of the Ute homeland. It is illegal to touch, alter or remove rock art and other cultural resources."
+      ]
+    ],
+    "flows": [
+      [
+        "Big, steady water",
+        "This stretch of the Colorado is large, mostly flat water. Snowmelt runoff in late May and June brings the highest, fastest flows and the hardest landings. Late-summer flows leave the river slow, and trips take longer."
+      ]
+    ],
+    "lore": [
+      [
+        "Wildlife and protected fish",
+        "Bald eagles nest in cottonwoods between the state line and Westwater, and boaters must keep at least half a mile from active nests. Backwaters near the state line serve as spawning areas for the Colorado pikeminnow, and the turbulent water around Black Rocks is habitat for the humpback chub, both protected native fish."
       ]
     ]
   },
@@ -474,8 +873,8 @@
     }
   ],
   "notes": {
-    "camp": "",
-    "hike": ""
+    "camp": "*Overnight camping is by permit at designated sites only, and landings can be hard to catch at high water. Pack out all waste and fire debris, and check fire restrictions before your trip.",
+    "hike": "*Side canyons flash flood and hikes such as Mee, Knowles and Rattlesnake Canyons are long and rugged in summer heat. Do not touch rock art or approach eagle nests closer than half a mile."
   },
   "hdiff": {
     "1": "Short, easy walk",
