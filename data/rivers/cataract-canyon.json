@@ -295,7 +295,7 @@
       "civ": false,
       "diff": 8,
       "tier": "Class IV",
-      "desc": "A ledge wave. Left to right is preferred below 40,000 cfs. Scout river left."
+      "desc": "A ledge wave. Left to right is preferred below 40,000 cfs. Scout river left. A very large rock just left of center marks it, and riverbrain reports only two lines."
     },
     {
       "name": "Big Drop 3, Satan's Gut (Rapid 23)",
@@ -303,7 +303,7 @@
       "civ": false,
       "diff": 8,
       "tier": "Class IV",
-      "desc": "The biggest rapid. Right at high water, left at low water. Scout."
+      "desc": "The biggest rapid. Right at high water, left at low water. Scout. Treat it as a mandatory scout. Even at flows down to about 2,500 cfs there is essentially one line."
     },
     {
       "name": "Rapid 24",
@@ -469,7 +469,316 @@
     }
   ],
   "geology": [],
-  "guide": [],
+  "guide": [
+    {
+      "name": "Mammals",
+      "subs": [
+        {
+          "name": "Sheep",
+          "items": [
+            {
+              "n": "Desert Bighorn Sheep",
+              "d": "Lives on the canyon walls. The mouths of Salt Creek and nearby canyons close March 15 to September 1 for lambing."
+            }
+          ],
+          "sci": "Bovidae"
+        },
+        {
+          "name": "Deer & Cats",
+          "items": [
+            {
+              "n": "Mule Deer",
+              "d": "Found in the side canyons and on the benches."
+            },
+            {
+              "n": "Bobcat",
+              "d": "A shy cat of the rocky ledges."
+            },
+            {
+              "n": "Mountain Lion",
+              "d": "Present but rarely seen."
+            },
+            {
+              "n": "Coyote",
+              "d": "Calls from the benches at night."
+            }
+          ]
+        },
+        {
+          "name": "Small Mammals",
+          "items": [
+            {
+              "n": "Ringtail",
+              "d": "A cat-like night forager around camp."
+            },
+            {
+              "n": "Beaver",
+              "d": "Bank dens and gnawed willows along the Meander Canyon reach."
+            },
+            {
+              "n": "Desert Cottontail",
+              "d": "Emerges at dusk."
+            },
+            {
+              "n": "Rock Squirrel",
+              "d": "A bold visitor around the kitchen."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Birds",
+      "subs": [
+        {
+          "name": "Hawks & Eagles",
+          "items": [
+            {
+              "n": "Golden Eagle",
+              "d": "Nests on the cliffs."
+            },
+            {
+              "n": "Bald Eagle",
+              "d": "Seen along the river in winter and spring."
+            },
+            {
+              "n": "Red-tailed Hawk",
+              "d": "Soars above the canyon rim."
+            }
+          ],
+          "sci": "Accipitridae"
+        },
+        {
+          "name": "Falcons",
+          "items": [
+            {
+              "n": "Peregrine Falcon",
+              "d": "Nests on the high walls."
+            }
+          ],
+          "sci": "Falconidae"
+        },
+        {
+          "name": "Waterbirds",
+          "items": [
+            {
+              "n": "Great Blue Heron",
+              "d": "Stands in the shallows of Meander Canyon."
+            },
+            {
+              "n": "Canada Goose",
+              "d": "Nests on gravel bars."
+            },
+            {
+              "n": "Common Merganser",
+              "d": "A fish-eating duck."
+            }
+          ]
+        },
+        {
+          "name": "Songbirds",
+          "items": [
+            {
+              "n": "Canyon Wren",
+              "d": "A falling song that rings off the walls."
+            },
+            {
+              "n": "White-throated Swift",
+              "d": "Streaks past the cliffs."
+            },
+            {
+              "n": "Common Raven",
+              "d": "A wary camp scavenger."
+            },
+            {
+              "n": "Black-throated Sparrow",
+              "d": "Sings from the desert shrubs."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reptiles",
+      "subs": [
+        {
+          "name": "Lizards & Snakes",
+          "items": [
+            {
+              "n": "Eastern Collared Lizard",
+              "d": "A large, bright lizard that runs on its hind legs."
+            },
+            {
+              "n": "Plateau Fence Lizard",
+              "d": "Common on warm rocks."
+            },
+            {
+              "n": "Midget Faded Rattlesnake",
+              "d": "A pale rattlesnake of the rocky ledges. Watch where you put your hands and feet."
+            },
+            {
+              "n": "Gopher Snake",
+              "d": "A harmless constrictor."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Fish",
+      "subs": [
+        {
+          "name": "Native Fish",
+          "items": [
+            {
+              "n": "Humpback Chub",
+              "d": "A protected native fish with a distinct hump, found in turbulent water."
+            },
+            {
+              "n": "Colorado Pikeminnow",
+              "d": "A large native predator and protected species."
+            },
+            {
+              "n": "Roundtail Chub",
+              "d": "A native chub."
+            }
+          ],
+          "sci": "Cyprinidae"
+        },
+        {
+          "name": "Suckers",
+          "items": [
+            {
+              "n": "Flannelmouth Sucker",
+              "d": "A native of the main channel."
+            },
+            {
+              "n": "Bluehead Sucker",
+              "d": "A native that scrapes algae from rocks."
+            },
+            {
+              "n": "Razorback Sucker",
+              "d": "A protected native with a sharp keel behind its head."
+            }
+          ],
+          "sci": "Catostomidae"
+        },
+        {
+          "name": "Introduced Fish",
+          "items": [
+            {
+              "n": "Channel Catfish",
+              "d": "An introduced catfish.",
+              "inv": 1
+            },
+            {
+              "n": "Common Carp",
+              "d": "Introduced and widespread.",
+              "inv": 1
+            },
+            {
+              "n": "Red Shiner",
+              "d": "A small introduced minnow.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Plants",
+      "subs": [
+        {
+          "name": "Riverside Trees & Shrubs",
+          "items": [
+            {
+              "n": "Fremont Cottonwood",
+              "d": "The big shade tree of the camps."
+            },
+            {
+              "n": "Coyote Willow",
+              "d": "A thin-leaved willow at the water's edge."
+            },
+            {
+              "n": "Netleaf Hackberry",
+              "d": "Common in the side canyons."
+            }
+          ]
+        },
+        {
+          "name": "Junipers & Pines",
+          "items": [
+            {
+              "n": "Utah Juniper",
+              "d": "Shreddy bark and blue berries on the rim."
+            },
+            {
+              "n": "Pinyon Pine",
+              "d": "On the high benches."
+            }
+          ]
+        },
+        {
+          "name": "Desert Plants",
+          "items": [
+            {
+              "n": "Blackbrush",
+              "d": "A spiny gray shrub that dominates the benches."
+            },
+            {
+              "n": "Mormon Tea",
+              "d": "A jointed, leafless shrub."
+            },
+            {
+              "n": "Cliffrose",
+              "d": "Fragrant white flowers in spring."
+            },
+            {
+              "n": "Indian Ricegrass",
+              "d": "A graceful desert bunchgrass."
+            },
+            {
+              "n": "Claret Cup Cactus",
+              "d": "Scarlet blooms in spring."
+            },
+            {
+              "n": "Banana Yucca",
+              "d": "Tall creamy blooms in late spring."
+            }
+          ]
+        },
+        {
+          "name": "Desert Crust",
+          "items": [
+            {
+              "n": "Cryptobiotic Soil Crust",
+              "d": "A living crust of cyanobacteria, lichens and mosses that holds the desert together. A single footprint can destroy decades of growth."
+            }
+          ]
+        },
+        {
+          "name": "Invasive Plants",
+          "items": [
+            {
+              "n": "Tamarisk",
+              "d": "A saltcedar that crowds the banks.",
+              "inv": 1
+            },
+            {
+              "n": "Russian Olive",
+              "d": "Silver leaves and thorns.",
+              "inv": 1
+            },
+            {
+              "n": "Cheatgrass",
+              "d": "A weedy grass that dries early and fuels fires.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "almanac": {
     "flows": [
       [
@@ -483,6 +792,10 @@
       [
         "Lake Powell",
         "As the reservoir drops, rapids that were drowned begin to show, and Gypsum Canyon Rapid has become significant since 2018. Sediment (the Dominy Formation) buries other rapids, including Dark Canyon Rapid as of 2021."
+      ],
+      [
+        "Recommended flows",
+        "Riverbrain lists a recommended range of about 3,500 cfs minimum to 50,000 cfs maximum, with the Big Drops and Satan’s Gut needing a scout at any flow. At the extremes the same rapids behave very differently; check the gauges and recent reports before launching."
       ]
     ],
     "history": [
@@ -493,6 +806,30 @@
       [
         "The 1925 oil fire",
         "A fire at an oil well near the Potash ramp spilled thousands of barrels of oil into the river over several months."
+      ],
+      [
+        "Powell names Cataract",
+        "John Wesley Powell named Cataract Canyon in 1869 for the difficulty of its rapids. Nathaniel Galloway made numerous trips through the canyon in 1894."
+      ],
+      [
+        "Hite",
+        "Hite Marina is named for Cass Hite, a prospector who worked the river’s gold bars in the 1880s."
+      ],
+      [
+        "Glen Canyon Dam and the lake",
+        "When Glen Canyon Dam closed on September 13, 1963, the Colorado began backing up and Lake Powell began to fill, drowning the lower end of Cataract Canyon. When the lake falls, drowned rapids reappear."
+      ]
+    ],
+    "indigenous": [
+      [
+        "Ancestral Puebloan country",
+        "Ancestral Puebloan farmers lived in and around Canyonlands for centuries, building granaries in the cliffs and ruins along the river, such as those at Lathrop Canyon and the Coffee Pot Ruin. The Hopi, Zuni and other Pueblo peoples are their descendants; Ute, Paiute and Navajo peoples also used this country."
+      ]
+    ],
+    "geology": [
+      [
+        "Ledges of limestone over salt",
+        "Where the Colorado runs through the Cataract rapids it cuts through the Honaker Trail Formation, dark gray fossil-bearing limestone laid down about 286 to 320 million years ago in shallow Pennsylvanian seas, forming ledges and slopes along the river. Beneath it lies the Paradox Formation, thick salt and gypsum that dissolves and flows slowly, which flexes and faults the layers above and makes the beds slump toward the river."
       ]
     ]
   },
@@ -668,7 +1005,7 @@
       "civ": false,
       "diff": null,
       "tier": "Landmark",
-      "desc": ""
+      "desc": "The mouth is closed March 15 to September 1 for bighorn lambing, along with Salt Creek, Big Spring and Little Spring."
     },
     {
       "name": "Green River confluence",
@@ -719,8 +1056,8 @@
     }
   ],
   "notes": {
-    "camp": "",
-    "hike": ""
+    "camp": "*River trips camp together on one site per permit. Do not camp at Lathrop Canyon, at springs, or near ruins. Cryptobiotic soil crust covers the benches: stay on rock, sand and wash bottoms.",
+    "hike": "*Hikes begin on side canyon washes that flash flood, and the heat is severe in summer. Ruins and rock art are fragile: look and photograph but never touch or remove anything."
   },
   "hdiff": {
     "1": "Short, easy walk",
