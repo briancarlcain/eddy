@@ -586,8 +586,306 @@
     }
   ],
   "geology": [],
-  "guide": [],
-  "almanac": {},
+  "guide": [
+    {
+      "name": "Mammals",
+      "subs": [
+        {
+          "name": "Deer, Elk & Moose",
+          "items": [
+            {
+              "n": "Elk",
+              "d": "The Selway country is famous for its elk; they graze the open benches and cross the river."
+            },
+            {
+              "n": "Moose",
+              "d": "Found in willow thickets and wet meadows."
+            },
+            {
+              "n": "Mule Deer",
+              "d": "Common along the river."
+            },
+            {
+              "n": "White-tailed Deer",
+              "d": "Found in the river bottoms and side canyons."
+            }
+          ],
+          "sci": "Cervidae"
+        },
+        {
+          "name": "Bears, Cats & Wolves",
+          "items": [
+            {
+              "n": "Black Bear",
+              "d": "Active in the corridor; store food and trash away from camp."
+            },
+            {
+              "n": "Mountain Lion",
+              "d": "Elusive but present; tracks show on the sandbars."
+            },
+            {
+              "n": "Gray Wolf",
+              "d": "Wolves have returned to the region; heard more often than seen."
+            }
+          ]
+        },
+        {
+          "name": "Small Mammals",
+          "items": [
+            {
+              "n": "River Otter",
+              "d": "An occasional sight in the eddies."
+            },
+            {
+              "n": "Beaver",
+              "d": "Gnawed willows and bank dens."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Birds",
+      "subs": [
+        {
+          "name": "Hawks & Eagles",
+          "items": [
+            {
+              "n": "Bald Eagle",
+              "d": "Hunts the river."
+            },
+            {
+              "n": "Osprey",
+              "d": "Dives for fish along the river."
+            },
+            {
+              "n": "Golden Eagle",
+              "d": "Soars above the canyon."
+            }
+          ],
+          "sci": "Accipitridae"
+        },
+        {
+          "name": "Waterbirds",
+          "items": [
+            {
+              "n": "Harlequin Duck",
+              "d": "A small, brightly patterned duck that nests along fast mountain streams."
+            },
+            {
+              "n": "Common Merganser",
+              "d": "A fish-eating duck."
+            },
+            {
+              "n": "Belted Kingfisher",
+              "d": "Rattles along the bank."
+            },
+            {
+              "n": "Spotted Sandpiper",
+              "d": "Teeters along the shore."
+            }
+          ]
+        },
+        {
+          "name": "Songbirds",
+          "items": [
+            {
+              "n": "American Dipper",
+              "d": "Bobs on rocks and walks the stream bottom."
+            },
+            {
+              "n": "Western Tanager",
+              "d": "A yellow-and-red bird of the conifers."
+            },
+            {
+              "n": "Varied Thrush",
+              "d": "Its eerie, whistled song drifts from the wet forest."
+            }
+          ]
+        },
+        {
+          "name": "Woodpeckers",
+          "items": [
+            {
+              "n": "Pileated Woodpecker",
+              "d": "A crow-sized woodpecker that chisels rectangular holes in dead cedars."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reptiles & Amphibians",
+      "subs": [
+        {
+          "name": "Snakes",
+          "items": [
+            {
+              "n": "Northern Pacific Rattlesnake",
+              "d": "Lives on dry, rocky slopes. Watch where you put your hands and feet, especially around camps such as Rattlesnake Bar."
+            },
+            {
+              "n": "Rubber Boa",
+              "d": "A small, gentle, rubbery-skinned snake of wooded slopes."
+            },
+            {
+              "n": "Common Garter Snake",
+              "d": "A harmless snake of the shoreline."
+            }
+          ]
+        },
+        {
+          "name": "Salamanders & Frogs",
+          "items": [
+            {
+              "n": "Idaho Giant Salamander",
+              "d": "A large salamander of cold streams and wet forests."
+            },
+            {
+              "n": "Rocky Mountain Tailed Frog",
+              "d": "A tiny frog of cold, fast mountain streams."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Fish",
+      "subs": [
+        {
+          "name": "Salmon & Trout",
+          "items": [
+            {
+              "n": "Chinook Salmon",
+              "d": "Spring and summer chinook migrate up the Selway to spawn; do not disturb the redds."
+            },
+            {
+              "n": "Steelhead",
+              "d": "Sea-run rainbow trout, including one of the last wild strains unaffected by hatcheries."
+            },
+            {
+              "n": "Bull Trout",
+              "d": "A protected native char of cold streams."
+            },
+            {
+              "n": "Westslope Cutthroat Trout",
+              "d": "A native trout that rises to dry flies."
+            }
+          ],
+          "sci": "Salmonidae"
+        }
+      ]
+    },
+    {
+      "name": "Plants",
+      "subs": [
+        {
+          "name": "Trees",
+          "items": [
+            {
+              "n": "Western Redcedar",
+              "d": "The big, shaggy-barked cedar of the moist bottoms."
+            },
+            {
+              "n": "Grand Fir",
+              "d": "A common conifer of the wet side canyons."
+            },
+            {
+              "n": "Western White Pine",
+              "d": "A tall pine with long cones."
+            },
+            {
+              "n": "Ponderosa Pine",
+              "d": "On the drier slopes."
+            },
+            {
+              "n": "Douglas-fir",
+              "d": "On cooler slopes."
+            },
+            {
+              "n": "Black Cottonwood",
+              "d": "Lines the river and shades camps."
+            }
+          ]
+        },
+        {
+          "name": "Shrubs",
+          "items": [
+            {
+              "n": "Syringa",
+              "d": "Mock orange, Idaho's state flower, with fragrant white blooms in early summer."
+            },
+            {
+              "n": "Thimbleberry",
+              "d": "Large, soft leaves and red berries."
+            },
+            {
+              "n": "Ninebark",
+              "d": "A shrub with peeling bark and white flower clusters."
+            },
+            {
+              "n": "Red-osier Dogwood",
+              "d": "Red stems and white berries in wet places."
+            },
+            {
+              "n": "Poison Ivy",
+              "d": "Common along the shore and camp edges. Learn to recognize it."
+            }
+          ]
+        },
+        {
+          "name": "Invasive Plants",
+          "items": [
+            {
+              "n": "Spotted Knapweed",
+              "d": "A weed that spreads along trails; clean boots and gear.",
+              "inv": 1
+            },
+            {
+              "n": "Yellow Starthistle",
+              "d": "A spiny yellow thistle of the lower canyon.",
+              "inv": 1
+            },
+            {
+              "n": "Dalmatian Toadflax",
+              "d": "A weedy toadflax of dry roadsides.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "almanac": {
+    "indigenous": [
+      [
+        "Nez Perce country",
+        "The Selway country is part of the homeland of the Nez Perce (Nimiipuu), whose travel routes crossed the Bitterroot Mountains. Respect any cultural sites you find and leave them undisturbed."
+      ]
+    ],
+    "history": [
+      [
+        "A wilderness river from the start",
+        "The Selway–Bitterroot Wilderness was among the first areas protected by the Wilderness Act of 1964, and the entire Selway was included in the Wild and Scenic Rivers Act of 1968. That early protection is why the corridor is so undeveloped and why use is limited to one launch per day in season."
+      ],
+      [
+        "Guard stations and pack bridges",
+        "Forest Service guard stations such as Shearer and Moose Creek, and pack bridges like the one at Three Links, are reminders of the days when rangers lived in the backcountry and supplies came in by mule and by airstrip."
+      ]
+    ],
+    "geology": [
+      [
+        "Granite and gneiss",
+        "The Selway runs through the Bitterroot Mountains, whose core is granite and gneiss of the Idaho Batholith. The hard rock helps explain the narrow canyon and the boulder-choked, technical rapids."
+      ]
+    ],
+    "lore": [
+      [
+        "Wild fish",
+        "The river is crucial habitat for bull trout and Chinook salmon, and it holds one of the last strains of wild steelhead in the lower 48 not influenced by hatcheries."
+      ]
+    ]
+  },
   "rules": [
     {
       "name": "The permit",
@@ -743,8 +1041,8 @@
     }
   ],
   "notes": {
-    "camp": "",
-    "hike": ""
+    "camp": "*Choose camps by water level: sites marked high-water stay dry when the river is up and moderate-flow sites need lower water. Bears and cougars are active in the corridor, so store food and trash away from camp and boats.",
+    "hike": "*Trails are mostly short walks to guard stations and swimming holes. Check for ticks and poison ivy, and carry out everything you pack in; the corridor is wilderness."
   },
   "hdiff": {
     "1": "Short, easy walk",
