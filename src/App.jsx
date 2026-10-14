@@ -11,6 +11,7 @@ import { canon, mergeTrips, stamp, strip } from './merge.js';
 import * as remote from './sync.js';
 import * as authApi from './auth.js';
 import TopoMap, { OfflinePanel } from './TopoMap.jsx';
+import BasinMap, { hasBasin } from './BasinMap.jsx';
 import SunChart from './SunChart.jsx';
 import { campHorizon, campSun, dropHorizon, drops, dropsGPX, hasGeo, hikeTrack, onGeoChange, parseGPX, position, removeDrop, setHikeTrack, trackStats, updateDrop } from './geo/index.js';
 import { sunDay } from './geo/sun.js';
@@ -3467,6 +3468,8 @@ function RiverDetail({ s }) {
   };
   const [editing, setEditing] = useState(false);
   const [msg, setMsg] = useState('');
+  // a remembered mode only applies where this river has it
+  const view = mapMode === 'topo' && hasGeo(RIVER.id) ? 'topo' : mapMode === 'basin' && hasBasin(RIVER.id) ? 'basin' : 'chart';
   // the trip's camp plan only means something on the trip's own river
   const sm = riverOf(s.trip) === RIVER.id ? s : { ...s, trip: null };
   const has = {
@@ -3488,13 +3491,18 @@ function RiverDetail({ s }) {
       <Tabs items={items} value={cur} onChange={setTab} tint="#2f5d62" />
       {cur === 'Map' ? (
         <>
-          {hasGeo(RIVER.id) ? (
+          {hasGeo(RIVER.id) || hasBasin(RIVER.id) ? (
             <div className="mapMode">
-              <button className={'chip' + (mapMode !== 'topo' ? ' on river' : '')} onClick={() => setMapMode('chart')}>Mile chart</button>
-              <button className={'chip' + (mapMode === 'topo' ? ' on river' : '')} onClick={() => setMapMode('topo')}>Topo map</button>
+              <button className={'chip' + (view === 'chart' ? ' on river' : '')} onClick={() => setMapMode('chart')}>Mile chart</button>
+              {hasGeo(RIVER.id) ? (
+                <button className={'chip' + (view === 'topo' ? ' on river' : '')} onClick={() => setMapMode('topo')}>Topo map</button>
+              ) : null}
+              {hasBasin(RIVER.id) ? (
+                <button className={'chip' + (view === 'basin' ? ' on river' : '')} onClick={() => setMapMode('basin')}>Basin</button>
+              ) : null}
             </div>
           ) : null}
-          {mapMode === 'topo' && hasGeo(RIVER.id) ? <RiverTopo s={sm} /> : <RiverMap s={sm} />}
+          {view === 'topo' ? <RiverTopo s={sm} /> : view === 'basin' ? <BasinMap key={RIVER.id} rid={RIVER.id} river={RIVER} /> : <RiverMap s={sm} />}
         </>
       ) : cur === 'More' ? (
         editing ? (

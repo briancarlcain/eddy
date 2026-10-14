@@ -1,0 +1,358 @@
+{
+  "_doc": "net: which HU4 group to load. main: gnis names of the river the put-in sits on. put: approximate put-in [lat, lon] (snapped to the river). check: a known point near the take-out, used only to report how far off the walked take-out is. basin_until: stop the basin at the mouth of this river when the trip ends on a bigger one. take: 'mouth' pins the take-out to the river's mouth. run_mi: run length in miles when it differs from the guide's mileage (a trip whose take-out sits below the mouth).",
+  "groups": {
+    "colorado": [
+      "1401",
+      "1402",
+      "1403",
+      "1404",
+      "1405",
+      "1406",
+      "1407",
+      "1408",
+      "1501",
+      "1502",
+      "1503"
+    ],
+    "upper-colorado": [
+      "1401",
+      "1402",
+      "1403",
+      "1404",
+      "1405",
+      "1406",
+      "1407"
+    ],
+    "green": [
+      "1404",
+      "1405",
+      "1406"
+    ],
+    "yampa": [
+      "1404",
+      "1405",
+      "1406"
+    ],
+    "dolores": [
+      "1403"
+    ],
+    "san-juan": [
+      "1408"
+    ],
+    "salt": [
+      "1506"
+    ],
+    "chama": [
+      "1302"
+    ],
+    "snake": [
+      "1704",
+      "1705",
+      "1706"
+    ],
+    "missouri": [
+      "1003"
+    ],
+    "oregon-coast": [
+      "1710"
+    ],
+    "tuolumne": [
+      "1804"
+    ],
+    "american": [
+      "1802"
+    ]
+  },
+  "rivers": {
+    "grand-canyon": {
+      "net": "colorado",
+      "main": [
+        "Colorado River"
+      ],
+      "put": [
+        36.865,
+        -111.588
+      ],
+      "check": [
+        36.1167,
+        -114.0008
+      ]
+    },
+    "black-canyon": {
+      "net": "colorado",
+      "main": [
+        "Colorado River"
+      ],
+      "put": [
+        36.01,
+        -114.736
+      ],
+      "check": [
+        35.8681,
+        -114.6628
+      ]
+    },
+    "cataract-canyon": {
+      "net": "upper-colorado",
+      "main": [
+        "Colorado River"
+      ],
+      "put": [
+        38.5016,
+        -109.6531
+      ],
+      "check": [
+        37.8669,
+        -110.4071
+      ]
+    },
+    "westwater": {
+      "net": "upper-colorado",
+      "main": [
+        "Colorado River"
+      ],
+      "put": [
+        39.085,
+        -109.11
+      ],
+      "check": [
+        38.976,
+        -109.293
+      ]
+    },
+    "ruby-horsethief": {
+      "net": "upper-colorado",
+      "main": [
+        "Colorado River"
+      ],
+      "put": [
+        39.185,
+        -108.82
+      ],
+      "check": [
+        39.085,
+        -109.11
+      ]
+    },
+    "desolation-gray": {
+      "net": "green",
+      "main": [
+        "Green River"
+      ],
+      "put": [
+        39.8364,
+        -109.9053
+      ]
+    },
+    "lodore": {
+      "net": "green",
+      "main": [
+        "Green River"
+      ],
+      "put": [
+        40.7222,
+        -108.8878
+      ],
+      "check": [
+        40.44,
+        -109.242
+      ]
+    },
+    "green-flaming-gorge": {
+      "net": "green",
+      "main": [
+        "Green River"
+      ],
+      "put": [
+        40.912,
+        -109.42
+      ],
+      "check": [
+        40.7133,
+        -108.8929
+      ]
+    },
+    "yampa": {
+      "net": "yampa",
+      "main": [
+        "Yampa River"
+      ],
+      "put": [
+        40.4469,
+        -108.5148
+      ],
+      "check": [
+        40.44,
+        -109.242
+      ],
+      "basin_until": [
+        "Yampa River"
+      ]
+    },
+    "dolores": {
+      "net": "dolores",
+      "main": [
+        "Dolores River"
+      ],
+      "take": [
+        38.315,
+        -108.8909
+      ],
+      "tol": 20
+    },
+    "san-juan": {
+      "net": "san-juan",
+      "main": [
+        "San Juan River"
+      ],
+      "put": [
+        37.263,
+        -109.62
+      ],
+      "check": [
+        37.2944,
+        -110.4049
+      ]
+    },
+    "salt": {
+      "net": "salt",
+      "main": [
+        "Salt River"
+      ],
+      "put": [
+        33.7981,
+        -110.4965
+      ]
+    },
+    "rio-chama": {
+      "net": "chama",
+      "main": [
+        "Rio Chama"
+      ],
+      "put": [
+        36.5939,
+        -106.7286
+      ]
+    },
+    "hells-canyon": {
+      "net": "snake",
+      "main": [
+        "Snake River"
+      ],
+      "put": [
+        45.2437,
+        -116.7006
+      ],
+      "check": [
+        46.0802,
+        -116.9796
+      ]
+    },
+    "main-salmon": {
+      "net": "snake",
+      "main": [
+        "Salmon River"
+      ],
+      "put": [
+        45.3682,
+        -114.6862
+      ],
+      "check": [
+        45.4596,
+        -115.904
+      ],
+      "tol": 8
+    },
+    "middle-fork-salmon": {
+      "net": "snake",
+      "main": [
+        "Middle Fork Salmon River"
+      ],
+      "take": "mouth",
+      "run_mi": 95.39,
+      "check": [
+        45.3188,
+        -114.6368
+      ],
+      "basin_until": [
+        "Middle Fork Salmon River"
+      ]
+    },
+    "selway": {
+      "net": "snake",
+      "main": [
+        "Selway River"
+      ],
+      "put": [
+        45.8602,
+        -114.7443
+      ],
+      "check": [
+        46.0438,
+        -115.2832
+      ]
+    },
+    "rogue": {
+      "net": "oregon-coast",
+      "main": [
+        "Rogue River"
+      ],
+      "put": [
+        42.6484,
+        -123.5848
+      ],
+      "check": [
+        42.6343,
+        -124.0479
+      ]
+    },
+    "illinois": {
+      "net": "oregon-coast",
+      "main": [
+        "Illinois River"
+      ],
+      "put": [
+        42.359,
+        -123.7873
+      ],
+      "check": [
+        42.5248,
+        -124.0423
+      ]
+    },
+    "tuolumne": {
+      "net": "tuolumne",
+      "main": [
+        "Tuolumne River"
+      ],
+      "put": [
+        37.8355,
+        -120.0555
+      ]
+    },
+    "south-fork-american": {
+      "net": "american",
+      "main": [
+        "South Fork American River"
+      ],
+      "put": [
+        38.7671,
+        -120.8216
+      ],
+      "check": [
+        38.7591,
+        -121.0699
+      ]
+    },
+    "smith": {
+      "net": "missouri",
+      "main": [
+        "Smith River"
+      ],
+      "put": [
+        46.7985,
+        -111.1771
+      ]
+    }
+  }
+}

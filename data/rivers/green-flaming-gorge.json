@@ -13,6 +13,7 @@
     -109.4
   ],
   "tz": "America/Denver",
+  "note": "",
   "camps": [
     {
       "name": "Little Hole camps",
@@ -190,7 +191,7 @@
       "civ": false,
       "diff": 3,
       "tier": "Class II",
-      "desc": ""
+      "desc": "Class II. Listed as read and run."
     },
     {
       "name": "Rollercoaster",
@@ -198,7 +199,7 @@
       "civ": false,
       "diff": 3,
       "tier": "Class II",
-      "desc": ""
+      "desc": "Class II. Listed as read and run."
     },
     {
       "name": "Shelf",
@@ -206,7 +207,7 @@
       "civ": false,
       "diff": 3,
       "tier": "Class II",
-      "desc": ""
+      "desc": "Class II. Listed as read and run."
     },
     {
       "name": "Mother-in-Law",
@@ -270,8 +271,356 @@
     }
   ],
   "geology": [],
-  "guide": [],
-  "almanac": {},
+  "guide": [
+    {
+      "name": "Fish",
+      "subs": [
+        {
+          "name": "Trout",
+          "items": [
+            {
+              "n": "Brown Trout",
+              "d": "The big resident of the cold, clear water below the dam.",
+              "inv": 1
+            },
+            {
+              "n": "Rainbow Trout",
+              "d": "Common in the tailwater.",
+              "inv": 1
+            }
+          ],
+          "sci": "Salmonidae"
+        },
+        {
+          "name": "Whitefish",
+          "items": [
+            {
+              "n": "Mountain Whitefish",
+              "d": "A native silvery fish of the runs and pools."
+            }
+          ],
+          "sci": "Salmonidae"
+        },
+        {
+          "name": "Suckers",
+          "items": [
+            {
+              "n": "Flannelmouth Sucker",
+              "d": "A native of the lower sections."
+            },
+            {
+              "n": "Bluehead Sucker",
+              "d": "A native that scrapes algae off rocks."
+            },
+            {
+              "n": "Razorback Sucker",
+              "d": "A protected native; spring releases from the dam are timed to help its larvae."
+            }
+          ],
+          "sci": "Catostomidae"
+        },
+        {
+          "name": "Minnows",
+          "items": [
+            {
+              "n": "Colorado Pikeminnow",
+              "d": "A large native predator that survives in the lower Green River system."
+            },
+            {
+              "n": "Roundtail Chub",
+              "d": "A native chub of the river's lower sections."
+            }
+          ],
+          "sci": "Leuciscidae"
+        }
+      ]
+    },
+    {
+      "name": "Mammals",
+      "subs": [
+        {
+          "name": "Sheep",
+          "items": [
+            {
+              "n": "Rocky Mountain Bighorn Sheep",
+              "d": "Seen on the cliffs of Red Canyon, especially in the early morning."
+            }
+          ],
+          "sci": "Bovidae"
+        },
+        {
+          "name": "Deer, Elk & Pronghorn",
+          "items": [
+            {
+              "n": "Mule Deer",
+              "d": "Common in the side canyons and on the benches."
+            },
+            {
+              "n": "Elk",
+              "d": "Seen on the slopes above the river."
+            },
+            {
+              "n": "Pronghorn",
+              "d": "Graze the open sagebrush flats of Browns Park."
+            },
+            {
+              "n": "Moose",
+              "d": "A few use the Uinta foothills and riverside willows."
+            }
+          ]
+        },
+        {
+          "name": "Bears & Cats",
+          "items": [
+            {
+              "n": "Black Bear",
+              "d": "Present throughout the corridor. Keep food and scented gear away from camp."
+            },
+            {
+              "n": "Mountain Lion",
+              "d": "Elusive."
+            }
+          ]
+        },
+        {
+          "name": "Beaver & Otter",
+          "items": [
+            {
+              "n": "Beaver",
+              "d": "Gnawed willows and dens along the banks."
+            },
+            {
+              "n": "North American River Otter",
+              "d": "An occasional sight in the quiet stretches."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Birds",
+      "subs": [
+        {
+          "name": "Hawks & Eagles",
+          "items": [
+            {
+              "n": "Bald Eagle",
+              "d": "Hunts the river in winter and spring."
+            },
+            {
+              "n": "Golden Eagle",
+              "d": "Nests on the cliffs."
+            },
+            {
+              "n": "Osprey",
+              "d": "Dives for trout in summer."
+            }
+          ],
+          "sci": "Accipitridae"
+        },
+        {
+          "name": "Falcons",
+          "items": [
+            {
+              "n": "Peregrine Falcon",
+              "d": "Nests on the high red walls of Red Canyon."
+            }
+          ],
+          "sci": "Falconidae"
+        },
+        {
+          "name": "Waterbirds",
+          "items": [
+            {
+              "n": "Great Blue Heron",
+              "d": "Stands in the shallows."
+            },
+            {
+              "n": "Canada Goose",
+              "d": "Nests on islands and bars; many winter at Browns Park Refuge."
+            },
+            {
+              "n": "Common Merganser",
+              "d": "A fish-eating duck of the flowing water."
+            },
+            {
+              "n": "Belted Kingfisher",
+              "d": "Rattles along the bank."
+            }
+          ]
+        },
+        {
+          "name": "Songbirds",
+          "items": [
+            {
+              "n": "American Dipper",
+              "d": "Bobs on rocks and feeds on the stream bottom."
+            },
+            {
+              "n": "Canyon Wren",
+              "d": "A falling song off the walls."
+            },
+            {
+              "n": "Violet-green Swallow",
+              "d": "Nests in cliff crevices."
+            },
+            {
+              "n": "Common Raven",
+              "d": "Checks out every camp."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reptiles",
+      "subs": [
+        {
+          "name": "Lizards & Snakes",
+          "items": [
+            {
+              "n": "Plateau Fence Lizard",
+              "d": "Common on warm rocks."
+            },
+            {
+              "n": "Western Terrestrial Garter Snake",
+              "d": "A harmless snake of the shoreline."
+            },
+            {
+              "n": "Gopher Snake",
+              "d": "A harmless constrictor."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Plants",
+      "subs": [
+        {
+          "name": "Conifers",
+          "items": [
+            {
+              "n": "Douglas-fir",
+              "d": "On the cool slopes of Red Canyon."
+            },
+            {
+              "n": "Ponderosa Pine",
+              "d": "On the dry benches."
+            },
+            {
+              "n": "Utah Juniper",
+              "d": "Rooted into the cliffs and rims."
+            },
+            {
+              "n": "Colorado Blue Spruce",
+              "d": "In side-canyon bottoms."
+            }
+          ]
+        },
+        {
+          "name": "Riverside Trees & Shrubs",
+          "items": [
+            {
+              "n": "Narrowleaf Cottonwood",
+              "d": "Lines the river and shades camps."
+            },
+            {
+              "n": "Box Elder",
+              "d": "A maple of the side canyons."
+            },
+            {
+              "n": "Coyote Willow",
+              "d": "A thin-leaved willow at the water's edge."
+            },
+            {
+              "n": "Serviceberry",
+              "d": "White flowers in spring, dark berries in summer."
+            }
+          ]
+        },
+        {
+          "name": "Sagebrush & Wildflowers",
+          "items": [
+            {
+              "n": "Big Sagebrush",
+              "d": "The gray-green shrub that dominates Browns Park."
+            },
+            {
+              "n": "Rabbitbrush",
+              "d": "Yellow flowers in late summer."
+            },
+            {
+              "n": "Indian Paintbrush",
+              "d": "Red and orange bracts on the slopes."
+            }
+          ]
+        },
+        {
+          "name": "Invasive Plants",
+          "items": [
+            {
+              "n": "Russian Olive",
+              "d": "Silver leaves and thorns along the banks.",
+              "inv": 1
+            },
+            {
+              "n": "Tamarisk",
+              "d": "A saltcedar that lines lower river banks.",
+              "inv": 1
+            },
+            {
+              "n": "Cheatgrass",
+              "d": "A weedy grass that dries early and fuels fires.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "almanac": {
+    "indigenous": [
+      [
+        "A winter refuge",
+        "Ute and Shoshone peoples wintered in the sheltered valley of Browns Park, which lies along the lower third of this run, long before fur traders and ranchers arrived."
+      ]
+    ],
+    "history": [
+      [
+        "Powell names Flaming Gorge",
+        "John Wesley Powell’s 1869 expedition named Flaming Gorge for the brilliant red canyon walls above the river here. The name now belongs to the dam and the reservoir."
+      ],
+      [
+        "Flaming Gorge Dam",
+        "The 502-foot dam in Red Canyon, finished in 1964, controls the river below it. Its releases keep the water cold and clear and made this stretch a famous trout fishery."
+      ],
+      [
+        "Fort Davy Crockett",
+        "In 1837 William Craig, Philip Thompson and a man named Sinclair founded a trading post in Browns Park known as Fort Davy Crockett. It was abandoned in the 1840s, and the site was a center of social and commercial life for trappers."
+      ],
+      [
+        "The Outlaw Trail",
+        "Browns Park became a refuge for rustlers and outlaws, including Butch Cassidy, the Sundance Kid, Matt Warner, Elza Lay, Tom Horn and Ann Bassett, called the Queen of the Cattle Rustlers."
+      ],
+      [
+        "John Jarvie",
+        "Scotsman John Jarvie built a ranch, store and ferry on the Green River in 1880. He was murdered alone at his store on July 6, 1909. The ranch near Bridge Hollow is now a BLM historic site open to visitors."
+      ]
+    ],
+    "geology": [
+      [
+        "Red Canyon to Browns Park",
+        "Below the dam the river runs through Red Canyon, with red rock cliffs rising on both sides on the flank of the Uinta Mountains. Farther down it opens into the broad basin of Browns Park, floored by softer, younger Tertiary rock, before the Green enters Lodore Canyon at the Gates of Lodore."
+      ]
+    ],
+    "flows": [
+      [
+        "Three sections",
+        "Section A (dam to Little Hole) is the busy fishery run with a recommended flow range of about 800 to 8,000 cfs. Section B continues to Indian Crossing, and Section C runs through Browns Park to the Gates of Lodore. About 90 percent of the traffic drops off below Little Hole."
+      ]
+    ]
+  },
   "rules": [
     {
       "name": "Required equipment",
@@ -303,7 +652,7 @@
         },
         {
           "t": "Spring peak",
-          "d": "Reclamation runs at least two weeks of high flow each year, up to about 8,600 cfs, for June sucker spawning."
+          "d": "Reclamation raises releases in spring, up to about 8,600 cfs, patterned on Yampa River runoff. Since 2011 the timing has been triggered by larval razorback suckers, to benefit the endangered fish of the Green River."
         },
         {
           "t": "Low bridge",
@@ -416,6 +765,10 @@
       "n": "Section C"
     }
   ],
+  "notes": {
+    "camp": "*Section A float-in camps are reserved on Recreation.gov, and no motors are allowed in that section. Dam releases can drop the river overnight, so pull boats high.",
+    "hike": "*The Little Hole trail follows the river and can be washed out at high flows. Water from the dam is cold; dress for immersion even in summer."
+  },
   "hdiff": {
     "1": "Short, easy walk",
     "2": "Easy trail",
@@ -559,10 +912,5 @@
         ]
       }
     ]
-  },
-  "note": "",
-  "notes": {
-    "camp": "",
-    "hike": ""
   }
 }

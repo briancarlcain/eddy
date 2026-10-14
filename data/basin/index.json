@@ -1,0 +1,114 @@
+{
+ "rivers": {
+  "black-canyon": {
+   "area": 394068,
+   "lakes": 28,
+   "dams": 18
+  },
+  "cataract-canyon": {
+   "area": 194990,
+   "lakes": 28,
+   "dams": 16
+  },
+  "desolation-gray": {
+   "area": 103496,
+   "lakes": 28,
+   "dams": 7
+  },
+  "dolores": {
+   "area": 5324,
+   "lakes": 3,
+   "dams": 1
+  },
+  "grand-canyon": {
+   "area": 353525,
+   "lakes": 28,
+   "dams": 18
+  },
+  "green-flaming-gorge": {
+   "area": 42478,
+   "lakes": 28,
+   "dams": 2
+  },
+  "hells-canyon": {
+   "area": 177293,
+   "lakes": 28,
+   "dams": 21
+  },
+  "illinois": {
+   "area": 2564,
+   "lakes": 0,
+   "dams": 0
+  },
+  "lodore": {
+   "area": 64848,
+   "lakes": 28,
+   "dams": 4
+  },
+  "main-salmon": {
+   "area": 30138,
+   "lakes": 8,
+   "dams": 0
+  },
+  "middle-fork-salmon": {
+   "area": 7452,
+   "lakes": 0,
+   "dams": 0
+  },
+  "rio-chama": {
+   "area": 4044,
+   "lakes": 4,
+   "dams": 2
+  },
+  "rogue": {
+   "area": 10202,
+   "lakes": 6,
+   "dams": 4
+  },
+  "ruby-horsethief": {
+   "area": 46704,
+   "lakes": 28,
+   "dams": 15
+  },
+  "salt": {
+   "area": 10590,
+   "lakes": 4,
+   "dams": 0
+  },
+  "san-juan": {
+   "area": 55006,
+   "lakes": 15,
+   "dams": 3
+  },
+  "selway": {
+   "area": 4019,
+   "lakes": 0,
+   "dams": 0
+  },
+  "smith": {
+   "area": 4869,
+   "lakes": 2,
+   "dams": 1
+  },
+  "south-fork-american": {
+   "area": 2201,
+   "lakes": 7,
+   "dams": 3
+  },
+  "tuolumne": {
+   "area": 3371,
+   "lakes": 7,
+   "dams": 3
+  },
+  "westwater": {
+   "area": 48661,
+   "lakes": 28,
+   "dams": 15
+  },
+  "yampa": {
+   "area": 21377,
+   "lakes": 6,
+   "dams": 2
+  }
+ }
+}

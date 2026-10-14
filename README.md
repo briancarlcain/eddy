@@ -4,8 +4,13 @@ A river-trip planning app: a library of rivers plus any number of trips on them.
 Trips (itinerary, crew & crafts, meals, gear, shuttle, ledger, log) are saved
 separately and each belongs to a river; the River tab shows map, rapids, camps,
 hikes, geology, guide, almanac and rules for the river you pick. Built-in
-rivers: Grand Canyon (full data), Smith River and Rogue River (starter records
-- reach and put-in/take-out only; fill in the rest in the app).
+rivers (22): Grand Canyon (full data) plus Smith, Rogue, Main Salmon, Middle
+Fork Salmon, Selway, Hells Canyon, Yampa, Lodore, Green (Flaming Gorge), Desolation-Gray,
+Cataract, Westwater, Ruby-Horsethief, Black Canyon, San Juan, Dolores, Rio Chama,
+Salt, Illinois, Tuolumne and South Fork American. Each has rapids, camps, access
+points, rules, a regional species guide and almanac (history, Indigenous
+homeland notes, geology, flows). Camp sizes and ratings, and some hike times, are
+still blank where no source gave them.
 
 Add or edit rivers in **River -> Rivers** (form editor, or paste/import river
 JSON; "Copy JSON" exports one). Rivers you add or edit are stored with your
@@ -24,8 +29,12 @@ trips (localStorage, and the shared db when available).
 - `src/TopoMap.jsx` - River > Map > Topo map (Leaflet): terrain basemap, pins, dropped pins, sun & shade day timeline, offline download
 - `src/SunChart.jsx` - the skyline-and-sun-path chart for a camp or dropped pin
 - `src/geo/` - geo code shared by the app and the build: centerline (`line.js`), sun position and canyon sun times (`sun.js`), horizon casting (`horizon.js`), DEM tiles (`dem.js`) and their offline store (`store.js`), shade worker pool (`shade.js`), per-river state, dropped pins and GPX tracks (`index.js`)
-- `data/geo/anchors.json` - per river: known `{mile, lat, lon}` points the centerline is traced between
-- `data/geo/<river>.json` - **generated** by `npm run geo`: centerline + a terrain horizon for every camp
+- `src/BasinMap.jsx`, `src/geo/basin.js` - River > Map > Basin: the drainage basin above the take-out (streams by size, basin outline, reservoirs and lakes, dams, the trip's run). Draws from `data/basin/<river>.json` with no map tiles, so it works offline
+- `data/basin/*.json` - **generated** by `python3 scripts/basin/build.py` (see below); `index.json` lists the rivers that have one
+- `scripts/basin/` - the basin pipeline: `rivers.json` (per river: HU4 group, main-stem name, put-in or take-out point), `dams.json` (reservoir name -> dam name), `build.py`
+- `data/geo/anchors.json` - Grand Canyon only: known `{mile, lat, lon}` points its centerline is traced between on the terrain
+- `data/geo/nhd/<river>.json` - **generated** by `python3 scripts/basin/centerline.py`: every other river's centerline, the USGS stream line along the trip's run with the guide's miles pinned to it
+- `data/geo/<river>.json` - **generated** by `npm run geo`: centerline + a terrain horizon for every camp (all 22 rivers)
 
 ## Build
 
@@ -40,6 +49,37 @@ take-outs, hubs: `{name, mile?, road?, hub?, park?, note?}`), and optional
 `rapids[]`, `camps[]`, `hikes[]`, `geology[]`, `guide[]`, `almanac{}`, `rules[]`,
 `landmarks[]`, `clusters[]`, `notes{camp,hike}`, `hdiff{}`, `roads[]`. See
 `data/rivers/grand-canyon.json`. Missing fields are filled in by `normalizeRiver`.
+
+## Basin maps
+
+`data/basin/<river>.json` is built from the USGS National Hydrography Dataset (high resolution, one GeoPackage per
+4-digit hydrologic unit) and Watershed Boundary Dataset, both public domain. For each river `scripts/basin/build.py`
+snaps the put-in (or take-out) to the named main stem, walks the guide's run length to find the other end, traces
+every natural channel upstream of the take-out, keeps the biggest channels that fit a size budget, outlines the
+basin from the HUC12 watersheds that hold those channels, and picks the biggest reservoirs and lakes. A dam marker
+goes at each reservoir's outlet, but only for reservoirs named in `dams.json`; the dam's name comes from there.
+
+    pip install geopandas pyogrio shapely numpy pandas      # matplotlib too for --preview
+    python3 scripts/basin/build.py                           # all rivers (downloads about 5 GB into .cache/basin once)
+    python3 scripts/basin/build.py dolores --preview /tmp/p  # one river, with a PNG to check
+    python3 scripts/basin/build.py --list-reservoirs         # what it would label, to fill in dams.json
+    python3 scripts/basin/build.py --dams-only               # after editing dams.json: re-apply it in seconds
+    npm test                                                 # checks every file decodes and lines up
+
+Things worth knowing:
+
+- A trip that ends on a bigger river (Yampa, Middle Fork Salmon) uses `basin_until` so the basin stops at the
+  tributary's mouth; the map then says "the whole ... basin". Add a river by giving it an entry in `rivers.json`.
+- The flow table has no link across a dam, so the script joins a named channel's loose end to the same-named channel
+  that starts within about a kilometre below it (and a tributary that stops a few metres short of the river it joins).
+  Without that, Hells Canyon would stop at Oxbow Dam and Black Canyon at Hoover Dam.
+- The area is the sum of whole HUC12 watersheds that hold a traced channel, so it is shown to three figures ("About
+  68,500 sq mi"). It runs under the official drainage area where water is lost to sinks and diversions (the Lost
+  Rivers and Raft River in the Snake basin, the Great Divide Basin in the Green) because those channels never reach
+  the river on the map.
+- `dams.json` maps a reservoir name to its dam. Natural lakes and any dam whose name could not be confirmed are left
+  out, so they show as lakes without a dam marker. A `"<river id>/<name>"` key applies to one river only (two unrelated
+  lakes are both called Emigrant Lake).
 
 ## Data notes
 
@@ -61,14 +101,26 @@ Trip > Trip > "Reload planning-sheet data" replaces everything from the seed.
 
 ## Topo map and canyon sun
 
-See `docs/TOPO_MAP_PLAN.md`. In short: elevation comes from the open AWS Terrain Tiles (USGS 3DEP/NED). The
-river centerline is traced from that elevation between the anchors in `data/geo/anchors.json`, and every
-rapid / camp / hike is placed on it by river mile (camps and hikes pushed to their bank). Each camp gets a
-360-degree terrain horizon at build time, which gives "direct sun in camp" times for any date with no
-network.
+See `docs/TOPO_MAP_PLAN.md`. Every river has the Topo map and Sun & shade. Elevation comes from the open AWS Terrain
+Tiles (USGS 3DEP/NED). Each rapid / camp / hike is placed on the river centerline by river mile (camps and hikes pushed
+to their bank), and each camp gets a 360-degree terrain horizon at build time, which gives "direct sun in camp" times for
+any date with no network.
 
-    npm run geo                 # every river with anchors (DEM tiles cache in .cache/dem)
-    npm run geo -- grand-canyon # one river
+Where the centerline comes from:
+
+- **Grand Canyon**: traced from the terrain between surveyed anchors in `data/geo/anchors.json`.
+- **The other 21 rivers**: the USGS National Hydrography Dataset main stem along the trip's run (the same network the
+  Basin maps use), cut to the guide's put-in and take-out. The guide's river miles are pinned to it wherever a rapid,
+  falls, bar, camp or creek in the guide shares its name with a USGS Geographic Names point on the line. The script
+  keeps the longest chain of those points that runs downstream in mile order and checks the fit, so a namesake creek
+  somewhere else is ignored. Where the names don't match (Black Canyon, Rio Chama, Dolores, Flaming Gorge, Westwater,
+  Ruby-Horsethief) the line runs by the put-in, take-out and trip length. It prints each river's matches, scale and
+  residual.
+
+    python3 scripts/basin/centerline.py                   # all rivers without DEM anchors (needs the same Python setup as the Basin maps)
+    python3 scripts/basin/centerline.py rogue --debug     # list every match and the chain kept
+    npm run geo                 # every river (DEM tiles cache in .cache/dem)
+    npm run geo -- rogue        # one river
     node scripts/geo/preview.mjs grand-canyon 130 140 out.png   # eyeball the line and pins on a hillshade
 
 Surveyed GPS positions beat mile placement. To add them (from a guidebook GPX, a GIS export, or pins dropped

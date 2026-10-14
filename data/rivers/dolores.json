@@ -13,6 +13,7 @@
     -108.7
   ],
   "tz": "America/Denver",
+  "note": "",
   "camps": [
     {
       "name": "Bradfield Recreation Site",
@@ -206,8 +207,425 @@
     }
   ],
   "geology": [],
-  "guide": [],
-  "almanac": {},
+  "guide": [
+    {
+      "name": "Mammals",
+      "subs": [
+        {
+          "name": "Sheep",
+          "items": [
+            {
+              "n": "Desert Bighorn Sheep",
+              "d": "Cliff specialists of the red walls; a good reason to scan the ledges. Mountain Sheep Point is named for them."
+            }
+          ],
+          "sci": "Bovidae"
+        },
+        {
+          "name": "Deer & Elk",
+          "items": [
+            {
+              "n": "Mule Deer",
+              "d": "Common on the benches and at the water in the evening."
+            },
+            {
+              "n": "Elk",
+              "d": "Seen in the meadows of the upper canyon and Ponderosa Gorge."
+            }
+          ],
+          "sci": "Cervidae"
+        },
+        {
+          "name": "Bears & Cats",
+          "items": [
+            {
+              "n": "Black Bear",
+              "d": "Present throughout. Store food and scented gear securely."
+            },
+            {
+              "n": "Mountain Lion",
+              "d": "Elusive, but its tracks show on the sandbars."
+            },
+            {
+              "n": "Bobcat",
+              "d": "A spotted, short-tailed cat of the rocky benches."
+            },
+            {
+              "n": "Gray Fox",
+              "d": "A nighttime visitor around camp."
+            }
+          ]
+        },
+        {
+          "name": "Beaver & Otter",
+          "items": [
+            {
+              "n": "North American River Otter",
+              "d": "Reintroduced starting in 1988 and now seen again from McPhee Dam through Slick Rock Canyon."
+            },
+            {
+              "n": "Beaver",
+              "d": "Bank dens and gnawed willows are everywhere."
+            }
+          ]
+        },
+        {
+          "name": "Squirrels & Ringtails",
+          "items": [
+            {
+              "n": "Rock Squirrel",
+              "d": "A bold camp visitor."
+            },
+            {
+              "n": "Ringtail",
+              "d": "A cat-like night forager of canyon walls."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Birds",
+      "subs": [
+        {
+          "name": "Hawks & Eagles",
+          "items": [
+            {
+              "n": "Golden Eagle",
+              "d": "Nests on the cliffs and hunts the rims."
+            },
+            {
+              "n": "Bald Eagle",
+              "d": "Most often seen near open water in winter and spring."
+            },
+            {
+              "n": "Red-tailed Hawk",
+              "d": "Soars over the canyon."
+            }
+          ],
+          "sci": "Accipitridae"
+        },
+        {
+          "name": "Falcons",
+          "items": [
+            {
+              "n": "Peregrine Falcon",
+              "d": "Nests on the high walls and hunts swifts and swallows."
+            }
+          ],
+          "sci": "Falconidae"
+        },
+        {
+          "name": "Waterbirds",
+          "items": [
+            {
+              "n": "Great Blue Heron",
+              "d": "Stalks the shallows for fish."
+            },
+            {
+              "n": "Common Merganser",
+              "d": "A fish-eating duck that moves broods through the riffles."
+            },
+            {
+              "n": "Canada Goose",
+              "d": "Pairs and families on the quiet water."
+            },
+            {
+              "n": "Spotted Sandpiper",
+              "d": "Teeters along the shore."
+            },
+            {
+              "n": "Belted Kingfisher",
+              "d": "Rattles and dives from a bankside perch."
+            }
+          ]
+        },
+        {
+          "name": "Songbirds",
+          "items": [
+            {
+              "n": "American Dipper",
+              "d": "Walks the stream bottom in the creek mouths and cold side channels."
+            },
+            {
+              "n": "Canyon Wren",
+              "d": "Its descending song is the sound of the canyon."
+            },
+            {
+              "n": "White-throated Swift",
+              "d": "Streaks past the cliffs at high speed."
+            },
+            {
+              "n": "Violet-green Swallow",
+              "d": "Nests in crevices in the walls."
+            },
+            {
+              "n": "Mountain Bluebird",
+              "d": "Flashes of blue on the open benches."
+            },
+            {
+              "n": "Spotted Towhee",
+              "d": "Scratches in the leaf litter under the oaks."
+            },
+            {
+              "n": "Western Tanager",
+              "d": "A yellow-and-red bird of the pines."
+            }
+          ]
+        },
+        {
+          "name": "Ground Birds",
+          "items": [
+            {
+              "n": "Wild Turkey",
+              "d": "Roams the ponderosa benches at the top of the canyon."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reptiles",
+      "subs": [
+        {
+          "name": "Lizards",
+          "items": [
+            {
+              "n": "Eastern Collared Lizard",
+              "d": "A big, colorful lizard that sprints on its hind legs."
+            },
+            {
+              "n": "Plateau Fence Lizard",
+              "d": "Common on warm rocks."
+            }
+          ]
+        },
+        {
+          "name": "Snakes",
+          "items": [
+            {
+              "n": "Midget Faded Rattlesnake",
+              "d": "A pale rattlesnake of the sandstone; watch your hands and feet on ledges."
+            },
+            {
+              "n": "Gopher Snake",
+              "d": "A harmless constrictor that often mimics a rattler."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Fish",
+      "subs": [
+        {
+          "name": "Minnows",
+          "items": [
+            {
+              "n": "Roundtail Chub",
+              "d": "A native chub of the river's warmer reaches."
+            }
+          ],
+          "sci": "Leuciscidae"
+        },
+        {
+          "name": "Suckers",
+          "items": [
+            {
+              "n": "Flannelmouth Sucker",
+              "d": "A native sucker of the river channel."
+            },
+            {
+              "n": "Bluehead Sucker",
+              "d": "A native sucker that scrapes algae from rocks."
+            }
+          ],
+          "sci": "Catostomidae"
+        },
+        {
+          "name": "Trout",
+          "items": [
+            {
+              "n": "Brown Trout",
+              "d": "Introduced and common in the cold water below the dam.",
+              "inv": 1
+            },
+            {
+              "n": "Rainbow Trout",
+              "d": "Introduced; found with the browns below the dam.",
+              "inv": 1
+            }
+          ],
+          "sci": "Salmonidae"
+        },
+        {
+          "name": "Warm-water Fish",
+          "items": [
+            {
+              "n": "Smallmouth Bass",
+              "d": "Introduced and found in the slower, warmer water.",
+              "inv": 1
+            },
+            {
+              "n": "Channel Catfish",
+              "d": "An introduced catfish of the lower river.",
+              "inv": 1
+            },
+            {
+              "n": "Common Carp",
+              "d": "Introduced and widespread.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Plants",
+      "subs": [
+        {
+          "name": "Conifers",
+          "items": [
+            {
+              "n": "Ponderosa Pine",
+              "d": "The orange-barked pine of Ponderosa Gorge."
+            },
+            {
+              "n": "Douglas-fir",
+              "d": "On cooler slopes and side canyons."
+            },
+            {
+              "n": "Pinyon Pine",
+              "d": "On the dry rim."
+            }
+          ],
+          "sci": "Pinaceae"
+        },
+        {
+          "name": "Junipers",
+          "items": [
+            {
+              "n": "Utah Juniper",
+              "d": "Shreddy bark and blue berries, rooted in the sandstone."
+            }
+          ],
+          "sci": "Cupressaceae"
+        },
+        {
+          "name": "Riverside Trees & Shrubs",
+          "items": [
+            {
+              "n": "Narrowleaf Cottonwood",
+              "d": "Lines the river and shades camp."
+            },
+            {
+              "n": "Box Elder",
+              "d": "A maple of the side canyons and river edges."
+            },
+            {
+              "n": "Coyote Willow",
+              "d": "A thin-leaved willow that crowds the banks in low-flow years."
+            },
+            {
+              "n": "Gambel Oak",
+              "d": "Scrub oak that turns gold and red in autumn."
+            },
+            {
+              "n": "Skunkbush Sumac",
+              "d": "Lemon-scented, with red berries in late summer."
+            },
+            {
+              "n": "Serviceberry",
+              "d": "White flowers in spring and dark berries in summer."
+            },
+            {
+              "n": "Mountain Mahogany",
+              "d": "Tough rock-clinging shrub with feathery seeds."
+            }
+          ]
+        },
+        {
+          "name": "Wildflowers & Cacti",
+          "items": [
+            {
+              "n": "Banana Yucca",
+              "d": "Tall creamy blooms in late spring."
+            },
+            {
+              "n": "Scarlet Gilia",
+              "d": "Red trumpets in summer."
+            },
+            {
+              "n": "Indian Paintbrush",
+              "d": "Red and orange bracts along the trail edges."
+            },
+            {
+              "n": "Sacred Datura",
+              "d": "White evening-blooming trumpets in the sand."
+            }
+          ]
+        },
+        {
+          "name": "Invasive Plants",
+          "items": [
+            {
+              "n": "Tamarisk",
+              "d": "A saltcedar that has taken over many banks.",
+              "inv": 1
+            },
+            {
+              "n": "Russian Olive",
+              "d": "Silver leaves and thorns; it crowds out native cottonwoods.",
+              "inv": 1
+            },
+            {
+              "n": "Cheatgrass",
+              "d": "A weedy grass that dries early and increases fire risk.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "almanac": {
+    "indigenous": [
+      [
+        "Ancestral Puebloans on the Dolores",
+        "Ancestral Puebloan farmers lived in the Dolores River valley and mesas from about 600 to 1300 CE, building pit houses, pueblos and great kivas. The Dolores Archaeological Program excavated hundreds of sites before the McPhee Dam reservoir flooded the upper valley, and many of the finds are displayed at the Canyons of the Ancients Visitor Center and Museum (the former Anasazi Heritage Center) in Dolores."
+      ],
+      [
+        "Ute homeland",
+        "Ute peoples hunted and gathered along the river and the surrounding mesas for centuries. The Ute Mountain Ute Tribe is based to the south at Towaoc, and the Southern Ute Indian Tribe is in Ignacio."
+      ]
+    ],
+    "history": [
+      [
+        "River of Sorrows",
+        "The Spanish name El Río de Nuestra Señora de los Dolores, \"the River of Our Lady of Sorrows,\" goes back to the 1700s; the Domínguez–Escalante expedition camped on the river in 1776, and sources also credit the Rivera expedition of 1765 with the name."
+      ],
+      [
+        "Uranium and vanadium",
+        "The Slick Rock mining district supplied radium and vanadium early in the 20th century and uranium after the war. Old mine roads and workings still mark the benches near Slickrock."
+      ],
+      [
+        "McPhee Dam",
+        "The dam was completed in the mid-1980s and now stores most of the river for irrigation. Before that the Dolores ran free through its canyon every spring."
+      ]
+    ],
+    "geology": [
+      [
+        "Red rock and a collapsed salt valley",
+        "The Dolores River canyon is more than 40 miles long and averages about 1,100 feet deep. It exposes rock from about 300-million-year-old Pennsylvanian limestone to the Jurassic Entrada sandstone, about 140 million years old. Farther downstream, Gypsum Valley is one of the collapsed salt anticlines of the region, where salt of the Paradox Formation flowed upward, pierced the layers above it, and was later dissolved and collapsed."
+      ]
+    ],
+    "lore": [
+      [
+        "River otters return",
+        "River otters disappeared from southwest Colorado early in the 20th century; the last native otter was seen in 1973. From 1988 the BLM and Colorado wildlife officials released otters from Oregon and Alaska, and boaters now see them from below McPhee Dam through Slick Rock Canyon."
+      ]
+    ]
+  },
   "rules": [
     {
       "name": "Flows",
@@ -320,6 +738,10 @@
       "n": "Slick Rock Canyon"
     }
   ],
+  "notes": {
+    "camp": "*Camps in Slick Rock Canyon are scarce and much of the land around them is private, so plan each day around where you can legally camp. Willows can crowd the banks in low-flow years.",
+    "hike": "*Side-canyon hikes can flash flood and the canyon is remote. Carry water; the river and its tributaries are not fit to drink."
+  },
   "hdiff": {
     "1": "Short, easy walk",
     "2": "Easy trail",
@@ -470,10 +892,5 @@
         ]
       }
     ]
-  },
-  "note": "",
-  "notes": {
-    "camp": "",
-    "hike": ""
   }
 }

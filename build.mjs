@@ -2,7 +2,7 @@
 //   node build.mjs        web build  -> index.html        (GitHub Pages; includes the private Grand Canyon 2026 trip)
 //   node build.mjs app    store build -> www/index.html   (Capacitor / App Store; fictional sample trip only)
 import { build } from 'esbuild';
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const store = process.argv[2] === 'app';
@@ -79,6 +79,8 @@ ${body}
 if (store) {
   mkdirSync('www', { recursive: true });
   writeFileSync('www/index.html', html);
+  // the Basin map data is fetched at run time (data/basin/<river>.json): ship it inside the app
+  if (existsSync('data/basin')) cpSync('data/basin', 'www/data/basin', { recursive: true });
 } else {
   writeFileSync('index.html', html);
 }

@@ -1,11 +1,23 @@
 // Eddy offline support (web app only).
-// The whole app is one HTML file, so: serve the saved copy immediately (works with no signal), refresh it in the
+// The app is one HTML file (plus the Basin map data files), so: serve the saved copy immediately (works with no signal), refresh it in the
 // background, and never touch requests to other origins (sync and sign-in always go straight to the network).
-const CACHE = 'eddy-web-v2';
+const CACHE = 'eddy-web-v3';
 const PRECACHE = ['./', 'manifest.json', 'icon-180.png', 'icon-512.png'];
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(PRECACHE)).then(() => self.skipWaiting()));
+  e.waitUntil(
+    caches
+      .open(CACHE)
+      .then(async (c) => {
+        await c.addAll(PRECACHE);
+        // the Basin maps are separate files: keep them all so every river's basin works with no signal
+        try {
+          const idx = await (await fetch('data/basin/index.json')).json();
+          await c.addAll(['data/basin/index.json', ...Object.keys(idx.rivers || {}).map((id) => `data/basin/${id}.json`)]);
+        } catch {}
+      })
+      .then(() => self.skipWaiting())
+  );
 });
 self.addEventListener('activate', (e) => {
   e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim()));

@@ -1031,7 +1031,323 @@
     }
   ],
   "geology": [],
-  "guide": [],
+  "guide": [
+    {
+      "name": "Mammals",
+      "subs": [
+        {
+          "name": "Sheep",
+          "items": [
+            {
+              "n": "Bighorn Sheep",
+              "d": "Seen on the grassy slopes and coming down to the river to drink. Wild Sheep Rapid and the Wild Sheep camp are named for them."
+            }
+          ],
+          "sci": "Bovidae"
+        },
+        {
+          "name": "Deer & Elk",
+          "items": [
+            {
+              "n": "Mule Deer",
+              "d": "Common on the benches and at the water at dusk."
+            },
+            {
+              "n": "White-tailed Deer",
+              "d": "Found in the river bottoms and side canyons."
+            },
+            {
+              "n": "Elk",
+              "d": "Seen on the high benches and meadows."
+            }
+          ],
+          "sci": "Cervidae"
+        },
+        {
+          "name": "Bears & Cats",
+          "items": [
+            {
+              "n": "Black Bear",
+              "d": "Present throughout; store food and scented gear securely."
+            },
+            {
+              "n": "Mountain Lion",
+              "d": "Elusive, but its tracks show on the sandbars."
+            },
+            {
+              "n": "Bobcat",
+              "d": "A shy cat of the rocky slopes."
+            },
+            {
+              "n": "Coyote",
+              "d": "Calls at night from the benches."
+            }
+          ]
+        },
+        {
+          "name": "Small Mammals",
+          "items": [
+            {
+              "n": "Beaver",
+              "d": "Gnawed hawthorn and bank dens."
+            },
+            {
+              "n": "River Otter",
+              "d": "An occasional sight in the eddies."
+            },
+            {
+              "n": "Yellow-bellied Marmot",
+              "d": "Whistles from rock piles."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Birds",
+      "subs": [
+        {
+          "name": "Hawks & Eagles",
+          "items": [
+            {
+              "n": "Bald Eagle",
+              "d": "Hunts the river, especially in winter."
+            },
+            {
+              "n": "Golden Eagle",
+              "d": "Nests on the cliffs."
+            },
+            {
+              "n": "Osprey",
+              "d": "Dives for fish along the river."
+            },
+            {
+              "n": "Red-tailed Hawk",
+              "d": "Soars above the canyon."
+            }
+          ],
+          "sci": "Accipitridae"
+        },
+        {
+          "name": "Falcons",
+          "items": [
+            {
+              "n": "Peregrine Falcon",
+              "d": "Nests on the high walls."
+            }
+          ],
+          "sci": "Falconidae"
+        },
+        {
+          "name": "Waterbirds",
+          "items": [
+            {
+              "n": "Great Blue Heron",
+              "d": "Stands in the shallows."
+            },
+            {
+              "n": "Canada Goose",
+              "d": "Nests on gravel bars."
+            },
+            {
+              "n": "Common Merganser",
+              "d": "A fish-eating duck."
+            },
+            {
+              "n": "Belted Kingfisher",
+              "d": "Rattles along the bank."
+            }
+          ]
+        },
+        {
+          "name": "Songbirds",
+          "items": [
+            {
+              "n": "Canyon Wren",
+              "d": "A falling song off the cliffs."
+            },
+            {
+              "n": "White-throated Swift",
+              "d": "Streaks past the walls."
+            },
+            {
+              "n": "Lazuli Bunting",
+              "d": "A bright blue bird of the brushy hillsides."
+            },
+            {
+              "n": "Yellow-breasted Chat",
+              "d": "A loud, odd singer in the streamside thickets."
+            }
+          ]
+        },
+        {
+          "name": "Upland Birds",
+          "items": [
+            {
+              "n": "Chukar",
+              "d": "An introduced partridge heard calling on the rocky slopes.",
+              "inv": 1
+            },
+            {
+              "n": "California Quail",
+              "d": "An introduced quail often heard near camps.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reptiles",
+      "subs": [
+        {
+          "name": "Lizards & Snakes",
+          "items": [
+            {
+              "n": "Western Fence Lizard",
+              "d": "Common on warm rocks."
+            },
+            {
+              "n": "Northern Pacific Rattlesnake",
+              "d": "A rattlesnake of rocky slopes and camps. Watch where you put your hands and feet."
+            },
+            {
+              "n": "Gopher Snake",
+              "d": "A harmless constrictor."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Fish",
+      "subs": [
+        {
+          "name": "Salmon & Trout",
+          "items": [
+            {
+              "n": "Fall Chinook Salmon",
+              "d": "Spawn in the gravel in the reach below Hells Canyon Dam."
+            },
+            {
+              "n": "Steelhead",
+              "d": "Sea-run rainbow trout that migrate up the river."
+            },
+            {
+              "n": "Bull Trout",
+              "d": "A protected native char of cold streams."
+            },
+            {
+              "n": "Redband Trout",
+              "d": "A native trout of the tributaries."
+            }
+          ],
+          "sci": "Salmonidae"
+        },
+        {
+          "name": "Sturgeon",
+          "items": [
+            {
+              "n": "White Sturgeon",
+              "d": "An ancient giant of the deep pools, caught and released."
+            }
+          ],
+          "sci": "Acipenseridae"
+        },
+        {
+          "name": "Introduced Fish",
+          "items": [
+            {
+              "n": "Smallmouth Bass",
+              "d": "An introduced predator.",
+              "inv": 1
+            },
+            {
+              "n": "Channel Catfish",
+              "d": "An introduced catfish.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Plants",
+      "subs": [
+        {
+          "name": "Trees",
+          "items": [
+            {
+              "n": "Ponderosa Pine",
+              "d": "On the upper slopes of the canyon."
+            },
+            {
+              "n": "Douglas-fir",
+              "d": "On cool north-facing slopes."
+            },
+            {
+              "n": "Black Cottonwood",
+              "d": "Lines the river and shades camps."
+            },
+            {
+              "n": "Water Birch",
+              "d": "Dark, shiny bark along the creek mouths."
+            }
+          ]
+        },
+        {
+          "name": "Shrubs",
+          "items": [
+            {
+              "n": "Syringa",
+              "d": "Mock orange, with fragrant white flowers in early summer."
+            },
+            {
+              "n": "Hawthorn",
+              "d": "Thorny and berry-laden along the creeks."
+            },
+            {
+              "n": "Poison Ivy",
+              "d": "Common along the shore and at camp edges. Learn to recognize it."
+            }
+          ]
+        },
+        {
+          "name": "Grasses & Wildflowers",
+          "items": [
+            {
+              "n": "Bluebunch Wheatgrass",
+              "d": "The native bunchgrass of the canyon slopes."
+            },
+            {
+              "n": "Arrowleaf Balsamroot",
+              "d": "Yellow sunflowers that carpet the slopes in spring."
+            }
+          ]
+        },
+        {
+          "name": "Invasive Plants",
+          "items": [
+            {
+              "n": "Yellow Starthistle",
+              "d": "A spiny yellow thistle that spreads along trails and camps.",
+              "inv": 1
+            },
+            {
+              "n": "Cheatgrass",
+              "d": "A weedy grass that dries early and fuels fires.",
+              "inv": 1
+            },
+            {
+              "n": "Rush Skeletonweed",
+              "d": "A wiry weed of dry slopes.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "almanac": {
     "history": [
       [
@@ -1049,12 +1365,38 @@
       [
         "Wild and Scenic",
         "The river was designated Wild and Scenic in 1975. A 1954 proposal for a dam at Pleasant Valley was blocked by that protection."
+      ],
+      [
+        "The dam complex",
+        "Idaho Power built Brownlee, Oxbow and Hells Canyon dams between 1959 and 1967. Hells Canyon Dam is the last, and its releases set the flow for the whole trip."
+      ],
+      [
+        "A protected canyon",
+        "The river and canyon were protected in 1975 as a Wild and Scenic River and the Hells Canyon National Recreation Area, which covers about 215,000 acres. Much of it cannot be reached by road."
       ]
     ],
     "flows": [
       [
         "Flows",
         "Releases are controlled at the dam. Granite Rapid was \"juicing\" near 20,000 cfs and ran fine at 14,000 to 15,000. Waterspout has options above 14,000 cfs. Check Idaho Power's flow line at 800-422-3143."
+      ]
+    ],
+    "indigenous": [
+      [
+        "Nez Perce homeland",
+        "Hells Canyon is part of the homeland of the Nez Perce (Nimiipuu), who have lived here since time immemorial. Pictographs and pit-house depressions along the river mark their long presence, and the 1877 crossing near Dug Bar belongs to Nez Perce history too. Look but do not touch, and treat each site as part of a living culture."
+      ]
+    ],
+    "geology": [
+      [
+        "Island arcs and basalt",
+        "The Seven Devils Mountains rising above the Idaho side are the remains of a volcanic island arc, the Wallowa–Seven Devils terrane, which formed from the Pennsylvanian to the Jurassic out in the Pacific and was later pushed against North America. Millions of years later, Miocene Columbia River basalt flows buried those mountains and the neighboring Blue Mountains. The Snake River then cut through the plateau of basalt and deep into the old mountains, making what is often called the deepest river gorge in North America."
+      ]
+    ],
+    "lore": [
+      [
+        "Big fish and big sheep",
+        "The canyon is known for its bighorn sheep, which come down to the river to drink and graze, and for large fish. White sturgeon live in the river, and fall chinook salmon spawn in the reach below the dam."
       ]
     ]
   },
@@ -1273,8 +1615,8 @@
     }
   ],
   "notes": {
-    "camp": "",
-    "hike": ""
+    "camp": "*Many beaches have steep or rocky landings that need a rope, and eddies can disappear at high flows. Rattlesnakes, poison ivy and ticks are common around camps, so check clothing and gear.",
+    "hike": "*Trails are steep, exposed and hot in summer, with rattlesnakes and poison ivy. Look at pictographs, pit houses and historic cabins but never touch or take anything."
   },
   "hdiff": {
     "1": "Short, easy walk",

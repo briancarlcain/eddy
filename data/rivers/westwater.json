@@ -13,6 +13,7 @@
     -109.1
   ],
   "tz": "America/Denver",
+  "note": "",
   "camps": [
     {
       "name": "Westwater campground",
@@ -150,7 +151,7 @@
       "civ": false,
       "diff": 5,
       "tier": "Class III",
-      "desc": ""
+      "desc": "Reported line: run left of center."
     },
     {
       "name": "Big Hummer Rapids",
@@ -158,7 +159,7 @@
       "civ": false,
       "diff": 5,
       "tier": "Class III",
-      "desc": ""
+      "desc": "Reported line: run right of center."
     },
     {
       "name": "Funnel Falls",
@@ -190,7 +191,7 @@
       "civ": false,
       "diff": 5,
       "tier": "Class III",
-      "desc": ""
+      "desc": "A wave train. Follow it down the middle."
     },
     {
       "name": "Sock It To Me",
@@ -257,7 +258,333 @@
     }
   ],
   "geology": [],
-  "guide": [],
+  "guide": [
+    {
+      "name": "Mammals",
+      "subs": [
+        {
+          "name": "Sheep",
+          "items": [
+            {
+              "n": "Desert Bighorn Sheep",
+              "d": "Scan the ledges and the schist walls; they often come down to drink."
+            }
+          ],
+          "sci": "Bovidae"
+        },
+        {
+          "name": "Deer",
+          "items": [
+            {
+              "n": "Mule Deer",
+              "d": "Common in the side canyons and along the river at dusk."
+            }
+          ],
+          "sci": "Cervidae"
+        },
+        {
+          "name": "Beaver & Otter",
+          "items": [
+            {
+              "n": "Beaver",
+              "d": "Gnawed willows and bank dens are common."
+            }
+          ]
+        },
+        {
+          "name": "Cats & Dogs",
+          "items": [
+            {
+              "n": "Coyote",
+              "d": "Calls from the benches at night."
+            },
+            {
+              "n": "Bobcat",
+              "d": "A shy cat of the rocky ledges."
+            }
+          ]
+        },
+        {
+          "name": "Small Mammals",
+          "items": [
+            {
+              "n": "Ringtail",
+              "d": "A cat-like night forager around camps."
+            },
+            {
+              "n": "Rock Squirrel",
+              "d": "A bold visitor around the kitchen."
+            },
+            {
+              "n": "Desert Cottontail",
+              "d": "Comes out at dusk."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Birds",
+      "subs": [
+        {
+          "name": "Hawks & Eagles",
+          "items": [
+            {
+              "n": "Golden Eagle",
+              "d": "Nests on the cliffs."
+            },
+            {
+              "n": "Bald Eagle",
+              "d": "A winter visitor along the river."
+            },
+            {
+              "n": "Red-tailed Hawk",
+              "d": "A common soaring hawk."
+            }
+          ],
+          "sci": "Accipitridae"
+        },
+        {
+          "name": "Falcons",
+          "items": [
+            {
+              "n": "Peregrine Falcon",
+              "d": "Nests on the high walls."
+            }
+          ],
+          "sci": "Falconidae"
+        },
+        {
+          "name": "Waterbirds",
+          "items": [
+            {
+              "n": "Great Blue Heron",
+              "d": "Stalks the shallows and eddies."
+            },
+            {
+              "n": "Canada Goose",
+              "d": "Pairs on the quiet stretches."
+            },
+            {
+              "n": "Common Merganser",
+              "d": "A fish-eating duck of the swift water."
+            },
+            {
+              "n": "Spotted Sandpiper",
+              "d": "Bobs along the shore."
+            }
+          ]
+        },
+        {
+          "name": "Songbirds",
+          "items": [
+            {
+              "n": "Canyon Wren",
+              "d": "A falling song on the canyon walls."
+            },
+            {
+              "n": "White-throated Swift",
+              "d": "Streaks along the cliffs."
+            },
+            {
+              "n": "Say's Phoebe",
+              "d": "Hunts insects from low perches."
+            },
+            {
+              "n": "Black-throated Sparrow",
+              "d": "Sings from the shrubs on the benches."
+            },
+            {
+              "n": "Common Raven",
+              "d": "A wary camp scavenger."
+            }
+          ]
+        },
+        {
+          "name": "Upland Birds",
+          "items": [
+            {
+              "n": "Chukar",
+              "d": "A partridge from Asia, heard calling on the rocky slopes.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reptiles",
+      "subs": [
+        {
+          "name": "Lizards",
+          "items": [
+            {
+              "n": "Eastern Collared Lizard",
+              "d": "A big, bright lizard that sprints on its hind legs."
+            },
+            {
+              "n": "Western Whiptail",
+              "d": "A fast, striped lizard of the benches."
+            },
+            {
+              "n": "Plateau Fence Lizard",
+              "d": "Common on warm rocks."
+            }
+          ]
+        },
+        {
+          "name": "Snakes",
+          "items": [
+            {
+              "n": "Midget Faded Rattlesnake",
+              "d": "A pale venomous snake of the sandstone; watch where you put your hands."
+            },
+            {
+              "n": "Gopher Snake",
+              "d": "A harmless constrictor often mistaken for a rattler."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Fish",
+      "subs": [
+        {
+          "name": "Suckers",
+          "items": [
+            {
+              "n": "Flannelmouth Sucker",
+              "d": "A native of the Colorado River channel."
+            },
+            {
+              "n": "Bluehead Sucker",
+              "d": "A native that grazes algae off rocks."
+            }
+          ],
+          "sci": "Catostomidae"
+        },
+        {
+          "name": "Minnows",
+          "items": [
+            {
+              "n": "Roundtail Chub",
+              "d": "A native chub of the river's warmer reaches."
+            },
+            {
+              "n": "Speckled Dace",
+              "d": "A small native of the riffles."
+            }
+          ],
+          "sci": "Leuciscidae"
+        },
+        {
+          "name": "Introduced Fish",
+          "items": [
+            {
+              "n": "Channel Catfish",
+              "d": "A whiskered introduced catfish.",
+              "inv": 1
+            },
+            {
+              "n": "Smallmouth Bass",
+              "d": "An introduced predator of the quieter water.",
+              "inv": 1
+            },
+            {
+              "n": "Common Carp",
+              "d": "Introduced and widespread.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Plants",
+      "subs": [
+        {
+          "name": "Riverside Trees & Shrubs",
+          "items": [
+            {
+              "n": "Fremont Cottonwood",
+              "d": "The big cottonwood of the banks."
+            },
+            {
+              "n": "Coyote Willow",
+              "d": "A thin-leaved willow along the edge."
+            },
+            {
+              "n": "Netleaf Hackberry",
+              "d": "A scrubby tree of side canyons."
+            }
+          ]
+        },
+        {
+          "name": "Junipers & Pines",
+          "items": [
+            {
+              "n": "Utah Juniper",
+              "d": "Shreddy bark and blue berries on the rim."
+            },
+            {
+              "n": "Pinyon Pine",
+              "d": "On the dry benches above the river."
+            }
+          ]
+        },
+        {
+          "name": "Desert Plants",
+          "items": [
+            {
+              "n": "Mormon Tea",
+              "d": "A jointed, leafless shrub."
+            },
+            {
+              "n": "Cliffrose",
+              "d": "Fragrant white flowers in spring."
+            },
+            {
+              "n": "Prickly Pear",
+              "d": "Pads and yellow flowers in late spring."
+            },
+            {
+              "n": "Claret Cup Cactus",
+              "d": "Scarlet blooms in spring."
+            },
+            {
+              "n": "Indian Ricegrass",
+              "d": "A graceful desert bunchgrass."
+            },
+            {
+              "n": "Banana Yucca",
+              "d": "Tall creamy blooms in late spring."
+            }
+          ]
+        },
+        {
+          "name": "Invasive Plants",
+          "items": [
+            {
+              "n": "Tamarisk",
+              "d": "A saltcedar that dominates many banks.",
+              "inv": 1
+            },
+            {
+              "n": "Russian Olive",
+              "d": "Silver leaves and thorns; it crowds out native cottonwoods.",
+              "inv": 1
+            },
+            {
+              "n": "Cheatgrass",
+              "d": "A weedy grass that dries early.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "almanac": {
     "flows": [
       [
@@ -277,6 +604,26 @@
       [
         "Vishnu Schist",
         "The canyon is cut through 1.7-billion-year-old Vishnu Schist, rock that also appears in Ruby-Horsethief and the Grand Canyon."
+      ]
+    ],
+    "indigenous": [
+      [
+        "Rock art at Little Hole",
+        "Petroglyphs near Little Hole record a long human presence in the canyon, in country long used by the Ute people and by earlier groups before them. Look, photograph and leave the panels untouched."
+      ]
+    ],
+    "history": [
+      [
+        "Cisco",
+        "Cisco began in the 1880s as a saloon and water stop on the Denver and Rio Grande Western Railroad. Over 100,000 sheep were sheared there around the turn of the 20th century before shipping to market. Oil and gas were found in 1924, but the town declined with the end of steam locomotives and was bypassed by Interstate 70. Its ruins were used for scenes in the 1971 film Vanishing Point."
+      ],
+      [
+        "The Old Spanish Trail",
+        "The Westwater valley and Cisco were stops for water, wood and grass along the North Branch of the Old Spanish Trail before the railroad came."
+      ],
+      [
+        "Outlaw Cave",
+        "Stories tell of two outlaw brothers who lived in the cave above the river and left artifacts behind. Do not touch or take anything from the site."
       ]
     ]
   },
@@ -410,6 +757,10 @@
       "n": "Main gorge"
     }
   ],
+  "notes": {
+    "camp": "*The ranger assigns your single overnight camp when you check in. Side-canyon camps can flood in a storm, so camp on high ground.",
+    "hike": "*Ferry carefully to reach hikes across the river, and tie up boats well. Look at petroglyphs and historic sites but never touch them."
+  },
   "hdiff": {
     "1": "Short, easy walk",
     "2": "Easy trail",
@@ -543,10 +894,5 @@
         ]
       }
     ]
-  },
-  "note": "",
-  "notes": {
-    "camp": "",
-    "hike": ""
   }
 }

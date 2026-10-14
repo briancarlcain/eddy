@@ -471,7 +471,7 @@
       "civ": false,
       "diff": 3,
       "tier": "Class II",
-      "desc": ""
+      "desc": "Class II. Listed as read and run."
     },
     {
       "name": "Cedar Ridge Rapid",
@@ -655,7 +655,7 @@
       "civ": false,
       "diff": 5,
       "tier": "Class III",
-      "desc": "Scouting recommended. Run left of the main features, then move right near the bottom."
+      "desc": "Scouting recommended. Run left of the main features, then move right near the bottom. Many boaters consider it the hardest rapid in Desolation and Gray Canyons. Scout from the right, several hundred yards upstream."
     },
     {
       "name": "Florence Creek Rapid",
@@ -671,7 +671,7 @@
       "civ": false,
       "diff": 5,
       "tier": "Class III",
-      "desc": "Right or left at high water; left at medium to low."
+      "desc": "Right or left at high water; left at medium to low. Avoid the large rocks in the center. Scout from the Wire Fence camps on river right."
     },
     {
       "name": "Three Fords Rapid",
@@ -679,7 +679,7 @@
       "civ": false,
       "diff": 5,
       "tier": "Class III",
-      "desc": "Take the right channel for a fun wave train. Optional right-bank scout. A possible undercut wall on the right."
+      "desc": "Take the right channel for a fun wave train. Optional right-bank scout. A possible undercut wall on the right. Harder at lower water."
     },
     {
       "name": "Range Creek Rapid",
@@ -719,7 +719,7 @@
       "civ": false,
       "diff": 5,
       "tier": "Class III",
-      "desc": "Run right of center: left of the \"thunderous\" feature at the top and right of the large rock below."
+      "desc": "Run right of center: left of the \"thunderous\" feature at the top and right of the large rock below. A hole a couple of hundred feet down has flipped boats. Easier at high water and rockier at low water."
     },
     {
       "name": "Poverty Rapid",
@@ -887,8 +887,370 @@
       "desc": "A panel at the petroglyph parking. Watch for poison ivy and do not touch."
     }
   ],
-  "geology": [],
-  "guide": [],
+  "geology": [
+    {
+      "s": 0,
+      "e": 59.3,
+      "n": "Wasatch & Green River",
+      "full": "Wasatch and Green River formations",
+      "era": "Eocene",
+      "age": "roughly 56 to 34 million years ago",
+      "c": "#b0764a",
+      "d": "Through Desolation Canyon the walls are Eocene rock of the Uinta Basin: mainly the Wasatch Formation, with the Green River Formation, the old lake beds of Lake Uinta, in the southern end of the canyon. The beds dip gently, so the river cuts down through them and the rock gets older as you go downstream. A thin band of Paleocene rock lies at the base."
+    },
+    {
+      "s": 59.3,
+      "e": 84.1,
+      "n": "Mesaverde Group",
+      "full": "Mesaverde Group",
+      "era": "Late Cretaceous",
+      "age": "roughly 80 to 70 million years ago",
+      "c": "#8a8270",
+      "d": "Below the K-T boundary the river enters Gray Canyon and the gray Cretaceous sandstones and shales of the Mesaverde Group, the coal-bearing rock of the Book Cliffs. Powell named Gray Canyon for these pale exposures, and the Blackhawk Formation is the principal coal-bearing unit of the region."
+    }
+  ],
+  "guide": [
+    {
+      "name": "Mammals",
+      "subs": [
+        {
+          "name": "Sheep",
+          "items": [
+            {
+              "n": "Desert Bighorn Sheep",
+              "d": "Often seen on the cliffs and ledges, especially in the early morning."
+            }
+          ],
+          "sci": "Bovidae"
+        },
+        {
+          "name": "Deer & Elk",
+          "items": [
+            {
+              "n": "Mule Deer",
+              "d": "Common along the river and in the side canyons."
+            },
+            {
+              "n": "Elk",
+              "d": "Seen on the high benches and sometimes at the river."
+            }
+          ],
+          "sci": "Cervidae"
+        },
+        {
+          "name": "Bears & Cats",
+          "items": [
+            {
+              "n": "Black Bear",
+              "d": "Active around camps; store food and scented gear in bear-proof containers."
+            },
+            {
+              "n": "Mountain Lion",
+              "d": "Elusive, but its tracks show on the sandbars."
+            },
+            {
+              "n": "Bobcat",
+              "d": "A shy cat of the rocky ledges."
+            },
+            {
+              "n": "Coyote",
+              "d": "Calls from the benches at night."
+            }
+          ]
+        },
+        {
+          "name": "Beaver & Otter",
+          "items": [
+            {
+              "n": "Beaver",
+              "d": "Bank dens and gnawed willows are common."
+            },
+            {
+              "n": "North American River Otter",
+              "d": "Seen in the quieter stretches."
+            }
+          ]
+        },
+        {
+          "name": "Small Mammals",
+          "items": [
+            {
+              "n": "Ringtail",
+              "d": "A cat-like night forager."
+            },
+            {
+              "n": "Rock Squirrel",
+              "d": "A bold visitor around camp kitchens."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Birds",
+      "subs": [
+        {
+          "name": "Hawks & Eagles",
+          "items": [
+            {
+              "n": "Golden Eagle",
+              "d": "Nests on the cliffs."
+            },
+            {
+              "n": "Bald Eagle",
+              "d": "A frequent sight in winter and spring."
+            },
+            {
+              "n": "Osprey",
+              "d": "Dives for fish in summer."
+            },
+            {
+              "n": "Red-tailed Hawk",
+              "d": "A common soaring hawk."
+            }
+          ],
+          "sci": "Accipitridae"
+        },
+        {
+          "name": "Falcons",
+          "items": [
+            {
+              "n": "Peregrine Falcon",
+              "d": "Nests on the high walls."
+            }
+          ],
+          "sci": "Falconidae"
+        },
+        {
+          "name": "Waterbirds",
+          "items": [
+            {
+              "n": "Great Blue Heron",
+              "d": "Stands in the shallows and eddies."
+            },
+            {
+              "n": "Canada Goose",
+              "d": "Nests on gravel bars."
+            },
+            {
+              "n": "Common Merganser",
+              "d": "A fish-eating duck."
+            },
+            {
+              "n": "Belted Kingfisher",
+              "d": "Rattles along the bank."
+            }
+          ]
+        },
+        {
+          "name": "Songbirds",
+          "items": [
+            {
+              "n": "Canyon Wren",
+              "d": "A falling song that rings off the walls."
+            },
+            {
+              "n": "White-throated Swift",
+              "d": "Streaks past the cliffs."
+            },
+            {
+              "n": "Violet-green Swallow",
+              "d": "Nests in crevices."
+            },
+            {
+              "n": "Common Raven",
+              "d": "A wary camp scavenger."
+            }
+          ]
+        },
+        {
+          "name": "Upland Birds",
+          "items": [
+            {
+              "n": "Chukar",
+              "d": "Heard calling on the rocky slopes.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reptiles",
+      "subs": [
+        {
+          "name": "Lizards & Snakes",
+          "items": [
+            {
+              "n": "Eastern Collared Lizard",
+              "d": "A large, bright lizard that runs on its hind legs."
+            },
+            {
+              "n": "Plateau Fence Lizard",
+              "d": "Common on warm rocks."
+            },
+            {
+              "n": "Midget Faded Rattlesnake",
+              "d": "A pale rattlesnake of the rocky ledges. Watch where you put your hands and feet."
+            },
+            {
+              "n": "Gopher Snake",
+              "d": "A harmless constrictor."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Fish",
+      "subs": [
+        {
+          "name": "Native Fish",
+          "items": [
+            {
+              "n": "Colorado Pikeminnow",
+              "d": "A large native predator and protected species of the Green River."
+            },
+            {
+              "n": "Humpback Chub",
+              "d": "A protected native fish with a distinct hump."
+            },
+            {
+              "n": "Roundtail Chub",
+              "d": "A native chub."
+            }
+          ],
+          "sci": "Cyprinidae"
+        },
+        {
+          "name": "Suckers",
+          "items": [
+            {
+              "n": "Flannelmouth Sucker",
+              "d": "A native of the main channel."
+            },
+            {
+              "n": "Bluehead Sucker",
+              "d": "A native that scrapes algae from rocks."
+            },
+            {
+              "n": "Razorback Sucker",
+              "d": "A protected native with a sharp keel behind its head."
+            }
+          ],
+          "sci": "Catostomidae"
+        },
+        {
+          "name": "Introduced Fish",
+          "items": [
+            {
+              "n": "Channel Catfish",
+              "d": "An introduced catfish.",
+              "inv": 1
+            },
+            {
+              "n": "Smallmouth Bass",
+              "d": "An introduced predator.",
+              "inv": 1
+            },
+            {
+              "n": "Common Carp",
+              "d": "Introduced and widespread.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Plants",
+      "subs": [
+        {
+          "name": "Riverside Trees & Shrubs",
+          "items": [
+            {
+              "n": "Fremont Cottonwood",
+              "d": "The big shade tree of the camps."
+            },
+            {
+              "n": "Coyote Willow",
+              "d": "A thin-leaved willow that crowds the bars."
+            },
+            {
+              "n": "Box Elder",
+              "d": "A maple of the side canyons."
+            },
+            {
+              "n": "Netleaf Hackberry",
+              "d": "Found in side canyons and on talus."
+            }
+          ]
+        },
+        {
+          "name": "Junipers & Pines",
+          "items": [
+            {
+              "n": "Utah Juniper",
+              "d": "Shreddy bark and blue berries on the rim."
+            },
+            {
+              "n": "Pinyon Pine",
+              "d": "On the high benches."
+            },
+            {
+              "n": "Douglas-fir",
+              "d": "In cool alcoves high on the plateau."
+            }
+          ]
+        },
+        {
+          "name": "Shrubs & Wildflowers",
+          "items": [
+            {
+              "n": "Big Sagebrush",
+              "d": "Dominates the benches."
+            },
+            {
+              "n": "Rabbitbrush",
+              "d": "Yellow flowers in late summer."
+            },
+            {
+              "n": "Cliffrose",
+              "d": "Fragrant white flowers in spring."
+            },
+            {
+              "n": "Indian Paintbrush",
+              "d": "Red and orange bracts."
+            },
+            {
+              "n": "Scarlet Globemallow",
+              "d": "Orange flowers along the washes."
+            }
+          ]
+        },
+        {
+          "name": "Invasive Plants",
+          "items": [
+            {
+              "n": "Tamarisk",
+              "d": "A saltcedar that crowds the banks.",
+              "inv": 1
+            },
+            {
+              "n": "Russian Olive",
+              "d": "Silver leaves and thorns.",
+              "inv": 1
+            },
+            {
+              "n": "Cheatgrass",
+              "d": "A weedy grass that dries early and fuels fires.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "almanac": {
     "history": [
       [
@@ -902,6 +1264,36 @@
       [
         "Dam surveyors",
         "A cabin in Gray Canyon was used by dam surveyors in 1911."
+      ],
+      [
+        "Powell names the canyons",
+        "In 1869 John Wesley Powell’s expedition passed through what he called a region of wildest desolation, and gave Desolation Canyon its name. Gray Canyon was named for the pale shale and sandstone exposures in its walls."
+      ],
+      [
+        "A river little changed",
+        "The Green River through Desolation and Gray Canyons is a National Historic Landmark, recognized as one of the least changed of the corridors associated with Powell’s explorations. Sixty-six of the river’s 84 miles lie within the Desolation Canyon Wilderness Study Area."
+      ],
+      [
+        "Ranchers and outlaws",
+        "Trappers, homesteaders and outlaws used the canyon in the late 1800s. Curry Canyon is named for Flat Nose George Curry of the Wild Bunch, and ranches such as McPherson’s and Rock Creek still stand along the river."
+      ]
+    ],
+    "indigenous": [
+      [
+        "Ute land",
+        "The Ute Indian Tribe’s Uintah and Ouray Reservation borders the east (river-left) side of the Green River from above Sand Wash to Coal Creek Canyon. Land on that bank is tribal land and not open to visitors unless the tribe allows it, as at the Steer Ridge scout parking. Please respect the boundary."
+      ]
+    ],
+    "geology": [
+      [
+        "From lake beds to coal",
+        "Desolation Canyon cuts down through Eocene rock of the Uinta Basin, the Wasatch and Green River formations. At the end of Desolation, near mile 59, the river passes the K-T boundary, the layer that marks the end of the dinosaurs, and enters Gray Canyon, where Cretaceous coal-bearing rock of the Mesaverde Group forms the walls."
+      ]
+    ],
+    "lore": [
+      [
+        "Wildlife of the wild canyon",
+        "BLM lists desert bighorn sheep, elk, deer, black bear and mountain lions among the canyon’s wildlife. Much of the river corridor remains wild, and bears are active around camps."
       ]
     ]
   },
@@ -1088,8 +1480,8 @@
     }
   ],
   "notes": {
-    "camp": "",
-    "hike": ""
+    "camp": "*Camps are on a first-come basis and many are large, but popular sites fill on peak dates. Willows and bugs are heavy at some bars. Camp above flash-flood washes and do not camp at Rock Creek Ranch or near the mouth of Rock Creek.",
+    "hike": "*Petroglyph and ruin sites are fragile and often sacred: look and photograph, but never touch, trace, or move anything. Side canyons flash flood and the heat is severe in summer."
   },
   "hdiff": {
     "1": "Short, easy walk",
