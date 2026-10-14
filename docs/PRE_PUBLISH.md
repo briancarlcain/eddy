@@ -27,14 +27,9 @@ human pass before the app is public. Tick these off as you go:
   the Big Drop 2 and 3 scouting lines, Hite Marina, the Kolb inscription, Little Niagara, and the four flow bands. River
   Brain's "16 ft/mi" gradient was not used: it looks like the whole 248 ft drop divided by the 15 miles of rapids. The
   app shows 2.6 ft/mi averaged over the run and 18 ft/mi for the steepest 5 miles (the Big Drops).
-- [ ] **Grand Canyon camp GPS positions** (`data/geo/coords/grand-canyon.json`, from the Master Camp Data tab of the Sun Chaser
-  spreadsheet): 270 of 272 camps use them for pins and for "sun in camp" times. They are USGS campsite-polygon interior
-  points, not field checks. 13 camps between miles 229 and 280 (Lake Mead reach) are only approximate USGS river-mile
-  points. "51.5 Mile Camp (?)" and "Across from Pipe Creek Camp" have no position and stay placed by river mile. Nine camps
-  have GPS on the opposite bank from their `bank` field (Upper Saddle, Tanner, Below Tanner Rapid, Stairway Canyon, Just
-  Above Lava, 190.2 Mile, 259 Mile, 274 Mile, 279 Mile): check which is right. The Pearce Ferry access point is mile 280.5
-  but sits about 4.4 km from the sheet's mile 280. The spreadsheet's author has okayed using its data; decide how to credit them (the source entry in data/sources.json is not
-  `confirmed`, so it is not shown in About yet).
+- [ ] **Grand Canyon camp GPS** (`data/geo/coords/grand-canyon.json`): USGS positions, not field-checked. 13 in the Lake Mead reach
+  are approximate, 9 camps are on the opposite bank from their `bank` field, and Pearce Ferry (mile 280.5) is 4.4 km from
+  the sheet's mile 280.
 - [ ] **Rapids, camps, hikes, landmarks and access points** on every river, and each river's **permit and rules** text
   (agencies change these without notice).
 - [ ] **Species guides and almanac entries**, especially the Indigenous homeland entries (docs/CONTENT_REVIEW.md).
