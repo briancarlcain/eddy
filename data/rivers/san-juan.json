@@ -1583,5 +1583,30 @@
         ]
       }
     ]
+  },
+  "stats": {
+    "class": "I to II, with Class III Government Rapids",
+    "season": "Year-round. Launches from April 15 to July 15 go by lottery.",
+    "elev": [
+      4300,
+      3700
+    ],
+    "gradient": 7.1,
+    "steep": {
+      "gradient": 17,
+      "from": 56.2,
+      "miles": 5
+    },
+    "flow": {
+      "min": 500,
+      "max": 8000,
+      "note": "American Whitewater lists 500 to 8,000 cfs. Navajo Dam usually keeps enough water in the river all year. Late in the trip the current dies as Lake Powell sediment fills the channel."
+    },
+    "gauges": [
+      {
+        "name": "San Juan River near Bluff, UT",
+        "id": "09379500"
+      }
+    ]
   }
 }

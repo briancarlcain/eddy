@@ -1076,5 +1076,29 @@
         ]
       }
     ]
+  },
+  "stats": {
+    "class": "III to IV",
+    "season": "Late winter to spring, on snowmelt and storms. The permit lottery runs March 1 to May 15.",
+    "elev": [
+      3350,
+      2200
+    ],
+    "gradient": 21,
+    "steep": {
+      "gradient": 36,
+      "from": 28.1,
+      "miles": 5
+    },
+    "flow": {
+      "min": 1200,
+      "note": "Rafts carrying gear want at least 1,200 cfs. Kayaks and packrafts are still fun down to about 400. The river is flashy and can reach flood stage within hours, and about 650 cfs was too high to run one rapid for a small packraft party."
+    },
+    "gauges": [
+      {
+        "name": "Salt River near Chrysotile, AZ",
+        "id": "09497500"
+      }
+    ]
   }
 }

@@ -10,7 +10,8 @@ Cataract, Westwater, Ruby-Horsethief, Black Canyon, San Juan, Dolores, Rio Chama
 Salt, Illinois, Tuolumne and South Fork American. Each has rapids, camps, access
 points, rules, a regional species guide and almanac (history, Indigenous
 homeland notes, geology, flows). Camp sizes and ratings, and some hike times, are
-still blank where no source gave them.
+still blank where no source gave them. Each river also has an Overview tab (class, season, elevation, gradient,
+recommended flow, gauges).
 
 Add or edit rivers in **River -> Rivers** (form editor, or paste/import river
 JSON; "Copy JSON" exports one). Rivers you add or edit are stored with your
@@ -47,8 +48,27 @@ trips (localStorage, and the shared db when available).
 sunrise/sunset), `tz`, `days` (typical trip length), `access[]` (put-ins,
 take-outs, hubs: `{name, mile?, road?, hub?, park?, note?}`), and optional
 `rapids[]`, `camps[]`, `hikes[]`, `geology[]`, `guide[]`, `almanac{}`, `rules[]`,
-`landmarks[]`, `clusters[]`, `notes{camp,hike}`, `hdiff{}`, `roads[]`. See
+`landmarks[]`, `clusters[]`, `notes{camp,hike}`, `hdiff{}`, `roads[]`, `stats{}`. See
 `data/rivers/grand-canyon.json`. Missing fields are filled in by `normalizeRiver`.
+
+`stats` feeds the River > Overview tab, and every field is optional:
+
+    stats: {
+      class: 'III to IV',                 // published reach rating
+      season: 'Year-round. Runoff peaks May to June.',
+      elev: [3950, 3700],                 // put-in, take-out, feet
+      gradient: 2.6,                      // average ft/mi
+      steep: { gradient: 18, from: 57.8, miles: 5 },   // steepest stretch
+      flow: { min: 3500, typical: 27000, max: 50000, note: '...' },   // cfs
+      bands: [{ upto: 25000, label: 'Class III', d: '...' }],         // what each flow feels like
+      craft: ['Raft', 'Kayak'],           // good for
+      gauges: [{ name: 'Colorado River near Cisco, UT', id: '09180500' }]   // id links to USGS
+    }
+
+`elev`, `gradient` and `steep` are measured, not written by hand: `node scripts/geo/elevation.mjs --write` samples the
+terrain along each river's centerline (rounded to 50 ft; a dam at the start can distort it, which is why Black Canyon was
+set by hand). `flow.min` / `max` are the range a guide or agency recommends for rafts where one is given, with the note
+saying which gauge and where another source differs. Edit them in River > More > Edit.
 
 ## Basin maps
 

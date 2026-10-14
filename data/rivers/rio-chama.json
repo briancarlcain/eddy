@@ -777,5 +777,29 @@
         ]
       }
     ]
+  },
+  "stats": {
+    "class": "II to III",
+    "season": "Permits cover April 15 to September 15. Releases from the dam carry the late season, July 16 to September 15.",
+    "elev": [
+      6700,
+      6300
+    ],
+    "gradient": 13,
+    "steep": {
+      "gradient": 20,
+      "from": 24.5,
+      "miles": 5
+    },
+    "flow": {
+      "min": 300,
+      "note": "BLM recommends at least 300 cfs for kayaks, canoes and rafts under 12 feet, and 500 for larger rafts. Winter flows can be about 50 cfs, which is not boatable."
+    },
+    "gauges": [
+      {
+        "name": "Rio Chama above Abiquiu Reservoir, NM",
+        "id": "08286500"
+      }
+    ]
   }
 }

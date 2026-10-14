@@ -1053,5 +1053,30 @@
         ]
       }
     ]
+  },
+  "stats": {
+    "class": "IV, with one Class V",
+    "season": "November to May, when rain keeps the river up. Flash floods are a real hazard.",
+    "elev": [
+      850,
+      150
+    ],
+    "gradient": 22,
+    "steep": {
+      "gradient": 37,
+      "from": 15.7,
+      "miles": 5
+    },
+    "flow": {
+      "min": 800,
+      "typical": 1200,
+      "max": 3500,
+      "note": "An older guide gives 800 to 3,500 cfs for rafts and kayaks, and inflatable kayaks down to 400; another lists 1,200 as optimal. Flow at the take-out is well above the Kerby gauge because tributaries join."
+    },
+    "gauges": [
+      {
+        "name": "Illinois River near Kerby, OR"
+      }
+    ]
   }
 }

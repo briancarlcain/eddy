@@ -1017,5 +1017,30 @@
         ]
       }
     ]
+  },
+  "stats": {
+    "class": "I to II",
+    "season": "Year-round. Best from May to October; fall has the steadiest weather.",
+    "elev": [
+      4450,
+      4300
+    ],
+    "gradient": 4.6,
+    "steep": {
+      "gradient": 7.8,
+      "from": 14.6,
+      "miles": 5
+    },
+    "flow": {
+      "min": 2500,
+      "max": 30000,
+      "note": "BLM advises extra care above 30,000 cfs, no canoes until flows drop below 20,000, and family rafting below about 5,000. Spring runoff makes the water muddy and debris heavy."
+    },
+    "gauges": [
+      {
+        "name": "Colorado River near Colorado-Utah State Line",
+        "id": "09163500"
+      }
+    ]
   }
 }

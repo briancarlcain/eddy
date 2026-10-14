@@ -852,14 +852,6 @@
       [
         "Recommended flows",
         "Riverbrain lists a recommended range of about 3,500 cfs minimum to 50,000 cfs maximum, with the Big Drops and Satan’s Gut needing a scout at any flow. At the extremes the same rapids behave very differently; check the gauges and recent reports before launching."
-      ],
-      [
-        "What each flow feels like",
-        "Below about 25,000 cfs the rapids are Class III: rocks to dodge, but forgiving. From 25,000 to 35,000 it is Class III to IV and serious, and a flip can cost you loose gear. From 35,000 to 40,000 it is still III to IV, but the chance of a real beating is realistic. From 40,000 to 100,000 it is Class IV+ big water, with drops that deserve a long scout. About 27,000 cfs is a typical level."
-      ],
-      [
-        "Which gauges to watch",
-        "The flow through the rapids is roughly the Colorado River near Cisco (USGS 09180500) plus the Green River at Green River, Utah (09315000), because the two rivers join before Rapid 1. A trip that starts upstream on either river sees only its share until the confluence."
       ]
     ],
     "history": [
@@ -1330,6 +1322,58 @@
             "d": "Mussels are in Lake Powell. Utah and Arizona laws require you to clean, drain and dry your boat after take-out."
           }
         ]
+      }
+    ]
+  },
+  "stats": {
+    "class": "III to IV",
+    "season": "Year-round. Runoff peaks May to June; the permit season runs April to October.",
+    "elev": [
+      3950,
+      3700
+    ],
+    "gradient": 2.6,
+    "steep": {
+      "gradient": 18,
+      "from": 57.8,
+      "miles": 5
+    },
+    "flow": {
+      "min": 3500,
+      "typical": 27000,
+      "max": 50000,
+      "note": "This is the combined Colorado and Green River flow below the confluence, which is what runs through the rapids. The Big Drops need a scout at any flow."
+    },
+    "bands": [
+      {
+        "upto": 25000,
+        "label": "Class III",
+        "d": "Rocks to dodge, but forgiving."
+      },
+      {
+        "upto": 35000,
+        "label": "Class III to IV",
+        "d": "Serious water. A flip can cost you loose gear."
+      },
+      {
+        "upto": 40000,
+        "label": "Class III to IV",
+        "d": "A real chance of a beating."
+      },
+      {
+        "upto": 100000,
+        "label": "Class IV+",
+        "d": "Big water. Long scouts at the big drops."
+      }
+    ],
+    "gauges": [
+      {
+        "name": "Colorado River near Cisco, UT",
+        "id": "09180500"
+      },
+      {
+        "name": "Green River at Green River, UT",
+        "id": "09315000"
       }
     ]
   }

@@ -892,5 +892,34 @@
         ]
       }
     ]
+  },
+  "stats": {
+    "class": "III to IV",
+    "season": "Mid-April to mid-June, when McPhee Reservoir releases water. Many years have no boatable release.",
+    "elev": [
+      6450,
+      4950
+    ],
+    "gradient": 16,
+    "steep": {
+      "gradient": 37,
+      "from": 30.3,
+      "miles": 5
+    },
+    "flow": {
+      "min": 800,
+      "typical": 1500,
+      "note": "Guides give 200 cfs for canoes and kayaks, 800 for rafts up to 14 feet and 1,000 for bigger rafts, with a sweet spot of 1,200 to 2,000. Above about 3,000 cfs the river is swift with few eddies. Releases take a few hours to reach the put-in."
+    },
+    "gauges": [
+      {
+        "name": "Dolores River at Dolores, CO",
+        "id": "09166500"
+      },
+      {
+        "name": "Dolores River at Bedrock, CO",
+        "id": "09171100"
+      }
+    ]
   }
 }

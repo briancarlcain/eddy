@@ -2110,5 +2110,30 @@
         ]
       }
     ]
+  },
+  "stats": {
+    "class": "III to IV",
+    "season": "Early May into September and October. The lottery season is May 28 to September 3.",
+    "elev": [
+      5600,
+      2950
+    ],
+    "gradient": 26,
+    "steep": {
+      "gradient": 46,
+      "from": 1.2,
+      "miles": 5
+    },
+    "flow": {
+      "min": 700,
+      "max": 6000,
+      "note": "Paddling guides call about 700 to 6,000 cfs comfortable for rafts and kayaks, with 600 the kayak floor. Summer medians fall below 1,000 by August, and above about 5 feet on the gauge the river is for experts. Below about 1.6 feet many parties fly into Indian Creek instead."
+    },
+    "gauges": [
+      {
+        "name": "Middle Fork Salmon River at Middle Fork Lodge, ID",
+        "id": "13309220"
+      }
+    ]
   }
 }

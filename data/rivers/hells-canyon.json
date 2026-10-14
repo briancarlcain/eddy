@@ -1786,5 +1786,29 @@
         ]
       }
     ]
+  },
+  "stats": {
+    "class": "III to IV",
+    "season": "Late May to early September is the permit season. Spring flows are much higher.",
+    "elev": [
+      1450,
+      800
+    ],
+    "gradient": 8.1,
+    "steep": {
+      "gradient": 15,
+      "from": 11.7,
+      "miles": 5
+    },
+    "flow": {
+      "min": 5000,
+      "max": 40000,
+      "note": "NPS lists 5,000 to 40,000 cfs; another guide says 7,000 and up. Idaho Power usually releases 8,000 to 20,000 cfs, rising and falling daily, and flows under 25,000 are most common from July into autumn."
+    },
+    "gauges": [
+      {
+        "name": "Snake River at Hells Canyon Dam"
+      }
+    ]
   }
 }

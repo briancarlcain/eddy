@@ -712,5 +712,16 @@
         ]
       }
     ]
+  },
+  "stats": {
+    "class": "I, flatwater",
+    "season": "Year-round. The water stays cold, about 54°F.",
+    "elev": [
+      650,
+      650
+    ],
+    "flow": {
+      "note": "Dam-controlled and nearly flat, backed up by Lake Mohave. There is no recommended range, but the level can move 4 to 6 feet in a day, so tie up well above the water."
+    }
   }
 }

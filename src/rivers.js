@@ -75,6 +75,7 @@ export function normalizeRiver(r) {
     miles: miles[1] > miles[0] ? miles : [0, Math.max(1, miles[0] + 1)],
     coords,
     almanac: r.almanac || {},
+    stats: r.stats || {},
     notes: { camp: '', hike: '', ...(r.notes || {}) },
     hdiff: r.hdiff || {},
   };

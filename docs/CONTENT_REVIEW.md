@@ -23,6 +23,7 @@ credits), or remove it.
 | Added species guides (all 21 rivers) | about 40 to 60 entries each | Regional species lists with short original descriptions; `*` marks non-native species | Low-Medium: written from general knowledge, not surveys; check before publishing | |
 | Added almanac entries: history, geology, flows (all 21 rivers) | 3 to 6 entries each | Original summaries of public history and geology | Low; verify dates and names | |
 | **Indigenous homeland entries (all 21 rivers)** | about 1 entry each | Names the peoples whose homelands the river crosses | **Review with care**: written from general sources, not tribal ones; get tribal review or attribution | |
+| **River Overview stats (all rivers)** | class, season, flow range and note, gauges for 22 rivers | Ratings and flow ranges compiled from American Whitewater, agency pages and outfitter guides, partly via search summaries; gauge station numbers from memory for some rivers; elevation and gradient measured from terrain data | **Medium**: flow ranges are safety-relevant and sources disagree; verify each against the agency or American Whitewater page and USGS | |
 | Smith River camp list | 22 camps | Miles from the Montana FWP mileage table, banks from River Brain | Partial list (about 27 named camps exist); confirm against the current FWP sheet | |
 | Background art (rock-art style motifs) | 6 images in the stylesheet | Decorative | **Check licence** | |
 

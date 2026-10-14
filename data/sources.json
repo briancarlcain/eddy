@@ -270,6 +270,21 @@
     "confirmed": false
   },
   {
+    "title": "River class, recommended flows and seasons (American Whitewater reach pages, Mountaineers route guides, BLM, NPS, FWP and outfitter river guides)",
+    "note": "Overview tab for all rivers: class, season, flow ranges and the notes under them. Sources disagree on several rivers, so each note says which range it uses and where another guide differs. Several figures came from search summaries of these pages, not the pages themselves; check each against the agency or American Whitewater page. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "USGS National Water Information System: gauge names and station numbers",
+    "note": "Gauges listed on each river Overview. U.S. government data. Station numbers for Rogue, Salt, Ruby-Horsethief, Westwater, Green (Greendale), White Bird, Middle Fork Lodge and Selway were not re-checked against USGS from this build; confirm before publishing.",
+    "confirmed": false
+  },
+  {
+    "title": "Terrain elevations and gradients (AWS Terrain Tiles from USGS 3DEP)",
+    "note": "Put-in and take-out elevation and gradient measured along each river centerline by scripts/geo/elevation.mjs, rounded to 50 ft. Accurate to a few tens of feet; Black Canyon was set by hand because the dam wall distorts the terrain data there.",
+    "confirmed": false
+  },
+  {
     "title": "Geology, natural history and history summaries (USGS, NPS, BLM, USFS and state agency pages)",
     "note": "Rock sequences, fish and wildlife lists and history entries added for all rivers. Written as original summaries from general knowledge and agency and encyclopedia pages; species lists are regional, not surveys. Check before store submission.",
     "confirmed": false

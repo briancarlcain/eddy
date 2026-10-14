@@ -1660,5 +1660,33 @@
         ]
       }
     ]
+  },
+  "stats": {
+    "class": "II to III",
+    "season": "Year-round. The river typically peaks around 20,000 cfs in late May or early June and drops below 3,000 by fall.",
+    "elev": [
+      4600,
+      4100
+    ],
+    "gradient": 6,
+    "steep": {
+      "gradient": 14,
+      "from": 38.7,
+      "miles": 5
+    },
+    "flow": {
+      "min": 900,
+      "max": 20000,
+      "note": "The BLM calls flows as low as 900 cfs adequate for most uses; in drought it has run 650 to 800, where outfitters still run 18-foot boats. High water brings swift current and harder landings."
+    },
+    "gauges": [
+      {
+        "name": "Green River at Green River, UT",
+        "id": "09315000"
+      },
+      {
+        "name": "Green River at Ouray, UT"
+      }
+    ]
   }
 }
