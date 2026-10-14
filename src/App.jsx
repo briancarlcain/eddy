@@ -3452,20 +3452,6 @@ function River({ s, browse, onBrowse, onPlan }) {
   return <RiverDetail s={s} />;
 }
 
-// Shown on every river tab: the river data is reference only and must not be what a trip decision rests on.
-const RiverNotice = () => (
-  <div className="pad noticeWrap">
-    <div className="notice slim">
-      <div className="noticeHead">
-        <Icon name="alert" size={15} /> Reference only, not for decisions
-      </div>
-      <div className="muted">
-        This guide can be wrong, incomplete or out of date. Do not rely on it to decide whether, when or where to go, or how to run a rapid. Check current official sources, gauges and a guidebook, scout every rapid yourself, and use your own judgment.
-      </div>
-    </div>
-  </div>
-);
-
 function RiverDetail({ s }) {
   const [tab, setTab] = useState(QS.get('sub') || 'Map');
   const [mapMode, setMapModeRaw] = useState(() => {
@@ -3505,7 +3491,6 @@ function RiverDetail({ s }) {
   return (
     <>
       <Tabs items={items} value={cur} onChange={setTab} />
-      {cur === 'More' && editing ? null : <RiverNotice />}
       {cur === 'Map' ? (
         <>
           {hasGeo(RIVER.id) || hasBasin(RIVER.id) ? (

@@ -26,4 +26,5 @@
 - The owner is checking all content by hand before publishing: see section 0 of `docs/PRE_PUBLISH.md`. Add anything new
   that needs checking to that list.
 - Keep the "do not rely on this app for decisions" disclaimer intact: RiskGate (bump `RISK_VERSION` if its meaning
-  changes), About > Safety & sources, the notice at the top of every river tab, and Terms sections 4 and 5.
+  changes), About > Safety & sources, and Terms sections 4 and 5. (The per-tab river notice was removed on purpose; keep the app
+  lean and don't add repeat disclaimers.)

@@ -34,8 +34,7 @@ human pass before the app is public. Tick these off as you go:
   (agencies change these without notice).
 - [ ] **Species guides and almanac entries**, especially the Indigenous homeland entries (docs/CONTENT_REVIEW.md).
 - [ ] **Medical, signals, rescue and swim content** (cite sources; Apple 1.4.1).
-- [ ] **The disclaimer wording**: first-launch gate (RiskGate), Profile > About > Safety & sources, the "Reference only,
-  not for decisions" notice on every river tab, and Terms sections 4 and 5.
+- [ ] **The disclaimer wording**: first-launch gate (RiskGate), Profile > About > Safety & sources, and Terms sections 4 and 5.
 - [ ] Work down the "Source / permission" column in docs/CONTENT_REVIEW.md and record sources in data/sources.json.
 Edit the JSON in `data/rivers/*.json` (it is the source of truth), then `npm run build` and commit `index.html`.
 
