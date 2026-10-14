@@ -32,12 +32,28 @@
       "desc": "Above Lathrop Canyon. River trips may not camp at Lathrop Canyon itself, where the road ends."
     },
     {
+      "name": "Indian Creek Camp",
+      "mile": 30.5,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "At the mouth of Indian Creek, with ruins nearby. Reports mention a waterfall hike up the creek in May and June."
+    },
+    {
       "name": "Upper Loop",
       "mile": 36,
       "size": null,
       "qual": null,
       "bank": "L",
       "desc": "At The Loop, where the river nearly doubles back on itself."
+    },
+    {
+      "name": "Confluence",
+      "mile": 47.5,
+      "size": 7,
+      "qual": null,
+      "bank": null,
+      "desc": "A big camp at the meeting of the Green and Colorado, well suited to a large group. Sometimes called the center of the universe."
     },
     {
       "name": "Lower Red Lake",
@@ -50,10 +66,10 @@
     {
       "name": "Upper Spanish Bottom",
       "mile": 51.4,
-      "size": null,
+      "size": 7,
       "qual": null,
       "bank": "R",
-      "desc": "Above the first rapid."
+      "desc": "Above the first rapid. A large camp and a base for the Dollhouse trail."
     },
     {
       "name": "Middle Spanish Bottom",
@@ -61,7 +77,7 @@
       "size": null,
       "qual": null,
       "bank": "R",
-      "desc": "Above the first rapid."
+      "desc": "Above the first rapid. Big cottonwoods give shade for a kitchen and the Dollhouse trail starts close by. The landing can be steep at low water. From here you can walk the river trail down to Brown Bettie beach to see whether it is free."
     },
     {
       "name": "Brown Bettie beach",
@@ -69,7 +85,7 @@
       "size": null,
       "qual": null,
       "bank": "R",
-      "desc": "Below Rapid 1, with a trail upstream to the Dollhouse."
+      "desc": "Below Rapid 1, with a trail upstream to the Dollhouse. A good beach at low water. Boats have to cheat right at Rapid 1 to make the eddy."
     },
     {
       "name": "Upper X/Y Canyon",
@@ -94,6 +110,46 @@
       "qual": null,
       "bank": "R",
       "desc": "Beside the Rapid 10 surf wave."
+    },
+    {
+      "name": "Lake Cataract",
+      "mile": 58,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "A river-left camp in the quiet stretch between Rapid 12 and Range Canyon, a breather in the middle of the rapids. The eddy near shore is a good spot for a swim. Position approximate."
+    },
+    {
+      "name": "Big Drop Beach",
+      "mile": 61.1,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "A river-left beach above the Big Drops and the usual high-water scouting point. Loud, and a hard place to sleep so close to the roar. At low water, scout from the river-left eddy above Big Drop 2 instead. Position approximate."
+    },
+    {
+      "name": "Upper Ten Cent",
+      "mile": 62.8,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "A good river-left camp below the main rapids. Imperial Rapid and the rapids below it are still ahead before the lake. Position approximate."
+    },
+    {
+      "name": "Lower Ten Cent",
+      "mile": 63.3,
+      "size": 7,
+      "qual": null,
+      "bank": null,
+      "desc": "A large camp with a good landing. Position approximate."
+    },
+    {
+      "name": "Imperial Camp",
+      "mile": 63.7,
+      "size": null,
+      "qual": null,
+      "bank": null,
+      "desc": "The last camp within the rapids, and a great high-water camp. The low-water landing is tricky: the 2011 flood took the beach, leaving a scramble over rocks or a tie-off in the current. Position approximate."
     },
     {
       "name": "Gypsum",
@@ -175,7 +231,7 @@
       "civ": false,
       "diff": 5,
       "tier": "Class III",
-      "desc": "Longer and straightforward; follow the main current."
+      "desc": "Also called North Seas. Longer and straightforward; follow the main current."
     },
     {
       "name": "Rapid 8",
@@ -223,7 +279,7 @@
       "civ": false,
       "diff": 3,
       "tier": "Class II",
-      "desc": "Outwash from Range Canyon. The start of about 3 miles of whitewater, the Mile Long Rapids."
+      "desc": "Outwash from Range Canyon. The start of about 3 miles of whitewater, the Mile Long Rapids (13 to 18)."
     },
     {
       "name": "Rapid 14",
@@ -231,7 +287,7 @@
       "civ": false,
       "diff": 5,
       "tier": "Class III",
-      "desc": "A hole in the center, also Range Canyon outwash."
+      "desc": "A hole in the center, also Range Canyon outwash. Part of the Mile Long Rapids."
     },
     {
       "name": "Rapid 15 (Capsize)",
@@ -239,7 +295,7 @@
       "civ": false,
       "diff": 5,
       "tier": "Class III",
-      "desc": "Midstream boulders; line center-right. Inscriptions on river right mark the 1891 Best party's lost boat."
+      "desc": "Midstream boulders; line center-right. Inscriptions on river right mark the 1891 Best party's lost boat. Part of the Mile Long Rapids. A popular stop to scout and photograph."
     },
     {
       "name": "Rapid 16",
@@ -247,7 +303,7 @@
       "civ": false,
       "diff": 5,
       "tier": "Class III",
-      "desc": "A midstream boulder at low water."
+      "desc": "A midstream boulder at low water. Part of the Mile Long Rapids."
     },
     {
       "name": "Rapid 17",
@@ -255,7 +311,7 @@
       "civ": false,
       "diff": 3,
       "tier": "Class II",
-      "desc": "Easy, down the middle."
+      "desc": "Easy, down the middle. Part of the Mile Long Rapids."
     },
     {
       "name": "Rapid 18",
@@ -263,7 +319,7 @@
       "civ": false,
       "diff": 5,
       "tier": "Class III",
-      "desc": "Fun waves and hydraulics."
+      "desc": "Fun waves and hydraulics. Part of the Mile Long Rapids."
     },
     {
       "name": "The Button (Rapid 19)",
@@ -295,7 +351,7 @@
       "civ": false,
       "diff": 8,
       "tier": "Class IV",
-      "desc": "A ledge wave. Left to right is preferred below 40,000 cfs. Scout river left. A very large rock just left of center marks it, and riverbrain reports only two lines."
+      "desc": "A ledge wave, marked by a very large rock just left of center with more rocks below it, some with pillows that can flip a boat. Scout river left. At low water there are two lines: far right, with a hard pull left to miss a pin rock, or just left of the big rock, watching for a sleeper rock as you work right to left away from the rocky left bank. Left to right is preferred below 40,000 cfs. Boats 18 feet and under are reported fine on a clean line down to about 2,500 cfs. At high water the hole called Little Niagara is the thing to avoid."
     },
     {
       "name": "Big Drop 3, Satan's Gut (Rapid 23)",
@@ -303,7 +359,7 @@
       "civ": false,
       "diff": 8,
       "tier": "Class IV",
-      "desc": "The biggest rapid. Right at high water, left at low water. Scout. Treat it as a mandatory scout. Even at flows down to about 2,500 cfs there is essentially one line."
+      "desc": "The biggest rapid, and a mandatory scout. The drop is steep enough to be striking when you look back up from below. At high water run right and stay off the left side. At flows down to about 2,500 cfs there is essentially one line: about 15 feet off the left bank, through an entry gap of roughly 10 to 15 feet, flushing you between the rock that forms Satan’s Gut on the left and another on the right, into a channel 15 to 20 feet wide. Missing the entry either way goes wrong quickly. Scout from the right-bank beach at high water and from the left-bank rocks at low water."
     },
     {
       "name": "Rapid 24",
@@ -319,7 +375,7 @@
       "civ": false,
       "diff": 5,
       "tier": "Class III",
-      "desc": "Read and run, down the middle."
+      "desc": "Also called Repeat Rapid. Read and run, down the middle."
     },
     {
       "name": "Ten Cent Rapid (Rapid 26)",
@@ -429,7 +485,7 @@
       "time": null,
       "diff": 2,
       "qual": null,
-      "desc": "Ruins along the cliff walls up the creek."
+      "desc": "Ruins along the cliff walls up the creek. Reports mention a waterfall up the creek in May and June."
     },
     {
       "name": "The Loop",
@@ -456,7 +512,7 @@
       "time": null,
       "diff": 3,
       "qual": null,
-      "desc": "A trail from Spanish Bottom to the Doll House formations in the Maze District. Hiking is limited to designated trails."
+      "desc": "A trail from Spanish Bottom to the Doll House formations in the Maze District. Hiking is limited to designated trails. Stay on the trail to limit erosion, and secure boats and food at the beach, because wind and animals will get into loose gear."
     },
     {
       "name": "Dark Canyon",
@@ -796,6 +852,14 @@
       [
         "Recommended flows",
         "Riverbrain lists a recommended range of about 3,500 cfs minimum to 50,000 cfs maximum, with the Big Drops and Satan’s Gut needing a scout at any flow. At the extremes the same rapids behave very differently; check the gauges and recent reports before launching."
+      ],
+      [
+        "What each flow feels like",
+        "Below about 25,000 cfs the rapids are Class III: rocks to dodge, but forgiving. From 25,000 to 35,000 it is Class III to IV and serious, and a flip can cost you loose gear. From 35,000 to 40,000 it is still III to IV, but the chance of a real beating is realistic. From 40,000 to 100,000 it is Class IV+ big water, with drops that deserve a long scout. About 27,000 cfs is a typical level."
+      ],
+      [
+        "Which gauges to watch",
+        "The flow through the rapids is roughly the Colorado River near Cisco (USGS 09180500) plus the Green River at Green River, Utah (09315000), because the two rivers join before Rapid 1. A trip that starts upstream on either river sees only its share until the confluence."
       ]
     ],
     "history": [
@@ -818,6 +882,10 @@
       [
         "Glen Canyon Dam and the lake",
         "When Glen Canyon Dam closed on September 13, 1963, the Colorado began backing up and Lake Powell began to fill, drowning the lower end of Cataract Canyon. When the lake falls, drowned rapids reappear."
+      ],
+      [
+        "The Kolb brothers’ camp",
+        "Emery and Ellsworth Kolb painted “E.C. & E.L. Kolb Cat Camp 2 10-28-1911” on a rock in Cataract Canyon during their 1911 trip down the Green and Colorado. It sits between Big Drop 2 and Big Drop 3, is listed on the National Register of Historic Places, and is only above water at medium to low flows."
       ]
     ],
     "indigenous": [
@@ -830,6 +898,20 @@
       [
         "Ledges of limestone over salt",
         "Where the Colorado runs through the Cataract rapids it cuts through the Honaker Trail Formation, dark gray fossil-bearing limestone laid down about 286 to 320 million years ago in shallow Pennsylvanian seas, forming ledges and slopes along the river. Beneath it lies the Paradox Formation, thick salt and gypsum that dissolves and flows slowly, which flexes and faults the layers above and makes the beds slump toward the river."
+      ]
+    ],
+    "planning": [
+      [
+        "The trip in four parts",
+        "From Potash it is about 47 miles of flatwater through Meander Canyon, past Dead Horse Point, with ruins, pictographs and side hikes; Lathrop Canyon reaches the White Rim Road. About four miles below the Green River confluence the rapids begin, and about 15 miles of whitewater follow. Below Imperial Canyon the river slows into the upper reaches of Lake Powell, and flatwater runs to the take-out."
+      ],
+      [
+        "Flatwater and the motor question",
+        "How much you row or motor depends on the flow, the lake level and the wind. Many groups bring a motor for the flat sections above and below the rapids; some tie boats together and float through the night. It can be done without a motor, but check the flow, lake level and wind forecast first and set expectations to match."
+      ],
+      [
+        "Around the Dollhouse",
+        "The camps near the confluence put you within reach of the Doll House in the Maze. Stay on the designated trail, and stash boats and gear so wind and animals cannot get into food or other items."
       ]
     ]
   },
@@ -1016,6 +1098,22 @@
       "desc": "The start of Cataract Canyon. Life jackets must be worn from here to the last active rapid. Up-running is prohibited from the first rapid to Imperial Canyon. A courtesy register box is a little below."
     },
     {
+      "name": "Little Niagara",
+      "mile": 61.52,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "A large hole in Big Drop 2 that matters most at high water."
+    },
+    {
+      "name": "Kolb Brothers inscription",
+      "mile": 61.6,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Painted by Emery and Ellsworth Kolb at their Cat Camp in 1911, between Big Drop 2 and Big Drop 3. It is only above water at medium to low flows. Look, photograph, never touch."
+    },
+    {
       "name": "Imperial Canyon",
       "mile": 63.67,
       "civ": false,
@@ -1102,9 +1200,20 @@
       "road": true,
       "mile": 95.1,
       "park": true,
-      "note": "Usual take-out. Steep, eroded ramp; may need a winch",
+      "note": "Usual take-out, a dirt ramp just below the Dirty Devil. Steep and eroded, and how muddy it is varies, so bring a winch or rollers.",
       "grid": [
         10,
+        6
+      ]
+    },
+    {
+      "name": "Hite Marina",
+      "road": true,
+      "mile": 96.1,
+      "park": true,
+      "note": "Alternative take-out. A concrete ramp when the lake is high enough, with restrooms, water and a waste dump station; as muddy as North Wash when the lake is low. Camping is possible but poor, so land, de-rig and go.",
+      "grid": [
+        8,
         6
       ]
     }
@@ -1132,6 +1241,11 @@
     {
       "a": "Outfitter",
       "b": "Moab",
+      "h": ""
+    },
+    {
+      "a": "Hanksville",
+      "b": "Hite Marina",
       "h": ""
     }
   ],
