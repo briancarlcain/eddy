@@ -13,6 +13,7 @@ import * as authApi from './auth.js';
 import TopoMap, { OfflinePanel } from './TopoMap.jsx';
 import BasinMap, { hasBasin } from './BasinMap.jsx';
 import SunChart from './SunChart.jsx';
+import { applyTheme } from './theme.js';
 import { campHorizon, campSun, dropHorizon, drops, dropsGPX, hasGeo, hikeTrack, onGeoChange, parseGPX, position, removeDrop, setHikeTrack, trackStats, updateDrop } from './geo/index.js';
 import { sunDay } from './geo/sun.js';
 
@@ -943,13 +944,12 @@ function useStore() {
 
 /* ---------- ui ---------- */
 
-const Tabs = ({ items, value, onChange, tint }) => (
-  <div className="tabs">
+const Tabs = ({ items, value, onChange, danger }) => (
+  <div className={'tabs' + (danger ? ' danger' : '')}>
     {items.map((t) => (
       <button
         key={t}
         className={'tab' + (t === value ? ' on' : '')}
-        style={t === value ? { background: tint, borderColor: tint } : null}
         onClick={() => onChange(t)}
       >
         {t}
@@ -1016,7 +1016,7 @@ function Trip({ s, back, onAccount }) {
   const items = ['Itinerary', 'Crew', 'Meals', 'Gear', 'Shuttle', 'Costs', 'Emergency', 'Journal', ...(REFS[s.trip.id] ? ['Notes'] : []), 'People', 'Settings'];
   return (
     <>
-      <Tabs items={items} value={tab} onChange={setTab} tint="#7a3b28" />
+      <Tabs items={items} value={tab} onChange={setTab} />
       <div className="pad">
         {tripEnt && tripEnt.role === 'viewer' && !tripEnt.removed ? (
           <div className="notice mb note">
@@ -3503,7 +3503,7 @@ function RiverDetail({ s }) {
   const rec = s.riverRec(RIVER.id);
   return (
     <>
-      <Tabs items={items} value={cur} onChange={setTab} tint="#2f5d62" />
+      <Tabs items={items} value={cur} onChange={setTab} />
       {cur === 'More' && editing ? null : <RiverNotice />}
       {cur === 'Map' ? (
         <>
@@ -4889,7 +4889,7 @@ function Safety() {
   const [tab, setTab] = useState(['Medical', 'Signals', 'Rescue', 'Swim'].includes(QS.get('sub')) ? QS.get('sub') : 'Medical');
   return (
     <>
-      <Tabs items={['Medical', 'Signals', 'Rescue', 'Swim']} value={tab} onChange={setTab} tint="#9c3326" />
+      <Tabs items={['Medical', 'Signals', 'Rescue', 'Swim']} value={tab} onChange={setTab} danger />
       <div className="pad">
         {tab === 'Medical' && <Medical />}
         {tab === 'Signals' && <Pairs data={GENERAL.signals} />}
@@ -4904,7 +4904,7 @@ function Profile({ s, initial, ctx }) {
   const [tab, setTab] = useState(initial || (['Account', 'Data', 'Feedback', 'About'].includes(QS.get('sub')) ? QS.get('sub') : 'Account'));
   return (
     <>
-      <Tabs items={['Account', 'Data', 'Feedback', 'About']} value={tab} onChange={setTab} tint="#7a3b28" />
+      <Tabs items={['Account', 'Data', 'Feedback', 'About']} value={tab} onChange={setTab} />
       <div className="pad">
         {tab === 'Account' && <Account s={s} />}
         {tab === 'Data' && <About s={s} part="data" />}
@@ -5978,6 +5978,10 @@ function App() {
   useEffect(() => {
     document.body.dataset.tab = detail ? 'itinerary' : TABS.find((t) => t.id === tab).tab;
   }, [tab, detail]);
+
+  // river screens (a river being browsed, or inside a trip) wear that river's palette; everything else is the app's own
+  const themed = (tab === 'River' && riverOpen) || detail ? rid : null;
+  useEffect(() => applyTheme(themed), [themed]);
 
   if (tab !== 'Profile') lastCtx.current = { screen: tab === 'Trips' && detail ? 'Trip' : tab, river: rid || null };
   const title = detail ? s.trip.name : tab === 'River' ? (riverOpen ? RIVER.name : 'Rivers') : tab === 'Trips' ? 'Trips' : tab;
