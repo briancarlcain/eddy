@@ -13,7 +13,7 @@ import * as authApi from './auth.js';
 import TopoMap, { OfflinePanel } from './TopoMap.jsx';
 import BasinMap, { hasBasin } from './BasinMap.jsx';
 import SunChart from './SunChart.jsx';
-import { applyTheme } from './theme.js';
+import { applyTheme, riverCardStyle } from './theme.js';
 import { campHorizon, campSun, dropHorizon, drops, dropsGPX, hasGeo, hikeTrack, onGeoChange, parseGPX, position, removeDrop, setHikeTrack, trackStats, updateDrop } from './geo/index.js';
 import { sunDay } from './geo/sun.js';
 
@@ -5791,9 +5791,9 @@ function RiverList({ s, onOpen }) {
         <div className="mt" key={label}>
           <span className="label">{label}</span>
           {list.map(({ r, n }) => (
-            <div className="card mt tripCard" key={r.id} role="button" tabIndex={0} onClick={() => onOpen(r.id)}>
+            <div className="card mt tripCard" key={r.id} role="button" tabIndex={0} style={riverCardStyle(r.id)} onClick={() => onOpen(r.id)}>
               <div className="cardTop">
-                <div className="serif">{n.name}</div>
+                <div className="serif" style={riverCardStyle(r.id) ? { color: 'var(--accent)' } : undefined}>{n.name}</div>
               </div>
               <div className="muted">
                 {n.reach ? n.reach + ' · ' : ''}
