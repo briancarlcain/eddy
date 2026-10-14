@@ -598,3 +598,7 @@ body.shot #fakeStatus { background: #faf8f3; }
 .rg .ovNote { font-size: 14.5px; line-height: 1.5; color: var(--ink-dim); margin-top: 10px; }
 .rg .ovGauge { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .rg .ovGauge .permitT { min-width: 0; }
+.rg .noticeWrap { padding-bottom: 0; }
+.rg .notice.slim { padding: 10px 12px; }
+.rg .notice.slim .noticeHead { font-size: 11.5px; margin-bottom: 4px; }
+.rg .notice.slim .muted { font-size: 13px; line-height: 1.45; }

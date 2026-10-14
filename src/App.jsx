@@ -3451,6 +3451,20 @@ function River({ s, browse, onBrowse, onPlan }) {
   return <RiverDetail s={s} />;
 }
 
+// Shown on every river tab: the river data is reference only and must not be what a trip decision rests on.
+const RiverNotice = () => (
+  <div className="pad noticeWrap">
+    <div className="notice slim">
+      <div className="noticeHead">
+        <Icon name="alert" size={15} /> Reference only, not for decisions
+      </div>
+      <div className="muted">
+        This guide can be wrong, incomplete or out of date. Do not rely on it to decide whether, when or where to go, or how to run a rapid. Check current official sources, gauges and a guidebook, scout every rapid yourself, and use your own judgment.
+      </div>
+    </div>
+  </div>
+);
+
 function RiverDetail({ s }) {
   const [tab, setTab] = useState(QS.get('sub') || 'Map');
   const [mapMode, setMapModeRaw] = useState(() => {
@@ -3490,6 +3504,7 @@ function RiverDetail({ s }) {
   return (
     <>
       <Tabs items={items} value={cur} onChange={setTab} tint="#2f5d62" />
+      {cur === 'More' && editing ? null : <RiverNotice />}
       {cur === 'Map' ? (
         <>
           {hasGeo(RIVER.id) || hasBasin(RIVER.id) ? (
@@ -4818,7 +4833,7 @@ function About({ s, part = 'about' }) {
       {part === 'about' && (
       <div className="card formCard mt">
         <span className="label">Safety &amp; sources</span>
-        <div className="muted mb-s">River, camp and hike information is compiled from public agency publications (such as the National Park Service) and community knowledge. It can be out of date or wrong. Medical and rescue pages are general reference only. Always confirm current regulations, flows and conditions with the managing agency, and carry a satellite communicator.</div>
+        <div className="muted mb-s">Eddy is a planning aid, not a source of truth. River, camp, hike, flow, permit and rule information is compiled from public agency publications, guidebooks and community knowledge, and it can be wrong, incomplete or out of date. Do not rely on this app to make decisions. Confirm current regulations, flows, closures and conditions with the managing agency and current guides, scout every rapid yourself, use your own judgment, and carry a satellite communicator. Medical and rescue pages are general reference only.</div>
       </div>
 
       )}
@@ -5870,7 +5885,7 @@ const TABS = [
 ];
 
 const RISK_KEY = 'eddy.risk';
-const RISK_VERSION = '1';
+const RISK_VERSION = '2';
 function RiskGate({ onAccept }) {
   return (
     <div className="gate">
@@ -5880,7 +5895,10 @@ function RiskGate({ onAccept }) {
         </div>
         <h1>River trips are dangerous</h1>
         <p>
-          Rafting, kayaking and backcountry travel can cause serious injury or death. Eddy is a planning tool. Its information can be wrong or out of date and cannot account for changing conditions.
+          Rafting, kayaking and backcountry travel can cause serious injury or death. Eddy is a planning aid, not a source of truth. Everything in it can be wrong, incomplete or out of date, and it cannot account for changing conditions.
+        </p>
+        <p>
+          <strong>Do not rely on Eddy to make decisions.</strong> Before any trip, confirm flows, closures, permits and rules with current official sources, use a current guidebook and gauges, scout every rapid yourself, and use your own judgment on the water.
         </p>
         <p>
           <strong>You alone are responsible for your safety and your decisions.</strong> Eddy is not responsible for them or for unforeseen circumstances.

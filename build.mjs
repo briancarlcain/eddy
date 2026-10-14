@@ -1,5 +1,6 @@
 // Builds the single-file app from src/App.jsx + src/shell.html + src/ui.css.
 //   node build.mjs        web build  -> index.html        (GitHub Pages; includes the private Grand Canyon 2026 trip)
+//                         BUILD_OUT=path writes the web build there instead (test/build.test.mjs uses it)
 //   node build.mjs app    store build -> www/index.html   (Capacitor / App Store; fictional sample trip only)
 import { build } from 'esbuild';
 import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -82,6 +83,6 @@ if (store) {
   // the Basin map data is fetched at run time (data/basin/<river>.json): ship it inside the app
   if (existsSync('data/basin')) cpSync('data/basin', 'www/data/basin', { recursive: true });
 } else {
-  writeFileSync('index.html', html);
+  writeFileSync(process.env.BUILD_OUT || 'index.html', html);
 }
-console.log(`${store ? 'www/index.html' : 'index.html'} written (${(html.length / 1024).toFixed(0)} KB, ${store ? 'store' : 'web'} build)`);
+console.log(`${store ? 'www/index.html' : process.env.BUILD_OUT || 'index.html'} written (${(html.length / 1024).toFixed(0)} KB, ${store ? 'store' : 'web'} build)`);
