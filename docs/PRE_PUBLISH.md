@@ -33,7 +33,8 @@ human pass before the app is public. Tick these off as you go:
   points. "51.5 Mile Camp (?)" and "Across from Pipe Creek Camp" have no position and stay placed by river mile. Nine camps
   have GPS on the opposite bank from their `bank` field (Upper Saddle, Tanner, Below Tanner Rapid, Stairway Canyon, Just
   Above Lava, 190.2 Mile, 259 Mile, 274 Mile, 279 Mile): check which is right. The Pearce Ferry access point is mile 280.5
-  but sits about 4.4 km from the sheet's mile 280. Confirm the spreadsheet's author is fine with its data being used.
+  but sits about 4.4 km from the sheet's mile 280. The spreadsheet's author has okayed using its data; decide how to credit them (the source entry in data/sources.json is not
+  `confirmed`, so it is not shown in About yet).
 - [ ] **Rapids, camps, hikes, landmarks and access points** on every river, and each river's **permit and rules** text
   (agencies change these without notice).
 - [ ] **Species guides and almanac entries**, especially the Indigenous homeland entries (docs/CONTENT_REVIEW.md).

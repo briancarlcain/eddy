@@ -276,7 +276,7 @@
   },
   {
     "title": "Grand Canyon camp GPS positions: Master Camp Data tab of the Grand Canyon Sun Chaser Model spreadsheet (from the USGS Campsite Geomorphic Attributes shapefile and the USGS Colorado River Mile System)",
-    "note": "Latitude and longitude for 270 Grand Canyon camps (interior point of each USGS campsite polygon; 13 rows between miles 229 and 280 are approximate USGS river-mile points, not camp polygons). Used for camp pins, the river line calibration below Diamond Creek and the sun-in-camp horizons (data/geo/coords/grand-canyon.json). The USGS datasets are U.S. government material; the spreadsheet is a third party's compilation of them, so check that using it is fine.",
+    "note": "Latitude and longitude for 270 Grand Canyon camps (interior point of each USGS campsite polygon; 13 rows between miles 229 and 280 are approximate USGS river-mile points, not camp polygons). Used for camp pins, the river line calibration below Diamond Creek and the sun-in-camp horizons (data/geo/coords/grand-canyon.json). The USGS datasets are U.S. government material; the spreadsheet is a third party's compilation of them, and its author has okayed using it here (told to Claude by the owner, Oct 2026). Left unconfirmed so it does not appear in About > Sources until you decide how to credit it.",
     "confirmed": false
   }
 ]
