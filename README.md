@@ -32,8 +32,9 @@ trips (localStorage, and the shared db when available).
 - `src/BasinMap.jsx`, `src/geo/basin.js` - River > Map > Basin: the drainage basin above the take-out (streams by size, basin outline, reservoirs and lakes, dams, the trip's run). Draws from `data/basin/<river>.json` with no map tiles, so it works offline
 - `data/basin/*.json` - **generated** by `python3 scripts/basin/build.py` (see below); `index.json` lists the rivers that have one
 - `scripts/basin/` - the basin pipeline: `rivers.json` (per river: HU4 group, main-stem name, put-in or take-out point), `dams.json` (reservoir name -> dam name), `build.py`
-- `data/geo/anchors.json` - per river: known `{mile, lat, lon}` points the centerline is traced between
-- `data/geo/<river>.json` - **generated** by `npm run geo`: centerline + a terrain horizon for every camp
+- `data/geo/anchors.json` - Grand Canyon only: known `{mile, lat, lon}` points its centerline is traced between on the terrain
+- `data/geo/nhd/<river>.json` - **generated** by `python3 scripts/basin/centerline.py`: every other river's centerline, the USGS stream line along the trip's run with the guide's miles pinned to it
+- `data/geo/<river>.json` - **generated** by `npm run geo`: centerline + a terrain horizon for every camp (all 22 rivers)
 
 ## Build
 
@@ -100,14 +101,26 @@ Trip > Trip > "Reload planning-sheet data" replaces everything from the seed.
 
 ## Topo map and canyon sun
 
-See `docs/TOPO_MAP_PLAN.md`. In short: elevation comes from the open AWS Terrain Tiles (USGS 3DEP/NED). The
-river centerline is traced from that elevation between the anchors in `data/geo/anchors.json`, and every
-rapid / camp / hike is placed on it by river mile (camps and hikes pushed to their bank). Each camp gets a
-360-degree terrain horizon at build time, which gives "direct sun in camp" times for any date with no
-network.
+See `docs/TOPO_MAP_PLAN.md`. Every river has the Topo map and Sun & shade. Elevation comes from the open AWS Terrain
+Tiles (USGS 3DEP/NED). Each rapid / camp / hike is placed on the river centerline by river mile (camps and hikes pushed
+to their bank), and each camp gets a 360-degree terrain horizon at build time, which gives "direct sun in camp" times for
+any date with no network.
 
-    npm run geo                 # every river with anchors (DEM tiles cache in .cache/dem)
-    npm run geo -- grand-canyon # one river
+Where the centerline comes from:
+
+- **Grand Canyon**: traced from the terrain between surveyed anchors in `data/geo/anchors.json`.
+- **The other 21 rivers**: the USGS National Hydrography Dataset main stem along the trip's run (the same network the
+  Basin maps use), cut to the guide's put-in and take-out. The guide's river miles are pinned to it wherever a rapid,
+  falls, bar, camp or creek in the guide shares its name with a USGS Geographic Names point on the line. The script
+  keeps the longest chain of those points that runs downstream in mile order and checks the fit, so a namesake creek
+  somewhere else is ignored. Where the names don't match (Black Canyon, Rio Chama, Dolores, Flaming Gorge, Westwater,
+  Ruby-Horsethief) the line runs by the put-in, take-out and trip length. It prints each river's matches, scale and
+  residual.
+
+    python3 scripts/basin/centerline.py                   # all rivers without DEM anchors (needs the same Python setup as the Basin maps)
+    python3 scripts/basin/centerline.py rogue --debug     # list every match and the chain kept
+    npm run geo                 # every river (DEM tiles cache in .cache/dem)
+    npm run geo -- rogue        # one river
     node scripts/geo/preview.mjs grand-canyon 130 140 out.png   # eyeball the line and pins on a hillshade
 
 Surveyed GPS positions beat mile placement. To add them (from a guidebook GPX, a GIS export, or pins dropped

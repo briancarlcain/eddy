@@ -79,4 +79,32 @@ const hm = (d, tz) => d.toLocaleTimeString('en-GB', { timeZone: tz, hour: '2-dig
   assert.ok(dist([p.lat, p.lon], [36.8653, -111.5873]) < 300, 'mile 0 at Lees Ferry');
 }
 
+// --- every built-in river has a centerline, its miles line up with the guide, and every camp has a terrain horizon
+{
+  const { readdirSync } = await import('node:fs');
+  const ids = readdirSync('data/rivers').filter((f) => f.endsWith('.json')).map((f) => f.slice(0, -5));
+  for (const id of ids) {
+    const geo = JSON.parse(readFileSync(`data/geo/${id}.json`, 'utf8'));
+    const river = JSON.parse(readFileSync(`data/rivers/${id}.json`, 'utf8'));
+    const L = decodeLine(geo);
+    near(L.mi[0], river.miles[0], 0.05, `${id}: line starts at the first mile`);
+    near(L.mi[L.mi.length - 1], river.miles[1], 0.05, `${id}: line ends at the last mile`);
+    for (let i = 1; i < L.mi.length; i++) {
+      assert.ok(L.mi[i] >= L.mi[i - 1], `${id}: miles increase downstream`);
+      assert.ok(dist(L.ll[i - 1], L.ll[i]) < 8000, `${id}: no jump along the line at vertex ${i}`);
+    }
+    // the line is about as long as the guide says (the guide's miles are rounded, so allow 6%)
+    let len = 0;
+    for (let i = 1; i < L.ll.length; i++) len += dist(L.ll[i - 1], L.ll[i]);
+    const span = river.miles[1] - river.miles[0];
+    assert.ok(Math.abs(len / 1609.344 / span - 1) < 0.06, `${id}: line ${(len / 1609.344).toFixed(1)} mi for ${span} guide miles`);
+    const missing = (river.camps || []).filter((c) => !geo.horizons[itemKey(c)]);
+    assert.deepEqual(missing.map(itemKey), [], `${id}: every camp has a horizon`);
+    // the river record's coords are a rough point on the river (a put-in, or a spot mid-run): the line passes near it
+    const nr = nearest(L, river.coords[0], river.coords[1]);
+    assert.ok(nr.d < 25000, `${id}: the line passes ${Math.round(nr.d / 1000)} km from the river's coords`);
+  }
+  console.log(`${ids.length} rivers: lines, miles and camp horizons check out`);
+}
+
 console.log('geo tests passed');

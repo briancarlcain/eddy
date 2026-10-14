@@ -6,12 +6,12 @@
    "dams": 18
   },
   "cataract-canyon": {
-   "area": 196788,
+   "area": 194990,
    "lakes": 28,
    "dams": 16
   },
   "desolation-gray": {
-   "area": 98610,
+   "area": 103496,
    "lakes": 28,
    "dams": 7
   },
@@ -86,7 +86,7 @@
    "dams": 0
   },
   "smith": {
-   "area": 4113,
+   "area": 4869,
    "lakes": 2,
    "dams": 1
   },
@@ -96,8 +96,8 @@
    "dams": 3
   },
   "tuolumne": {
-   "area": 3872,
-   "lakes": 8,
+   "area": 3371,
+   "lakes": 7,
    "dams": 3
   },
   "westwater": {

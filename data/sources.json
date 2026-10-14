@@ -278,5 +278,10 @@
     "title": "National Hydrography Dataset and Watershed Boundary Dataset (USGS National Map)",
     "note": "Streams, reservoirs and lakes, drainage areas and the basin outlines behind each river's Basin map. U.S. government data. Dam names come from the project's own list (scripts/basin/dams.json), not from this dataset.",
     "confirmed": false
+  },
+  {
+    "title": "USGS Geographic Names Information System (GNIS) and National Hydrography Dataset main stems",
+    "note": "The Topo map's river line for every river except the Grand Canyon is the NHD main stem along the trip's run. The guide's river miles are pinned to it at rapids, falls, bars and creek mouths whose names match a GNIS feature on the line (scripts/basin/centerline.py). Rivers with no such matches (Black Canyon, Rio Chama, Dolores, Flaming Gorge, Westwater, Ruby-Horsethief) use the put-in, take-out and trip length alone. U.S. government data. Sun and shade use USGS 3DEP elevation (AWS Terrain Tiles), as for the Grand Canyon.",
+    "confirmed": false
   }
 ]

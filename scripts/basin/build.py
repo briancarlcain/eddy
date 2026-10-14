@@ -326,15 +326,8 @@ def load_json(p):
         return json.load(f)
 
 
-def build(rid, spec, groups, dams, nets, args):
-    river = load_json(os.path.join(ROOT, 'data', 'rivers', rid + '.json'))
-    run_km = spec.get('run_mi', river['miles'][1] - river['miles'][0]) * 1.609344
-    gname = spec['net']
-    if gname not in nets:
-        nets.clear()
-        print(f'loading network "{gname}" ...', flush=True)
-        nets[gname] = Net(groups[gname], args.cache)
-    net = nets[gname]
+def find_run(rid, spec, run_km, net):
+    """The trip's run as a list of flowlines down the named main stem: (path, length km, first flowline)."""
     tol_km = spec.get('tol', 12)
     if 'put' in spec:
         start = net.snap(spec['main'], spec['put'][0], spec['put'][1], tol_km)
@@ -353,6 +346,19 @@ def build(rid, spec, groups, dams, nets, args):
             tid = net.snap(spec['main'], spec['take'][0], spec['take'][1], tol_km)
         path, tot = net.walk_up(tid, run_km)
         start = path[0]
+    return path, tot, start
+
+
+def build(rid, spec, groups, dams, nets, args):
+    river = load_json(os.path.join(ROOT, 'data', 'rivers', rid + '.json'))
+    run_km = spec.get('run_mi', river['miles'][1] - river['miles'][0]) * 1.609344
+    gname = spec['net']
+    if gname not in nets:
+        nets.clear()
+        print(f'loading network "{gname}" ...', flush=True)
+        nets[gname] = Net(groups[gname], args.cache)
+    net = nets[gname]
+    path, tot, start = find_run(rid, spec, run_km, net)
     t_end = ends(net.fl.geom[path[-1]])[1]
     takeout = (t_end[1], t_end[0])
     outlet = path[-1]
