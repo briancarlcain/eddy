@@ -894,5 +894,30 @@
         ]
       }
     ]
+  },
+  "stats": {
+    "class": "III to IV",
+    "season": "Year-round. The river peaks near 20,000 cfs in late May or early June and recedes below 3,000 in fall.",
+    "elev": [
+      4300,
+      4150
+    ],
+    "gradient": 9,
+    "steep": {
+      "gradient": 18,
+      "from": 5.8,
+      "miles": 5
+    },
+    "flow": {
+      "min": 2000,
+      "max": 30000,
+      "note": "Runnable from about 2,000 to 30,000 cfs. Between 13,000 and 20,000 the canyon is serious Class IV, and above about 6,000 the eddy fences get hard for rafts."
+    },
+    "gauges": [
+      {
+        "name": "Colorado River near Colorado-Utah State Line",
+        "id": "09163500"
+      }
+    ]
   }
 }

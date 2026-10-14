@@ -1137,5 +1137,33 @@
         ]
       }
     ]
+  },
+  "stats": {
+    "class": "II to III, with one Class IV",
+    "season": "Spring runoff into early summer. It typically peaks in late May or early June and drops fast.",
+    "elev": [
+      5600,
+      4800
+    ],
+    "gradient": 11,
+    "steep": {
+      "gradient": 24,
+      "from": 8.2,
+      "miles": 5
+    },
+    "flow": {
+      "min": 1000,
+      "max": 20000,
+      "note": "The range for Warm Springs Rapid, whose line changes with flow. Another source lists 1,300 to 25,000 cfs as the optimal range."
+    },
+    "gauges": [
+      {
+        "name": "Yampa River at Deerlodge Park, CO"
+      },
+      {
+        "name": "Yampa River near Maybell, CO",
+        "id": "09251000"
+      }
+    ]
   }
 }

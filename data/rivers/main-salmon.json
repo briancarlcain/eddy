@@ -1737,5 +1737,30 @@
         ]
       }
     ]
+  },
+  "stats": {
+    "class": "III to IV",
+    "season": "Lottery season runs June 20 to September 7. Runoff usually peaks in early June.",
+    "elev": [
+      2900,
+      1950
+    ],
+    "gradient": 12,
+    "steep": {
+      "gradient": 24,
+      "from": 21.3,
+      "miles": 5
+    },
+    "flow": {
+      "min": 4000,
+      "max": 35000,
+      "note": "Another guide lists 2,000 to 23,000 cfs at the White Bird gauge, so check which gauge a number refers to. Spring flows often top 23,000 in May and June."
+    },
+    "gauges": [
+      {
+        "name": "Salmon River at White Bird, ID",
+        "id": "13317000"
+      }
+    ]
   }
 }

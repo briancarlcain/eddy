@@ -1004,5 +1004,30 @@
         ]
       }
     ]
+  },
+  "stats": {
+    "class": "III to IV",
+    "season": "Permit lottery season is May to September. Runoff from the Yampa adds muddy water below Echo Park in spring.",
+    "elev": [
+      5350,
+      4800
+    ],
+    "gradient": 12,
+    "steep": {
+      "gradient": 24,
+      "from": 5.8,
+      "miles": 5
+    },
+    "flow": {
+      "min": 900,
+      "max": 20000,
+      "note": "An outfitter calls 900 to 3,000 cfs low, 3,000 to 10,000 medium and 10,000 to 20,000 high. Flaming Gorge Dam controls the flow, and September floats can see 900 cfs."
+    },
+    "gauges": [
+      {
+        "name": "Green River near Greendale, UT",
+        "id": "09234500"
+      }
+    ]
   }
 }

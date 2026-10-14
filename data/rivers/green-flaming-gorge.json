@@ -912,5 +912,30 @@
         ]
       }
     ]
+  },
+  "stats": {
+    "class": "II",
+    "season": "Year-round. The dam keeps the water cold and the flow steady.",
+    "elev": [
+      5600,
+      5350
+    ],
+    "gradient": 5.6,
+    "steep": {
+      "gradient": 12,
+      "from": 5.1,
+      "miles": 5
+    },
+    "flow": {
+      "min": 800,
+      "max": 8000,
+      "note": "The recommended range for the dam-to-Little Hole fishery run. Flow comes from Flaming Gorge Dam."
+    },
+    "gauges": [
+      {
+        "name": "Green River near Greendale, UT",
+        "id": "09234500"
+      }
+    ]
   }
 }

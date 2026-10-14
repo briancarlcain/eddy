@@ -80,6 +80,11 @@
     "confirmed": false
   },
   {
+    "title": "Kolb Brothers \"Cat Camp\" Inscription (National Register of Historic Places, via Wikipedia)",
+    "note": "Wording, 1911 date and National Register listing for the inscription between Big Drop 2 and Big Drop 3. Public record; verify before publishing.",
+    "confirmed": false
+  },
+  {
     "title": "Desolation and Gray Canyons: river guide (GoRafting)",
     "note": "Camps, rapids and mileage. Facts reworded; confirm licence or replace.",
     "confirmed": false
@@ -261,7 +266,22 @@
   },
   {
     "title": "River Brain (riverbrain.com): run, camp and rapid notes",
-    "note": "User-contributed camp banks, scouting lines and recommended flows used for Smith, Westwater, Ruby-Horsethief, Lodore, Cataract, Desolation-Gray and South Fork American. Facts reworded; confirm licence or replace.",
+    "note": "User-contributed camp banks, scouting lines, camp notes, take-out notes, points of interest and flow bands used for Smith, Westwater, Ruby-Horsethief, Lodore, Cataract, Desolation-Gray and South Fork American. Facts reworded; confirm licence or replace. Its Cataract page dates from about 2011, so its permit text was not used and its camp list should be checked against the current NPS designated sites.",
+    "confirmed": false
+  },
+  {
+    "title": "River class, recommended flows and seasons (American Whitewater reach pages, Mountaineers route guides, BLM, NPS, FWP and outfitter river guides)",
+    "note": "Overview tab for all rivers: class, season, flow ranges and the notes under them. Sources disagree on several rivers, so each note says which range it uses and where another guide differs. Several figures came from search summaries of these pages, not the pages themselves; check each against the agency or American Whitewater page. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "USGS National Water Information System: gauge names and station numbers",
+    "note": "Gauges listed on each river Overview. U.S. government data. Station numbers for Rogue, Salt, Ruby-Horsethief, Westwater, Green (Greendale), White Bird, Middle Fork Lodge and Selway were not re-checked against USGS from this build; confirm before publishing.",
+    "confirmed": false
+  },
+  {
+    "title": "Terrain elevations and gradients (AWS Terrain Tiles from USGS 3DEP)",
+    "note": "Put-in and take-out elevation and gradient measured along each river centerline by scripts/geo/elevation.mjs, rounded to 50 ft. Accurate to a few tens of feet; Black Canyon was set by hand because the dam wall distorts the terrain data there.",
     "confirmed": false
   },
   {

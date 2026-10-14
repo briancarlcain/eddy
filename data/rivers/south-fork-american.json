@@ -931,5 +931,25 @@
         ]
       }
     ]
+  },
+  "stats": {
+    "class": "III",
+    "season": "April to October. Spring and early summer releases run most days; late summer and fall are mostly weekends.",
+    "elev": [
+      900,
+      450
+    ],
+    "gradient": 22,
+    "steep": {
+      "gradient": 35,
+      "from": 1,
+      "miles": 5
+    },
+    "flow": {
+      "min": 800,
+      "typical": 1300,
+      "max": 4000,
+      "note": "Summer releases from the dam are commonly about 1,300 cfs, with 1,200 to 2,000 normal and 2,000 to 4,500 medium. The river can surge on midweek evenings."
+    }
   }
 }

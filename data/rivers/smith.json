@@ -821,5 +821,29 @@
         ]
       }
     ]
+  },
+  "stats": {
+    "class": "I to II",
+    "season": "Mid-April to early July, with some floating in September. Permits are drawn each February.",
+    "elev": [
+      4350,
+      3450
+    ],
+    "gradient": 16,
+    "steep": {
+      "gradient": 28,
+      "from": 2.5,
+      "miles": 5
+    },
+    "flow": {
+      "min": 250,
+      "note": "FWP’s guidance is 150 cfs for canoes and kayaks, 250 for rafts and 350 for drift boats. It does not close the river for low flow, but below these levels floating gets harder and in a very dry summer is discouraged."
+    },
+    "gauges": [
+      {
+        "name": "Smith River below Eagle Creek near Fort Logan, MT",
+        "id": "06077200"
+      }
+    ]
   }
 }
