@@ -1,0 +1,65 @@
+{
+  "name": "Owyhee River",
+  "state": "Oregon",
+  "reach": "Crutcher's Crossing to Birch Creek or Leslie Gulch (via Three Forks and Rome)",
+  "agency": "BLM Vale / Idaho / Oregon",
+  "miles": [
+    0,
+    120
+  ],
+  "coords": [
+    43,
+    -117.5
+  ],
+  "tz": "America/Boise",
+  "note": "Preliminary entry: reach, access points and permit rules only. Mileage and map position are approximate; confirm against the managing agency.",
+  "access": [
+    {
+      "name": "Crutcher's Crossing",
+      "road": true,
+      "mile": 0,
+      "park": true,
+      "note": "Put-in"
+    },
+    {
+      "name": "Three Forks",
+      "road": true,
+      "mile": 26,
+      "park": true,
+      "note": "Access"
+    },
+    {
+      "name": "Rome",
+      "road": true,
+      "mile": 66,
+      "park": true,
+      "note": "Access"
+    },
+    {
+      "name": "Birch Creek or Leslie Gulch",
+      "road": true,
+      "mile": 120,
+      "park": true,
+      "note": "Take-out"
+    }
+  ],
+  "permit": {
+    "status": "Required · free, self-issued",
+    "sections": [
+      {
+        "name": "Rules",
+        "items": [
+          {
+            "t": "Self-issue permit",
+            "d": "Download a self-issue permit from the BLM website. It covers Crutcher's Crossing to Three Forks, Three Forks to Rome, and Rome to Birch Creek or Leslie Gulch."
+          }
+        ]
+      }
+    ],
+    "source": "American Whitewater permit list"
+  },
+  "notes": {
+    "camp": "",
+    "hike": ""
+  }
+}

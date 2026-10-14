@@ -33,9 +33,6 @@
       "1405",
       "1406"
     ],
-    "dolores": [
-      "1403"
-    ],
     "san-juan": [
       "1408"
     ],
@@ -76,20 +73,6 @@
       "check": [
         36.1167,
         -114.0008
-      ]
-    },
-    "black-canyon": {
-      "net": "colorado",
-      "main": [
-        "Colorado River"
-      ],
-      "put": [
-        36.01,
-        -114.736
-      ],
-      "check": [
-        35.8681,
-        -114.6628
       ]
     },
     "cataract-canyon": {
@@ -188,17 +171,6 @@
       "basin_until": [
         "Yampa River"
       ]
-    },
-    "dolores": {
-      "net": "dolores",
-      "main": [
-        "Dolores River"
-      ],
-      "take": [
-        38.315,
-        -108.8909
-      ],
-      "tol": 20
     },
     "san-juan": {
       "net": "san-juan",
@@ -328,20 +300,6 @@
       "put": [
         37.8355,
         -120.0555
-      ]
-    },
-    "south-fork-american": {
-      "net": "american",
-      "main": [
-        "South Fork American River"
-      ],
-      "put": [
-        38.7671,
-        -120.8216
-      ],
-      "check": [
-        38.7591,
-        -121.0699
       ]
     },
     "smith": {

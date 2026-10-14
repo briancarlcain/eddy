@@ -1,6 +1,6 @@
 // Geo math: centerline encoding, mile placement, solar position, horizon casting, terrain sun times.
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { encodeLine, decodeLine, atMile, nearest, dist, itemKey } from '../src/geo/line.js';
 import { sunPos, sunDay, encodeHorizon, decodeHorizon, horizonAt } from '../src/geo/sun.js';
 import { horizon } from '../src/geo/horizon.js';
@@ -82,7 +82,9 @@ const hm = (d, tz) => d.toLocaleTimeString('en-GB', { timeZone: tz, hour: '2-dig
 // --- every built-in river has a centerline, its miles line up with the guide, and every camp has a terrain horizon
 {
   const { readdirSync } = await import('node:fs');
-  const ids = readdirSync('data/rivers').filter((f) => f.endsWith('.json')).map((f) => f.slice(0, -5));
+  const all = readdirSync('data/rivers').filter((f) => f.endsWith('.json')).map((f) => f.slice(0, -5));
+  // preliminary entries (scripts/rivers/permit-only.cjs) have no centerline yet
+  const ids = all.filter((id) => existsSync(`data/geo/${id}.json`));
   for (const id of ids) {
     const geo = JSON.parse(readFileSync(`data/geo/${id}.json`, 'utf8'));
     const river = JSON.parse(readFileSync(`data/rivers/${id}.json`, 'utf8'));
@@ -104,7 +106,7 @@ const hm = (d, tz) => d.toLocaleTimeString('en-GB', { timeZone: tz, hour: '2-dig
     const nr = nearest(L, river.coords[0], river.coords[1]);
     assert.ok(nr.d < 25000, `${id}: the line passes ${Math.round(nr.d / 1000)} km from the river's coords`);
   }
-  console.log(`${ids.length} rivers: lines, miles and camp horizons check out`);
+  console.log(`${ids.length} rivers: lines, miles and camp horizons check out (${all.length - ids.length} preliminary entries have no map yet)`);
 }
 
 console.log('geo tests passed');

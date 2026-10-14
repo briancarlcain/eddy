@@ -1,0 +1,58 @@
+{
+  "name": "John Day River",
+  "state": "Oregon",
+  "reach": "Service Creek to Cottonwood (via Clarno)",
+  "agency": "BLM Prineville",
+  "miles": [
+    0,
+    125
+  ],
+  "coords": [
+    44.9,
+    -120.4
+  ],
+  "tz": "America/Los_Angeles",
+  "note": "Preliminary entry: reach, access points and permit rules only. Mileage and map position are approximate; confirm against the managing agency.",
+  "access": [
+    {
+      "name": "Service Creek",
+      "road": true,
+      "mile": 0,
+      "park": true,
+      "note": "Put-in"
+    },
+    {
+      "name": "Clarno",
+      "road": true,
+      "mile": 53,
+      "park": true,
+      "note": "Access"
+    },
+    {
+      "name": "Cottonwood",
+      "road": true,
+      "mile": 125,
+      "park": true,
+      "note": "Take-out"
+    }
+  ],
+  "permit": {
+    "status": "Required year-round · Recreation.gov, rolling four-month release",
+    "sections": [
+      {
+        "name": "Rules",
+        "items": [
+          {
+            "t": "Online permit",
+            "d": "A permit is required year-round from Recreation.gov. Reservations are distributed on a rolling four-month basis."
+          }
+        ]
+      }
+    ],
+    "source": "American Whitewater permit list"
+  },
+  "notes": {
+    "camp": "",
+    "hike": ""
+  }
+}

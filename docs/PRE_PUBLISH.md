@@ -6,7 +6,11 @@ Nothing here blocks building or TestFlight. All of it must be done before the ap
 Eddy's river data was compiled and edited with AI assistance from public sources and has not been field-checked or
 checked line by line by a person. Rivers are dangerous, so every number or instruction a boater could act on needs a
 human pass before the app is public. Tick these off as you go:
-- [ ] **River Overview stats, all 22 rivers** (`stats` in `data/rivers/*.json`, shown in River > Overview): class, season,
+- [ ] **Preliminary river entries** (Alsek, Tatshenshini, Bruneau-Jarbidge, Deschutes, John Day, Owyhee, Green River
+  Labyrinth/Stillwater, Dolores): the river miles, access-point miles and map coordinates were written from memory and are
+  approximate. Permit text is from American Whitewater's permit list. Verify each against the managing agency, or fill them
+  out with full data (and map data) before publishing.
+- [ ] **River Overview stats, 19 filled-out rivers** (`stats` in `data/rivers/*.json`, shown in River > Overview): class, season,
   recommended flow (min, typical, max) and the note under it, flow bands, gauges. Sources disagree on several rivers, and
   many figures came from search summaries, not the agency or American Whitewater page itself. Check each against the
   agency page, American Whitewater and USGS.
@@ -15,7 +19,7 @@ human pass before the app is public. Tick these off as you go:
   Greendale 09234500, Salmon at White Bird 13317000, Middle Fork Salmon at the Lodge 13309220, Selway near Lowell 13336500.
   Open each link in River > Overview and confirm it is the right gauge.
 - [ ] **Elevation and gradient** (`stats.elev`, `gradient`, `steep`): measured from terrain tiles, rounded to 50 ft, good
-  to a few tens of feet. Black Canyon was set by hand (650 ft, no gradient). Take-outs on Lake Powell, Lake Mead and
+  to a few tens of feet. Take-outs on Lake Powell, Lake Mead and
   other reservoirs depend on the lake level.
 - [ ] **Cataract Canyon additions from River Brain:** the camps Confluence, Lake Cataract, Big Drop Beach, Upper and Lower
   Ten Cent, Imperial and Indian Creek have approximate river miles; Upper and Middle Spanish Bottom were matched to River

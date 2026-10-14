@@ -103,7 +103,7 @@ Round 2 (after first review):
 - Satellite (USGS imagery) and USGS Topo layers for checking the line and camps by eye (online only).
 
 Still open:
-- [x] The other 21 rivers: centerlines from the USGS hydrography main stem with the guide's miles pinned by GNIS name matches (`scripts/basin/centerline.py` -> `data/geo/nhd/<id>.json`), then `npm run geo -- <id>` for positions and camp horizons. Rivers without name matches (Black Canyon, Rio Chama, Dolores, Flaming Gorge, Westwater, Ruby-Horsethief) run on the put-in, take-out and trip length; a few GNIS-matched ones fit to within 0.3-1 km (see the script's report).
+- [x] The other 21 rivers: centerlines from the USGS hydrography main stem with the guide's miles pinned by GNIS name matches (`scripts/basin/centerline.py` -> `data/geo/nhd/<id>.json`), then `npm run geo -- <id>` for positions and camp horizons. Rivers without name matches (Rio Chama, Flaming Gorge, Westwater, Ruby-Horsethief) run on the put-in, take-out and trip length; a few GNIS-matched ones fit to within 0.3-1 km (see the script's report).
 - [ ] Surveyed camp coordinates for the Grand Canyon (see "Higher resolution and accuracy" below).
 - [ ] 1 m lidar at build time for camp horizons (USGS 3DEP `AZ_GrandCanyonNP_2019` and others cover parts of
   the canyon).

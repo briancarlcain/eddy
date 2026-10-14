@@ -1,0 +1,51 @@
+{
+  "name": "Alsek River",
+  "state": "Alaska",
+  "reach": "Haines Junction to Dry Bay",
+  "agency": "Parks Canada / NPS Glacier Bay",
+  "miles": [
+    0,
+    260
+  ],
+  "coords": [
+    59.9,
+    -138
+  ],
+  "tz": "America/Anchorage",
+  "note": "Preliminary entry: reach, access points and permit rules only. Mileage and map position are approximate; confirm against the managing agency.",
+  "access": [
+    {
+      "name": "Haines Junction",
+      "road": true,
+      "mile": 0,
+      "park": true,
+      "note": "Put-in"
+    },
+    {
+      "name": "Dry Bay",
+      "road": true,
+      "mile": 260,
+      "park": true,
+      "note": "Take-out"
+    }
+  ],
+  "permit": {
+    "status": "Required · waitlist application",
+    "sections": [
+      {
+        "name": "Rules",
+        "items": [
+          {
+            "t": "Apply",
+            "d": "Send in an application to get on the waitlist for your preferred dates."
+          }
+        ]
+      }
+    ],
+    "source": "American Whitewater permit list"
+  },
+  "notes": {
+    "camp": "",
+    "hike": ""
+  }
+}

@@ -1,9 +1,7 @@
 // App-side geo state for the active river: centerline, item positions, camp horizons and sun times,
 // plus what lives on this device: dropped pins (with their own horizon) and GPX tracks, kept in localStorage.
-import blackCanyon from '../../data/geo/black-canyon.json';
 import cataractCanyon from '../../data/geo/cataract-canyon.json';
 import desolationGray from '../../data/geo/desolation-gray.json';
-import dolores from '../../data/geo/dolores.json';
 import grandCanyon from '../../data/geo/grand-canyon.json';
 import greenFlamingGorge from '../../data/geo/green-flaming-gorge.json';
 import hellsCanyon from '../../data/geo/hells-canyon.json';
@@ -18,7 +16,6 @@ import salt from '../../data/geo/salt.json';
 import sanJuan from '../../data/geo/san-juan.json';
 import selway from '../../data/geo/selway.json';
 import smith from '../../data/geo/smith.json';
-import southForkAmerican from '../../data/geo/south-fork-american.json';
 import tuolumne from '../../data/geo/tuolumne.json';
 import westwater from '../../data/geo/westwater.json';
 import yampa from '../../data/geo/yampa.json';
@@ -27,10 +24,8 @@ import { decodeHorizon, sunDay } from './sun.js';
 
 // one file per built-in river (npm run geo): centerline, mile marks and a terrain horizon for every camp
 export const GEO = {
-  'black-canyon': blackCanyon,
   'cataract-canyon': cataractCanyon,
   'desolation-gray': desolationGray,
-  'dolores': dolores,
   'grand-canyon': grandCanyon,
   'green-flaming-gorge': greenFlamingGorge,
   'hells-canyon': hellsCanyon,
@@ -45,7 +40,6 @@ export const GEO = {
   'san-juan': sanJuan,
   'selway': selway,
   'smith': smith,
-  'south-fork-american': southForkAmerican,
   'tuolumne': tuolumne,
   'westwater': westwater,
   'yampa': yampa,

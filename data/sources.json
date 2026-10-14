@@ -215,26 +215,6 @@
     "confirmed": false
   },
   {
-    "title": "South Fork American River boating trail guide (California State Parks, El Dorado County)",
-    "note": "Mile-by-mile guide and rules. Facts reworded; confirm licence or replace.",
-    "confirmed": false
-  },
-  {
-    "title": "American River, South Fork: The Gorge (American Whitewater)",
-    "note": "Rapid descriptions. Facts reworded; confirm licence or replace.",
-    "confirmed": false
-  },
-  {
-    "title": "Black Canyon National Water Trail (NPS Lake Mead)",
-    "note": "Access, boat zones, vendors. Facts reworded; confirm licence or replace.",
-    "confirmed": false
-  },
-  {
-    "title": "Black Canyon Water Trail trip reports (bearfoottheory.com, evansoutdooradventures.com)",
-    "note": "Landmarks and mileage. Facts reworded; confirm licence or replace.",
-    "confirmed": false
-  },
-  {
     "title": "Salt River: US 60 to Hwy 288 (American Whitewater)",
     "note": "Rapids, access and camps. Facts reworded; confirm licence or replace.",
     "confirmed": false
@@ -245,18 +225,8 @@
     "confirmed": false
   },
   {
-    "title": "Dolores River: Slickrock to Bedrock (American Whitewater)",
-    "note": "Rapids, access and flows. Facts reworded; confirm licence or replace.",
-    "confirmed": false
-  },
-  {
-    "title": "Dolores River: Dove Creek Pump Station to Slickrock (American Whitewater)",
-    "note": "Rapids, access and camps. Facts reworded; confirm licence or replace.",
-    "confirmed": false
-  },
-  {
-    "title": "Dolores River (BLM Tres Rios, Dolores River SRMA)",
-    "note": "Access, permits, flows. Facts reworded; confirm licence or replace.",
+    "title": "American Whitewater permit list (americanwhitewater.org/content/River/list-permits)",
+    "note": "Defines the app's river scope and the permit rules on the preliminary entries. Mileage and positions on those entries are approximate.",
     "confirmed": false
   },
   {
