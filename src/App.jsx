@@ -992,7 +992,7 @@ const Field = ({ label, area, ...p }) => (
 
 /* ---------- trip ---------- */
 
-function Trip({ s, back, onAccount }) {
+function Trip({ s, back, onAccount, onRiver }) {
   const [nudge, setNudge] = useState(() => {
     try {
       return localStorage.getItem('eddy.v1.joinedNudge') === '1';
@@ -1014,10 +1014,10 @@ function Trip({ s, back, onAccount }) {
   const tripStatus0 = s.syncStatus[s.trip.id];
   const panels = { Itinerary, Crew, Meals, Gear, Shuttle, Costs: Ledger, Emergency: Card, Journal: Log, Notes: Info, People, Settings };
   const P = panels[tab] || Itinerary;
-  const items = ['Itinerary', 'Crew', 'Meals', 'Gear', 'Shuttle', 'Costs', 'Emergency', 'Journal', ...(REFS[s.trip.id] ? ['Notes'] : []), 'People', 'Settings'];
+  const items = ['Itinerary', ...(onRiver && riverOf(s.trip) ? ['River'] : []), 'Crew', 'Meals', 'Gear', 'Shuttle', 'Costs', 'Emergency', 'Journal', ...(REFS[s.trip.id] ? ['Notes'] : []), 'People', 'Settings'];
   return (
     <>
-      <Tabs items={items} value={tab} onChange={setTab} />
+      <Tabs items={items} value={tab} onChange={(t) => (t === 'River' ? onRiver() : setTab(t))} />
       <div className="pad">
         {tripEnt && tripEnt.role === 'viewer' && !tripEnt.removed ? (
           <div className="notice mb note">
@@ -6111,7 +6111,7 @@ function App() {
       <main key={rid}>
         {tab === 'Trips' &&
           (detail ? (
-            <Trip s={s} back={() => setInTrip(false)} onAccount={() => { setProfSub('Account'); setTab('Profile'); }} />
+            <Trip s={s} back={() => setInTrip(false)} onRiver={() => { setBrowse(tripRid); setTab('River'); }} onAccount={() => { setProfSub('Account'); setTab('Profile'); }} />
           ) : (
             <Trips s={s} preset={preset} clearPreset={() => setPreset(null)} joinCode={joinCode} joinBy={joinBy} welcome={welcome} setWelcome={setWelcome} clearJoin={() => { setJoinCode(''); try { history.replaceState(null, '', location.pathname); } catch {} }} onOpen={() => setInTrip(true)} onAccount={() => { setProfSub('Account'); setTab('Profile'); }} />
           ))}
