@@ -133,7 +133,8 @@ const QS = typeof location !== 'undefined' ? new URLSearchParams(location.search
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 const now = () => Date.now();
 const SLOTS = ['Breakfast', 'Lunch', 'Snack', 'Dinner', 'Happy hour'];
-const EVAC = { 1: '#6b6154', 2: '#a8722a', 3: '#c0562f', 4: '#9c3326' };
+// evacuation difficulty: a quiet ramp from stone to deep river blue (the number carries the meaning)
+const EVAC = { 1: '#6f7c85', 2: '#4f84a3', 3: '#1f6c9f', 4: '#154d77' };
 
 /* dates */
 const DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -1049,7 +1050,7 @@ function Trip({ s, back, onAccount }) {
           </div>
         ) : null}
         {nudge && !s.session ? (
-          <div className="notice mb note">
+          <div className="notice info mb note">
             <div className="noticeHead">
               <Icon name="cloud" size={17} /> Keep this trip on all your devices
             </div>
@@ -4889,7 +4890,7 @@ function Safety() {
   const [tab, setTab] = useState(['Medical', 'Signals', 'Rescue', 'Swim'].includes(QS.get('sub')) ? QS.get('sub') : 'Medical');
   return (
     <>
-      <Tabs items={['Medical', 'Signals', 'Rescue', 'Swim']} value={tab} onChange={setTab} danger />
+      <Tabs items={['Medical', 'Signals', 'Rescue', 'Swim']} value={tab} onChange={setTab} />
       <div className="pad">
         {tab === 'Medical' && <Medical />}
         {tab === 'Signals' && <Pairs data={GENERAL.signals} />}
@@ -5391,7 +5392,7 @@ function Trips({ s, preset, clearPreset, joinCode, joinBy, clearJoin, welcome, s
         </div>
       )}
       {!s.session && !adding && s.trips.length > 0 && localStorage.getItem('eddy.v1.hideBanner') !== '1' ? (
-        <div className="notice mt note">
+        <div className="notice info mt note">
           <div className="noticeHead">
             <Icon name="cloud" size={17} /> Back up your trips
           </div>
