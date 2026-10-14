@@ -1542,15 +1542,20 @@ function ledger(t) {
     const unit = Math.max(it.flat, it.day * D);
     let have = 0,
       need = 0,
-      lend = 0;
+      lend = 0,
+      net = 0;
+    const own = {};
     crew.forEach((c) => {
       const e = it.e[c.id] || {};
-      have += num(e.have);
+      // what a person brings for themselves only covers what they need
+      own[c.id] = Math.min(num(e.have), num(e.need));
+      have += own[c.id];
       need += num(e.need);
+      net += num(e.need) - own[c.id];
       lend += num(e.lend);
     });
     const target = it.split === 'personal' ? need : it.qty || need;
-    const rent = Math.max(0, target - lend);
+    const rent = Math.max(0, target - have - lend);
     const total = unit * rent;
     const share = {};
     crew.forEach((c) => {
@@ -1564,8 +1569,8 @@ function ledger(t) {
             ? allNights
               ? (total * nights(c)) / allNights
               : 0
-            : need
-              ? (total * num(e.need)) / need
+            : net
+              ? (total * (num(e.need) - own[c.id])) / net
               : 0;
       if (v) share[c.id] = v;
     });
@@ -1588,6 +1593,25 @@ function ledger(t) {
   return { items, by, total, loose, allNights, days: D };
 }
 
+const TIPS = {
+  need: 'How many you will personally use on the trip, e.g. 1 for a PFD. Enter 0 if you don’t need it.',
+  have: 'How many of your own you can bring for yourself. You aren’t charged for these.',
+  group: 'Total the group needs. Calculated from everyone’s “I need”. Type a number to override it.',
+  lend: 'Extra ones you can bring for others to use. Each one lent means one fewer rented.',
+  price: 'Rental cost of one item. A flat fee is charged once; a per-day price is multiplied by the trip’s days. The larger of the two is used.',
+  split: Object.entries(SPLIT_HELP).map(([k, v]) => SPLITS[k] + ': ' + v).join('\n'),
+};
+function useTip() {
+  const [tip, setTip] = useState('');
+  const btn = (k) => (
+    <button type="button" className="tipBtn" aria-label="More info" aria-expanded={tip === k} onClick={() => setTip(tip === k ? '' : k)}>
+      i
+    </button>
+  );
+  const box = (...ks) => (ks.includes(tip) ? <div className="tipTxt">{TIPS[tip]}</div> : null);
+  return { btn, box };
+}
+
 const Num = ({ label, value, onChange, usd: money, hint }) => (
   <label className={'num' + (money ? ' usd' : '')}>
     <span className="numKey">{label}</span>
@@ -1599,14 +1623,15 @@ const Num = ({ label, value, onChange, usd: money, hint }) => (
 );
 
 // the same fields for every item, whether it is being added or edited
-function GearFields({ v, up, days, cats }) {
+function GearFields({ v, up, days, cats, T }) {
   const unit = Math.max(num(v.f), num(v.d) * days);
   return (
     <>
       <Field label="Item" value={v.n} onChange={(e) => up('n', e.target.value)} />
       <Field label="Category" value={v.c} onChange={(e) => up('c', e.target.value)} placeholder="Kitchen" list="gearCats" />
       <datalist id="gearCats">{(cats || []).map((c) => <option key={c} value={c} />)}</datalist>
-      <span className="label">How it’s billed</span>
+      <span className="label">How it’s billed {T.btn('split')}</span>
+      {T.box('split')}
       <div className="chips">
         {Object.entries(SPLITS).map(([k, l]) => (
           <button key={k} className={'chip' + (v.s === k ? ' on' : '')} onClick={() => up('s', k)}>
@@ -1615,12 +1640,21 @@ function GearFields({ v, up, days, cats }) {
         ))}
       </div>
       <div className="muted mb">{SPLIT_HELP[v.s]}</div>
-      <span className="label">Rental price, per item (leave blank if it’s free)</span>
+      <span className="label">Rental price per item {T.btn('price')}</span>
+      {T.box('price')}
       <div className="numRow">
         <Num usd label="Flat fee" value={v.f} onChange={(x) => up('f', x)} />
         <Num usd label="Per day" value={v.d} onChange={(x) => up('d', x)} />
-        {v.s !== 'personal' && <Num label="Group needs" value={v.q} onChange={(x) => up('q', x)} hint={v.qHint} />}
-      </div>
+        </div>
+      {v.s !== 'personal' && (
+        <>
+          <span className="label">Group needs (calculated) {T.btn('group')}</span>
+          {T.box('group')}
+          <div className="numRow">
+            <Num label="Total" value={v.q} onChange={(x) => up('q', x)} hint={v.qHint} />
+          </div>
+        </>
+      )}
       <div className="muted mb">
         {unit > 0
           ? `Each item costs ${usd(unit)} for ${days} days (the larger of the flat fee or per-day × ${days}).`
@@ -1731,6 +1765,7 @@ function Gear({ s }) {
 }
 
 function GearRow({ it, s, crew, days, cats, me, open, onOpen }) {
+  const T = useTip();
   const mine = it.share[me] || 0;
   const tag = REQ[it.req];
   const flag = it.unit > 0 && it.rent > 0;
@@ -1754,25 +1789,28 @@ function GearRow({ it, s, crew, days, cats, me, open, onOpen }) {
       </button>
       {open && (
         <div className="grBody">
-          <GearFields v={v} up={(k, x) => patch({ [k]: x })} days={days} cats={cats} />
+          <GearFields v={v} up={(k, x) => patch({ [k]: x })} days={days} cats={cats} T={T} />
           <Field area label="Note" value={it.raw.note || ''} onChange={(e) => patch({ note: e.target.value })} placeholder="Where to rent it, sizes, who’s bringing it…" />
 
-          <span className="label">Who has, needs and can lend it</span>
+          <span className="label">Who needs it, brings it and lends it</span>
           {crew.length ? (
             <div className="gcrew">
               <div className="gcRow gcHead">
                 <span />
-                <span>Have</span>
-                <span>Need</span>
-                <span>Lend</span>
+                {[['need', 'I need'], ['have', 'I can bring for myself'], ['lend', 'I can bring to lend']].map(([k, l]) => (
+                  <span key={k}>
+                    {l} {T.btn(k)}
+                  </span>
+                ))}
                 <span>Pays</span>
               </div>
+              {T.box('need', 'have', 'lend')}
               {crew.map((c) => {
                 const e = it.e[c.id] || {};
                 return (
                   <div className={'gcRow' + (c.id === me ? ' me' : '')} key={c.id}>
                     <span className="gcName">{c.name}</span>
-                    {['have', 'need', 'lend'].map((k) => (
+                    {['need', 'have', 'lend'].map((k) => (
                       <input key={k} inputMode="decimal" aria-label={`${c.name} ${k}`} placeholder="0" value={e[k] ?? ''} onChange={(ev) => setE(c.id, k, ev.target.value)} />
                     ))}
                     <span className="gcAmt">{it.share[c.id] ? usd(it.share[c.id]) : ''}</span>
@@ -1783,11 +1821,11 @@ function GearRow({ it, s, crew, days, cats, me, open, onOpen }) {
           ) : (
             <div className="muted">Add crew on the Crew tab first.</div>
           )}
-          <div className="muted mb">Have: you own it. Need: how many you’ll use. Lend: how many you’ll lend to the group, so fewer are rented.</div>
 
           <div className="rule" />
           <div className="grMath">
             <span>{+it.target.toFixed(2)} needed</span>
+            <span>{+it.have.toFixed(2)} own</span>
             <span>{+it.lend.toFixed(2)} lent</span>
             <span>{+it.rent.toFixed(2)} rented</span>
             <span className="grTotal">{it.total ? usd(it.total) : '$0'}</span>
@@ -1804,10 +1842,11 @@ function GearRow({ it, s, crew, days, cats, me, open, onOpen }) {
 
 function AddGear({ s, days, cats, onDone }) {
   const [f, setF] = useState({ n: '', c: '', s: 'personal', f: '', d: '', q: '', r: '' });
+  const T = useTip();
   const up = (k, v) => setF({ ...f, [k]: v });
   return (
     <div className="card mt mb">
-      <GearFields v={f} up={up} days={days} cats={cats} />
+      <GearFields v={f} up={up} days={days} cats={cats} T={T} />
       <button
         className="btn"
         disabled={!f.n.trim()}
