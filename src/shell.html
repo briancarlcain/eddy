@@ -23,7 +23,7 @@ header{position:fixed; top:0; left:0; right:0; z-index:20;
   background:rgba(241,232,213,.94); backdrop-filter:blur(8px);
   border-bottom:1px solid var(--line); padding:8px 14px; padding-top:max(8px, env(safe-area-inset-top));}
 .htop{display:flex; align-items:baseline; justify-content:space-between; gap:10px;}
-.htitle{font-family:var(--font); font-size:15px; line-height:1; color:#7a2417;}
+.htitle{font-family:var(--font); font-size:15px; line-height:1; color:var(--ink);}
 .hreach{font-family:var(--font); font-size:10px; letter-spacing:.1em; text-transform:uppercase;
   color:var(--teal); text-align:right; white-space:nowrap;}
 .hreach #hmile{display:block; color:var(--ink); font-size:13px; font-weight:600;}
@@ -67,14 +67,14 @@ header{position:fixed; top:0; left:0; right:0; z-index:20;
 .fsheetWrap.show .fsheet{transform:translateY(0);}
 .fshead{position:sticky; top:0; z-index:2; background:var(--card); padding:14px 0 8px;
   display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--line);}
-.fstitle{font-family:var(--font); font-size:17px; color:#7a2417;}
+.fstitle{font-family:var(--font); font-size:17px; color:var(--ink);}
 .fsclose{font-family:var(--font); font-size:24px; line-height:1; color:var(--ink-faint);
   -webkit-tap-highlight-color:transparent; cursor:pointer; padding:0 4px;}
 .fsec{padding:11px 0 12px; border-bottom:1px solid var(--line);}
 .fsec:last-of-type{border-bottom:none;}
 .fseckicker{display:flex; align-items:center; gap:8px;
   font-family:var(--font); font-size:9px; font-weight:700; letter-spacing:.14em;
-  text-transform:uppercase; color:#7a2417; margin-bottom:8px;}
+  text-transform:uppercase; color:var(--ink); margin-bottom:8px;}
 .fgrp{display:flex; align-items:center; gap:9px; margin-top:8px;}
 .fgrp:first-of-type{margin-top:0;}
 .fgname{font-family:var(--font); font-size:9px; font-weight:600; letter-spacing:.08em;
@@ -189,7 +189,7 @@ header{position:fixed; top:0; left:0; right:0; z-index:20;
   padding:13px 14px; padding-top:max(13px, env(safe-area-inset-top));
   align-items:center; justify-content:center;}
 .pageHeader .hback{position:absolute; left:10px; bottom:11px; font-family:var(--font); font-size:12px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); background:none; border:0; padding:2px 4px; -webkit-tap-highlight-color:transparent;}
-.pageHeader .phtitle{max-width:62%; text-align:center; font-family:var(--font); font-size:17px; color:#7a2417; line-height:1;}
+.pageHeader .phtitle{max-width:62%; text-align:center; font-family:var(--font); font-size:17px; color:var(--ink); line-height:1;}
 
 /* generic placeholder page */
 .page{min-height:100vh; text-align:center; flex-direction:column; align-items:center; justify-content:center;
@@ -260,9 +260,9 @@ header{position:fixed; top:0; left:0; right:0; z-index:20;
 .rg .mb { margin-bottom: 18px; }
 .rg .mb-s { margin-bottom: 6px; }
 
-.rg h1 { font-family:var(--font); font-size: 21px; line-height: 1.1; color: #7a2417; margin: 0 0 14px; font-weight: 400; }
+.rg h1 { font-family:var(--font); font-size: 21px; line-height: 1.1; color: var(--ink); margin: 0 0 14px; font-weight: 400; }
 .rg .serif { font-family:var(--font); font-size: 19px; line-height: 1.12; color: var(--ink); }
-.rg .label { display: block; font-family:var(--font); font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #7a2417; margin-bottom: 8px; }
+.rg .label { display: block; font-family:var(--font); font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--ink); margin-bottom: 8px; }
 .rg .line { font-size: 14px; line-height: 1.55; color: var(--ink-dim); }
 .rg .pre { white-space: pre-wrap; }
 .rg .muted { font-family:var(--font); font-size: 9.5px; letter-spacing: .05em; color: var(--ink-faint); line-height: 1.5; }
@@ -378,7 +378,7 @@ header{position:fixed; top:0; left:0; right:0; z-index:20;
 /* leg editor */
 .rg .legBox { border: 1px solid var(--line); border-radius: 10px; background: #fbf6e8; padding: 10px 11px; margin-top: 10px; }
 .rg .legHead { display: flex; align-items: center; justify-content: space-between; }
-.rg .legKey { font-family:var(--font); font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #7a2417; }
+.rg .legKey { font-family:var(--font); font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--ink); }
 .rg .sel { width: 100%; font-family:var(--font); font-size: 12px; color: var(--ink); background: #fbf6e8; border: 1px solid var(--line); border-radius: 8px; padding: 9px 10px; }
 .rg .legBox .sel { background: #f5eede; }
 
