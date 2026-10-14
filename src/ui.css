@@ -632,9 +632,13 @@ body.shot #fakeStatus { background: var(--bg); }
 .rg .numPre { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--ink-dim); pointer-events: none; }
 .rg .num.usd .numBox input { padding-left: 26px !important; }
 .rg .gcrew { margin: 4px 0 6px; }
-.rg .gcRow { display: grid; grid-template-columns: minmax(64px, 1fr) repeat(3, 52px) 54px; gap: 6px; align-items: center; padding: 3px 4px; border-radius: 8px; }
+.rg .gcRow { display: grid; grid-template-columns: minmax(64px, 1fr) repeat(3, 58px) 54px; gap: 6px; align-items: center; padding: 3px 4px; border-radius: 8px; }
 .rg .gcRow.me { background: rgba(154, 74, 40, .10); }
 .rg .gcRow input { width: 100%; min-width: 0; font-family: var(--font); font-size: 16px; text-align: center; color: var(--ink); background: #fbf6e8; border: 1px solid var(--line); border-radius: 8px; padding: 7px 2px; }
 .rg .gcHead { font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); text-align: center; }
 .rg .gcName { font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .rg .gcAmt { font-size: 12.5px; text-align: right; color: var(--accent); }
+.rg .gcHead span { line-height: 1.2; }
+.rg .tipBtn { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; margin-left: 3px; padding: 0; border-radius: 50%; border: 1px solid var(--ink-faint); background: none; color: var(--ink-dim); font: italic 700 10px/1 serif; letter-spacing: 0; text-transform: none; vertical-align: middle; cursor: pointer; }
+.rg .tipBtn[aria-expanded=true] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.rg .tipTxt { white-space: pre-line; font-size: 13px; line-height: 1.4; color: var(--ink-dim); background: rgba(154, 74, 40, .08); border-radius: 8px; padding: 8px 10px; margin: 2px 0 8px; }
