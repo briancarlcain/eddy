@@ -93,3 +93,18 @@ export function applyTheme(riverId) {
   const m = document.querySelector('meta[name=theme-color]');
   if (m) m.setAttribute('content', vars['--bg']);
 }
+
+// Style for a river's card in the Rivers list: its own tint, a secondary-colour edge and an accent title.
+export function riverCardStyle(riverId) {
+  const p = RIVER_PALETTES[riverId];
+  if (!p) return undefined;
+  const v = themeVars(p);
+  return {
+    background: `linear-gradient(90deg, ${p.s} 0 5px, transparent 5px), ${mix(p.t, '#ffffff', 0.45)}`,
+    boxShadow: `0 0 0 1px ${v['--accent-line']}, 0 1px 2px rgba(30, 24, 16, .06)`,
+    '--accent': p.a,
+    '--ink': v['--ink'],
+    '--ink-dim': v['--ink-dim'],
+    '--ink-faint': v['--ink-faint'],
+  };
+}

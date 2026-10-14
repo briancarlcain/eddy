@@ -625,3 +625,4 @@ body.shot #fakeStatus { background: var(--bg); }
 .rg .badge.soon { color: var(--accent); background: var(--accent-soft); border-color: var(--accent-line); }
 .rg .sunDown .ico, .campSun .ico { color: var(--accent); }
 .campSunRow { color: var(--ink-dim); }
+.rg .tripCard:active { filter: brightness(.96); }
