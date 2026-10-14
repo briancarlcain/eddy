@@ -36,7 +36,7 @@ trips (localStorage, and the shared db when available).
 - `src/BasinMap.jsx`, `src/geo/basin.js` - River > Map > Basin: the drainage basin above the take-out (streams by size, basin outline, reservoirs and lakes, dams, the trip's run). Draws from `data/basin/<river>.json` with no map tiles, so it works offline
 - `data/basin/*.json` - **generated** by `python3 scripts/basin/build.py` (see below); `index.json` lists the rivers that have one
 - `scripts/basin/` - the basin pipeline: `rivers.json` (per river: HU4 group, main-stem name, put-in or take-out point), `dams.json` (reservoir name -> dam name), `build.py`
-- `data/geo/anchors.json` - Grand Canyon only: known `{mile, lat, lon}` points its centerline is traced between on the terrain
+- `data/geo/anchors.json` - Grand Canyon only: known `{mile, lat, lon}` points its centerline is traced between on the terrain (an anchor with `"snap": 0` is used exactly, not snapped to the lowest nearby cell: for surveyed river-mile points on a reservoir, where the DEM is flat water)
 - `data/geo/nhd/<river>.json` - **generated** by `python3 scripts/basin/centerline.py`: every other river's centerline, the USGS stream line along the trip's run with the guide's miles pinned to it
 - `data/geo/<river>.json` - **generated** by `npm run geo`: centerline + a terrain horizon for every camp (the 19 rivers that have one)
 

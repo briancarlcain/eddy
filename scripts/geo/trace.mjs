@@ -56,8 +56,10 @@ async function segment(a, b, { z = 13, margin = 0.16, snapM = 250, T = 12 } = {}
   const g = await grid(z, box);
   const mpp = g.mpp((a.lat + b.lat) / 2);
   const r = Math.round(snapM / mpp);
-  const [ax, ay] = snapLow(g, ...g.px(a.lat, a.lon), r);
-  const [bx, by] = snapLow(g, ...g.px(b.lat, b.lon), r);
+  // an anchor with `snap: 0` is already on the water (a surveyed river-mile point on a reservoir): keep it where it is
+  const at = (p) => (p.snap === 0 ? g.px(p.lat, p.lon).map(Math.round) : snapLow(g, ...g.px(p.lat, p.lon), p.snap != null ? Math.round(p.snap / mpp) : r));
+  const [ax, ay] = at(a);
+  const [bx, by] = at(b);
   const za = g.data[ay * g.W + ax], zb = g.data[by * g.W + bx];
   const zlo = Math.min(za, zb);
   const N = g.W * g.H;

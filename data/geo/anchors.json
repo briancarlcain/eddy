@@ -7,6 +7,18 @@
     { "mile": 157.3, "lat": 36.3080, "lon": -112.7633, "name": "Havasu Creek" },
     { "mile": 179.8, "lat": 36.1930, "lon": -113.0810, "name": "Lava Falls" },
     { "mile": 225.9, "lat": 35.7660, "lon": -113.3700, "name": "Diamond Creek" },
+    { "mile": 247.8, "lat": 35.84386, "lon": -113.655293, "name": "USGS river mile 247.8 (Lake Mead reach)", "snap": 0 },
+    { "mile": 252.1, "lat": 35.879677, "lon": -113.707794, "name": "USGS river mile 252.1 (Lake Mead reach)", "snap": 0 },
+    { "mile": 259.0, "lat": 35.959533, "lon": -113.742037, "name": "USGS river mile 259 (Lake Mead reach)", "snap": 0 },
+    { "mile": 264.8, "lat": 36.02611, "lon": -113.78393, "name": "USGS river mile 264.8 (Lake Mead reach)", "snap": 0 },
+    { "mile": 269.9, "lat": 36.05269, "lon": -113.857978, "name": "USGS river mile 269.9 (Lake Mead reach)", "snap": 0 },
+    { "mile": 274.0, "lat": 36.093215, "lon": -113.899838, "name": "USGS river mile 274 (Lake Mead reach)", "snap": 0 },
+    { "mile": 275.5, "lat": 36.098839, "lon": -113.923467, "name": "USGS river mile 275.5 (Lake Mead reach)", "snap": 0 },
+    { "mile": 276.0, "lat": 36.1059, "lon": -113.924407, "name": "USGS river mile 276 (Lake Mead reach)", "snap": 0 },
+    { "mile": 277.5, "lat": 36.126899, "lon": -113.929867, "name": "USGS river mile 277.5 (Lake Mead reach)", "snap": 0 },
+    { "mile": 278.0, "lat": 36.132225, "lon": -113.935524, "name": "USGS river mile 278 (Lake Mead reach)", "snap": 0 },
+    { "mile": 279.0, "lat": 36.132513, "lon": -113.953292, "name": "USGS river mile 279 (Lake Mead reach)", "snap": 0 },
+    { "mile": 280.0, "lat": 36.129737, "lon": -113.969211, "name": "USGS river mile 280 (Lake Mead reach)", "snap": 0 },
     { "mile": 280.5, "lat": 36.1063, "lon": -114.0089, "name": "Pearce Ferry" }
   ]
 }
