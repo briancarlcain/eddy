@@ -6896,5 +6896,30 @@
         ]
       }
     ]
+  },
+  "stats": {
+    "class": "III to V (rapids are rated 1 to 10 here)",
+    "season": "Year-round. The commercial season runs April to October.",
+    "elev": [
+      3100,
+      1150
+    ],
+    "gradient": 6.9,
+    "steep": {
+      "gradient": 21,
+      "from": 69,
+      "miles": 5
+    },
+    "flow": {
+      "min": 8000,
+      "max": 25000,
+      "note": "Glen Canyon Dam sets the flow, fluctuating daily within this operating range, and recent summer trips have mostly run about 12,000 to 20,000 cfs. Releases are set monthly and occasional high-flow experiments go much higher."
+    },
+    "gauges": [
+      {
+        "name": "Colorado River at Lees Ferry, AZ",
+        "id": "09380000"
+      }
+    ]
   }
 }

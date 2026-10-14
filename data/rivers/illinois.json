@@ -13,6 +13,7 @@
     -123.85
   ],
   "tz": "America/Los_Angeles",
+  "note": "",
   "camps": [
     {
       "name": "Miami Bar",
@@ -481,8 +482,306 @@
     }
   ],
   "geology": [],
-  "guide": [],
-  "almanac": {},
+  "guide": [
+    {
+      "name": "Fish",
+      "subs": [
+        {
+          "name": "Salmon & Trout",
+          "items": [
+            {
+              "n": "Chinook Salmon",
+              "d": "A fall-run salmon that returns to spawn in the Illinois and its tributaries."
+            },
+            {
+              "n": "Coho Salmon",
+              "d": "A silvery salmon of the fall run."
+            },
+            {
+              "n": "Steelhead",
+              "d": "Sea-run rainbow trout, with winter runs in the river."
+            },
+            {
+              "n": "Coastal Cutthroat Trout",
+              "d": "A native trout of the tributaries."
+            }
+          ],
+          "sci": "Salmonidae"
+        },
+        {
+          "name": "Lamprey",
+          "items": [
+            {
+              "n": "Pacific Lamprey",
+              "d": "An ancient, eel-like native fish that spawns in gravel."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mammals",
+      "subs": [
+        {
+          "name": "Deer",
+          "items": [
+            {
+              "n": "Black-tailed Deer",
+              "d": "Common in the clearings and along the trail."
+            }
+          ]
+        },
+        {
+          "name": "Bears & Cats",
+          "items": [
+            {
+              "n": "Black Bear",
+              "d": "Active around camps. Keep food and scented gear secure."
+            },
+            {
+              "n": "Mountain Lion",
+              "d": "Elusive."
+            },
+            {
+              "n": "Bobcat",
+              "d": "A shy cat of the wooded slopes."
+            }
+          ]
+        },
+        {
+          "name": "Small Mammals",
+          "items": [
+            {
+              "n": "River Otter",
+              "d": "Seen in the pools and eddies."
+            },
+            {
+              "n": "Beaver",
+              "d": "Gnawed willows and bank dens."
+            },
+            {
+              "n": "Mink",
+              "d": "A slim, dark weasel of the stream edges."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Birds",
+      "subs": [
+        {
+          "name": "Hawks & Eagles",
+          "items": [
+            {
+              "n": "Bald Eagle",
+              "d": "Hunts the river, especially in winter."
+            },
+            {
+              "n": "Osprey",
+              "d": "Dives for fish along the river."
+            }
+          ],
+          "sci": "Accipitridae"
+        },
+        {
+          "name": "Waterbirds",
+          "items": [
+            {
+              "n": "Common Merganser",
+              "d": "A fish-eating duck that leads broods through the rapids."
+            },
+            {
+              "n": "Belted Kingfisher",
+              "d": "Rattles along the bank."
+            },
+            {
+              "n": "Great Blue Heron",
+              "d": "Stands in the shallows."
+            }
+          ]
+        },
+        {
+          "name": "Songbirds",
+          "items": [
+            {
+              "n": "American Dipper",
+              "d": "Bobs on rocks and walks the stream bottom."
+            },
+            {
+              "n": "Pileated Woodpecker",
+              "d": "A crow-sized woodpecker that chisels large holes in dead trees."
+            },
+            {
+              "n": "Steller's Jay",
+              "d": "A crested blue jay of the conifers."
+            }
+          ]
+        },
+        {
+          "name": "Owls",
+          "items": [
+            {
+              "n": "Northern Spotted Owl",
+              "d": "A threatened owl of old-growth forest, rarely seen."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reptiles & Amphibians",
+      "subs": [
+        {
+          "name": "Snakes & Lizards",
+          "items": [
+            {
+              "n": "Western Fence Lizard",
+              "d": "Common on warm rocks."
+            },
+            {
+              "n": "Common Garter Snake",
+              "d": "A harmless snake of the shoreline."
+            },
+            {
+              "n": "Rubber Boa",
+              "d": "A small, gentle snake."
+            }
+          ]
+        },
+        {
+          "name": "Salamanders & Frogs",
+          "items": [
+            {
+              "n": "Pacific Giant Salamander",
+              "d": "A large salamander of cold streams."
+            },
+            {
+              "n": "Coastal Tailed Frog",
+              "d": "A small frog of cold, clean mountain streams."
+            },
+            {
+              "n": "Rough-skinned Newt",
+              "d": "A common newt with toxic skin; wash your hands after touching."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Plants",
+      "subs": [
+        {
+          "name": "Rare Serpentine Plants",
+          "items": [
+            {
+              "n": "Cobra Lily",
+              "d": "Darlingtonia, a carnivorous pitcher plant that grows in wet serpentine seeps. Look but do not touch."
+            },
+            {
+              "n": "Kalmiopsis",
+              "d": "Leach's kalmiopsis, a rare evergreen shrub with pink flowers found in the Kalmiopsis Wilderness."
+            }
+          ]
+        },
+        {
+          "name": "Trees",
+          "items": [
+            {
+              "n": "Douglas-fir",
+              "d": "The dominant tree of the canyon."
+            },
+            {
+              "n": "Port Orford Cedar",
+              "d": "A tall cedar of moist slopes and creeks."
+            },
+            {
+              "n": "Jeffrey Pine",
+              "d": "A pine of the dry serpentine ridges."
+            },
+            {
+              "n": "Knobcone Pine",
+              "d": "A pine whose cones open after fire."
+            },
+            {
+              "n": "Pacific Madrone",
+              "d": "A red, peeling-barked evergreen of the dry slopes."
+            },
+            {
+              "n": "Bigleaf Maple",
+              "d": "A giant-leaved maple of the stream bottoms."
+            },
+            {
+              "n": "White Alder",
+              "d": "Lines the river and creek mouths."
+            }
+          ]
+        },
+        {
+          "name": "Shrubs",
+          "items": [
+            {
+              "n": "Western Azalea",
+              "d": "Fragrant white and pink blooms along the river in spring."
+            },
+            {
+              "n": "Poison Oak",
+              "d": "Common on trails and at landings. Learn to recognize it: three shiny leaflets."
+            },
+            {
+              "n": "Manzanita",
+              "d": "A shrub with smooth red-brown bark."
+            }
+          ]
+        },
+        {
+          "name": "Invasive Plants",
+          "items": [
+            {
+              "n": "Himalayan Blackberry",
+              "d": "A thorny thicket that spreads along the shore.",
+              "inv": 1
+            },
+            {
+              "n": "Scotch Broom",
+              "d": "A yellow-flowered shrub that crowds out native plants.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "almanac": {
+    "indigenous": [
+      [
+        "Takelma and Athabaskan peoples",
+        "The Illinois River country is part of the homeland of the Takelma and neighboring Athabaskan-speaking peoples of southwest Oregon. After the Rogue River Wars of the 1850s these communities were forcibly removed to reservations far to the north, and their descendants are members of the Siletz and Grand Ronde tribes today."
+      ]
+    ],
+    "history": [
+      [
+        "The Biscuit Fire",
+        "The lightning-caused Biscuit Fire of 2002 burned nearly 500,000 acres, including all of the Kalmiopsis Wilderness. Burned snags and regrowth line the river from the last residences onward."
+      ],
+      [
+        "A proposed dam",
+        "Cliffs at Buzzard’s Roost mark the site proposed for a dam that would have flooded the whole run. The Illinois was an original study river in the 1968 Wild and Scenic Rivers Act, and in 1984 Congress added a 50.4-mile segment to the National Wild and Scenic Rivers System."
+      ]
+    ],
+    "geology": [
+      [
+        "Seafloor in the mountains",
+        "The Klamath Mountains here are a collage of rock that was once oceanic crust: serpentine, submarine volcanic rock, granite-like intrusions and sedimentary rocks such as shale and sandstone. Serpentine soils are poor in plant nutrients but support a remarkable number of rare plants. The river drops at about 24 feet per mile through boulder-choked bedrock canyons."
+      ]
+    ],
+    "lore": [
+      [
+        "A botanical hotspot",
+        "The Kalmiopsis Wilderness is famous for rare and unusual plants, including the cobra lily or Darlingtonia, a carnivorous pitcher plant that grows in the wet serpentine seeps along the river. Please look and photograph; never pick or dig up plants."
+      ]
+    ]
+  },
   "rules": [
     {
       "name": "Season and flows",
@@ -633,6 +932,10 @@
       "n": "Prelude to Submarine Hole"
     }
   ],
+  "notes": {
+    "camp": "*Camps are limited, especially after South Bend where there are almost no good camps until below Submarine Hole. Rain can raise this undammed river quickly, so camp high. Poison oak grows on trails around camps.",
+    "hike": "*The Illinois River Trail follows the right bank, but fire and flood have damaged parts of the trail system. Do not pick or disturb the rare plants, and treat any water you drink."
+  },
   "hdiff": {
     "1": "Short, easy walk",
     "2": "Easy trail",
@@ -751,9 +1054,29 @@
       }
     ]
   },
-  "note": "",
-  "notes": {
-    "camp": "",
-    "hike": ""
+  "stats": {
+    "class": "IV, with one Class V",
+    "season": "November to May, when rain keeps the river up. Flash floods are a real hazard.",
+    "elev": [
+      850,
+      150
+    ],
+    "gradient": 22,
+    "steep": {
+      "gradient": 37,
+      "from": 15.7,
+      "miles": 5
+    },
+    "flow": {
+      "min": 800,
+      "typical": 1200,
+      "max": 3500,
+      "note": "An older guide gives 800 to 3,500 cfs for rafts and kayaks, and inflatable kayaks down to 400; another lists 1,200 as optimal. Flow at the take-out is well above the Kerby gauge because tributaries join."
+    },
+    "gauges": [
+      {
+        "name": "Illinois River near Kerby, OR"
+      }
+    ]
   }
 }

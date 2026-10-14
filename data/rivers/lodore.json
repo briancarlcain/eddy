@@ -135,7 +135,7 @@
       "civ": false,
       "diff": 6,
       "tier": "Class III+",
-      "desc": "Three drops through two large turns. Scout river left and run center, right, left. Avoid the rock on river right at the last drop; the run-out can be shallow. Rated III in some sources and IV in others."
+      "desc": "Three drops through two large turns. Scout river left and run center, right, left. Avoid the rock on river right at the last drop; the run-out can be shallow. Rated III in some sources and IV in others. Poison oak grows near the scouting trail on river left."
     },
     {
       "name": "Hell's Half Mile",
@@ -143,7 +143,7 @@
       "civ": false,
       "diff": 6,
       "tier": "Class III+",
-      "desc": "One of the nation's top-ten \"Big Drops\". Weave through boulders to the center slot into a wave train, then a quarter mile of rocks, waves and holes that ease gradually. Rated III by American Whitewater and IV in a guidebook. The rapid splits into three channels at the bottom, with a large beach on river left."
+      "desc": "One of the nation's top-ten \"Big Drops\". Weave through boulders to the center slot into a wave train, then a quarter mile of rocks, waves and holes that ease gradually. Rated III by American Whitewater and IV in a guidebook. The rapid splits into three channels at the bottom, with a large beach on river left. Lucifer’s Rock sits midway down and can be passed on either side."
     },
     {
       "name": "Greasy Pliers Rapid",
@@ -225,7 +225,354 @@
     }
   ],
   "geology": [],
-  "guide": [],
+  "guide": [
+    {
+      "name": "Fish",
+      "subs": [
+        {
+          "name": "Native Fish",
+          "items": [
+            {
+              "n": "Colorado Pikeminnow",
+              "d": "A large native predator and protected species of the Green and Yampa rivers."
+            },
+            {
+              "n": "Humpback Chub",
+              "d": "A protected native fish with a distinct hump, found in the swift water of the canyons."
+            },
+            {
+              "n": "Roundtail Chub",
+              "d": "A native chub of the river."
+            },
+            {
+              "n": "Bonytail",
+              "d": "A rare native chub that is the focus of stocking and recovery work."
+            }
+          ],
+          "sci": "Cyprinidae"
+        },
+        {
+          "name": "Suckers & Whitefish",
+          "items": [
+            {
+              "n": "Flannelmouth Sucker",
+              "d": "A native of the main channel."
+            },
+            {
+              "n": "Bluehead Sucker",
+              "d": "A native that scrapes algae from rocks."
+            },
+            {
+              "n": "Razorback Sucker",
+              "d": "A protected native with a sharp keel behind its head."
+            },
+            {
+              "n": "Mountain Whitefish",
+              "d": "A native silvery fish of the runs and pools."
+            }
+          ]
+        },
+        {
+          "name": "Introduced Fish",
+          "items": [
+            {
+              "n": "Brown Trout",
+              "d": "Common in the cold water released from the dam and in the cold creeks.",
+              "inv": 1
+            },
+            {
+              "n": "Rainbow Trout",
+              "d": "Found in the cold water.",
+              "inv": 1
+            },
+            {
+              "n": "Smallmouth Bass",
+              "d": "An introduced predator.",
+              "inv": 1
+            },
+            {
+              "n": "Channel Catfish",
+              "d": "An introduced catfish.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mammals",
+      "subs": [
+        {
+          "name": "Sheep",
+          "items": [
+            {
+              "n": "Desert Bighorn Sheep",
+              "d": "Often seen on the cliffs at dawn. Lambing can close nearby campsites."
+            }
+          ],
+          "sci": "Bovidae"
+        },
+        {
+          "name": "Deer, Elk & Moose",
+          "items": [
+            {
+              "n": "Mule Deer",
+              "d": "Common along the river."
+            },
+            {
+              "n": "Elk",
+              "d": "Seen in the park-like valleys."
+            },
+            {
+              "n": "Moose",
+              "d": "Seen in the willow bottoms, as around Wild Mountain Beach."
+            }
+          ]
+        },
+        {
+          "name": "Bears & Cats",
+          "items": [
+            {
+              "n": "Black Bear",
+              "d": "Present throughout. Store food in bear-proof containers."
+            },
+            {
+              "n": "Mountain Lion",
+              "d": "Elusive."
+            },
+            {
+              "n": "Bobcat",
+              "d": "A shy cat of the cliffs."
+            }
+          ]
+        },
+        {
+          "name": "Small Mammals",
+          "items": [
+            {
+              "n": "North American River Otter",
+              "d": "Seen in the quieter stretches."
+            },
+            {
+              "n": "Beaver",
+              "d": "Bank dens and gnawed willows are common."
+            },
+            {
+              "n": "Ringtail",
+              "d": "A cat-like night forager."
+            },
+            {
+              "n": "Rock Squirrel",
+              "d": "A bold visitor around camp."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Birds",
+      "subs": [
+        {
+          "name": "Hawks & Eagles",
+          "items": [
+            {
+              "n": "Golden Eagle",
+              "d": "Nests on the cliffs."
+            },
+            {
+              "n": "Bald Eagle",
+              "d": "A frequent sight in winter and spring."
+            },
+            {
+              "n": "Osprey",
+              "d": "Dives for fish in summer."
+            }
+          ],
+          "sci": "Accipitridae"
+        },
+        {
+          "name": "Falcons",
+          "items": [
+            {
+              "n": "Peregrine Falcon",
+              "d": "Nests on the high walls."
+            }
+          ],
+          "sci": "Falconidae"
+        },
+        {
+          "name": "Waterbirds",
+          "items": [
+            {
+              "n": "Great Blue Heron",
+              "d": "Stands in the shallows."
+            },
+            {
+              "n": "Canada Goose",
+              "d": "Nests on gravel bars."
+            },
+            {
+              "n": "Common Merganser",
+              "d": "A fish-eating duck."
+            },
+            {
+              "n": "Belted Kingfisher",
+              "d": "Rattles along the bank."
+            }
+          ]
+        },
+        {
+          "name": "Songbirds",
+          "items": [
+            {
+              "n": "American Dipper",
+              "d": "Bobs on rocks at the creek mouths."
+            },
+            {
+              "n": "Canyon Wren",
+              "d": "A falling song that rings off the walls."
+            },
+            {
+              "n": "White-throated Swift",
+              "d": "Streaks past the cliffs."
+            },
+            {
+              "n": "Violet-green Swallow",
+              "d": "Nests in crevices."
+            },
+            {
+              "n": "Common Raven",
+              "d": "Checks out every camp."
+            }
+          ]
+        },
+        {
+          "name": "Upland Birds",
+          "items": [
+            {
+              "n": "Chukar",
+              "d": "Heard calling on the rocky slopes.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reptiles",
+      "subs": [
+        {
+          "name": "Lizards & Snakes",
+          "items": [
+            {
+              "n": "Plateau Fence Lizard",
+              "d": "Common on warm rocks."
+            },
+            {
+              "n": "Eastern Collared Lizard",
+              "d": "A large, bright lizard."
+            },
+            {
+              "n": "Midget Faded Rattlesnake",
+              "d": "A pale rattler of the rocky ledges. Watch where you put your hands and feet."
+            },
+            {
+              "n": "Gopher Snake",
+              "d": "A harmless constrictor."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Plants",
+      "subs": [
+        {
+          "name": "Conifers",
+          "items": [
+            {
+              "n": "Douglas-fir",
+              "d": "On the cool slopes and in side canyons."
+            },
+            {
+              "n": "Ponderosa Pine",
+              "d": "On the drier benches."
+            },
+            {
+              "n": "Utah Juniper",
+              "d": "Rooted into the cliffs."
+            },
+            {
+              "n": "Pinyon Pine",
+              "d": "On the dry slopes."
+            }
+          ]
+        },
+        {
+          "name": "Riverside Trees & Shrubs",
+          "items": [
+            {
+              "n": "Narrowleaf Cottonwood",
+              "d": "Lines the banks and shades camps."
+            },
+            {
+              "n": "Box Elder",
+              "d": "A maple of the river banks."
+            },
+            {
+              "n": "Coyote Willow",
+              "d": "A thin-leaved willow at the water's edge."
+            },
+            {
+              "n": "Skunkbush Sumac",
+              "d": "Lemon-scented, with red berries in late summer."
+            },
+            {
+              "n": "Rocky Mountain Maple",
+              "d": "A small maple of cool, moist alcoves."
+            }
+          ]
+        },
+        {
+          "name": "Hanging Garden Plants",
+          "items": [
+            {
+              "n": "Golden Columbine",
+              "d": "Yellow flowers at damp seeps."
+            },
+            {
+              "n": "Scarlet Monkeyflower",
+              "d": "Red tubular flowers at dripping alcoves."
+            },
+            {
+              "n": "Maidenhair Fern",
+              "d": "Lush green fronds under dripping rock."
+            }
+          ]
+        },
+        {
+          "name": "Invasive Plants",
+          "items": [
+            {
+              "n": "Tamarisk",
+              "d": "A saltcedar that crowds the banks.",
+              "inv": 1
+            },
+            {
+              "n": "Russian Olive",
+              "d": "Silver leaves and thorns.",
+              "inv": 1
+            },
+            {
+              "n": "Cheatgrass",
+              "d": "A weedy grass that dries early and fuels fires.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "almanac": {
     "history": [
       [
@@ -233,12 +580,34 @@
         "In 1869 John Wesley Powell's expedition lost a boat, much of its food and scientific instruments at Disaster Falls. Winnie's Rapid is supposedly named for Powell's daughter."
       ],
       [
-        "Buzz Holstrom",
-        "Buzz Holstrom was the first to run the Green River in a rubber boat, and ran the whole river solo after being turned down as a boatman on the second Powell expedition. His 1937 inscription is on river left."
+        "Buzz Holmstrom",
+        "Buzz Holmstrom was the first to run the Green River in a rubber boat, and ran the whole river solo after being turned down as a boatman on the second Powell expedition. His 1937 inscription is on river left."
       ],
       [
         "The Echo Park dam",
         "A dam was proposed at Echo Park in the 1950s and was never built, thanks to the efforts of Sierra Club director David Brower."
+      ],
+      [
+        "Naming Lodore",
+        "The 1869 Powell expedition named the Canyon of Lodore for Robert Southey’s poem “The Cataract of Lodore.” Sources credit Powell, or crew member Andrew Hall, with the name."
+      ]
+    ],
+    "indigenous": [
+      [
+        "Ute and Fremont country",
+        "Ute peoples have used this country for centuries, and the Fremont culture left rock art, granaries and campsites in the canyons about a thousand years ago. At Jones Hole you can find Fremont pictographs and petroglyphs. Look and photograph, but never touch the panels."
+      ]
+    ],
+    "geology": [
+      [
+        "The Gates of Lodore",
+        "At the Gates, the Green River cuts through red quartzite of the Uinta Mountain Group, rock roughly a billion years old and among the oldest in the monument. Downstream the walls change to Weber Sandstone and limestone, and the Mitten Park fault, with its folded and tilted layers, makes a dramatic display near Echo Park."
+      ]
+    ],
+    "flows": [
+      [
+        "Dam-controlled, year-round water",
+        "The Green River in Lodore is controlled by Flaming Gorge Dam upstream, so the river runs year-round with the cold water of a tailwater. The Yampa River joins at Echo Park and adds muddy snowmelt in spring, speeding up the river below the confluence."
       ]
     ]
   },
@@ -324,12 +693,12 @@
       "desc": "River left. A rare Zenobia rock is here."
     },
     {
-      "name": "Holstrom inscription",
+      "name": "Holmstrom inscription",
       "mile": 9.5,
       "civ": false,
       "diff": null,
       "tier": "Landmark",
-      "desc": "River left. Left by Buzz Holstrom and his companions Berg and Lundstrom on 9-11-37. Holstrom was the first to run the Green River in a rubber boat."
+      "desc": "River left. Left by Buzz Holmstrom and his companions Burg and Lundstrom on 9-11-37. Holmstrom was the first to run the Green River in a rubber boat."
     },
     {
       "name": "Yampa River confluence",
@@ -377,7 +746,7 @@
       "civ": false,
       "diff": null,
       "tier": "Landmark",
-      "desc": ""
+      "desc": "The Green River crosses from Colorado into Utah here."
     },
     {
       "name": "Sage Creek",
@@ -454,8 +823,8 @@
     }
   ],
   "notes": {
-    "camp": "",
-    "hike": ""
+    "camp": "*Camps are assigned by site in the high-use season and must be vacated by noon. Camp high above the river: side canyons flash flood, and bighorn lambing or bear activity can close sites.",
+    "hike": "*Look at rock art, ruins and historic inscriptions but never touch or take anything. Hikes are hot and exposed; carry water and watch for rattlesnakes."
   },
   "hdiff": {
     "1": "Short, easy walk",
@@ -633,6 +1002,31 @@
             "d": "Reports range from about 600 cfs (rapids technical; Lucifer pinned a boat for three hours) to about 2,300 cfs from Flaming Gorge. Hell's Half Mile was run in an oar rig at 1,800 cfs."
           }
         ]
+      }
+    ]
+  },
+  "stats": {
+    "class": "III to IV",
+    "season": "Permit lottery season is May to September. Runoff from the Yampa adds muddy water below Echo Park in spring.",
+    "elev": [
+      5350,
+      4800
+    ],
+    "gradient": 12,
+    "steep": {
+      "gradient": 24,
+      "from": 5.8,
+      "miles": 5
+    },
+    "flow": {
+      "min": 900,
+      "max": 20000,
+      "note": "An outfitter calls 900 to 3,000 cfs low, 3,000 to 10,000 medium and 10,000 to 20,000 high. Flaming Gorge Dam controls the flow, and September floats can see 900 cfs."
+    },
+    "gauges": [
+      {
+        "name": "Green River near Greendale, UT",
+        "id": "09234500"
       }
     ]
   }

@@ -267,7 +267,7 @@ export default function TopoMap({ rid, river, planned, colors, date: date0, onOp
         map.current.setView([p.coords.latitude, p.coords.longitude], Math.max(14, map.current.getZoom()));
         drop(p.coords.latitude, p.coords.longitude, 'Here · ' + new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
       },
-      (e) => setMsg(e.code === 1 ? 'Location is turned off for River Guide (Settings > River Guide > Location).' : 'Could not get a GPS fix. Try again with a view of the sky.'),
+      (e) => setMsg(e.code === 1 ? 'Location is turned off for Eddy (Settings > Eddy > Location).' : 'Could not get a GPS fix. Try again with a view of the sky.'),
       { enableHighAccuracy: true, timeout: 30000, maximumAge: 60000 }
     );
   };

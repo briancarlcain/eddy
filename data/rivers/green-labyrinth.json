@@ -1,0 +1,51 @@
+{
+  "name": "Green River: Labyrinth and Stillwater",
+  "state": "Utah",
+  "reach": "Green River town to the Colorado confluence",
+  "agency": "NPS Canyonlands / BLM Moab",
+  "miles": [
+    0,
+    120
+  ],
+  "coords": [
+    38.6,
+    -110
+  ],
+  "tz": "America/Denver",
+  "note": "Preliminary entry: reach, access points and permit rules only. Mileage and map position are approximate; confirm against the managing agency.",
+  "access": [
+    {
+      "name": "Green River town",
+      "road": true,
+      "mile": 0,
+      "park": true,
+      "note": "Put-in"
+    },
+    {
+      "name": "Colorado confluence",
+      "road": true,
+      "mile": 120,
+      "park": true,
+      "note": "Take-out"
+    }
+  ],
+  "permit": {
+    "status": "Required for overnight trips · reserve online",
+    "sections": [
+      {
+        "name": "Rules",
+        "items": [
+          {
+            "t": "Overnight permits",
+            "d": "Permits are required year-round for all overnight river trips and are available by reservation. Launch dates from mid April to mid October are released the December before; mid October to mid April the June before."
+          }
+        ]
+      }
+    ],
+    "source": "American Whitewater permit list"
+  },
+  "notes": {
+    "camp": "",
+    "hike": ""
+  }
+}

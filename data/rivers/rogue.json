@@ -1318,7 +1318,321 @@
     }
   ],
   "geology": [],
-  "guide": [],
+  "guide": [
+    {
+      "name": "Fish",
+      "subs": [
+        {
+          "name": "Salmon & Trout",
+          "items": [
+            {
+              "n": "Chinook Salmon",
+              "d": "Spring and fall runs return to the Rogue to spawn; Rainie Falls is a famous place to watch them."
+            },
+            {
+              "n": "Coho Salmon",
+              "d": "A silvery salmon of the fall run."
+            },
+            {
+              "n": "Steelhead",
+              "d": "Sea-run rainbow trout, with summer and winter runs."
+            },
+            {
+              "n": "Coastal Cutthroat Trout",
+              "d": "A native trout of the tributaries and the lower river."
+            }
+          ],
+          "sci": "Salmonidae"
+        },
+        {
+          "name": "Lamprey",
+          "items": [
+            {
+              "n": "Pacific Lamprey",
+              "d": "An ancient, eel-like native fish that spawns in gravel and is culturally important to local tribes."
+            }
+          ]
+        },
+        {
+          "name": "Introduced Fish",
+          "items": [
+            {
+              "n": "Smallmouth Bass",
+              "d": "An introduced predator in the slow pools.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mammals",
+      "subs": [
+        {
+          "name": "Deer & Elk",
+          "items": [
+            {
+              "n": "Black-tailed Deer",
+              "d": "Common along the trail and in the clearings."
+            },
+            {
+              "n": "Roosevelt Elk",
+              "d": "Occasional visitors in the coastal forest."
+            }
+          ],
+          "sci": "Cervidae"
+        },
+        {
+          "name": "Bears & Cats",
+          "items": [
+            {
+              "n": "Black Bear",
+              "d": "Active around camps. Store food and use bear fences where provided."
+            },
+            {
+              "n": "Mountain Lion",
+              "d": "Elusive."
+            },
+            {
+              "n": "Bobcat",
+              "d": "A shy cat of the wooded slopes."
+            }
+          ]
+        },
+        {
+          "name": "Small Mammals",
+          "items": [
+            {
+              "n": "River Otter",
+              "d": "Seen in the eddies and pools."
+            },
+            {
+              "n": "Beaver",
+              "d": "Lodges and gnawed willows."
+            },
+            {
+              "n": "Mink",
+              "d": "A slim, dark weasel of the stream edges."
+            },
+            {
+              "n": "Raccoon",
+              "d": "A cheeky camp visitor."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Birds",
+      "subs": [
+        {
+          "name": "Hawks & Eagles",
+          "items": [
+            {
+              "n": "Bald Eagle",
+              "d": "Hunts the river, especially in winter."
+            },
+            {
+              "n": "Osprey",
+              "d": "Dives for fish along the river."
+            },
+            {
+              "n": "Red-tailed Hawk",
+              "d": "Soars above the canyon."
+            }
+          ],
+          "sci": "Accipitridae"
+        },
+        {
+          "name": "Waterbirds",
+          "items": [
+            {
+              "n": "Common Merganser",
+              "d": "A fish-eating duck that leads broods through the rapids."
+            },
+            {
+              "n": "Great Blue Heron",
+              "d": "Stands in the shallows."
+            },
+            {
+              "n": "Belted Kingfisher",
+              "d": "Rattles along the bank."
+            }
+          ]
+        },
+        {
+          "name": "Songbirds",
+          "items": [
+            {
+              "n": "American Dipper",
+              "d": "Bobs on rocks and walks the stream bottom."
+            },
+            {
+              "n": "Steller's Jay",
+              "d": "A crested blue jay of the conifer forest."
+            },
+            {
+              "n": "Pileated Woodpecker",
+              "d": "A crow-sized woodpecker that chisels large holes in dead trees."
+            }
+          ]
+        },
+        {
+          "name": "Owls",
+          "items": [
+            {
+              "n": "Northern Spotted Owl",
+              "d": "A threatened owl of old-growth forest, rarely seen."
+            },
+            {
+              "n": "Barred Owl",
+              "d": "A larger owl with a call that sounds like “who cooks for you.”"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reptiles & Amphibians",
+      "subs": [
+        {
+          "name": "Turtles & Snakes",
+          "items": [
+            {
+              "n": "Western Pond Turtle",
+              "d": "A native turtle that basks on logs and rocks; keep your distance."
+            },
+            {
+              "n": "Northern Pacific Rattlesnake",
+              "d": "A rattlesnake of dry rocky slopes. Watch where you put your hands and feet."
+            },
+            {
+              "n": "Rubber Boa",
+              "d": "A small, gentle, rubbery-skinned snake."
+            },
+            {
+              "n": "Common Garter Snake",
+              "d": "A harmless snake of the shoreline."
+            }
+          ]
+        },
+        {
+          "name": "Lizards",
+          "items": [
+            {
+              "n": "Western Fence Lizard",
+              "d": "Common on warm rocks."
+            },
+            {
+              "n": "Northern Alligator Lizard",
+              "d": "A long-bodied lizard of cooler, shaded slopes."
+            }
+          ]
+        },
+        {
+          "name": "Salamanders & Newts",
+          "items": [
+            {
+              "n": "Rough-skinned Newt",
+              "d": "A common newt with toxic skin; wash your hands after touching."
+            },
+            {
+              "n": "Pacific Giant Salamander",
+              "d": "A large salamander of cold streams."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Plants",
+      "subs": [
+        {
+          "name": "Conifers",
+          "items": [
+            {
+              "n": "Douglas-fir",
+              "d": "The dominant tree of the canyon."
+            },
+            {
+              "n": "Ponderosa Pine",
+              "d": "On the drier slopes and ridges."
+            },
+            {
+              "n": "Incense-cedar",
+              "d": "A fragrant cedar of the dry slopes."
+            }
+          ]
+        },
+        {
+          "name": "Hardwoods",
+          "items": [
+            {
+              "n": "Pacific Madrone",
+              "d": "A red, peeling-barked evergreen of the dry slopes."
+            },
+            {
+              "n": "Tanoak",
+              "d": "An evergreen oak with leathery leaves."
+            },
+            {
+              "n": "Bigleaf Maple",
+              "d": "A giant-leaved maple of the stream bottoms."
+            },
+            {
+              "n": "White Alder",
+              "d": "Lines the river and creek mouths."
+            },
+            {
+              "n": "Oregon White Oak",
+              "d": "A rounded oak of dry ridges."
+            }
+          ]
+        },
+        {
+          "name": "Shrubs",
+          "items": [
+            {
+              "n": "Poison Oak",
+              "d": "Common on trails and landings, including at Rainie Falls and Blossom Bar. Learn to recognize it: three shiny leaflets."
+            },
+            {
+              "n": "Pacific Rhododendron",
+              "d": "Pink blossoms in spring."
+            },
+            {
+              "n": "Oregon Grape",
+              "d": "Spiny, holly-like leaves and yellow spring flowers."
+            },
+            {
+              "n": "Manzanita",
+              "d": "A shrub with smooth red-brown bark."
+            }
+          ]
+        },
+        {
+          "name": "Invasive Plants",
+          "items": [
+            {
+              "n": "Himalayan Blackberry",
+              "d": "A thorny thicket that spreads along the shore.",
+              "inv": 1
+            },
+            {
+              "n": "Scotch Broom",
+              "d": "A yellow-flowered shrub that crowds out native plants.",
+              "inv": 1
+            },
+            {
+              "n": "Yellow Starthistle",
+              "d": "A spiny yellow thistle of dry slopes.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "almanac": {
     "history": [
       [
@@ -1332,6 +1646,36 @@
       [
         "A dam that was blocked",
         "Wild and Scenic designation in 1968 protected the Rogue from dams."
+      ],
+      [
+        "The Rogue River Wars",
+        "The conflict began in October 1855 when volunteer militia attacked Takelma people returning to their village, and fighting continued through the Rogue River canyon until the survivors surrendered in 1856. Battle Bar and Chief John’s Rapid recall that war."
+      ],
+      [
+        "Miners and a mail trail",
+        "Gold seekers worked the bars and creeks from the 1850s, leaving cabins such as the one at Whisky Creek. The Rogue River Trail, which follows the canyon, grew from a route used to carry mail and supplies to the settlers along the river."
+      ],
+      [
+        "A river protected in 1968",
+        "The Rogue was among the first eight rivers protected under the Wild and Scenic Rivers Act in 1968, which kept dams off the canyon."
+      ]
+    ],
+    "indigenous": [
+      [
+        "Takelma, Tututni and other Rogue River peoples",
+        "The Rogue River canyon is the homeland of the Takelma of the interior valley and of Athabaskan-speaking peoples such as the Tututni downriver. After the Rogue River Wars of 1855 and 1856, most were forcibly removed to the Coast (now Siletz) and Grand Ronde reservations, far from their homes. Their descendants are today members of the Siletz and Grand Ronde tribes."
+      ]
+    ],
+    "geology": [
+      [
+        "Through the Klamath Mountains",
+        "The Rogue rises in the Cascades and crosses the Klamath Mountains, one of the oldest and most complex mountain systems in the West, on its way to the Pacific. The rock is a collage of ancient seafloor, island arcs and volcanoes pushed onto the continent, and the river has cut a deep, winding canyon through it. Mule Creek Canyon, where the walls pinch the river into a narrow bedrock slot, is the best example."
+      ]
+    ],
+    "lore": [
+      [
+        "Fish at Rainie Falls",
+        "At Rainie Falls, spring and fall salmon and steelhead runs can be watched battling the ledge. The Rogue is considered a premier fishing river."
       ]
     ]
   },
@@ -1567,8 +1911,8 @@
     }
   ],
   "notes": {
-    "camp": "",
-    "hike": ""
+    "camp": "*Camps are first come, first served and small beaches can fill on busy dates. Bears are active around camps: store food away from your sleeping area and use bear fences where provided. Poison oak is common around every landing.",
+    "hike": "*Learn to recognize poison oak: it lines trails and landings, including those at Rainie Falls and Blossom Bar. Look at historic cabins and sites but never remove or damage anything."
   },
   "hdiff": {
     "1": "Short, easy walk",
@@ -1714,6 +2058,31 @@
             "d": "Failing to cancel an entire permit by the deadline puts the party leader on the no-show list: no permit for the rest of the year and all of the next year, including the lottery."
           }
         ]
+      }
+    ]
+  },
+  "stats": {
+    "class": "III to IV",
+    "season": "Year-round. Lottery season is May 15 to October 15.",
+    "elev": [
+      600,
+      150
+    ],
+    "gradient": 13,
+    "steep": {
+      "gradient": 20,
+      "from": 19.7,
+      "miles": 5
+    },
+    "flow": {
+      "min": 1200,
+      "max": 30000,
+      "note": "American Whitewater calls 1,200 to 2,500 cfs low, 2,500 to 10,000 medium and 10,000 to 30,000 high. The river is dam-controlled."
+    },
+    "gauges": [
+      {
+        "name": "Rogue River near Agness, OR",
+        "id": "14372300"
       }
     ]
   }

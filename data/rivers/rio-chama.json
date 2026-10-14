@@ -95,7 +95,330 @@
     }
   ],
   "geology": [],
-  "guide": [],
+  "guide": [
+    {
+      "name": "Mammals",
+      "subs": [
+        {
+          "name": "Deer & Elk",
+          "items": [
+            {
+              "n": "Mule Deer",
+              "d": "Common in the side canyons and on the benches at dusk."
+            },
+            {
+              "n": "Elk",
+              "d": "Graze the open benches and cross the river."
+            }
+          ],
+          "sci": "Cervidae"
+        },
+        {
+          "name": "Bears & Cats",
+          "items": [
+            {
+              "n": "Black Bear",
+              "d": "Present in the canyon. Keep food and scented gear sealed and away from your sleeping area."
+            },
+            {
+              "n": "Mountain Lion",
+              "d": "Elusive but present."
+            },
+            {
+              "n": "Bobcat",
+              "d": "A shy, spotted cat of the rocky benches."
+            },
+            {
+              "n": "Coyote",
+              "d": "Calls from the benches at night."
+            }
+          ]
+        },
+        {
+          "name": "Beaver",
+          "items": [
+            {
+              "n": "Beaver",
+              "d": "Lodges and gnawed willows along the banks."
+            }
+          ]
+        },
+        {
+          "name": "Squirrels & Ringtails",
+          "items": [
+            {
+              "n": "Rock Squirrel",
+              "d": "A bold visitor around camp kitchens."
+            },
+            {
+              "n": "Ringtail",
+              "d": "A cat-like night forager."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Birds",
+      "subs": [
+        {
+          "name": "Hawks & Eagles",
+          "items": [
+            {
+              "n": "Bald Eagle",
+              "d": "Found in the canyon, especially in winter and early spring."
+            },
+            {
+              "n": "Golden Eagle",
+              "d": "Nests on the cliffs."
+            },
+            {
+              "n": "Red-tailed Hawk",
+              "d": "A common sight over the canyon."
+            },
+            {
+              "n": "Cooper's Hawk",
+              "d": "A fast hawk of the cottonwoods."
+            }
+          ],
+          "sci": "Accipitridae"
+        },
+        {
+          "name": "Owls",
+          "items": [
+            {
+              "n": "Great Horned Owl",
+              "d": "Calls in the evening from the canyon walls."
+            }
+          ],
+          "sci": "Strigidae"
+        },
+        {
+          "name": "Waterbirds",
+          "items": [
+            {
+              "n": "Great Blue Heron",
+              "d": "Stands in the shallows and eddies."
+            },
+            {
+              "n": "Common Merganser",
+              "d": "A fish-eating duck that leads broods down the river."
+            },
+            {
+              "n": "Canada Goose",
+              "d": "Often on the gravel bars."
+            },
+            {
+              "n": "Mallard",
+              "d": "Seen in the quiet backwaters."
+            },
+            {
+              "n": "Belted Kingfisher",
+              "d": "Rattles along the bank."
+            }
+          ]
+        },
+        {
+          "name": "Songbirds",
+          "items": [
+            {
+              "n": "Canyon Wren",
+              "d": "The falling song of the canyon walls."
+            },
+            {
+              "n": "Black-throated Gray Warbler",
+              "d": "A pinyon-juniper bird of the benches."
+            },
+            {
+              "n": "Western Tanager",
+              "d": "A bright visitor in the cottonwoods during migration."
+            },
+            {
+              "n": "White-throated Swift",
+              "d": "Streaks along the cliffs."
+            },
+            {
+              "n": "Common Raven",
+              "d": "Checks out every camp."
+            }
+          ]
+        },
+        {
+          "name": "Ground Birds",
+          "items": [
+            {
+              "n": "Wild Turkey",
+              "d": "Walks the benches near the water."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reptiles",
+      "subs": [
+        {
+          "name": "Lizards",
+          "items": [
+            {
+              "n": "Eastern Collared Lizard",
+              "d": "A large, bright lizard that sprints on its hind legs."
+            },
+            {
+              "n": "Plateau Fence Lizard",
+              "d": "Common on warm rocks."
+            }
+          ]
+        },
+        {
+          "name": "Snakes",
+          "items": [
+            {
+              "n": "Western Rattlesnake",
+              "d": "A venomous snake of rocky ledges. Watch where you put your hands and feet."
+            },
+            {
+              "n": "Gopher Snake",
+              "d": "A harmless constrictor."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Fish",
+      "subs": [
+        {
+          "name": "Trout",
+          "items": [
+            {
+              "n": "Brown Trout",
+              "d": "The river's main trout, in the cold water below the dam.",
+              "inv": 1
+            },
+            {
+              "n": "Rainbow Trout",
+              "d": "Found with the browns.",
+              "inv": 1
+            }
+          ],
+          "sci": "Salmonidae"
+        },
+        {
+          "name": "Minnows & Dace",
+          "items": [
+            {
+              "n": "Rio Grande Chub",
+              "d": "A native chub of the quieter water."
+            },
+            {
+              "n": "Longnose Dace",
+              "d": "A small native that holds in riffles."
+            },
+            {
+              "n": "Fathead Minnow",
+              "d": "An introduced minnow.",
+              "inv": 1
+            }
+          ],
+          "sci": "Leuciscidae"
+        },
+        {
+          "name": "Carp",
+          "items": [
+            {
+              "n": "Common Carp",
+              "d": "Introduced.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Plants",
+      "subs": [
+        {
+          "name": "Conifers",
+          "items": [
+            {
+              "n": "Ponderosa Pine",
+              "d": "On the cool upper slopes."
+            },
+            {
+              "n": "Pinyon Pine",
+              "d": "On the dry benches."
+            },
+            {
+              "n": "One-seed Juniper",
+              "d": "Dominant on the dry canyon rim."
+            }
+          ]
+        },
+        {
+          "name": "Riverside Trees & Shrubs",
+          "items": [
+            {
+              "n": "Rio Grande Cottonwood",
+              "d": "The big cottonwood of the bottomland."
+            },
+            {
+              "n": "Narrowleaf Cottonwood",
+              "d": "Lines the upper river."
+            },
+            {
+              "n": "Coyote Willow",
+              "d": "A thin-leaved willow that crowds the banks."
+            },
+            {
+              "n": "Box Elder",
+              "d": "A maple of the side canyons."
+            },
+            {
+              "n": "Gambel Oak",
+              "d": "Scrub oak that turns gold in autumn."
+            }
+          ]
+        },
+        {
+          "name": "Desert Plants",
+          "items": [
+            {
+              "n": "Four-wing Saltbush",
+              "d": "A gray-green shrub of the benches."
+            },
+            {
+              "n": "Rabbitbrush",
+              "d": "Bright yellow flowers in late summer."
+            },
+            {
+              "n": "Banana Yucca",
+              "d": "Tall creamy blooms in late spring."
+            },
+            {
+              "n": "Cane Cholla",
+              "d": "A cactus with purple flowers in spring."
+            }
+          ]
+        },
+        {
+          "name": "Invasive Plants",
+          "items": [
+            {
+              "n": "Russian Olive",
+              "d": "Silver leaves and thorns; it crowds out native cottonwoods.",
+              "inv": 1
+            },
+            {
+              "n": "Tamarisk",
+              "d": "A saltcedar that has taken over many banks.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "almanac": {
     "history": [
       [
@@ -105,6 +428,44 @@
       [
         "The canyon",
         "The river runs through a multi-colored sandstone canyon up to 1,500 feet deep, with heavily wooded side canyons, historic sites and dinosaur tracks."
+      ],
+      [
+        "Abiquiú",
+        "Spanish colonial authorities founded Abiquiú in 1754 as a settlement for genízaros, Native people who had been taken from their communities and raised in Spanish households. In 1829 it became the starting point of the Old Spanish Trail to California."
+      ],
+      [
+        "Christ in the Desert",
+        "The Benedictine Monastery of Christ in the Desert, founded in 1964, sits on the river just above Chavez Canyon at the end of a long dirt road. It marks the end of the wild upper river."
+      ],
+      [
+        "Georgia O’Keeffe country",
+        "The painter Georgia O’Keeffe made the cliffs and badlands around Ghost Ranch and Abiquiú famous in the 1930s and after. The red, yellow and white cliffs she painted are cut from similar layers to the walls you float past."
+      ],
+      [
+        "The dams",
+        "El Vado Dam, built in 1935, stores water for irrigation downstream on the Rio Grande and now also holds San Juan–Chama project water. Abiquiu Dam, completed in 1963, backs up the lower river into Abiquiu Lake, which begins near the Big Eddy take-out."
+      ],
+      [
+        "Wilderness",
+        "The Chama River Canyon Wilderness was created by Congress on February 24, 1978, ten years before the river was added to the Wild and Scenic system."
+      ]
+    ],
+    "indigenous": [
+      [
+        "Tewa homeland",
+        "The Chama valley is part of the traditional homeland of the Tewa-speaking Pueblo peoples, whose ancestors built villages along the river and its tributaries. Poshuouinge, a large ancestral Tewa pueblo ruin, lies near Abiquiú. Ute, Navajo and Jicarilla Apache groups also used the area. Treat every sherd, wall and rock-art panel as part of a living cultural landscape."
+      ]
+    ],
+    "geology": [
+      [
+        "A Mesozoic layer cake",
+        "The walls show the Mesozoic section of the Colorado Plateau: red Chinle mudstones from the Triassic, about 215 million years old, at the base; pale Jurassic Entrada sandstone above; and, farther down toward Abiquiú, white Todilto limestone and gypsum capping the Entrada. The dinosaur tracks reached from Jurassic Park camp are preserved in this Mesozoic stack. Sandstone cliffs up to 1,500 feet high enclose the river."
+      ]
+    ],
+    "flows": [
+      [
+        "Two seasons",
+        "The early season runs April 15 to July 15 and the release season runs July 16 to September 15, when the float depends on scheduled releases from the dam. In winter the flow can be about 50 cfs, which is not boatable."
       ]
     ]
   },
@@ -156,6 +517,19 @@
         {
           "t": "Shuttle",
           "d": "About 50 miles each way. Up the Creek Shuttle Service: 505-490-2052."
+        }
+      ]
+    },
+    {
+      "name": "Flows",
+      "rules": [
+        {
+          "t": "Dam releases",
+          "d": "Flows come from El Vado Dam and change with water-delivery and irrigation schedules, so check the Rio Chama below El Vado Dam gauge before you launch and again during the trip."
+        },
+        {
+          "t": "Cold water",
+          "d": "Water released from the dam runs cold even in summer. Dress for immersion."
         }
       ]
     }
@@ -226,8 +600,8 @@
     }
   ],
   "notes": {
-    "camp": "",
-    "hike": ""
+    "camp": "*Choose an established site on durable ground. There are no facilities on the river, and every group carries out its solid human waste. Side canyons can flash flood.",
+    "hike": "*Dark Canyon and the other side-canyon hikes are dry washes that flash flood. Dinosaur tracks are protected: look, photograph and leave them as they are."
   },
   "hdiff": {
     "1": "Short, easy walk",
@@ -401,6 +775,30 @@
             "d": "Flows come from El Vado Dam and are not guaranteed. Release-season weekends are augmented to about 500 cfs; weekdays can be as low as 80 to 100 cfs."
           }
         ]
+      }
+    ]
+  },
+  "stats": {
+    "class": "II to III",
+    "season": "Permits cover April 15 to September 15. Releases from the dam carry the late season, July 16 to September 15.",
+    "elev": [
+      6700,
+      6300
+    ],
+    "gradient": 13,
+    "steep": {
+      "gradient": 20,
+      "from": 24.5,
+      "miles": 5
+    },
+    "flow": {
+      "min": 300,
+      "note": "BLM recommends at least 300 cfs for kayaks, canoes and rafts under 12 feet, and 500 for larger rafts. Winter flows can be about 50 cfs, which is not boatable."
+    },
+    "gauges": [
+      {
+        "name": "Rio Chama above Abiquiu Reservoir, NM",
+        "id": "08286500"
       }
     ]
   }

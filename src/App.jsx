@@ -11,6 +11,7 @@ import { canon, mergeTrips, stamp, strip } from './merge.js';
 import * as remote from './sync.js';
 import * as authApi from './auth.js';
 import TopoMap, { OfflinePanel } from './TopoMap.jsx';
+import BasinMap, { hasBasin } from './BasinMap.jsx';
 import SunChart from './SunChart.jsx';
 import { campHorizon, campSun, dropHorizon, drops, dropsGPX, hasGeo, hikeTrack, onGeoChange, parseGPX, position, removeDrop, setHikeTrack, trackStats, updateDrop } from './geo/index.js';
 import { sunDay } from './geo/sun.js';
@@ -18,9 +19,9 @@ import { sunDay } from './geo/sun.js';
 // set by build.mjs: the App Store build ships a fictional sample trip, never the crew's real one
 const IS_STORE = typeof __STORE__ !== 'undefined' && __STORE__;
 const APP_VERSION = typeof __VERSION__ !== 'undefined' ? __VERSION__ : 'dev';
-const POLICY_URL = 'https://briancarlcain.github.io/river-guide/privacy.html';
-const TERMS_URL = 'https://briancarlcain.github.io/river-guide/terms.html';
-const SUPPORT_URL = 'https://github.com/briancarlcain/river-guide/issues';
+const POLICY_URL = 'https://briancarlcain.github.io/eddy/privacy.html';
+const TERMS_URL = 'https://briancarlcain.github.io/eddy/terms.html';
+const SUPPORT_URL = 'https://github.com/briancarlcain/eddy/issues';
 // outfitter-specific price lines are left out of the public catalog
 const GEAR = IS_STORE ? GEAR_ALL.filter((g) => !/Ceiba|^Truck & Trailer|^Van Passenger|^Shuttle -|^Vehicle Shuttle|Gear (Pickup|Delivery) Tip|^Parking -|^Hualapai/i.test(g.n)) : GEAR_ALL;
 
@@ -248,7 +249,7 @@ const clean = (h) =>
 // Local state is authoritative while you type. `db`, when the viewer can
 // run it, mirrors every record so the crew sees each other's edits live.
 
-const LOCAL = 'riverguide.v1';
+const LOCAL = 'eddy.v1';
 
 function mergeSeed(have) {
   if ((have.at || 0) <= 2) return SEED;
@@ -332,7 +333,7 @@ const effRiver = (id, rivers) => {
   return { ...b, ...rest, id };
 };
 
-const NAME_KEY = 'riverguide.name';
+const NAME_KEY = 'eddy.name';
 const savedName = () => {
   try {
     return localStorage.getItem(NAME_KEY) || '';
@@ -993,14 +994,14 @@ const Field = ({ label, area, ...p }) => (
 function Trip({ s, back, onAccount }) {
   const [nudge, setNudge] = useState(() => {
     try {
-      return localStorage.getItem('riverguide.v1.joinedNudge') === '1';
+      return localStorage.getItem('eddy.v1.joinedNudge') === '1';
     } catch {
       return false;
     }
   });
   const hideNudge = () => {
     try {
-      localStorage.removeItem('riverguide.v1.joinedNudge');
+      localStorage.removeItem('eddy.v1.joinedNudge');
     } catch {}
     setNudge(false);
   };
@@ -3057,7 +3058,7 @@ function Log({ s }) {
 }
 
 // "I'm this crew member" is a note on this device, not an account and not synced
-const meKey = (tripId) => 'riverguide.me.' + tripId;
+const meKey = (tripId) => 'eddy.me.' + tripId;
 const getMe = (tripId) => {
   try {
     return localStorage.getItem(meKey(tripId)) || '';
@@ -3238,10 +3239,10 @@ function People({ s }) {
   );
 }
 
-const INVITE_ORIGIN = 'https://briancarlcain.github.io/river-guide/';
+const INVITE_ORIGIN = 'https://briancarlcain.github.io/eddy/';
 const inviteUrl = (code, by) => INVITE_ORIGIN + '?join=' + code + (by ? '&by=' + encodeURIComponent(by) : '');
 const inviteText = (t, code, by) =>
-  `${by ? by + ' invited you to' : "You're invited to"} "${t.name}" on River Guide.\n\n${okDate(t.start) ? fmt(t.start) + ' to ' + fmt(addDays(t.start, t.days)) + '\n\n' : ''}Join: ${inviteUrl(code, by)}\n\nOr enter code ${remote.showCode(code)} under Trips, Join a trip.`;
+  `${by ? by + ' invited you to' : "You're invited to"} "${t.name}" on Eddy.\n\n${okDate(t.start) ? fmt(t.start) + ' to ' + fmt(addDays(t.start, t.days)) + '\n\n' : ''}Join: ${inviteUrl(code, by)}\n\nOr enter code ${remote.showCode(code)} under Trips, Join a trip.`;
 
 // share the trip first if needed, then open the share sheet with the invite
 function useInvite(s, t) {
@@ -3333,8 +3334,8 @@ function tripICS(t, riverName) {
   const ymd = (iso) => iso.replace(/-/g, '');
   const stampNow = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z';
   const ev = (uid, date, endDate, summary, desc) =>
-    ['BEGIN:VEVENT', `UID:${uid}@river-guide`, `DTSTAMP:${stampNow}`, `DTSTART;VALUE=DATE:${ymd(date)}`, `DTEND;VALUE=DATE:${ymd(endDate)}`, `SUMMARY:${icsEsc(summary)}`, desc ? `DESCRIPTION:${icsEsc(desc)}` : null, 'END:VEVENT'].filter(Boolean).join('\r\n');
-  const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//River Guide//EN', 'CALSCALE:GREGORIAN', `X-WR-CALNAME:${icsEsc(t.name)}`];
+    ['BEGIN:VEVENT', `UID:${uid}@eddy`, `DTSTAMP:${stampNow}`, `DTSTART;VALUE=DATE:${ymd(date)}`, `DTEND;VALUE=DATE:${ymd(endDate)}`, `SUMMARY:${icsEsc(summary)}`, desc ? `DESCRIPTION:${icsEsc(desc)}` : null, 'END:VEVENT'].filter(Boolean).join('\r\n');
+  const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Eddy//EN', 'CALSCALE:GREGORIAN', `X-WR-CALNAME:${icsEsc(t.name)}`];
   if (okDate(t.start)) {
     lines.push(ev(t.id + '-trip', t.start, addDays(t.start, t.days + 1), `${t.name} (${riverName})`, `${(t.crew || []).length} people, ${t.days + 1} days`));
     tripDays(t).forEach((d) => {
@@ -3450,11 +3451,25 @@ function River({ s, browse, onBrowse, onPlan }) {
   return <RiverDetail s={s} />;
 }
 
+// Shown on every river tab: the river data is reference only and must not be what a trip decision rests on.
+const RiverNotice = () => (
+  <div className="pad noticeWrap">
+    <div className="notice slim">
+      <div className="noticeHead">
+        <Icon name="alert" size={15} /> Reference only, not for decisions
+      </div>
+      <div className="muted">
+        This guide can be wrong, incomplete or out of date. Do not rely on it to decide whether, when or where to go, or how to run a rapid. Check current official sources, gauges and a guidebook, scout every rapid yourself, and use your own judgment.
+      </div>
+    </div>
+  </div>
+);
+
 function RiverDetail({ s }) {
   const [tab, setTab] = useState(QS.get('sub') || 'Map');
   const [mapMode, setMapModeRaw] = useState(() => {
     try {
-      return QS.get('map') || localStorage.getItem('riverguide.mapMode') || 'chart';
+      return QS.get('map') || localStorage.getItem('eddy.mapMode') || 'chart';
     } catch {
       return 'chart';
     }
@@ -3462,14 +3477,17 @@ function RiverDetail({ s }) {
   const setMapMode = (m) => {
     setMapModeRaw(m);
     try {
-      localStorage.setItem('riverguide.mapMode', m);
+      localStorage.setItem('eddy.mapMode', m);
     } catch {}
   };
   const [editing, setEditing] = useState(false);
   const [msg, setMsg] = useState('');
+  // a remembered mode only applies where this river has it
+  const view = mapMode === 'topo' && hasGeo(RIVER.id) ? 'topo' : mapMode === 'basin' && hasBasin(RIVER.id) ? 'basin' : 'chart';
   // the trip's camp plan only means something on the trip's own river
   const sm = riverOf(s.trip) === RIVER.id ? s : { ...s, trip: null };
   const has = {
+    Overview: Object.keys(RIVER.stats).length > 0,
     Permits: !!RIVER.permit,
     Rapids: RIVER.rapids.length > 0,
     Camps: RIVER.camps.length > 0,
@@ -3481,20 +3499,26 @@ function RiverDetail({ s }) {
   };
   const items = ['Map', ...Object.keys(has).filter((k) => has[k]), 'More'];
   const cur = items.includes(tab) ? tab : 'Map';
-  const P = { Rapids, Camps, Hikes, Permits, Geology, Guide, Almanac, Rules }[cur];
+  const P = { Overview, Rapids, Camps, Hikes, Permits, Geology, Guide, Almanac, Rules }[cur];
   const rec = s.riverRec(RIVER.id);
   return (
     <>
       <Tabs items={items} value={cur} onChange={setTab} tint="#2f5d62" />
+      {cur === 'More' && editing ? null : <RiverNotice />}
       {cur === 'Map' ? (
         <>
-          {hasGeo(RIVER.id) ? (
+          {hasGeo(RIVER.id) || hasBasin(RIVER.id) ? (
             <div className="mapMode">
-              <button className={'chip' + (mapMode !== 'topo' ? ' on river' : '')} onClick={() => setMapMode('chart')}>Mile chart</button>
-              <button className={'chip' + (mapMode === 'topo' ? ' on river' : '')} onClick={() => setMapMode('topo')}>Topo map</button>
+              <button className={'chip' + (view === 'chart' ? ' on river' : '')} onClick={() => setMapMode('chart')}>Mile chart</button>
+              {hasGeo(RIVER.id) ? (
+                <button className={'chip' + (view === 'topo' ? ' on river' : '')} onClick={() => setMapMode('topo')}>Topo map</button>
+              ) : null}
+              {hasBasin(RIVER.id) ? (
+                <button className={'chip' + (view === 'basin' ? ' on river' : '')} onClick={() => setMapMode('basin')}>Basin</button>
+              ) : null}
             </div>
           ) : null}
-          {mapMode === 'topo' && hasGeo(RIVER.id) ? <RiverTopo s={sm} /> : <RiverMap s={sm} />}
+          {view === 'topo' ? <RiverTopo s={sm} /> : view === 'basin' ? <BasinMap key={RIVER.id} rid={RIVER.id} river={RIVER} /> : <RiverMap s={sm} />}
         </>
       ) : cur === 'More' ? (
         editing ? (
@@ -4052,7 +4076,7 @@ function DropDetails({ d, trip }) {
       <div className="row mt">
         <button
           className="btn ghost"
-          onClick={() => saveFile('river-guide-pins.gpx', dropsGPX(drops()), 'application/gpx+xml')}
+          onClick={() => saveFile('eddy-pins.gpx', dropsGPX(drops()), 'application/gpx+xml')}
         >
           Export pins (GPX)
         </button>
@@ -4394,6 +4418,110 @@ function Almanac() {
   );
 }
 
+const nf = (n) => Number(n).toLocaleString('en-US');
+
+// The river at a glance: class, length, elevation, gradient, season, recommended flow and the gauges to watch.
+function Overview() {
+  const st = RIVER.stats || {};
+  const f = st.flow || {};
+  const len = +(RIVER.miles[1] - RIVER.miles[0]).toFixed(1);
+  const el = st.elev || [];
+  const tiles = [
+    ['Class', st.class, '', true],
+    ['Length', len + ' mi'],
+    ['Put-in', el[0] != null ? nf(el[0]) + ' ft' : null],
+    ['Take-out', el[1] != null ? nf(el[1]) + ' ft' : null],
+    ['Gradient', st.gradient != null ? st.gradient + ' ft/mi' : null, st.steep ? `${st.steep.gradient} ft/mi at its steepest, over ${st.steep.miles} mi from mile ${st.steep.from}` : ''],
+    ['Season', st.season, '', true],
+  ].filter((t) => t[1]);
+  // an odd half-width tile would leave a blank cell, so let the last one span the row
+  const half = tiles.filter((t) => !t[3]);
+  if (half.length % 2) half[half.length - 1][3] = true;
+  const range = f.min != null && f.max != null ? `${nf(f.min)} to ${nf(f.max)}` : f.min != null ? `At least ${nf(f.min)}` : f.max != null ? `Up to ${nf(f.max)}` : '';
+  const tick = f.min != null && f.max != null && f.typical != null && f.max > f.min ? Math.max(0, Math.min(100, ((f.typical - f.min) / (f.max - f.min)) * 100)) : null;
+  let prev = null;
+  return (
+    <>
+      <div className="ovTiles">
+        {tiles.map(([k, v, sub, wide]) => (
+          <div className={'ovTile' + (wide ? ' wide' : '')} key={k}>
+            <div className="ovKey">{k}</div>
+            <div className="ovVal">{v}</div>
+            {sub ? <div className="ovSub">{sub}</div> : null}
+          </div>
+        ))}
+      </div>
+      {range || f.typical != null || f.note ? (
+        <div className="mt">
+          <span className="label">{range || f.typical != null ? 'Recommended flow' : 'Flow'}</span>
+          <div className="card ovFlow">
+            {range ? (
+              <div className="ovRange">
+                {range} <span className="ovUnit">cfs</span>
+              </div>
+            ) : null}
+            {f.min != null && f.max != null ? (
+              <div className="ovTrack" aria-hidden="true">
+                {tick != null ? <span className="ovTick" style={{ left: tick + '%' }} /> : null}
+              </div>
+            ) : null}
+            {f.typical != null ? <div className="ovSub">Typical {nf(f.typical)} cfs</div> : null}
+            {f.note ? <div className="ovNote">{clean(f.note)}</div> : null}
+          </div>
+        </div>
+      ) : null}
+      {(st.bands || []).length ? (
+        <div className="mt">
+          <span className="label">What each flow feels like</span>
+          <div className="card permitList">
+            {st.bands.map((b, i) => {
+              const from = prev;
+              prev = b.upto;
+              return (
+                <div className="permitItem" key={i}>
+                  <div className="permitT">
+                    {from == null ? `Up to ${nf(b.upto)} cfs` : `${nf(from)} to ${nf(b.upto)} cfs`} · {b.label}
+                  </div>
+                  <div className="permitD">{clean(b.d)}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+      {(st.craft || []).length ? (
+        <div className="mt">
+          <span className="label">Good for</span>
+          <div className="chips">
+            {st.craft.map((c) => (
+              <span className="chip" key={c}>
+                {c}
+              </span>
+            ))}
+          </div>
+        </div>
+      ) : null}
+      {(st.gauges || []).length ? (
+        <div className="mt">
+          <span className="label">Gauges to watch</span>
+          <div className="card permitList">
+            {st.gauges.map((g, i) => (
+              <div className="permitItem ovGauge" key={i}>
+                <div className="permitT">{g.name}</div>
+                {g.id ? (
+                  <button className="linkBtn" onClick={() => openUrl('https://waterdata.usgs.gov/monitoring-location/' + g.id + '/')}>
+                    USGS {g.id}
+                  </button>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
+    </>
+  );
+}
+
 const Permits = () => {
   const p = RIVER.permit;
   if (!p) return null;
@@ -4623,7 +4751,7 @@ function Account({ s }) {
   );
 }
 
-const REMINDERS_KEY = 'riverguide.v1.reminders';
+const REMINDERS_KEY = 'eddy.v1.reminders';
 
 function About({ s, part = 'about' }) {
   const [msg, setMsg] = useState('');
@@ -4631,8 +4759,8 @@ function About({ s, part = 'about' }) {
   const file = useRef(null);
 
   const backup = async () => {
-    const data = { app: 'river-guide', format: 1, exported: new Date().toISOString(), trips: s.trips, rivers: s.rivers };
-    const ok = await saveBackup(`river-guide-backup-${today()}.json`, JSON.stringify(data));
+    const data = { app: 'eddy', format: 1, exported: new Date().toISOString(), trips: s.trips, rivers: s.rivers };
+    const ok = await saveBackup(`eddy-backup-${today()}.json`, JSON.stringify(data));
     setMsg(ok ? 'Backup ready.' : 'Could not create the backup.');
   };
   const restore = async (e) => {
@@ -4641,12 +4769,12 @@ function About({ s, part = 'about' }) {
     if (!f) return;
     try {
       const data = JSON.parse(await f.text());
-      if (data.app !== 'river-guide' || !Array.isArray(data.trips)) throw new Error('not a River Guide backup');
+      if (!['eddy', 'river-guide'].includes(data.app) || !Array.isArray(data.trips)) throw new Error('not an Eddy backup');
       const n = s.restore(data);
       success();
       setMsg(`Restored ${n} trip${n === 1 ? '' : 's'}.`);
     } catch {
-      setMsg('That file is not a River Guide backup.');
+      setMsg('That file is not an Eddy backup.');
     }
   };
   const toggleRem = async () => {
@@ -4658,7 +4786,7 @@ function About({ s, part = 'about' }) {
       return;
     }
     if (!(await remindersAllowed()) && !(await askReminders())) {
-      setMsg('Notifications are off for River Guide. Turn them on in Settings → Notifications.');
+      setMsg('Notifications are off for Eddy. Turn them on in Settings → Notifications.');
       return;
     }
     localStorage.setItem(REMINDERS_KEY, '1');
@@ -4671,7 +4799,7 @@ function About({ s, part = 'about' }) {
     <>
       {part === 'about' && (
       <div className="card formCard">
-        <span className="label">River Guide</span>
+        <span className="label">Eddy</span>
         <div className="line">Plan river trips: crew, itinerary, meals, gear, shuttles and costs, with built-in guides for more than 20 western rivers.</div>
         <div className="muted mt-s">Version {APP_VERSION}</div>
       </div>
@@ -4705,7 +4833,7 @@ function About({ s, part = 'about' }) {
       {part === 'about' && (
       <div className="card formCard mt">
         <span className="label">Safety &amp; sources</span>
-        <div className="muted mb-s">River, camp and hike information is compiled from public agency publications (such as the National Park Service) and community knowledge. It can be out of date or wrong. Medical and rescue pages are general reference only. Always confirm current regulations, flows and conditions with the managing agency, and carry a satellite communicator.</div>
+        <div className="muted mb-s">Eddy is a planning aid, not a source of truth. River, camp, hike, flow, permit and rule information is compiled from public agency publications, guidebooks and community knowledge, and it can be wrong, incomplete or out of date. Do not rely on this app to make decisions. Confirm current regulations, flows, closures and conditions with the managing agency and current guides, scout every rapid yourself, use your own judgment, and carry a satellite communicator. Medical and rescue pages are general reference only.</div>
       </div>
 
       )}
@@ -4787,7 +4915,7 @@ function Profile({ s, initial, ctx }) {
   );
 }
 
-const DEVICE_KEY = 'riverguide.device';
+const DEVICE_KEY = 'eddy.device';
 const deviceId = () => {
   try {
     let d = localStorage.getItem(DEVICE_KEY);
@@ -4864,7 +4992,7 @@ function Feedback({ s, ctx }) {
         maxLength={4000}
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder={kind === 'idea' ? 'What should River Guide do?' : kind === 'problem' ? 'What went wrong?' : 'Tell us anything.'}
+        placeholder={kind === 'idea' ? 'What should Eddy do?' : kind === 'problem' ? 'What went wrong?' : 'Tell us anything.'}
       />
       <label className="checkRow">
         <input type="checkbox" checked={reply} onChange={(e) => setReply(e.target.checked)} />
@@ -5072,7 +5200,7 @@ function WhoAreYou({ s, tripId, onDone }) {
     if (crewId) setMeFor(tripId, crewId);
     if (crewName) s.renameMe(tripId, crewName).catch(() => {});
     try {
-      localStorage.setItem('riverguide.v1.joinedNudge', '1');
+      localStorage.setItem('eddy.v1.joinedNudge', '1');
     } catch {}
     onDone();
   };
@@ -5262,7 +5390,7 @@ function Trips({ s, preset, clearPreset, joinCode, joinBy, clearJoin, welcome, s
           </button>
         </div>
       )}
-      {!s.session && !adding && s.trips.length > 0 && localStorage.getItem('riverguide.v1.hideBanner') !== '1' ? (
+      {!s.session && !adding && s.trips.length > 0 && localStorage.getItem('eddy.v1.hideBanner') !== '1' ? (
         <div className="notice mt note">
           <div className="noticeHead">
             <Icon name="cloud" size={17} /> Back up your trips
@@ -5275,7 +5403,7 @@ function Trips({ s, preset, clearPreset, joinCode, joinBy, clearJoin, welcome, s
             <button
               className="btn ghost"
               onClick={() => {
-                localStorage.setItem('riverguide.v1.hideBanner', '1');
+                localStorage.setItem('eddy.v1.hideBanner', '1');
                 s.activate(s.trip ? s.trip.id : s.trips[0].id); // re-render
               }}
             >
@@ -5459,6 +5587,15 @@ function RiverEditor({ s, id, onClose }) {
     m0: id ? String(norm.miles[0]) : '0',
     m1: id ? String(norm.miles[1]) : '',
     days: base.days ? String(base.days) : '',
+    cls: norm.stats.class || '',
+    season: norm.stats.season || '',
+    e0: norm.stats.elev && norm.stats.elev[0] != null ? String(norm.stats.elev[0]) : '',
+    e1: norm.stats.elev && norm.stats.elev[1] != null ? String(norm.stats.elev[1]) : '',
+    grad: norm.stats.gradient != null ? String(norm.stats.gradient) : '',
+    fmin: norm.stats.flow && norm.stats.flow.min != null ? String(norm.stats.flow.min) : '',
+    ftyp: norm.stats.flow && norm.stats.flow.typical != null ? String(norm.stats.flow.typical) : '',
+    fmax: norm.stats.flow && norm.stats.flow.max != null ? String(norm.stats.flow.max) : '',
+    fnote: (norm.stats.flow && norm.stats.flow.note) || '',
   });
   const [access, setAccess] = useState(norm.access);
   const [lists, setLists] = useState({ rapids: norm.rapids, camps: norm.camps, hikes: norm.hikes });
@@ -5483,6 +5620,22 @@ function RiverEditor({ s, id, onClose }) {
     if (!tzOk) return setErr('Unknown time zone. Use a name like America/Denver.');
     const rid = id || (s.riverList().some((r) => r.id === slug(f.name)) ? slug(f.name) + '-' + uid().slice(-4) : slug(f.name));
     const days = parseInt(f.days, 10);
+    // overview stats: keep what the form doesn't edit (steepest stretch, flow bands, craft, gauges)
+    const num = (v) => {
+      const n = parseFloat(String(v).replace(/,/g, ''));
+      return isFinite(n) ? n : undefined;
+    };
+    const e0 = num(f.e0), e1 = num(f.e1);
+    const flow = { ...(base.stats?.flow || {}), min: num(f.fmin), typical: num(f.ftyp), max: num(f.fmax), note: f.fnote.trim() || undefined };
+    const stats = {
+      ...(base.stats || {}),
+      class: f.cls.trim() || undefined,
+      season: f.season.trim() || undefined,
+      elev: e0 != null || e1 != null ? [e0, e1] : undefined,
+      gradient: num(f.grad),
+      flow: Object.values(flow).some((v) => v !== undefined) ? flow : undefined,
+    };
+    Object.keys(stats).forEach((k) => stats[k] === undefined && delete stats[k]);
     s.saveRiver({
       ...base,
       id: rid,
@@ -5494,6 +5647,7 @@ function RiverEditor({ s, id, onClose }) {
       coords: [lat, lon],
       miles,
       days: days > 0 ? days : undefined,
+      stats: Object.keys(stats).length ? stats : undefined,
       access,
       ...lists,
     });
@@ -5517,6 +5671,24 @@ function RiverEditor({ s, id, onClose }) {
         <Field label="Put-in longitude" value={f.lon} onChange={set('lon')} inputMode="decimal" placeholder="-114.5" />
       </div>
       <Field label="Time zone" value={f.tz} onChange={set('tz')} placeholder="America/Denver" />
+
+      <div className="mt">
+        <span className="label">Overview</span>
+        <div className="muted">Shown on the river's Overview tab. All optional.</div>
+        <Field label="Class" value={f.cls} onChange={set('cls')} placeholder="III to IV" />
+        <Field label="Season" value={f.season} onChange={set('season')} placeholder="Year-round; runoff peaks May to June" />
+        <div className="row">
+          <Field label="Put-in elevation (ft)" value={f.e0} onChange={set('e0')} inputMode="numeric" />
+          <Field label="Take-out elevation (ft)" value={f.e1} onChange={set('e1')} inputMode="numeric" />
+          <Field label="Gradient (ft/mi)" value={f.grad} onChange={set('grad')} inputMode="decimal" />
+        </div>
+        <div className="row">
+          <Field label="Min flow (cfs)" value={f.fmin} onChange={set('fmin')} inputMode="numeric" />
+          <Field label="Typical (cfs)" value={f.ftyp} onChange={set('ftyp')} inputMode="numeric" />
+          <Field label="Max flow (cfs)" value={f.fmax} onChange={set('fmax')} inputMode="numeric" />
+        </div>
+        <Field label="Flow note" area rows={3} value={f.fnote} onChange={set('fnote')} placeholder="Which gauge, what changes at low and high water" />
+      </div>
 
       <div className="mt">
         <span className="label">Put-ins, take-outs &amp; hubs</span>
@@ -5712,8 +5884,8 @@ const TABS = [
   },
 ];
 
-const RISK_KEY = 'riverguide.risk';
-const RISK_VERSION = '1';
+const RISK_KEY = 'eddy.risk';
+const RISK_VERSION = '2';
 function RiskGate({ onAccept }) {
   return (
     <div className="gate">
@@ -5723,10 +5895,13 @@ function RiskGate({ onAccept }) {
         </div>
         <h1>River trips are dangerous</h1>
         <p>
-          Rafting, kayaking and backcountry travel can cause serious injury or death. River Guide is a planning tool. Its information can be wrong or out of date and cannot account for changing conditions.
+          Rafting, kayaking and backcountry travel can cause serious injury or death. Eddy is a planning aid, not a source of truth. Everything in it can be wrong, incomplete or out of date, and it cannot account for changing conditions.
         </p>
         <p>
-          <strong>You alone are responsible for your safety and your decisions.</strong> River Guide is not responsible for them or for unforeseen circumstances.
+          <strong>Do not rely on Eddy to make decisions.</strong> Before any trip, confirm flows, closures, permits and rules with current official sources, use a current guidebook and gauges, scout every rapid yourself, and use your own judgment on the water.
+        </p>
+        <p>
+          <strong>You alone are responsible for your safety and your decisions.</strong> Eddy is not responsible for them or for unforeseen circumstances.
         </p>
         <button className="btn block" onClick={onAccept}>
           I understand and accept the risk
@@ -5759,7 +5934,7 @@ function App() {
   const [inTrip, setInTrip] = useState(QS.get('open') === '1'); // Trips tab: false = overview list, true = inside the active trip
   const [browse, setBrowse] = useState(QS.get('river') || null); // river being browsed on the River tab (null = the trip's own)
   const [preset, setPreset] = useState(null); // river chosen from the library for a new trip
-  const [joinCode, setJoinCode] = useState(() => remote.cleanCode(QS.get('join')) || ''); // from an invite link or riverguide://join/CODE
+  const [joinCode, setJoinCode] = useState(() => remote.cleanCode(QS.get('join')) || ''); // from an invite link or eddy://join/CODE
   const [welcome, setWelcome] = useState(''); // trip just joined; asks which crew member you are
   const [joinBy] = useState(() => (QS.get('by') || '').replace(/[^\p{L}\p{N} '.-]/gu, '').slice(0, 24));
   const [profSub, setProfSub] = useState(null); // open Profile on a given sub-tab

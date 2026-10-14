@@ -1,0 +1,62 @@
+{
+  "name": "Deschutes River",
+  "state": "Oregon",
+  "reach": "US 26 (Warm Springs) to the Columbia River",
+  "agency": "BLM Prineville / Oregon State Parks",
+  "miles": [
+    0,
+    100
+  ],
+  "coords": [
+    45.2,
+    -121
+  ],
+  "tz": "America/Los_Angeles",
+  "note": "Preliminary entry: reach, access points and permit rules only. Mileage and map position are approximate; confirm against the managing agency.",
+  "access": [
+    {
+      "name": "US 26 (Warm Springs)",
+      "road": true,
+      "mile": 0,
+      "park": true,
+      "note": "Put-in"
+    },
+    {
+      "name": "Sherar's Falls",
+      "road": true,
+      "mile": 57,
+      "park": true,
+      "note": "Access"
+    },
+    {
+      "name": "Columbia River",
+      "road": true,
+      "mile": 100,
+      "park": true,
+      "note": "Take-out"
+    }
+  ],
+  "permit": {
+    "status": "Required · boater pass, online reservation",
+    "sections": [
+      {
+        "name": "Rules",
+        "items": [
+          {
+            "t": "Boater pass",
+            "d": "Buy a boater pass through the online reservation system. Launches are distributed on a rolling basis."
+          },
+          {
+            "t": "Sections",
+            "d": "The pass applies to Warm Springs to Sherar's Falls and Sherar's Falls to the Columbia River."
+          }
+        ]
+      }
+    ],
+    "source": "American Whitewater permit list"
+  },
+  "notes": {
+    "camp": "",
+    "hike": ""
+  }
+}

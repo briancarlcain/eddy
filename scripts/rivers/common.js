@@ -36,7 +36,7 @@ function parse(dsl) {
   return out;
 }
 
-const STATE = {"grand-canyon":"Arizona","smith":"Montana","rogue":"Oregon","main-salmon":"Idaho","yampa":"Colorado","middle-fork-salmon":"Idaho","san-juan":"Utah","rio-chama":"New Mexico","cataract-canyon":"Utah","desolation-gray":"Utah","lodore":"Colorado","hells-canyon":"Idaho","ruby-horsethief":"Colorado","selway":"Idaho","green-flaming-gorge":"Utah","westwater":"Utah","illinois":"Oregon","tuolumne":"California","south-fork-american":"California","black-canyon":"Nevada","salt":"Arizona","dolores":"Colorado"};
+const STATE = {"grand-canyon":"Arizona","smith":"Montana","rogue":"Oregon","main-salmon":"Idaho","yampa":"Colorado","middle-fork-salmon":"Idaho","san-juan":"Utah","rio-chama":"New Mexico","cataract-canyon":"Utah","desolation-gray":"Utah","lodore":"Colorado","hells-canyon":"Idaho","ruby-horsethief":"Colorado","selway":"Idaho","green-flaming-gorge":"Utah","westwater":"Utah","illinois":"Oregon","tuolumne":"California","salt":"Arizona"};
 function write(id, river) {
   if (STATE[id] && !river.state) river = { name: river.name, state: STATE[id], ...river };
   river.note = ''; river.notes = { camp: '', hike: '' };
