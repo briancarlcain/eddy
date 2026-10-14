@@ -1,39 +1,39 @@
 <!-- Paste into Supabase: Authentication > Emails > Templates > Magic Link, and again for Confirm signup.
      Subject: Your Eddy code
      {{ .Token }} is replaced by the six-digit code. Inline styles and tables only, so it renders in mail clients. -->
-<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:#f4f1ea">Your Eddy sign-in code is {{ .Token }}</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f1ea;padding:32px 16px">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:#f5f9fc">Your Eddy sign-in code is {{ .Token }}</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f5f9fc;padding:32px 16px">
   <tr>
     <td align="center">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:440px;background:#ffffff;border-radius:16px;border:1px solid #e6e0d3">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:440px;background:#fcfdfe;border-radius:16px;border:1px solid #dbe7ee">
         <tr>
           <td style="padding:28px 32px 0 32px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
             <table role="presentation" cellpadding="0" cellspacing="0">
               <tr>
-                <td style="width:36px;height:36px;border-radius:10px;background:#a14a28;text-align:center;color:#ffffff;font-size:20px;font-weight:700;line-height:36px">E</td>
-                <td style="padding-left:10px;font-size:17px;font-weight:700;color:#1d1a16">Eddy</td>
+                <td style="width:36px;height:36px;border-radius:10px;background:#1f6c9f;text-align:center;color:#ffffff;font-size:20px;font-weight:700;line-height:36px">E</td>
+                <td style="padding-left:10px;font-size:17px;font-weight:700;color:#14222c">Eddy</td>
               </tr>
             </table>
           </td>
         </tr>
         <tr>
-          <td style="padding:24px 32px 8px 32px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5;color:#1d1a16">
+          <td style="padding:24px 32px 8px 32px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5;color:#14222c">
             Your sign-in code
           </td>
         </tr>
         <tr>
           <td style="padding:0 32px" align="left">
-            <div style="background:#f4f1ea;border-radius:12px;padding:20px 8px;text-align:center;font-family:'SF Mono',Menlo,Consolas,monospace;font-size:34px;font-weight:700;letter-spacing:8px;color:#1d1a16">{{ .Token }}</div>
+            <div style="background:#e8f2f8;border:1px solid #9abdd4;border-radius:12px;padding:20px 8px;text-align:center;font-family:'SF Mono',Menlo,Consolas,monospace;font-size:34px;font-weight:700;letter-spacing:8px;color:#1f6c9f">{{ .Token }}</div>
           </td>
         </tr>
         <tr>
-          <td style="padding:20px 32px 28px 32px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;color:#5f5850">
+          <td style="padding:20px 32px 28px 32px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;color:#45545f">
             Enter it in the app. The code expires soon and works once.<br>
             Didn't ask for this? You can ignore this email.
           </td>
         </tr>
       </table>
-      <div style="padding-top:16px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:12px;color:#8a8378">Eddy</div>
+      <div style="padding-top:16px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:12px;color:#5f6d77">Eddy</div>
     </td>
   </tr>
 </table>
