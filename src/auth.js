@@ -5,7 +5,7 @@ import { Browser } from '@capacitor/browser';
 import { isNative } from './native.js';
 import { API_KEY, SYNC_ORIGIN, setTokenSource } from './sync.js';
 
-const NATIVE_REDIRECT = 'riverguide://auth-callback';
+const NATIVE_REDIRECT = 'eddy://auth-callback';
 const redirectTo = () => (isNative ? NATIVE_REDIRECT : location.origin + location.pathname);
 
 // created on first use, i.e. after native.js has restored mirrored storage
@@ -14,7 +14,7 @@ const A = () =>
   (_auth ||= new GoTrueClient({
   url: `${SYNC_ORIGIN}/auth/v1`,
   headers: { apikey: API_KEY },
-  storageKey: 'riverguide.auth', // mirrored to native Preferences by native.js
+  storageKey: 'eddy.auth', // mirrored to native Preferences by native.js
   flowType: 'pkce',
   detectSessionInUrl: !isNative,
   autoRefreshToken: true,
@@ -57,10 +57,10 @@ export const verifyCode = async (email, token) => must(await A().verifyOtp({ ema
 export async function oauth(provider) {
   const { data, error } = await A().signInWithOAuth({ provider, options: { redirectTo: redirectTo(), skipBrowserRedirect: isNative } });
   if (error) throw new Error(error.message);
-  if (isNative && data && data.url) await Browser.open({ url: data.url }); // returns to the app via riverguide://auth-callback
+  if (isNative && data && data.url) await Browser.open({ url: data.url }); // returns to the app via eddy://auth-callback
 }
 
-// riverguide://auth-callback?code=... (OAuth return or an emailed link opened on this device)
+// eddy://auth-callback?code=... (OAuth return or an emailed link opened on this device)
 export async function handleAuthUrl(url) {
   try {
     const u = new URL(url);

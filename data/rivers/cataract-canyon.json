@@ -32,12 +32,28 @@
       "desc": "Above Lathrop Canyon. River trips may not camp at Lathrop Canyon itself, where the road ends."
     },
     {
+      "name": "Indian Creek Camp",
+      "mile": 30.5,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "At the mouth of Indian Creek, with ruins nearby. Reports mention a waterfall hike up the creek in May and June."
+    },
+    {
       "name": "Upper Loop",
       "mile": 36,
       "size": null,
       "qual": null,
       "bank": "L",
       "desc": "At The Loop, where the river nearly doubles back on itself."
+    },
+    {
+      "name": "Confluence",
+      "mile": 47.5,
+      "size": 7,
+      "qual": null,
+      "bank": null,
+      "desc": "A big camp at the meeting of the Green and Colorado, well suited to a large group. Sometimes called the center of the universe."
     },
     {
       "name": "Lower Red Lake",
@@ -50,10 +66,10 @@
     {
       "name": "Upper Spanish Bottom",
       "mile": 51.4,
-      "size": null,
+      "size": 7,
       "qual": null,
       "bank": "R",
-      "desc": "Above the first rapid."
+      "desc": "Above the first rapid. A large camp and a base for the Dollhouse trail."
     },
     {
       "name": "Middle Spanish Bottom",
@@ -61,7 +77,7 @@
       "size": null,
       "qual": null,
       "bank": "R",
-      "desc": "Above the first rapid."
+      "desc": "Above the first rapid. Big cottonwoods give shade for a kitchen and the Dollhouse trail starts close by. The landing can be steep at low water. From here you can walk the river trail down to Brown Bettie beach to see whether it is free."
     },
     {
       "name": "Brown Bettie beach",
@@ -69,7 +85,7 @@
       "size": null,
       "qual": null,
       "bank": "R",
-      "desc": "Below Rapid 1, with a trail upstream to the Dollhouse."
+      "desc": "Below Rapid 1, with a trail upstream to the Dollhouse. A good beach at low water. Boats have to cheat right at Rapid 1 to make the eddy."
     },
     {
       "name": "Upper X/Y Canyon",
@@ -94,6 +110,46 @@
       "qual": null,
       "bank": "R",
       "desc": "Beside the Rapid 10 surf wave."
+    },
+    {
+      "name": "Lake Cataract",
+      "mile": 58,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "A river-left camp in the quiet stretch between Rapid 12 and Range Canyon, a breather in the middle of the rapids. The eddy near shore is a good spot for a swim. Position approximate."
+    },
+    {
+      "name": "Big Drop Beach",
+      "mile": 61.1,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "A river-left beach above the Big Drops and the usual high-water scouting point. Loud, and a hard place to sleep so close to the roar. At low water, scout from the river-left eddy above Big Drop 2 instead. Position approximate."
+    },
+    {
+      "name": "Upper Ten Cent",
+      "mile": 62.8,
+      "size": null,
+      "qual": null,
+      "bank": "L",
+      "desc": "A good river-left camp below the main rapids. Imperial Rapid and the rapids below it are still ahead before the lake. Position approximate."
+    },
+    {
+      "name": "Lower Ten Cent",
+      "mile": 63.3,
+      "size": 7,
+      "qual": null,
+      "bank": null,
+      "desc": "A large camp with a good landing. Position approximate."
+    },
+    {
+      "name": "Imperial Camp",
+      "mile": 63.7,
+      "size": null,
+      "qual": null,
+      "bank": null,
+      "desc": "The last camp within the rapids, and a great high-water camp. The low-water landing is tricky: the 2011 flood took the beach, leaving a scramble over rocks or a tie-off in the current. Position approximate."
     },
     {
       "name": "Gypsum",
@@ -175,7 +231,7 @@
       "civ": false,
       "diff": 5,
       "tier": "Class III",
-      "desc": "Longer and straightforward; follow the main current."
+      "desc": "Also called North Seas. Longer and straightforward; follow the main current."
     },
     {
       "name": "Rapid 8",
@@ -223,7 +279,7 @@
       "civ": false,
       "diff": 3,
       "tier": "Class II",
-      "desc": "Outwash from Range Canyon. The start of about 3 miles of whitewater, the Mile Long Rapids."
+      "desc": "Outwash from Range Canyon. The start of about 3 miles of whitewater, the Mile Long Rapids (13 to 18)."
     },
     {
       "name": "Rapid 14",
@@ -231,7 +287,7 @@
       "civ": false,
       "diff": 5,
       "tier": "Class III",
-      "desc": "A hole in the center, also Range Canyon outwash."
+      "desc": "A hole in the center, also Range Canyon outwash. Part of the Mile Long Rapids."
     },
     {
       "name": "Rapid 15 (Capsize)",
@@ -239,7 +295,7 @@
       "civ": false,
       "diff": 5,
       "tier": "Class III",
-      "desc": "Midstream boulders; line center-right. Inscriptions on river right mark the 1891 Best party's lost boat."
+      "desc": "Midstream boulders; line center-right. Inscriptions on river right mark the 1891 Best party's lost boat. Part of the Mile Long Rapids. A popular stop to scout and photograph."
     },
     {
       "name": "Rapid 16",
@@ -247,7 +303,7 @@
       "civ": false,
       "diff": 5,
       "tier": "Class III",
-      "desc": "A midstream boulder at low water."
+      "desc": "A midstream boulder at low water. Part of the Mile Long Rapids."
     },
     {
       "name": "Rapid 17",
@@ -255,7 +311,7 @@
       "civ": false,
       "diff": 3,
       "tier": "Class II",
-      "desc": "Easy, down the middle."
+      "desc": "Easy, down the middle. Part of the Mile Long Rapids."
     },
     {
       "name": "Rapid 18",
@@ -263,7 +319,7 @@
       "civ": false,
       "diff": 5,
       "tier": "Class III",
-      "desc": "Fun waves and hydraulics."
+      "desc": "Fun waves and hydraulics. Part of the Mile Long Rapids."
     },
     {
       "name": "The Button (Rapid 19)",
@@ -295,7 +351,7 @@
       "civ": false,
       "diff": 8,
       "tier": "Class IV",
-      "desc": "A ledge wave. Left to right is preferred below 40,000 cfs. Scout river left."
+      "desc": "A ledge wave, marked by a very large rock just left of center with more rocks below it, some with pillows that can flip a boat. Scout river left. At low water there are two lines: far right, with a hard pull left to miss a pin rock, or just left of the big rock, watching for a sleeper rock as you work right to left away from the rocky left bank. Left to right is preferred below 40,000 cfs. Boats 18 feet and under are reported fine on a clean line down to about 2,500 cfs. At high water the hole called Little Niagara is the thing to avoid."
     },
     {
       "name": "Big Drop 3, Satan's Gut (Rapid 23)",
@@ -303,7 +359,7 @@
       "civ": false,
       "diff": 8,
       "tier": "Class IV",
-      "desc": "The biggest rapid. Right at high water, left at low water. Scout."
+      "desc": "The biggest rapid, and a mandatory scout. The drop is steep enough to be striking when you look back up from below. At high water run right and stay off the left side. At flows down to about 2,500 cfs there is essentially one line: about 15 feet off the left bank, through an entry gap of roughly 10 to 15 feet, flushing you between the rock that forms Satan’s Gut on the left and another on the right, into a channel 15 to 20 feet wide. Missing the entry either way goes wrong quickly. Scout from the right-bank beach at high water and from the left-bank rocks at low water."
     },
     {
       "name": "Rapid 24",
@@ -319,7 +375,7 @@
       "civ": false,
       "diff": 5,
       "tier": "Class III",
-      "desc": "Read and run, down the middle."
+      "desc": "Also called Repeat Rapid. Read and run, down the middle."
     },
     {
       "name": "Ten Cent Rapid (Rapid 26)",
@@ -429,7 +485,7 @@
       "time": null,
       "diff": 2,
       "qual": null,
-      "desc": "Ruins along the cliff walls up the creek."
+      "desc": "Ruins along the cliff walls up the creek. Reports mention a waterfall up the creek in May and June."
     },
     {
       "name": "The Loop",
@@ -456,7 +512,7 @@
       "time": null,
       "diff": 3,
       "qual": null,
-      "desc": "A trail from Spanish Bottom to the Doll House formations in the Maze District. Hiking is limited to designated trails."
+      "desc": "A trail from Spanish Bottom to the Doll House formations in the Maze District. Hiking is limited to designated trails. Stay on the trail to limit erosion, and secure boats and food at the beach, because wind and animals will get into loose gear."
     },
     {
       "name": "Dark Canyon",
@@ -469,7 +525,316 @@
     }
   ],
   "geology": [],
-  "guide": [],
+  "guide": [
+    {
+      "name": "Mammals",
+      "subs": [
+        {
+          "name": "Sheep",
+          "items": [
+            {
+              "n": "Desert Bighorn Sheep",
+              "d": "Lives on the canyon walls. The mouths of Salt Creek and nearby canyons close March 15 to September 1 for lambing."
+            }
+          ],
+          "sci": "Bovidae"
+        },
+        {
+          "name": "Deer & Cats",
+          "items": [
+            {
+              "n": "Mule Deer",
+              "d": "Found in the side canyons and on the benches."
+            },
+            {
+              "n": "Bobcat",
+              "d": "A shy cat of the rocky ledges."
+            },
+            {
+              "n": "Mountain Lion",
+              "d": "Present but rarely seen."
+            },
+            {
+              "n": "Coyote",
+              "d": "Calls from the benches at night."
+            }
+          ]
+        },
+        {
+          "name": "Small Mammals",
+          "items": [
+            {
+              "n": "Ringtail",
+              "d": "A cat-like night forager around camp."
+            },
+            {
+              "n": "Beaver",
+              "d": "Bank dens and gnawed willows along the Meander Canyon reach."
+            },
+            {
+              "n": "Desert Cottontail",
+              "d": "Emerges at dusk."
+            },
+            {
+              "n": "Rock Squirrel",
+              "d": "A bold visitor around the kitchen."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Birds",
+      "subs": [
+        {
+          "name": "Hawks & Eagles",
+          "items": [
+            {
+              "n": "Golden Eagle",
+              "d": "Nests on the cliffs."
+            },
+            {
+              "n": "Bald Eagle",
+              "d": "Seen along the river in winter and spring."
+            },
+            {
+              "n": "Red-tailed Hawk",
+              "d": "Soars above the canyon rim."
+            }
+          ],
+          "sci": "Accipitridae"
+        },
+        {
+          "name": "Falcons",
+          "items": [
+            {
+              "n": "Peregrine Falcon",
+              "d": "Nests on the high walls."
+            }
+          ],
+          "sci": "Falconidae"
+        },
+        {
+          "name": "Waterbirds",
+          "items": [
+            {
+              "n": "Great Blue Heron",
+              "d": "Stands in the shallows of Meander Canyon."
+            },
+            {
+              "n": "Canada Goose",
+              "d": "Nests on gravel bars."
+            },
+            {
+              "n": "Common Merganser",
+              "d": "A fish-eating duck."
+            }
+          ]
+        },
+        {
+          "name": "Songbirds",
+          "items": [
+            {
+              "n": "Canyon Wren",
+              "d": "A falling song that rings off the walls."
+            },
+            {
+              "n": "White-throated Swift",
+              "d": "Streaks past the cliffs."
+            },
+            {
+              "n": "Common Raven",
+              "d": "A wary camp scavenger."
+            },
+            {
+              "n": "Black-throated Sparrow",
+              "d": "Sings from the desert shrubs."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reptiles",
+      "subs": [
+        {
+          "name": "Lizards & Snakes",
+          "items": [
+            {
+              "n": "Eastern Collared Lizard",
+              "d": "A large, bright lizard that runs on its hind legs."
+            },
+            {
+              "n": "Plateau Fence Lizard",
+              "d": "Common on warm rocks."
+            },
+            {
+              "n": "Midget Faded Rattlesnake",
+              "d": "A pale rattlesnake of the rocky ledges. Watch where you put your hands and feet."
+            },
+            {
+              "n": "Gopher Snake",
+              "d": "A harmless constrictor."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Fish",
+      "subs": [
+        {
+          "name": "Native Fish",
+          "items": [
+            {
+              "n": "Humpback Chub",
+              "d": "A protected native fish with a distinct hump, found in turbulent water."
+            },
+            {
+              "n": "Colorado Pikeminnow",
+              "d": "A large native predator and protected species."
+            },
+            {
+              "n": "Roundtail Chub",
+              "d": "A native chub."
+            }
+          ],
+          "sci": "Cyprinidae"
+        },
+        {
+          "name": "Suckers",
+          "items": [
+            {
+              "n": "Flannelmouth Sucker",
+              "d": "A native of the main channel."
+            },
+            {
+              "n": "Bluehead Sucker",
+              "d": "A native that scrapes algae from rocks."
+            },
+            {
+              "n": "Razorback Sucker",
+              "d": "A protected native with a sharp keel behind its head."
+            }
+          ],
+          "sci": "Catostomidae"
+        },
+        {
+          "name": "Introduced Fish",
+          "items": [
+            {
+              "n": "Channel Catfish",
+              "d": "An introduced catfish.",
+              "inv": 1
+            },
+            {
+              "n": "Common Carp",
+              "d": "Introduced and widespread.",
+              "inv": 1
+            },
+            {
+              "n": "Red Shiner",
+              "d": "A small introduced minnow.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Plants",
+      "subs": [
+        {
+          "name": "Riverside Trees & Shrubs",
+          "items": [
+            {
+              "n": "Fremont Cottonwood",
+              "d": "The big shade tree of the camps."
+            },
+            {
+              "n": "Coyote Willow",
+              "d": "A thin-leaved willow at the water's edge."
+            },
+            {
+              "n": "Netleaf Hackberry",
+              "d": "Common in the side canyons."
+            }
+          ]
+        },
+        {
+          "name": "Junipers & Pines",
+          "items": [
+            {
+              "n": "Utah Juniper",
+              "d": "Shreddy bark and blue berries on the rim."
+            },
+            {
+              "n": "Pinyon Pine",
+              "d": "On the high benches."
+            }
+          ]
+        },
+        {
+          "name": "Desert Plants",
+          "items": [
+            {
+              "n": "Blackbrush",
+              "d": "A spiny gray shrub that dominates the benches."
+            },
+            {
+              "n": "Mormon Tea",
+              "d": "A jointed, leafless shrub."
+            },
+            {
+              "n": "Cliffrose",
+              "d": "Fragrant white flowers in spring."
+            },
+            {
+              "n": "Indian Ricegrass",
+              "d": "A graceful desert bunchgrass."
+            },
+            {
+              "n": "Claret Cup Cactus",
+              "d": "Scarlet blooms in spring."
+            },
+            {
+              "n": "Banana Yucca",
+              "d": "Tall creamy blooms in late spring."
+            }
+          ]
+        },
+        {
+          "name": "Desert Crust",
+          "items": [
+            {
+              "n": "Cryptobiotic Soil Crust",
+              "d": "A living crust of cyanobacteria, lichens and mosses that holds the desert together. A single footprint can destroy decades of growth."
+            }
+          ]
+        },
+        {
+          "name": "Invasive Plants",
+          "items": [
+            {
+              "n": "Tamarisk",
+              "d": "A saltcedar that crowds the banks.",
+              "inv": 1
+            },
+            {
+              "n": "Russian Olive",
+              "d": "Silver leaves and thorns.",
+              "inv": 1
+            },
+            {
+              "n": "Cheatgrass",
+              "d": "A weedy grass that dries early and fuels fires.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "almanac": {
     "flows": [
       [
@@ -483,6 +848,10 @@
       [
         "Lake Powell",
         "As the reservoir drops, rapids that were drowned begin to show, and Gypsum Canyon Rapid has become significant since 2018. Sediment (the Dominy Formation) buries other rapids, including Dark Canyon Rapid as of 2021."
+      ],
+      [
+        "Recommended flows",
+        "Riverbrain lists a recommended range of about 3,500 cfs minimum to 50,000 cfs maximum, with the Big Drops and Satan’s Gut needing a scout at any flow. At the extremes the same rapids behave very differently; check the gauges and recent reports before launching."
       ]
     ],
     "history": [
@@ -493,6 +862,48 @@
       [
         "The 1925 oil fire",
         "A fire at an oil well near the Potash ramp spilled thousands of barrels of oil into the river over several months."
+      ],
+      [
+        "Powell names Cataract",
+        "John Wesley Powell named Cataract Canyon in 1869 for the difficulty of its rapids. Nathaniel Galloway made numerous trips through the canyon in 1894."
+      ],
+      [
+        "Hite",
+        "Hite Marina is named for Cass Hite, a prospector who worked the river’s gold bars in the 1880s."
+      ],
+      [
+        "Glen Canyon Dam and the lake",
+        "When Glen Canyon Dam closed on September 13, 1963, the Colorado began backing up and Lake Powell began to fill, drowning the lower end of Cataract Canyon. When the lake falls, drowned rapids reappear."
+      ],
+      [
+        "The Kolb brothers’ camp",
+        "Emery and Ellsworth Kolb painted “E.C. & E.L. Kolb Cat Camp 2 10-28-1911” on a rock in Cataract Canyon during their 1911 trip down the Green and Colorado. It sits between Big Drop 2 and Big Drop 3, is listed on the National Register of Historic Places, and is only above water at medium to low flows."
+      ]
+    ],
+    "indigenous": [
+      [
+        "Ancestral Puebloan country",
+        "Ancestral Puebloan farmers lived in and around Canyonlands for centuries, building granaries in the cliffs and ruins along the river, such as those at Lathrop Canyon and the Coffee Pot Ruin. The Hopi, Zuni and other Pueblo peoples are their descendants; Ute, Paiute and Navajo peoples also used this country."
+      ]
+    ],
+    "geology": [
+      [
+        "Ledges of limestone over salt",
+        "Where the Colorado runs through the Cataract rapids it cuts through the Honaker Trail Formation, dark gray fossil-bearing limestone laid down about 286 to 320 million years ago in shallow Pennsylvanian seas, forming ledges and slopes along the river. Beneath it lies the Paradox Formation, thick salt and gypsum that dissolves and flows slowly, which flexes and faults the layers above and makes the beds slump toward the river."
+      ]
+    ],
+    "planning": [
+      [
+        "The trip in four parts",
+        "From Potash it is about 47 miles of flatwater through Meander Canyon, past Dead Horse Point, with ruins, pictographs and side hikes; Lathrop Canyon reaches the White Rim Road. About four miles below the Green River confluence the rapids begin, and about 15 miles of whitewater follow. Below Imperial Canyon the river slows into the upper reaches of Lake Powell, and flatwater runs to the take-out."
+      ],
+      [
+        "Flatwater and the motor question",
+        "How much you row or motor depends on the flow, the lake level and the wind. Many groups bring a motor for the flat sections above and below the rapids; some tie boats together and float through the night. It can be done without a motor, but check the flow, lake level and wind forecast first and set expectations to match."
+      ],
+      [
+        "Around the Dollhouse",
+        "The camps near the confluence put you within reach of the Doll House in the Maze. Stay on the designated trail, and stash boats and gear so wind and animals cannot get into food or other items."
       ]
     ]
   },
@@ -668,7 +1079,7 @@
       "civ": false,
       "diff": null,
       "tier": "Landmark",
-      "desc": ""
+      "desc": "The mouth is closed March 15 to September 1 for bighorn lambing, along with Salt Creek, Big Spring and Little Spring."
     },
     {
       "name": "Green River confluence",
@@ -677,6 +1088,22 @@
       "diff": null,
       "tier": "Landmark",
       "desc": "The start of Cataract Canyon. Life jackets must be worn from here to the last active rapid. Up-running is prohibited from the first rapid to Imperial Canyon. A courtesy register box is a little below."
+    },
+    {
+      "name": "Little Niagara",
+      "mile": 61.52,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "A large hole in Big Drop 2 that matters most at high water."
+    },
+    {
+      "name": "Kolb Brothers inscription",
+      "mile": 61.6,
+      "civ": false,
+      "diff": null,
+      "tier": "Landmark",
+      "desc": "Painted by Emery and Ellsworth Kolb at their Cat Camp in 1911, between Big Drop 2 and Big Drop 3. It is only above water at medium to low flows. Look, photograph, never touch."
     },
     {
       "name": "Imperial Canyon",
@@ -719,8 +1146,8 @@
     }
   ],
   "notes": {
-    "camp": "",
-    "hike": ""
+    "camp": "*River trips camp together on one site per permit. Do not camp at Lathrop Canyon, at springs, or near ruins. Cryptobiotic soil crust covers the benches: stay on rock, sand and wash bottoms.",
+    "hike": "*Hikes begin on side canyon washes that flash flood, and the heat is severe in summer. Ruins and rock art are fragile: look and photograph but never touch or remove anything."
   },
   "hdiff": {
     "1": "Short, easy walk",
@@ -765,9 +1192,20 @@
       "road": true,
       "mile": 95.1,
       "park": true,
-      "note": "Usual take-out. Steep, eroded ramp; may need a winch",
+      "note": "Usual take-out, a dirt ramp just below the Dirty Devil. Steep and eroded, and how muddy it is varies, so bring a winch or rollers.",
       "grid": [
         10,
+        6
+      ]
+    },
+    {
+      "name": "Hite Marina",
+      "road": true,
+      "mile": 96.1,
+      "park": true,
+      "note": "Alternative take-out. A concrete ramp when the lake is high enough, with restrooms, water and a waste dump station; as muddy as North Wash when the lake is low. Camping is possible but poor, so land, de-rig and go.",
+      "grid": [
+        8,
         6
       ]
     }
@@ -795,6 +1233,11 @@
     {
       "a": "Outfitter",
       "b": "Moab",
+      "h": ""
+    },
+    {
+      "a": "Hanksville",
+      "b": "Hite Marina",
       "h": ""
     }
   ],
@@ -879,6 +1322,58 @@
             "d": "Mussels are in Lake Powell. Utah and Arizona laws require you to clean, drain and dry your boat after take-out."
           }
         ]
+      }
+    ]
+  },
+  "stats": {
+    "class": "III to IV",
+    "season": "Year-round. Runoff peaks May to June; the permit season runs April to October.",
+    "elev": [
+      3950,
+      3700
+    ],
+    "gradient": 2.6,
+    "steep": {
+      "gradient": 18,
+      "from": 57.8,
+      "miles": 5
+    },
+    "flow": {
+      "min": 3500,
+      "typical": 27000,
+      "max": 50000,
+      "note": "This is the combined Colorado and Green River flow below the confluence, which is what runs through the rapids. The Big Drops need a scout at any flow."
+    },
+    "bands": [
+      {
+        "upto": 25000,
+        "label": "Class III",
+        "d": "Rocks to dodge, but forgiving."
+      },
+      {
+        "upto": 35000,
+        "label": "Class III to IV",
+        "d": "Serious water. A flip can cost you loose gear."
+      },
+      {
+        "upto": 40000,
+        "label": "Class III to IV",
+        "d": "A real chance of a beating."
+      },
+      {
+        "upto": 100000,
+        "label": "Class IV+",
+        "d": "Big water. Long scouts at the big drops."
+      }
+    ],
+    "gauges": [
+      {
+        "name": "Colorado River near Cisco, UT",
+        "id": "09180500"
+      },
+      {
+        "name": "Green River at Green River, UT",
+        "id": "09315000"
       }
     ]
   }

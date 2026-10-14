@@ -1,9 +1,12 @@
-// Geo build: centerline + camp horizons for each river in data/geo/anchors.json -> data/geo/<id>.json
-//   node scripts/geo/build.mjs                 every river with anchors
+// Geo build: centerline + camp horizons -> data/geo/<id>.json
+//   node scripts/geo/build.mjs                 every river with DEM anchors or an NHD line
 //   node scripts/geo/build.mjs grand-canyon    one river
 //   --horizons-only                            keep the existing line, recompute horizons
+// A river's line is either traced from the terrain between the anchors in data/geo/anchors.json, or (no anchors) read
+// from data/geo/nhd/<id>.json, the USGS hydrography main stem calibrated to the guide's miles by
+// scripts/basin/centerline.py.
 // DEM tiles are cached in .cache/dem (Grand Canyon: ~1,000 tiles, ~120 MB the first time).
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { traceRiver } from './trace.mjs';
 import { tile, lon2x, lat2y } from './dem.mjs';
 import { encodeLine, decodeLine, atMile, itemKey } from '../../src/geo/line.js';
@@ -14,7 +17,8 @@ const args = process.argv.slice(2);
 const horizonsOnly = args.includes('--horizons-only');
 const ANCH = JSON.parse(readFileSync('data/geo/anchors.json', 'utf8'));
 const ids = args.filter((a) => !a.startsWith('--'));
-const todo = ids.length ? ids : Object.keys(ANCH);
+const NHD = existsSync('data/geo/nhd') ? readdirSync('data/geo/nhd').filter((f) => f.endsWith('.json')).map((f) => f.slice(0, -5)) : [];
+const todo = ids.length ? ids : [...new Set([...Object.keys(ANCH), ...NHD])];
 
 const ZN = 13, ZF = 12;
 const cache = new Map();
@@ -74,10 +78,15 @@ for (const id of todo) {
   const river = JSON.parse(readFileSync(`data/rivers/${id}.json`, 'utf8'));
   const out = `data/geo/${id}.json`;
   const anchors = ANCH[id];
-  if (!anchors) throw new Error(`${id}: no anchors in data/geo/anchors.json`);
+  const nhdFile = `data/geo/nhd/${id}.json`;
+  if (!anchors && !existsSync(nhdFile)) throw new Error(`${id}: no anchors in data/geo/anchors.json and no ${nhdFile}`);
   let geo;
   if (horizonsOnly && existsSync(out)) geo = JSON.parse(readFileSync(out, 'utf8'));
-  else {
+  else if (!anchors) {
+    const { v, pts, marks, offset } = JSON.parse(readFileSync(nhdFile, 'utf8'));
+    console.log(`${id}: centerline from ${nhdFile} (${pts.length / 2} points, ${marks.length} mile marks)`);
+    geo = { v, pts, marks, offset: river.geoOffset || offset || 40 };
+  } else {
     console.log(`${id}: tracing ${anchors.length - 1} segments`);
     const { pts, marks, report } = await traceRiver(anchors);
     console.table(report);

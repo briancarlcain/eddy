@@ -1,8 +1,9 @@
 // Builds the single-file app from src/App.jsx + src/shell.html + src/ui.css.
 //   node build.mjs        web build  -> index.html        (GitHub Pages; includes the private Grand Canyon 2026 trip)
+//                         BUILD_OUT=path writes the web build there instead (test/build.test.mjs uses it)
 //   node build.mjs app    store build -> www/index.html   (Capacitor / App Store; fictional sample trip only)
 import { build } from 'esbuild';
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const store = process.argv[2] === 'app';
@@ -55,7 +56,7 @@ if (!body.includes(js.slice(0, 40))) throw new Error('shell.html: <script src="a
 const web = `<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="River Guide">
+<meta name="apple-mobile-web-app-title" content="Eddy">
 <meta name="robots" content="noindex, nofollow">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">`;
@@ -79,7 +80,9 @@ ${body}
 if (store) {
   mkdirSync('www', { recursive: true });
   writeFileSync('www/index.html', html);
+  // the Basin map data is fetched at run time (data/basin/<river>.json): ship it inside the app
+  if (existsSync('data/basin')) cpSync('data/basin', 'www/data/basin', { recursive: true });
 } else {
-  writeFileSync('index.html', html);
+  writeFileSync(process.env.BUILD_OUT || 'index.html', html);
 }
-console.log(`${store ? 'www/index.html' : 'index.html'} written (${(html.length / 1024).toFixed(0)} KB, ${store ? 'store' : 'web'} build)`);
+console.log(`${store ? 'www/index.html' : process.env.BUILD_OUT || 'index.html'} written (${(html.length / 1024).toFixed(0)} KB, ${store ? 'store' : 'web'} build)`);

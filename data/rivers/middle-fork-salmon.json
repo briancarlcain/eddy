@@ -1375,7 +1375,307 @@
     }
   ],
   "geology": [],
-  "guide": [],
+  "guide": [
+    {
+      "name": "Fish",
+      "subs": [
+        {
+          "name": "Trout",
+          "items": [
+            {
+              "n": "Westslope Cutthroat Trout",
+              "d": "The river’s signature fish, a native trout that rises to dry flies."
+            },
+            {
+              "n": "Bull Trout",
+              "d": "A protected native char of cold streams."
+            },
+            {
+              "n": "Rainbow Trout",
+              "d": "Native rainbows and steelhead share the river."
+            }
+          ],
+          "sci": "Salmonidae"
+        },
+        {
+          "name": "Salmon & Whitefish",
+          "items": [
+            {
+              "n": "Chinook Salmon",
+              "d": "Spring and summer chinook still spawn in Middle Fork tributaries; do not disturb the redds."
+            },
+            {
+              "n": "Steelhead",
+              "d": "Sea-run rainbow trout that return to spawn in the tributaries."
+            },
+            {
+              "n": "Mountain Whitefish",
+              "d": "A silvery native of the pools."
+            }
+          ],
+          "sci": "Salmonidae"
+        }
+      ]
+    },
+    {
+      "name": "Mammals",
+      "subs": [
+        {
+          "name": "Sheep & Goats",
+          "items": [
+            {
+              "n": "Bighorn Sheep",
+              "d": "Seen on the grassy slopes and cliffs."
+            },
+            {
+              "n": "Mountain Goat",
+              "d": "Found on the high peaks and sometimes on the cliffs of the canyon."
+            }
+          ],
+          "sci": "Bovidae"
+        },
+        {
+          "name": "Deer, Elk & Moose",
+          "items": [
+            {
+              "n": "Mule Deer",
+              "d": "Common along the river."
+            },
+            {
+              "n": "Elk",
+              "d": "Seen on the high benches and meadows."
+            },
+            {
+              "n": "Moose",
+              "d": "Found in willow thickets and wet meadows."
+            }
+          ],
+          "sci": "Cervidae"
+        },
+        {
+          "name": "Bears, Cats & Wolves",
+          "items": [
+            {
+              "n": "Black Bear",
+              "d": "Present throughout; store food and scented gear securely."
+            },
+            {
+              "n": "Mountain Lion",
+              "d": "Elusive, though tracks show on sandbars."
+            },
+            {
+              "n": "Gray Wolf",
+              "d": "Reintroduced to central Idaho in the 1990s; heard more often than seen."
+            }
+          ]
+        },
+        {
+          "name": "Small Mammals",
+          "items": [
+            {
+              "n": "River Otter",
+              "d": "An occasional sight in the eddies."
+            },
+            {
+              "n": "Beaver",
+              "d": "Gnawed willows and bank dens."
+            },
+            {
+              "n": "Yellow-bellied Marmot",
+              "d": "Whistles from rock piles."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Birds",
+      "subs": [
+        {
+          "name": "Hawks & Eagles",
+          "items": [
+            {
+              "n": "Bald Eagle",
+              "d": "Hunts the river, especially in winter and spring."
+            },
+            {
+              "n": "Golden Eagle",
+              "d": "Nests on the cliffs."
+            },
+            {
+              "n": "Osprey",
+              "d": "Dives for cutthroat along the river."
+            }
+          ],
+          "sci": "Accipitridae"
+        },
+        {
+          "name": "Falcons",
+          "items": [
+            {
+              "n": "Peregrine Falcon",
+              "d": "Nests on the high walls."
+            }
+          ],
+          "sci": "Falconidae"
+        },
+        {
+          "name": "Waterbirds",
+          "items": [
+            {
+              "n": "Harlequin Duck",
+              "d": "A small, brightly patterned duck of fast mountain streams."
+            },
+            {
+              "n": "Common Merganser",
+              "d": "A fish-eating duck."
+            },
+            {
+              "n": "Belted Kingfisher",
+              "d": "Rattles along the bank."
+            },
+            {
+              "n": "Spotted Sandpiper",
+              "d": "Teeters along the shore."
+            }
+          ]
+        },
+        {
+          "name": "Songbirds",
+          "items": [
+            {
+              "n": "American Dipper",
+              "d": "Bobs on rocks and walks the stream bottom."
+            },
+            {
+              "n": "Canyon Wren",
+              "d": "A falling song off the cliffs."
+            },
+            {
+              "n": "Western Tanager",
+              "d": "A yellow-and-red bird of the pines."
+            },
+            {
+              "n": "Lazuli Bunting",
+              "d": "A bright blue bird of brushy slopes."
+            }
+          ]
+        },
+        {
+          "name": "Upland Birds",
+          "items": [
+            {
+              "n": "Chukar",
+              "d": "An introduced partridge heard on the rocky slopes.",
+              "inv": 1
+            },
+            {
+              "n": "Ruffed Grouse",
+              "d": "Drums from wooded side canyons."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reptiles",
+      "subs": [
+        {
+          "name": "Snakes",
+          "items": [
+            {
+              "n": "Northern Pacific Rattlesnake",
+              "d": "A rattlesnake of rocky slopes and camps. Watch where you put your hands and feet."
+            },
+            {
+              "n": "Gopher Snake",
+              "d": "A harmless constrictor."
+            },
+            {
+              "n": "Rubber Boa",
+              "d": "A small, gentle, rubbery-skinned snake of wooded slopes."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Plants",
+      "subs": [
+        {
+          "name": "Trees",
+          "items": [
+            {
+              "n": "Ponderosa Pine",
+              "d": "On the drier slopes."
+            },
+            {
+              "n": "Douglas-fir",
+              "d": "On cooler north-facing slopes."
+            },
+            {
+              "n": "Black Cottonwood",
+              "d": "Lines the river and shades camps."
+            },
+            {
+              "n": "Alder",
+              "d": "Thick along the creek mouths."
+            }
+          ]
+        },
+        {
+          "name": "Shrubs",
+          "items": [
+            {
+              "n": "Syringa",
+              "d": "Mock orange, Idaho's state flower, with fragrant white blooms in early summer."
+            },
+            {
+              "n": "Ocean Spray",
+              "d": "Cream plumes in early summer."
+            },
+            {
+              "n": "Red-osier Dogwood",
+              "d": "Red stems and white berries in wet places."
+            },
+            {
+              "n": "Poison Ivy",
+              "d": "Common along the shore and camp edges. Learn to recognize it."
+            }
+          ]
+        },
+        {
+          "name": "Wildflowers",
+          "items": [
+            {
+              "n": "Arrowleaf Balsamroot",
+              "d": "Yellow sunflowers that carpet the slopes in spring."
+            }
+          ]
+        },
+        {
+          "name": "Invasive Plants",
+          "items": [
+            {
+              "n": "Spotted Knapweed",
+              "d": "A weed that spreads along trails; clean boots and gear.",
+              "inv": 1
+            },
+            {
+              "n": "Cheatgrass",
+              "d": "A weedy grass that dries early and fuels fires.",
+              "inv": 1
+            },
+            {
+              "n": "Rush Skeletonweed",
+              "d": "A wiry weed of dry slopes.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "almanac": {
     "history": [
       [
@@ -1389,6 +1689,36 @@
       [
         "Whitie Cox",
         "Whitie Cox, a miner who died in 1954, is buried at the camp that bears his name."
+      ],
+      [
+        "An original Wild and Scenic River",
+        "The Middle Fork was among the first eight rivers placed in the Wild and Scenic system on October 2, 1968. Nearly all of it is classed as wild, and most lies within the Frank Church–River of No Return Wilderness."
+      ],
+      [
+        "A deep canyon",
+        "The river falls more than 4,000 feet in about 100 miles. Near the end, Impassable Canyon is so steep that trail access ends and the river is the only way through."
+      ]
+    ],
+    "indigenous": [
+      [
+        "8,000 years of people",
+        "Archaeological evidence suggests people have hunted and gathered in the Middle Fork country for about 8,000 years. Shoshone bands, including the Tukudika, or “Sheepeaters,” lived in these mountains, and the Nez Perce also traveled through the region. The pictographs at Cameron Creek, Shark Fin, Rattlesnake Cave and Stoddard Creek are part of that record. Treat every site with respect and never touch the paint."
+      ],
+      [
+        "The Sheepeater campaigns",
+        "In 1879 the U.S. Army pursued the Tukudika in the rugged country around the Middle Fork in the Sheepeater campaign, one of the last Indian conflicts in the region. A hot spring on the river carries their name."
+      ]
+    ],
+    "geology": [
+      [
+        "Granite and hot springs",
+        "Much of the canyon is cut through the granitic rock of the Idaho Batholith, which formed deep underground in the Cretaceous. Water heated deep in the rock rises through fractures along the river to feed more than half a dozen hot springs, from Trail Flat to Hospital Bar."
+      ]
+    ],
+    "lore": [
+      [
+        "A cutthroat river",
+        "Anglers consider the Middle Fork one of the finest catch-and-release cutthroat rivers on earth, known for dry-fly fishing. The river once saw millions of returning salmon, but downstream dams on the Snake and Columbia have greatly reduced those runs."
       ]
     ]
   },
@@ -1580,8 +1910,8 @@
     }
   ],
   "notes": {
-    "camp": "",
-    "hike": ""
+    "camp": "*Camps are assigned by the permit, so know your night’s camp before you launch. Many landings are tough at high water, hot springs camps are shared, and rattlesnakes, ticks and poison ivy are common near camp.",
+    "hike": "*Hot spring pools can be very hot and some wash out at high water. Pictograph sites are day use only; look and photograph but never touch the paint. Trails are steep and exposed in summer."
   },
   "hdiff": {
     "1": "Short, easy walk",
@@ -1778,6 +2108,31 @@
             "d": "A late cancellation or no-show means no permit and no lottery for three years."
           }
         ]
+      }
+    ]
+  },
+  "stats": {
+    "class": "III to IV",
+    "season": "Early May into September and October. The lottery season is May 28 to September 3.",
+    "elev": [
+      5600,
+      2950
+    ],
+    "gradient": 26,
+    "steep": {
+      "gradient": 46,
+      "from": 1.2,
+      "miles": 5
+    },
+    "flow": {
+      "min": 700,
+      "max": 6000,
+      "note": "Paddling guides call about 700 to 6,000 cfs comfortable for rafts and kayaks, with 600 the kayak floor. Summer medians fall below 1,000 by August, and above about 5 feet on the gauge the river is for experts. Below about 1.6 feet many parties fly into Indian Creek instead."
+    },
+    "gauges": [
+      {
+        "name": "Middle Fork Salmon River at Middle Fork Lodge, ID",
+        "id": "13309220"
       }
     ]
   }

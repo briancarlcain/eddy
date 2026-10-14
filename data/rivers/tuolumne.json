@@ -13,6 +13,7 @@
     -120.4
   ],
   "tz": "America/Los_Angeles",
+  "note": "",
   "camps": [
     {
       "name": "Lumsden Campground",
@@ -322,8 +323,328 @@
     }
   ],
   "geology": [],
-  "guide": [],
-  "almanac": {},
+  "guide": [
+    {
+      "name": "Fish",
+      "subs": [
+        {
+          "name": "Trout",
+          "items": [
+            {
+              "n": "Rainbow Trout",
+              "d": "A resident of the cold, regulated river."
+            }
+          ],
+          "sci": "Salmonidae"
+        },
+        {
+          "name": "Introduced Fish",
+          "items": [
+            {
+              "n": "Smallmouth Bass",
+              "d": "An introduced predator, especially toward the reservoir.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mammals",
+      "subs": [
+        {
+          "name": "Deer",
+          "items": [
+            {
+              "n": "Mule Deer",
+              "d": "Common on the canyon slopes."
+            }
+          ]
+        },
+        {
+          "name": "Bears & Cats",
+          "items": [
+            {
+              "n": "Black Bear",
+              "d": "Present; keep food and scented gear secure."
+            },
+            {
+              "n": "Mountain Lion",
+              "d": "Elusive."
+            },
+            {
+              "n": "Bobcat",
+              "d": "A shy cat of the wooded slopes."
+            }
+          ]
+        },
+        {
+          "name": "Small Mammals",
+          "items": [
+            {
+              "n": "River Otter",
+              "d": "Seen in the pools and eddies."
+            },
+            {
+              "n": "Ringtail",
+              "d": "A cat-like night forager."
+            },
+            {
+              "n": "Gray Fox",
+              "d": "A nighttime visitor around camp."
+            },
+            {
+              "n": "Coyote",
+              "d": "Calls from the canyon walls at dusk."
+            },
+            {
+              "n": "Beaver",
+              "d": "Gnawed willows and bank dens."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Birds",
+      "subs": [
+        {
+          "name": "Hawks & Eagles",
+          "items": [
+            {
+              "n": "Bald Eagle",
+              "d": "Hunts the river."
+            },
+            {
+              "n": "Osprey",
+              "d": "Dives for fish along the river."
+            },
+            {
+              "n": "Golden Eagle",
+              "d": "Nests on the cliffs."
+            }
+          ],
+          "sci": "Accipitridae"
+        },
+        {
+          "name": "Waterbirds",
+          "items": [
+            {
+              "n": "Common Merganser",
+              "d": "A fish-eating duck that leads broods through the rapids."
+            },
+            {
+              "n": "Belted Kingfisher",
+              "d": "Rattles along the bank."
+            },
+            {
+              "n": "Spotted Sandpiper",
+              "d": "Teeters along the shore."
+            }
+          ]
+        },
+        {
+          "name": "Songbirds",
+          "items": [
+            {
+              "n": "American Dipper",
+              "d": "Bobs on rocks and walks the stream bottom."
+            },
+            {
+              "n": "Canyon Wren",
+              "d": "A falling song off the canyon walls."
+            },
+            {
+              "n": "Acorn Woodpecker",
+              "d": "A clown-faced woodpecker that stores acorns in dead trees."
+            },
+            {
+              "n": "California Scrub-Jay",
+              "d": "A noisy blue jay of the oaks."
+            }
+          ]
+        },
+        {
+          "name": "Ground Birds",
+          "items": [
+            {
+              "n": "California Quail",
+              "d": "Runs in coveys; the male wears a curved topknot."
+            },
+            {
+              "n": "Wild Turkey",
+              "d": "A large introduced bird of the oak woodland.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reptiles & Amphibians",
+      "subs": [
+        {
+          "name": "Snakes & Lizards",
+          "items": [
+            {
+              "n": "Northern Pacific Rattlesnake",
+              "d": "A rattlesnake of rocky slopes and camps. Watch where you put your hands and feet."
+            },
+            {
+              "n": "Western Fence Lizard",
+              "d": "Common on warm rocks."
+            },
+            {
+              "n": "Gopher Snake",
+              "d": "A harmless constrictor."
+            }
+          ]
+        },
+        {
+          "name": "Frogs & Turtles",
+          "items": [
+            {
+              "n": "Foothill Yellow-legged Frog",
+              "d": "A small, river-dwelling frog that lays its eggs in gravel; protected in California."
+            },
+            {
+              "n": "Western Pond Turtle",
+              "d": "A native turtle that basks on logs and rocks; keep your distance."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Plants",
+      "subs": [
+        {
+          "name": "Oaks & Pines",
+          "items": [
+            {
+              "n": "Blue Oak",
+              "d": "A pale-leaved oak of the dry foothill slopes."
+            },
+            {
+              "n": "Interior Live Oak",
+              "d": "An evergreen oak of the canyon sides."
+            },
+            {
+              "n": "Gray Pine",
+              "d": "A thin-needled, drought-tolerant pine with big cones."
+            },
+            {
+              "n": "Ponderosa Pine",
+              "d": "On the cooler, higher slopes."
+            },
+            {
+              "n": "California Buckeye",
+              "d": "A tree that drops its leaves in summer and blooms white in spring."
+            }
+          ]
+        },
+        {
+          "name": "Riverside Trees & Shrubs",
+          "items": [
+            {
+              "n": "White Alder",
+              "d": "Lines the river and creek mouths."
+            },
+            {
+              "n": "Fremont Cottonwood",
+              "d": "Found on gravel bars."
+            },
+            {
+              "n": "Willow",
+              "d": "Thick along the water's edge."
+            },
+            {
+              "n": "Redbud",
+              "d": "Magenta flowers in early spring."
+            }
+          ]
+        },
+        {
+          "name": "Shrubs",
+          "items": [
+            {
+              "n": "Poison Oak",
+              "d": "Common on trails and landings. Learn to recognize it: three shiny leaflets."
+            },
+            {
+              "n": "Manzanita",
+              "d": "A shrub with smooth red-brown bark."
+            },
+            {
+              "n": "Toyon",
+              "d": "An evergreen shrub with red winter berries."
+            }
+          ]
+        },
+        {
+          "name": "Wildflowers",
+          "items": [
+            {
+              "n": "California Poppy",
+              "d": "Orange blossoms on the open slopes in spring."
+            },
+            {
+              "n": "Lupine",
+              "d": "Blue and purple spikes in spring."
+            }
+          ]
+        },
+        {
+          "name": "Invasive Plants",
+          "items": [
+            {
+              "n": "Yellow Starthistle",
+              "d": "A spiny yellow thistle of the dry slopes.",
+              "inv": 1
+            },
+            {
+              "n": "Himalayan Blackberry",
+              "d": "A thorny thicket along the shore.",
+              "inv": 1
+            },
+            {
+              "n": "Tree-of-Heaven",
+              "d": "An aggressive invader of canyon slopes.",
+              "inv": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "almanac": {
+    "indigenous": [
+      [
+        "Sierra Miwok homeland",
+        "The Tuolumne River country is the traditional homeland of the Sierra Miwok people, who fished, hunted and gathered acorns along the river and in the foothills for thousands of years before the gold rush brought miners to their land. Respect any cultural sites you encounter and leave them undisturbed."
+      ]
+    ],
+    "history": [
+      [
+        "Gold rush and quartz mines",
+        "Miners worked the Tuolumne canyon after the discovery of gold in 1848. Hard-rock quartz mines such as the Mohican and Mary Ellen operated into the early 1900s, and abandoned shafts, a steam engine and stamp-mill equipment still stand beside the river. A gold rush also swept Turnback Creek in 1856."
+      ],
+      [
+        "Hetch Hetchy",
+        "Upstream, O’Shaughnessy Dam flooded Hetch Hetchy Valley, a battle John Muir lost, and today dams upstream control the river’s daily flow. The Tuolumne below the dam was designated a National Wild and Scenic River in 1984, with 83 miles protected."
+      ],
+      [
+        "Don Pedro Reservoir",
+        "The river ends in New Don Pedro Reservoir. When the reservoir is low, rapids such as Matterhorn and Pinball emerge; when it is high, they drown."
+      ]
+    ],
+    "geology": [
+      [
+        "A canyon in the foothills",
+        "The lower Tuolumne cuts through the older metamorphic rocks of the Sierra Nevada foothills, which are laced with gold-bearing quartz veins. The result is a steep, rocky canyon with boulder-choked rapids like Clavey Falls, where the Clavey River joins the Tuolumne at the end of a long pool."
+      ]
+    ]
+  },
   "rules": [
     {
       "name": "Required equipment",
@@ -466,6 +787,10 @@
       "n": "Meral's Pool rapids"
     }
   ],
+  "notes": {
+    "camp": "*Camps are limited and some are shared with outfitters. Trips pack out all trash and solid human waste. Poison oak and rattlesnakes are common around camps, and the river can change quickly with dam releases.",
+    "hike": "*Mine shafts and old structures are unstable: look but do not enter or climb on them. Trails are steep and hot in summer, with poison oak and rattlesnakes."
+  },
   "hdiff": {
     "1": "Short, easy walk",
     "2": "Easy trail",
@@ -600,9 +925,23 @@
       }
     ]
   },
-  "note": "",
-  "notes": {
-    "camp": "",
-    "hike": ""
+  "stats": {
+    "class": "IV, with Clavey Falls (V)",
+    "season": "May to October, the permit season. Spring snowmelt raises the flow; summer flows are controlled releases.",
+    "elev": [
+      1350,
+      800
+    ],
+    "gradient": 31,
+    "steep": {
+      "gradient": 41,
+      "from": 8.5,
+      "miles": 5
+    },
+    "flow": {
+      "min": 600,
+      "max": 10000,
+      "note": "An outfitter lists 600 to 10,000 cfs as runnable and calls the rapids Class V above 4,000. About 1,300 cfs is low but adequate for rafts. The water is cold, coming through tunnels from high reservoirs."
+    }
   }
 }

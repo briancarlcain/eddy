@@ -1,12 +1,51 @@
 // App-side geo state for the active river: centerline, item positions, camp horizons and sun times,
 // plus what lives on this device: dropped pins (with their own horizon) and GPX tracks, kept in localStorage.
+import cataractCanyon from '../../data/geo/cataract-canyon.json';
+import desolationGray from '../../data/geo/desolation-gray.json';
 import grandCanyon from '../../data/geo/grand-canyon.json';
+import greenFlamingGorge from '../../data/geo/green-flaming-gorge.json';
+import hellsCanyon from '../../data/geo/hells-canyon.json';
+import illinois from '../../data/geo/illinois.json';
+import lodore from '../../data/geo/lodore.json';
+import mainSalmon from '../../data/geo/main-salmon.json';
+import middleForkSalmon from '../../data/geo/middle-fork-salmon.json';
+import rioChama from '../../data/geo/rio-chama.json';
+import rogue from '../../data/geo/rogue.json';
+import rubyHorsethief from '../../data/geo/ruby-horsethief.json';
+import salt from '../../data/geo/salt.json';
+import sanJuan from '../../data/geo/san-juan.json';
+import selway from '../../data/geo/selway.json';
+import smith from '../../data/geo/smith.json';
+import tuolumne from '../../data/geo/tuolumne.json';
+import westwater from '../../data/geo/westwater.json';
+import yampa from '../../data/geo/yampa.json';
 import { decodeLine, atMile, itemKey } from './line.js';
 import { decodeHorizon, sunDay } from './sun.js';
 
-export const GEO = { 'grand-canyon': grandCanyon };
+// one file per built-in river (npm run geo): centerline, mile marks and a terrain horizon for every camp
+export const GEO = {
+  'cataract-canyon': cataractCanyon,
+  'desolation-gray': desolationGray,
+  'grand-canyon': grandCanyon,
+  'green-flaming-gorge': greenFlamingGorge,
+  'hells-canyon': hellsCanyon,
+  'illinois': illinois,
+  'lodore': lodore,
+  'main-salmon': mainSalmon,
+  'middle-fork-salmon': middleForkSalmon,
+  'rio-chama': rioChama,
+  'rogue': rogue,
+  'ruby-horsethief': rubyHorsethief,
+  'salt': salt,
+  'san-juan': sanJuan,
+  'selway': selway,
+  'smith': smith,
+  'tuolumne': tuolumne,
+  'westwater': westwater,
+  'yampa': yampa,
+};
 
-const KEY = 'riverguide.geo.v1';
+const KEY = 'eddy.geo.v1';
 let store = {};
 try {
   store = JSON.parse(localStorage.getItem(KEY) || '{}') || {};
@@ -81,7 +120,7 @@ export function dropHorizon(d) {
 export function dropsGPX(list) {
   const esc = (t) => String(t).replace(/[<>&"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' })[c]);
   return `<?xml version="1.0" encoding="UTF-8"?>
-<gpx version="1.1" creator="River Guide" xmlns="http://www.topografix.com/GPX/1/1">
+<gpx version="1.1" creator="Eddy" xmlns="http://www.topografix.com/GPX/1/1">
 ${list.map((d) => `  <wpt lat="${d.lat}" lon="${d.lon}">${d.elev != null ? `<ele>${Math.round(d.elev)}</ele>` : ''}<time>${d.at}</time><name>${esc(d.name || 'Pin')}</name></wpt>`).join('\n')}
 </gpx>
 `;

@@ -11,7 +11,21 @@ import { SplashScreen } from '@capacitor/splash-screen';
 import { StatusBar, Style } from '@capacitor/status-bar';
 
 export const isNative = Capacitor.isNativePlatform();
-const PREFIX = 'riverguide.';
+const PREFIX = 'eddy.';
+const OLD_PREFIX = 'riverguide.'; // the app was called River Guide; its saved data is carried over once
+
+// copy data saved under the old name to the new key names (the old keys are left in place)
+function migrateKeys() {
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith(OLD_PREFIX) && localStorage.getItem(PREFIX + k.slice(OLD_PREFIX.length)) == null) {
+        localStorage.setItem(PREFIX + k.slice(OLD_PREFIX.length), localStorage.getItem(k));
+      }
+    }
+  } catch {}
+}
+migrateKeys();
 
 /* ---------- storage ----------
    The app keeps its state in localStorage. iOS can evict WebView storage when the
@@ -21,10 +35,11 @@ async function mirrorStorage() {
   try {
     const { keys } = await Preferences.keys();
     if (!localStorage.getItem(PREFIX + 'v1')) {
-      for (const k of keys.filter((x) => x.startsWith(PREFIX))) {
+      for (const k of keys.filter((x) => x.startsWith(PREFIX) || x.startsWith(OLD_PREFIX))) {
         const { value } = await Preferences.get({ key: k });
         if (value != null) localStorage.setItem(k, value);
       }
+      migrateKeys();
     }
   } catch {}
   const set = Storage.prototype.setItem;
@@ -37,6 +52,11 @@ async function mirrorStorage() {
     del.call(this, k);
     if (this === localStorage && String(k).startsWith(PREFIX)) Preferences.remove({ key: k }).catch(() => {});
   };
+  // carried-over keys are mirrored too
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k && k.startsWith(PREFIX)) Preferences.set({ key: k, value: localStorage.getItem(k) }).catch(() => {});
+  }
 }
 
 /* ---------- haptics ---------- */
@@ -176,7 +196,7 @@ export function onResume(cb) {
   if (isNative) CapApp.addListener('appStateChange', (st) => st.isActive && cb()).catch(() => {});
   document.addEventListener('visibilitychange', () => document.visibilityState === 'visible' && cb());
 }
-// riverguide://join/CODE links (also delivered when the app is launched by one)
+// eddy://join/CODE links (also delivered when the app is launched by one)
 export async function onOpenUrl(cb) {
   if (!isNative) return;
   CapApp.addListener('appUrlOpen', (e) => cb(e.url)).catch(() => {});

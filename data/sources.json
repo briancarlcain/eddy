@@ -80,6 +80,11 @@
     "confirmed": false
   },
   {
+    "title": "Kolb Brothers \"Cat Camp\" Inscription (National Register of Historic Places, via Wikipedia)",
+    "note": "Wording, 1911 date and National Register listing for the inscription between Big Drop 2 and Big Drop 3. Public record; verify before publishing.",
+    "confirmed": false
+  },
+  {
     "title": "Desolation and Gray Canyons: river guide (GoRafting)",
     "note": "Camps, rapids and mileage. Facts reworded; confirm licence or replace.",
     "confirmed": false
@@ -222,6 +227,51 @@
   {
     "title": "American Whitewater permit list (americanwhitewater.org/content/River/list-permits)",
     "note": "Defines the app's river scope and the permit rules on the preliminary entries. Mileage and positions on those entries are approximate.",
+    "confirmed": false
+  },
+  {
+    "title": "Smith River boat camps and mileages, floater information packet (Montana FWP)",
+    "note": "Camp names and miles, the two Class II sections, flow guidance, gauges and camping rules for the Smith River. The camp list is partial (22 of about 27 named camps); confirm against the current FWP sheet or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "River Brain (riverbrain.com): run, camp and rapid notes",
+    "note": "User-contributed camp banks, scouting lines, camp notes, take-out notes, points of interest and flow bands used for Smith, Westwater, Ruby-Horsethief, Lodore, Cataract, Desolation-Gray and South Fork American. Facts reworded; confirm licence or replace. Its Cataract page dates from about 2011, so its permit text was not used and its camp list should be checked against the current NPS designated sites.",
+    "confirmed": false
+  },
+  {
+    "title": "River class, recommended flows and seasons (American Whitewater reach pages, Mountaineers route guides, BLM, NPS, FWP and outfitter river guides)",
+    "note": "Overview tab for all rivers: class, season, flow ranges and the notes under them. Sources disagree on several rivers, so each note says which range it uses and where another guide differs. Several figures came from search summaries of these pages, not the pages themselves; check each against the agency or American Whitewater page. Facts reworded; confirm licence or replace.",
+    "confirmed": false
+  },
+  {
+    "title": "USGS National Water Information System: gauge names and station numbers",
+    "note": "Gauges listed on each river Overview. U.S. government data. Station numbers for Rogue, Salt, Ruby-Horsethief, Westwater, Green (Greendale), White Bird, Middle Fork Lodge and Selway were not re-checked against USGS from this build; confirm before publishing.",
+    "confirmed": false
+  },
+  {
+    "title": "Terrain elevations and gradients (AWS Terrain Tiles from USGS 3DEP)",
+    "note": "Put-in and take-out elevation and gradient measured along each river centerline by scripts/geo/elevation.mjs, rounded to 50 ft. Accurate to a few tens of feet; Black Canyon was set by hand because the dam wall distorts the terrain data there.",
+    "confirmed": false
+  },
+  {
+    "title": "Geology, natural history and history summaries (USGS, NPS, BLM, USFS and state agency pages)",
+    "note": "Rock sequences, fish and wildlife lists and history entries added for all rivers. Written as original summaries from general knowledge and agency and encyclopedia pages; species lists are regional, not surveys. Check before store submission.",
+    "confirmed": false
+  },
+  {
+    "title": "Indigenous history entries for the added rivers",
+    "note": "Short summaries naming the peoples whose homelands the rivers cross. Written from general sources, not tribal ones. Have them reviewed by, or attributed to, the relevant tribes before publishing.",
+    "confirmed": false
+  },
+  {
+    "title": "National Hydrography Dataset and Watershed Boundary Dataset (USGS National Map)",
+    "note": "Streams, reservoirs and lakes, drainage areas and the basin outlines behind each river's Basin map. U.S. government data. Dam names come from the project's own list (scripts/basin/dams.json), not from this dataset.",
+    "confirmed": false
+  },
+  {
+    "title": "USGS Geographic Names Information System (GNIS) and National Hydrography Dataset main stems",
+    "note": "The Topo map's river line for every river except the Grand Canyon is the NHD main stem along the trip's run. The guide's river miles are pinned to it at rapids, falls, bars and creek mouths whose names match a GNIS feature on the line (scripts/basin/centerline.py). Rivers with no such matches (Black Canyon, Rio Chama, Dolores, Flaming Gorge, Westwater, Ruby-Horsethief) use the put-in, take-out and trip length alone. U.S. government data. Sun and shade use USGS 3DEP elevation (AWS Terrain Tiles), as for the Grand Canyon.",
     "confirmed": false
   }
 ]

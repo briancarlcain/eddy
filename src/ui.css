@@ -519,6 +519,22 @@ body.shot #fakeStatus { background: #faf8f3; }
 .topoMap:focus, .topoMap:focus-visible { outline: none; }
 /* the Mile chart / Topo map switch sits above the chart: take its height out of the chart window */
 .shell:not(.onmap) .mapMode + .gcmap .mapWindow { height: calc(100vh - var(--nav-h) - 132px - 42px - 58px); }
+/* basin map */
+.basin .topoMap { background: #e4ddc9; }
+.bLabel { white-space: nowrap; text-align: center; pointer-events: none; font-size: 11px; line-height: 16px; letter-spacing: .01em;
+  text-shadow: 0 0 3px #f6f1e5, 0 0 3px #f6f1e5, 0 0 2px #f6f1e5, 0 0 2px #f6f1e5; }
+.bLabel.tap { pointer-events: auto; cursor: pointer; }
+.bLabel.bl-river { color: #1d5578; font-style: italic; }
+.bLabel.bl-lake { color: #1f4a6b; font-weight: 600; font-size: 11.5px; }
+.bLabel.bl-dam { color: #7a2a10; font-weight: 700; font-size: 11.5px; }
+.bLabel.bl-run { color: #8f3a17; font-weight: 700; font-size: 11.5px; }
+.bDamIcon span { display: block; width: 12px; height: 12px; margin: 1px; background: #7a2a10; border: 2px solid #fffaf0; border-radius: 2px; box-shadow: 0 0 0 1px #7a2a10, 0 1px 3px rgba(0,0,0,.35); }
+.basinLegend { position: absolute; left: 10px; bottom: 22px; z-index: 450; display: flex; flex-wrap: wrap; gap: 4px 12px; padding: 6px 10px; border-radius: 9px;
+  background: rgba(250, 248, 243, .92); box-shadow: 0 1px 5px rgba(40, 30, 10, .18); font-size: 11.5px; color: #4a4234; max-width: calc(100% - 76px); }
+.basinLegend i { display: inline-block; vertical-align: middle; margin-right: 5px; }
+.basinLegend .lgRun { width: 16px; height: 4px; border-radius: 2px; background: #b8522a; }
+.basinLegend .lgStream { width: 16px; height: 3px; border-radius: 2px; background: #3a77a3; }
+.basinLegend .lgDam { width: 9px; height: 9px; border-radius: 2px; background: #7a2a10; border: 1.5px solid #fffaf0; box-shadow: 0 0 0 1px #7a2a10; }
 /* topo: v2 controls */
 .topo .topoBar { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; right: 56px; pointer-events: auto; padding-bottom: 4px; }
 .topo .topoBar::-webkit-scrollbar { display: none; }
@@ -563,3 +579,26 @@ body.shot #fakeStatus { background: #faf8f3; }
 .gcmap .reachraft { position: absolute; z-index: 15; width: 17px; height: 25px; margin-left: -8.5px; margin-top: -12.5px;
   pointer-events: none; filter: drop-shadow(0 1px 2px rgba(40, 20, 10, .45)); }
 .gcmap .reachraft svg { display: block; }
+
+/* ---------- river overview ---------- */
+.rg .ovTiles { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: var(--r-m); overflow: hidden; background: var(--card); box-shadow: var(--shadow-1); }
+.rg .ovTile { padding: 12px 14px; border-bottom: 1px solid var(--line-soft); }
+.rg .ovTile:nth-child(odd):not(.wide) { border-right: 1px solid var(--line-soft); }
+.rg .ovTile.wide { grid-column: 1 / -1; }
+.rg .ovTile:last-child { border-bottom: 0; }
+.rg .ovKey { font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint); }
+.rg .ovVal { font-size: 18px; line-height: 1.25; margin-top: 3px; color: var(--ink); overflow-wrap: anywhere; }
+.rg .ovTile.wide .ovVal { font-size: 15.5px; }
+.rg .ovSub { font-size: 13px; color: var(--ink-dim); margin-top: 3px; }
+.rg .ovFlow { padding: 14px 16px; }
+.rg .ovRange { font-size: 24px; line-height: 1.15; color: var(--ink); }
+.rg .ovUnit { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint); }
+.rg .ovTrack { position: relative; height: 8px; border-radius: 999px; margin: 12px 0 8px; background: linear-gradient(90deg, #bfd8d1, var(--teal)); }
+.rg .ovTick { position: absolute; top: -4px; width: 3px; height: 16px; margin-left: -1.5px; border-radius: 2px; background: var(--ink); }
+.rg .ovNote { font-size: 14.5px; line-height: 1.5; color: var(--ink-dim); margin-top: 10px; }
+.rg .ovGauge { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.rg .ovGauge .permitT { min-width: 0; }
+.rg .noticeWrap { padding-bottom: 0; }
+.rg .notice.slim { padding: 10px 12px; }
+.rg .notice.slim .noticeHead { font-size: 11.5px; margin-bottom: 4px; }
+.rg .notice.slim .muted { font-size: 13px; line-height: 1.45; }

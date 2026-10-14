@@ -1,6 +1,6 @@
 {
-  "appId": "com.briancarlcain.riverguide",
-  "appName": "River Guide",
+  "appId": "com.briancarlcain.eddy",
+  "appName": "Eddy",
   "webDir": "www",
   "ios": {
     "contentInset": "never",
