@@ -68,6 +68,11 @@ take-outs, hubs: `{name, mile?, road?, hub?, park?, note?}`), and optional
       gauges: [{ name: 'Colorado River near Cisco, UT', id: '09180500' }]   // id links to USGS
     }
 
+`flowDoy` (a sibling of `stats`) is **generated**, not hand-edited: `python3 scripts/rivers/flows.py [river-id]` pulls USGS daily
+mean discharge for the gauges chosen in that script and stores 53 weekly points of the 25th, 50th and 75th percentile (`p25`, `p50`, `p75`,
+from 1 Jan every 7 days, cfs) plus the gauge ids, years used, `regime` (`natural` or `regulated`) and a `where` sentence. A trip's Notes tab shows the point
+for the trip's middle day. A river with no gauge chosen has no `flowDoy`. (The `.js` scripts in this folder are the old generators; this one only adds `flowDoy`.)
+
 `elev`, `gradient` and `steep` are measured, not written by hand: `node scripts/geo/elevation.mjs --write` samples the
 terrain along each river's centerline (rounded to 50 ft; a dam at the start can distort it, which can distort it). `flow.min` / `max` are the range a guide or agency recommends for rafts where one is given, with the note
 saying which gauge and where another source differs. Edit them in River > More > Edit.
