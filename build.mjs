@@ -61,7 +61,7 @@ const web = `<meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">`;
 const app = `<meta name="format-detection" content="telephone=no">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' capacitor: data: blob: 'unsafe-inline'; img-src 'self' data: blob: https://s3.amazonaws.com https://basemap.nationalmap.gov; font-src 'self' data:; connect-src 'self' capacitor: https://nhplgoetehrydaeoyrgz.supabase.co https://s3.amazonaws.com https://basemap.nationalmap.gov">`;
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' capacitor: data: blob: 'unsafe-inline'; img-src 'self' data: blob: https://s3.amazonaws.com https://basemap.nationalmap.gov https://tile.opentopomap.org; font-src 'self' data:; connect-src 'self' capacitor: https://nhplgoetehrydaeoyrgz.supabase.co https://s3.amazonaws.com https://basemap.nationalmap.gov">`;
 
 const html = `<!doctype html>
 <html lang="en">

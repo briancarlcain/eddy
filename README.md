@@ -33,7 +33,7 @@ trips (localStorage, and the shared db when available).
 - `src/TopoMap.jsx` - River > Map > Topo map (Leaflet): terrain basemap, pins, dropped pins, sun & shade day timeline, offline download
 - `src/SunChart.jsx` - the skyline-and-sun-path chart for a camp or dropped pin
 - `src/geo/` - geo code shared by the app and the build: centerline (`line.js`), sun position and canyon sun times (`sun.js`), horizon casting (`horizon.js`), DEM tiles (`dem.js`) and their offline store (`store.js`), shade worker pool (`shade.js`), per-river state, dropped pins and GPX tracks (`index.js`)
-- `src/BasinMap.jsx`, `src/geo/basin.js` - River > Map > Basin: the drainage basin above the take-out (streams by size, basin outline, reservoirs and lakes, dams, the trip's run). Draws from `data/basin/<river>.json` with no map tiles, so it works offline
+- `src/BasinMap.jsx`, `src/geo/basin.js` - River > Map > Basin: the drainage basin above the take-out (streams by size, basin outline, reservoirs and lakes, dams, the trip's run). Streams and outline draw from `data/basin/<river>.json` and work offline; the base map under them is Terrain (saved DEM tiles, offline) or Roads & towns (OpenTopoMap, needs signal)
 - `data/basin/*.json` - **generated** by `python3 scripts/basin/build.py` (see below); `index.json` lists the rivers that have one
 - `scripts/basin/` - the basin pipeline: `rivers.json` (per river: HU4 group, main-stem name, put-in or take-out point), `dams.json` (reservoir name -> dam name), `build.py`
 - `data/geo/anchors.json` - Grand Canyon only: known `{mile, lat, lon}` points its centerline is traced between on the terrain (an anchor with `"snap": 0` is used exactly, not snapped to the lowest nearby cell: for surveyed river-mile points on a reservoir, where the DEM is flat water)
@@ -95,6 +95,7 @@ goes at each reservoir's outlet, but only for reservoirs named in `dams.json`; t
     python3 scripts/basin/build.py dolores --preview /tmp/p  # one river, with a PNG to check
     python3 scripts/basin/build.py --list-reservoirs         # what it would label, to fill in dams.json
     python3 scripts/basin/build.py --dams-only               # after editing dams.json: re-apply it in seconds
+    python3 scripts/basin/gauges.py                          # USGS gauges inside each basin, added to the files (needs network, stdlib only; rerun after build.py)
     npm test                                                 # checks every file decodes and lines up
 
 Things worth knowing:
