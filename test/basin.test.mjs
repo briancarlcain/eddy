@@ -15,7 +15,7 @@ assert.deepEqual(pts.map((p) => p.map((v) => +v.toFixed(4))), [[38.5, -120.2], [
 assert.equal(area(5324), '2,056 sq mi (5,324 km²)');
 assert.equal(approx(5324), '2,060 sq mi (5,320 km²)');
 
-let lakes = 0, dams = 0;
+let lakes = 0, dams = 0, gauges = 0;
 for (const f of files) {
   const id = f.replace('.json', '');
   const d = JSON.parse(readFileSync(new URL(f, dir), 'utf8'));
@@ -42,8 +42,13 @@ for (const f of files) {
     if (r.dam) { assert.ok(r.dam.n && inside(r.dam.ll), `${id}: dam ${r.n}`); dams++; }
     lakes++;
   }
+  for (const [sid, name, la, lo, da] of d.gauges || []) {
+    assert.match(sid, /^\d{8,15}$/, `${id}: gauge number`);
+    assert.ok(name && inside([la, lo]) && (da === null || da > 0), `${id}: gauge ${sid}`);
+    gauges++;
+  }
   assert.equal(index[id].area, d.area);
   assert.equal(index[id].lakes, d.res.length);
   assert.equal(index[id].dams, d.res.filter((r) => r.dam).length);
 }
-console.log(`basin tests passed (${files.length} rivers, ${lakes} lakes and reservoirs, ${dams} dams)`);
+console.log(`basin tests passed (${files.length} rivers, ${lakes} lakes and reservoirs, ${dams} dams, ${gauges} gauges)`);

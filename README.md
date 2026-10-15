@@ -91,6 +91,7 @@ goes at each reservoir's outlet, but only for reservoirs named in `dams.json`; t
     python3 scripts/basin/build.py dolores --preview /tmp/p  # one river, with a PNG to check
     python3 scripts/basin/build.py --list-reservoirs         # what it would label, to fill in dams.json
     python3 scripts/basin/build.py --dams-only               # after editing dams.json: re-apply it in seconds
+    python3 scripts/basin/gauges.py                          # USGS gauges inside each basin, added to the files (needs network, stdlib only; rerun after build.py)
     npm test                                                 # checks every file decodes and lines up
 
 Things worth knowing:

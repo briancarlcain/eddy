@@ -23,6 +23,9 @@ human pass before the app is public. Tick these off as you go:
   **`from` year** used for rivers below dams (it should be after the dam or the current operating rules began). Dam-controlled rivers show a
   "check the release schedule" warning; confirm that wording. Not filled in on purpose: Alsek, Tatshenshini (Canadian gauges) and Tuolumne
   (scheduled release, no gauge on that water).
+- [ ] **Basin map gauge pins** (`gauges` in `data/basin/*.json`, from the USGS site service by `scripts/basin/gauges.py`): spot-check a few
+  pins per river (right place, right name, the USGS link opens that gauge). Small creeks are left off (under 0.2% of the basin, between 10 and 250 sq mi), plus the
+  ones the guide names; USGS has no gauges in Canada, so the Alsek and Tatshenshini basins show none north of the border.
 - [ ] **Elevation and gradient** (`stats.elev`, `gradient`, `steep`): measured from terrain tiles, rounded to 50 ft, good
   to a few tens of feet. Take-outs on Lake Powell, Lake Mead and
   other reservoirs depend on the lake level.
