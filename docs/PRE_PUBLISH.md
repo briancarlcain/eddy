@@ -23,6 +23,9 @@ human pass before the app is public. Tick these off as you go:
   **`from` year** used for rivers below dams (it should be after the dam or the current operating rules began). Dam-controlled rivers show a
   "check the release schedule" warning; confirm that wording. Not filled in on purpose: Alsek, Tatshenshini (Canadian gauges) and Tuolumne
   (scheduled release, no gauge on that water).
+- [ ] **Typical weather by time of year** (`climateDoy`, Notes > Typical weather): modelled, not from a station. Compare a few rivers with a
+  station you trust. Rivers without `stats.elev` use the height at `coords`, which can be on a ridge instead of the river: fix those coords or
+  add `elev`. Open-Meteo is CC BY 4.0, so credit it in Profile > About > Safety & sources.
 - [ ] **Basin map gauge pins** (`gauges` in `data/basin/*.json`, from the USGS site service by `scripts/basin/gauges.py`): spot-check a few
   pins per river (right place, right name, the USGS link opens that gauge). Small creeks are left off (under 0.2% of the basin, between 10 and 250 sq mi), plus the
   ones the guide names; USGS has no gauges in Canada, so the Alsek and Tatshenshini basins show none north of the border.
