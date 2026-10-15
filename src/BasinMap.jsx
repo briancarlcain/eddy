@@ -8,6 +8,7 @@ import L from 'leaflet';
 import INDEX from '../data/basin/index.json';
 import { dec, area, approx } from './geo/basin.js';
 import { DemLayer } from './TopoMap.jsx';
+import { openUrl } from './native.js';
 
 // base maps under the basin: relief shading from the saved terrain tiles (works offline), or OpenTopoMap (roads, towns,
 // contours; needs signal). 'plain' is the original flat outline.
@@ -49,7 +50,7 @@ export default function BasinMap({ rid, river }) {
   const fitted = useRef(false);
   const [data, setData] = useState(null);
   const [err, setErr] = useState('');
-  const [show, setShow] = useState({ names: true, lakes: true });
+  const [show, setShow] = useState({ names: true, lakes: true, gauges: true });
   const showRef = useRef(show);
   showRef.current = show;
   const [sel, setSel] = useState(null);
@@ -129,6 +130,13 @@ export default function BasinMap({ rid, river }) {
         items.push({ kind: 'dam', ll: r.dam.ll, text: r.dam.n, pri: 1000, onClick: () => setSel({ kind: 'dam', r }) });
       }
     }
+    // USGS stream gauges (scripts/basin/gauges.py); a layer of their own so the Gauges switch can hide it
+    const gg = (lay.current.gauges = L.layerGroup());
+    for (const [id, name, la, lo, da] of data.gauges || []) {
+      const ic = L.divIcon({ className: 'bGaugeIcon', html: '<span></span>', iconSize: [16, 16], iconAnchor: [8, 8] });
+      L.marker([la, lo], { icon: ic, keyboard: false, title: name }).on('click', () => setSel({ kind: 'gauge', g: { id, name, da } })).addTo(gg);
+    }
+    if (showRef.current.gauges) gg.addTo(g);
     // the trip's run, with a pale casing so it reads over the streams
     for (const p of data.run) {
       const pts = dec(p);
@@ -153,6 +161,11 @@ export default function BasinMap({ rid, river }) {
   }, [data]);
 
   useEffect(() => { relabel(); }, [show, data]);
+  useEffect(() => {
+    const g = lay.current.gauges, d = lay.current.data;
+    if (!g || !d) return;
+    if (show.gauges) g.addTo(d); else d.removeLayer(g);
+  }, [show.gauges, data]);
 
   useEffect(() => {
     const m = map.current, l = lay.current;
@@ -247,21 +260,32 @@ export default function BasinMap({ rid, river }) {
       ) : null}
       {!data && !err ? <div className="topoNote"><span>Loading the basin…</span></div> : null}
       {err ? <div className="topoNote"><span>{err}</span></div> : null}
-      <div className="basinBase" role="group" aria-label="Base map">
-        {BASE.map(([k, n]) => <button key={k} className={base === k ? 'on' : ''} onClick={() => setBase(k)}>{n}</button>)}
+      <div className="basinDock">
+        <div className="basinBase" role="group" aria-label="Base map">
+          {BASE.map(([k, n]) => <button key={k} className={base === k ? 'on' : ''} onClick={() => setBase(k)}>{n}</button>)}
+        </div>
+        {data?.gauges?.length ? (
+          <button className={'basinGauges' + (show.gauges ? ' on' : '')} onClick={() => setShow({ ...show, gauges: !show.gauges })}>Gauges</button>
+        ) : null}
       </div>
       <div className="basinLegend">
         <span><i className="lgRun" /> This trip</span>
         <span><i className="lgStream" /> Streams (thicker = bigger)</span>
         <span><i className="lgDam" /> Dam</span>
+        {data?.gauges?.length && show.gauges ? <span><i className="lgGauge" /> USGS gauge</span> : null}
       </div>
       {sel ? (
         <div className="topoPanel">
           <div className="row" style={{ justifyContent: 'space-between' }}>
-            <b>{sel.kind === 'dam' ? sel.r.dam.n : sel.r.n}</b>
+            <b>{sel.kind === 'gauge' ? sel.g.name : sel.kind === 'dam' ? sel.r.dam.n : sel.r.n}</b>
             <button className="linkBtn" onClick={() => setSel(null)}>Close</button>
           </div>
-          {sel.kind === 'dam' ? (
+          {sel.kind === 'gauge' ? (
+            <div>
+              USGS stream gauge {sel.g.id}{sel.g.da ? <>, draining {area(sel.g.da * 2.589988)}</> : null}.{' '}
+              <button className="linkBtn" onClick={() => openUrl('https://waterdata.usgs.gov/monitoring-location/' + sel.g.id + '/')}>Open on USGS</button>
+            </div>
+          ) : sel.kind === 'dam' ? (
             <div>Impounds {sel.r.n}, a surface of {area(sel.r.a)}.</div>
           ) : (
             <div>

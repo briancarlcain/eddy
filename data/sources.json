@@ -265,6 +265,11 @@
     "confirmed": false
   },
   {
+    "title": "USGS stream gauges on the Basin map",
+    "note": "Pins for active USGS stream gauges that report discharge in real time and sit inside the basin outline, from the National Water Information System site service (scripts/basin/gauges.py). Gauges draining less than 0.2% of the basin (between 10 and 250 sq mi) are left off to keep the map readable, except those the guide names. Names and drainage areas are USGS's as listed; each pin links to the gauge's USGS page. Whether a gauge is currently reporting, and what it measures, is for the USGS page to say.",
+    "confirmed": false
+  },
+  {
     "title": "National Hydrography Dataset and Watershed Boundary Dataset (USGS National Map)",
     "note": "Streams, reservoirs and lakes, drainage areas and the basin outlines behind each river's Basin map. U.S. government data. Dam names come from the project's own list (scripts/basin/dams.json), not from this dataset.",
     "confirmed": false
