@@ -278,5 +278,10 @@
     "title": "Grand Canyon camp GPS positions (USGS, via the Sun Chaser spreadsheet)",
     "note": "270 camp positions; 13 between miles 229 and 280 are approximate.",
     "confirmed": false
+  },
+  {
+    "title": "Typical flow by time of year (USGS National Water Information System)",
+    "note": "Daily mean discharge (parameter 00060) at the gauges listed in scripts/rivers/flows.py; the 25th, 50th and 75th percentile within 3 days either side of each week of the year, over the years since the river's current regime began. U.S. government data. Regenerate with python3 scripts/rivers/flows.py.",
+    "confirmed": false
   }
 ]

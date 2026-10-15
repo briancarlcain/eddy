@@ -1014,7 +1014,7 @@ function Trip({ s, back, onAccount, onRiver }) {
   const tripStatus0 = s.syncStatus[s.trip.id];
   const panels = { Itinerary, Crew, Meals, Gear, Shuttle, Costs: Ledger, Emergency: Card, Journal: Log, Notes: Info, People, Settings };
   const P = panels[tab] || Itinerary;
-  const items = ['Itinerary', ...(onRiver && riverOf(s.trip) ? ['River'] : []), 'Crew', 'Meals', 'Gear', 'Shuttle', 'Costs', 'Emergency', 'Journal', ...(REFS[s.trip.id] ? ['Notes'] : []), 'People', 'Settings'];
+  const items = ['Itinerary', ...(onRiver && riverOf(s.trip) ? ['River'] : []), 'Crew', 'Meals', 'Gear', 'Shuttle', 'Costs', 'Emergency', 'Journal', ...(REFS[s.trip.id] || RIVER.flowDoy ? ['Notes'] : []), 'People', 'Settings'];
   return (
     <>
       <Tabs items={items} value={tab} onChange={(t) => (t === 'River' ? onRiver() : setTab(t))} />
@@ -3088,13 +3088,48 @@ function InfoSection({ sec }) {
   );
 }
 
+// Typical flow for the trip's middle day, from the river's saved USGS history (data/rivers/<id>.json `flowDoy`).
+function Conditions({ trip }) {
+  const f = RIVER.flowDoy;
+  if (!f || !okDate(trip.start)) return null;
+  const mid = addDays(trip.start, Math.floor((num(trip.days) || 0) / 2));
+  const d = new Date(mid + 'T12:00:00Z');
+  const doy = Math.floor((Date.UTC(2001, d.getUTCMonth(), Math.min(d.getUTCDate(), d.getUTCMonth() === 1 ? 28 : 31)) - Date.UTC(2001, 0, 1)) / 864e5);
+  const i = Math.min(52, Math.floor((doy + 3) / 7));
+  const c = (n) => Math.round(n).toLocaleString('en-US');
+  const reg = f.regime === 'regulated';
+  return (
+    <Acc title="Typical flow" note={fmt(mid) + ' (middle of the trip)'} open>
+      <div className="pair">
+        <div className="pairKey">Usual range</div>
+        <div className="line">
+          {c(f.p25[i])} to {c(f.p75[i])} cfs, middle value {c(f.p50[i])}
+        </div>
+      </div>
+      <div className="muted mt">
+        Half of past years fell in the usual range. Based on {f.years[2]} years of daily readings ({f.years[0]} to {f.years[1]}) from USGS gauge{f.summed ? 's' : ''}{' '}
+        {f.gauges.map((g) => g.id).join(' + ')}
+        {f.summed ? ' (added together)' : ''}. {f.where}{' '}
+        {reg ? 'A dam sets this river’s flow, so past years are only a rough guide: check the current release schedule before you go.' : 'Real flow in a given year can be far outside the usual range.'} Source: {f.source}.
+      </div>
+    </Acc>
+  );
+}
+
 function Info({ s }) {
   const ref = REFS[s.trip.id];
   const groups = ref ? [...new Set(ref.sections.map((x) => x.group))] : [];
   const [g, setG] = useState(groups[0]);
-  if (!ref) return <div className="muted">No reference notes for this trip.</div>;
+  if (!ref)
+    return (
+      <>
+        <Conditions trip={s.trip} />
+        {!RIVER.flowDoy && <div className="muted">No reference notes for this trip.</div>}
+      </>
+    );
   return (
     <>
+      <Conditions trip={s.trip} />
       <div className="chips scroll">
         {groups.map((x) => (
           <button key={x} className={'chip' + (g === x ? ' on' : '')} onClick={() => setG(x)}>

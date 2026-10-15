@@ -18,6 +18,11 @@ human pass before the app is public. Tick these off as you go:
   Chrysotile 09497500, Colorado near the Colorado-Utah state line 09163500 (Ruby-Horsethief and Westwater), Green near
   Greendale 09234500, Salmon at White Bird 13317000, Middle Fork Salmon at the Lodge 13309220, Selway near Lowell 13336500.
   Open each link in River > Overview and confirm it is the right gauge.
+- [ ] **Typical flow by time of year** (`flowDoy` in `data/rivers/*.json`, shown on Notes > Typical flow): USGS daily readings, written by
+  `scripts/rivers/flows.py`. Check each river's **gauge choice and its `where` text** (several gauges are above or below the run), and the
+  **`from` year** used for rivers below dams (it should be after the dam or the current operating rules began). Dam-controlled rivers show a
+  "check the release schedule" warning; confirm that wording. Not filled in on purpose: Alsek, Tatshenshini (Canadian gauges) and Tuolumne
+  (scheduled release, no gauge on that water).
 - [ ] **Elevation and gradient** (`stats.elev`, `gradient`, `steep`): measured from terrain tiles, rounded to 50 ft, good
   to a few tens of feet. Take-outs on Lake Powell, Lake Mead and
   other reservoirs depend on the lake level.
