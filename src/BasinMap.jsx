@@ -1,11 +1,19 @@
 // River > Map > Basin: the drainage basin above a river's take-out. Streams (thicker = bigger), the basin outline,
 // reservoirs and lakes, and a marker plus name for every dam we could place. Built from USGS hydrography by
-// scripts/basin/build.py and shipped as data/basin/<river>.json. No raster tiles: it all draws from that file, so it
-// works offline once the file has been fetched (the service worker keeps it; the store build bundles it).
+// scripts/basin/build.py and shipped as data/basin/<river>.json. The streams and outline draw from that file, so they work offline
+// once it has been fetched (the service worker keeps it; the store build bundles it). Under them sits an optional base map
+// (see BASE below).
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import INDEX from '../data/basin/index.json';
 import { dec, area, approx } from './geo/basin.js';
+import { DemLayer } from './TopoMap.jsx';
+
+// base maps under the basin: relief shading from the saved terrain tiles (works offline), or OpenTopoMap (roads, towns,
+// contours; needs signal). 'plain' is the original flat outline.
+const OTM = 'https://tile.opentopomap.org/{z}/{x}/{y}.png';
+const BASE = [['dem', 'Terrain'], ['otm', 'Roads & towns'], ['plain', 'Outline']];
+const WORLD = [[-85, -180], [-85, 180], [85, 180], [85, -180]];
 
 export const hasBasin = (id) => !!INDEX.rivers?.[id];
 
@@ -45,6 +53,9 @@ export default function BasinMap({ rid, river }) {
   const showRef = useRef(show);
   showRef.current = show;
   const [sel, setSel] = useState(null);
+  const [base, setBase] = useState(() => {
+    try { return localStorage.getItem('eddyBasinBase') || 'dem'; } catch { return 'dem'; }
+  });
 
   // fill the screen from the map's top edge down to the tab bar
   const [h, setH] = useState(null);
@@ -75,6 +86,8 @@ export default function BasinMap({ rid, river }) {
     m.attributionControl.addAttribution('Hydrography: USGS National Hydrography Dataset');
     L.control.zoom({ position: 'topright' }).addTo(m);
     m.setView(river.coords, 8);
+    lay.current.dem = new DemLayer({ maxZoom: 13, attribution: 'Terrain: AWS Terrain Tiles' });
+    lay.current.otm = L.tileLayer(OTM, { maxZoom: 13, maxNativeZoom: 13, attribution: 'Map data: © OpenStreetMap contributors, SRTM | Style: © OpenTopoMap (CC-BY-SA)' });
     lay.current.labels = L.layerGroup().addTo(m);
     let raf = 0;
     const again = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(relabel); };
@@ -94,7 +107,10 @@ export default function BasinMap({ rid, river }) {
     if (!m || !data) return;
     const g = (lay.current.data = L.layerGroup().addTo(m));
     const items = [];
-    for (const r of data.basin) L.polygon(dec(r), { color: '#b3a68c', weight: 1.3, dashArray: '5 4', fillColor: '#f6f1e5', fillOpacity: 1, interactive: false }).addTo(g);
+    // outside the basin is veiled over the base map (the world with the basin cut out); the basin keeps its plain fill only in Outline
+    const rings = data.basin.map(dec);
+    lay.current.veil = L.polygon([WORLD, ...rings], { stroke: false, fillColor: '#f6f1e5', fillOpacity: 0, interactive: false }).addTo(g);
+    lay.current.edge = rings.map((r) => L.polygon(r, { color: '#8a7a58', weight: 1.3, dashArray: '5 4', fillColor: '#f6f1e5', fillOpacity: 1, interactive: false }).addTo(g));
     for (const c of [4, 3, 2, 1]) {
       const s = STREAM[c];
       for (const [k, p] of data.streams) if (k === c) L.polyline(dec(p), { ...s, smoothFactor: 1.1, interactive: false, lineCap: 'round', lineJoin: 'round' }).addTo(g);
@@ -137,6 +153,17 @@ export default function BasinMap({ rid, river }) {
   }, [data]);
 
   useEffect(() => { relabel(); }, [show, data]);
+
+  useEffect(() => {
+    const m = map.current, l = lay.current;
+    if (!m) return;
+    for (const k of ['dem', 'otm']) if (k === base) { if (!m.hasLayer(l[k])) l[k].addTo(m); l[k].bringToBack(); } else if (m.hasLayer(l[k])) m.removeLayer(l[k]);
+    try { localStorage.setItem('eddyBasinBase', base); } catch {}
+    if (!data || !l.veil) return;
+    const plain = base === 'plain';
+    l.veil.setStyle({ fillOpacity: plain ? 0 : base === 'dem' ? 0.5 : 0.4 });
+    for (const e of l.edge) e.setStyle({ fillOpacity: plain ? 1 : 0, color: plain ? '#b3a68c' : '#6b5a38', weight: plain ? 1.3 : 2 });
+  }, [base, data]);
 
   // greedy, collision-free labels in screen space: dams, then reservoirs, then the biggest rivers. Each label tries a few
   // spots around its point (a dam: right, left, above, below) and is dropped if none is clear.
@@ -220,6 +247,9 @@ export default function BasinMap({ rid, river }) {
       ) : null}
       {!data && !err ? <div className="topoNote"><span>Loading the basin…</span></div> : null}
       {err ? <div className="topoNote"><span>{err}</span></div> : null}
+      <div className="basinBase" role="group" aria-label="Base map">
+        {BASE.map(([k, n]) => <button key={k} className={base === k ? 'on' : ''} onClick={() => setBase(k)}>{n}</button>)}
+      </div>
       <div className="basinLegend">
         <span><i className="lgRun" /> This trip</span>
         <span><i className="lgStream" /> Streams (thicker = bigger)</span>

@@ -25,7 +25,7 @@ function tint(z) {
   }
   return TINT[TINT.length - 1][1];
 }
-const contourStep = (z) => (z <= 9 ? 500 : z === 10 ? 200 : z === 11 ? 100 : z === 12 ? 50 : z === 13 ? 40 : 20);
+const contourStep = (z) => (z <= 6 ? 1e9 : z <= 9 ? 500 : z === 10 ? 200 : z === 11 ? 100 : z === 12 ? 50 : z === 13 ? 40 : 20);
 
 function paintTile(canvas, t, coords) {
   const g = canvas.getContext('2d');
@@ -58,7 +58,7 @@ function paintTile(canvas, t, coords) {
   g.putImageData(img, 0, 0);
 }
 
-const DemLayer = L.GridLayer.extend({
+export const DemLayer = L.GridLayer.extend({
   createTile(coords, done) {
     const c = document.createElement('canvas');
     c.width = c.height = 256;
