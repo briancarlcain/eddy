@@ -73,6 +73,10 @@ mean discharge for the gauges chosen in that script and stores 53 weekly points 
 from 1 Jan every 7 days, cfs) plus the gauge ids, years used, `regime` (`natural` or `regulated`) and a `where` sentence. A trip's Notes tab shows the point
 for the trip's middle day. A river with no gauge chosen has no `flowDoy`. (The `.js` scripts in this folder are the old generators; this one only adds `flowDoy`.)
 
+`climateDoy` is also **generated**: `python3 scripts/rivers/weather.py [river-id]` stores 53 weekly points (average high and low `hi`/`lo`, a hot
+afternoon and a cold night `hi90`/`lo10`, percent of days with rain `rain`, average `cloud` percent) from Open-Meteo's 1991 to 2020 archive, adjusted to the river's
+height. Open-Meteo has a daily request limit, so a run can stop part way; rerun the rivers missing `climateDoy` the next day.
+
 `elev`, `gradient` and `steep` are measured, not written by hand: `node scripts/geo/elevation.mjs --write` samples the
 terrain along each river's centerline (rounded to 50 ft; a dam at the start can distort it, which can distort it). `flow.min` / `max` are the range a guide or agency recommends for rafts where one is given, with the note
 saying which gauge and where another source differs. Edit them in River > More > Edit.

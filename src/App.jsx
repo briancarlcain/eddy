@@ -1014,7 +1014,7 @@ function Trip({ s, back, onAccount, onRiver }) {
   const tripStatus0 = s.syncStatus[s.trip.id];
   const panels = { Itinerary, Crew, Meals, Gear, Shuttle, Costs: Ledger, Emergency: Card, Journal: Log, Notes: Info, People, Settings };
   const P = panels[tab] || Itinerary;
-  const items = ['Itinerary', ...(onRiver && riverOf(s.trip) ? ['River'] : []), 'Crew', 'Meals', 'Gear', 'Shuttle', 'Costs', 'Emergency', 'Journal', ...(REFS[s.trip.id] || RIVER.flowDoy ? ['Notes'] : []), 'People', 'Settings'];
+  const items = ['Itinerary', ...(onRiver && riverOf(s.trip) ? ['River'] : []), 'Crew', 'Meals', 'Gear', 'Shuttle', 'Costs', 'Emergency', 'Journal', ...(REFS[s.trip.id] || RIVER.flowDoy || RIVER.climateDoy ? ['Notes'] : []), 'People', 'Settings'];
   return (
     <>
       <Tabs items={items} value={tab} onChange={(t) => (t === 'River' ? onRiver() : setTab(t))} />
@@ -3088,31 +3088,55 @@ function InfoSection({ sec }) {
   );
 }
 
-// Typical flow for the trip's middle day, from the river's saved USGS history (data/rivers/<id>.json `flowDoy`).
+// Typical flow and weather for the trip's middle day, from the river's saved history
+// (data/rivers/<id>.json `flowDoy` from USGS, `climateDoy` from Open-Meteo; scripts/rivers/flows.py and weather.py).
 function Conditions({ trip }) {
   const f = RIVER.flowDoy;
-  if (!f || !okDate(trip.start)) return null;
+  const w = RIVER.climateDoy;
+  if ((!f && !w) || !okDate(trip.start)) return null;
   const mid = addDays(trip.start, Math.floor((num(trip.days) || 0) / 2));
   const d = new Date(mid + 'T12:00:00Z');
   const doy = Math.floor((Date.UTC(2001, d.getUTCMonth(), Math.min(d.getUTCDate(), d.getUTCMonth() === 1 ? 28 : 31)) - Date.UTC(2001, 0, 1)) / 864e5);
   const i = Math.min(52, Math.floor((doy + 3) / 7));
   const c = (n) => Math.round(n).toLocaleString('en-US');
-  const reg = f.regime === 'regulated';
+  const note = fmt(mid) + ' (middle of the trip)';
   return (
-    <Acc title="Typical flow" note={fmt(mid) + ' (middle of the trip)'} open>
-      <div className="pair">
-        <div className="pairKey">Usual range</div>
-        <div className="line">
-          {c(f.p25[i])} to {c(f.p75[i])} cfs, middle value {c(f.p50[i])}
-        </div>
-      </div>
-      <div className="muted mt">
-        Half of past years fell in the usual range. Based on {f.years[2]} years of daily readings ({f.years[0]} to {f.years[1]}) from USGS gauge{f.summed ? 's' : ''}{' '}
-        {f.gauges.map((g) => g.id).join(' + ')}
-        {f.summed ? ' (added together)' : ''}. {f.where}{' '}
-        {reg ? 'A dam sets this river’s flow, so past years are only a rough guide: check the current release schedule before you go.' : 'Real flow in a given year can be far outside the usual range.'} Source: {f.source}.
-      </div>
-    </Acc>
+    <>
+      {w && (
+        <Acc title="Typical weather" note={note} open>
+          <Pairs
+            data={[
+              ['Daytime high', `${w.hi[i]}°F on average; a hot afternoon reaches ${w.hi90[i]}°F`],
+              ['Night low', `${w.lo[i]}°F on average; a cold night drops to ${w.lo10[i]}°F`],
+              ['Rain or snow', `${w.rain[i]}% of days have measurable precipitation`],
+              ['Cloud cover', `${w.cloud[i]}% on average`],
+            ]}
+          />
+          <div className="muted mt">
+            Averages for the week around this date, {w.years[0]} to {w.years[1]}, from a weather model on a grid about 9 km across, not a weather station. Temperatures are
+            adjusted to {c(w.elev)} ft
+            {w.elevFrom === 'river' ? ' (the middle of the run)' : `, the height at ${w.lat.toFixed(2)}, ${w.lon.toFixed(2)}, which may not be the river's`}. Any single day can be far
+            outside this. Check the forecast before you go. Source: {w.source}.
+          </div>
+        </Acc>
+      )}
+      {f && (
+        <Acc title="Typical flow" note={note} open>
+          <div className="pair">
+            <div className="pairKey">Usual range</div>
+            <div className="line">
+              {c(f.p25[i])} to {c(f.p75[i])} cfs, middle value {c(f.p50[i])}
+            </div>
+          </div>
+          <div className="muted mt">
+            Half of past years fell in the usual range. Based on {f.years[2]} years of daily readings ({f.years[0]} to {f.years[1]}) from USGS gauge{f.summed ? 's' : ''}{' '}
+            {f.gauges.map((g) => g.id).join(' + ')}
+            {f.summed ? ' (added together)' : ''}. {f.where}{' '}
+            {f.regime === 'regulated' ? 'A dam sets this river’s flow, so past years are only a rough guide: check the current release schedule before you go.' : 'Real flow in a given year can be far outside the usual range.'} Source: {f.source}.
+          </div>
+        </Acc>
+      )}
+    </>
   );
 }
 
@@ -3124,7 +3148,7 @@ function Info({ s }) {
     return (
       <>
         <Conditions trip={s.trip} />
-        {!RIVER.flowDoy && <div className="muted">No reference notes for this trip.</div>}
+        {!RIVER.flowDoy && !RIVER.climateDoy && <div className="muted">No reference notes for this trip.</div>}
       </>
     );
   return (

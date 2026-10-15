@@ -23,6 +23,9 @@ human pass before the app is public. Tick these off as you go:
   **`from` year** used for rivers below dams (it should be after the dam or the current operating rules began). Dam-controlled rivers show a
   "check the release schedule" warning; confirm that wording. Not filled in on purpose: Alsek, Tatshenshini (Canadian gauges) and Tuolumne
   (scheduled release, no gauge on that water).
+- [ ] **Typical weather by time of year** (`climateDoy`, Notes > Typical weather): modelled, not from a station. Compare a few rivers with a
+  station you trust. Rivers without `stats.elev` use the height at `coords`, which can be on a ridge instead of the river: fix those coords or
+  add `elev`. Open-Meteo is CC BY 4.0, so credit it in Profile > About > Safety & sources.
 - [ ] **Elevation and gradient** (`stats.elev`, `gradient`, `steep`): measured from terrain tiles, rounded to 50 ft, good
   to a few tens of feet. Take-outs on Lake Powell, Lake Mead and
   other reservoirs depend on the lake level.

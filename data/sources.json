@@ -283,5 +283,10 @@
     "title": "Typical flow by time of year (USGS National Water Information System)",
     "note": "Daily mean discharge (parameter 00060) at the gauges listed in scripts/rivers/flows.py; the 25th, 50th and 75th percentile within 3 days either side of each week of the year, over the years since the river's current regime began. U.S. government data. Regenerate with python3 scripts/rivers/flows.py.",
     "confirmed": false
+  },
+  {
+    "title": "Typical weather by time of year (Open-Meteo historical archive, ERA5-Land)",
+    "note": "Daily high, low, precipitation and cloud cover, 1991 to 2020, summarised per week of the year by scripts/rivers/weather.py. A reanalysis model on a grid about 9 km across, not a weather station. Open-Meteo data is CC BY 4.0; credit Open-Meteo and the Copernicus ERA5-Land data it uses.",
+    "confirmed": false
   }
 ]
