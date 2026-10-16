@@ -28,3 +28,6 @@
 - Keep the "do not rely on this app for decisions" disclaimer intact: RiskGate (bump `RISK_VERSION` if its meaning
   changes), About > Safety & sources, and Terms sections 4 and 5. (The per-tab river notice was removed on purpose; keep the app
   lean and don't add repeat disclaimers.)
+
+## Brian's hard rule: no "how it was made" text
+- Show results, not method: no captions, footnotes, "based on…", "calculated from…" or "approximated by…" lines in the app or in replies, unless leaving them out would lead to a worse or unsafe decision. Put checking detail in `docs/PRE_PUBLISH.md` or `data/sources.json`. If unsure, leave it out. Keep replies, code comments, commit messages and PR descriptions to what changed and why, as short as possible.
