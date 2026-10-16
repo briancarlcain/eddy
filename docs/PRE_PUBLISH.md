@@ -22,6 +22,7 @@ human pass before the app is public. Tick these off as you go:
   record, whether gauges are summed, the `where` sentence (several gauges sit above or below the run) and the source are in each river's `flowDoy`
   and listed per river in `data/sources.json` ("Typical flow: <river>"). Check each gauge choice and the **`from` year** used below dams (after the
   dam or the current operating rules began). Dam-controlled rivers show "A dam sets this river's flow. Check the release schedule before you go."
+  Weather for 18 rivers is from NASA POWER, not Open-Meteo (see docs/RIVER_GAPS.md). Check Tatshenshini, John Day and Owyhee, whose coords are not on the river.
   Gauges added for Hells Canyon (13290450) and Illinois (14377100): confirm they match the guide.
   Left blank on purpose: Alsek, Tatshenshini (Canadian gauges) and Tuolumne (scheduled release, no gauge on that water).
 - [ ] **Typical weather by time of year** (`climateDoy`, Notes > Typical weather). Not shown in the app, so check here: modelled values (Open-Meteo
