@@ -1740,6 +1740,8 @@ function Gear({ s }) {
           Your share: {usd0(mine.even)} even split · {usd0(mine.nights)} person-nights · {usd0(mine.users)} shared by users · {usd0(mine.personal)} individual
         </div>
       )}
+      <GearCover L={L} />
+      {me && <GearPack L={L} me={me} tripId={t.id} />}
 
       <div className="row">
         <Field value={find} onChange={(e) => setFind(e.target.value)} placeholder={`Search ${L.items.length} items`} />
@@ -1761,6 +1763,97 @@ function Gear({ s }) {
       ))}
       <GearRef />
     </>
+  );
+}
+
+const COVER = [
+  ['own', 'Own', 'var(--ok, #2f7d4f)'],
+  ['borrow', 'Borrowed', 'var(--accent, #2b6cb0)'],
+  ['rent', 'Rented', 'var(--warn, #c98a1b)'],
+  ['none', 'Nobody has it', 'var(--bad, #b83b3b)'],
+];
+function GearCover({ L }) {
+  const n = { own: 0, borrow: 0, rent: 0, none: 0 };
+  L.items.forEach((i) => {
+    if (i.target <= 0) return;
+    n[i.rent > 0.005 ? (i.unit > 0 ? 'rent' : 'none') : i.lend > 0 ? 'borrow' : 'own']++;
+  });
+  const sum = n.own + n.borrow + n.rent + n.none;
+  if (!sum) return null;
+  return (
+    <div className="gcov mb">
+      <div className="gcovBar" role="img" aria-label={COVER.map(([k, l]) => `${n[k]} ${l}`).join(', ')}>
+        {COVER.map(([k, , c]) => n[k] > 0 && <span key={k} style={{ flex: n[k], background: c }} />)}
+      </div>
+      <div className="gcovKey">
+        {COVER.map(([k, l, c]) => (
+          <span key={k}>
+            <i style={{ background: c }} />
+            {n[k]} {l}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// packed ticks are a note on this device, like "who are you"
+const packKey = (tripId) => 'eddy.packed.' + tripId;
+const getPacked = (tripId) => {
+  try {
+    return JSON.parse(localStorage.getItem(packKey(tripId)) || '{}') || {};
+  } catch {
+    return {};
+  }
+};
+function GearPack({ L, me, tripId }) {
+  const [done, setDone] = useState(() => getPacked(tripId));
+  const flip = (k) => {
+    const next = { ...done, [k]: !done[k] };
+    if (!next[k]) delete next[k];
+    setDone(next);
+    try {
+      localStorage.setItem(packKey(tripId), JSON.stringify(next));
+    } catch {}
+  };
+  const groups = [
+    ['Bring for yourself', 'own', (i) => Math.min(num((i.e[me] || {}).have), num((i.e[me] || {}).need))],
+    ['Bring to lend', 'lend', (i) => num((i.e[me] || {}).lend)],
+    ['You’re renting', 'rent', (i) => (i.share[me] > 0.005 ? i.share[me] : 0)],
+  ].map(([title, kind, f]) => ({ title, kind, rows: L.items.map((i) => ({ i, v: f(i) })).filter((r) => r.v > 0) }));
+  const bring = groups.slice(0, 2).flatMap((g) => g.rows.map((r) => g.kind + r.i.id));
+  const packed = bring.filter((k) => done[k]).length;
+  if (!groups.some((g) => g.rows.length)) return null;
+  return (
+    <div className="gpack mb">
+      <span className="label">
+        Your list{bring.length ? ` · ${packed} of ${bring.length} packed` : ''}
+      </span>
+      {groups.map(
+        (g) =>
+          g.rows.length > 0 && (
+            <details key={g.kind} open={g.kind !== 'rent'}>
+              <summary className="gpackHead">
+                {g.title} <span className="muted">{g.rows.length}</span>
+              </summary>
+              {g.rows.map(({ i, v }) =>
+                g.kind === 'rent' ? (
+                  <div className="gpackRow" key={i.id}>
+                    <span className="gpackName">{i.name}</span>
+                    <span className="grAmt">{usd(v)}</span>
+                  </div>
+                ) : (
+                  <label className={'gpackRow' + (done[g.kind + i.id] ? ' done' : '')} key={i.id}>
+                    <input type="checkbox" checked={!!done[g.kind + i.id]} onChange={() => flip(g.kind + i.id)} />
+                    <span className="gpackName">{i.name}</span>
+                    {v !== 1 && <span className="muted">×{+v.toFixed(2)}</span>}
+                  </label>
+                )
+              )}
+            </details>
+          )
+      )}
+    </div>
   );
 }
 

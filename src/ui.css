@@ -652,3 +652,14 @@ body.shot #fakeStatus { background: var(--bg); }
 .rg .tipBtn { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; margin-left: 3px; padding: 0; border-radius: 50%; border: 1px solid var(--ink-faint); background: none; color: var(--ink-dim); font: italic 700 10px/1 serif; letter-spacing: 0; text-transform: none; vertical-align: middle; cursor: pointer; }
 .rg .tipBtn[aria-expanded=true] { background: var(--accent); border-color: var(--accent); color: #fff; }
 .rg .tipTxt { white-space: pre-line; font-size: 13px; line-height: 1.4; color: var(--ink-dim); background: rgba(154, 74, 40, .08); border-radius: 8px; padding: 8px 10px; margin: 2px 0 8px; }
+
+/* gear tab: coverage bar and personal list */
+.rg .gcovBar { display: flex; height: 12px; gap: 2px; border-radius: 6px; overflow: hidden; }
+.rg .gcovBar span { min-width: 4px; }
+.rg .gcovKey { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 8px; font-size: 13px; color: var(--muted, inherit); }
+.rg .gcovKey i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; }
+.rg .gpackHead { cursor: pointer; font-weight: 650; margin: 10px 0 2px; }
+.rg .gpackRow { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line-soft); }
+.rg .gpackRow input { width: 20px; height: 20px; flex: none; margin: 0; }
+.rg .gpackName { flex: 1; }
+.rg .gpackRow.done .gpackName { text-decoration: line-through; opacity: .55; }
