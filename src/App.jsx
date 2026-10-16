@@ -1508,12 +1508,12 @@ function Meals({ s }) {
   );
 }
 
-const SPLITS = { even: 'Even split', nights: 'Person-nights', users: 'Shared by users', personal: 'Individual' };
+const SPLITS = { even: 'Even split', nights: 'By nights on river', users: 'Shared by users', personal: 'Individual' };
 const SPLIT_HELP = {
-  even: 'Everyone on the trip pays the same share.',
-  nights: 'Shares scale with each person’s nights on the river.',
-  users: 'A group item (set how many the group needs). Billed to the people who enter a Need, in proportion.',
-  personal: 'Each person rents their own. Billed only to the people who enter a Need, in proportion.',
+  even: 'Everyone pays the same, however long they’re on the river.',
+  nights: 'Pay for the nights you’re on the river. Someone aboard 10 of the group’s 40 total nights pays 10/40 (25%) of the cost. Good for things used every day, like the kitchen.',
+  users: 'Shared items the group needs (set how many). Paid only by people who enter a Need, in proportion to how many each needs.',
+  personal: 'Everyone rents their own, like a PFD. Paid only by people who enter a Need, in proportion to how many each needs.',
 };
 const REQ = { req: ['Required', '#9c3326'], rec: ['Recommended', '#a8722a'], maybe: ['Maybe', '#6b6154'] };
 const usd = (n) => (n >= 0.005 ? '$' + n.toFixed(2) : '');
@@ -1737,7 +1737,7 @@ function Gear({ s }) {
       </div>
       {mine && (
         <div className="muted mb">
-          Your share: {usd0(mine.even)} even split · {usd0(mine.nights)} person-nights · {usd0(mine.users)} shared by users · {usd0(mine.personal)} individual
+          Your share: {usd0(mine.even)} even split · {usd0(mine.nights)} by nights on river · {usd0(mine.users)} shared by users · {usd0(mine.personal)} individual
         </div>
       )}
       <GearCover L={L} />
