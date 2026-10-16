@@ -3102,7 +3102,6 @@ function Conditions({ trip }) {
             data={[
               ['Daytime high', `${w.hi[i]}°F`],
               ['Night low', `${w.lo[i]}°F`],
-              ['Rain or snow', `${w.rain[i]}% of days`],
               ['Cloud cover', `${w.cloud[i]}%`],
             ]}
           />
