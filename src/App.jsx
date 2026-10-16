@@ -1648,7 +1648,7 @@ function GearFields({ v, up, days, cats, T }) {
         </div>
       {v.s !== 'personal' && (
         <>
-          <span className="label">Group needs {T.btn('group')}</span>
+          <span className="label">Group total (leave blank to add up everyone’s needs) {T.btn('group')}</span>
           {T.box('group')}
           <div className="numRow">
             <Num label="Total" value={v.q} onChange={(x) => up('q', x)} hint={v.qHint} />
@@ -1678,7 +1678,12 @@ function Gear({ s }) {
   const setMe = (id) => {
     setMeState(id);
     setMeFor(s.trip.id, id);
+    setAs('');
+    setOther(false);
   };
+  // entering for someone else is a separate, temporary mode
+  const [as, setAs] = useState('');
+  const [other, setOther] = useState(false);
   const [cat, setCat] = useState('All');
   const [find, setFind] = useState('');
   const [open, setOpen] = useState(null);
@@ -1699,14 +1704,16 @@ function Gear({ s }) {
 
   const cats = [...new Set(L.items.map((i) => i.cat))];
   const q = find.trim().toLowerCase();
+  const who = as || me;
+  const whoName = (t.crew.find((c) => c.id === who) || {}).name || '';
   const mineOf = (i) => {
-    const e = i.e[me] || {};
-    return !!(i.share[me] || num(e.have) || num(e.need) || num(e.lend));
+    const e = i.e[who] || {};
+    return !!(i.share[who] || num(e.have) || num(e.need) || num(e.lend));
   };
   const shown = L.items.filter(
-    (i) => (cat === 'All' || (cat === 'Mine' ? me && mineOf(i) : i.cat === cat)) && (!q || i.name.toLowerCase().includes(q))
+    (i) => (cat === 'All' || (cat === 'Mine' ? who && mineOf(i) : i.cat === cat)) && (!q || i.name.toLowerCase().includes(q))
   );
-  const mine = me ? L.by[me] : null;
+  const mine = who ? L.by[who] : null;
 
   return (
     <>
@@ -1714,7 +1721,7 @@ function Gear({ s }) {
         <div className="muted mb">Add crew on the Crew tab to split costs.</div>
       ) : (
         <>
-          <span className="label">Who are you? Tap your name to see your share</span>
+          <span className="label">{me ? 'You' : 'Who are you? Pick your name to enter your gear'}</span>
           <div className="chips scroll">
             {t.crew.map((c) => (
               <button key={c.id} className={'chip' + (me === c.id ? ' on' : '')} onClick={() => setMe(me === c.id ? '' : c.id)}>
@@ -1722,6 +1729,33 @@ function Gear({ s }) {
               </button>
             ))}
           </div>
+          {as ? (
+            <div className="gasBanner">
+              <span>Entering for {whoName}</span>
+              <button className="btn ghost" onClick={() => setAs('')}>
+                Back to me
+              </button>
+            </div>
+          ) : me && t.crew.length > 1 ? (
+            other ? (
+              <>
+                <span className="label">Enter for someone else</span>
+                <div className="chips scroll">
+                  {t.crew
+                    .filter((c) => c.id !== me)
+                    .map((c) => (
+                      <button key={c.id} className="chip" onClick={() => (setAs(c.id), setOther(false))}>
+                        {c.name}
+                      </button>
+                    ))}
+                </div>
+              </>
+            ) : (
+              <button className="linkBtn" onClick={() => setOther(true)}>
+                Enter for someone else
+              </button>
+            )
+          ) : null}
         </>
       )}
 
@@ -1732,16 +1766,16 @@ function Gear({ s }) {
         </div>
         <div className="stat">
           <div className="statNum">{mine ? usd0(mine.total) : '—'}</div>
-          <div className="statKey">{mine ? 'Your share' : 'Pick your name'}</div>
+          <div className="statKey">{mine ? (as ? `${whoName}’s share` : 'Your share') : 'Pick your name'}</div>
         </div>
       </div>
       {mine && (
         <div className="muted mb">
-          Your share: {usd0(mine.even)} even split · {usd0(mine.nights)} by nights on river · {usd0(mine.users)} shared by users · {usd0(mine.personal)} individual
+          {as ? `${whoName}’s share` : 'Your share'}: {usd0(mine.even)} even split · {usd0(mine.nights)} by nights on river · {usd0(mine.users)} shared by users · {usd0(mine.personal)} individual
         </div>
       )}
       <GearCover L={L} />
-      {me && <GearPack L={L} me={me} tripId={t.id} />}
+      {who && <GearPack L={L} me={who} you={!as} name={whoName} tripId={t.id} />}
 
       <div className="row">
         <Field value={find} onChange={(e) => setFind(e.target.value)} placeholder={`Search ${L.items.length} items`} />
@@ -1751,15 +1785,15 @@ function Gear({ s }) {
       </div>
       {adding && <AddGear s={s} days={L.days} cats={cats} onDone={() => setAdding(false)} />}
       <div className="chips scroll">
-        {['All', ...(me ? ['Mine'] : []), ...cats].map((c) => (
+        {['All', ...(who ? ['Mine'] : []), ...cats].map((c) => (
           <button key={c} className={'chip' + (cat === c ? ' on river' : '')} onClick={() => setCat(c)}>
-            {c === 'Mine' ? 'My items' : c}
+            {c === 'Mine' ? (as ? `${whoName}’s items` : 'My items') : c}
           </button>
         ))}
       </div>
       {shown.length === 0 && <div className="muted mt">Nothing matches.</div>}
       {shown.map((it) => (
-        <GearRow key={it.id} it={it} s={s} crew={t.crew} days={L.days} cats={cats} me={me} open={open === it.id} onOpen={() => setOpen(open === it.id ? null : it.id)} />
+        <GearRow key={it.id} it={it} s={s} crew={t.crew} days={L.days} cats={cats} me={who} name={whoName} you={!as} open={open === it.id} onOpen={() => setOpen(open === it.id ? null : it.id)} />
       ))}
       <GearRef />
     </>
@@ -1806,7 +1840,7 @@ const getPacked = (tripId) => {
     return {};
   }
 };
-function GearPack({ L, me, tripId }) {
+function GearPack({ L, me, you, name, tripId }) {
   const [done, setDone] = useState(() => getPacked(tripId));
   const flip = (k) => {
     const next = { ...done, [k]: !done[k] };
@@ -1817,9 +1851,9 @@ function GearPack({ L, me, tripId }) {
     } catch {}
   };
   const groups = [
-    ['Bring for yourself', 'own', (i) => Math.min(num((i.e[me] || {}).have), num((i.e[me] || {}).need))],
-    ['Bring to lend', 'lend', (i) => num((i.e[me] || {}).lend)],
-    ['You’re renting', 'rent', (i) => (i.share[me] > 0.005 ? i.share[me] : 0)],
+    [you ? 'Bringing my own' : 'Bringing their own', 'own', (i) => Math.min(num((i.e[me] || {}).have), num((i.e[me] || {}).need))],
+    ['Bringing to lend', 'lend', (i) => num((i.e[me] || {}).lend)],
+    ['Renting', 'rent', (i) => (i.share[me] > 0.005 ? i.share[me] : 0)],
   ].map(([title, kind, f]) => ({ title, kind, rows: L.items.map((i) => ({ i, v: f(i) })).filter((r) => r.v > 0) }));
   const bring = groups.slice(0, 2).flatMap((g) => g.rows.map((r) => g.kind + r.i.id));
   const packed = bring.filter((k) => done[k]).length;
@@ -1827,7 +1861,7 @@ function GearPack({ L, me, tripId }) {
   return (
     <div className="gpack mb">
       <span className="label">
-        Your list{bring.length ? ` · ${packed} of ${bring.length} packed` : ''}
+        {you ? 'Your list' : `${name}’s list`}{bring.length ? ` · ${packed} of ${bring.length} packed` : ''}
       </span>
       {groups.map(
         (g) =>
@@ -1857,24 +1891,63 @@ function GearPack({ L, me, tripId }) {
   );
 }
 
-function GearRow({ it, s, crew, days, cats, me, open, onOpen }) {
+const Step = ({ label, hint, value, onChange }) => {
+  const n = num(value);
+  const set = (x) => onChange(x > 0 ? String(+x.toFixed(2)) : '');
+  return (
+    <div className="step">
+      <span className="stepText">
+        <span className="stepLabel">{label}</span>
+        <span className="muted">{hint}</span>
+      </span>
+      <span className="stepCtl">
+        <button type="button" className="stepBtn" aria-label={`Less ${label}`} disabled={n <= 0} onClick={() => set(n - 1)}>
+          −
+        </button>
+        <input inputMode="decimal" aria-label={label} placeholder="0" value={value ?? ''} onChange={(e) => onChange(e.target.value)} />
+        <button type="button" className="stepBtn" aria-label={`More ${label}`} onClick={() => set(n + 1)}>
+          +
+        </button>
+      </span>
+    </div>
+  );
+};
+
+// one line that says where the items come from
+function gearStatus(it) {
+  if (it.target <= 0) return { text: 'No one needs it yet', k: 'idle' };
+  if (it.rent > 0.005) return it.unit > 0 ? { text: `Renting ${+it.rent.toFixed(2)} · ${usd(it.total)}`, k: 'rent' } : { text: `${+it.rent.toFixed(2)} short · nobody has it`, k: 'none' };
+  return it.lend > 0 ? { text: 'Covered with borrowed', k: 'borrow' } : { text: 'Covered', k: 'own' };
+}
+
+function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
   const T = useTip();
   const mine = it.share[me] || 0;
   const tag = REQ[it.req];
-  const flag = it.unit > 0 && it.rent > 0;
+  const st = gearStatus(it);
   const patch = (o) => s.patch('gear', it.id, o);
-  const setE = (pid, k, v) => patch({ e: { ...it.e, [pid]: { ...(it.e[pid] || {}), [k]: v } } });
+  const e = it.e[me] || {};
+  const setE = (k, v) => patch({ e: { ...it.e, [me]: { ...(it.e[me] || {}), [k]: v } } });
   // the form reads and writes the short stored keys
   const v = { n: it.name, c: it.cat, s: it.split, r: it.req, f: it.raw.f, d: it.raw.d, q: it.raw.q, qHint: it.split === 'personal' ? '' : String(+it.need.toFixed(2)) };
+    const need = num(e.need),
+    have = num(e.have),
+    lend = num(e.lend);
+  const left = Math.max(0, need - Math.min(have, need));
+  const parts = [
+    [Math.min(have, need), 'own', 'Own'],
+    [it.lend, 'borrow', 'Lent'],
+    [it.rent, it.unit > 0 ? 'rent' : 'none', it.unit > 0 ? 'Rented' : 'Short'],
+  ];
+  const others = crew.filter((c) => c.id !== me && ['need', 'have', 'lend'].some((k) => num((it.e[c.id] || {})[k])));
   return (
     <div className={'grItem' + (open ? ' open' : '')}>
       <button className="grHead" onClick={onOpen}>
         <span className="grText">
           <span className="grName">{it.name}</span>
           <span className="muted">
-            {SPLITS[it.split]}
-            {it.unit ? ` · ${usd(it.unit)}/item` : ''}
-            {flag ? ` · renting ${+it.rent.toFixed(2)}` : ''}
+            {it.target > 0 ? `Group needs ${+it.target.toFixed(2)} · ` : ''}
+            {st.text}
           </span>
         </span>
         {tag && !open ? <Tag label={tag[0]} tint={tag[1]} /> : null}
@@ -1882,51 +1955,70 @@ function GearRow({ it, s, crew, days, cats, me, open, onOpen }) {
       </button>
       {open && (
         <div className="grBody">
-          <GearFields v={v} up={(k, x) => patch({ [k]: x })} days={days} cats={cats} T={T} />
-          <Field area label="Note" value={it.raw.note || ''} onChange={(e) => patch({ note: e.target.value })} placeholder="Where to rent it, sizes, who’s bringing it…" />
+          {crew.length === 0 ? (
+            <div className="muted">Add crew on the Crew tab first.</div>
+          ) : !me ? (
+            <div className="muted">Pick your name above to enter your numbers.</div>
+          ) : (
+            <>
+              <span className="label">{you ? 'Your part' : `${name}’s part`}</span>
+              <Step label={you ? 'I need' : `${name} needs`} hint="How many will be used on the trip" value={e.need} onChange={(x) => setE('need', x)} />
+              <Step label={you ? 'Bringing my own' : 'Bringing own'} hint="Own ones, so no rental charge" value={e.have} onChange={(x) => setE('have', x)} />
+              <Step label="Can lend" hint="Extras for others to use" value={e.lend} onChange={(x) => setE('lend', x)} />
+              {have > need && <div className="gwarn">Only {+need.toFixed(2)} of the {+have.toFixed(2)} count: the rest is spare. Use “Can lend” for extras.</div>}
+              {need > 0 && left > 0 && (
+                <div className="muted mb-s">
+                  {+left.toFixed(2)} still to come from lenders or rental{mine ? ` · ${usd(mine)} for ${you ? 'you' : name}` : ''}
+                </div>
+              )}
+            </>
+          )}
 
-          <span className="label">Who needs it, brings it and lends it</span>
-          {crew.length ? (
-            <div className="gcrew">
-              <div className="gcRow gcHead">
-                <span />
-                {[['need', 'I need'], ['have', 'I can bring for myself'], ['lend', 'I can bring to lend']].map(([k, l]) => (
-                  <span key={k}>
-                    {l} {T.btn(k)}
+          {it.target > 0 && (
+            <div className="gsum">
+              <div className="gsumHead">Group needs {+it.target.toFixed(2)}</div>
+              <div className="gcovBar">
+                {parts.map(([n, k], i) => n > 0.005 && <span key={i} style={{ flex: n, background: COVER.find((c) => c[0] === k)[2] }} />)}
+              </div>
+              <div className="gcovKey">
+                {parts.map(([n, k, l], i) => n > 0.005 && (
+                  <span key={i}>
+                    <i style={{ background: COVER.find((c) => c[0] === k)[2] }} />
+                    {+n.toFixed(2)} {l}
                   </span>
                 ))}
-                <span>Pays</span>
+                {it.total > 0 && <span className="gsumCost">{usd(it.total)} total</span>}
               </div>
-              {T.box('need', 'have', 'lend')}
-              {crew.map((c) => {
-                const e = it.e[c.id] || {};
+            </div>
+          )}
+          {it.loose > 0.005 && <div className="muted">{usd(it.loose)} not yet billed to anyone: nobody has entered a need.</div>}
+
+          {others.length > 0 && (
+            <details className="gdet">
+              <summary>Everyone’s numbers</summary>
+              {others.map((c) => {
+                const x = it.e[c.id] || {};
                 return (
-                  <div className={'gcRow' + (c.id === me ? ' me' : '')} key={c.id}>
+                  <div className="gother" key={c.id}>
                     <span className="gcName">{c.name}</span>
-                    {['need', 'have', 'lend'].map((k) => (
-                      <input key={k} inputMode="decimal" aria-label={`${c.name} ${k}`} placeholder="0" value={e[k] ?? ''} onChange={(ev) => setE(c.id, k, ev.target.value)} />
-                    ))}
+                    <span className="muted">
+                      needs {+num(x.need).toFixed(2)} · own {+Math.min(num(x.have), num(x.need)).toFixed(2)} · lends {+num(x.lend).toFixed(2)}
+                    </span>
                     <span className="gcAmt">{it.share[c.id] ? usd(it.share[c.id]) : ''}</span>
                   </div>
                 );
               })}
-            </div>
-          ) : (
-            <div className="muted">Add crew on the Crew tab first.</div>
+            </details>
           )}
 
-          <div className="rule" />
-          <div className="grMath">
-            <span>{+it.target.toFixed(2)} needed</span>
-            <span>{+it.have.toFixed(2)} own</span>
-            <span>{+it.lend.toFixed(2)} lent</span>
-            <span>{+it.rent.toFixed(2)} rented</span>
-            <span className="grTotal">{it.total ? usd(it.total) : '$0'}</span>
-          </div>
-          {it.loose > 0.005 && <div className="muted">{usd(it.loose)} unassigned: nobody has claimed this item.</div>}
-          <button className="btn ghost danger mt-s" onClick={() => s.drop('gear', it.id)}>
-            Remove item
-          </button>
+          <details className="gdet">
+            <summary>Edit item</summary>
+            <GearFields v={v} up={(k, x) => patch({ [k]: x })} days={days} cats={cats} T={T} />
+            <Field area label="Note" value={it.raw.note || ''} onChange={(ev) => patch({ note: ev.target.value })} placeholder="Where to rent it, sizes, who’s bringing it…" />
+            <button className="btn ghost danger mt-s" onClick={() => s.drop('gear', it.id)}>
+              Remove item
+            </button>
+          </details>
         </div>
       )}
     </div>
