@@ -27,7 +27,7 @@ human pass before the app is public. Tick these off as you go:
   historical archive, ERA5-Land, grid about 9 km, 1991 to 2020), not a weather station; rain and cloud are the weakest numbers. Temperature is adjusted
   to the average of the river's put-in and take-out (`elevFrom: 'river'`); rivers with no `stats.elev` use the height at `coords` (`elevFrom: 'point'`),
   which can be a ridge, not the river, so fix those coords or add `elev`. Latitude, longitude and height used are in each river's `climateDoy` and in
-  `data/sources.json` ("Typical weather: <river>"). Compare a few rivers with a station you trust. Open-Meteo is CC BY 4.0: credit it in Profile >
+  `data/sources.json` ("Typical weather: <river>"). Compare a few rivers with a station you trust. The rain figure is hidden until every river is rerun at the 0.04 in threshold (see docs/RIVER_GAPS.md). Open-Meteo is CC BY 4.0: credit it in Profile >
   About > Safety & sources.
 - [ ] **Basin map gauge pins** (`gauges` in `data/basin/*.json`, from the USGS site service by `scripts/basin/gauges.py`): spot-check a few
   pins per river (right place, right name, the USGS link opens that gauge). Small creeks are left off (under 0.2% of the basin, between 10 and 250 sq mi), plus the

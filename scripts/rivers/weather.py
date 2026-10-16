@@ -9,7 +9,7 @@ downloads daily values for 1991-2020 and, for 53 points a year (every 7th day fr
 3 days either side:
   hi / lo       average daily high and low, deg F
   hi90 / lo10   a hot afternoon (90th percentile of highs) and a cold night (10th percentile of lows), deg F
-  rain          percent of days with at least 0.01 in of precipitation
+  rain          percent of days with at least 0.04 in (1 mm) of precipitation
   cloud         average cloud cover, percent
 This is a model of the weather on a grid roughly 9 km across, not a weather station. Temperature is adjusted to a
 height: the average of the river's put-in and take-out (`stats.elev`) when the record has them (`elevFrom: 'river'`),
@@ -86,7 +86,7 @@ def build(rid, r):
         out['lo'].append(round(sum(los) / len(los)))
         out['hi90'].append(round(pct(his, .9)))
         out['lo10'].append(round(pct(los, .1)))
-        out['rain'].append(round(100 * sum(1 for x in wet if x[2] >= 0.01) / len(wet)) if wet else None)
+        out['rain'].append(round(100 * sum(1 for x in wet if x[2] >= 0.04) / len(wet)) if wet else None)
         out['cloud'].append(round(sum(cl) / len(cl)) if cl else None)
     return {
         'lat': lat, 'lon': lon,
@@ -99,11 +99,15 @@ def build(rid, r):
 
 
 def main():
-    ids = sys.argv[1:] or sorted(f[:-5] for f in os.listdir(os.path.join(ROOT, 'data', 'rivers')) if f.endswith('.json'))
+    named = [a for a in sys.argv[1:] if not a.startswith('-')]
+    force = '--force' in sys.argv
+    ids = named or sorted(f[:-5] for f in os.listdir(os.path.join(ROOT, 'data', 'rivers')) if f.endswith('.json'))
     for rid in ids:
         path = os.path.join(ROOT, 'data', 'rivers', rid + '.json')
         raw = open(path).read()
         d = json.loads(raw)
+        if 'climateDoy' in d and not force:
+            continue  # already done; --force to redo
         try:
             res = build(rid, d)
         except Exception as e:
