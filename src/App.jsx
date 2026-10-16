@@ -1648,7 +1648,7 @@ function GearFields({ v, up, days, cats, T }) {
         </div>
       {v.s !== 'personal' && (
         <>
-          <span className="label">Group needs (calculated) {T.btn('group')}</span>
+          <span className="label">Group needs {T.btn('group')}</span>
           {T.box('group')}
           <div className="numRow">
             <Num label="Total" value={v.q} onChange={(x) => up('q', x)} hint={v.qHint} />
@@ -1657,7 +1657,7 @@ function GearFields({ v, up, days, cats, T }) {
       )}
       <div className="muted mb">
         {unit > 0
-          ? `Each item costs ${usd(unit)} for ${days} days (the larger of the flat fee or per-day × ${days}).`
+          ? `Each item costs ${usd(unit)} for ${days} days.`
           : 'No price set: this item costs nothing.'}
       </div>
       <span className="label">Priority</span>
@@ -3059,11 +3059,6 @@ function Ledger({ s }) {
   );
 }
 
-const REF_NOTE = {
-  'Shopping list': 'Draft list from the sheet. The day names (Friday, Saturday...) predate the current menu dates, so match items to meals by name.',
-  'Crew Council': 'Notes are kept as recorded; plans changed over time, so check the Itinerary and Shuttle tabs for the current plan.',
-};
-
 function InfoSection({ sec }) {
   return (
     <Acc title={sec.title}>
@@ -3088,8 +3083,7 @@ function InfoSection({ sec }) {
   );
 }
 
-// Typical flow and weather for the trip's middle day, from the river's saved history
-// (data/rivers/<id>.json `flowDoy` from USGS, `climateDoy` from Open-Meteo; scripts/rivers/flows.py and weather.py).
+// Typical weather and flow for the trip's middle day (river records: `climateDoy`, `flowDoy`).
 function Conditions({ trip }) {
   const f = RIVER.flowDoy;
   const w = RIVER.climateDoy;
@@ -3099,41 +3093,31 @@ function Conditions({ trip }) {
   const doy = Math.floor((Date.UTC(2001, d.getUTCMonth(), Math.min(d.getUTCDate(), d.getUTCMonth() === 1 ? 28 : 31)) - Date.UTC(2001, 0, 1)) / 864e5);
   const i = Math.min(52, Math.floor((doy + 3) / 7));
   const c = (n) => Math.round(n).toLocaleString('en-US');
-  const note = fmt(mid) + ' (middle of the trip)';
+  const note = fmt(mid);
   return (
     <>
       {w && (
         <Acc title="Typical weather" note={note} open>
           <Pairs
             data={[
-              ['Daytime high', `${w.hi[i]}°F on average; a hot afternoon reaches ${w.hi90[i]}°F`],
-              ['Night low', `${w.lo[i]}°F on average; a cold night drops to ${w.lo10[i]}°F`],
-              ['Rain or snow', `${w.rain[i]}% of days have measurable precipitation`],
-              ['Cloud cover', `${w.cloud[i]}% on average`],
+              ['Daytime high', `${w.hi[i]}°F`],
+              ['Night low', `${w.lo[i]}°F`],
+              ['Rain or snow', `${w.rain[i]}% of days`],
+              ['Cloud cover', `${w.cloud[i]}%`],
             ]}
           />
-          <div className="muted mt">
-            Averages for the week around this date, {w.years[0]} to {w.years[1]}, from a weather model on a grid about 9 km across, not a weather station. Temperatures are
-            adjusted to {c(w.elev)} ft
-            {w.elevFrom === 'river' ? ' (the middle of the run)' : `, the height at ${w.lat.toFixed(2)}, ${w.lon.toFixed(2)}, which may not be the river's`}. Any single day can be far
-            outside this. Check the forecast before you go. Source: {w.source}.
-          </div>
+          <div className="muted mt">Check the forecast before you go.</div>
         </Acc>
       )}
       {f && (
         <Acc title="Typical flow" note={note} open>
-          <div className="pair">
-            <div className="pairKey">Usual range</div>
-            <div className="line">
-              {c(f.p25[i])} to {c(f.p75[i])} cfs, middle value {c(f.p50[i])}
-            </div>
-          </div>
-          <div className="muted mt">
-            Half of past years fell in the usual range. Based on {f.years[2]} years of daily readings ({f.years[0]} to {f.years[1]}) from USGS gauge{f.summed ? 's' : ''}{' '}
-            {f.gauges.map((g) => g.id).join(' + ')}
-            {f.summed ? ' (added together)' : ''}. {f.where}{' '}
-            {f.regime === 'regulated' ? 'A dam sets this river’s flow, so past years are only a rough guide: check the current release schedule before you go.' : 'Real flow in a given year can be far outside the usual range.'} Source: {f.source}.
-          </div>
+          <Pairs
+            data={[
+              ['Usual range', `${c(f.p25[i])} to ${c(f.p75[i])} cfs`],
+              ['Middle value', `${c(f.p50[i])} cfs`],
+            ]}
+          />
+          {f.regime === 'regulated' ? <div className="muted mt">A dam sets this river’s flow. Check the release schedule before you go.</div> : null}
         </Acc>
       )}
     </>
@@ -3161,7 +3145,6 @@ function Info({ s }) {
           </button>
         ))}
       </div>
-      {REF_NOTE[g] ? <div className="muted mt">{REF_NOTE[g]}</div> : null}
       <div className="mt">
         {ref.sections.filter((x) => x.group === g).map((x, i) => (
           <InfoSection sec={x} key={g + i} />
