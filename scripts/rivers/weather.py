@@ -43,6 +43,32 @@ def get(url, tries=6):
     raise RuntimeError(f'{err}')
 
 
+SOURCE = 'power' if '--power' in sys.argv else 'openmeteo'
+
+
+def fetch_power(r, el):
+    """Same shape as the Open-Meteo reply. NASA POWER needs no key. Temperature is moved from the grid height to the
+    river height at 6.5 deg C per km; precipitation in mm, converted to inches."""
+    lat, lon = r['coords']
+    q = urllib.parse.urlencode({
+        'parameters': 'T2M_MAX,T2M_MIN,PRECTOTCORR,CLOUD_AMT', 'community': 'RE', 'longitude': lon, 'latitude': lat,
+        'start': f'{Y0}0101', 'end': f'{Y1}1231', 'format': 'JSON', 'time-standard': 'LST'})
+    d = get('https://power.larc.nasa.gov/api/temporal/daily/point?' + q)
+    grid_m = d['geometry']['coordinates'][2]
+    target_m = (el[0] + el[1]) / 2 / 3.28084 if el and len(el) == 2 else grid_m
+    adj = (grid_m - target_m) * 6.5 / 1000  # deg C to add
+    pr = d['properties']['parameter']
+    ok = lambda v: None if v is None or v <= -990 else v
+    times = sorted(pr['T2M_MAX'])
+    f = lambda c: None if c is None else c * 9 / 5 + 32
+    daily = {'time': [f'{t[:4]}-{t[4:6]}-{t[6:]}' for t in times],
+             'temperature_2m_max': [f(None if ok(pr['T2M_MAX'][t]) is None else pr['T2M_MAX'][t] + adj) for t in times],
+             'temperature_2m_min': [f(None if ok(pr['T2M_MIN'][t]) is None else pr['T2M_MIN'][t] + adj) for t in times],
+             'precipitation_sum': [None if ok(pr['PRECTOTCORR'][t]) is None else pr['PRECTOTCORR'][t] / 25.4 for t in times],
+             'cloud_cover_mean': [ok(pr['CLOUD_AMT'][t]) for t in times]}
+    return {'daily': daily, 'elevation': target_m}
+
+
 def pct(vals, p):
     vals = sorted(vals)
     k = (len(vals) - 1) * p
@@ -63,7 +89,10 @@ def build(rid, r):
         'daily': 'temperature_2m_max,temperature_2m_min,precipitation_sum,cloud_cover_mean',
         'temperature_unit': 'fahrenheit', 'precipitation_unit': 'inch', 'timezone': r.get('tz') or 'auto',
     })
-    d = get('https://archive-api.open-meteo.com/v1/archive?' + q)
+    if SOURCE == 'power':
+        d = fetch_power(r, el)
+    else:
+        d = get('https://archive-api.open-meteo.com/v1/archive?' + q)
     day = d['daily']
     by = {}  # day of year on a non-leap calendar (29 Feb folded into 28 Feb) -> rows
     for i, t in enumerate(day['time']):
@@ -93,7 +122,9 @@ def build(rid, r):
         'elev': round(d.get('elevation', 0) * 3.28084 / 50) * 50,
         'elevFrom': 'river' if params else 'point',
         'years': [Y0, Y1],
-        'source': 'Open-Meteo historical weather archive (ERA5-Land reanalysis, about 9 km grid), daily values 1991 to 2020',
+        'source': ('NASA POWER daily values (MERRA-2 reanalysis, about 50 km grid), 1991 to 2020; temperature adjusted to the height used'
+                   if SOURCE == 'power' else
+                   'Open-Meteo historical weather archive (ERA5-Land reanalysis, about 9 km grid), daily values 1991 to 2020'),
         **out,
     }
 
