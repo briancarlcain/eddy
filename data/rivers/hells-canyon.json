@@ -1807,7 +1807,8 @@
     },
     "gauges": [
       {
-        "name": "Snake River at Hells Canyon Dam"
+        "name": "Snake River at Hells Canyon Dam",
+        "id": "13290450"
       }
     ]
   },
