@@ -426,6 +426,25 @@ header{position:fixed; top:0; left:0; right:0; z-index:20;
 .rg .dayKey .move b { font-family:var(--font); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; font-size: 10px; margin-right: 4px; }
 .rg .dayKey .move em { font-style: normal; color: var(--ink-dim); }
 .rg .leg { display: flex; align-items: center; gap: 9px; width: 100%; padding: 8px 0; background: none; border: 0; text-align: left; }
+.rg .route { display: block; width: 100%; height: auto; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 4px 0; }
+.rg .route .rGrid { stroke: var(--line); stroke-width: .6; stroke-dasharray: 1 3; }
+.rg .route .rName { font-family:var(--font); font-size: 8.5px; font-weight: 600; fill: var(--ink-dim); text-anchor: end; }
+.rg .route .rName.river { fill: var(--teal); }
+.rg .route .rDay { font-family:var(--font); font-size: 8.5px; font-weight: 700; fill: var(--ink); text-anchor: middle; }
+.rg .route .rCol { fill: rgba(74,42,18,.045); }
+.rg .route .rWater { fill: var(--teal); opacity: .28; }
+.rg .route .rLeg { stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; opacity: .9; }
+.rg .route .rLeg.empty { stroke-width: 1.6; stroke-dasharray: 3 2.5; opacity: .75; }
+.rg .route .rEnd { fill: var(--card); stroke: currentColor; stroke-width: 1.4; }
+.rg .route .rBoat { fill: var(--teal); stroke: var(--card); stroke-width: 1; }
+.rg .convoy { padding: 9px 0; border-bottom: 1px solid rgba(74,42,18,.10); }
+.rg .cvWay { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; color: var(--ink); }
+.rg .cvCars { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 3px; font-size: 13px; color: var(--ink-dim); }
+.rg .cvCar i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; }
+.rg .cvLine { margin-top: 3px; font-size: 13px; color: var(--ink); }
+.rg .cvK { display: inline-block; min-width: 58px; font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint); }
+.rg .fold { margin-top: 14px; }
+.rg .fold > summary { cursor: pointer; padding: 8px 0; font-size: 10.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--teal); }
 .rg .legSeq { flex: 0 0 16px; font-family:var(--font); font-size: 10px; font-weight: 700; color: var(--ink-faint); text-align: center; }
 .rg .legDot { flex: 0 0 10px; width: 10px; height: 10px; border-radius: 50%; }
 .rg .legWay { font-family:var(--font); font-weight: 400; font-size: 13px; color: var(--ink); margin-left: 4px; }
