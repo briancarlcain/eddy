@@ -721,3 +721,4 @@ body.shot #fakeStatus { background: var(--bg); }
 .rg .legDot.river { background: #3a6f92; }
 .rg .riverItem .legSeq { color: #3a6f92; }
 .rg .tzTag { font: 600 12px Oswald, sans-serif; color: #6b6154; padding: 0 2px; min-width: 34px; text-align: center; }
+.rg .legWarn { display: inline-flex; vertical-align: -2px; margin-right: 4px; color: #b5651d; }
