@@ -3240,7 +3240,12 @@ function Shuttle({ s }) {
           </button>
           {openPlace === p.id && (
             <div className="grBody">
-              {own(p.id) ? <Field label="Name" value={p.name} autoFocus={freshPlace === p.id} onChange={(e) => s.patch('places', p.id, { name: e.target.value })} /> : null}
+              {own(p.id) ? (
+                <div className="row">
+                  <Field label="Name" value={p.name} autoFocus={freshPlace === p.id} onChange={(e) => s.patch('places', p.id, { name: e.target.value })} />
+                  <Field className="narrow" label="River mile" inputMode="decimal" value={p.mile ?? ''} placeholder="Off river" onChange={(e) => s.patch('places', p.id, { mile: e.target.value === '' || !isFinite(+e.target.value) ? null : +e.target.value })} />
+                </div>
+              ) : null}
               <Field
                 key={(t.addrs || {})[p.id] || ''}
                 label="Address"
