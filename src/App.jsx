@@ -2277,13 +2277,32 @@ function story(t) {
   const offP = (m) => fix(m.off) || out?.id;
 
   const byDay = {};
+  const flights = [];
   legsOf(t).forEach((l) => {
-    const c = cars.find((x) => x.id === l.car);
+    const c = l.fly ? { id: '_fly' + l.id, name: '✈ Flight', tint: '#56687a', fly: true } : cars.find((x) => x.id === l.car);
     if (!c) return;
+    if (c.fly) flights.push(c);
     const d = T(l.date);
     (byDay[d] = byDay[d] || []).push({ ...l, from: fix(l.from), to: fix(l.to), car: c });
   });
+  const gc = (a, b) => {
+    const A = ll(a),
+      B = ll(b);
+    if (!A || !B) return null;
+    const R = Math.PI / 180;
+    const h = Math.sin(((B[0] - A[0]) * R) / 2) ** 2 + Math.cos(A[0] * R) * Math.cos(B[0] * R) * Math.sin(((B[1] - A[1]) * R) / 2) ** 2;
+    return 2 * 3958.8 * Math.asin(Math.sqrt(h));
+  };
   const dur = (l) => {
+    if (l.fly) {
+      if (hhmm(l.dep) != null && hhmm(l.arr) != null) {
+        const a = T(l.date) + hhmm(l.dep) + zShift(zoneAt(l.from), l.date);
+        const b = T(l.arrDate || l.date) + hhmm(l.arr) + zShift(zoneAt(l.to), l.arrDate || l.date);
+        if (b > a) return b - a;
+      }
+      const mi = gc(l.from, l.to);
+      return (mi != null ? Math.max(1, mi / 450 + 0.5) : 2) / 24;
+    }
     const h = hrs(l.from, l.to);
     return (l.from === l.to ? 0.25 : h != null ? Math.max(0.25, h) : 1) / 24;
   };
@@ -2363,7 +2382,7 @@ function story(t) {
   };
   const people = t.crew.map((m) => ({ ...m, kind: 'person', segs: segsOf(ents.find((e) => e.id === m.id), 'who') }));
   const boats = (t.boats || []).map((b) => ({ ...b, kind: 'boat', segs: segsOf(ents.find((e) => e.id === b.id), 'boats') }));
-  const rigs = cars.map((c) => ({ ...c, kind: 'car', segs: legs.filter((l) => l.car.id === c.id).map(seg) }));
+  const rigs = [...cars, ...flights].map((c) => ({ ...c, kind: 'car', segs: legs.filter((l) => l.car.id === c.id).map(seg) }));
 
   const at = (e, tt) => {
     const Sg = e.segs;
@@ -2540,10 +2559,20 @@ function GMap({ S, tt, pick, onPick, type, nonce }) {
     G.pins = {};
     G.faint = [];
     const seen = new Set();
+    const dash = [{ icon: { path: 'M 0,-1 0,1', strokeOpacity: 0.6, strokeColor: '#56687a', scale: 2 }, offset: '0', repeat: '10px' }];
     S.legs.forEach((l) => {
+      const k = (l.fly ? 'f' : '') + [l.from, l.to].sort().join('|');
+      if (seen.has(k)) return;
+      if (l.fly) {
+        const A = S.ll(l.from),
+          B = S.ll(l.to);
+        if (!A || !B) return;
+        seen.add(k);
+        G.faint.push(new Polyline({ map, path: [A, B].map(([lat, lng]) => ({ lat: +lat, lng: +lng })), geodesic: true, strokeOpacity: 0, icons: dash, clickable: false }));
+        return;
+      }
       const p = S.path(l.from, l.to);
-      const k = [l.from, l.to].sort().join('|');
-      if (!p || seen.has(k)) return;
+      if (!p) return;
       seen.add(k);
       G.faint.push(new Polyline({ map, path: p.pts.map(([lat, lng]) => ({ lat, lng })), strokeColor: '#6b6154', strokeOpacity: 0.35, strokeWeight: 3, clickable: false }));
     });
@@ -2603,7 +2632,7 @@ function GMap({ S, tt, pick, onPick, type, nonce }) {
     const near = span * 0.09;
     const groups = [];
     live.forEach(({ c, a }) => {
-      const p = S.path(a.at, a.to);
+      const p = a.leg?.fly ? null : S.path(a.at, a.to);
       const k = a.at + '|' + a.to + '|' + a.leg.t0;
       const n = (lane[k] = (lane[k] || 0) + 1) - 1;
       let q;
@@ -2674,7 +2703,7 @@ function GMap({ S, tt, pick, onPick, type, nonce }) {
     const put = (q) => q && (b.extend({ lat: +q[0], lng: +q[1] }), n++);
     if (live.length)
       live.forEach(({ a }) => {
-        const p = S.path(a.at, a.to);
+        const p = a.leg?.fly ? null : S.path(a.at, a.to);
         p ? p.pts.forEach(put) : (put(S.ll(a.at)), put(S.ll(a.to)));
       });
     else if (afloat && G.L) G.L.ll.forEach(put);
@@ -3094,7 +3123,7 @@ function Shuttle({ s }) {
   const gone = new Set();
   S.legs.forEach((l) => {
     const k = [l.from, l.to].sort().join('|');
-    if (l.from === l.to || gone.has(k) || !S.drive(l.from, l.to)?.none) return;
+    if (l.fly || l.from === l.to || gone.has(k) || !S.drive(l.from, l.to)?.none) return;
     gone.add(k);
     warn.push(`No road between ${pname(l.from)} and ${pname(l.to)}.`);
   });
@@ -3179,8 +3208,8 @@ function Shuttle({ s }) {
     const depPin = !!l.dep;
     const dd = arrPin ? x.depDate || l.date : l.date;
     const ad = arrPin ? l.arrDate || l.date : x.arrDate || l.date;
-    const depTo = (p) => setLeg(l.id, { dep: x.dep || '', date: dd, arr: '', arrDate: '', ...p });
-    const arrTo = (p) => setLeg(l.id, { arr: x.arr || '', arrDate: ad, date: ad, dep: '', ...p });
+    const depTo = (p) => setLeg(l.id, l.fly ? { date: dd, ...p } : { dep: x.dep || '', date: dd, arr: '', arrDate: '', ...p });
+    const arrTo = (p) => setLeg(l.id, l.fly ? { arrDate: ad, ...p } : { arr: x.arr || '', arrDate: ad, date: ad, dep: '', ...p });
     return (
       <>
         <span className="label">Depart</span>
@@ -3250,18 +3279,24 @@ function Shuttle({ s }) {
                   </span>
                   <button className="leg" onClick={() => setOpenLeg(isOpen ? null : l.id)}>
                     <span className="legSeq">{i && step[i] === step[i - 1] ? '‖' : step[i]}</span>
-                    <span className="legDot" style={{ background: tint(l.car) }} />
+                    <span className="legDot" style={{ background: tint(l.fly ? '_fly' + l.id : l.car) }} />
                     <span className="carText">
                       <span className="carName">
-                        {c?.name || 'No vehicle'} <span className="legWay">{pname(l.from)} → {pname(l.to)}</span>
+                        {l.fly ? '✈ Flight' : c?.name || 'No vehicle'} <span className="legWay">{pname(l.from)} → {pname(l.to)}</span>
                       </span>
-                      <span className="muted">{[at(l), hm(S.hrs(l.from, l.to))].filter(Boolean).join(' · ')}</span>
+                      <span className="muted">{[at(l), hm(l.fly ? (() => { const x = S.legs.find((q) => q.id === l.id); return x ? (x.t1 - x.t0) * 24 : null; })() : S.hrs(l.from, l.to))].filter(Boolean).join(' · ')}</span>
                       {who ? <span className="legWho">{(l.who || []).map((x) => DRIVERS[x] || abbr(byName(t.crew, x))).filter(Boolean).join(', ')}</span> : null}
                       {nb ? <span className="legBoats">{(l.boats || []).map((x) => byName(boats, x)).filter(Boolean).join(', ')}</span> : null}
                     </span>
                   </button>
                   {isOpen && (
                     <div className="grBody">
+                      <div className="chips">
+                        <button className={'chip' + (l.fly ? ' on' : '')} onClick={() => setLeg(l.id, { fly: !l.fly })}>
+                          ✈ Flying
+                        </button>
+                      </div>
+                      {!l.fly ? (
                       <div className="row">
                         <Sel
                           label={
@@ -3291,7 +3326,8 @@ function Shuttle({ s }) {
                           ))}
                         </Sel>
                       </div>
-                      {tip ? (
+                      ) : null}
+                      {tip && !l.fly ? (
                         <div className="tip">
                           Add or edit vehicles under{' '}
                           <button type="button" className="linkish" onClick={() => document.getElementById('vehicles')?.scrollIntoView({ behavior: 'smooth' })}>
@@ -3309,9 +3345,9 @@ function Shuttle({ s }) {
                           {opts}
                         </Sel>
                       </div>
-                      <span className="label">Riding along</span>
+                      <span className="label">{l.fly ? 'Flying' : 'Riding along'}</span>
                       <div className="chips">
-                        {[...Object.entries(DRIVERS).map(([id, name]) => ({ id, name })), ...t.crew].map((m) => {
+                        {[...(l.fly ? [] : Object.entries(DRIVERS).map(([id, name]) => ({ id, name }))), ...t.crew].map((m) => {
                           const on = (l.who || []).includes(m.id);
                           return (
                             <button key={m.id} className={'chip' + (on ? ' on' : '')} onClick={() => setLeg(l.id, { who: on ? l.who.filter((q) => q !== m.id) : [...(l.who || []), m.id] })}>
@@ -3320,6 +3356,8 @@ function Shuttle({ s }) {
                           );
                         })}
                       </div>
+                      {!l.fly ? (
+                      <>
                       <span className="label">Boats aboard</span>
                       <div className="chips">
                         {boats.map((b) => {
@@ -3332,6 +3370,8 @@ function Shuttle({ s }) {
                         })}
                         {!boats.length && <span className="muted">Add boats on the Crew tab</span>}
                       </div>
+                      </>
+                      ) : null}
                       <div className="legTools">
                         <button className="btn ghost danger" onClick={() => dropLeg(l.id)}>
                           Remove
