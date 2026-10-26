@@ -6,6 +6,7 @@ Nothing here blocks building or TestFlight. All of it must be done before the ap
 Eddy's river data was compiled and edited with AI assistance from public sources and has not been field-checked or
 checked line by line by a person. Rivers are dangerous, so every number or instruction a boater could act on needs a
 human pass before the app is public. Tick these off as you go:
+- [ ] **Launch pages** (`LNT_ITEMS`, `GIVE_ORGS` in `src/App.jsx`): check the Leave No Trace wording and that each donate link opens the right page (American Whitewater, American Rivers, Leave No Trace, Grand Canyon River Guides). URLs written from memory.
 - [ ] **Preliminary river entries** (Alsek, Tatshenshini, Bruneau-Jarbidge, Deschutes, John Day, Owyhee, Green River
   Labyrinth/Stillwater, Dolores): the river miles, access-point miles and map coordinates were written from memory and are
   approximate. Permit text is from American Whitewater's permit list. Verify each against the managing agency, or fill them

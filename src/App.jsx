@@ -6626,35 +6626,102 @@ const TABS = [
 ];
 
 const RISK_KEY = 'eddy.risk';
-const RISK_VERSION = '2';
+const RISK_VERSION = '3';
+const LNT_ITEMS = [
+  ['Plan ahead', 'Know the rules, permits and hazards. Pack for the worst weather.'],
+  ['Camp on durable ground', 'Use established camps and beaches. Keep to existing trails.'],
+  ['Pack out everything', 'All trash, food scraps and microtrash. Carry out human waste with a portable toilet. Wash dishes and bodies well away from the river.'],
+  ['Leave what you find', 'Rocks, plants, artifacts and cultural sites stay as they are.'],
+  ['Minimize fire impact', 'Use a fire pan or stove. Burn only small wood, and pack out the ashes.'],
+  ['Respect wildlife', 'Watch from a distance. Store food and trash securely.'],
+  ['Be considerate', 'Share camps and eddies. Keep noise down. Clean up after others.'],
+];
+const GIVE_ORGS = [
+  ['American Whitewater', 'Protects river access and flows', 'https://www.americanwhitewater.org/content/Wiki/support:donate'],
+  ['American Rivers', 'Protects and restores rivers', 'https://www.americanrivers.org/donate/'],
+  ['Leave No Trace', 'Teaches low-impact travel', 'https://lnt.org/donate/'],
+  ['Grand Canyon River Guides', 'Protects the Colorado River through the canyon', 'https://gcrg.org/donate'],
+];
 function RiskGate({ onAccept }) {
+  const [step, setStep] = useState(0);
+  const next = () => setStep((n) => n + 1);
   return (
     <div className="gate">
       <div className="gateCard">
-        <div className="gateIcon">
-          <Icon name="alert" size={28} />
-        </div>
-        <h1>River trips are dangerous</h1>
-        <p>
-          Rafting, kayaking and backcountry travel can cause serious injury or death. Eddy is a planning aid, not a source of truth. Everything in it can be wrong, incomplete or out of date, and it cannot account for changing conditions.
-        </p>
-        <p>
-          <strong>Do not rely on Eddy to make decisions.</strong> Before any trip, confirm flows, closures, permits and rules with current official sources, use a current guidebook and gauges, scout every rapid yourself, and use your own judgment on the water.
-        </p>
-        <p>
-          <strong>You alone are responsible for your safety and your decisions.</strong> Eddy is not responsible for them or for unforeseen circumstances.
-        </p>
-        <button className="btn block" onClick={onAccept}>
-          I understand and accept the risk
-        </button>
-        <div className="muted gateLinks">
-          <button className="linkBtn inline" onClick={() => openUrl(TERMS_URL)}>
-            Terms of use
-          </button>
-          {' · '}
-          <button className="linkBtn inline" onClick={() => openUrl(POLICY_URL)}>
-            Privacy policy
-          </button>
+        {step === 0 && (
+          <>
+            <div className="gateIcon ok">
+              <Icon name="check" size={28} />
+            </div>
+            <h1>Leave No Trace</h1>
+            <p>Rivers stay wild because boaters keep their impact small.</p>
+            <ul className="gateList">
+              {LNT_ITEMS.map(([t, d]) => (
+                <li key={t}>
+                  <strong>{t}.</strong> {d}
+                </li>
+              ))}
+            </ul>
+            <button className="btn block" onClick={next}>
+              I will follow Leave No Trace
+            </button>
+          </>
+        )}
+        {step === 1 && (
+          <>
+            <div className="gateIcon">
+              <Icon name="alert" size={28} />
+            </div>
+            <h1>River trips are dangerous</h1>
+            <p>
+              Rafting, kayaking and backcountry travel can cause serious injury or death. Eddy is a planning aid, not a source of truth. Everything in it can be wrong, incomplete or out of date, and it cannot account for changing conditions.
+            </p>
+            <p>
+              <strong>Do not rely on Eddy to make decisions.</strong> Before any trip, confirm flows, closures, permits and rules with current official sources, use a current guidebook and gauges, scout every rapid yourself, and use your own judgment on the water.
+            </p>
+            <p>
+              <strong>You alone are responsible for your safety and your decisions.</strong> Eddy is not responsible for them or for unforeseen circumstances.
+            </p>
+            <button className="btn block" onClick={next}>
+              I understand and accept the risk
+            </button>
+            <div className="muted gateLinks">
+              <button className="linkBtn inline" onClick={() => openUrl(TERMS_URL)}>
+                Terms of use
+              </button>
+              {' · '}
+              <button className="linkBtn inline" onClick={() => openUrl(POLICY_URL)}>
+                Privacy policy
+              </button>
+            </div>
+          </>
+        )}
+        {step === 2 && (
+          <>
+            <div className="gateIcon ok">
+              <Icon name="check" size={28} />
+            </div>
+            <h1>Keep rivers open and clean</h1>
+            <p>
+              Access, clean water and healthy canyons are protected by nonprofits, not by guidebooks. If Eddy helps your trip, give back to them.
+            </p>
+            <div className="gateOrgs">
+              {GIVE_ORGS.map(([n, d, u]) => (
+                <button key={n} className="gateOrg" onClick={() => openUrl(u)}>
+                  <strong>{n}</strong>
+                  <span>{d}</span>
+                </button>
+              ))}
+            </div>
+            <button className="btn block" onClick={onAccept}>
+              Continue to Eddy
+            </button>
+          </>
+        )}
+        <div className="gateDots">
+          {[0, 1, 2].map((i) => (
+            <i key={i} className={i === step ? 'on' : ''} />
+          ))}
         </div>
       </div>
     </div>
