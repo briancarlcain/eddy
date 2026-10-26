@@ -3460,12 +3460,12 @@ function Ledger({ s }) {
       </div>
       {L.loose > 0.005 && <div className="muted">{usd0(L.loose)} unassigned — no one has claimed those items.</div>}
 
-      <span className="label mt">Paid in</span>
+      <span className="label mt">Ledger</span>
       <div className="tbl">
         <div className="tr2 th">
           <span className="tName">Crew</span>
           <span>Paid</span>
-          <span>Owed</span>
+          <span>Costs</span>
           <span>Balance</span>
         </div>
         {t.crew.map((c) => {
@@ -3493,7 +3493,7 @@ function Ledger({ s }) {
           </button>
         </div>
       ))}
-      {pay.length > 0 && <div className="muted">{usd0(potted)} paid in so far</div>}
+      {pay.length > 0 && <div className="muted">{usd0(potted)} paid so far</div>}
 
       <div className="mt">
         <Field value={what} onChange={(e) => setWhat(e.target.value)} placeholder="Expense" />
