@@ -718,3 +718,5 @@ body.shot #fakeStatus { background: var(--bg); }
 .rg .sugg button:last-child { border-bottom: 0; }
 .rg .sugg b { display: block; font-weight: 600; }
 .rg .sugg span { display: block; font-size: 12px; color: #6b6154; }
+.rg .legDot.river { background: #3a6f92; }
+.rg .riverItem .legSeq { color: #3a6f92; }
