@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BUILTIN_RIVERS, DEFAULT_RIVER, normalizeRiver } from './rivers.js';
 import GENERAL from '../data/general.json';
@@ -2863,7 +2863,24 @@ function Shuttle({ s }) {
   const river = places.filter((p) => p.mile != null || p.toMile != null);
   const off = places.filter((p) => p.mile == null && p.toMile == null);
   const save = (list) => s.set({ legs: list, cars: cars.map(({ legs: _, ...c }) => c) });
-  const setLeg = (id, patch) => save(legs.map((l) => (l.id === id ? { ...l, ...patch } : l)));
+  const anchor = useRef(null);
+  const setLeg = (id, patch) => {
+    const el = rows.current[id];
+    anchor.current = el ? { id, top: el.getBoundingClientRect().top } : null;
+    save(legs.map((l) => (l.id === id ? { ...l, ...patch } : l)));
+  };
+  useLayoutEffect(() => {
+    const a = anchor.current;
+    if (!a) return;
+    anchor.current = null;
+    const el = rows.current[a.id];
+    if (!el) return;
+    const d = el.getBoundingClientRect().top - a.top;
+    if (Math.abs(d) < 1) return;
+    let p = el.parentElement;
+    while (p && !(/(auto|scroll)/.test(getComputedStyle(p).overflowY) && p.scrollHeight > p.clientHeight)) p = p.parentElement;
+    (p || document.scrollingElement || document.documentElement).scrollBy(0, d);
+  });
   const dropLeg = (id) => save(legs.filter((l) => l.id !== id));
   const [drag, setDrag] = useState(null);
   const rows = useRef({});
