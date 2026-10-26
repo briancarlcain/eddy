@@ -3186,8 +3186,6 @@ function Shuttle({ s }) {
     return (
       <div className={'grItem riverItem' + (isOpen ? ' open' : '')} key={key}>
         <button className="leg" onClick={() => g.main && setOpenRiver(isOpen ? null : key)}>
-          <span className="legSeq">≈</span>
-          <span className="legDot river" />
           <span className="carText">
             <span className="carName">
               {g.main ? (g.kind === 'on' ? 'Put in' : 'Take out') : g.kind === 'on' ? 'On river' : 'Off river'} <span className="legWay">{pname(g.place)}</span>
@@ -3309,8 +3307,6 @@ function Shuttle({ s }) {
                     ≡
                   </span>
                   <button className="leg" onClick={() => setOpenLeg(isOpen ? null : l.id)}>
-                    <span className="legSeq">{i && step[i] === step[i - 1] ? '‖' : step[i]}</span>
-                    <span className="legDot" style={{ background: tint(l.fly ? '_fly' + l.id : l.car) }} />
                     <span className="carText">
                       <span className="carName">
                         {!(okDate(l.date) || okDate(l.arrDate)) || !byId[l.from] || !byId[l.to] ? (
