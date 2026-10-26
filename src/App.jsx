@@ -2326,7 +2326,7 @@ function story(t) {
       const load = [...(l.who || []).filter((x) => !DRIVERS[x]), ...(l.boats || [])];
       l.stray = load.filter((x) => loc[x] != null && loc[x] !== l.from);
       const deps = Math.max(free[l.car.id] ?? -Infinity, ...load.filter((x) => loc[x] === l.from).map((x) => avail[x] ?? -Infinity));
-      const fixed = hhmm(l.dep) != null ? d + hhmm(l.dep) : hhmm(l.arr) != null ? d + hhmm(l.arr) - dur(l) : null;
+      const fixed = hhmm(l.dep) != null ? d + hhmm(l.dep) + tzShift(l) : hhmm(l.arr) != null ? d + hhmm(l.arr) + tzShift(l) - dur(l) : null;
       l.t0 = fixed ?? Math.max(prev, deps);
       l.t1 = l.t0 + dur(l);
       if (fixed != null && fixed < deps - 1e-6) l.early = deps;
@@ -2430,6 +2430,28 @@ const hhmm = (v) => {
   const m = /^(\d{1,2}):(\d{2})/.exec(v || '');
   return m ? (+m[1] * 60 + +m[2]) / 1440 : null;
 };
+const ZONES = [
+  ['America/Los_Angeles', 'Pacific'],
+  ['America/Denver', 'Mountain'],
+  ['America/Phoenix', 'Arizona'],
+  ['America/Chicago', 'Central'],
+  ['America/New_York', 'Eastern'],
+];
+const zoneOf = () => RIVER.tz || Intl.DateTimeFormat().resolvedOptions().timeZone;
+const tzPart = (tz, iso, style) => {
+  try {
+    return new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: style }).formatToParts(new Date((okDate(iso) ? iso : today()) + 'T12:00:00Z')).find((x) => x.type === 'timeZoneName').value;
+  } catch {
+    return '';
+  }
+};
+const offH = (tz, iso) => {
+  const m = /GMT([+-])(\d+)(?::(\d+))?/.exec(tzPart(tz, iso, 'shortOffset'));
+  return m ? (m[1] === '-' ? -1 : 1) * (+m[2] + (+m[3] || 0) / 60) : 0;
+};
+const tzAbbr = (tz, iso) => tzPart(tz, iso, 'short');
+const legZone = (l) => l.tz || zoneOf();
+const tzShift = (l) => (offH(zoneOf(), l.date) - offH(legZone(l), l.date)) / 24;
 const clockOf = (tt) => {
   const m = Math.round((((tt % 1) + 1) % 1) * 1440);
   const h = Math.floor(m / 60) % 24;
@@ -2791,7 +2813,7 @@ function Stage({ S, s }) {
       <div className="dayKey">
         <span>
           {fmt(iso)}
-          {rolling.length ? ` · ${clockOf(tt)}` : ''}
+          {rolling.length ? ` · ${clockOf(tt)} ${tzAbbr(zoneOf(), iso)}` : ''}
         </span>
         {rolling.map((l) => {
           const who = (l.who || []).length;
@@ -2834,11 +2856,46 @@ function Shuttle({ s }) {
   const save = (list) => s.set({ legs: list, cars: cars.map(({ legs: _, ...c }) => c) });
   const setLeg = (id, patch) => save(legs.map((l) => (l.id === id ? { ...l, ...patch } : l)));
   const dropLeg = (id) => save(legs.filter((l) => l.id !== id));
-  const swap = (a, b) => {
-    const i = legs.findIndex((l) => l.id === a),
-      j = legs.findIndex((l) => l.id === b);
-    const next = [...legs];
-    [next[i], next[j]] = [next[j], next[i]];
+  const [drag, setDrag] = useState(null);
+  const rows = useRef({});
+  const grab = (l, mine) => (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    e.currentTarget.setPointerCapture?.(e.pointerId);
+    const boxes = mine.map((x) => rows.current[x.id]?.getBoundingClientRect());
+    setOpenLeg(null);
+    setDrag({ id: l.id, ids: mine.map((x) => x.id), boxes, y0: e.clientY, dy: 0 });
+  };
+  const slot = (g) => {
+    const i = g.ids.indexOf(g.id);
+    const b = g.boxes[i];
+    const mid = b.top + b.height / 2 + g.dy;
+    let n = 0;
+    g.boxes.forEach((x, k) => k !== i && x.top + x.height / 2 < mid && n++);
+    return n;
+  };
+  const shift = (id) => {
+    if (!drag || id === drag.id) return 0;
+    const i = drag.ids.indexOf(drag.id),
+      k = drag.ids.indexOf(id),
+      n = slot(drag),
+      h = drag.boxes[i].height;
+    if (k < 0) return 0;
+    if (i < n && k > i && k <= n) return -h;
+    if (n <= k && k < i) return h;
+    return 0;
+  };
+  const move = (e) => drag && setDrag({ ...drag, dy: e.clientY - drag.y0 });
+  const drop = () => {
+    if (!drag) return;
+    const order = drag.ids.filter((x) => x !== drag.id);
+    const n = slot(drag);
+    setDrag(null);
+    if (n === drag.ids.indexOf(drag.id)) return;
+    const next = legs.filter((l) => l.id !== drag.id);
+    const me = legs.find((l) => l.id === drag.id);
+    const pos = n < order.length ? next.findIndex((l) => l.id === order[n]) : next.findIndex((l) => l.id === order[order.length - 1]) + 1;
+    next.splice(pos, 0, me);
     save(next);
   };
   const addLeg = () => {
@@ -2877,7 +2934,7 @@ function Shuttle({ s }) {
     gone.add(k);
     warn.push(`No road between ${pname(l.from)} and ${pname(l.to)}.`);
   });
-  S.legs.forEach((l) => l.early != null && warn.push(`${l.car.name} leaves ${pname(l.from)} at ${clockOf(l.t0)} on ${fmt(l.date)}, before everything is there (${clockOf(l.early)}).`));
+  S.legs.forEach((l) => l.early != null && warn.push(`${l.car.name} leaves ${pname(l.from)} at ${clockOf(l.t0 - tzShift(l))} ${tzAbbr(legZone(l), l.date)} on ${fmt(l.date)}, before everything is there (${clockOf(l.early - tzShift(l))}).`));
   const lost = new Set();
   S.legs.forEach((l) => [l.from, l.to].forEach((id) => !lost.has(id) && !S.sp(id) && lost.add(id)));
   lost.forEach((id) => warn.push(`Place ${pname(id)} on the map.`));
@@ -2907,9 +2964,11 @@ function Shuttle({ s }) {
   );
 
   const days = [...new Set(legs.map((l) => l.date))].sort();
-  const at = (id) => {
-    const x = S.legs.find((q) => q.id === id);
-    return x ? clockOf(x.t0) : '';
+  const at = (l) => {
+    const x = S.legs.find((q) => q.id === l.id);
+    const z = ' ' + tzAbbr(legZone(l), l.date);
+    if (l.arr) return 'arrive ' + clockOf(hhmm(l.arr)) + z;
+    return x ? clockOf(x.t0 - tzShift(l)) + z : '';
   };
 
   return (
@@ -2946,7 +3005,15 @@ function Shuttle({ s }) {
               const who = (l.who || []).length,
                 nb = (l.boats || []).length;
               return (
-                <div className={'grItem' + (isOpen ? ' open' : '')} key={l.id}>
+                <div
+                  className={'grItem legItem' + (isOpen ? ' open' : '') + (drag?.id === l.id ? ' lifted' : '')}
+                  key={l.id}
+                  ref={(n) => (rows.current[l.id] = n)}
+                  style={drag ? { transform: `translateY(${drag.id === l.id ? drag.dy : shift(l.id)}px)` } : undefined}
+                >
+                  <span className="grip" onPointerDown={grab(l, mine)} onPointerMove={move} onPointerUp={drop} onPointerCancel={() => setDrag(null)} aria-label="Drag to reorder">
+                    ≡
+                  </span>
                   <button className="leg" onClick={() => setOpenLeg(isOpen ? null : l.id)}>
                     <span className="legSeq">{i && step[i] === step[i - 1] ? '‖' : step[i]}</span>
                     <span className="legDot" style={{ background: tint(l.car) }} />
@@ -2954,7 +3021,7 @@ function Shuttle({ s }) {
                       <span className="carName">
                         {c?.name || 'No vehicle'} <span className="legWay">{pname(l.from)} → {pname(l.to)}</span>
                       </span>
-                      <span className="muted">{[l.arr ? 'arrive ' + clockOf(hhmm(l.arr)) : at(l.id), hm(S.hrs(l.from, l.to))].filter(Boolean).join(' · ')}</span>
+                      <span className="muted">{[at(l), hm(S.hrs(l.from, l.to))].filter(Boolean).join(' · ')}</span>
                       {who ? <span className="legWho">{(l.who || []).map((x) => DRIVERS[x] || abbr(byName(t.crew, x))).filter(Boolean).join(', ')}</span> : null}
                       {nb ? <span className="legBoats">{(l.boats || []).map((x) => byName(boats, x)).filter(Boolean).join(', ')}</span> : null}
                     </span>
@@ -2982,6 +3049,13 @@ function Shuttle({ s }) {
                       <div className="row">
                         <Field label="Depart" type="time" value={l.dep || ''} onChange={(e) => setLeg(l.id, { dep: e.target.value, arr: '' })} />
                         <Field label="Arrive by" type="time" value={l.arr || ''} onChange={(e) => setLeg(l.id, { arr: e.target.value, dep: '' })} />
+                        <Sel label="Time zone" value={legZone(l)} onChange={(v) => setLeg(l.id, { tz: v })}>
+                          {[...ZONES, ...(ZONES.some(([z]) => z === zoneOf()) ? [] : [[zoneOf(), zoneOf().split('/').pop().replace(/_/g, ' ')]])].map(([z, n]) => (
+                            <option key={z} value={z}>
+                              {n} ({tzAbbr(z, l.date)})
+                            </option>
+                          ))}
+                        </Sel>
                       </div>
                       <div className="row">
                         <Sel label="From" value={l.from} onChange={(v) => setLeg(l.id, { from: v })}>
@@ -3015,12 +3089,6 @@ function Shuttle({ s }) {
                         {!boats.length && <span className="muted">Add boats on the Crew tab</span>}
                       </div>
                       <div className="legTools">
-                        <button className="btn ghost" disabled={i === 0} onClick={() => swap(l.id, mine[i - 1].id)}>
-                          ▲
-                        </button>
-                        <button className="btn ghost" disabled={i === mine.length - 1} onClick={() => swap(l.id, mine[i + 1].id)}>
-                          ▼
-                        </button>
                         <button className="btn ghost danger" onClick={() => dropLeg(l.id)}>
                           Remove
                         </button>
