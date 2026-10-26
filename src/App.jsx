@@ -5606,6 +5606,21 @@ function Safety() {
   );
 }
 
+function Lnt() {
+  const names = GENERAL.lnt.map((x) => x[0]);
+  const [tab, setTab] = useState(names.includes(QS.get('sub')) ? QS.get('sub') : names[0]);
+  const sec = GENERAL.lnt.find((x) => x[0] === tab);
+  return (
+    <>
+      <Tabs items={names} value={tab} onChange={setTab} />
+      <div className="pad">
+        <div className="muted lntNote">Local rules and regulations always come first.</div>
+        <Pairs data={sec[1]} />
+      </div>
+    </>
+  );
+}
+
 function Profile({ s, initial, ctx }) {
   const [tab, setTab] = useState(initial || (['Account', 'Data', 'Feedback', 'About'].includes(QS.get('sub')) ? QS.get('sub') : 'Account'));
   return (
@@ -6614,6 +6629,16 @@ const TABS = [
     ),
   },
   {
+    id: 'LNT',
+    tab: 'safety',
+    icon: (
+      <svg viewBox="0 0 24 24">
+        <path d="M5 19C5 10 10 5 19 5c0 9-5 14-14 14z" />
+        <path d="M5 19l7-7" />
+      </svg>
+    ),
+  },
+  {
     id: 'Profile',
     tab: 'safety',
     icon: (
@@ -6872,6 +6897,7 @@ function App() {
           />
         )}
         {tab === 'Safety' && <Safety />}
+        {tab === 'LNT' && <Lnt />}
         {tab === 'Profile' && <Profile s={s} initial={profSub} ctx={lastCtx.current} />}
       </main>
 
