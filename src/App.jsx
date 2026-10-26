@@ -2284,8 +2284,8 @@ function story(t) {
   const flights = [];
   legsOf(t).forEach((l) => {
     const c = l.fly ? { id: '_fly' + l.id, name: '✈ Flight', tint: '#56687a', fly: true } : cars.find((x) => x.id === l.car);
-    if (!c) return;
-    if (c.fly) flights.push(c);
+    if (!c || !okDate(l.date)) return;
+    if (c.fly && !flights.some((f) => f.id === c.id)) flights.push(c);
     const d = T(l.date);
     (byDay[d] = byDay[d] || []).push({ ...l, from: fix(l.from), to: fix(l.to), car: c });
   });
@@ -2731,7 +2731,7 @@ function RiverEnd({ s, which }) {
   const date = out ? (okDate(t.start) ? addDays(t.start, num(t.days)) : '') : t.start;
   const time = out ? t.outTime : t.launchTime;
   const k = out ? { time: 'outTime', at: 'out' } : { time: 'launchTime', at: 'launch' };
-  const at = (out ? t.out : t.launch) || (out ? ramps[ramps.length - 1] : ramps[0])?.id;
+  const at = (out ? t.out : t.launch) || '';
   const tz = placeZone(t, ramps.find((p) => p.id === at));
   return (
     <>
@@ -2748,10 +2748,11 @@ function RiverEnd({ s, which }) {
             if (n > 0 && n <= 60) s.set({ days: n });
           }}
         />
-        <input type="time" className={time ? '' : 'auto'} value={time || (out ? '13:00' : '09:00')} onChange={(e) => s.set({ [k.time]: e.target.value })} />
+        <input type="time" value={time || ''} onChange={(e) => s.set({ [k.time]: e.target.value })} />
         <span className="tzTag">{tzAbbr(tz, date)}</span>
       </div>
       <Sel value={at} onChange={(v) => s.set({ [k.at]: v })}>
+        <option value="">—</option>
         {ramps.map((p) => (
           <option key={p.id} value={p.id}>
             {p.name}
@@ -3086,17 +3087,20 @@ function Shuttle({ s }) {
     next.splice(pos, 0, me);
     save(next);
   };
+  const blankLeg = (l) => l && !l.car && !l.from && !l.to && !okDate(l.date) && !l.dep && !l.arr && !(l.who || []).length && !(l.boats || []).length;
   const addLeg = () => {
-    const last = legs[legs.length - 1];
-    const car = last?.car || cars[0]?.id || '';
-    const prev = [...legs].reverse().find((l) => l.car === car);
-    const date = legs.reduce((m, x) => (okDate(x.date) && x.date > m ? x.date : m), '') || start;
-    const l = { id: uid(), car, from: prev ? prev.to : off[0]?.id || '', to: '', date, who: [], boats: [] };
-    save([...legs, l]);
+    const l = { id: uid(), car: '', from: '', to: '', date: '', who: [], boats: [] };
+    save([...legs.filter((x) => !blankLeg(x)), l]);
     setOpenLeg(l.id);
     setFreshLeg(l.id);
   };
   const [freshLeg, setFreshLeg] = useState(null);
+  const wasOpen = useRef(null);
+  useEffect(() => {
+    const prev = wasOpen.current;
+    wasOpen.current = openLeg;
+    if (prev && prev !== openLeg && blankLeg(legs.find((l) => l.id === prev))) dropLeg(prev);
+  }, [openLeg]);
   useEffect(() => {
     if (!freshLeg) return;
     const el = rows.current[freshLeg];
@@ -3160,7 +3164,7 @@ function Shuttle({ s }) {
     </>
   );
 
-  const days = [...new Set([...legs.map((l) => l.date), ...S.river.map((g) => g.date)])].sort();
+  const days = [...new Set([...legs.map((l) => (okDate(l.date) ? l.date : '')), ...S.river.map((g) => g.date)])].sort((a, b) => (!a ? 1 : !b ? -1 : a < b ? -1 : a > b ? 1 : 0));
   const [openRiver, setOpenRiver] = useState(null);
   const riverCard = (g) => {
     const key = g.kind + g.t + g.place;
@@ -3203,29 +3207,29 @@ function Shuttle({ s }) {
   };
   const at = (l) => {
     const x = times(l);
-    if (!x) return '';
+    if (!x || (!l.dep && !l.arr)) return '';
     return `${clockOf(x.a)} ${tzAbbr(x.dz, l.date)} → ${clockOf(x.b)} ${tzAbbr(x.az, l.date)}${x.next > 0 ? ' +1' : ''}`;
   };
   const when = (l) => {
     const x = times(l) || {};
     const arrPin = !!l.arr;
     const depPin = !!l.dep;
-    const dd = arrPin ? x.depDate || l.date : l.date;
-    const ad = arrPin ? l.arrDate || l.date : x.arrDate || l.date;
+    const dd = arrPin ? x.depDate || l.date : l.date || '';
+    const ad = arrPin ? l.arrDate || l.date : depPin ? x.arrDate || l.date : '';
     const depTo = (p) => setLeg(l.id, l.fly ? { date: dd, ...p } : { dep: x.dep || '', date: dd, arr: '', arrDate: '', ...p });
     const arrTo = (p) => setLeg(l.id, l.fly ? { arrDate: ad, ...p } : { arr: x.arr || '', arrDate: ad, date: ad, dep: '', ...p });
     return (
       <>
         <span className="label">Depart</span>
         <div className="when">
-          <input className={arrPin ? 'auto' : ''} type="date" value={dd} onChange={(e) => okDate(e.target.value) && (arrPin ? depTo({ date: e.target.value }) : setLeg(l.id, { date: e.target.value }))} />
-          <input className={depPin ? '' : 'auto'} type="time" value={l.dep || x.dep || ''} onChange={(e) => depTo({ dep: e.target.value })} />
+          <input className={arrPin ? 'auto' : ''} type="date" value={dd} onChange={(e) => (arrPin && okDate(e.target.value) ? depTo({ date: e.target.value }) : setLeg(l.id, { date: e.target.value }))} />
+          <input className={depPin ? '' : 'auto'} type="time" value={l.dep || (arrPin ? x.dep : '') || ''} onChange={(e) => depTo({ dep: e.target.value })} />
           <span className="tzTag">{tzAbbr(S.zoneAt(l.from), dd)}</span>
         </div>
         <span className="label">Arrive</span>
         <div className="when">
           <input className={arrPin ? '' : 'auto'} type="date" value={ad} onChange={(e) => okDate(e.target.value) && arrTo({ arrDate: e.target.value, date: e.target.value })} />
-          <input className={arrPin ? '' : 'auto'} type="time" value={l.arr || x.arr || ''} onChange={(e) => arrTo({ arr: e.target.value })} />
+          <input className={arrPin ? '' : 'auto'} type="time" value={l.arr || (depPin ? x.arr : '') || ''} onChange={(e) => arrTo({ arr: e.target.value })} />
           <span className="tzTag">{tzAbbr(S.zoneAt(l.to), ad)}</span>
         </div>
       </>
@@ -3252,7 +3256,7 @@ function Shuttle({ s }) {
       <span className="label mt">Legs</span>
       {days.map((d) => {
         const t0 = (id) => S.legs.find((q) => q.id === id)?.t0 ?? Infinity;
-        const mine = legs.filter((l) => l.date === d).map((l, i) => [l, i]).sort((a, b) => t0(a[0].id) - t0(b[0].id) || a[1] - b[1]).map(([l]) => l);
+        const mine = legs.filter((l) => (okDate(l.date) ? l.date : '') === d).map((l, i) => [l, i]).sort((a, b) => t0(a[0].id) - t0(b[0].id) || a[1] - b[1]).map(([l]) => l);
         const ts = [...new Set(mine.map((l) => t0(l.id)))];
         const evs = S.river.filter((g) => g.date === d).sort((a, b) => a.t - b.t);
         const shown = new Set();
@@ -3261,8 +3265,8 @@ function Shuttle({ s }) {
         return (
           <div key={d} className="dayBlock">
             <div className="dayHead">
-              {fmt(d)}
-              <span className="muted">{dtag(d)}</span>
+              {d ? fmt(d) : 'No date'}
+              <span className="muted">{d ? dtag(d) : ''}</span>
             </div>
             {mine.map((l, i) => {
               const c = carOf(l.car);
