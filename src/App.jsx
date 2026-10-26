@@ -2644,11 +2644,11 @@ function Stage({ S, s }) {
       const dt = Math.min(0.1, (now - last) / 1000);
       last = now;
       setU((v) => {
-        if (v + dt >= U) {
+        if (v + dt * 0.65 >= U) {
           setPlay(false);
           return U;
         }
-        return v + dt;
+        return v + dt * 0.65;
       });
       id = requestAnimationFrame(step);
     };
@@ -2783,79 +2783,6 @@ function Stage({ S, s }) {
         {!rolling.length && idle ? <span className="muted">{idle}</span> : null}
       </div>
     </div>
-  );
-}
-
-function Route({ S }) {
-  const { legs, byId, start, N } = S;
-  if (!legs.length) return null;
-  const days = [...new Set(legs.map((l) => Math.floor(l.t0)))].sort((a, b) => a - b);
-  const rows = [];
-  legs.forEach((l) => [l.from, l.to].forEach((id) => byId[id] && !rows.includes(id) && rows.push(id)));
-  const W = 360,
-    LX = 88,
-    RX = 10,
-    GAP = 16,
-    RH = 24,
-    TOP = 28;
-  const gaps = days.reduce((n, d, i) => n + (i && d - days[i - 1] > 1 ? 1 : 0), 0);
-  const CW = (W - LX - RX - gaps * GAP) / days.length;
-  const left = [];
-  days.forEach((d, i) => left.push(i ? left[i - 1] + CW + (d - days[i - 1] > 1 ? GAP : 0) : LX));
-  const X = (t, t0 = t) => {
-    const i = days.indexOf(Math.floor(t0));
-    return left[i] + Math.min(1, t - days[i]) * CW;
-  };
-  const Y = (id) => TOP + rows.indexOf(id) * RH + RH / 2;
-  const H = TOP + (rows.length + 1) * RH + 6;
-  const ry = TOP + rows.length * RH + RH / 2;
-  const before = days.filter((d) => d <= 0).length;
-  const after = days.findIndex((d) => d >= N);
-  const rx0 = before ? left[before - 1] + CW : LX;
-  const rx1 = after < 0 ? W - RX : left[after];
-  const day = (d) => fmt(addDays(start, d)).replace(/^\w+,? /, '');
-  const nc = S.cars.length;
-  return (
-    <svg className="route" viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Vehicle movements by day">
-      {rows.map((id, i) => (
-        <g key={id}>
-          <line className="rGrid" x1={LX - 6} x2={W - RX} y1={Y(id)} y2={Y(id)} />
-          <text className="rName" x={LX - 10} y={Y(id) + 2.8}>
-            {short(byId[id].name, 16)}
-          </text>
-        </g>
-      ))}
-      <text className="rName river" x={LX - 10} y={ry + 2.8}>
-        On the river
-      </text>
-      {rx1 > rx0 ? <rect className="rWater" x={rx0} y={ry - 5} width={rx1 - rx0} height="10" rx="5" /> : null}
-      {days.map((d, i) => (
-        <g key={d}>
-          <rect className="rCol" x={left[i]} y={TOP - 6} width={CW} height={H - TOP - 2} rx="4" />
-          <text className="rDay" x={left[i] + CW / 2} y={TOP - 12}>
-            {day(d)}
-          </text>
-        </g>
-      ))}
-      {legs.map((l, i) => {
-        const ci = S.cars.findIndex((c) => c.id === l.car.id);
-        const o = (ci - (nc - 1) / 2) * 2.6;
-        const x0 = X(l.t0),
-          x1 = X(l.t1, l.t0),
-          y0 = Y(l.from) + o,
-          y1 = Y(l.to) + o;
-        const crewed = (l.who || []).length > 0;
-        const nb = (l.boats || []).length;
-        return (
-          <g key={i} style={{ color: l.car.tint }}>
-            <line className={'rLeg' + (crewed || nb ? '' : ' empty')} x1={x0} y1={y0} x2={x1} y2={y1} />
-            <circle className="rEnd" cx={x0} cy={y0} r="2.3" />
-            <circle className="rEnd" cx={x1} cy={y1} r="2.3" />
-            {nb ? <rect className="rBoat" x={(x0 + x1) / 2 - 2.6} y={(y0 + y1) / 2 - 2.6} width="5.2" height="5.2" transform={`rotate(45 ${(x0 + x1) / 2} ${(y0 + y1) / 2})`} /> : null}
-          </g>
-        );
-      })}
-    </svg>
   );
 }
 
@@ -3027,7 +2954,6 @@ function Shuttle({ s }) {
   return (
     <>
       <Stage S={S} s={s} />
-      <Route S={S} />
       {warn.length > 0 && (
         <div className="notice mt">
           <div className="noticeHead">
