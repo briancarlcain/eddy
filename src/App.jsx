@@ -2884,6 +2884,7 @@ function Shuttle({ s }) {
   const t = s.trip;
   const [openLeg, setOpenLeg] = useState(null);
   const [openCar, setOpenCar] = useState(null);
+  const [tip, setTip] = useState(false);
   const [carName, setCarName] = useState('');
   const [rev, setRev] = useState(0);
   const S = useMemo(() => story(t), [t, rev]);
@@ -3117,7 +3118,26 @@ function Shuttle({ s }) {
                   {isOpen && (
                     <div className="grBody">
                       <div className="row">
-                        <Sel label="Vehicle" value={l.car} onChange={(v) => setLeg(l.id, { car: v })}>
+                        <Sel
+                          label={
+                            <>
+                              Vehicle
+                              <button
+                                type="button"
+                                className="info"
+                                aria-label="About vehicles"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  setTip(!tip);
+                                }}
+                              >
+                                i
+                              </button>
+                            </>
+                          }
+                          value={l.car}
+                          onChange={(v) => setLeg(l.id, { car: v })}
+                        >
                           <option value="">—</option>
                           {cars.map((x) => (
                             <option key={x.id} value={x.id}>
@@ -3126,6 +3146,15 @@ function Shuttle({ s }) {
                           ))}
                         </Sel>
                       </div>
+                      {tip ? (
+                        <div className="tip">
+                          Add or edit vehicles under{' '}
+                          <button type="button" className="linkish" onClick={() => document.getElementById('vehicles')?.scrollIntoView({ behavior: 'smooth' })}>
+                            Vehicles
+                          </button>{' '}
+                          at the bottom of this tab.
+                        </div>
+                      ) : null}
                       {when(l)}
                       <div className="row">
                         <Sel label="From" value={l.from} onChange={(v) => setLeg(l.id, { from: v })}>
@@ -3176,7 +3205,9 @@ function Shuttle({ s }) {
       </button>
 
 
-      <span className="label mt">Vehicles</span>
+      <span className="label mt" id="vehicles">
+        Vehicles
+      </span>
       {cars.map((c) => (
         <div className={'grItem' + (openCar === c.id ? ' open' : '')} key={c.id}>
           <button className="car" onClick={() => setOpenCar(openCar === c.id ? null : c.id)}>
