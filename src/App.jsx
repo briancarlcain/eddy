@@ -3311,7 +3311,7 @@ function Shuttle({ s }) {
                               Vehicle
                               <button
                                 type="button"
-                                className="info"
+                                className="infoBtn"
                                 aria-label="About vehicles"
                                 onClick={(e) => {
                                   e.preventDefault();
