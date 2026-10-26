@@ -481,6 +481,17 @@ body.shot #fakeStatus { background: var(--bg); }
 .gateCard p { font-size: 16px; line-height: 1.5; color: var(--ink-dim); margin-bottom: 12px; }
 .gateCard p strong { color: var(--ink); }
 .gateLinks { text-align: center; margin-top: 14px; font-size: 14px; }
+.gateIcon.ok { background: #e4efe3; color: #2f6b3a; }
+.gateList { list-style: none; padding: 0; margin: 0 0 16px; display: grid; gap: 8px; }
+.gateList li { font-size: 15px; line-height: 1.45; color: var(--ink-dim); }
+.gateList strong { color: var(--ink); }
+.gateOrgs { display: grid; gap: 8px; margin-bottom: 16px; }
+.gateOrg { display: grid; gap: 2px; text-align: left; padding: 12px 14px; background: var(--bg); border: 0; border-radius: 12px; box-shadow: 0 0 0 1px var(--line); color: var(--ink); font: inherit; }
+.gateOrg span { font-size: 14px; color: var(--ink-dim); }
+.gateOrg:active { background: var(--accent-soft); }
+.gateDots { display: flex; justify-content: center; gap: 6px; margin-top: 16px; }
+.gateDots i { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
+.gateDots i.on { background: var(--accent); }
 
 .rg .legWay { display: inline-block; max-width: 100%; overflow-wrap: anywhere; }
 
@@ -726,3 +737,4 @@ body.shot #fakeStatus { background: var(--bg); }
 .rg .sugg { max-height: 320px; overflow-y: auto; }
 .rg .sugg .mapPick b { color: #9a4a28; }
 .tabbar, .pageHeader, .rg .tabs { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+.gateCard .btn.block { display: block; width: 100%; min-height: 48px; font-size: 14px; }
