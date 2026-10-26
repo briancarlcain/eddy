@@ -3451,7 +3451,7 @@ function Ledger({ s }) {
           );
         })}
         <div className="tr tf">
-          <span className="tName">{t.crew.length} on the river</span>
+          <span className="tName">Total</span>
           <span>{usd0(sum.even)}</span>
           <span>{usd0(sum.personal)}</span>
           <span>{usd0(sum.group)}</span>
