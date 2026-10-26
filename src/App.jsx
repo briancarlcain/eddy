@@ -3463,6 +3463,19 @@ function Ledger({ s }) {
             </div>
           );
         })}
+        {(() => {
+          const cost = t.crew.reduce((a, c) => a + L.by[c.id].total, 0);
+          const got = t.crew.reduce((a, c) => a + (paid[c.id] || 0), 0);
+          const d = got - cost;
+          return (
+            <div className="tr2 tf">
+              <span className="tName">Total</span>
+              <span>{usd0(cost)}</span>
+              <span>{usd0(got)}</span>
+              <span className={'tSum' + (d < -0.5 ? ' owes' : '')}>{(d < 0 ? '−' : '+') + usd0(Math.abs(d))}</span>
+            </div>
+          );
+        })()}
       </div>
 
       {settle.length ? (
