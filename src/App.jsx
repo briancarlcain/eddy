@@ -2327,6 +2327,8 @@ function story(t) {
   const mainOn = (e) => e.on === 0 && e.onP === launch?.id;
   const mainOff = (e) => e.off === N && e.offP === out?.id;
   const days = [...new Set([...Object.keys(byDay).map(Number), ...ents.map((e) => e.on), ...ents.map((e) => e.off)])].sort((a, b) => a - b);
+  const known = new Set(ents.map((e) => e.id));
+  const carAt = {};
   days.forEach((d) => {
     ents.forEach((e) => {
       if (loc[e.id] !== 'river' || e.off > d) return;
@@ -2335,15 +2337,18 @@ function story(t) {
     });
     let prev = -Infinity;
     (byDay[d] || []).forEach((l) => {
-      const load = [...(l.who || []).filter((x) => !DRIVERS[x]), ...(l.boats || [])];
-      l.stray = load.filter((x) => loc[x] != null && loc[x] !== l.from);
-      const deps = Math.max(free[l.car.id] ?? -Infinity, ...load.filter((x) => loc[x] === l.from).map((x) => avail[x] ?? -Infinity));
+      const load = [...(l.who || []), ...(l.boats || [])].filter((x) => known.has(x));
+      l.stray = load.filter((x) => loc[x] != null && loc[x] !== l.from).map((x) => ({ id: x, at: loc[x] }));
+      if (!l.car.fly && carAt[l.car.id] && carAt[l.car.id] !== l.from) l.carAt = carAt[l.car.id];
+      const waits = [[free[l.car.id] ?? -Infinity, 'car'], ...load.filter((x) => loc[x] === l.from).map((x) => [avail[x] ?? -Infinity, x])];
+      const [deps, blocker] = waits.reduce((m, w) => (w[0] > m[0] ? w : m), [-Infinity, null]);
       const fixed = hhmm(l.dep) != null ? d + hhmm(l.dep) + zShift(zoneAt(l.from), l.date) : hhmm(l.arr) != null ? d + hhmm(l.arr) + zShift(zoneAt(l.to), l.base) - dur(l) : null;
       l.t0 = fixed ?? Math.max(prev, deps, d + DAY0 + zShift(zoneAt(l.from), l.date));
       l.t1 = l.t0 + dur(l);
-      if (fixed != null && fixed < deps - 1e-6) l.early = deps;
+      if (fixed != null && fixed < deps - 1e-6) (l.early = deps), (l.blocker = blocker);
       load.forEach((x) => ((loc[x] = l.to), (avail[x] = l.t1)));
       free[l.car.id] = l.t1;
+      carAt[l.car.id] = l.to;
       prev = l.t0;
       legs.push(l);
     });
@@ -3100,7 +3105,12 @@ function Shuttle({ s }) {
     else if (last && last.to === 'river') warn.push(`${b.name} is still on the river at the end.`);
   });
   if (launch && !S.legs.some((l) => l.to === launch.id && (l.boats || []).length)) warn.push(`No boats delivered to ${launch.name}.`);
-  S.legs.forEach((l) => (l.stray || []).forEach((x) => warn.push(`${t.crew.find((m) => m.id === x)?.name || boats.find((b) => b.id === x)?.name} isn't at ${pname(l.from)} for the ${l.car.name} on ${fmt(l.date)}.`)));
+  const whoIs = (x) => t.crew.find((m) => m.id === x)?.name || boats.find((b) => b.id === x)?.name || 'Someone';
+  const spotOf = (at) => (at === 'river' ? 'still on the river' : `at ${pname(at)}`);
+  S.legs.forEach((l) => {
+    if (l.carAt) warn.push(`${l.car.name} is ${spotOf(l.carAt)}, not ${pname(l.from)}, for its ${fmt(l.date)} leg.`);
+    (l.stray || []).forEach((x) => warn.push(`${whoIs(x.id)} is ${spotOf(x.at)}, not ${pname(l.from)}, when the ${l.car.name} leaves on ${fmt(l.date)}.`));
+  });
   const gap = {};
   t.crew.forEach((m) => {
     const d = okDate(m.offDate) ? m.offDate : addDays(start, N);
@@ -3119,7 +3129,12 @@ function Shuttle({ s }) {
     gone.add(k);
     warn.push(`No road between ${pname(l.from)} and ${pname(l.to)}.`);
   });
-  S.legs.forEach((l) => l.early != null && warn.push(`${l.car.name} leaves ${pname(l.from)} at ${clockOf(l.t0 - zShift(S.zoneAt(l.from), l.date))} ${tzAbbr(S.zoneAt(l.from), l.date)} on ${fmt(l.date)}, before everything is there (${clockOf(l.early - zShift(S.zoneAt(l.from), l.date))}).`));
+  S.legs.forEach((l) => {
+    if (l.early == null) return;
+    const z = S.zoneAt(l.from);
+    const tm = (x) => `${clockOf(x - zShift(z, l.date))} ${tzAbbr(z, l.date)}`;
+    warn.push(`${l.car.name} leaves ${pname(l.from)} at ${tm(l.t0)} on ${fmt(l.date)}, but ${l.blocker === 'car' ? 'it' : whoIs(l.blocker)} doesn't get there until ${tm(l.early)}.`);
+  });
   const lost = new Set();
   S.legs.forEach((l) => [l.from, l.to].forEach((id) => !lost.has(id) && !S.sp(id) && lost.add(id)));
   lost.forEach((id) => warn.push(`${pname(id)} isn't on the map yet.`));
