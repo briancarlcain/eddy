@@ -1,7 +1,7 @@
 // Eddy offline support (web app only).
-// The app is one HTML file (plus the Basin map data files), so: serve the saved copy immediately (works with no signal), refresh it in the
-// background, and never touch requests to other origins (sync and sign-in always go straight to the network).
-const CACHE = 'eddy-web-v3';
+// The page itself is fetched fresh whenever there's a connection and saved for offline use; other files (icons, Basin map
+// data) are served from the saved copy and refreshed in the background. Requests to other origins are never touched.
+const CACHE = 'eddy-web-v4';
 const PRECACHE = ['./', 'manifest.json', 'icon-180.png', 'icon-512.png'];
 
 self.addEventListener('install', (e) => {
@@ -10,7 +10,6 @@ self.addEventListener('install', (e) => {
       .open(CACHE)
       .then(async (c) => {
         await c.addAll(PRECACHE);
-        // the Basin maps are separate files: keep them all so every river's basin works with no signal
         try {
           const idx = await (await fetch('data/basin/index.json')).json();
           await c.addAll(['data/basin/index.json', ...Object.keys(idx.rivers || {}).map((id) => `data/basin/${id}.json`)]);
@@ -27,16 +26,18 @@ self.addEventListener('fetch', (e) => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
-  const key = new Request(url.origin + url.pathname); // ignore ?join=CODE and other query strings
+  const key = new Request(url.origin + url.pathname);
+  const page = req.mode === 'navigate' || url.pathname.endsWith('/') || url.pathname.endsWith('.html');
   e.respondWith(
     caches.open(CACHE).then(async (cache) => {
       const hit = await cache.match(key);
-      const net = fetch(req)
+      const net = fetch(req, page ? { cache: 'no-store' } : undefined)
         .then((r) => {
           if (r && r.ok && r.type === 'basic') cache.put(key, r.clone());
           return r;
         })
         .catch(() => hit);
+      if (page) return net.then((r) => r || hit);
       return hit || net;
     })
   );
