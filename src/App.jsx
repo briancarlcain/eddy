@@ -2872,7 +2872,8 @@ function Shuttle({ s }) {
   const [openLeg, setOpenLeg] = useState(null);
   const [openCar, setOpenCar] = useState(null);
   const [tip, setTip] = useState(false);
-  const [carName, setCarName] = useState('');
+  const [freshCar, setFreshCar] = useState(null);
+  const ownerOf = (c) => DRIVERS[c.owner] || t.crew.find((x) => x.id === c.owner)?.name || '';
   const [rev, setRev] = useState(0);
   const S = useMemo(() => story(t), [t, rev]);
   useRoutes(S, () => setRev((r) => r + 1));
@@ -3199,41 +3200,34 @@ function Shuttle({ s }) {
         <div className={'grItem' + (openCar === c.id ? ' open' : '')} key={c.id}>
           <button className="car" onClick={() => setOpenCar(openCar === c.id ? null : c.id)}>
             <span className="carIconWrap" style={{ color: tint(c.id) }}>
-              <CarIcon trailer={c.kind === 'outfitter' || c.trailer} />
+              <CarIcon trailer={c.trailer} />
             </span>
             <span className="carText">
-              <span className="carName">{c.name}</span>
-              <span className="muted">
-                {t.crew.find((x) => x.id === c.owner)?.name || (c.kind === 'outfitter' ? 'Delivers and collects boats' : 'No owner')}
-                {num(c.seats) ? ` · ${num(c.seats)} seats` : ''}
-                {c.trailer && c.kind !== 'outfitter' ? ' · trailer' : ''}
-                {` · ${plural(legs.filter((l) => l.car === c.id).length, 'leg') || '0 legs'}`}
-              </span>
+              <span className="carName">{c.name || 'New vehicle'}</span>
+              {ownerOf(c) || num(c.seats) ? (
+                <span className="muted">{[ownerOf(c) ? `Owner: ${ownerOf(c)}` : '', num(c.seats) ? `Capacity: ${num(c.seats)} seats` : ''].filter(Boolean).join(' · ')}</span>
+              ) : null}
             </span>
           </button>
           {openCar === c.id && (
             <div className="grBody">
-              <Field label="Name" value={c.name} onChange={(e) => s.patch('cars', c.id, { name: e.target.value })} />
-              {c.kind !== 'outfitter' && (
-                <>
-                  <span className="label">Owner</span>
-                  <div className="chips">
-                    {t.crew.map((x) => (
-                      <button key={x.id} className={'chip' + (c.owner === x.id ? ' on' : '')} onClick={() => s.patch('cars', c.id, { owner: c.owner === x.id ? '' : x.id })}>
-                        {x.name}
-                      </button>
-                    ))}
-                  </div>
-                  <div className="numRow">
-                    <Num label="Seats" value={c.seats} onChange={(v) => s.patch('cars', c.id, { seats: v })} />
-                  </div>
-                  <div className="chips">
-                    <button className={'chip' + (c.trailer ? ' on' : '')} onClick={() => s.patch('cars', c.id, { trailer: !c.trailer })}>
-                      Towing a trailer
-                    </button>
-                  </div>
-                </>
-              )}
+              <Field label="Name" value={c.name} autoFocus={freshCar === c.id} onChange={(e) => s.patch('cars', c.id, { name: e.target.value })} />
+              <span className="label">Owner</span>
+              <div className="chips">
+                {[...Object.entries(DRIVERS).map(([id, name]) => ({ id, name })), ...t.crew].map((x) => (
+                  <button key={x.id} className={'chip' + (c.owner === x.id ? ' on' : '')} onClick={() => s.patch('cars', c.id, { owner: c.owner === x.id ? '' : x.id })}>
+                    {x.name}
+                  </button>
+                ))}
+              </div>
+              <div className="numRow">
+                <Num label="Seats" value={c.seats} onChange={(v) => s.patch('cars', c.id, { seats: v })} />
+              </div>
+              <div className="chips">
+                <button className={'chip' + (c.trailer ? ' on' : '')} onClick={() => s.patch('cars', c.id, { trailer: !c.trailer })}>
+                  Towing a trailer
+                </button>
+              </div>
               <button
                 className="btn ghost danger mt-s"
                 onClick={() => {
@@ -3247,24 +3241,17 @@ function Shuttle({ s }) {
           )}
         </div>
       ))}
-      <div className="row mt">
-        <Field value={carName} onChange={(e) => setCarName(e.target.value)} placeholder="Add a vehicle" />
-        <button
-          className="btn"
-          disabled={!carName.trim()}
-          onClick={() => {
-            s.push('cars', { name: carName.trim(), owner: '', seats: '', trailer: false });
-            setCarName('');
-          }}
-        >
-          Add
-        </button>
-      </div>
-      {!cars.some((c) => c.kind === 'outfitter') && (
-        <button className="btn ghost mt-s" onClick={() => s.push('cars', { name: 'Outfitter', kind: 'outfitter', owner: '', seats: '', trailer: true })}>
-          Add an outfitter
-        </button>
-      )}
+      <button
+        className="btn ghost mt-s"
+        onClick={() => {
+          const id = uid();
+          s.push('cars', { id, name: '', owner: '', seats: '', trailer: false });
+          setFreshCar(id);
+          setOpenCar(id);
+        }}
+      >
+        Add vehicle
+      </button>
 
     </>
   );
