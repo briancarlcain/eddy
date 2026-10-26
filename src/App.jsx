@@ -2331,8 +2331,11 @@ function story(t) {
       go.forEach((l) => {
         const load = [...(l.who || []), ...(l.boats || [])];
         l.stray = load.filter((x) => loc[x] != null && loc[x] !== l.from);
-        l.t0 = Math.max(clock, free[l.car.id] ?? -Infinity, ...load.filter((x) => loc[x] === l.from).map((x) => avail[x] ?? -Infinity));
+        const deps = Math.max(free[l.car.id] ?? -Infinity, ...load.filter((x) => loc[x] === l.from).map((x) => avail[x] ?? -Infinity));
+        const fixed = hhmm(l.dep) != null ? d + hhmm(l.dep) : hhmm(l.arr) != null ? d + hhmm(l.arr) - dur(l) : null;
+        l.t0 = fixed ?? Math.max(clock, deps);
         l.t1 = l.t0 + dur(l);
+        if (fixed != null && fixed < deps - 1e-6) l.early = deps;
         end = Math.max(end, l.t1);
       });
       go.forEach((l) => {
@@ -2433,6 +2436,10 @@ function story(t) {
   return { start, N, dates, T, byId, places, used, legs, cars: rigs, boats, people, launch, out, mileAt, at, sp, drive, hrs, path, ll, U, tOf, stops };
 }
 
+const hhmm = (v) => {
+  const m = /^(\d{1,2}):(\d{2})/.exec(v || '');
+  return m ? (+m[1] * 60 + +m[2]) / 1440 : null;
+};
 const clockOf = (tt) => {
   const m = Math.round((((tt % 1) + 1) % 1) * 1440);
   const h = Math.floor(m / 60) % 24;
@@ -2852,6 +2859,7 @@ function Shuttle({ s }) {
     gone.add(k);
     warn.push(`No road between ${pname(l.from)} and ${pname(l.to)}.`);
   });
+  S.legs.forEach((l) => l.early != null && warn.push(`${l.car.name} leaves ${pname(l.from)} at ${clockOf(l.t0)} on ${fmt(l.date)}, before everything is there (${clockOf(l.early)}).`));
   const lost = new Set();
   S.legs.forEach((l) => [l.from, l.to].forEach((id) => !lost.has(id) && !S.sp(id) && lost.add(id)));
   lost.forEach((id) => warn.push(`Place ${pname(id)} on the map.`));
@@ -2910,8 +2918,10 @@ function Shuttle({ s }) {
 
       <span className="label mt">Legs</span>
       {days.map((d) => {
-        const mine = legs.filter((l) => l.date === d);
-        const step = mine.map((l, i) => (i ? (l.par ? 0 : 1) : 1)).map((v, i, arr) => arr.slice(0, i + 1).reduce((x, y) => x + y, 0));
+        const t0 = (id) => S.legs.find((q) => q.id === id)?.t0 ?? Infinity;
+        const mine = legs.filter((l) => l.date === d).map((l, i) => [l, i]).sort((a, b) => t0(a[0].id) - t0(b[0].id) || a[1] - b[1]).map(([l]) => l);
+        const ts = [...new Set(mine.map((l) => t0(l.id)))];
+        const step = mine.map((l) => ts.indexOf(t0(l.id)) + 1);
         return (
           <div key={d} className="dayBlock">
             <div className="dayHead">
@@ -2926,14 +2936,14 @@ function Shuttle({ s }) {
               return (
                 <div className={'grItem' + (isOpen ? ' open' : '')} key={l.id}>
                   <button className="leg" onClick={() => setOpenLeg(isOpen ? null : l.id)}>
-                    <span className="legSeq">{l.par && i ? '‖' : step[i]}</span>
+                    <span className="legSeq">{i && step[i] === step[i - 1] ? '‖' : step[i]}</span>
                     <span className="legDot" style={{ background: tint(l.car) }} />
                     <span className="carText">
                       <span className="carName">
                         {c?.name || 'No vehicle'} <span className="legWay">{pname(l.from)} → {pname(l.to)}</span>
                       </span>
                       <span className="muted">
-                        {[at(l.id), hm(S.hrs(l.from, l.to)), riders(l), nb ? (nb === boats.length && nb > 1 ? 'all boats' : (l.boats || []).map((x) => byName(boats, x)).filter(Boolean).join(', ')) : null, l.gear ? 'gear' : null].filter(Boolean).join(' · ')}
+                        {[l.arr ? 'arrive ' + clockOf(hhmm(l.arr)) : at(l.id), hm(S.hrs(l.from, l.to)), riders(l), nb ? (nb === boats.length && nb > 1 ? 'all boats' : (l.boats || []).map((x) => byName(boats, x)).filter(Boolean).join(', ')) : null, l.gear ? 'gear' : null].filter(Boolean).join(' · ')}
                       </span>
                     </span>
                   </button>
@@ -2956,6 +2966,10 @@ function Shuttle({ s }) {
                             </option>
                           ))}
                         </Sel>
+                      </div>
+                      <div className="row">
+                        <Field label="Depart" type="time" value={l.dep || ''} onChange={(e) => setLeg(l.id, { dep: e.target.value, arr: '' })} />
+                        <Field label="Arrive by" type="time" value={l.arr || ''} onChange={(e) => setLeg(l.id, { arr: e.target.value, dep: '' })} />
                       </div>
                       <div className="row">
                         <Sel label="From" value={l.from} onChange={(v) => setLeg(l.id, { from: v })}>
