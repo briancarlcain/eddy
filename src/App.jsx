@@ -3497,11 +3497,20 @@ function Shuttle({ s }) {
                 <button
                   className="btn ghost danger mt-s"
                   onClick={() => {
-                    resetLoc(p.id);
-                    s.drop('places', p.id);
+                    const { [p.id]: _p, ...pins } = t.pins || {};
+                    const { [p.id]: _a, ...addrs } = t.addrs || {};
+                    s.set({
+                      places: t.places.filter((x) => x.id !== p.id),
+                      pins,
+                      addrs,
+                      legs: legs.map((l) => (l.from === p.id || l.to === p.id ? { ...l, from: l.from === p.id ? '' : l.from, to: l.to === p.id ? '' : l.to } : l)),
+                      cars: cars.map(({ legs: _l, ...c }) => c),
+                      crew: t.crew.map((m) => (m.on === p.id || m.off === p.id ? { ...m, on: m.on === p.id ? '' : m.on, off: m.off === p.id ? '' : m.off } : m)),
+                    });
+                    setOpenPlace(null);
                   }}
                 >
-                  Remove
+                  Remove{legs.some((l) => l.from === p.id || l.to === p.id) ? ` (used in ${plural(legs.filter((l) => l.from === p.id || l.to === p.id).length, 'leg')})` : ''}
                 </button>
               ) : null}
             </div>
