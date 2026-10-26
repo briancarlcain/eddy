@@ -2911,10 +2911,19 @@ function Shuttle({ s }) {
     const last = legs[legs.length - 1];
     const car = last?.car || cars[0]?.id || '';
     const prev = [...legs].reverse().find((l) => l.car === car);
-    const l = { id: uid(), car, from: prev ? prev.to : off[0]?.id || '', to: '', date: last ? last.date : start, who: [], boats: [] };
+    const date = legs.reduce((m, x) => (okDate(x.date) && x.date > m ? x.date : m), '') || start;
+    const l = { id: uid(), car, from: prev ? prev.to : off[0]?.id || '', to: '', date, who: [], boats: [] };
     save([...legs, l]);
     setOpenLeg(l.id);
+    setFreshLeg(l.id);
   };
+  const [freshLeg, setFreshLeg] = useState(null);
+  useEffect(() => {
+    if (!freshLeg) return;
+    const el = rows.current[freshLeg];
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setFreshLeg(null);
+  }, [freshLeg]);
 
   const warn = [];
   boats.forEach((b) => {
