@@ -3424,48 +3424,16 @@ function Ledger({ s }) {
   const paid = {};
   t.crew.forEach((c) => (paid[c.id] = 0));
   pay.forEach((p) => (paid[p.by] = (paid[p.by] || 0) + num(p.amt)));
-  const col = (k) => t.crew.reduce((a, c) => a + L.by[c.id][k], 0);
-  const sum = { even: col('even'), personal: col('personal'), group: col('nights') + col('users') };
   const potted = Object.values(paid).reduce((a, b) => a + b, 0);
 
   return (
     <>
-      <div className="tbl">
-        <div className="tr th">
-          <span className="tName">Crew</span>
-          <span>Even</span>
-          <span>Rental</span>
-          <span>Group</span>
-          <span>Total</span>
-        </div>
-        {t.crew.map((c) => {
-          const b = L.by[c.id];
-          return (
-            <div className="tr" key={c.id}>
-              <span className="tName">{c.name}</span>
-              <span>{usd0(b.even)}</span>
-              <span>{usd0(b.personal)}</span>
-              <span>{usd0(b.nights + b.users)}</span>
-              <span className="tSum">{usd0(b.total)}</span>
-            </div>
-          );
-        })}
-        <div className="tr tf">
-          <span className="tName">Total</span>
-          <span>{usd0(sum.even)}</span>
-          <span>{usd0(sum.personal)}</span>
-          <span>{usd0(sum.group)}</span>
-          <span className="tSum">{usd0(sum.even + sum.personal + sum.group)}</span>
-        </div>
-      </div>
-      {L.loose > 0.005 && <div className="muted">{usd0(L.loose)} unassigned — no one has claimed those items.</div>}
-
-      <span className="label mt">Ledger</span>
+      <span className="label">Ledger</span>
       <div className="tbl">
         <div className="tr2 th">
-          <span className="tName">Crew</span>
+          <span className="tName">Name</span>
+          <span>Costs incurred</span>
           <span>Paid</span>
-          <span>Costs</span>
           <span>Balance</span>
         </div>
         {t.crew.map((c) => {
@@ -3473,8 +3441,8 @@ function Ledger({ s }) {
           return (
             <div className="tr2" key={c.id}>
               <span className="tName">{c.name}</span>
-              <span>{usd0(paid[c.id] || 0)}</span>
               <span>{usd0(L.by[c.id].total)}</span>
+              <span>{usd0(paid[c.id] || 0)}</span>
               <span className={'tSum' + (d < -0.5 ? ' owes' : '')}>{(d < 0 ? '−' : '+') + usd0(Math.abs(d))}</span>
             </div>
           );
@@ -3494,6 +3462,7 @@ function Ledger({ s }) {
         </div>
       ))}
       {pay.length > 0 && <div className="muted">{usd0(potted)} paid so far</div>}
+      {L.loose > 0.005 && <div className="muted">{usd0(L.loose)} unclaimed</div>}
 
       <div className="mt">
         <Field value={what} onChange={(e) => setWhat(e.target.value)} placeholder="Expense" />
