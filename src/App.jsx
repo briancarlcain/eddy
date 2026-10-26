@@ -6885,7 +6885,14 @@ if (QS.get('shot')) {
 }
 // web app: keep a saved copy so it opens with no signal (the native app already ships its files)
 if (!IS_STORE && !isNative && 'serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
-  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then((r) => r.update()).catch(() => {}));
+  const hadController = !!navigator.serviceWorker.controller;
+  let reloaded = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!hadController || reloaded) return;
+    reloaded = true;
+    location.reload();
+  });
 }
 boot().finally(() => {
   createRoot(document.getElementById('root')).render(<App />);
