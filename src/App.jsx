@@ -2764,14 +2764,13 @@ function RiverEnd({ s, which }) {
   );
 }
 
-function AddressSearch({ value, placeholder, onText, onPlace, label = 'Address', show = 'addr', autoFocus }) {
-  const [q, setQ] = useState(value);
-  const [list, setList] = useState([]);
+function PlacePicker({ label, value, places, sub, onPick, onNew, onMap }) {
+  const [q, setQ] = useState(null);
+  const [g, setG] = useState([]);
   const tok = useRef(null);
-  const typed = useRef(false);
-  useEffect(() => setQ(value), [value]);
+  const cur = places.find((p) => p.id === value);
   useEffect(() => {
-    if (!typed.current || !q.trim()) return setList([]);
+    if (q == null || q.trim().length < 2) return setG([]);
     let live = true;
     const id = setTimeout(async () => {
       try {
@@ -2779,9 +2778,9 @@ function AddressSearch({ value, placeholder, onText, onPlace, label = 'Address',
         const P = await window.google.maps.importLibrary('places');
         tok.current ||= new P.AutocompleteSessionToken();
         const { suggestions } = await P.AutocompleteSuggestion.fetchAutocompleteSuggestions({ input: q, sessionToken: tok.current });
-        if (live) setList(suggestions.map((x) => x.placePrediction).filter(Boolean).slice(0, 5));
+        if (live) setG(suggestions.map((x) => x.placePrediction).filter(Boolean).slice(0, 5));
       } catch {
-        if (live) setList([]);
+        if (live) setG([]);
       }
     }, 250);
     return () => {
@@ -2789,56 +2788,52 @@ function AddressSearch({ value, placeholder, onText, onPlace, label = 'Address',
       clearTimeout(id);
     };
   }, [q]);
+  const box = useRef(null);
+  const needle = (q || '').trim().toLowerCase();
+  const local = places.filter((p) => p.name && (!needle || p.name.toLowerCase().includes(needle))).slice(0, needle ? 6 : 12);
+  const done = () => (setQ(null), box.current?.blur());
   const choose = async (pr) => {
-    typed.current = false;
-    setList([]);
-    const text = pr.text?.toString() || '';
+    done();
     try {
       const pl = pr.toPlace();
       await pl.fetchFields({ fields: ['formattedAddress', 'location'] });
       tok.current = null;
-      const addr = pl.formattedAddress || text;
-      const main = pr.mainText?.toString() || text;
-      setQ(show === 'name' ? main : addr);
-      onPlace(addr, [+pl.location.lat().toFixed(6), +pl.location.lng().toFixed(6)], main);
+      onNew(pr.mainText?.toString() || pr.text?.toString() || '', pl.formattedAddress || '', [+pl.location.lat().toFixed(6), +pl.location.lng().toFixed(6)]);
     } catch {
-      setQ(text);
-      onText(text);
+      /* no result: leave the field as it was */
     }
   };
+  const keep = (e) => e.preventDefault();
   return (
-    <div className="addr">
-      <Field
-        label={label}
-        autoFocus={autoFocus}
-        value={q}
-        placeholder={placeholder}
-        onChange={(e) => {
-          typed.current = true;
-          setQ(e.target.value);
-        }}
-        onBlur={() => {
-          setTimeout(() => setList([]), 150);
-          if (typed.current && q.trim() !== value) onText(q);
-          typed.current = false;
-        }}
-        onKeyDown={(e) => e.key === 'Enter' && e.target.blur()}
-      />
-      {list.length ? (
+    <div className="addr pick">
+      <label className="field">
+        <span className="label">{label}</span>
+        <input ref={box} value={q ?? cur?.name ?? ''} placeholder={cur?.name || 'Search a place'} onFocus={() => setQ('')} onClick={() => q == null && setQ('')} onChange={(e) => setQ(e.target.value)} onBlur={() => setTimeout(() => setQ(null), 150)} onKeyDown={(e) => e.key === 'Escape' && e.target.blur()} />
+      </label>
+      {q != null ? (
         <div className="sugg">
-          {list.map((pr) => (
-            <button key={pr.placeId} type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => choose(pr)}>
+          {local.map((p) => (
+            <button key={p.id} type="button" onMouseDown={keep} onClick={() => (onPick(p.id), done())}>
+              <b>{p.name}</b>
+              {sub(p) ? <span>{sub(p)}</span> : null}
+            </button>
+          ))}
+          {g.map((pr) => (
+            <button key={pr.placeId} type="button" onMouseDown={keep} onClick={() => choose(pr)}>
               <b>{pr.mainText?.toString() || pr.text?.toString()}</b>
               {pr.secondaryText ? <span>{pr.secondaryText.toString()}</span> : null}
             </button>
           ))}
+          <button type="button" className="mapPick" onMouseDown={keep} onClick={() => (done(), onMap())}>
+            <b>📍 Pick on map</b>
+          </button>
         </div>
       ) : null}
     </div>
   );
 }
 
-function Stage({ S, s, pick, setPick, onRefresh }) {
+function Stage({ S, s, pick, setPick, onPicked, onRefresh }) {
   const [nonce, setNonce] = useState(0);
   const t = s.trip;
   const [u, setU] = useState(0);
@@ -2905,15 +2900,10 @@ function Stage({ S, s, pick, setPick, onRefresh }) {
           </button>
         ))}
       </div>
-      <GMap S={S} tt={tt} type={type} nonce={nonce} pick={pick} onPick={(ll) => {
-          const { [pick]: _, ...addrs } = t.addrs || {};
-          s.set({ pins: { ...pins, [pick]: ll }, addrs });
-          setPick(null);
-        }}
-      />
+      <GMap S={S} tt={tt} type={type} nonce={nonce} pick={pick ? '_pick' : null} onPick={onPicked} />
       {pick ? (
         <div className="tip mt-s">
-          Tap the map to place {byId[pick]?.name}.{' '}
+          Tap the map to set the {pick.label}.{' '}
           <button type="button" className="linkish" onClick={() => setPick(null)}>
             Cancel
           </button>
@@ -2993,25 +2983,16 @@ function Shuttle({ s }) {
   const [tip, setTip] = useState(false);
   const [freshCar, setFreshCar] = useState(null);
   const [pick, setPick] = useState(null);
-  const [openPlace, setOpenPlace] = useState(null);
-  const [freshPlace, setFreshPlace] = useState(null);
-  const own = (id) => (t.places || []).some((p) => p.id === id);
-  const setAddr = (id, v) => {
-    const { [id]: _, ...pins } = t.pins || {};
-    const addrs = { ...(t.addrs || {}) };
-    if (v.trim()) addrs[id] = v.trim();
-    else delete addrs[id];
-    s.set({ addrs, pins });
-  };
-  const resetLoc = (id) => {
-    const { [id]: _p, ...pins } = t.pins || {};
-    const { [id]: _a, ...addrs } = t.addrs || {};
-    s.set({ pins, addrs });
-  };
-  const where = (p) => {
-    const ll = S.ll(p.id);
-    const pos = t.addrs?.[p.id] || (ll ? `${(+ll[0]).toFixed(5)}, ${(+ll[1]).toFixed(5)}` : S.sp(p.id)?.q || 'Not on the map yet');
-    return p.mile != null ? `Mile ${p.mile} · ${pos}` : pos;
+  const where = (p) => (p.mile != null ? `Mile ${p.mile}` : t.addrs?.[p.id] || '');
+  const placeOnLeg = (legId, key, name, addr, ll) => {
+    const hit = (t.places || []).find((p) => p.name === name && ((t.addrs || {})[p.id] || '') === addr);
+    const id = hit ? hit.id : uid();
+    const nextLegs = legs.map((l) => (l.id === legId ? { ...l, [key]: id } : l));
+    s.set({
+      legs: nextLegs,
+      cars: cars.map(({ legs: _, ...c }) => c),
+      ...(hit ? {} : { places: [...(t.places || []), { id, name }], pins: { ...(t.pins || {}), [id]: ll }, ...(addr ? { addrs: { ...(t.addrs || {}), [id]: addr } } : {}) }),
+    });
   };
   const ownerOf = (c) => DRIVERS[c.owner] || t.crew.find((x) => x.id === c.owner)?.name || '';
   const [rev, setRev] = useState(0);
@@ -3141,31 +3122,12 @@ function Shuttle({ s }) {
   S.legs.forEach((l) => l.early != null && warn.push(`${l.car.name} leaves ${pname(l.from)} at ${clockOf(l.t0 - zShift(S.zoneAt(l.from), l.date))} ${tzAbbr(S.zoneAt(l.from), l.date)} on ${fmt(l.date)}, before everything is there (${clockOf(l.early - zShift(S.zoneAt(l.from), l.date))}).`));
   const lost = new Set();
   S.legs.forEach((l) => [l.from, l.to].forEach((id) => !lost.has(id) && !S.sp(id) && lost.add(id)));
-  lost.forEach((id) => warn.push(`${pname(id)} needs an address (Places, below).`));
+  lost.forEach((id) => warn.push(`${pname(id)} isn't on the map yet.`));
   legs.forEach((l) => {
     const c = carOf(l.car);
     if (c && num(c.seats) && (l.who || []).length > num(c.seats)) warn.push(`${l.who.length} in the ${c.name} (${num(c.seats)} seats) on ${fmt(l.date)}.`);
   });
 
-  const opts = (
-    <>
-      <option value="">—</option>
-      <optgroup label="Off river">
-        {off.map((p) => (
-          <option key={p.id} value={p.id}>
-            {p.name}
-          </option>
-        ))}
-      </optgroup>
-      <optgroup label={RIVER.name}>
-        {river.map((p) => (
-          <option key={p.id} value={p.id}>
-            {p.name}
-          </option>
-        ))}
-      </optgroup>
-    </>
-  );
 
   const legDay = (l) => {
     const x = S.legs.find((q) => q.id === l.id);
@@ -3249,7 +3211,17 @@ function Shuttle({ s }) {
   return (
     <>
       <div id="shuttleMap" />
-      <Stage S={S} s={s} pick={pick} setPick={setPick} onRefresh={() => setRetry((r) => r + 1)} />
+      <Stage
+        S={S}
+        s={s}
+        pick={pick}
+        setPick={setPick}
+        onPicked={(ll) => {
+          placeOnLeg(pick.leg, pick.key, `Pin ${ll[0].toFixed(4)}, ${ll[1].toFixed(4)}`, '', ll);
+          setPick(null);
+        }}
+        onRefresh={() => setRetry((r) => r + 1)}
+      />
       {warn.length > 0 && (
         <div className="notice mt">
           <div className="noticeHead">
@@ -3354,12 +3326,24 @@ function Shuttle({ s }) {
                         </div>
                       ) : null}
                       <div className="row">
-                        <Sel label="Origin" value={l.from} onChange={(v) => setLeg(l.id, { from: v })}>
-                          {opts}
-                        </Sel>
-                        <Sel label="Destination" value={l.to} onChange={(v) => setLeg(l.id, { to: v })}>
-                          {opts}
-                        </Sel>
+                        {[
+                          ['Origin', 'from'],
+                          ['Destination', 'to'],
+                        ].map(([lab, key]) => (
+                          <PlacePicker
+                            key={key}
+                            label={lab}
+                            value={l[key]}
+                            places={places}
+                            sub={where}
+                            onPick={(id) => setLeg(l.id, { [key]: id })}
+                            onNew={(name, addr, ll) => placeOnLeg(l.id, key, name, addr, ll)}
+                            onMap={() => {
+                              setPick({ leg: l.id, key, label: lab.toLowerCase() });
+                              document.getElementById('shuttleMap')?.scrollIntoView({ behavior: 'smooth' });
+                            }}
+                          />
+                        ))}
                       </div>
                       {when(l)}
                       <span className="label">Passengers</span>
@@ -3465,94 +3449,6 @@ function Shuttle({ s }) {
         Add vehicle
       </button>
 
-      <span className="label mt">Places</span>
-      {places.map((p) => (
-        <div className={'grItem' + (openPlace === p.id ? ' open' : '')} key={p.id}>
-          <button className="car" onClick={() => setOpenPlace(openPlace === p.id ? null : p.id)}>
-            <span className="carText">
-              <span className="carName">{p.name || 'New place'}</span>
-              {where(p) ? <span className="muted">{where(p)}</span> : null}
-            </span>
-          </button>
-          {openPlace === p.id && (
-            <div className="grBody">
-              {own(p.id) ? (
-                <div className="row">
-                  <AddressSearch
-                    label="Name"
-                    show="name"
-                    autoFocus={freshPlace === p.id}
-                    value={p.name || ''}
-                    placeholder="Search a place"
-                    onText={(v) => s.patch('places', p.id, { name: v.trim() })}
-                    onPlace={(addr, ll, main) =>
-                      s.set({
-                        places: t.places.map((x) => (x.id === p.id ? { ...x, name: main } : x)),
-                        addrs: { ...(t.addrs || {}), [p.id]: addr },
-                        pins: { ...(t.pins || {}), [p.id]: ll },
-                      })
-                    }
-                  />
-                  <Field className="narrow" label="River mile" inputMode="decimal" value={p.mile ?? ''} placeholder="Off river" onChange={(e) => s.patch('places', p.id, { mile: e.target.value === '' || !isFinite(+e.target.value) ? null : +e.target.value })} />
-                </div>
-              ) : null}
-              <AddressSearch
-                value={(t.addrs || {})[p.id] || ''}
-                placeholder={spot({ ...t, pins: {}, addrs: {} }, p)?.q || 'Search an address or place'}
-                onText={(v) => setAddr(p.id, v)}
-                onPlace={(addr, ll) => s.set({ addrs: { ...(t.addrs || {}), [p.id]: addr }, pins: { ...(t.pins || {}), [p.id]: ll } })}
-              />
-              <div className="chips">
-                <button
-                  className={'chip' + (pick === p.id ? ' on' : '')}
-                  onClick={() => {
-                    setPick(pick === p.id ? null : p.id);
-                    document.getElementById('shuttleMap')?.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                >
-                  Pick on map
-                </button>
-                {t.pins?.[p.id] || t.addrs?.[p.id] ? (
-                  <button className="chip" onClick={() => resetLoc(p.id)}>
-                    Reset
-                  </button>
-                ) : null}
-              </div>
-              {own(p.id) || p.yard ? (
-                <button
-                  className="btn ghost danger mt-s"
-                  onClick={() => {
-                    const { [p.id]: _p, ...pins } = t.pins || {};
-                    const { [p.id]: _a, ...addrs } = t.addrs || {};
-                    s.set({
-                      ...(p.yard ? { noYard: true } : { places: t.places.filter((x) => x.id !== p.id) }),
-                      pins,
-                      addrs,
-                      legs: legs.map((l) => (l.from === p.id || l.to === p.id ? { ...l, from: l.from === p.id ? '' : l.from, to: l.to === p.id ? '' : l.to } : l)),
-                      cars: cars.map(({ legs: _l, ...c }) => c),
-                      crew: t.crew.map((m) => (m.on === p.id || m.off === p.id ? { ...m, on: m.on === p.id ? '' : m.on, off: m.off === p.id ? '' : m.off } : m)),
-                    });
-                    setOpenPlace(null);
-                  }}
-                >
-                  Remove{legs.some((l) => l.from === p.id || l.to === p.id) ? ` (used in ${plural(legs.filter((l) => l.from === p.id || l.to === p.id).length, 'leg')})` : ''}
-                </button>
-              ) : null}
-            </div>
-          )}
-        </div>
-      ))}
-      <button
-        className="btn ghost mt-s"
-        onClick={() => {
-          const id = uid();
-          s.push('places', { id, name: '' });
-          setFreshPlace(id);
-          setOpenPlace(id);
-        }}
-      >
-        Add place
-      </button>
 
     </>
   );
