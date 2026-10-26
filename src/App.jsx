@@ -14,8 +14,9 @@ import TopoMap, { OfflinePanel } from './TopoMap.jsx';
 import BasinMap, { hasBasin } from './BasinMap.jsx';
 import SunChart from './SunChart.jsx';
 import { applyTheme, riverCardStyle } from './theme.js';
-import { campHorizon, campSun, dropHorizon, drops, dropsGPX, hasGeo, hikeTrack, onGeoChange, parseGPX, position, removeDrop, setHikeTrack, trackStats, updateDrop } from './geo/index.js';
+import { campHorizon, campSun, riverLine, dropHorizon, drops, dropsGPX, hasGeo, hikeTrack, onGeoChange, parseGPX, position, removeDrop, setHikeTrack, trackStats, updateDrop } from './geo/index.js';
 import { sunDay } from './geo/sun.js';
+import { atMile } from './geo/line.js';
 
 // set by build.mjs: the App Store build ships a fictional sample trip, never the crew's real one
 const IS_STORE = typeof __STORE__ !== 'undefined' && __STORE__;
@@ -2076,8 +2077,6 @@ const Sel = ({ label, value, onChange, children }) => (
   </label>
 );
 
-const COLS = 12,
-  ROWS = 7;
 const hm = (h) => {
   if (h == null) return '';
   const m = Math.round(h * 60);
@@ -2094,6 +2093,139 @@ const legsOf = (t) => {
   return out.map(({ _o, _c, ...l }, i) => ({ ...l, par: i > 0 && out[i - 1].date === l.date && out[i - 1]._o === _o }));
 };
 
+const GKEY = 'AIzaSyBWQyTYB2A3TX_UXoGi0PPjL5v6DS2b7Zo';
+const GMAP = '16a2826c937f300a946cdc4d';
+const DAY0 = 7 / 24;
+const RKEY = 'eddy.routes.v1';
+let routes = {};
+try {
+  routes = JSON.parse(localStorage.getItem(RKEY) || '{}') || {};
+} catch {
+  routes = {};
+}
+const keepRoutes = () => {
+  try {
+    localStorage.setItem(RKEY, JSON.stringify(routes));
+  } catch {
+    /* storage full: routes are fetched again next time */
+  }
+};
+
+let gm = null;
+const gmaps = () =>
+  (gm ||= new Promise((ok, no) => {
+    if (window.google?.maps?.importLibrary) return ok(window.google.maps);
+    window.__eddyMaps = () => ok(window.google.maps);
+    const el = document.createElement('script');
+    el.src = `https://maps.googleapis.com/maps/api/js?key=${GKEY}&v=weekly&loading=async&callback=__eddyMaps`;
+    el.async = true;
+    el.onerror = () => ((gm = null), no(new Error('maps')));
+    document.head.appendChild(el);
+  }));
+
+function unpoly(s) {
+  const out = [];
+  let i = 0,
+    la = 0,
+    lo = 0;
+  while (i < s.length) {
+    const v = [0, 0];
+    for (let k = 0; k < 2; k++) {
+      let r = 0,
+        sh = 0,
+        b;
+      do {
+        b = s.charCodeAt(i++) - 63;
+        r |= (b & 31) << sh;
+        sh += 5;
+      } while (b >= 32);
+      v[k] = r & 1 ? ~(r >> 1) : r >> 1;
+    }
+    la += v[0];
+    lo += v[1];
+    out.push([la / 1e5, lo / 1e5]);
+  }
+  return out;
+}
+const flat = (a, b) => Math.hypot(b[0] - a[0], (b[1] - a[1]) * Math.cos((a[0] * Math.PI) / 180));
+const along = (g, d) => {
+  const dd = Math.max(0, Math.min(g.len, d));
+  let i = 1;
+  while (i < g.pts.length - 1 && g.cum[i] < dd) i++;
+  const a = g.pts[i - 1],
+    b = g.pts[i] || a;
+  const f = (dd - g.cum[i - 1]) / (g.cum[i] - g.cum[i - 1] || 1);
+  return [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f];
+};
+const ease = (f) => f * f * (3 - 2 * f);
+
+function spot(t, p) {
+  if (!p) return null;
+  const pin = t.pins?.[p.id];
+  const key = (ll) => ll.map((x) => (+x).toFixed(5)).join(',');
+  if (pin) return { ll: pin, k: key(pin) };
+  if (p.mile != null && hasGeo(RIVER.id)) {
+    const q = position(RIVER.id, 'access', p);
+    if (q) return { ll: [q.lat, q.lon], k: key([q.lat, q.lon]) };
+  }
+  if (p.yard) return null;
+  const q = p.fixed && RIVER.state ? `${p.name}, ${RIVER.state}` : p.name;
+  return q ? { q, k: q.toLowerCase() } : null;
+}
+const hop = (A, B) => {
+  if (!A || !B) return null;
+  const f = routes[A.k + '>' + B.k];
+  if (f) return f;
+  const r = routes[B.k + '>' + A.k];
+  return r && !r.none ? { ...r, rev: true, a: r.b, b: r.a } : r || null;
+};
+const wp = (A) => (A.ll ? { location: { latLng: { latitude: +A.ll[0], longitude: +A.ll[1] } } } : { address: A.q });
+async function fetchRoute(A, B) {
+  const r = await fetch('https://routes.googleapis.com/directions/v2:computeRoutes', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Goog-Api-Key': GKEY,
+      'X-Goog-FieldMask': 'routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline,routes.legs.startLocation,routes.legs.endLocation',
+    },
+    body: JSON.stringify({ origin: wp(A), destination: wp(B), travelMode: 'DRIVE' }),
+  });
+  if (r.status === 400 || r.status === 404) return { none: 1 };
+  if (!r.ok) throw new Error('routes ' + r.status);
+  const x = (await r.json()).routes?.[0];
+  if (!x) return { none: 1 };
+  const ll = (l) => (l?.latLng ? [l.latLng.latitude, l.latLng.longitude] : null);
+  const L = x.legs || [];
+  return { s: parseInt(x.duration, 10) || 0, m: x.distanceMeters || 0, p: x.polyline?.encodedPolyline || '', a: ll(L[0]?.startLocation), b: ll(L[L.length - 1]?.endLocation) };
+}
+
+function useRoutes(S, done) {
+  const [err, setErr] = useState(false);
+  const need = {};
+  S.legs.forEach((l) => {
+    const A = S.sp(l.from),
+      B = S.sp(l.to);
+    if (A && B && A.k !== B.k && !hop(A, B)) need[A.k + '>' + B.k] = [A, B];
+  });
+  const key = Object.keys(need).sort().join('|');
+  useEffect(() => {
+    if (!key) return;
+    let live = true;
+    Promise.allSettled(Object.entries(need).map(([k, [A, B]]) => fetchRoute(A, B).then((r) => (routes[k] = r)))).then((res) => {
+      keepRoutes();
+      if (!live) return;
+      setErr(res.some((x) => x.status === 'rejected'));
+      done();
+    });
+    return () => {
+      live = false;
+    };
+  }, [key]);
+  return err;
+}
+
+const gcache = new Map();
+
 function story(t) {
   const start = okDate(t.start) ? t.start : today();
   const N = num(t.days) || 1;
@@ -2107,6 +2239,44 @@ function story(t) {
   const alias = {};
   (t.places || []).forEach((p) => (byId[p.id] ? null : (alias[p.id] = byName[p.name])));
   const fix = (id) => (byId[id] ? id : alias[id] || id);
+
+  const sp = (id) => spot(t, byId[fix(id)]);
+  const drive = (a, b) => {
+    const A = sp(a),
+      B = sp(b);
+    return A && B && A.k === B.k ? { s: 0, m: 0 } : hop(A, B);
+  };
+  const hrs = (a, b) => {
+    const r = drive(a, b);
+    return r && !r.none && r.s != null ? r.s / 3600 : null;
+  };
+  const path = (a, b) => {
+    const A = sp(a),
+      B = sp(b);
+    if (!A || !B) return null;
+    const k = A.k + '>' + B.k;
+    if (gcache.has(k)) return gcache.get(k);
+    const r = hop(A, B);
+    if (!r || r.none || !r.p) return null;
+    const pts = unpoly(r.p);
+    if (r.rev) pts.reverse();
+    const cum = [0];
+    for (let i = 1; i < pts.length; i++) cum.push(cum[i - 1] + flat(pts[i - 1], pts[i]));
+    const g = { pts, cum, len: cum[cum.length - 1] };
+    gcache.set(k, g);
+    return g;
+  };
+  const where = {};
+  Object.entries(routes).forEach(([k, r]) => {
+    if (r.none) return;
+    const [a, b] = k.split('>');
+    if (r.a) where[a] = r.a;
+    if (r.b) where[b] = r.b;
+  });
+  const ll = (id) => {
+    const p = sp(id);
+    return p ? p.ll || where[p.k] || null : null;
+  };
 
   const dates = [];
   for (let d = -2; d <= N + 2; d++) dates.push(addDays(start, d));
@@ -2127,33 +2297,59 @@ function story(t) {
     const d = T(l.date);
     (byDay[d] = byDay[d] || []).push({ ...l, from: fix(l.from), to: fix(l.to), car: c });
   });
+  const dur = (l) => {
+    const h = hrs(l.from, l.to);
+    return (l.from === l.to ? 0.25 : h != null ? Math.max(0.25, h) : 1) / 24;
+  };
+  const ents = [
+    ...t.crew.map((m) => ({ id: m.id, on: onD(m), off: offD(m), onP: onP(m), offP: offP(m) })),
+    ...(t.boats || []).map((b) => ({ id: b.id, boat: true, on: 0, off: N, onP: launch?.id, offP: out?.id })),
+  ];
   const loc = {},
-    afloat = {};
+    avail = {},
+    afloat = {},
+    onAt = {},
+    offAt = {},
+    free = {};
   const legs = [];
-  Object.keys(byDay)
-    .map(Number)
-    .sort((a, b) => a - b)
-    .forEach((d) => {
-      t.crew.forEach((m) => {
-        if (!afloat[m.id] && onD(m) < d && (loc[m.id] == null || loc[m.id] === onP(m))) (loc[m.id] = 'river'), (afloat[m.id] = 1);
-        if (loc[m.id] === 'river' && offD(m) <= d) loc[m.id] = offP(m);
-      });
-      (t.boats || []).forEach((b) => {
-        if (!afloat[b.id] && d > 0 && loc[b.id] === launch?.id) (loc[b.id] = 'river'), (afloat[b.id] = 1);
-        if (loc[b.id] === 'river' && d >= N) loc[b.id] = out?.id;
-      });
-      const rounds = [];
-      byDay[d].forEach((l, i) => {
-        if (!i || !l.par) rounds.push([]);
-        rounds[rounds.length - 1].push(l);
-      });
-      rounds.forEach((go) => {
-        go.forEach((l) => (l.stray = [...(l.who || []), ...(l.boats || [])].filter((x) => loc[x] != null && loc[x] !== l.from)));
-        go.forEach((l) => [...(l.who || []), ...(l.boats || [])].forEach((x) => (loc[x] = l.to)));
-      });
-      const slot = 0.76 / rounds.length;
-      rounds.forEach((go, r) => go.forEach((l) => legs.push({ ...l, t0: d + 0.12 + r * slot, t1: d + 0.12 + r * slot + slot * 0.9 })));
+  let clock = -Infinity;
+  const days = [...new Set([...Object.keys(byDay).map(Number), ...ents.map((e) => e.on), ...ents.map((e) => e.off)])].sort((a, b) => a - b);
+  days.forEach((d) => {
+    ents.forEach((e) => {
+      if (loc[e.id] !== 'river' || e.off > d) return;
+      loc[e.id] = e.offP;
+      offAt[e.id] = avail[e.id] = Math.max(e.off + 13 / 24, onAt[e.id] + 0.1 || 0);
     });
+    const rounds = [];
+    (byDay[d] || []).forEach((l, i) => {
+      if (!i || !l.par) rounds.push([]);
+      rounds[rounds.length - 1].push(l);
+    });
+    clock = Math.max(clock, d + DAY0);
+    rounds.forEach((go) => {
+      let end = clock;
+      go.forEach((l) => {
+        const load = [...(l.who || []), ...(l.boats || [])];
+        l.stray = load.filter((x) => loc[x] != null && loc[x] !== l.from);
+        l.t0 = Math.max(clock, free[l.car.id] || 0, ...load.filter((x) => loc[x] === l.from).map((x) => avail[x] || 0));
+        l.t1 = l.t0 + dur(l);
+        end = Math.max(end, l.t1);
+      });
+      go.forEach((l) => {
+        [...(l.who || []), ...(l.boats || [])].forEach((x) => ((loc[x] = l.to), (avail[x] = l.t1)));
+        free[l.car.id] = l.t1;
+        legs.push(l);
+      });
+      clock = end;
+    });
+    ents.forEach((e) => {
+      if (afloat[e.id] || e.on > d || e.off <= d) return;
+      if (e.boat ? loc[e.id] !== e.onP : loc[e.id] != null && loc[e.id] !== e.onP) return;
+      loc[e.id] = 'river';
+      afloat[e.id] = 1;
+      onAt[e.id] = Math.max(d + 9 / 24, avail[e.id] || 0);
+    });
+  });
   legs.sort((a, b) => a.t1 - b.t1);
 
   const mileAt = (tt) => {
@@ -2166,40 +2362,28 @@ function story(t) {
     return at(i) + (at(Math.min(N, i + 1)) - at(i)) * (f - i);
   };
 
-  const carried = (kind, id) => legs.filter((l) => (kind === 'who' ? l.who || [] : l.boats || []).includes(id));
   const seg = (l) => ({ t0: l.t0, t1: l.t1, from: l.from, to: l.to, leg: l });
-  const track = (segs) => segs.sort((a, b) => a.t0 - b.t0);
-
-  const people = t.crew.map((m) => {
-    const segs = carried('who', m.id).map(seg);
-    segs.push({ t0: onD(m) + 0.9, t1: onD(m) + 0.98, from: onP(m), to: 'river' });
-    segs.push({ t0: offD(m) + 0.02, t1: offD(m) + 0.1, from: 'river', to: offP(m) });
-    return { ...m, kind: 'person', segs: track(segs) };
-  });
-  const boats = (t.boats || []).map((b) => {
-    const segs = carried('boats', b.id).map(seg);
-    const atLaunch = segs.filter((x) => x.t1 <= 0.89).pop();
-    if (atLaunch && atLaunch.to === launch?.id) {
-      segs.push({ t0: 0.9, t1: 0.98, from: launch.id, to: 'river' });
-      const off = segs.find((x) => x.t0 > 1 && x.from !== 'river');
-      const endT = off ? Math.min(N + 0.1, off.t0 - 0.01) : N + 0.1;
-      segs.push({ t0: endT - 0.08, t1: endT, from: 'river', to: off ? off.from : out?.id });
-    }
-    return { ...b, kind: 'boat', segs: track(segs) };
-  });
-  const rigs = cars.map((c) => ({ ...c, kind: 'car', segs: track(legs.filter((l) => l.car.id === c.id).map(seg)) }));
+  const segsOf = (e, key) => {
+    const segs = legs.filter((l) => (l[key] || []).includes(e.id)).map(seg);
+    if (onAt[e.id] != null) segs.push({ t0: onAt[e.id], t1: onAt[e.id] + 0.02, from: e.onP, to: 'river' });
+    if (offAt[e.id] != null) segs.push({ t0: offAt[e.id] - 0.02, t1: offAt[e.id], from: 'river', to: e.offP });
+    return segs.sort((a, b) => a.t0 - b.t0);
+  };
+  const people = t.crew.map((m) => ({ ...m, kind: 'person', segs: segsOf(ents.find((e) => e.id === m.id), 'who') }));
+  const boats = (t.boats || []).map((b) => ({ ...b, kind: 'boat', segs: segsOf(ents.find((e) => e.id === b.id), 'boats') }));
+  const rigs = cars.map((c) => ({ ...c, kind: 'car', segs: legs.filter((l) => l.car.id === c.id).map(seg) }));
 
   const at = (e, tt) => {
-    const S = e.segs;
-    if (!S.length) return null;
-    if (tt <= S[0].t0) return { at: S[0].from };
-    for (let i = 0; i < S.length; i++) {
-      if (tt <= S[i].t1) {
-        if (tt >= S[i].t0) return { at: S[i].from, to: S[i].to, f: (tt - S[i].t0) / (S[i].t1 - S[i].t0 || 1), leg: S[i].leg };
-        return { at: S[i - 1] ? S[i - 1].to : S[0].from };
+    const Sg = e.segs;
+    if (!Sg.length) return null;
+    if (tt <= Sg[0].t0) return { at: Sg[0].from };
+    for (let i = 0; i < Sg.length; i++) {
+      if (tt <= Sg[i].t1) {
+        if (tt >= Sg[i].t0) return { at: Sg[i].from, to: Sg[i].to, f: (tt - Sg[i].t0) / (Sg[i].t1 - Sg[i].t0 || 1), leg: Sg[i].leg };
+        return { at: Sg[i - 1] ? Sg[i - 1].to : Sg[0].from };
       }
     }
-    return { at: S[S.length - 1].to };
+    return { at: Sg[Sg.length - 1].to };
   };
   const used = new Set();
   legs.forEach((l) => {
@@ -2211,64 +2395,6 @@ function story(t) {
     used.add(onP(m));
     used.add(offP(m));
   });
-
-  const grid = {};
-  const taken = new Set();
-  const claim = (id, c) => {
-    grid[id] = c;
-    taken.add(c.join());
-  };
-  const free = ([c0, r0]) => {
-    let best = [c0, r0],
-      bd = Infinity;
-    for (let r = 0; r < ROWS; r++)
-      for (let c = 0; c < COLS; c++) {
-        const d = Math.abs(c - c0) + Math.abs(r - r0) * 1.01;
-        if (!taken.has(c + ',' + r) && d < bd) (bd = d), (best = [c, r]);
-      }
-    return best;
-  };
-  places.forEach((p) => t.grid?.[p.id] && claim(p.id, t.grid[p.id]));
-  places.forEach((p) => !grid[p.id] && p.grid && claim(p.id, free(p.grid)));
-  let k = 0;
-  places.forEach((p) => !grid[p.id] && claim(p.id, free(emile(p) >= 0 ? [Math.round((emile(p) / RIVER.miles[1]) * (COLS - 1)), ROWS - 1] : [(k++ * 4) % COLS, 0])));
-
-  const roads = (t.roads || (RIVER.roads || []).map((r, i) => ({ id: 'd' + i, a: byName[r.a], b: byName[r.b], h: r.h })))
-    .map((r) => ({ ...r, a: fix(r.a), b: fix(r.b) }))
-    .filter((r) => byId[r.a] && byId[r.b] && r.a !== r.b);
-  const memo = {};
-  const drive = (a, b) => {
-    a = fix(a);
-    b = fix(b);
-    const k = a + '|' + b;
-    if (k in memo) return memo[k];
-    if (!byId[a] || !byId[b]) return (memo[k] = null);
-    const dist = { [a]: 0 },
-      prev = {},
-      done = new Set();
-    for (;;) {
-      let v = null;
-      for (const q in dist) if (!done.has(q) && (v == null || dist[q] < dist[v])) v = q;
-      if (v == null || v === b) break;
-      done.add(v);
-      roads.forEach((r) => {
-        const w = r.a === v ? r.b : r.b === v ? r.a : null;
-        if (w == null) return;
-        const c = dist[v] + (num(r.h) > 0 ? num(r.h) : 3);
-        if (dist[w] == null || c < dist[w]) (dist[w] = c), (prev[w] = [v, r]);
-      });
-    }
-    if (dist[b] == null) return (memo[k] = null);
-    const path = [b];
-    let h = 0,
-      known = true;
-    for (let v = b; prev[v]; v = prev[v][0]) {
-      path.unshift(prev[v][0]);
-      num(prev[v][1].h) > 0 ? (h += num(prev[v][1].h)) : (known = false);
-    }
-    return (memo[k] = { path, h: known ? h : null });
-  };
-  const net = { grid, roads, drive };
 
   const spans = [];
   [...rigs, ...people, ...boats].forEach((e) => e.segs.forEach((x) => spans.push([x.t0, x.t1])));
@@ -2282,15 +2408,15 @@ function story(t) {
   const knots = [];
   let u = 0;
   if (busy.length) {
-    knots.push({ u: 0, t: busy[0][0] - 0.1 });
+    knots.push({ u: 0, t: busy[0][0] - 0.02 });
     u = 0.4;
     busy.forEach(([a, b], i) => {
       if (i) u += Math.min(3, 0.35 + 0.12 * (a - busy[i - 1][1]));
       knots.push({ u, t: a, go: true });
-      u += b - a < 0.09 ? 0.9 : 2.8;
+      u += b - a < 0.03 ? 0.9 : Math.min(6, Math.max(2, (b - a) * 24 * 0.7));
       knots.push({ u, t: b });
     });
-    knots.push({ u: u + 0.5, t: busy[busy.length - 1][1] + 0.1 });
+    knots.push({ u: u + 0.5, t: busy[busy.length - 1][1] + 0.02 });
   } else knots.push({ u: 0, t: 0 }, { u: 1, t: N });
   const U = knots[knots.length - 1].u;
   const tOf = (uu) => {
@@ -2304,411 +2430,186 @@ function story(t) {
   };
   const stops = knots.filter((k) => k.go).map((k) => k.u);
 
-  return { start, N, dates, T, byId, places, used, legs, cars: rigs, boats, people, launch, out, mileAt, at, net, U, tOf, stops };
+  return { start, N, dates, T, byId, places, used, legs, cars: rigs, boats, people, launch, out, mileAt, at, sp, drive, hrs, path, ll, U, tOf, stops };
 }
 
-function plan(S, all) {
-  const { places, used, net, byId } = S;
-  const W = 340,
-    M = 22,
-    T = 20;
-  const C = (W - 2 * M) / (COLS - 1);
-  const RY = T + (ROWS - 1) * C + 24,
-    H = RY + 24;
-  const X = (c) => M + c * C,
-    Y = (r) => T + r * C;
-  const rx = (mile) => M + (Math.max(0, Math.min(MAXMILE, mile)) / MAXMILE) * (W - 2 * M);
-  const ry = (x) => RY + Math.sin(x / 17) * 4;
-  const linked = new Set();
-  net.roads.forEach((r) => (linked.add(r.a), linked.add(r.b)));
-  const pos = {};
-  places
-    .filter((p) => all || used.has(p.id) || linked.has(p.id))
-    .forEach((p) => {
-      const [c, r] = net.grid[p.id];
-      pos[p.id] = { x: X(c), y: Y(r), riv: emile(p) >= 0, foot: p.mile == null, mile: emile(p) };
-    });
-  const boxes = [];
-  Object.keys(pos)
-    .sort((a, b) => pos[a].x - pos[b].x)
-    .forEach((id) => {
-      const q = pos[id];
-      const w = textW(short(byId[id]?.name || id, 18)) + 4;
-      const x0 = q.x < 40 ? q.x - 4 : q.x > W - 40 ? q.x + 4 - w : q.x - w / 2;
-      q.dy = [-7, 13, -16].find((dy) => !boxes.some((b) => x0 < b.x1 && x0 + w > b.x0 && Math.abs(q.y + dy - b.y) < 8)) ?? -7;
-      boxes.push({ x0, x1: x0 + w, y: q.y + q.dy });
-    });
-  const edges = net.roads.filter((r) => pos[r.a] && pos[r.b]);
-  const route = (from, to) => {
-    const a = pos[from],
-      b = pos[to];
-    if (!a || !b) return null;
-    const d = net.drive(from, to);
-    const pts = d && d.path.every((id) => pos[id]) ? d.path.map((id) => pos[id]) : [a, b];
-    const cum = [0];
-    pts.forEach((q, i) => i && cum.push(cum[i - 1] + Math.hypot(q.x - pts[i - 1].x, q.y - pts[i - 1].y)));
-    return { pts, cum, len: cum[cum.length - 1] };
-  };
-  const along = (r, d) => {
-    const dd = Math.max(0, Math.min(r.len, d));
-    let i = 1;
-    while (i < r.pts.length - 1 && r.cum[i] < dd) i++;
-    const a = r.pts[i - 1],
-      b = r.pts[i] || a;
-    const f = (dd - r.cum[i - 1]) / (r.cum[i] - r.cum[i - 1] || 1);
-    return { x: a.x + (b.x - a.x) * f, y: a.y + (b.y - a.y) * f, dx: b.x - a.x };
-  };
-  let water = '';
-  for (let x = M - 12; x <= W - M + 12; x += 3) water += `${water ? 'L' : 'M'}${x} ${ry(x).toFixed(1)}`;
-  return { W, H, M, T, C, RY, X, Y, pos, edges, route, along, rx, ry, water, byId };
-}
-
-const ease = (f) => f * f * (3 - 2 * f);
-const textW = (s) => s.length * 4.3;
-
-function Story({ S, L, tt }) {
-  const { byId, cars, boats, people, mileAt, at } = S;
-  const { W, H, pos, route, along, rx, ry, water } = L;
-  const fx = rx(mileAt(tt));
-  const xy = (a) => (a === 'river' ? { x: fx, y: ry(fx) } : pos[a]);
-
-  const rolling = [];
-  const parked = {};
-  cars.forEach((c) => {
-    const a = at(c, tt);
-    if (!a) return;
-    if (a.to == null) return (parked[a.at] = parked[a.at] || []).push(c);
-    rolling.push({ c, a, r: route(a.at, a.to) });
-  });
-  const lane = {};
-  rolling.forEach((m) => {
-    if (!m.r) return;
-    const k = m.a.at + '|' + m.a.to + '|' + m.a.leg.t0;
-    m.k = lane[k] = (lane[k] || 0) + 1;
-  });
-  rolling.forEach((m) => {
-    if (!m.r) return;
-    const back = (lane[m.a.at + '|' + m.a.to + '|' + m.a.leg.t0] - m.k) * 20;
-    const q = along(m.r, ease(m.a.f) * (m.r.len + back) - back);
-    const end = m.r.pts[m.r.pts.length - 1];
-    m.q = q;
-    m.flip = (q.dx || end.x - m.r.pts[0].x) < 0;
-  });
-
-  const here = {},
-    moving = {};
-  const tally = (e, key) => {
-    const a = at(e, tt);
-    if (!a) return;
-    if (a.leg) return;
-    if (a.to == null) return ((here[a.at] = here[a.at] || { who: 0, boats: 0, type: null })[key]++, e.type && (here[a.at].type = here[a.at].type || e.type));
-    const k = a.at + '>' + a.to;
-    const g = (moving[k] = moving[k] || { a, who: 0, boats: 0, type: null });
-    g[key]++;
-    if (e.type) g.type = g.type || e.type;
-  };
-  people.forEach((m) => tally(m, 'who'));
-  boats.forEach((b) => tally(b, 'boats'));
-
-  const Pod = ({ x, y, n }) => (
-    <g transform={`translate(${x} ${y})`}>
-      <circle className="pod" r="5.6" />
-      <text className="podN" y="2.6">
-        {n}
-      </text>
-    </g>
-  );
-  const Fleet = ({ x, y, n, type }) => (
-    <g className="fleet" transform={`translate(${x} ${y})`}>
-      <g className="glyph boat" transform="translate(0 -3) scale(0.36)">
-        <CraftPaths type={type || 'raft'} />
-      </g>
-      {n > 1 ? (
-        <text className="fleetN" x="18" y="2.6">
-          ×{n}
-        </text>
-      ) : null}
-    </g>
-  );
-  const Rig = ({ c, x, y, flip }) => (
-    <g style={{ color: c.tint }} transform={`translate(${x} ${y})`}>
-      <g className="glyph rig" transform={`translate(${flip ? 8 : -8} -5.5) scale(${flip ? -0.36 : 0.36} 0.36)`}>
-        {c.kind === 'outfitter' ? <TruckPaths /> : <CarPaths trailer={c.trailer} />}
-      </g>
-    </g>
-  );
-  const load = (x, y, d, g) => {
-    const out = [];
-    let cx = x;
-    if (g.boats) {
-      const w = g.boats > 1 ? 30 : 18;
-      out.push(<Fleet key="f" x={d > 0 ? cx : cx - w} y={y} n={g.boats} type={g.type} />);
-      cx += d * (w + 3);
-    }
-    if (g.who) out.push(<Pod key="p" x={cx + d * 6} y={y} n={g.who} />);
-    return out;
-  };
-
-  return (
-    <svg className="stage" viewBox={`0 0 ${W} ${H}`}>
-      <path className="water" d={water} />
-      <Roads L={L} />
-      {rolling.map((m, i) => (m.r ? <polyline key={m.c.id} className="way" style={{ stroke: m.c.tint }} transform={`translate(${(i - (rolling.length - 1) / 2) * 1.7} ${(i - (rolling.length - 1) / 2) * 1.7})`} points={m.r.pts.map((q) => `${q.x},${q.y}`).join(' ')} /> : null))}
-
-      {Object.entries(pos).map(([id, q]) => {
-        const lot = parked[id] || [];
-        const g = here[id] || { who: 0, boats: 0 };
-        const many = lot.length > 3;
-        const target = rolling.some((m) => m.a.to === id);
-        const d = q.x < 60 ? -1 : 1;
-        const carAt = (i) => ({ x: q.x - d * (14 + i * 19), y: q.y });
-        return (
-          <g key={id}>
-            <circle className={'lot' + (q.riv ? ' riv' : '') + (target ? ' target' : '')} cx={q.x} cy={q.y} r="3.6" />
-            <NodeKey q={q} name={byId[id]?.name || id} W={W} />
-            {many ? (
-              <g>
-                <Rig c={{ tint: 'var(--ink-dim)', trailer: false }} {...carAt(0)} flip={d < 0} />
-                <text className="fleetN cars" x={carAt(0).x - d * 10} y={q.y + 2.6} style={{ textAnchor: d < 0 ? 'start' : 'end' }}>
-                  ×{lot.length}
-                </text>
-              </g>
-            ) : (
-              lot.map((c, i) => <Rig key={c.id} c={c} {...carAt(i)} flip={d < 0} />)
-            )}
-            {d < 0 ? load(q.x + 10 + (many ? 1 : lot.length) * 19, q.y, 1, g) : load(q.x + 8, q.y, 1, g)}
-          </g>
-        );
-      })}
-
-      {Object.entries(moving).map(([k, g]) => {
-        const p1 = xy(g.a.at),
-          p2 = xy(g.a.to);
-        if (!p1 || !p2) return null;
-        const f = ease(g.a.f);
-        return <g key={k}>{load(p1.x + (p2.x - p1.x) * f + 8, p1.y + (p2.y - p1.y) * f - 1, 1, g)}</g>;
-      })}
-      {here.river ? (
-        <g className="flotilla">
-          <circle className="buoy" cx={fx} cy={ry(fx)} r="3" />
-          {load(Math.max(4, Math.min(W - 50, fx - 20)), ry(fx) + 13, 1, here.river)}
-        </g>
-      ) : null}
-
-      {rolling.map((m, i) => {
-        if (!m.q) return null;
-        const who = (m.a.leg.who || []).length,
-          nb = (m.a.leg.boats || []).length;
-        const up = i % 2 === 0;
-        const type = boats.find((b) => b.id === (m.a.leg.boats || [])[0])?.type;
-        return (
-          <g key={m.c.id}>
-            <Rig c={m.c} x={m.q.x} y={m.q.y} flip={m.flip} />
-            <g transform={`translate(${Math.max(34, Math.min(W - 34, m.q.x))} ${m.q.y + (up ? -11 : 15)})`}>
-              <text className="tagName" style={{ fill: m.c.tint }} y="0">
-                {short(m.c.name)}
-              </text>
-              <g transform={`translate(${-((nb ? (nb > 1 ? 33 : 21) : 0) + (who ? 12 : 0)) / 2} ${up ? -11 : 11})`}>{load(0, 0, 1, { who, boats: nb, type })}</g>
-            </g>
-          </g>
-        );
-      })}
-    </svg>
-  );
-}
-
-const NodeKey = ({ q, name, W }) => {
-  const a = q.x < 40 ? 'start' : q.x > W - 40 ? 'end' : 'middle';
-  return (
-    <text className="nodeKey" x={a === 'start' ? q.x - 4 : a === 'end' ? q.x + 4 : q.x} y={q.y + (q.dy ?? -7)} style={{ textAnchor: a }}>
-      {short(name, 18)}
-    </text>
-  );
+const clockOf = (tt) => {
+  const m = Math.round((((tt % 1) + 1) % 1) * 1440);
+  const h = Math.floor(m / 60) % 24;
+  return `${h % 12 || 12}:${String(m % 60).padStart(2, '0')} ${h < 12 ? 'AM' : 'PM'}`;
 };
+const el = (cls, html) => {
+  const d = document.createElement('div');
+  d.className = cls;
+  d.innerHTML = html;
+  return d;
+};
+const esc = (x) => String(x).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+const plural = (n, w) => (n ? `${n} ${w}${n > 1 ? 's' : ''}` : '');
 
-const Roads = ({ L, sel, hot, onRoad }) => (
-  <>
-    {Object.entries(L.pos).map(([id, q]) => (q.riv ? <line key={id} className={q.foot ? 'trail' : 'ramp'} x1={q.x} y1={q.y} x2={L.rx(q.mile)} y2={L.ry(L.rx(q.mile))} /> : null))}
-    {L.edges.map((r) => {
-      const a = hot?.(r.a) || L.pos[r.a],
-        b = hot?.(r.b) || L.pos[r.b];
-      const mx = (a.x + b.x) / 2,
-        my = (a.y + b.y) / 2;
-      const label = num(r.h) > 0 ? hm(num(r.h)) : onRoad ? '?' : '';
-      const w = textW(label) + 8;
-      return (
-        <g key={r.id} className={'road' + (sel === r.id ? ' on' : '')} onPointerDown={onRoad ? (e) => (e.stopPropagation(), onRoad(r.id)) : undefined}>
-          {onRoad ? <line className="roadHit" x1={a.x} y1={a.y} x2={b.x} y2={b.y} /> : null}
-          <line className="rd" x1={a.x} y1={a.y} x2={b.x} y2={b.y} />
-          {label ? (
-            <g transform={`translate(${mx} ${my})`}>
-              <rect className="hrsBox" x={-w / 2} y="-5.5" width={w} height="11" rx="5.5" />
-              <text className="hrs" y="2.4">
-                {label}
-              </text>
-            </g>
-          ) : null}
-        </g>
-      );
-    })}
-  </>
-);
+function GMap({ S, tt, pick, onPick }) {
+  const box = useRef(null);
+  const g = useRef(null);
+  const [state, setState] = useState('load');
+  const pickRef = useRef(null);
+  pickRef.current = pick ? onPick : null;
 
-function Board({ S, s, onDone }) {
-  const t = s.trip;
-  const L = useMemo(() => plan(S, true), [S]);
-  const { net, byId, places } = S;
-  const [sel, setSel] = useState(null);
-  const [drag, setDrag0] = useState(null);
-  const [name, setName] = useState('');
-  const svg = useRef(null);
-  const dr = useRef(null);
-  const setDrag = (v) => setDrag0((dr.current = v));
-  const pt = (e) => {
-    const p = svg.current.createSVGPoint();
-    p.x = e.clientX;
-    p.y = e.clientY;
-    return p.matrixTransform(svg.current.getScreenCTM().inverse());
-  };
-  const roads = net.roads;
-  const mine = (id) => (t.places || []).some((p) => p.id === id);
-  const hot = (id) => (drag?.moved && drag.id === id ? drag : null);
-  const cell = (x, y) => [Math.max(0, Math.min(COLS - 1, Math.round((x - L.M) / L.C))), Math.max(0, Math.min(ROWS - 1, Math.round((y - L.T) / L.C)))];
+  useEffect(() => {
+    let dead = false;
+    window.gm_authFailure = () => setState('off');
+    (async () => {
+      try {
+        await gmaps();
+        const { Map: GoogleMap, Polyline } = await window.google.maps.importLibrary('maps');
+        const { AdvancedMarkerElement } = await window.google.maps.importLibrary('marker');
+        if (dead) return;
+        const map = new GoogleMap(box.current, {
+          mapId: GMAP,
+          mapTypeId: 'terrain',
+          center: { lat: 36.1, lng: -112.1 },
+          zoom: 7,
+          streetViewControl: false,
+          fullscreenControl: true,
+          mapTypeControl: true,
+          clickableIcons: false,
+          gestureHandling: 'greedy',
+        });
+        map.addListener('click', (e) => pickRef.current?.([+e.latLng.lat().toFixed(6), +e.latLng.lng().toFixed(6)]));
+        const L = hasGeo(RIVER.id) ? riverLine(RIVER.id) : null;
+        if (L) new Polyline({ map, path: L.ll.map(([lat, lng]) => ({ lat, lng })), strokeColor: '#3a6f92', strokeOpacity: 0.85, strokeWeight: 4, clickable: false });
+        g.current = { map, Polyline, Marker: AdvancedMarkerElement, L, pins: {}, cars: {}, lines: {}, faint: [], fit: null };
+        setState('ok');
+      } catch {
+        if (!dead) setState('off');
+      }
+    })();
+    return () => {
+      dead = true;
+    };
+  }, []);
 
-  const grab = (id) => (e) => {
-    e.stopPropagation();
-    svg.current.setPointerCapture?.(e.pointerId);
-    const p = pt(e);
-    setDrag({ id, x: p.x, y: p.y, sx: e.clientX, sy: e.clientY, moved: false });
-  };
-  const move = (e) => {
-    const drag = dr.current;
-    if (!drag) return;
-    const p = pt(e);
-    setDrag({ ...drag, x: p.x, y: p.y, moved: drag.moved || Math.hypot(e.clientX - drag.sx, e.clientY - drag.sy) > 6 });
-  };
-  const drop = () => {
-    const drag = dr.current;
-    if (!drag) return;
-    const id = drag.id;
-    setDrag(null);
-    if (drag.moved) {
-      const c = cell(drag.x, drag.y);
-      const clash = places.find((q) => q.id !== id && net.grid[q.id][0] === c[0] && net.grid[q.id][1] === c[1]);
-      return s.set({ grid: { ...net.grid, [id]: c, ...(clash ? { [clash.id]: net.grid[id] } : {}) } });
-    }
-    if (sel?.node && sel.node !== id) {
-      const ex = roads.find((r) => (r.a === sel.node && r.b === id) || (r.b === sel.node && r.a === id));
-      if (ex) return setSel({ road: ex.id });
-      const r = { id: uid(), a: sel.node, b: id, h: '' };
-      s.set({ roads: [...roads, r] });
-      return setSel({ road: r.id });
-    }
-    setSel(sel?.node === id ? null : { node: id });
-  };
+  useEffect(() => {
+    const G = g.current;
+    if (state !== 'ok' || !G) return;
+    const { map, Polyline, Marker } = G;
+    Object.values(G.pins).forEach((m) => (m.map = null));
+    G.faint.forEach((x) => x.setMap(null));
+    G.pins = {};
+    G.faint = [];
+    const seen = new Set();
+    S.legs.forEach((l) => {
+      const p = S.path(l.from, l.to);
+      const k = [l.from, l.to].sort().join('|');
+      if (!p || seen.has(k)) return;
+      seen.add(k);
+      G.faint.push(new Polyline({ map, path: p.pts.map(([lat, lng]) => ({ lat, lng })), strokeColor: '#6b6154', strokeOpacity: 0.35, strokeWeight: 3, clickable: false }));
+    });
+    S.places.forEach((p) => {
+      if (!(S.used.has(p.id) || p.id === pick)) return;
+      const q = S.ll(p.id);
+      if (!q) return;
+      const c = el('gmPin' + (p.id === pick ? ' on' : ''), `<b>${esc(p.name)}</b><i></i>`);
+      G.pins[p.id] = new Marker({ map, position: { lat: +q[0], lng: +q[1] }, content: c, zIndex: 1 });
+    });
+    G.fit = null;
+  }, [state, S, pick]);
 
-  const road = sel?.road && roads.find((r) => r.id === sel.road);
-  const node = sel?.node && byId[sel.node];
-  const setH = (r, h, m) => s.set({ roads: roads.map((x) => (x.id === r.id ? { ...x, h: num(h) + num(m) / 60 || '' } : x)) });
-  const hrs = road ? Math.floor(num(road.h)) : 0;
-  const mins = road ? Math.round((num(road.h) - hrs) * 60) : 0;
+  useEffect(() => {
+    const G = g.current;
+    if (state !== 'ok' || !G) return;
+    const { map, Polyline, Marker } = G;
+    const here = {};
+    const add = (id, k) => ((here[id] ||= { car: 0, person: 0, boat: 0 })[k] += 1);
+    const live = [];
+    S.cars.forEach((c) => {
+      const a = S.at(c, tt);
+      if (!a) return;
+      if (a.to == null) add(a.at, 'car');
+      else live.push({ c, a });
+    });
+    let afloat = 0;
+    [...S.people, ...S.boats].forEach((e) => {
+      const a = S.at(e, tt);
+      if (!a || a.leg) return;
+      if (a.at === 'river' && a.to == null) e.kind === 'person' && afloat++;
+      else if (a.to == null) add(a.at, e.kind);
+    });
+    Object.entries(G.pins).forEach(([id, m]) => {
+      const h = here[id];
+      m.content.querySelector('i').textContent = h ? [plural(h.car, 'car'), plural(h.person, 'person').replace('persons', 'people'), plural(h.boat, 'boat')].filter(Boolean).join(' · ') : '';
+    });
+
+    const lane = {};
+    const keep = new Set();
+    live.forEach(({ c, a }) => {
+      const p = S.path(a.at, a.to);
+      const k = a.at + '|' + a.to + '|' + a.leg.t0;
+      const n = (lane[k] = (lane[k] || 0) + 1) - 1;
+      let q;
+      if (p) q = along(p, ease(a.f) * p.len - n * p.len * 0.012);
+      else {
+        const A = S.ll(a.at),
+          B = S.ll(a.to);
+        if (!A || !B) return;
+        const f = ease(a.f);
+        q = [A[0] + (B[0] - A[0]) * f, A[1] + (B[1] - A[1]) * f];
+      }
+      keep.add(c.id);
+      const load = [plural((a.leg.who || []).length, 'person').replace('persons', 'people'), plural((a.leg.boats || []).length, 'boat'), a.leg.gear ? 'gear' : ''].filter(Boolean).join(' · ');
+      let m = G.cars[c.id];
+      if (!m) {
+        m = G.cars[c.id] = new Marker({ map, content: el('gmCar', ''), zIndex: 3 });
+        m.content.style.setProperty('--tint', c.tint);
+      }
+      m.content.innerHTML = `<b>${esc(c.name)}</b>${load ? `<i>${esc(load)}</i>` : ''}`;
+      m.position = { lat: q[0], lng: q[1] };
+      if (!m.map) m.map = map;
+      let ln = G.lines[c.id];
+      if (p && (!ln || ln.leg !== k)) {
+        ln?.setMap(null);
+        ln = G.lines[c.id] = new Polyline({ map, path: p.pts.map(([lat, lng]) => ({ lat, lng })), strokeColor: c.tint, strokeOpacity: 0.95, strokeWeight: 5, clickable: false, zIndex: 2 });
+        ln.leg = k;
+      }
+    });
+    Object.keys(G.cars).forEach((id) => {
+      if (keep.has(id)) return;
+      G.cars[id].map = null;
+      delete G.cars[id];
+      G.lines[id]?.setMap(null);
+      delete G.lines[id];
+    });
+
+    if (afloat && G.L) {
+      const q = atMile(G.L, S.mileAt(tt));
+      if (!G.buoy) G.buoy = new Marker({ content: el('gmBuoy', ''), zIndex: 4 });
+      G.buoy.content.textContent = afloat;
+      G.buoy.position = { lat: q.lat, lng: q.lon };
+      if (!G.buoy.map) G.buoy.map = map;
+    } else if (G.buoy) G.buoy.map = null;
+
+    if (pick) return;
+    const fk = live.length ? live.map((m) => m.a.leg.id + '@' + m.a.leg.t0).sort().join() : afloat ? 'river' : 'all';
+    if (fk === G.fit) return;
+    G.fit = fk;
+    const b = new window.google.maps.LatLngBounds();
+    let n = 0;
+    const put = (q) => q && (b.extend({ lat: +q[0], lng: +q[1] }), n++);
+    if (live.length)
+      live.forEach(({ a }) => {
+        const p = S.path(a.at, a.to);
+        p ? p.pts.forEach(put) : (put(S.ll(a.at)), put(S.ll(a.to)));
+      });
+    else if (afloat && G.L) G.L.ll.forEach(put);
+    else S.places.forEach((p) => S.used.has(p.id) && put(S.ll(p.id)));
+    if (n > 1) map.fitBounds(b, 40);
+    else if (n === 1) map.panTo(b.getCenter());
+  }, [state, S, tt, pick]);
 
   return (
-    <>
-      <svg ref={svg} className="stage board" viewBox={`0 0 ${L.W} ${L.H}`} onPointerMove={move} onPointerUp={drop} onPointerCancel={() => setDrag(null)}>
-        <rect className="boardBg" width={L.W} height={L.H} onPointerDown={() => setSel(null)} />
-        {Array.from({ length: COLS * ROWS }, (_, i) => (
-          <circle key={i} className="dot" cx={L.X(i % COLS)} cy={L.Y(Math.floor(i / COLS))} r="0.9" />
-        ))}
-        <path className="water" d={L.water} />
-        <Roads L={L} sel={sel?.road} hot={hot} onRoad={(id) => setSel({ road: id })} />
-        {Object.entries(L.pos).map(([id, q0]) => {
-          const q = hot(id) || q0;
-          const on = sel?.node === id || (road && (road.a === id || road.b === id));
-          return (
-            <g key={id} onPointerDown={grab(id)} className="pin">
-              <circle className="hit" cx={q.x} cy={q.y} r="12" />
-              <circle className={'lot' + (q0.riv ? ' riv' : '') + (on ? ' target' : '')} cx={q.x} cy={q.y} r={on ? 5 : 4.2} />
-              <NodeKey q={q} name={byId[id]?.name || id} W={L.W} />
-            </g>
-          );
-        })}
-      </svg>
-
-      <div className="boardPanel">
-        {road ? (
-          <>
-            <div className="carName">
-              {byId[road.a]?.name} — {byId[road.b]?.name}
-            </div>
-            <div className="numRow">
-              <Num label="Hours" value={road.h === '' ? '' : hrs} onChange={(v) => setH(road, v, mins)} />
-              <Num label="Minutes" value={road.h === '' ? '' : mins} onChange={(v) => setH(road, hrs, v)} />
-            </div>
-            <button className="btn ghost danger mt-s" onClick={() => (s.set({ roads: roads.filter((r) => r.id !== road.id) }), setSel(null))}>
-              Remove road
-            </button>
-          </>
-        ) : node ? (
-          <>
-            {mine(node.id) ? (
-              <div className="row">
-                <Field label="Name" value={node.name} onChange={(e) => s.patch('places', node.id, { name: e.target.value })} />
-                <div className="numRow">
-                  <Num label="River mile" value={node.mile ?? ''} onChange={(v) => s.patch('places', node.id, { mile: v === '' ? null : v })} />
-                </div>
-              </div>
-            ) : (
-              <div className="carName">
-                {node.name}
-                {emile(node) >= 0 ? <span className="muted"> · mile {emile(node)}</span> : null}
-              </div>
-            )}
-            <div className="chips">
-              {roads
-                .filter((r) => r.a === node.id || r.b === node.id)
-                .map((r) => (
-                  <button key={r.id} className="chip" onClick={() => setSel({ road: r.id })}>
-                    {byId[r.a === node.id ? r.b : r.a]?.name}
-                    {num(r.h) > 0 ? ` · ${hm(num(r.h))}` : ''}
-                  </button>
-                ))}
-            </div>
-            <span className="muted">Tap another place to add a road</span>
-            {mine(node.id) ? (
-              <button
-                className="btn ghost danger mt-s"
-                onClick={() => {
-                  const { [node.id]: _, ...g } = net.grid;
-                  s.set({ places: t.places.filter((p) => p.id !== node.id), roads: roads.filter((r) => r.a !== node.id && r.b !== node.id), grid: g });
-                  setSel(null);
-                }}
-              >
-                Remove place
-              </button>
-            ) : null}
-          </>
-        ) : (
-          <span className="muted">Drag to move · tap two places to connect</span>
-        )}
-        <div className="row mt-s">
-          <Field value={name} onChange={(e) => setName(e.target.value)} placeholder="Add a place" />
-          <button
-            className="btn"
-            disabled={!name.trim()}
-            onClick={() => {
-              s.push('places', { name: name.trim() });
-              setName('');
-            }}
-          >
-            Add
-          </button>
-        </div>
-        <button className="btn mt-s" onClick={onDone}>
-          Done
-        </button>
-      </div>
-    </>
+    <div className={'gmap' + (pick ? ' picking' : '')}>
+      <div ref={box} className="gmapBox" />
+      {state === 'off' ? <div className="gmapOff">Map needs a connection</div> : null}
+    </div>
   );
 }
 
@@ -2718,7 +2619,7 @@ const TruckPaths = () => (
     <path d="M2 13V3.5h20V13M22 6.5h6l4 4V13" />
     <path d="M32 13h12M34 13a2 2 0 1 0 4 0 2 2 0 1 0-4 0" />
     <path d="M32 12.5V7h11v5.5z" />
-</>
+  </>
 );
 
 const TruckIcon = () => (
@@ -2728,11 +2629,13 @@ const TruckIcon = () => (
 );
 
 function Stage({ S, s }) {
+  const t = s.trip;
   const [u, setU] = useState(0);
   const [play, setPlay] = useState(false);
   const [edit, setEdit] = useState(false);
+  const [pick, setPick] = useState(null);
+  const [name, setName] = useState('');
   const { U, tOf, stops, start, N, legs, byId, people, mileAt, at } = S;
-  const L = useMemo(() => plan(S), [S]);
   useEffect(() => {
     if (!play) return;
     let last = performance.now();
@@ -2765,17 +2668,13 @@ function Stage({ S, s }) {
     const to = dir > 0 ? stops.find((x) => x > u + 0.05) : [...stops].reverse().find((x) => x < u - 0.6);
     setU(to == null ? (dir > 0 ? U : 0) : to);
   };
-
-  if (edit)
-    return (
-      <div className="stageWrap">
-        <Board S={S} s={s} onDone={() => setEdit(false)} />
-      </div>
-    );
+  const mine = (id) => (t.places || []).some((p) => p.id === id);
+  const pins = t.pins || {};
+  const list = S.places.filter((p) => !p.fixed || S.used.has(p.id));
 
   return (
     <div className="stageWrap">
-      <Story S={S} L={L} tt={tt} />
+      <GMap S={S} tt={tt} pick={pick} onPick={(ll) => (s.set({ pins: { ...pins, [pick]: ll } }), setPick(null))} />
       <div className="playRow">
         <button className="skip" onClick={() => jump(-1)} aria-label="Previous move">
           ‹
@@ -2805,12 +2704,70 @@ function Stage({ S, s }) {
             setU(+e.target.value);
           }}
         />
-        <button className="skip" onClick={() => (setPlay(false), setEdit(true))} aria-label="Edit roads">
+        <button className={'skip' + (edit ? ' on' : '')} onClick={() => (setPlay(false), setEdit(!edit), setPick(null))} aria-label="Edit places">
           ✎
         </button>
       </div>
+      {edit ? (
+        <div className="boardPanel">
+          <div className="chips">
+            {list.map((p) => (
+              <button key={p.id} className={'chip' + (pick === p.id ? ' on' : '')} onClick={() => setPick(pick === p.id ? null : p.id)}>
+                {p.name}
+                {!S.ll(p.id) ? ' ·?' : ''}
+              </button>
+            ))}
+          </div>
+          {pick ? (
+            <>
+              <span className="muted">Tap the map to place {byId[pick]?.name}</span>
+              <div className="chips mt-s">
+                {pins[pick] ? (
+                  <button
+                    className="chip"
+                    onClick={() => {
+                      const { [pick]: _, ...rest } = pins;
+                      s.set({ pins: rest });
+                    }}
+                  >
+                    Reset
+                  </button>
+                ) : null}
+                {mine(pick) ? (
+                  <button
+                    className="chip danger"
+                    onClick={() => {
+                      const { [pick]: _, ...rest } = pins;
+                      s.set({ places: t.places.filter((p) => p.id !== pick), pins: rest });
+                      setPick(null);
+                    }}
+                  >
+                    Remove place
+                  </button>
+                ) : null}
+              </div>
+            </>
+          ) : null}
+          <div className="row mt-s">
+            <Field value={name} onChange={(e) => setName(e.target.value)} placeholder="Add a place" />
+            <button
+              className="btn"
+              disabled={!name.trim()}
+              onClick={() => {
+                s.push('places', { name: name.trim() });
+                setName('');
+              }}
+            >
+              Add
+            </button>
+          </div>
+        </div>
+      ) : null}
       <div className="dayKey">
-        <span>{fmt(iso)}</span>
+        <span>
+          {fmt(iso)}
+          {rolling.length ? ` · ${clockOf(tt)}` : ''}
+        </span>
         {rolling.map((l) => {
           const who = (l.who || []).length;
           const bo = (l.boats || []).length;
@@ -2845,9 +2802,9 @@ function Route({ S }) {
   const CW = (W - LX - RX - gaps * GAP) / days.length;
   const left = [];
   days.forEach((d, i) => left.push(i ? left[i - 1] + CW + (d - days[i - 1] > 1 ? GAP : 0) : LX));
-  const X = (t) => {
-    const i = days.indexOf(Math.floor(t));
-    return left[i] + (t - days[i]) * CW;
+  const X = (t, t0 = t) => {
+    const i = days.indexOf(Math.floor(t0));
+    return left[i] + Math.min(1, t - days[i]) * CW;
   };
   const Y = (id) => TOP + rows.indexOf(id) * RH + RH / 2;
   const H = TOP + (rows.length + 1) * RH + 6;
@@ -2884,7 +2841,7 @@ function Route({ S }) {
         const ci = S.cars.findIndex((c) => c.id === l.car.id);
         const o = (ci - (nc - 1) / 2) * 2.6;
         const x0 = X(l.t0),
-          x1 = X(l.t1),
+          x1 = X(l.t1, l.t0),
           y0 = Y(l.from) + o,
           y1 = Y(l.to) + o;
         const crewed = (l.who || []).length > 0;
@@ -2929,7 +2886,7 @@ function Convoys({ S, crew, boats }) {
           {groups
             .filter((g) => g.d === d)
             .map((g) => {
-              const hrs = hm(S.net.drive(g.from, g.to)?.h);
+              const hrs = hm(S.hrs(g.from, g.to));
               const all = crew.length > 1 && g.who.length === crew.length;
               return (
                 <div className="convoy" key={g.k}>
@@ -2978,7 +2935,9 @@ function Shuttle({ s }) {
   const [openLeg, setOpenLeg] = useState(null);
   const [openCar, setOpenCar] = useState(null);
   const [carName, setCarName] = useState('');
-  const S = useMemo(() => story(t), [t]);
+  const [rev, setRev] = useState(0);
+  const S = useMemo(() => story(t), [t, rev]);
+  useRoutes(S, () => setRev((r) => r + 1));
   const { byId, places, launch, out, dates, start, N } = S;
   const cars = t.cars || [];
   const boats = t.boats || [];
@@ -3031,10 +2990,13 @@ function Shuttle({ s }) {
   const gone = new Set();
   S.legs.forEach((l) => {
     const k = [l.from, l.to].sort().join('|');
-    if (l.from === l.to || gone.has(k) || S.net.drive(l.from, l.to)) return;
+    if (l.from === l.to || gone.has(k) || !S.drive(l.from, l.to)?.none) return;
     gone.add(k);
     warn.push(`No road between ${pname(l.from)} and ${pname(l.to)}.`);
   });
+  const lost = new Set();
+  S.legs.forEach((l) => [l.from, l.to].forEach((id) => !lost.has(id) && !S.sp(id) && lost.add(id)));
+  lost.forEach((id) => warn.push(`Place ${pname(id)} on the map.`));
   legs.forEach((l) => {
     const c = carOf(l.car);
     if (c && num(c.seats) && (l.who || []).length > num(c.seats)) warn.push(`${l.who.length} in the ${c.name} (${num(c.seats)} seats) on ${fmt(l.date)}.`);
@@ -3064,6 +3026,7 @@ function Shuttle({ s }) {
 
   return (
     <>
+      <Stage S={S} s={s} />
       <Route S={S} />
       {warn.length > 0 && (
         <div className="notice mt">
@@ -3107,7 +3070,7 @@ function Shuttle({ s }) {
                         {c?.name || 'No vehicle'} <span className="legWay">{pname(l.from)} → {pname(l.to)}</span>
                       </span>
                       <span className="muted">
-                        {[hm(S.net.drive(l.from, l.to)?.h), who ? `${who} aboard` : l.pro ? 'shuttle service' : 'empty', nb ? `${nb} boat${nb > 1 ? 's' : ''}` : null, l.gear ? 'gear' : null].filter(Boolean).join(' · ')}
+                        {[hm(S.hrs(l.from, l.to)), who ? `${who} aboard` : l.pro ? 'shuttle service' : 'empty', nb ? `${nb} boat${nb > 1 ? 's' : ''}` : null, l.gear ? 'gear' : null].filter(Boolean).join(' · ')}
                       </span>
                     </span>
                   </button>
@@ -3206,10 +3169,6 @@ function Shuttle({ s }) {
       </button>
       </details>
 
-      <details className="fold">
-        <summary>Map and roads</summary>
-        <Stage S={S} s={s} />
-      </details>
 
       <span className="label mt">Vehicles</span>
       {cars.map((c) => (
