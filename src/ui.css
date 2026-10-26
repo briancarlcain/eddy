@@ -706,7 +706,7 @@ body.shot #fakeStatus { background: var(--bg); }
 .rg .mapType button { font: 600 11px Oswald, sans-serif; letter-spacing: .02em; padding: 3px 10px; background: transparent; color: #6b6154; border: 0; min-height: 0; }
 .rg .mapType button.on { background: #2b241d; color: #faf8f3; }
 .rg input.auto { color: #a39a8c; }
-.rg .when { display: grid; grid-template-columns: 1.2fr 1.05fr 1fr; gap: 6px; margin-bottom: 12px; }
+.rg .when { display: grid; grid-template-columns: 1.25fr 1fr auto; align-items: center; gap: 6px; margin-bottom: 12px; }
 .rg .when > input, .rg .when > select { min-width: 0; width: 100%; font-size: 15px; }
 .rg .info { display: inline-grid; place-items: center; width: 16px; height: 16px; min-height: 0; padding: 0; margin-left: 6px; border-radius: 50%; border: 1px solid #a39a8c; background: transparent; color: #6b6154; font: italic 700 10px/1 Georgia, serif; vertical-align: 1px; }
 .rg .tip { font-size: 13px; color: #6b6154; background: #f1ead9; border-radius: 8px; padding: 6px 9px; margin: -4px 0 12px; }
@@ -720,3 +720,4 @@ body.shot #fakeStatus { background: var(--bg); }
 .rg .sugg span { display: block; font-size: 12px; color: #6b6154; }
 .rg .legDot.river { background: #3a6f92; }
 .rg .riverItem .legSeq { color: #3a6f92; }
+.rg .tzTag { font: 600 12px Oswald, sans-serif; color: #6b6154; padding: 0 2px; min-width: 34px; text-align: center; }
