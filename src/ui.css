@@ -690,7 +690,9 @@ body.shot #fakeStatus { background: var(--bg); }
 .gmMore span, .gmCar span, .gmBuoy span { display: block; font-weight: 400; font-size: 10px; }
 .gmBoats { color: #2f6283; }
 .gmTint::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--tint); margin-right: 4px; vertical-align: 0; }
-.gmCar { white-space: normal; width: max-content; max-width: 160px; border-left: 4px solid var(--tint); cursor: default; }
+.gmCar { white-space: normal; width: max-content; max-width: 170px; cursor: default; padding: 4px 7px 4px 5px; }
+.gmSec { border-left: 3px solid var(--tint); padding-left: 5px; }
+.gmSec + .gmSec { margin-top: 5px; }
 .gmBuoy { white-space: normal; width: max-content; max-width: 180px; border-left: 4px solid #3a6f92; position: relative; margin-bottom: 7px; cursor: default; }
 .gmBuoy::after { content: ''; position: absolute; left: 50%; bottom: -10px; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: #3a6f92; border: 2px solid #fff; box-sizing: border-box; }
 .gmBuoy em { font-style: normal; color: #2f6283; font-weight: 600; margin-right: 3px; }

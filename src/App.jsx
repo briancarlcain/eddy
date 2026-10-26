@@ -2580,7 +2580,12 @@ function GMap({ S, tt, pick, onPick }) {
     });
 
     const lane = {};
-    const keep = new Set();
+    const span = (() => {
+      const bb = map.getBounds?.();
+      return bb ? Math.abs(bb.getNorthEast().lat() - bb.getSouthWest().lat()) : 1;
+    })();
+    const near = span * 0.09;
+    const groups = [];
     live.forEach(({ c, a }) => {
       const p = S.path(a.at, a.to);
       const k = a.at + '|' + a.to + '|' + a.leg.t0;
@@ -2594,18 +2599,12 @@ function GMap({ S, tt, pick, onPick }) {
         const f = ease(a.f);
         q = [A[0] + (B[0] - A[0]) * f, A[1] + (B[1] - A[1]) * f];
       }
-      keep.add(c.id);
       const who = S.people.filter((m) => (a.leg.who || []).includes(m.id));
       const drv = (a.leg.who || []).filter((x) => DRIVERS[x]).map((x) => DRIVERS[x]);
-      const bts = [...S.boats.filter((b) => (a.leg.boats || []).includes(b.id)).map((b) => b.name)];
-      let m = G.cars[c.id];
-      if (!m) {
-        m = G.cars[c.id] = new Marker({ map, content: el('gmCar', ''), zIndex: 3 });
-        m.content.style.setProperty('--tint', c.tint);
-      }
-      m.content.innerHTML = `<b>${esc(c.name)}</b>${who.length || drv.length ? `<span>${esc([...drv, ...who.map((m) => abbr(m.name))].join(', '))}</span>` : ''}${bts.length ? `<span class="gmBoats">${esc(bts.join(', '))}</span>` : ''}`;
-      m.position = { lat: q[0], lng: q[1] };
-      if (!m.map) m.map = map;
+      const bts = S.boats.filter((b) => (a.leg.boats || []).includes(b.id)).map((b) => b.name);
+      const sec = `<div class="gmSec" style="--tint:${c.tint}"><b>${esc(c.name)}</b>${who.length || drv.length ? `<span>${esc([...drv, ...who.map((m) => abbr(m.name))].join(', '))}</span>` : ''}${bts.length ? `<span class="gmBoats">${esc(bts.join(', '))}</span>` : ''}</div>`;
+      const g = groups.find((x) => Math.hypot(x.q[0] - q[0], (x.q[1] - q[1]) * Math.cos((q[0] * Math.PI) / 180)) < near);
+      g ? (g.ids.push(c.id), (g.html += sec)) : groups.push({ q, ids: [c.id], html: sec });
       let ln = G.lines[c.id];
       if (p && (!ln || ln.leg !== k)) {
         ln?.setMap(null);
@@ -2613,11 +2612,24 @@ function GMap({ S, tt, pick, onPick }) {
         ln.leg = k;
       }
     });
+    const keep = new Set();
+    groups.forEach((g, i) => {
+      keep.add('g' + i);
+      let m = G.cars['g' + i];
+      if (!m) m = G.cars['g' + i] = new Marker({ map, content: el('gmCar', ''), zIndex: 3 });
+      if (m.content.innerHTML !== g.html) m.content.innerHTML = g.html;
+      m.position = { lat: g.q[0], lng: g.q[1] };
+      if (!m.map) m.map = map;
+    });
     Object.keys(G.cars).forEach((id) => {
       if (keep.has(id)) return;
       G.cars[id].map = null;
       delete G.cars[id];
-      G.lines[id]?.setMap(null);
+    });
+    const onRoad = new Set(live.map(({ c }) => c.id));
+    Object.keys(G.lines).forEach((id) => {
+      if (onRoad.has(id)) return;
+      G.lines[id].setMap(null);
       delete G.lines[id];
     });
 
