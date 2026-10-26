@@ -1265,16 +1265,18 @@ function CampPick({ min, current, date, onPick }) {
 }
 
 const CRAFT = {
-  raft: { label: 'Raft / cataraft', cap: 4 },
+  raft: { label: 'Raft', cap: 4 },
+  cat: { label: 'Cataraft', cap: 2 },
   kayak: { label: 'Whitewater kayak', cap: 1 },
-  ik: { label: 'Inflatable kayak / packraft', cap: 1 },
+  ik: { label: 'Inflatable kayak', cap: 1 },
+  pack: { label: 'Packraft', cap: 1 },
   sup: { label: 'SUP', cap: 1 },
 };
 
 const CraftPaths = ({ type }) => (
   <>
 
-    {type === 'raft' ? (
+    {type === 'raft' || type === 'cat' ? (
       <>
         <path d="M11 2.5h24a4.6 4.6 0 0 1 0 13H11a4.6 4.6 0 0 1 0-13z" />
         <path d="M18 2.5v13M28 2.5v13" />
@@ -1288,7 +1290,7 @@ const CraftPaths = ({ type }) => (
     ) : (
       <>
         <path d="M23 2.4c9.4 1.6 17.6 4.6 20 6.6-2.4 2-10.6 5-20 6.6C13.6 14 5.4 11 3 9c2.4-2 10.6-5 20-6.6z" />
-        {type === 'ik' ? <path d="M23 4.6c7 1.2 13.4 3.4 15.4 4.4-2 1-8.4 3.2-15.4 4.4-7-1.2-13.4-3.4-15.4-4.4 2-1 8.4-3.2 15.4-4.4z" /> : <ellipse cx="23" cy="9" rx="4.4" ry="2.6" />}
+        {type === 'ik' || type === 'pack' ? <path d="M23 4.6c7 1.2 13.4 3.4 15.4 4.4-2 1-8.4 3.2-15.4 4.4-7-1.2-13.4-3.4-15.4-4.4 2-1 8.4-3.2 15.4-4.4z" /> : <ellipse cx="23" cy="9" rx="4.4" ry="2.6" />}
       </>
     )}
   </>
