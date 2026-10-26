@@ -3228,13 +3228,13 @@ function Shuttle({ s }) {
     const arrTime = (v) => setLeg(l.id, l.fly ? { arr: v, arrDate: l.arrDate || ad || l.date } : { arr: v, arrDate: l.arrDate || ad || l.date, dep: '' });
     return (
       <>
-        <span className="label">Depart</span>
+        <span className="label">Departure Time</span>
         <div className="when">
           <input className={arrPin && !l.fly ? 'auto' : ''} type="date" value={dd} onChange={(e) => depDate(e.target.value)} />
           <input className={depPin ? '' : 'auto'} type="time" value={l.dep || (arrPin ? x.dep : '') || ''} onChange={(e) => depTime(e.target.value)} />
           <span className="tzTag">{tzAbbr(S.zoneAt(l.from), dd)}</span>
         </div>
-        <span className="label">Arrive</span>
+        <span className="label">Arrival Time</span>
         <div className="when">
           <input className={depPin && !l.fly ? 'auto' : ''} type="date" value={ad} onChange={(e) => arrDate(e.target.value)} />
           <input className={arrPin ? '' : 'auto'} type="time" value={l.arr || (depPin ? x.arr : '') || ''} onChange={(e) => arrTime(e.target.value)} />
@@ -3351,18 +3351,18 @@ function Shuttle({ s }) {
                           at the bottom of this tab.
                         </div>
                       ) : null}
-                      {when(l)}
                       <div className="row">
-                        <Sel label="From" value={l.from} onChange={(v) => setLeg(l.id, { from: v })}>
+                        <Sel label="Origin" value={l.from} onChange={(v) => setLeg(l.id, { from: v })}>
                           {opts}
                         </Sel>
-                        <Sel label="To" value={l.to} onChange={(v) => setLeg(l.id, { to: v })}>
+                        <Sel label="Destination" value={l.to} onChange={(v) => setLeg(l.id, { to: v })}>
                           {opts}
                         </Sel>
                       </div>
-                      <span className="label">{l.fly ? 'Flying' : 'Riding along'}</span>
+                      {when(l)}
+                      <span className="label">Passengers</span>
                       <div className="chips">
-                        {[...(l.fly ? [] : Object.entries(DRIVERS).map(([id, name]) => ({ id, name }))), ...t.crew].map((m) => {
+                        {[...Object.entries(DRIVERS).map(([id, name]) => ({ id, name })), ...t.crew].map((m) => {
                           const on = (l.who || []).includes(m.id);
                           return (
                             <button key={m.id} className={'chip' + (on ? ' on' : '')} onClick={() => setLeg(l.id, { who: on ? l.who.filter((q) => q !== m.id) : [...(l.who || []), m.id] })}>
@@ -3371,9 +3371,7 @@ function Shuttle({ s }) {
                           );
                         })}
                       </div>
-                      {!l.fly ? (
-                      <>
-                      <span className="label">Boats aboard</span>
+                      <span className="label">Crafts aboard</span>
                       <div className="chips">
                         {boats.map((b) => {
                           const on = (l.boats || []).includes(b.id);
@@ -3383,10 +3381,8 @@ function Shuttle({ s }) {
                             </button>
                           );
                         })}
-                        {!boats.length && <span className="muted">Add boats on the Crew tab</span>}
+                        {!boats.length && <span className="muted">Add crafts on the Crew & Crafts tab</span>}
                       </div>
-                      </>
-                      ) : null}
                       <div className="legTools">
                         <button className="btn ghost danger" onClick={() => dropLeg(l.id)}>
                           Remove
