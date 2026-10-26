@@ -3290,6 +3290,11 @@ function Shuttle({ s }) {
                     <span className="legDot" style={{ background: tint(l.fly ? '_fly' + l.id : l.car) }} />
                     <span className="carText">
                       <span className="carName">
+                        {!okDate(l.date) || !byId[l.from] || !byId[l.to] ? (
+                          <span className="legWarn" title={[!okDate(l.date) && 'date', !byId[l.from] && 'origin', !byId[l.to] && 'destination'].filter(Boolean).join(', ') + ' missing'}>
+                            <Icon name="alert" size={14} />
+                          </span>
+                        ) : null}
                         {l.fly ? '✈ Flight' : c?.name || 'No vehicle'} <span className="legWay">{pname(l.from)} → {pname(l.to)}</span>
                       </span>
                       <span className="muted">{[at(l), hm(l.fly ? (() => { const x = S.legs.find((q) => q.id === l.id); return x ? (x.t1 - x.t0) * 24 : null; })() : S.hrs(l.from, l.to))].filter(Boolean).join(' · ')}</span>
