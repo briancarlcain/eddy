@@ -2204,7 +2204,7 @@ async function fetchRoute(A, B) {
   return { s: parseInt(x.duration, 10) || 0, m: x.distanceMeters || 0, p: x.polyline?.encodedPolyline || '', a: ll(L[0]?.startLocation), b: ll(L[L.length - 1]?.endLocation) };
 }
 
-function useRoutes(S, done) {
+function useRoutes(S, done, retry) {
   const [err, setErr] = useState(false);
   const need = {};
   S.legs.forEach((l) => {
@@ -2225,7 +2225,7 @@ function useRoutes(S, done) {
     return () => {
       live = false;
     };
-  }, [key]);
+  }, [key, retry]);
   return err;
 }
 
@@ -2479,7 +2479,7 @@ const abbr = (n) => {
 const names = (list) => esc(list.map((e) => abbr(e.name)).join(', '));
 const plural = (n, w) => (n ? `${n} ${w}${n > 1 ? 's' : ''}` : '');
 
-function GMap({ S, tt, pick, onPick, type }) {
+function GMap({ S, tt, pick, onPick, type, nonce }) {
   const box = useRef(null);
   const g = useRef(null);
   const [state, setState] = useState('load');
@@ -2553,7 +2553,7 @@ function GMap({ S, tt, pick, onPick, type }) {
       G.pins[p.id] = new Marker({ map, position: { lat: +q[0], lng: +q[1] }, content: c, zIndex: 1 });
     });
     G.fit = null;
-  }, [state, S, pick]);
+  }, [state, S, pick, nonce]);
 
   useEffect(() => {
     const G = g.current;
@@ -2674,7 +2674,7 @@ function GMap({ S, tt, pick, onPick, type }) {
     else S.places.forEach((p) => S.used.has(p.id) && put(S.ll(p.id)));
     if (n > 1) map.fitBounds(b, 40);
     else if (n === 1) map.panTo(b.getCenter());
-  }, [state, S, tt, pick]);
+  }, [state, S, tt, pick, nonce]);
 
   return (
     <div className={'gmap' + (pick ? ' picking' : '')}>
@@ -2684,7 +2684,8 @@ function GMap({ S, tt, pick, onPick, type }) {
   );
 }
 
-function Stage({ S, s, pick, setPick }) {
+function Stage({ S, s, pick, setPick, onRefresh }) {
+  const [nonce, setNonce] = useState(0);
   const t = s.trip;
   const [u, setU] = useState(0);
   const [play, setPlay] = useState(false);
@@ -2750,7 +2751,7 @@ function Stage({ S, s, pick, setPick }) {
           </button>
         ))}
       </div>
-      <GMap S={S} tt={tt} type={type} pick={pick} onPick={(ll) => {
+      <GMap S={S} tt={tt} type={type} nonce={nonce} pick={pick} onPick={(ll) => {
           const { [pick]: _, ...addrs } = t.addrs || {};
           s.set({ pins: { ...pins, [pick]: ll }, addrs });
           setPick(null);
@@ -2793,6 +2794,18 @@ function Stage({ S, s, pick, setPick }) {
             setU(+e.target.value);
           }}
         />
+        <button
+          className="skip"
+          onClick={() => {
+            setPlay(false);
+            setU(0);
+            setNonce((n) => n + 1);
+            onRefresh?.();
+          }}
+          aria-label="Refresh map"
+        >
+          ↻
+        </button>
       </div>
       <div className="dayKey">
         <span>
@@ -2851,7 +2864,8 @@ function Shuttle({ s }) {
   const ownerOf = (c) => DRIVERS[c.owner] || t.crew.find((x) => x.id === c.owner)?.name || '';
   const [rev, setRev] = useState(0);
   const S = useMemo(() => story(t), [t, rev]);
-  useRoutes(S, () => setRev((r) => r + 1));
+  const [retry, setRetry] = useState(0);
+  useRoutes(S, () => setRev((r) => r + 1), retry);
   const { byId, places, launch, out, dates, start, N } = S;
   const cars = t.cars || [];
   const boats = t.boats || [];
@@ -3052,7 +3066,7 @@ function Shuttle({ s }) {
   return (
     <>
       <div id="shuttleMap" />
-      <Stage S={S} s={s} pick={pick} setPick={setPick} />
+      <Stage S={S} s={s} pick={pick} setPick={setPick} onRefresh={() => setRetry((r) => r + 1)} />
       {warn.length > 0 && (
         <div className="notice mt">
           <div className="noticeHead">
