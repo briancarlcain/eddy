@@ -738,3 +738,4 @@ body.shot #fakeStatus { background: var(--bg); }
 .rg .sugg .mapPick b { color: #9a4a28; }
 .tabbar, .pageHeader, .rg .tabs { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
 .gateCard .btn.block { display: block; width: 100%; min-height: 48px; font-size: 14px; }
+.lntNote { margin-bottom: 10px; font-size: 14px; }
