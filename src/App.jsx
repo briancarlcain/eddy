@@ -2452,6 +2452,11 @@ const el = (cls, html) => {
   return d;
 };
 const esc = (x) => String(x).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+const abbr = (n) => {
+  const p = String(n || '').trim().split(/\s+/);
+  return p.length > 1 ? `${p[0]} ${p[p.length - 1][0]}` : p[0];
+};
+const names = (list) => esc(list.map((e) => abbr(e.name)).join(', '));
 const plural = (n, w) => (n ? `${n} ${w}${n > 1 ? 's' : ''}` : '');
 
 function GMap({ S, tt, pick, onPick }) {
@@ -2484,7 +2489,7 @@ function GMap({ S, tt, pick, onPick }) {
         map.addListener('click', (e) => pickRef.current?.([+e.latLng.lat().toFixed(6), +e.latLng.lng().toFixed(6)]));
         const L = hasGeo(RIVER.id) ? riverLine(RIVER.id) : null;
         if (L) new Polyline({ map, path: L.ll.map(([lat, lng]) => ({ lat, lng })), strokeColor: '#3a6f92', strokeOpacity: 0.85, strokeWeight: 4, clickable: false });
-        g.current = { map, Polyline, Marker: AdvancedMarkerElement, L, pins: {}, cars: {}, lines: {}, faint: [], fit: null };
+        g.current = { map, Polyline, Marker: AdvancedMarkerElement, L, pins: {}, cars: {}, lines: {}, faint: [], fit: null, open: new Set() };
         setState('ok');
       } catch {
         if (!dead) setState('off');
@@ -2515,7 +2520,12 @@ function GMap({ S, tt, pick, onPick }) {
       if (!(S.used.has(p.id) || p.id === pick)) return;
       const q = S.ll(p.id);
       if (!q) return;
-      const c = el('gmPin' + (p.id === pick ? ' on' : ''), `<b>${esc(p.name)}</b><i></i>`);
+      const c = el('gmPin' + (p.id === pick ? ' on' : '') + (G.open.has(p.id) ? ' open' : ''), `<b>${esc(p.name)}</b><i></i><div class="gmMore"></div>`);
+      c.addEventListener('click', (e) => {
+        e.stopPropagation();
+        G.open.has(p.id) ? G.open.delete(p.id) : G.open.add(p.id);
+        c.classList.toggle('open', G.open.has(p.id));
+      });
       G.pins[p.id] = new Marker({ map, position: { lat: +q[0], lng: +q[1] }, content: c, zIndex: 1 });
     });
     G.fit = null;
@@ -2526,24 +2536,32 @@ function GMap({ S, tt, pick, onPick }) {
     if (state !== 'ok' || !G) return;
     const { map, Polyline, Marker } = G;
     const here = {};
-    const add = (id, k) => ((here[id] ||= { car: 0, person: 0, boat: 0 })[k] += 1);
+    const add = (id, k, e) => (here[id] ||= { car: [], person: [], boat: [] })[k].push(e);
     const live = [];
     S.cars.forEach((c) => {
       const a = S.at(c, tt);
       if (!a) return;
-      if (a.to == null) add(a.at, 'car');
+      if (a.to == null) add(a.at, 'car', c);
       else live.push({ c, a });
     });
-    let afloat = 0;
+    const wet = { person: [], boat: [] };
     [...S.people, ...S.boats].forEach((e) => {
       const a = S.at(e, tt);
       if (!a || a.leg) return;
-      if (a.at === 'river' && a.to == null) e.kind === 'person' && afloat++;
-      else if (a.to == null) add(a.at, e.kind);
+      if (a.at === 'river' && a.to == null) wet[e.kind].push(e);
+      else if (a.to == null) add(a.at, e.kind, e);
     });
+    const afloat = wet.person.length;
     Object.entries(G.pins).forEach(([id, m]) => {
       const h = here[id];
-      m.content.querySelector('i').textContent = h ? [plural(h.car, 'car'), plural(h.person, 'person').replace('persons', 'people'), plural(h.boat, 'boat')].filter(Boolean).join(' · ') : '';
+      m.content.querySelector('i').textContent = h ? [plural(h.car.length, 'car'), plural(h.person.length, 'person').replace('persons', 'people'), plural(h.boat.length, 'boat')].filter(Boolean).join(' · ') : '';
+      m.content.querySelector('.gmMore').innerHTML = h
+        ? [
+            h.car.map((c) => `<span class="gmTint" style="--tint:${c.tint}">${esc(c.name)}</span>`).join(''),
+            h.person.length ? `<span>${names(h.person)}</span>` : '',
+            h.boat.length ? `<span class="gmBoats">${esc(h.boat.map((b) => b.name).join(', '))}</span>` : '',
+          ].join('')
+        : '';
     });
 
     const lane = {};
@@ -2562,13 +2580,14 @@ function GMap({ S, tt, pick, onPick }) {
         q = [A[0] + (B[0] - A[0]) * f, A[1] + (B[1] - A[1]) * f];
       }
       keep.add(c.id);
-      const load = [plural((a.leg.who || []).length, 'person').replace('persons', 'people'), plural((a.leg.boats || []).length, 'boat'), a.leg.gear ? 'gear' : ''].filter(Boolean).join(' · ');
+      const who = S.people.filter((m) => (a.leg.who || []).includes(m.id));
+      const bts = [...S.boats.filter((b) => (a.leg.boats || []).includes(b.id)).map((b) => b.name), a.leg.gear ? 'gear' : ''].filter(Boolean);
       let m = G.cars[c.id];
       if (!m) {
         m = G.cars[c.id] = new Marker({ map, content: el('gmCar', ''), zIndex: 3 });
         m.content.style.setProperty('--tint', c.tint);
       }
-      m.content.innerHTML = `<b>${esc(c.name)}</b>${load ? `<i>${esc(load)}</i>` : ''}`;
+      m.content.innerHTML = `<b>${esc(c.name)}</b>${who.length ? `<span>${names(who)}</span>` : a.leg.pro ? '<span>Shuttle service</span>' : ''}${bts.length ? `<span class="gmBoats">${esc(bts.join(', '))}</span>` : ''}`;
       m.position = { lat: q[0], lng: q[1] };
       if (!m.map) m.map = map;
       let ln = G.lines[c.id];
@@ -2589,7 +2608,15 @@ function GMap({ S, tt, pick, onPick }) {
     if (afloat && G.L) {
       const q = atMile(G.L, S.mileAt(tt));
       if (!G.buoy) G.buoy = new Marker({ content: el('gmBuoy', ''), zIndex: 4 });
-      G.buoy.content.textContent = afloat;
+      const crew = (b) => wet.person.filter((m) => m.boat === b.id);
+      const loose = wet.person.filter((m) => !wet.boat.some((b) => b.id === m.boat));
+      G.buoy.content.innerHTML =
+        wet.boat
+          .filter((b) => crew(b).length)
+          .map((b) => `<span><em>${esc(b.name)}</em> ${names(crew(b))}</span>`)
+          .join('') +
+        (wet.boat.some((b) => !crew(b).length) ? `<span><em>${esc(wet.boat.filter((b) => !crew(b).length).map((b) => b.name).join(', '))}</em></span>` : '') +
+        (loose.length ? `<span>${names(loose)}</span>` : '');
       G.buoy.position = { lat: q.lat, lng: q.lon };
       if (!G.buoy.map) G.buoy.map = map;
     } else if (G.buoy) G.buoy.map = null;
@@ -2893,12 +2920,6 @@ function Shuttle({ s }) {
     const x = S.legs.find((q) => q.id === id);
     return x ? clockOf(x.t0) : '';
   };
-  const riders = (l) => {
-    const w = l.who || [];
-    if (!w.length) return l.pro ? 'shuttle service' : 'empty';
-    if (w.length === t.crew.length && w.length > 1) return 'everyone';
-    return w.length > 3 ? `${w.length} aboard` : w.map((x) => byName(t.crew, x)).filter(Boolean).join(', ');
-  };
 
   return (
     <>
@@ -2942,9 +2963,9 @@ function Shuttle({ s }) {
                       <span className="carName">
                         {c?.name || 'No vehicle'} <span className="legWay">{pname(l.from)} → {pname(l.to)}</span>
                       </span>
-                      <span className="muted">
-                        {[l.arr ? 'arrive ' + clockOf(hhmm(l.arr)) : at(l.id), hm(S.hrs(l.from, l.to)), riders(l), nb ? (nb === boats.length && nb > 1 ? 'all boats' : (l.boats || []).map((x) => byName(boats, x)).filter(Boolean).join(', ')) : null, l.gear ? 'gear' : null].filter(Boolean).join(' · ')}
-                      </span>
+                      <span className="muted">{[l.arr ? 'arrive ' + clockOf(hhmm(l.arr)) : at(l.id), hm(S.hrs(l.from, l.to))].filter(Boolean).join(' · ')}</span>
+                      {who ? <span className="legWho">{(l.who || []).map((x) => abbr(byName(t.crew, x))).filter(Boolean).join(', ')}</span> : l.pro ? <span className="legWho">Shuttle service</span> : null}
+                      {nb || l.gear ? <span className="legBoats">{[...(l.boats || []).map((x) => byName(boats, x)).filter(Boolean), l.gear ? 'gear' : null].filter(Boolean).join(', ')}</span> : null}
                     </span>
                   </button>
                   {isOpen && (
