@@ -2063,7 +2063,9 @@ const CarPaths = ({ trailer }) => (
 
 const CarIcon = ({ trailer }) => (
   <svg className="carIcon" viewBox="0 0 46 18" aria-hidden="true">
-    <CarPaths trailer={trailer} />
+    <g transform="translate(44.3 0) scale(-1 1)">
+      <CarPaths trailer={trailer} />
+    </g>
   </svg>
 );
 
@@ -2680,21 +2682,6 @@ function GMap({ S, tt, pick, onPick, type }) {
   );
 }
 
-const TruckPaths = () => (
-  <>
-    <path d="M2 13h28M4.5 13a2.2 2.2 0 1 0 4.4 0 2.2 2.2 0 1 0-4.4 0M21 13a2.2 2.2 0 1 0 4.4 0 2.2 2.2 0 1 0-4.4 0" />
-    <path d="M2 13V3.5h20V13M22 6.5h6l4 4V13" />
-    <path d="M32 13h12M34 13a2 2 0 1 0 4 0 2 2 0 1 0-4 0" />
-    <path d="M32 12.5V7h11v5.5z" />
-  </>
-);
-
-const TruckIcon = () => (
-  <svg className="carIcon" viewBox="0 0 46 18" aria-hidden="true">
-    <TruckPaths />
-  </svg>
-);
-
 function Stage({ S, s }) {
   const t = s.trip;
   const [u, setU] = useState(0);
@@ -3212,7 +3199,7 @@ function Shuttle({ s }) {
         <div className={'grItem' + (openCar === c.id ? ' open' : '')} key={c.id}>
           <button className="car" onClick={() => setOpenCar(openCar === c.id ? null : c.id)}>
             <span className="carIconWrap" style={{ color: tint(c.id) }}>
-              {c.kind === 'outfitter' ? <TruckIcon /> : <CarIcon trailer={c.trailer} />}
+              <CarIcon trailer={c.kind === 'outfitter' || c.trailer} />
             </span>
             <span className="carText">
               <span className="carName">{c.name}</span>
@@ -3220,7 +3207,7 @@ function Shuttle({ s }) {
                 {t.crew.find((x) => x.id === c.owner)?.name || (c.kind === 'outfitter' ? 'Delivers and collects boats' : 'No owner')}
                 {num(c.seats) ? ` · ${num(c.seats)} seats` : ''}
                 {c.trailer && c.kind !== 'outfitter' ? ' · trailer' : ''}
-                {` · ${legs.filter((l) => l.car === c.id).length} legs`}
+                {` · ${plural(legs.filter((l) => l.car === c.id).length, 'leg') || '0 legs'}`}
               </span>
             </span>
           </button>
