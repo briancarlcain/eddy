@@ -2581,7 +2581,7 @@ function GMap({ S, tt, pick, onPick }) {
       }
       keep.add(c.id);
       const who = S.people.filter((m) => (a.leg.who || []).includes(m.id));
-      const bts = [...S.boats.filter((b) => (a.leg.boats || []).includes(b.id)).map((b) => b.name), a.leg.gear ? 'gear' : ''].filter(Boolean);
+      const bts = [...S.boats.filter((b) => (a.leg.boats || []).includes(b.id)).map((b) => b.name)];
       let m = G.cars[c.id];
       if (!m) {
         m = G.cars[c.id] = new Marker({ map, content: el('gmCar', ''), zIndex: 3 });
@@ -2805,7 +2805,7 @@ function Stage({ S, s }) {
         {rolling.map((l) => {
           const who = (l.who || []).length;
           const bo = (l.boats || []).length;
-          const tail = [who ? `${who} aboard` : l.pro ? 'shuttle service' : null, bo ? `${bo} boat${bo > 1 ? 's' : ''}` : null, l.gear ? 'gear' : null].filter(Boolean).join(' · ');
+          const tail = [who ? `${who} aboard` : l.pro ? 'shuttle service' : null, bo ? `${bo} boat${bo > 1 ? 's' : ''}` : null].filter(Boolean).join(' · ');
           return (
             <span className="move" key={l.car.id + l.t0}>
               <i style={{ background: l.car.tint }} />
@@ -2854,7 +2854,7 @@ function Shuttle({ s }) {
     const last = legs[legs.length - 1];
     const car = last?.car || cars[0]?.id || '';
     const prev = [...legs].reverse().find((l) => l.car === car);
-    const l = { id: uid(), car, from: prev ? prev.to : off[0]?.id || '', to: '', date: last ? last.date : start, who: [], boats: [], gear: false, pro: false, par: false };
+    const l = { id: uid(), car, from: prev ? prev.to : off[0]?.id || '', to: '', date: last ? last.date : start, who: [], boats: [], pro: false, par: false };
     save([...legs, l]);
     setOpenLeg(l.id);
   };
@@ -2965,7 +2965,7 @@ function Shuttle({ s }) {
                       </span>
                       <span className="muted">{[l.arr ? 'arrive ' + clockOf(hhmm(l.arr)) : at(l.id), hm(S.hrs(l.from, l.to))].filter(Boolean).join(' · ')}</span>
                       {who ? <span className="legWho">{(l.who || []).map((x) => abbr(byName(t.crew, x))).filter(Boolean).join(', ')}</span> : l.pro ? <span className="legWho">Shuttle service</span> : null}
-                      {nb || l.gear ? <span className="legBoats">{[...(l.boats || []).map((x) => byName(boats, x)).filter(Boolean), l.gear ? 'gear' : null].filter(Boolean).join(', ')}</span> : null}
+                      {nb ? <span className="legBoats">{(l.boats || []).map((x) => byName(boats, x)).filter(Boolean).join(', ')}</span> : null}
                     </span>
                   </button>
                   {isOpen && (
@@ -3011,9 +3011,6 @@ function Shuttle({ s }) {
                             Shuttle service drives
                           </button>
                         )}
-                        <button className={'chip' + (l.gear ? ' on' : '')} onClick={() => setLeg(l.id, { gear: !l.gear })}>
-                          Gear aboard
-                        </button>
                       </div>
                       {c?.kind !== 'outfitter' && (
                         <>
