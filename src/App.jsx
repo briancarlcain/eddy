@@ -3418,15 +3418,13 @@ function Ledger({ s }) {
   const t = s.trip;
   const pay = t.pay || [];
   const L = useMemo(() => ledger(t), [t]);
-  const [what, setWhat] = useState('');
-  const [by, setBy] = useState('');
-  const [to, setTo] = useState('');
-  const [amt, setAmt] = useState('');
+  const [openPay, setOpenPay] = useState(null);
+  const [freshPay, setFreshPay] = useState(null);
   const paid = {};
   t.crew.forEach((c) => (paid[c.id] = 0));
   pay.forEach((p) => {
     paid[p.by] = (paid[p.by] || 0) + num(p.amt);
-    if (p.to) paid[p.to] = (paid[p.to] || 0) - num(p.amt);
+    if (p.to && p.by) paid[p.to] = (paid[p.to] || 0) - num(p.amt);
   });
   const potted = pay.filter((p) => !p.to).reduce((a, p) => a + num(p.amt), 0);
   const nm = (id) => t.crew.find((c) => c.id === id)?.name || '—';
@@ -3486,62 +3484,66 @@ function Ledger({ s }) {
       {unpaid > 0.5 ? <div className="muted">{usd0(unpaid)} still to pay toward trip costs</div> : null}
 
       <span className="label mt">Payments</span>
-      {pay.map((p) => (
-        <div className="gearRow" key={p.id}>
-          <span className="gearName">
-            {p.what}
-            <span className="muted"> {p.to ? `${nm(p.by)} → ${nm(p.to)}` : nm(p.by)}</span>
-          </span>
-          <span className="grAmt">{usd0(num(p.amt))}</span>
-          <button className="x" onClick={() => s.drop('pay', p.id)} aria-label="Remove">
-            ✕
-          </button>
-        </div>
-      ))}
-      {pay.length > 0 && <div className="muted">{usd0(potted)} paid so far</div>}
-      {L.loose > 0.005 && <div className="muted">{usd0(L.loose)} unclaimed</div>}
-
-      <div className="mt">
-        <Field value={what} onChange={(e) => setWhat(e.target.value)} placeholder={to ? 'Note (optional)' : 'Expense'} />
-        <span className="label">Paid by</span>
-        <div className="chips">
-          {t.crew.map((c) => (
-            <button key={c.id} className={'chip' + (by === c.id ? ' on' : '')} onClick={() => setBy(by === c.id ? '' : c.id)}>
-              {c.name}
+      {pay.map((p) => {
+        const isOpen = openPay === p.id;
+        const up = (x) => s.patch('pay', p.id, x);
+        return (
+          <div className={'grItem' + (isOpen ? ' open' : '')} key={p.id}>
+            <button className="car" onClick={() => setOpenPay(isOpen ? null : p.id)}>
+              <span className="carText">
+                <span className="carName">{p.what || (p.to ? 'Paid back' : 'New payment')}</span>
+                {p.by ? <span className="muted">{p.to ? `${nm(p.by)} → ${nm(p.to)}` : nm(p.by)}</span> : null}
+              </span>
+              <span className="grAmt">{usd0(num(p.amt))}</span>
             </button>
-          ))}
-        </div>
-        <span className="label">Paid to</span>
-        <div className="chips">
-          <button className={'chip' + (!to ? ' on' : '')} onClick={() => setTo('')}>
-            Trip costs
-          </button>
-          {t.crew
-            .filter((c) => c.id !== by)
-            .map((c) => (
-              <button key={c.id} className={'chip' + (to === c.id ? ' on' : '')} onClick={() => setTo(to === c.id ? '' : c.id)}>
-                {c.name}
-              </button>
-            ))}
-        </div>
-        <div className="row">
-          <label className="field narrow">
-            <input inputMode="decimal" value={amt} placeholder="0" onChange={(e) => setAmt(e.target.value)} />
-          </label>
-          <button
-            className="btn"
-            disabled={(!what.trim() && !to) || !by || !num(amt) || to === by}
-            onClick={() => {
-              s.push('pay', { what: what.trim() || 'Paid back', by, ...(to ? { to } : {}), amt: num(amt) });
-              setWhat('');
-              setAmt('');
-              setTo('');
-            }}
-          >
-            Add
-          </button>
-        </div>
-      </div>
+            {isOpen && (
+              <div className="grBody">
+                <div className="row">
+                  <Field label={p.to ? 'Note' : 'Expense'} value={p.what || ''} autoFocus={freshPay === p.id} onChange={(e) => up({ what: e.target.value })} />
+                  <Field className="narrow" label="Amount" inputMode="decimal" value={p.amt ?? ''} placeholder="0" onChange={(e) => up({ amt: e.target.value })} />
+                </div>
+                <span className="label">Paid by</span>
+                <div className="chips">
+                  {t.crew.map((c) => (
+                    <button key={c.id} className={'chip' + (p.by === c.id ? ' on' : '')} onClick={() => up({ by: p.by === c.id ? '' : c.id, ...(p.to === c.id ? { to: '' } : {}) })}>
+                      {c.name}
+                    </button>
+                  ))}
+                </div>
+                <span className="label">Paid to</span>
+                <div className="chips">
+                  <button className={'chip' + (!p.to ? ' on' : '')} onClick={() => up({ to: '' })}>
+                    Trip costs
+                  </button>
+                  {t.crew
+                    .filter((c) => c.id !== p.by)
+                    .map((c) => (
+                      <button key={c.id} className={'chip' + (p.to === c.id ? ' on' : '')} onClick={() => up({ to: p.to === c.id ? '' : c.id })}>
+                        {c.name}
+                      </button>
+                    ))}
+                </div>
+                <button className="btn ghost danger mt-s" onClick={() => s.drop('pay', p.id)}>
+                  Remove
+                </button>
+              </div>
+            )}
+          </div>
+        );
+      })}
+      <button
+        className="btn ghost mt-s"
+        onClick={() => {
+          const id = uid();
+          s.push('pay', { id, what: '', by: '', amt: '' });
+          setFreshPay(id);
+          setOpenPay(id);
+        }}
+      >
+        Add payment
+      </button>
+      {pay.length > 0 && <div className="muted mt-s">{usd0(potted)} paid so far</div>}
+      {L.loose > 0.005 && <div className="muted">{usd0(L.loose)} unclaimed</div>}
     </>
   );
 }
@@ -3641,40 +3643,47 @@ function Info({ s }) {
 }
 
 function Log({ s }) {
-  const [text, setText] = useState('');
-  const [date, setDate] = useState(today());
+  const [open, setOpen] = useState(null);
   return (
     <>
-      <Field area value={text} onChange={(e) => setText(e.target.value)} placeholder="Today" />
-      <div className="row">
-        <Field type="date" value={date} onChange={(e) => setDate(e.target.value)} />
-        <button
-          className="btn"
-          disabled={!text.trim()}
-          onClick={() => {
-            s.push('log', { date, text: text.trim() });
-            setText('');
-          }}
-        >
-          Save
-        </button>
-      </div>
+      <button
+        className="btn ghost mb"
+        onClick={() => {
+          const id = uid();
+          s.push('log', { id, date: today(), text: '' });
+          setOpen(id);
+        }}
+      >
+        Add entry
+      </button>
       {!s.trip.log.length && (
         <Empty icon="inbox" title="No log entries yet">
           Jot down the day's river notes, hazards and wildlife sightings here.
         </Empty>
       )}
-      {[...s.trip.log].reverse().map((e) => (
-        <div className="entry" key={e.id}>
-          <div className="entryHead">
-            <span className="label">{fmt(e.date)}</span>
-            <button className="x" onClick={() => s.drop('log', e.id)} aria-label="Remove">
-              ✕
-            </button>
+      {[...s.trip.log].reverse().map((e) =>
+        open === e.id ? (
+          <div className="entry" key={e.id}>
+            <Field type="date" value={e.date} onChange={(x) => okDate(x.target.value) && s.patch('log', e.id, { date: x.target.value })} />
+            <Field area autoFocus value={e.text} onChange={(x) => s.patch('log', e.id, { text: x.target.value })} />
+            <div className="chips">
+              <button className="chip" onClick={() => setOpen(null)}>
+                Done
+              </button>
+              <button className="chip danger" onClick={() => (s.drop('log', e.id), setOpen(null))}>
+                Remove
+              </button>
+            </div>
           </div>
-          <div className="line">{e.text}</div>
-        </div>
-      ))}
+        ) : (
+          <div className="entry" key={e.id} onClick={() => setOpen(e.id)}>
+            <div className="entryHead">
+              <span className="label">{fmt(e.date)}</span>
+            </div>
+            <div className="line">{e.text}</div>
+          </div>
+        )
+      )}
     </>
   );
 }
@@ -5803,6 +5812,7 @@ const netMsg = (e) => (/Failed to fetch|NetworkError|Load failed|network/i.test(
 function WhoAreYou({ s, tripId, onDone }) {
   const t = s.trips.find((x) => x.id === tripId);
   const [name, setName] = useState(() => savedName());
+  const [adding, setAdding] = useState(false);
   const finish = (crewId, crewName) => {
     if (crewId) setMeFor(tripId, crewId);
     if (crewName) s.renameMe(tripId, crewName).catch(() => {});
@@ -5820,8 +5830,13 @@ function WhoAreYou({ s, tripId, onDone }) {
           {c.name}
         </button>
       ))}
+      {!adding ? (
+        <button className="btn ghost block mt" onClick={() => setAdding(true)}>
+          I'm not listed
+        </button>
+      ) : (
       <div className="mt">
-        <Field label="Not listed? Add your name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" />
+        <Field label="Your name" value={name} autoFocus onChange={(e) => setName(e.target.value)} />
         <button
           className="btn block"
           disabled={!name.trim()}
@@ -5834,6 +5849,7 @@ function WhoAreYou({ s, tripId, onDone }) {
           Add me
         </button>
       </div>
+      )}
       <button className="linkBtn mt" onClick={() => finish('')}>
         Skip
       </button>
@@ -6130,6 +6146,7 @@ function EntryList({ kind, items, onChange }) {
   const spec = ENTRY[kind];
   const blank = Object.fromEntries(spec.fields.map(([k, , t]) => [k, t === 'bank' ? 'R' : '']));
   const [draft, setDraft] = useState(blank);
+  const [adding, setAdding] = useState(false);
   const mile = parseFloat(draft.mile);
   const ok = draft.name.trim() && isFinite(mile);
   const add = () => {
@@ -6142,6 +6159,7 @@ function EntryList({ kind, items, onChange }) {
     });
     onChange([...items, e].sort((a, b) => a.mile - b.mile));
     setDraft(blank);
+    setAdding(false);
   };
   return (
     <Acc title={spec.label} note={String(items.length)}>
@@ -6154,6 +6172,11 @@ function EntryList({ kind, items, onChange }) {
           </button>
         </div>
       ))}
+      {!adding ? (
+        <button className="btn ghost mt-s" onClick={() => setAdding(true)}>
+          Add
+        </button>
+      ) : (
       <div className="mt">
         {spec.fields.map(([k, label, t]) =>
           t === 'bank' ? (
@@ -6172,10 +6195,16 @@ function EntryList({ kind, items, onChange }) {
             />
           )
         )}
-        <button className="btn" disabled={!ok} onClick={add}>
-          Add
-        </button>
+        <div className="row">
+          <button className="btn" disabled={!ok} onClick={add}>
+            Save
+          </button>
+          <button className="btn ghost" onClick={() => (setAdding(false), setDraft(blank))}>
+            Cancel
+          </button>
+        </div>
       </div>
+      )}
     </Acc>
   );
 }
@@ -6209,6 +6238,7 @@ function RiverEditor({ s, id, onClose }) {
   const [err, setErr] = useState('');
   const set = (k) => (e) => setF({ ...f, [k]: e.target.value });
   const [acc, setAcc] = useState({ name: '', mile: '', hub: false });
+  const [addingAcc, setAddingAcc] = useState(false);
   const used = id ? s.trips.filter((t) => riverOf(t) === id).length : 0;
 
   const save = () => {
@@ -6309,6 +6339,12 @@ function RiverEditor({ s, id, onClose }) {
             </button>
           </div>
         ))}
+        {!addingAcc ? (
+          <button className="btn ghost mt-s" onClick={() => setAddingAcc(true)}>
+            Add access point
+          </button>
+        ) : (
+          <>
         <Field label="Name" value={acc.name} onChange={(e) => setAcc({ ...acc, name: e.target.value })} placeholder="Corn Creek" />
         <div className="row">
           <Field label="River mile" value={acc.mile} onChange={(e) => setAcc({ ...acc, mile: e.target.value })} inputMode="decimal" placeholder="blank for a town / hub" />
@@ -6316,8 +6352,9 @@ function RiverEditor({ s, id, onClose }) {
             <input type="checkbox" checked={acc.hub} onChange={(e) => setAcc({ ...acc, hub: e.target.checked })} /> Hub / town
           </label>
         </div>
+        <div className="row">
         <button
-          className="btn ghost"
+          className="btn"
           disabled={!acc.name.trim() || (!acc.hub && !isFinite(parseFloat(acc.mile)))}
           onClick={() => {
             const m = parseFloat(acc.mile);
@@ -6326,10 +6363,17 @@ function RiverEditor({ s, id, onClose }) {
             if (isFinite(m)) p.mile = m;
             setAccess([...access, p]);
             setAcc({ name: '', mile: '', hub: false });
+            setAddingAcc(false);
           }}
         >
-          Add access point
+          Save
         </button>
+        <button className="btn ghost" onClick={() => (setAddingAcc(false), setAcc({ name: '', mile: '', hub: false }))}>
+          Cancel
+        </button>
+        </div>
+          </>
+        )}
       </div>
 
       <div className="mt">
