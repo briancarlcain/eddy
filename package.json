@@ -27,6 +27,7 @@
     "@capacitor/share": "^8.0.3",
     "@capacitor/splash-screen": "^8.0.2",
     "@capacitor/status-bar": "^8.0.4",
+    "@photostructure/tz-lookup": "^11.7.0",
     "@supabase/auth-js": "^2.117.3",
     "leaflet": "^1.9.4",
     "react": "19.2.3",

@@ -17,6 +17,7 @@ import { applyTheme, riverCardStyle } from './theme.js';
 import { campHorizon, campSun, riverLine, dropHorizon, drops, dropsGPX, hasGeo, hikeTrack, onGeoChange, parseGPX, position, removeDrop, setHikeTrack, trackStats, updateDrop } from './geo/index.js';
 import { sunDay } from './geo/sun.js';
 import { atMile } from './geo/line.js';
+import tzlookup from '@photostructure/tz-lookup';
 
 // set by build.mjs: the App Store build ships a fictional sample trip, never the crew's real one
 const IS_STORE = typeof __STORE__ !== 'undefined' && __STORE__;
@@ -2261,6 +2262,7 @@ function story(t) {
     const p = sp(id);
     return p ? p.ll || where[p.k] || null : null;
   };
+  const zoneAt = (id) => placeZone(t, byId[fix(id)]);
 
   const dates = [];
   for (let d = -2; d <= N + 2; d++) dates.push(addDays(start, d));
@@ -2296,8 +2298,8 @@ function story(t) {
     offAt = {},
     free = {};
   const legs = [];
-  const LT = hhmm(t.launchTime) != null ? hhmm(t.launchTime) + zShift(t.launchTz || zoneOf(), start) : 9 / 24;
-  const OT = hhmm(t.outTime) != null ? hhmm(t.outTime) + zShift(t.outTz || zoneOf(), addDays(start, N)) : 13 / 24;
+  const LT = hhmm(t.launchTime) != null ? hhmm(t.launchTime) + zShift(zoneAt(launch?.id), start) : 9 / 24;
+  const OT = hhmm(t.outTime) != null ? hhmm(t.outTime) + zShift(zoneAt(out?.id), addDays(start, N)) : 13 / 24;
   const mainOn = (e) => e.on === 0 && e.onP === launch?.id;
   const mainOff = (e) => e.off === N && e.offP === out?.id;
   const days = [...new Set([...Object.keys(byDay).map(Number), ...ents.map((e) => e.on), ...ents.map((e) => e.off)])].sort((a, b) => a - b);
@@ -2307,13 +2309,13 @@ function story(t) {
       loc[e.id] = e.offP;
       offAt[e.id] = avail[e.id] = Math.max(e.off + (mainOff(e) ? OT : 13 / 24), onAt[e.id] + 0.1 || 0);
     });
-    let prev = d + DAY0;
+    let prev = -Infinity;
     (byDay[d] || []).forEach((l) => {
       const load = [...(l.who || []).filter((x) => !DRIVERS[x]), ...(l.boats || [])];
       l.stray = load.filter((x) => loc[x] != null && loc[x] !== l.from);
       const deps = Math.max(free[l.car.id] ?? -Infinity, ...load.filter((x) => loc[x] === l.from).map((x) => avail[x] ?? -Infinity));
-      const fixed = hhmm(l.dep) != null ? d + hhmm(l.dep) + zShift(depZone(l), l.date) : hhmm(l.arr) != null ? d + hhmm(l.arr) + zShift(arrZone(l), l.date) - dur(l) : null;
-      l.t0 = fixed ?? Math.max(prev, deps);
+      const fixed = hhmm(l.dep) != null ? d + hhmm(l.dep) + zShift(zoneAt(l.from), l.date) : hhmm(l.arr) != null ? d + hhmm(l.arr) + zShift(zoneAt(l.to), l.date) - dur(l) : null;
+      l.t0 = fixed ?? Math.max(prev, deps, d + DAY0 + zShift(zoneAt(l.from), l.date));
       l.t1 = l.t0 + dur(l);
       if (fixed != null && fixed < deps - 1e-6) l.early = deps;
       load.forEach((x) => ((loc[x] = l.to), (avail[x] = l.t1)));
@@ -2420,20 +2422,13 @@ function story(t) {
   };
   const stops = knots.filter((k) => k.go).map((k) => k.u);
 
-  return { start, N, dates, T, byId, places, used, legs, river, cars: rigs, boats, people, launch, out, mileAt, at, sp, drive, hrs, path, ll, U, tOf, stops };
+  return { start, N, dates, T, byId, places, used, legs, river, zoneAt, cars: rigs, boats, people, launch, out, mileAt, at, sp, drive, hrs, path, ll, U, tOf, stops };
 }
 
 const hhmm = (v) => {
   const m = /^(\d{1,2}):(\d{2})/.exec(v || '');
   return m ? (+m[1] * 60 + +m[2]) / 1440 : null;
 };
-const ZONES = [
-  ['America/Los_Angeles', 'Pacific'],
-  ['America/Denver', 'Mountain'],
-  ['America/Phoenix', 'Arizona'],
-  ['America/Chicago', 'Central'],
-  ['America/New_York', 'Eastern'],
-];
 const zoneOf = () => RIVER.tz || Intl.DateTimeFormat().resolvedOptions().timeZone;
 const tzPart = (tz, iso, style) => {
   try {
@@ -2447,8 +2442,26 @@ const offH = (tz, iso) => {
   return m ? (m[1] === '-' ? -1 : 1) * (+m[2] + (+m[3] || 0) / 60) : 0;
 };
 const tzAbbr = (tz, iso) => tzPart(tz, iso, 'short');
-const depZone = (l) => l.depTz || l.tz || zoneOf();
-const arrZone = (l) => l.arrTz || l.tz || zoneOf();
+const routeLL = (k) => {
+  for (const [key, r] of Object.entries(routes)) {
+    if (r.none) continue;
+    const [a, b] = key.split('>');
+    if (a === k && r.a) return r.a;
+    if (b === k && r.b) return r.b;
+  }
+  return null;
+};
+const placeZone = (t, p) => {
+  if (!p || p.mile != null || p.toMile != null) return zoneOf();
+  const sp = spot(t, p);
+  const ll = sp && (sp.ll || routeLL(sp.k));
+  if (!ll) return zoneOf();
+  try {
+    return tzlookup(+ll[0], +ll[1]);
+  } catch {
+    return zoneOf();
+  }
+};
 const zShift = (z, iso) => (offH(zoneOf(), iso) - offH(z, iso)) / 24;
 const hm24 = (tt) => {
   const m = Math.round((((tt % 1) + 1) % 1) * 1440) % 1440;
@@ -2678,17 +2691,15 @@ function GMap({ S, tt, pick, onPick, type, nonce }) {
   );
 }
 
-const zoneList = () => [...ZONES, ...(ZONES.some(([z]) => z === zoneOf()) ? [] : [[zoneOf(), zoneOf().split('/').pop().replace(/_/g, ' ')]])];
-
 function RiverEnd({ s, which }) {
   const t = s.trip;
   const out = which === 'out';
   const ramps = [...ACCESS.filter((p) => p.mile != null), ...(t.places || []).filter((p) => p.mile != null)];
   const date = out ? (okDate(t.start) ? addDays(t.start, num(t.days)) : '') : t.start;
   const time = out ? t.outTime : t.launchTime;
-  const tz = (out ? t.outTz : t.launchTz) || zoneOf();
-  const k = out ? { time: 'outTime', tz: 'outTz', at: 'out' } : { time: 'launchTime', tz: 'launchTz', at: 'launch' };
+  const k = out ? { time: 'outTime', at: 'out' } : { time: 'launchTime', at: 'launch' };
   const at = (out ? t.out : t.launch) || (out ? ramps[ramps.length - 1] : ramps[0])?.id;
+  const tz = placeZone(t, ramps.find((p) => p.id === at));
   return (
     <>
       <span className="label">{out ? 'Take out' : 'Put in'}</span>
@@ -2705,13 +2716,7 @@ function RiverEnd({ s, which }) {
           }}
         />
         <input type="time" className={time ? '' : 'auto'} value={time || (out ? '13:00' : '09:00')} onChange={(e) => s.set({ [k.time]: e.target.value })} />
-        <select className="sel" aria-label="Time zone" value={tz} onChange={(e) => s.set({ [k.tz]: e.target.value })}>
-          {zoneList().map(([z, n]) => (
-            <option key={z} value={z}>
-              {n}
-            </option>
-          ))}
-        </select>
+        <span className="tzTag">{tzAbbr(tz, date)}</span>
       </div>
       <Sel value={at} onChange={(v) => s.set({ [k.at]: v })}>
         {ramps.map((p) => (
@@ -3093,7 +3098,7 @@ function Shuttle({ s }) {
     gone.add(k);
     warn.push(`No road between ${pname(l.from)} and ${pname(l.to)}.`);
   });
-  S.legs.forEach((l) => l.early != null && warn.push(`${l.car.name} leaves ${pname(l.from)} at ${clockOf(l.t0 - zShift(depZone(l), l.date))} ${tzAbbr(depZone(l), l.date)} on ${fmt(l.date)}, before everything is there (${clockOf(l.early - zShift(depZone(l), l.date))}).`));
+  S.legs.forEach((l) => l.early != null && warn.push(`${l.car.name} leaves ${pname(l.from)} at ${clockOf(l.t0 - zShift(S.zoneAt(l.from), l.date))} ${tzAbbr(S.zoneAt(l.from), l.date)} on ${fmt(l.date)}, before everything is there (${clockOf(l.early - zShift(S.zoneAt(l.from), l.date))}).`));
   const lost = new Set();
   S.legs.forEach((l) => [l.from, l.to].forEach((id) => !lost.has(id) && !S.sp(id) && lost.add(id)));
   lost.forEach((id) => warn.push(`${pname(id)} needs an address (Places, below).`));
@@ -3126,7 +3131,7 @@ function Shuttle({ s }) {
   const [openRiver, setOpenRiver] = useState(null);
   const riverCard = (g) => {
     const key = g.kind + g.t + g.place;
-    const z = g.main ? (g.kind === 'on' ? t.launchTz : t.outTz) || zoneOf() : zoneOf();
+    const z = S.zoneAt(g.place);
     const isOpen = g.main && openRiver === key;
     const ppl = g.who.map((x) => abbr(byName(t.crew, x))).filter(Boolean).join(', ');
     const bts = g.boats.map((x) => byName(boats, x)).filter(Boolean).join(', ');
@@ -3157,8 +3162,8 @@ function Shuttle({ s }) {
   const times = (l) => {
     const x = S.legs.find((q) => q.id === l.id);
     if (!x) return null;
-    const dz = depZone(l),
-      az = arrZone(l);
+    const dz = S.zoneAt(l.from),
+      az = S.zoneAt(l.to);
     const a = x.t0 - zShift(dz, l.date),
       b = x.t1 - zShift(az, l.date);
     return { dep: hm24(a), arr: hm24(b), depDate: addDays(start, Math.floor(a)), arrDate: addDays(start, Math.floor(b)), next: Math.floor(b) - Math.floor(a), dz, az, a, b };
@@ -3168,16 +3173,6 @@ function Shuttle({ s }) {
     if (!x) return '';
     return `${clockOf(x.a)} ${tzAbbr(x.dz, l.date)} → ${clockOf(x.b)} ${tzAbbr(x.az, l.date)}${x.next > 0 ? ' +1' : ''}`;
   };
-  const zones = [...ZONES, ...(ZONES.some(([z]) => z === zoneOf()) ? [] : [[zoneOf(), zoneOf().split('/').pop().replace(/_/g, ' ')]])];
-  const zoneSel = (l, key, value) => (
-    <select className="sel" aria-label="Time zone" value={value} onChange={(e) => setLeg(l.id, { [key]: e.target.value })}>
-      {zones.map(([z, n]) => (
-        <option key={z} value={z}>
-          {n}
-        </option>
-      ))}
-    </select>
-  );
   const when = (l) => {
     const x = times(l) || {};
     const arrPin = !!l.arr;
@@ -3192,13 +3187,13 @@ function Shuttle({ s }) {
         <div className="when">
           <input className={arrPin ? 'auto' : ''} type="date" value={dd} onChange={(e) => okDate(e.target.value) && (arrPin ? depTo({ date: e.target.value }) : setLeg(l.id, { date: e.target.value }))} />
           <input className={depPin ? '' : 'auto'} type="time" value={l.dep || x.dep || ''} onChange={(e) => depTo({ dep: e.target.value })} />
-          {zoneSel(l, 'depTz', depZone(l))}
+          <span className="tzTag">{tzAbbr(S.zoneAt(l.from), dd)}</span>
         </div>
         <span className="label">Arrive</span>
         <div className="when">
           <input className={arrPin ? '' : 'auto'} type="date" value={ad} onChange={(e) => okDate(e.target.value) && arrTo({ arrDate: e.target.value, date: e.target.value })} />
           <input className={arrPin ? '' : 'auto'} type="time" value={l.arr || x.arr || ''} onChange={(e) => arrTo({ arr: e.target.value })} />
-          {zoneSel(l, 'arrTz', arrZone(l))}
+          <span className="tzTag">{tzAbbr(S.zoneAt(l.to), ad)}</span>
         </div>
       </>
     );
