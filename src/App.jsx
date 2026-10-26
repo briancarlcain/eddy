@@ -994,6 +994,8 @@ const Field = ({ label, area, ...p }) => (
 
 /* ---------- trip ---------- */
 
+const lastSub = {};
+
 function Trip({ s, back, onAccount, onRiver }) {
   const [nudge, setNudge] = useState(() => {
     try {
@@ -1010,7 +1012,10 @@ function Trip({ s, back, onAccount, onRiver }) {
   };
   const OLD = { 'Crew & Crafts': 'Crew', Ledger: 'Costs', Log: 'Journal', Info: 'Notes', Card: 'Emergency' };
   const q = QS.get('sub');
-  const [tab, setTab] = useState((q && (OLD[q] || q)) || 'Itinerary');
+  const [tab, setTab] = useState((q && (OLD[q] || q)) || lastSub[s.trip?.id] || 'Itinerary');
+  useEffect(() => {
+    if (s.trip) lastSub[s.trip.id] = tab;
+  }, [tab, s.trip?.id]);
   if (!s.trip) return <NewTrip s={s} />;
   const tripEnt = s.sync[s.trip.id];
   const tripStatus0 = s.syncStatus[s.trip.id];
@@ -6520,6 +6525,7 @@ function App() {
   const [joinBy] = useState(() => (QS.get('by') || '').replace(/[^\p{L}\p{N} '.-]/gu, '').slice(0, 24));
   const [profSub, setProfSub] = useState(null); // open Profile on a given sub-tab
   const lastCtx = useRef({ screen: 'Trips', river: null });
+  const [fromTrip, setFromTrip] = useState(null);
   const onMap = false;
   const riverOpen = tab === 'River' && !!browse;
   const detail = tab === 'Trips' && inTrip && !!s.trip;
@@ -6589,11 +6595,25 @@ function App() {
               <Icon name="back" size={18} /> Trips
             </button>
           )}
-          {riverOpen && (
-            <button className="hback" onClick={() => setBrowse(null)} aria-label="Back to all rivers">
-              <Icon name="back" size={18} /> Rivers
-            </button>
-          )}
+          {riverOpen &&
+            (fromTrip ? (
+              <button
+                className="hback"
+                onClick={() => {
+                  setFromTrip(null);
+                  setBrowse(null);
+                  setInTrip(true);
+                  setTab('Trips');
+                }}
+                aria-label="Back to the trip"
+              >
+                <Icon name="back" size={18} /> {short(fromTrip, 18)}
+              </button>
+            ) : (
+              <button className="hback" onClick={() => setBrowse(null)} aria-label="Back to all rivers">
+                <Icon name="back" size={18} /> Rivers
+              </button>
+            ))}
           <div className="phtitle">{title}</div>
           {riverOpen && (
             <button
@@ -6613,7 +6633,7 @@ function App() {
       <main key={rid}>
         {tab === 'Trips' &&
           (detail ? (
-            <Trip s={s} back={() => setInTrip(false)} onRiver={() => { setBrowse(tripRid); setTab('River'); }} onAccount={() => { setProfSub('Account'); setTab('Profile'); }} />
+            <Trip s={s} back={() => setInTrip(false)} onRiver={() => { setBrowse(tripRid); setFromTrip(s.trip?.name || 'Trip'); setTab('River'); }} onAccount={() => { setProfSub('Account'); setTab('Profile'); }} />
           ) : (
             <Trips s={s} preset={preset} clearPreset={() => setPreset(null)} joinCode={joinCode} joinBy={joinBy} welcome={welcome} setWelcome={setWelcome} clearJoin={() => { setJoinCode(''); try { history.replaceState(null, '', location.pathname); } catch {} }} onOpen={() => setInTrip(true)} onAccount={() => { setProfSub('Account'); setTab('Profile'); }} />
           ))}
@@ -6641,6 +6661,7 @@ function App() {
             onClick={() => {
               if (t.id === 'Trips') setInTrip(false); // tapping Trips always returns to the overview
               if (t.id === 'River') setBrowse(null); // and Rivers to the list
+              setFromTrip(null);
               setTab(t.id);
             }}
           >
