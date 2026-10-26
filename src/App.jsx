@@ -2613,7 +2613,7 @@ function GMap({ S, tt, pick, onPick, type }) {
       let ln = G.lines[c.id];
       if (p && (!ln || ln.leg !== k)) {
         ln?.setMap(null);
-        ln = G.lines[c.id] = new Polyline({ map, path: p.pts.map(([lat, lng]) => ({ lat, lng })), strokeColor: c.tint, strokeOpacity: 0.95, strokeWeight: 5, clickable: false, zIndex: 2 });
+        ln = G.lines[c.id] = new Polyline({ map, path: p.pts.map(([lat, lng]) => ({ lat, lng })), strokeColor: '#3d3832', strokeOpacity: 0.8, strokeWeight: 5, clickable: false, zIndex: 2 });
         ln.leg = k;
       }
     });
