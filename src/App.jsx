@@ -1115,34 +1115,8 @@ function Itinerary({ s }) {
       </div>
       <Stats s={s} />
       <div className="card formCard mb">
-      <div className="row">
-        <Field label="Launch" type="date" value={t.start} onChange={(e) => okDate(e.target.value) && s.set({ start: e.target.value })} />
-        <Field
-          label="Take-out"
-          type="date"
-          value={okDate(t.start) ? addDays(t.start, t.days) : ''}
-          onChange={(e) => {
-            const n = dnum(e.target.value, t.start);
-            if (n > 0 && n <= 60) s.set({ days: n });
-          }}
-        />
-      </div>
-      <div className="stack">
-        <Sel label="Put in at" value={t.launch || ramps[0]?.id} onChange={(v) => s.set({ launch: v })}>
-          {ramps.map((p) => (
-            <option key={p.id} value={p.id}>
-              {p.name}
-            </option>
-          ))}
-        </Sel>
-        <Sel label="Take out at" value={t.out || ramps[ramps.length - 1]?.id} onChange={(v) => s.set({ out: v })}>
-          {ramps.map((p) => (
-            <option key={p.id} value={p.id}>
-              {p.name}
-            </option>
-          ))}
-        </Sel>
-      </div>
+        <RiverEnd s={s} which="launch" />
+        <RiverEnd s={s} which="out" />
       </div>
       <span className="label sectionLabel">Day by day</span>
       {tripDays(t).map((d) => {
@@ -2322,12 +2296,16 @@ function story(t) {
     offAt = {},
     free = {};
   const legs = [];
+  const LT = hhmm(t.launchTime) != null ? hhmm(t.launchTime) + zShift(t.launchTz || zoneOf(), start) : 9 / 24;
+  const OT = hhmm(t.outTime) != null ? hhmm(t.outTime) + zShift(t.outTz || zoneOf(), addDays(start, N)) : 13 / 24;
+  const mainOn = (e) => e.on === 0 && e.onP === launch?.id;
+  const mainOff = (e) => e.off === N && e.offP === out?.id;
   const days = [...new Set([...Object.keys(byDay).map(Number), ...ents.map((e) => e.on), ...ents.map((e) => e.off)])].sort((a, b) => a - b);
   days.forEach((d) => {
     ents.forEach((e) => {
       if (loc[e.id] !== 'river' || e.off > d) return;
       loc[e.id] = e.offP;
-      offAt[e.id] = avail[e.id] = Math.max(e.off + 13 / 24, onAt[e.id] + 0.1 || 0);
+      offAt[e.id] = avail[e.id] = Math.max(e.off + (mainOff(e) ? OT : 13 / 24), onAt[e.id] + 0.1 || 0);
     });
     let prev = d + DAY0;
     (byDay[d] || []).forEach((l) => {
@@ -2348,10 +2326,21 @@ function story(t) {
       if (e.boat ? loc[e.id] !== e.onP : loc[e.id] != null && loc[e.id] !== e.onP) return;
       loc[e.id] = 'river';
       afloat[e.id] = 1;
-      onAt[e.id] = Math.max(d + 9 / 24, avail[e.id] ?? -Infinity);
+      onAt[e.id] = Math.max(d + (mainOn(e) ? LT : 9 / 24), avail[e.id] ?? -Infinity);
     });
   });
   legs.sort((a, b) => a.t1 - b.t1);
+  const river = [];
+  const grp = (kind, e, tt, place, main) => {
+    let g = river.find((x) => x.kind === kind && x.place === place && Math.abs(x.t - tt) < 1e-6);
+    if (!g) river.push((g = { kind, t: tt, place, main, who: [], boats: [] }));
+    (e.boat ? g.boats : g.who).push(e.id);
+  };
+  ents.forEach((e) => {
+    if (onAt[e.id] != null) grp('on', e, onAt[e.id], e.onP, mainOn(e));
+    if (offAt[e.id] != null) grp('off', e, offAt[e.id], e.offP, mainOff(e));
+  });
+  river.forEach((g) => (g.date = addDays(start, Math.floor(g.t))));
 
   const mileAt = (tt) => {
     const f = Math.max(0, Math.min(N, tt));
@@ -2431,7 +2420,7 @@ function story(t) {
   };
   const stops = knots.filter((k) => k.go).map((k) => k.u);
 
-  return { start, N, dates, T, byId, places, used, legs, cars: rigs, boats, people, launch, out, mileAt, at, sp, drive, hrs, path, ll, U, tOf, stops };
+  return { start, N, dates, T, byId, places, used, legs, river, cars: rigs, boats, people, launch, out, mileAt, at, sp, drive, hrs, path, ll, U, tOf, stops };
 }
 
 const hhmm = (v) => {
@@ -2686,6 +2675,52 @@ function GMap({ S, tt, pick, onPick, type, nonce }) {
       <div ref={box} className="gmapBox" />
       {state === 'off' ? <div className="gmapOff">Map needs a connection</div> : null}
     </div>
+  );
+}
+
+const zoneList = () => [...ZONES, ...(ZONES.some(([z]) => z === zoneOf()) ? [] : [[zoneOf(), zoneOf().split('/').pop().replace(/_/g, ' ')]])];
+
+function RiverEnd({ s, which }) {
+  const t = s.trip;
+  const out = which === 'out';
+  const ramps = [...ACCESS.filter((p) => p.mile != null), ...(t.places || []).filter((p) => p.mile != null)];
+  const date = out ? (okDate(t.start) ? addDays(t.start, num(t.days)) : '') : t.start;
+  const time = out ? t.outTime : t.launchTime;
+  const tz = (out ? t.outTz : t.launchTz) || zoneOf();
+  const k = out ? { time: 'outTime', tz: 'outTz', at: 'out' } : { time: 'launchTime', tz: 'launchTz', at: 'launch' };
+  const at = (out ? t.out : t.launch) || (out ? ramps[ramps.length - 1] : ramps[0])?.id;
+  return (
+    <>
+      <span className="label">{out ? 'Take out' : 'Put in'}</span>
+      <div className="when">
+        <input
+          type="date"
+          value={date}
+          onChange={(e) => {
+            const v = e.target.value;
+            if (!okDate(v)) return;
+            if (!out) return s.set({ start: v });
+            const n = dnum(v, t.start);
+            if (n > 0 && n <= 60) s.set({ days: n });
+          }}
+        />
+        <input type="time" className={time ? '' : 'auto'} value={time || (out ? '13:00' : '09:00')} onChange={(e) => s.set({ [k.time]: e.target.value })} />
+        <select className="sel" aria-label="Time zone" value={tz} onChange={(e) => s.set({ [k.tz]: e.target.value })}>
+          {zoneList().map(([z, n]) => (
+            <option key={z} value={z}>
+              {n}
+            </option>
+          ))}
+        </select>
+      </div>
+      <Sel value={at} onChange={(v) => s.set({ [k.at]: v })}>
+        {ramps.map((p) => (
+          <option key={p.id} value={p.id}>
+            {p.name}
+          </option>
+        ))}
+      </Sel>
+    </>
   );
 }
 
@@ -3087,7 +3122,38 @@ function Shuttle({ s }) {
     </>
   );
 
-  const days = [...new Set(legs.map((l) => l.date))].sort();
+  const days = [...new Set([...legs.map((l) => l.date), ...S.river.map((g) => g.date)])].sort();
+  const [openRiver, setOpenRiver] = useState(null);
+  const riverCard = (g) => {
+    const key = g.kind + g.t + g.place;
+    const z = g.main ? (g.kind === 'on' ? t.launchTz : t.outTz) || zoneOf() : zoneOf();
+    const isOpen = g.main && openRiver === key;
+    const ppl = g.who.map((x) => abbr(byName(t.crew, x))).filter(Boolean).join(', ');
+    const bts = g.boats.map((x) => byName(boats, x)).filter(Boolean).join(', ');
+    return (
+      <div className={'grItem riverItem' + (isOpen ? ' open' : '')} key={key}>
+        <button className="leg" onClick={() => g.main && setOpenRiver(isOpen ? null : key)}>
+          <span className="legSeq">≈</span>
+          <span className="legDot river" />
+          <span className="carText">
+            <span className="carName">
+              {g.main ? (g.kind === 'on' ? 'Put in' : 'Take out') : g.kind === 'on' ? 'On river' : 'Off river'} <span className="legWay">{pname(g.place)}</span>
+            </span>
+            <span className="muted">
+              {clockOf(g.t - zShift(z, g.date))} {tzAbbr(z, g.date)}
+            </span>
+            {ppl ? <span className="legWho">{ppl}</span> : null}
+            {bts ? <span className="legBoats">{bts}</span> : null}
+          </span>
+        </button>
+        {isOpen ? (
+          <div className="grBody">
+            <RiverEnd s={s} which={g.kind === 'on' ? 'launch' : 'out'} />
+          </div>
+        ) : null}
+      </div>
+    );
+  };
   const times = (l) => {
     const x = S.legs.find((q) => q.id === l.id);
     if (!x) return null;
@@ -3160,6 +3226,9 @@ function Shuttle({ s }) {
         const t0 = (id) => S.legs.find((q) => q.id === id)?.t0 ?? Infinity;
         const mine = legs.filter((l) => l.date === d).map((l, i) => [l, i]).sort((a, b) => t0(a[0].id) - t0(b[0].id) || a[1] - b[1]).map(([l]) => l);
         const ts = [...new Set(mine.map((l) => t0(l.id)))];
+        const evs = S.river.filter((g) => g.date === d).sort((a, b) => a.t - b.t);
+        const shown = new Set();
+        const before = (l) => evs.filter((g) => g.t <= t0(l.id) && !shown.has(g) && shown.add(g));
         const step = mine.map((l) => ts.indexOf(t0(l.id)) + 1);
         return (
           <div key={d} className="dayBlock">
@@ -3173,6 +3242,8 @@ function Shuttle({ s }) {
               const who = (l.who || []).length,
                 nb = (l.boats || []).length;
               return (
+                <React.Fragment key={l.id}>
+                {before(l).map(riverCard)}
                 <div
                   className={'grItem legItem' + (isOpen ? ' open' : '') + (drag?.id === l.id ? ' lifted' : '')}
                   key={l.id}
@@ -3274,8 +3345,10 @@ function Shuttle({ s }) {
                     </div>
                   )}
                 </div>
+                </React.Fragment>
               );
             })}
+            {evs.filter((g) => !shown.has(g)).map(riverCard)}
           </div>
         );
       })}
