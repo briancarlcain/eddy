@@ -2684,6 +2684,78 @@ function GMap({ S, tt, pick, onPick, type, nonce }) {
   );
 }
 
+function AddressSearch({ value, placeholder, onText, onPlace }) {
+  const [q, setQ] = useState(value);
+  const [list, setList] = useState([]);
+  const tok = useRef(null);
+  const typed = useRef(false);
+  useEffect(() => setQ(value), [value]);
+  useEffect(() => {
+    if (!typed.current || !q.trim()) return setList([]);
+    let live = true;
+    const id = setTimeout(async () => {
+      try {
+        await gmaps();
+        const P = await window.google.maps.importLibrary('places');
+        tok.current ||= new P.AutocompleteSessionToken();
+        const { suggestions } = await P.AutocompleteSuggestion.fetchAutocompleteSuggestions({ input: q, sessionToken: tok.current });
+        if (live) setList(suggestions.map((x) => x.placePrediction).filter(Boolean).slice(0, 5));
+      } catch {
+        if (live) setList([]);
+      }
+    }, 250);
+    return () => {
+      live = false;
+      clearTimeout(id);
+    };
+  }, [q]);
+  const choose = async (pr) => {
+    typed.current = false;
+    setList([]);
+    const text = pr.text?.toString() || '';
+    try {
+      const pl = pr.toPlace();
+      await pl.fetchFields({ fields: ['formattedAddress', 'location'] });
+      tok.current = null;
+      const addr = pl.formattedAddress || text;
+      setQ(addr);
+      onPlace(addr, [+pl.location.lat().toFixed(6), +pl.location.lng().toFixed(6)]);
+    } catch {
+      setQ(text);
+      onText(text);
+    }
+  };
+  return (
+    <div className="addr">
+      <Field
+        label="Address"
+        value={q}
+        placeholder={placeholder}
+        onChange={(e) => {
+          typed.current = true;
+          setQ(e.target.value);
+        }}
+        onBlur={() => {
+          setTimeout(() => setList([]), 150);
+          if (typed.current && q.trim() !== value) onText(q);
+          typed.current = false;
+        }}
+        onKeyDown={(e) => e.key === 'Enter' && e.target.blur()}
+      />
+      {list.length ? (
+        <div className="sugg">
+          {list.map((pr) => (
+            <button key={pr.placeId} type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => choose(pr)}>
+              <b>{pr.mainText?.toString() || pr.text?.toString()}</b>
+              {pr.secondaryText ? <span>{pr.secondaryText.toString()}</span> : null}
+            </button>
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 function Stage({ S, s, pick, setPick, onRefresh }) {
   const [nonce, setNonce] = useState(0);
   const t = s.trip;
@@ -2855,11 +2927,9 @@ function Shuttle({ s }) {
     s.set({ pins, addrs });
   };
   const where = (p) => {
-    if (t.pins?.[p.id]) return 'Pinned on map';
-    if (t.addrs?.[p.id]) return t.addrs[p.id];
-    if (p.mile != null) return `River mile ${p.mile}`;
-    if (p.yard) return S.ll(p.id) ? '' : 'Not on the map yet';
-    return '';
+    const ll = S.ll(p.id);
+    const pos = t.addrs?.[p.id] || (ll ? `${(+ll[0]).toFixed(5)}, ${(+ll[1]).toFixed(5)}` : S.sp(p.id)?.q || 'Not on the map yet');
+    return p.mile != null ? `Mile ${p.mile} · ${pos}` : pos;
   };
   const ownerOf = (c) => DRIVERS[c.owner] || t.crew.find((x) => x.id === c.owner)?.name || '';
   const [rev, setRev] = useState(0);
@@ -3286,13 +3356,11 @@ function Shuttle({ s }) {
                   <Field className="narrow" label="River mile" inputMode="decimal" value={p.mile ?? ''} placeholder="Off river" onChange={(e) => s.patch('places', p.id, { mile: e.target.value === '' || !isFinite(+e.target.value) ? null : +e.target.value })} />
                 </div>
               ) : null}
-              <Field
-                key={(t.addrs || {})[p.id] || ''}
-                label="Address"
-                defaultValue={(t.addrs || {})[p.id] || ''}
-                placeholder={spot({ ...t, pins: {}, addrs: {} }, p)?.q || 'Street address or place name'}
-                onBlur={(e) => e.target.value.trim() !== ((t.addrs || {})[p.id] || '') && setAddr(p.id, e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && e.target.blur()}
+              <AddressSearch
+                value={(t.addrs || {})[p.id] || ''}
+                placeholder={spot({ ...t, pins: {}, addrs: {} }, p)?.q || 'Search an address or place'}
+                onText={(v) => setAddr(p.id, v)}
+                onPlace={(addr, ll) => s.set({ addrs: { ...(t.addrs || {}), [p.id]: addr }, pins: { ...(t.pins || {}), [p.id]: ll } })}
               />
               <div className="chips">
                 <button

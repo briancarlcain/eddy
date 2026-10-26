@@ -712,3 +712,9 @@ body.shot #fakeStatus { background: var(--bg); }
 .rg .tip { font-size: 13px; color: #6b6154; background: #f1ead9; border-radius: 8px; padding: 6px 9px; margin: -4px 0 12px; }
 .rg .linkish { background: none; border: 0; padding: 0; min-height: 0; font: inherit; color: #9a4a28; text-decoration: underline; }
 .rg .legItem { scroll-margin-top: 130px; }
+.rg .addr { position: relative; }
+.rg .sugg { position: absolute; left: 0; right: 0; top: 100%; margin-top: -8px; z-index: 20; background: #fffdf8; border: 1px solid var(--line, #d9d0c1); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,.15); overflow: hidden; }
+.rg .sugg button { display: block; width: 100%; text-align: left; padding: 9px 12px; background: none; border: 0; border-bottom: 1px solid #efe8da; min-height: 0; font-size: 14px; }
+.rg .sugg button:last-child { border-bottom: 0; }
+.rg .sugg b { display: block; font-weight: 600; }
+.rg .sugg span { display: block; font-size: 12px; color: #6b6154; }
