@@ -2474,7 +2474,7 @@ const abbr = (n) => {
 const names = (list) => esc(list.map((e) => abbr(e.name)).join(', '));
 const plural = (n, w) => (n ? `${n} ${w}${n > 1 ? 's' : ''}` : '');
 
-function GMap({ S, tt, pick, onPick }) {
+function GMap({ S, tt, pick, onPick, type }) {
   const box = useRef(null);
   const g = useRef(null);
   const [state, setState] = useState('load');
@@ -2497,7 +2497,7 @@ function GMap({ S, tt, pick, onPick }) {
           zoom: 7,
           streetViewControl: false,
           fullscreenControl: true,
-          mapTypeControl: true,
+          mapTypeControl: false,
           clickableIcons: false,
           gestureHandling: 'greedy',
         });
@@ -2514,6 +2514,10 @@ function GMap({ S, tt, pick, onPick }) {
       dead = true;
     };
   }, []);
+
+  useEffect(() => {
+    if (state === 'ok' && g.current) g.current.map.setMapTypeId?.(type);
+  }, [state, type]);
 
   useEffect(() => {
     const G = g.current;
@@ -2697,6 +2701,21 @@ function Stage({ S, s }) {
   const [edit, setEdit] = useState(false);
   const [pick, setPick] = useState(null);
   const [name, setName] = useState('');
+  const [type, setType] = useState(() => {
+    try {
+      return localStorage.getItem('eddy.maptype') || 'terrain';
+    } catch {
+      return 'terrain';
+    }
+  });
+  const pickType = (v) => {
+    setType(v);
+    try {
+      localStorage.setItem('eddy.maptype', v);
+    } catch {
+      /* not remembered */
+    }
+  };
   const { U, tOf, stops, start, N, legs, byId, people, mileAt, at } = S;
   useEffect(() => {
     if (!play) return;
@@ -2736,7 +2755,17 @@ function Stage({ S, s }) {
 
   return (
     <div className="stageWrap">
-      <GMap S={S} tt={tt} pick={pick} onPick={(ll) => (s.set({ pins: { ...pins, [pick]: ll } }), setPick(null))} />
+      <div className="mapType">
+        {[
+          ['terrain', 'Map'],
+          ['hybrid', 'Satellite'],
+        ].map(([v, n]) => (
+          <button key={v} className={type === v ? 'on' : ''} onClick={() => pickType(v)}>
+            {n}
+          </button>
+        ))}
+      </div>
+      <GMap S={S} tt={tt} type={type} pick={pick} onPick={(ll) => (s.set({ pins: { ...pins, [pick]: ll } }), setPick(null))} />
       <div className="playRow">
         <button className="skip" onClick={() => jump(-1)} aria-label="Previous move">
           ‹
