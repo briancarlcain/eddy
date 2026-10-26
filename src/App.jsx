@@ -2167,6 +2167,8 @@ function spot(t, p) {
   const pin = t.pins?.[p.id];
   const key = (ll) => ll.map((x) => (+x).toFixed(5)).join(',');
   if (pin) return { ll: pin, k: key(pin) };
+  const addr = (t.addrs?.[p.id] || '').trim();
+  if (addr) return { q: addr, k: addr.toLowerCase() };
   if (p.mile != null && hasGeo(RIVER.id)) {
     const q = position(RIVER.id, 'access', p);
     if (q) return { ll: [q.lat, q.lon], k: key([q.lat, q.lon]) };
@@ -2682,13 +2684,10 @@ function GMap({ S, tt, pick, onPick, type }) {
   );
 }
 
-function Stage({ S, s }) {
+function Stage({ S, s, pick, setPick }) {
   const t = s.trip;
   const [u, setU] = useState(0);
   const [play, setPlay] = useState(false);
-  const [edit, setEdit] = useState(false);
-  const [pick, setPick] = useState(null);
-  const [name, setName] = useState('');
   const [type, setType] = useState(() => {
     try {
       return localStorage.getItem('eddy.maptype') || 'terrain';
@@ -2737,9 +2736,7 @@ function Stage({ S, s }) {
     const to = dir > 0 ? stops.find((x) => x > u + 0.05) : [...stops].reverse().find((x) => x < u - 0.6);
     setU(to == null ? (dir > 0 ? U : 0) : to);
   };
-  const mine = (id) => (t.places || []).some((p) => p.id === id);
   const pins = t.pins || {};
-  const list = S.places.filter((p) => !p.fixed || S.used.has(p.id));
 
   return (
     <div className="stageWrap">
@@ -2753,7 +2750,20 @@ function Stage({ S, s }) {
           </button>
         ))}
       </div>
-      <GMap S={S} tt={tt} type={type} pick={pick} onPick={(ll) => (s.set({ pins: { ...pins, [pick]: ll } }), setPick(null))} />
+      <GMap S={S} tt={tt} type={type} pick={pick} onPick={(ll) => {
+          const { [pick]: _, ...addrs } = t.addrs || {};
+          s.set({ pins: { ...pins, [pick]: ll }, addrs });
+          setPick(null);
+        }}
+      />
+      {pick ? (
+        <div className="tip mt-s">
+          Tap the map to place {byId[pick]?.name}.{' '}
+          <button type="button" className="linkish" onClick={() => setPick(null)}>
+            Cancel
+          </button>
+        </div>
+      ) : null}
       <div className="playRow">
         <button className="skip" onClick={() => jump(-1)} aria-label="Previous move">
           ‹
@@ -2783,65 +2793,7 @@ function Stage({ S, s }) {
             setU(+e.target.value);
           }}
         />
-        <button className={'skip' + (edit ? ' on' : '')} onClick={() => (setPlay(false), setEdit(!edit), setPick(null))} aria-label="Edit places">
-          ✎
-        </button>
       </div>
-      {edit ? (
-        <div className="boardPanel">
-          <div className="chips">
-            {list.map((p) => (
-              <button key={p.id} className={'chip' + (pick === p.id ? ' on' : '')} onClick={() => setPick(pick === p.id ? null : p.id)}>
-                {p.name}
-                {!S.ll(p.id) ? ' ·?' : ''}
-              </button>
-            ))}
-          </div>
-          {pick ? (
-            <>
-              <span className="muted">Tap the map to place {byId[pick]?.name}</span>
-              <div className="chips mt-s">
-                {pins[pick] ? (
-                  <button
-                    className="chip"
-                    onClick={() => {
-                      const { [pick]: _, ...rest } = pins;
-                      s.set({ pins: rest });
-                    }}
-                  >
-                    Reset
-                  </button>
-                ) : null}
-                {mine(pick) ? (
-                  <button
-                    className="chip danger"
-                    onClick={() => {
-                      const { [pick]: _, ...rest } = pins;
-                      s.set({ places: t.places.filter((p) => p.id !== pick), pins: rest });
-                      setPick(null);
-                    }}
-                  >
-                    Remove place
-                  </button>
-                ) : null}
-              </div>
-            </>
-          ) : null}
-          <div className="row mt-s">
-            <Field value={name} onChange={(e) => setName(e.target.value)} placeholder="Add a place" />
-            <button
-              className="btn"
-              disabled={!name.trim()}
-              onClick={() => {
-                s.push('places', { name: name.trim() });
-                setName('');
-              }}
-            >
-              Add
-            </button>
-          </div>
-        </div>
-      ) : null}
       <div className="dayKey">
         <span>
           {fmt(iso)}
@@ -2873,6 +2825,29 @@ function Shuttle({ s }) {
   const [openCar, setOpenCar] = useState(null);
   const [tip, setTip] = useState(false);
   const [freshCar, setFreshCar] = useState(null);
+  const [pick, setPick] = useState(null);
+  const [openPlace, setOpenPlace] = useState(null);
+  const [freshPlace, setFreshPlace] = useState(null);
+  const own = (id) => (t.places || []).some((p) => p.id === id);
+  const setAddr = (id, v) => {
+    const { [id]: _, ...pins } = t.pins || {};
+    const addrs = { ...(t.addrs || {}) };
+    if (v.trim()) addrs[id] = v.trim();
+    else delete addrs[id];
+    s.set({ addrs, pins });
+  };
+  const resetLoc = (id) => {
+    const { [id]: _p, ...pins } = t.pins || {};
+    const { [id]: _a, ...addrs } = t.addrs || {};
+    s.set({ pins, addrs });
+  };
+  const where = (p) => {
+    if (t.pins?.[p.id]) return 'Pinned on map';
+    if (t.addrs?.[p.id]) return t.addrs[p.id];
+    if (p.mile != null) return `River mile ${p.mile}`;
+    if (p.yard) return S.ll(p.id) ? '' : 'Not on the map yet';
+    return '';
+  };
   const ownerOf = (c) => DRIVERS[c.owner] || t.crew.find((x) => x.id === c.owner)?.name || '';
   const [rev, setRev] = useState(0);
   const S = useMemo(() => story(t), [t, rev]);
@@ -2971,7 +2946,7 @@ function Shuttle({ s }) {
   S.legs.forEach((l) => l.early != null && warn.push(`${l.car.name} leaves ${pname(l.from)} at ${clockOf(l.t0 - zShift(depZone(l), l.date))} ${tzAbbr(depZone(l), l.date)} on ${fmt(l.date)}, before everything is there (${clockOf(l.early - zShift(depZone(l), l.date))}).`));
   const lost = new Set();
   S.legs.forEach((l) => [l.from, l.to].forEach((id) => !lost.has(id) && !S.sp(id) && lost.add(id)));
-  lost.forEach((id) => warn.push(`Place ${pname(id)} on the map.`));
+  lost.forEach((id) => warn.push(`${pname(id)} needs an address (Places, below).`));
   legs.forEach((l) => {
     const c = carOf(l.car);
     if (c && num(c.seats) && (l.who || []).length > num(c.seats)) warn.push(`${l.who.length} in the ${c.name} (${num(c.seats)} seats) on ${fmt(l.date)}.`);
@@ -3050,7 +3025,8 @@ function Shuttle({ s }) {
 
   return (
     <>
-      <Stage S={S} s={s} />
+      <div id="shuttleMap" />
+      <Stage S={S} s={s} pick={pick} setPick={setPick} />
       {warn.length > 0 && (
         <div className="notice mt">
           <div className="noticeHead">
@@ -3251,6 +3227,69 @@ function Shuttle({ s }) {
         }}
       >
         Add vehicle
+      </button>
+
+      <span className="label mt">Places</span>
+      {places.map((p) => (
+        <div className={'grItem' + (openPlace === p.id ? ' open' : '')} key={p.id}>
+          <button className="car" onClick={() => setOpenPlace(openPlace === p.id ? null : p.id)}>
+            <span className="carText">
+              <span className="carName">{p.name || 'New place'}</span>
+              {where(p) ? <span className="muted">{where(p)}</span> : null}
+            </span>
+          </button>
+          {openPlace === p.id && (
+            <div className="grBody">
+              {own(p.id) ? <Field label="Name" value={p.name} autoFocus={freshPlace === p.id} onChange={(e) => s.patch('places', p.id, { name: e.target.value })} /> : null}
+              <Field
+                key={(t.addrs || {})[p.id] || ''}
+                label="Address"
+                defaultValue={(t.addrs || {})[p.id] || ''}
+                placeholder={spot({ ...t, pins: {}, addrs: {} }, p)?.q || 'Street address or place name'}
+                onBlur={(e) => e.target.value.trim() !== ((t.addrs || {})[p.id] || '') && setAddr(p.id, e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && e.target.blur()}
+              />
+              <div className="chips">
+                <button
+                  className={'chip' + (pick === p.id ? ' on' : '')}
+                  onClick={() => {
+                    setPick(pick === p.id ? null : p.id);
+                    document.getElementById('shuttleMap')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
+                  Pick on map
+                </button>
+                {t.pins?.[p.id] || t.addrs?.[p.id] ? (
+                  <button className="chip" onClick={() => resetLoc(p.id)}>
+                    Reset
+                  </button>
+                ) : null}
+              </div>
+              {own(p.id) ? (
+                <button
+                  className="btn ghost danger mt-s"
+                  onClick={() => {
+                    resetLoc(p.id);
+                    s.drop('places', p.id);
+                  }}
+                >
+                  Remove
+                </button>
+              ) : null}
+            </div>
+          )}
+        </div>
+      ))}
+      <button
+        className="btn ghost mt-s"
+        onClick={() => {
+          const id = uid();
+          s.push('places', { id, name: '' });
+          setFreshPlace(id);
+          setOpenPlace(id);
+        }}
+      >
+        Add place
       </button>
 
     </>
