@@ -2764,7 +2764,7 @@ function RiverEnd({ s, which }) {
   );
 }
 
-function AddressSearch({ value, placeholder, onText, onPlace }) {
+function AddressSearch({ value, placeholder, onText, onPlace, label = 'Address', show = 'addr', autoFocus }) {
   const [q, setQ] = useState(value);
   const [list, setList] = useState([]);
   const tok = useRef(null);
@@ -2798,8 +2798,9 @@ function AddressSearch({ value, placeholder, onText, onPlace }) {
       await pl.fetchFields({ fields: ['formattedAddress', 'location'] });
       tok.current = null;
       const addr = pl.formattedAddress || text;
-      setQ(addr);
-      onPlace(addr, [+pl.location.lat().toFixed(6), +pl.location.lng().toFixed(6)]);
+      const main = pr.mainText?.toString() || text;
+      setQ(show === 'name' ? main : addr);
+      onPlace(addr, [+pl.location.lat().toFixed(6), +pl.location.lng().toFixed(6)], main);
     } catch {
       setQ(text);
       onText(text);
@@ -2808,7 +2809,8 @@ function AddressSearch({ value, placeholder, onText, onPlace }) {
   return (
     <div className="addr">
       <Field
-        label="Address"
+        label={label}
+        autoFocus={autoFocus}
         value={q}
         placeholder={placeholder}
         onChange={(e) => {
@@ -3476,7 +3478,21 @@ function Shuttle({ s }) {
             <div className="grBody">
               {own(p.id) ? (
                 <div className="row">
-                  <Field label="Name" value={p.name} autoFocus={freshPlace === p.id} onChange={(e) => s.patch('places', p.id, { name: e.target.value })} />
+                  <AddressSearch
+                    label="Name"
+                    show="name"
+                    autoFocus={freshPlace === p.id}
+                    value={p.name || ''}
+                    placeholder="Search a place"
+                    onText={(v) => s.patch('places', p.id, { name: v.trim() })}
+                    onPlace={(addr, ll, main) =>
+                      s.set({
+                        places: t.places.map((x) => (x.id === p.id ? { ...x, name: main } : x)),
+                        addrs: { ...(t.addrs || {}), [p.id]: addr },
+                        pins: { ...(t.pins || {}), [p.id]: ll },
+                      })
+                    }
+                  />
                   <Field className="narrow" label="River mile" inputMode="decimal" value={p.mile ?? ''} placeholder="Off river" onChange={(e) => s.patch('places', p.id, { mile: e.target.value === '' || !isFinite(+e.target.value) ? null : +e.target.value })} />
                 </div>
               ) : null}
