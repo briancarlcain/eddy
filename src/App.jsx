@@ -2329,7 +2329,7 @@ function story(t) {
       const load = [...(l.who || []).filter((x) => !DRIVERS[x]), ...(l.boats || [])];
       l.stray = load.filter((x) => loc[x] != null && loc[x] !== l.from);
       const deps = Math.max(free[l.car.id] ?? -Infinity, ...load.filter((x) => loc[x] === l.from).map((x) => avail[x] ?? -Infinity));
-      const fixed = hhmm(l.dep) != null ? d + hhmm(l.dep) + tzShift(l) : hhmm(l.arr) != null ? d + hhmm(l.arr) + tzShift(l) - dur(l) : null;
+      const fixed = hhmm(l.dep) != null ? d + hhmm(l.dep) + zShift(depZone(l), l.date) : hhmm(l.arr) != null ? d + hhmm(l.arr) + zShift(arrZone(l), l.date) - dur(l) : null;
       l.t0 = fixed ?? Math.max(prev, deps);
       l.t1 = l.t0 + dur(l);
       if (fixed != null && fixed < deps - 1e-6) l.early = deps;
@@ -2453,8 +2453,13 @@ const offH = (tz, iso) => {
   return m ? (m[1] === '-' ? -1 : 1) * (+m[2] + (+m[3] || 0) / 60) : 0;
 };
 const tzAbbr = (tz, iso) => tzPart(tz, iso, 'short');
-const legZone = (l) => l.tz || zoneOf();
-const tzShift = (l) => (offH(zoneOf(), l.date) - offH(legZone(l), l.date)) / 24;
+const depZone = (l) => l.depTz || l.tz || zoneOf();
+const arrZone = (l) => l.arrTz || l.tz || zoneOf();
+const zShift = (z, iso) => (offH(zoneOf(), iso) - offH(z, iso)) / 24;
+const hm24 = (tt) => {
+  const m = Math.round((((tt % 1) + 1) % 1) * 1440) % 1440;
+  return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
+};
 const clockOf = (tt) => {
   const m = Math.round((((tt % 1) + 1) % 1) * 1440);
   const h = Math.floor(m / 60) % 24;
@@ -2978,7 +2983,7 @@ function Shuttle({ s }) {
     gone.add(k);
     warn.push(`No road between ${pname(l.from)} and ${pname(l.to)}.`);
   });
-  S.legs.forEach((l) => l.early != null && warn.push(`${l.car.name} leaves ${pname(l.from)} at ${clockOf(l.t0 - tzShift(l))} ${tzAbbr(legZone(l), l.date)} on ${fmt(l.date)}, before everything is there (${clockOf(l.early - tzShift(l))}).`));
+  S.legs.forEach((l) => l.early != null && warn.push(`${l.car.name} leaves ${pname(l.from)} at ${clockOf(l.t0 - zShift(depZone(l), l.date))} ${tzAbbr(depZone(l), l.date)} on ${fmt(l.date)}, before everything is there (${clockOf(l.early - zShift(depZone(l), l.date))}).`));
   const lost = new Set();
   S.legs.forEach((l) => [l.from, l.to].forEach((id) => !lost.has(id) && !S.sp(id) && lost.add(id)));
   lost.forEach((id) => warn.push(`Place ${pname(id)} on the map.`));
@@ -3008,12 +3013,30 @@ function Shuttle({ s }) {
   );
 
   const days = [...new Set(legs.map((l) => l.date))].sort();
-  const at = (l) => {
+  const times = (l) => {
     const x = S.legs.find((q) => q.id === l.id);
-    const z = ' ' + tzAbbr(legZone(l), l.date);
-    if (l.arr) return 'arrive ' + clockOf(hhmm(l.arr)) + z;
-    return x ? clockOf(x.t0 - tzShift(l)) + z : '';
+    if (!x) return null;
+    const dz = depZone(l),
+      az = arrZone(l);
+    const a = x.t0 - zShift(dz, l.date),
+      b = x.t1 - zShift(az, l.date);
+    return { dep: hm24(a), arr: hm24(b), next: Math.floor(b) - Math.floor(x.t0 - zShift(dz, l.date)), dz, az, a, b };
   };
+  const at = (l) => {
+    const x = times(l);
+    if (!x) return '';
+    return `${clockOf(x.a)} ${tzAbbr(x.dz, l.date)} → ${clockOf(x.b)} ${tzAbbr(x.az, l.date)}${x.next > 0 ? ' +1' : ''}`;
+  };
+  const zones = [...ZONES, ...(ZONES.some(([z]) => z === zoneOf()) ? [] : [[zoneOf(), zoneOf().split('/').pop().replace(/_/g, ' ')]])];
+  const zoneSel = (l, key, value) => (
+    <Sel label="Time zone" value={value} onChange={(v) => setLeg(l.id, { [key]: v })}>
+      {zones.map(([z, n]) => (
+        <option key={z} value={z}>
+          {n} ({tzAbbr(z, l.date)})
+        </option>
+      ))}
+    </Sel>
+  );
 
   return (
     <>
@@ -3091,15 +3114,12 @@ function Shuttle({ s }) {
                         </Sel>
                       </div>
                       <div className="row">
-                        <Field label="Depart" type="time" value={l.dep || ''} onChange={(e) => setLeg(l.id, { dep: e.target.value, arr: '' })} />
-                        <Field label="Arrive by" type="time" value={l.arr || ''} onChange={(e) => setLeg(l.id, { arr: e.target.value, dep: '' })} />
-                        <Sel label="Time zone" value={legZone(l)} onChange={(v) => setLeg(l.id, { tz: v })}>
-                          {[...ZONES, ...(ZONES.some(([z]) => z === zoneOf()) ? [] : [[zoneOf(), zoneOf().split('/').pop().replace(/_/g, ' ')]])].map(([z, n]) => (
-                            <option key={z} value={z}>
-                              {n} ({tzAbbr(z, l.date)})
-                            </option>
-                          ))}
-                        </Sel>
+                        <Field className={l.dep ? '' : 'auto'} label="Depart" type="time" value={l.dep || times(l)?.dep || ''} onChange={(e) => setLeg(l.id, { dep: e.target.value, arr: '' })} />
+                        {zoneSel(l, 'depTz', depZone(l))}
+                      </div>
+                      <div className="row">
+                        <Field className={l.arr ? '' : 'auto'} label="Arrive by" type="time" value={l.arr || times(l)?.arr || ''} onChange={(e) => setLeg(l.id, { arr: e.target.value, dep: '' })} />
+                        {zoneSel(l, 'arrTz', arrZone(l))}
                       </div>
                       <div className="row">
                         <Sel label="From" value={l.from} onChange={(v) => setLeg(l.id, { from: v })}>
