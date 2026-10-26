@@ -35,7 +35,7 @@ const REFS = { [GC_REF.id]: GC_REF };
 // The views read these module-level bindings. selectRiver() points them at one
 // river; App calls it during render (and re-keys <main>) so a switch remounts
 // everything that cached the old river's data.
-let RIVER, ACCESS, YARD, MAXMILE, PPM;
+let RIVER, ACCESS, YARD, MAXMILE, MINMILE, PPM;
 const TOPPAD = 22;
 let SRC = null;
 function selectRiver(rec) {
@@ -45,6 +45,7 @@ function selectRiver(rec) {
   ACCESS = (RIVER.access || []).map((p, i) => ({ ...p, id: 'r' + i, fixed: true }));
   YARD = { id: 'yard', name: 'Outfitter', yard: true, grid: RIVER.yardGrid };
   MAXMILE = RIVER.miles[1];
+  MINMILE = Math.min(0, RIVER.miles[0] || 0, ...[...(RIVER.landmarks || []), ...(RIVER.access || []), ...RIVER.camps, ...RIVER.rapids, ...RIVER.hikes].map((x) => (typeof x.mile === 'number' ? x.mile : 0)));
   // map scale: short or crowded rivers get more vertical room per mile, until markers sit within half a mile of true
   const n = RIVER.rapids.length + RIVER.camps.length + RIVER.hikes.length;
   PPM = Math.round(Math.min(150, Math.max(21, 2200 / MAXMILE, (22 * n) / MAXMILE)));
@@ -4356,7 +4357,7 @@ function RiverMap({ s }) {
     const el = e.currentTarget;
     const ref = el.clientHeight * REF;
     const m = MAXMILE - (el.scrollTop + ref - TOPPAD) / PPM;
-    setMile(Math.max(0, Math.min(MAXMILE, m)));
+    setMile(Math.max(MINMILE, Math.min(MAXMILE, m)));
   };
 
   const toggle = (kind, d) =>
@@ -4483,7 +4484,7 @@ function RiverMap({ s }) {
       {width ? <RaftMark style={{ left: chartLeft + riverX, top: REF * 100 + '%' }} /> : null}
       <div className="mapWindow" ref={scroller} onScroll={onScroll} style={paneH ? { height: paneH } : undefined}>
         <div className="plot">
-          <div className="chart" ref={chart} style={{ height: Math.max(TOPPAD + MAXMILE * PPM, tops.max + 16) + BOTPAD }}>
+          <div className="chart" ref={chart} style={{ height: Math.max(TOPPAD + (MAXMILE - MINMILE) * PPM, tops.max + 16) + BOTPAD }}>
             {RIVER.clusters.map((cl) => (
               <React.Fragment key={cl.n}>
                 <div className="cluster" style={{ top: y(cl.e), height: (cl.e - cl.s) * PPM, left: riverX, right: 0 }} />
@@ -4514,8 +4515,8 @@ function RiverMap({ s }) {
               </React.Fragment>
             ))}
 
-            <div className="river" style={{ left: riverX - 5.5, width: 11, top: y(MAXMILE), height: MAXMILE * PPM }} />
-            {Array.from({ length: Math.floor((MAXMILE - 10) / 13) + 1 }, (_, i) => 6 + i * 13).map((m) => (
+            <div className="river" style={{ left: riverX - 5.5, width: 11, top: y(MAXMILE), height: (MAXMILE - MINMILE) * PPM }} />
+            {Array.from({ length: Math.floor((MAXMILE - MINMILE - 10) / 13) + 1 }, (_, i) => MINMILE + 6 + i * 13).map((m) => (
               <div className="flow" key={m} style={{ left: riverX, top: y(m) - 3 }} />
             ))}
 
@@ -6765,7 +6766,7 @@ function App() {
                 }}
                 aria-label="Back to the trip"
               >
-                <Icon name="back" size={18} /> {short(fromTrip, 18)}
+                <Icon name="back" size={18} /> Trip
               </button>
             ) : (
               <button className="hback" onClick={() => setBrowse(null)} aria-label="Back to all rivers">
@@ -6773,7 +6774,7 @@ function App() {
               </button>
             ))}
           <div className="phtitle">{title}</div>
-          {riverOpen && (
+          {riverOpen && !fromTrip && (
             <button
               className="hact"
               onClick={() => {
