@@ -1305,9 +1305,8 @@ const CraftIcon = ({ type }) => (
 function Crew({ s }) {
   const t = s.trip;
   const boats = t.boats || [];
-  const [name, setName] = useState('');
-  const [craft, setCraft] = useState('');
   const [open, setOpen] = useState(null);
+  const [fresh, setFresh] = useState(null);
   const aboard = (id) => t.crew.filter((m) => m.boat === id);
   const inv = useInvite(s, t);
   const [meId, setMeId] = useState(() => getMe(t.id));
@@ -1320,21 +1319,9 @@ function Crew({ s }) {
         </button>
       ) : null}
       {inv.msg ? <div className="muted mb-s">{inv.msg}</div> : null}
-      <div className="row">
-        <Field value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" />
-        <button
-          className="btn"
-          disabled={!name.trim()}
-          onClick={() => {
-            s.push('crew', { name: name.trim(), role: '', boat: '', ice: '', diet: '', days: '' });
-            setName('');
-          }}
-        >
-          Add
-        </button>
-      </div>
+      <span className="label mt">Crew</span>
       {t.crew.map((m) => (
-        <Acc key={m.id} lead={<Avatar name={m.name} />} title={m.name} tag={meId === m.id ? 'You' : undefined} note={[m.role, boats.find((b) => b.id === m.boat)?.name].filter(Boolean).join(' · ') || null}>
+        <Acc key={m.id} open={fresh === m.id} lead={<Avatar name={m.name || '?'} />} title={m.name || 'New person'} tag={meId === m.id ? 'You' : undefined} note={[m.role, boats.find((b) => b.id === m.boat)?.name].filter(Boolean).join(' · ') || null}>
           <button
             className="btn ghost mb-s"
             onClick={() => {
@@ -1344,6 +1331,7 @@ function Crew({ s }) {
           >
             {meId === m.id ? "This isn't me" : 'This is me'}
           </button>
+          <Field label="Name" value={m.name} autoFocus={fresh === m.id} onChange={(e) => s.patch('crew', m.id, { name: e.target.value })} />
           <Field label="Role" value={m.role} onChange={(e) => s.patch('crew', m.id, { role: e.target.value })} />
           <Sel label="Craft" value={m.boat} onChange={(v) => s.patch('crew', m.id, { boat: v })}>
             <option value="">—</option>
@@ -1367,6 +1355,16 @@ function Crew({ s }) {
           </button>
         </Acc>
       ))}
+      <button
+        className="btn ghost mt-s"
+        onClick={() => {
+          const id = uid();
+          s.push('crew', { id, name: '', role: '', boat: '', ice: '', diet: '', days: '' });
+          setFresh(id);
+        }}
+      >
+        Add person
+      </button>
 
       <span className="label mt">Crafts</span>
       {boats.map((b) => {
@@ -1379,7 +1377,7 @@ function Crew({ s }) {
                 <CraftIcon type={b.type} />
               </span>
               <span className="carText">
-                <span className="carName">{b.name}</span>
+                <span className="carName">{b.name || 'New craft'}</span>
                 <span className="muted">
                   {CRAFT[b.type]?.label || 'Craft'}
                   {on.length ? ` · ${on.map((m) => m.name).join(', ')}` : ''}
@@ -1389,7 +1387,7 @@ function Crew({ s }) {
             </button>
             {open === b.id && (
               <div className="grBody">
-                <Field label="Name" value={b.name} onChange={(e) => s.patch('boats', b.id, { name: e.target.value })} />
+                <Field label="Name" value={b.name} autoFocus={fresh === b.id} onChange={(e) => s.patch('boats', b.id, { name: e.target.value })} />
                 <span className="label">Type</span>
                 <div className="chips">
                   {Object.entries(CRAFT).map(([k, v]) => (
@@ -1414,19 +1412,17 @@ function Crew({ s }) {
           </div>
         );
       })}
-      <div className="row mt">
-        <Field value={craft} onChange={(e) => setCraft(e.target.value)} placeholder="Add a craft" />
-        <button
-          className="btn"
-          disabled={!craft.trim()}
-          onClick={() => {
-            s.push('boats', { name: craft.trim(), type: 'raft', cap: CRAFT.raft.cap });
-            setCraft('');
-          }}
-        >
-          Add
-        </button>
-      </div>
+      <button
+        className="btn ghost mt-s"
+        onClick={() => {
+          const id = uid();
+          s.push('boats', { id, name: '', type: 'raft', cap: CRAFT.raft.cap });
+          setFresh(id);
+          setOpen(id);
+        }}
+      >
+        Add craft
+      </button>
     </>
   );
 }
