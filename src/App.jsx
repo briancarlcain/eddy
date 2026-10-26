@@ -954,11 +954,12 @@ const Tabs = ({ items, value, onChange, danger }) => (
         className={'tab' + (t === value ? ' on' : '')}
         onClick={() => onChange(t)}
       >
-        {t}
+        {TAB_NAMES[t] || t}
       </button>
     ))}
   </div>
 );
+const TAB_NAMES = { Crew: 'Crew & Crafts' };
 
 function Acc({ title, note, tag, lead, children, open: start }) {
   const [open, setOpen] = useState(!!start);
