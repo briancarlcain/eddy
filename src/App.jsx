@@ -2064,7 +2064,11 @@ const hm = (h) => {
   return [Math.floor(m / 60) ? Math.floor(m / 60) + 'h' : '', m % 60 ? (m % 60) + 'm' : ''].filter(Boolean).join(' ') || '0m';
 };
 const DRIVERS = { _shuttle: 'Shuttle service', _outfitter: 'Outfitter' };
-const proLeg = ({ pro, par, ...l }) => (pro && !(l.who || []).includes('_shuttle') ? { ...l, who: [...(l.who || []), '_shuttle'] } : l);
+const proLeg = ({ pro, par, ...l }) => {
+  if (l.fly && l.car !== '_flight') l = { ...l, car: '_flight' };
+  l = { ...l, fly: l.car === '_flight' };
+  return pro && !(l.who || []).includes('_shuttle') ? { ...l, who: [...(l.who || []), '_shuttle'] } : l;
+};
 const legsOf = (t) => {
   if (t.legs) return t.legs.map(proLeg);
   const out = [];
@@ -3291,12 +3295,6 @@ function Shuttle({ s }) {
                   </button>
                   {isOpen && (
                     <div className="grBody">
-                      <div className="chips">
-                        <button className={'chip' + (l.fly ? ' on' : '')} onClick={() => setLeg(l.id, { fly: !l.fly })}>
-                          ✈ Flying
-                        </button>
-                      </div>
-                      {!l.fly ? (
                       <div className="row">
                         <Sel
                           label={
@@ -3316,7 +3314,7 @@ function Shuttle({ s }) {
                             </>
                           }
                           value={l.car}
-                          onChange={(v) => setLeg(l.id, { car: v })}
+                          onChange={(v) => setLeg(l.id, { car: v, fly: v === '_flight' })}
                         >
                           <option value="">—</option>
                           {cars.map((x) => (
@@ -3324,9 +3322,9 @@ function Shuttle({ s }) {
                               {x.name}
                             </option>
                           ))}
+                          <option value="_flight">✈ Flight</option>
                         </Sel>
                       </div>
-                      ) : null}
                       {tip && !l.fly ? (
                         <div className="tip">
                           Add or edit vehicles under{' '}
@@ -3387,7 +3385,7 @@ function Shuttle({ s }) {
           </div>
         );
       })}
-      <button className="btn ghost mt-s" onClick={addLeg} disabled={!cars.length}>
+      <button className="btn ghost mt-s" onClick={addLeg}>
         Add leg
       </button>
 
