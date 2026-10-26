@@ -2730,6 +2730,28 @@ function GMap({ S, tt, pick, onPick, type, nonce }) {
   );
 }
 
+function When({ value, onCommit, ...p }) {
+  const [v, setV] = useState(value);
+  const editing = useRef(false);
+  useEffect(() => {
+    if (!editing.current) setV(value);
+  }, [value]);
+  const commit = () => {
+    editing.current = false;
+    if (v !== value) onCommit(v);
+  };
+  return (
+    <input
+      {...p}
+      value={v}
+      onFocus={() => (editing.current = true)}
+      onChange={(e) => ((editing.current = true), setV(e.target.value))}
+      onBlur={commit}
+      onKeyDown={(e) => e.key === 'Enter' && e.target.blur()}
+    />
+  );
+}
+
 function RiverEnd({ s, which }) {
   const t = s.trip;
   const out = which === 'out';
@@ -2743,18 +2765,17 @@ function RiverEnd({ s, which }) {
     <>
       <span className="label">{out ? 'Take out' : 'Put in'}</span>
       <div className="when">
-        <input
+        <When
           type="date"
           value={date}
-          onChange={(e) => {
-            const v = e.target.value;
+          onCommit={(v) => {
             if (!okDate(v)) return;
             if (!out) return s.set({ start: v });
             const n = dnum(v, t.start);
             if (n > 0 && n <= 60) s.set({ days: n });
           }}
         />
-        <input type="time" value={time || ''} onChange={(e) => s.set({ [k.time]: e.target.value })} />
+        <When type="time" value={time || ''} onCommit={(v) => s.set({ [k.time]: v })} />
         <span className="tzTag">{tzAbbr(tz, date)}</span>
       </div>
       <Sel value={at} onChange={(v) => s.set({ [k.at]: v })}>
@@ -3149,7 +3170,11 @@ function Shuttle({ s }) {
     if (x) return addDays(start, Math.floor(x.t0 - zShift(S.zoneAt(l.from), x.base)));
     return okDate(l.date) ? l.date : okDate(l.arrDate) ? l.arrDate : '';
   };
-  const days = [...new Set([...legs.map(legDay), ...S.river.map((g) => g.date)])].sort((a, b) => (!a ? 1 : !b ? -1 : a < b ? -1 : a > b ? 1 : 0));
+  const pinDay = useRef({});
+  if (openLeg && !(openLeg in pinDay.current)) pinDay.current = { [openLeg]: legDay(legs.find((l) => l.id === openLeg) || {}) };
+  if (!openLeg) pinDay.current = {};
+  const dayOf = (l) => (l.id in pinDay.current ? pinDay.current[l.id] : legDay(l));
+  const days = [...new Set([...legs.map(dayOf), ...S.river.map((g) => g.date)])].sort((a, b) => (!a ? 1 : !b ? -1 : a < b ? -1 : a > b ? 1 : 0));
   const [openRiver, setOpenRiver] = useState(null);
   const riverCard = (g) => {
     const key = g.kind + g.t + g.place;
@@ -3209,14 +3234,14 @@ function Shuttle({ s }) {
       <>
         <span className="label">Departure Time</span>
         <div className="when">
-          <input className={arrPin && !l.fly ? 'auto' : ''} type="date" value={dd} onChange={(e) => depDate(e.target.value)} />
-          <input className={depPin ? '' : 'auto'} type="time" value={l.dep || (arrPin ? x.dep : '') || ''} onChange={(e) => depTime(e.target.value)} />
+          <When className={arrPin && !l.fly ? 'auto' : ''} type="date" value={dd} onCommit={depDate} />
+          <When className={depPin ? '' : 'auto'} type="time" value={l.dep || (arrPin ? x.dep : '') || ''} onCommit={depTime} />
           <span className="tzTag">{tzAbbr(S.zoneAt(l.from), dd)}</span>
         </div>
         <span className="label">Arrival Time</span>
         <div className="when">
-          <input className={depPin && !l.fly ? 'auto' : ''} type="date" value={ad} onChange={(e) => arrDate(e.target.value)} />
-          <input className={arrPin ? '' : 'auto'} type="time" value={l.arr || (depPin ? x.arr : '') || ''} onChange={(e) => arrTime(e.target.value)} />
+          <When className={depPin && !l.fly ? 'auto' : ''} type="date" value={ad} onCommit={arrDate} />
+          <When className={arrPin ? '' : 'auto'} type="time" value={l.arr || (depPin ? x.arr : '') || ''} onCommit={arrTime} />
           <span className="tzTag">{tzAbbr(S.zoneAt(l.to), ad)}</span>
         </div>
       </>
@@ -3253,7 +3278,7 @@ function Shuttle({ s }) {
       <span className="label mt">Legs</span>
       {days.map((d) => {
         const t0 = (id) => S.legs.find((q) => q.id === id)?.t0 ?? Infinity;
-        const mine = legs.filter((l) => legDay(l) === d).map((l, i) => [l, i]).sort((a, b) => t0(a[0].id) - t0(b[0].id) || a[1] - b[1]).map(([l]) => l);
+        const mine = legs.filter((l) => dayOf(l) === d).map((l, i) => [l, i]).sort((a, b) => t0(a[0].id) - t0(b[0].id) || a[1] - b[1]).map(([l]) => l);
         const ts = [...new Set(mine.map((l) => t0(l.id)))];
         const evs = S.river.filter((g) => g.date === d).sort((a, b) => a.t - b.t);
         const shown = new Set();
