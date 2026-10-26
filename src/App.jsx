@@ -3420,11 +3420,29 @@ function Ledger({ s }) {
   const L = useMemo(() => ledger(t), [t]);
   const [what, setWhat] = useState('');
   const [by, setBy] = useState('');
+  const [to, setTo] = useState('');
   const [amt, setAmt] = useState('');
   const paid = {};
   t.crew.forEach((c) => (paid[c.id] = 0));
-  pay.forEach((p) => (paid[p.by] = (paid[p.by] || 0) + num(p.amt)));
-  const potted = Object.values(paid).reduce((a, b) => a + b, 0);
+  pay.forEach((p) => {
+    paid[p.by] = (paid[p.by] || 0) + num(p.amt);
+    if (p.to) paid[p.to] = (paid[p.to] || 0) - num(p.amt);
+  });
+  const potted = pay.filter((p) => !p.to).reduce((a, p) => a + num(p.amt), 0);
+  const nm = (id) => t.crew.find((c) => c.id === id)?.name || '—';
+  const bal = t.crew.map((c) => ({ id: c.id, v: (paid[c.id] || 0) - L.by[c.id].total }));
+  const up = bal.filter((x) => x.v > 0.5).sort((a, b) => b.v - a.v).map((x) => ({ ...x }));
+  const down = bal.filter((x) => x.v < -0.5).sort((a, b) => a.v - b.v).map((x) => ({ ...x, v: -x.v }));
+  const settle = [];
+  for (let i = 0, j = 0; i < down.length && j < up.length; ) {
+    const n = Math.min(down[i].v, up[j].v);
+    if (n >= 1) settle.push({ from: down[i].id, to: up[j].id, amt: Math.round(n) });
+    down[i].v -= n;
+    up[j].v -= n;
+    if (down[i].v < 0.5) i++;
+    if (up[j].v < 0.5) j++;
+  }
+  const unpaid = down.reduce((a, x) => a + Math.max(0, x.v), 0);
 
   return (
     <>
@@ -3449,11 +3467,30 @@ function Ledger({ s }) {
         })}
       </div>
 
+      {settle.length ? (
+        <>
+          <span className="label mt">Settle up</span>
+          {settle.map((x) => (
+            <div className="gearRow" key={x.from + x.to}>
+              <span className="gearName">
+                {nm(x.from)} → {nm(x.to)}
+              </span>
+              <span className="grAmt">{usd0(x.amt)}</span>
+              <button className="btn ghost" onClick={() => s.push('pay', { what: 'Settled up', by: x.from, to: x.to, amt: x.amt })}>
+                Paid
+              </button>
+            </div>
+          ))}
+        </>
+      ) : null}
+      {unpaid > 0.5 ? <div className="muted">{usd0(unpaid)} still to pay toward trip costs</div> : null}
+
+      <span className="label mt">Payments</span>
       {pay.map((p) => (
         <div className="gearRow" key={p.id}>
           <span className="gearName">
             {p.what}
-            <span className="muted"> {t.crew.find((c) => c.id === p.by)?.name || '—'}</span>
+            <span className="muted"> {p.to ? `${nm(p.by)} → ${nm(p.to)}` : nm(p.by)}</span>
           </span>
           <span className="grAmt">{usd0(num(p.amt))}</span>
           <button className="x" onClick={() => s.drop('pay', p.id)} aria-label="Remove">
@@ -3465,7 +3502,8 @@ function Ledger({ s }) {
       {L.loose > 0.005 && <div className="muted">{usd0(L.loose)} unclaimed</div>}
 
       <div className="mt">
-        <Field value={what} onChange={(e) => setWhat(e.target.value)} placeholder="Expense" />
+        <Field value={what} onChange={(e) => setWhat(e.target.value)} placeholder={to ? 'Note (optional)' : 'Expense'} />
+        <span className="label">Paid by</span>
         <div className="chips">
           {t.crew.map((c) => (
             <button key={c.id} className={'chip' + (by === c.id ? ' on' : '')} onClick={() => setBy(by === c.id ? '' : c.id)}>
@@ -3473,17 +3511,31 @@ function Ledger({ s }) {
             </button>
           ))}
         </div>
+        <span className="label">Paid to</span>
+        <div className="chips">
+          <button className={'chip' + (!to ? ' on' : '')} onClick={() => setTo('')}>
+            Trip costs
+          </button>
+          {t.crew
+            .filter((c) => c.id !== by)
+            .map((c) => (
+              <button key={c.id} className={'chip' + (to === c.id ? ' on' : '')} onClick={() => setTo(to === c.id ? '' : c.id)}>
+                {c.name}
+              </button>
+            ))}
+        </div>
         <div className="row">
           <label className="field narrow">
             <input inputMode="decimal" value={amt} placeholder="0" onChange={(e) => setAmt(e.target.value)} />
           </label>
           <button
             className="btn"
-            disabled={!what.trim() || !by || !num(amt)}
+            disabled={(!what.trim() && !to) || !by || !num(amt) || to === by}
             onClick={() => {
-              s.push('pay', { what: what.trim(), by, amt: num(amt) });
+              s.push('pay', { what: what.trim() || 'Paid back', by, ...(to ? { to } : {}), amt: num(amt) });
               setWhat('');
               setAmt('');
+              setTo('');
             }}
           >
             Add
