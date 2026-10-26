@@ -2331,7 +2331,7 @@ function story(t) {
       go.forEach((l) => {
         const load = [...(l.who || []), ...(l.boats || [])];
         l.stray = load.filter((x) => loc[x] != null && loc[x] !== l.from);
-        l.t0 = Math.max(clock, free[l.car.id] || 0, ...load.filter((x) => loc[x] === l.from).map((x) => avail[x] || 0));
+        l.t0 = Math.max(clock, free[l.car.id] ?? -Infinity, ...load.filter((x) => loc[x] === l.from).map((x) => avail[x] ?? -Infinity));
         l.t1 = l.t0 + dur(l);
         end = Math.max(end, l.t1);
       });
@@ -2347,7 +2347,7 @@ function story(t) {
       if (e.boat ? loc[e.id] !== e.onP : loc[e.id] != null && loc[e.id] !== e.onP) return;
       loc[e.id] = 'river';
       afloat[e.id] = 1;
-      onAt[e.id] = Math.max(d + 9 / 24, avail[e.id] || 0);
+      onAt[e.id] = Math.max(d + 9 / 24, avail[e.id] ?? -Infinity);
     });
   });
   legs.sort((a, b) => a.t1 - b.t1);
@@ -2786,75 +2786,6 @@ function Stage({ S, s }) {
   );
 }
 
-function Convoys({ S, crew, boats }) {
-  const groups = [];
-  S.legs.forEach((l) => {
-    const d = addDays(S.start, Math.floor(l.t0));
-    const k = [d, l.from, l.to].join('|');
-    let g = groups.find((x) => x.k === k);
-    if (!g) groups.push((g = { k, d, from: l.from, to: l.to, cars: [], who: [], boats: [], gear: false, pro: false }));
-    if (!g.cars.some((c) => c.id === l.car.id)) g.cars.push(l.car);
-    (l.who || []).forEach((x) => g.who.includes(x) || g.who.push(x));
-    (l.boats || []).forEach((x) => g.boats.includes(x) || g.boats.push(x));
-    g.gear = g.gear || !!l.gear;
-    g.pro = g.pro || !!l.pro;
-  });
-  const dates = [...new Set(groups.map((g) => g.d))].sort();
-  const nm = (id) => byName(crew, id) || byName(boats, id);
-  const pname = (id) => S.byId[id]?.name || '—';
-  return (
-    <>
-      {dates.map((d) => (
-        <div key={d} className="dayBlock">
-          <div className="dayHead">
-            {fmt(d)}
-            <span className="muted">{d === S.start ? ' · launch' : d === addDays(S.start, S.N) ? ' · take-out' : ''}</span>
-          </div>
-          {groups
-            .filter((g) => g.d === d)
-            .map((g) => {
-              const hrs = hm(S.hrs(g.from, g.to));
-              const all = crew.length > 1 && g.who.length === crew.length;
-              return (
-                <div className="convoy" key={g.k}>
-                  <div className="cvWay">
-                    <b>
-                      {pname(g.from)} → {pname(g.to)}
-                    </b>
-                    {hrs ? <span className="muted">{hrs}</span> : null}
-                  </div>
-                  <div className="cvCars">
-                    {g.cars.map((c) => (
-                      <span key={c.id} className="cvCar">
-                        <i style={{ background: c.tint }} />
-                        {c.name}
-                      </span>
-                    ))}
-                  </div>
-                  {g.who.length ? (
-                    <div className="cvLine">
-                      <span className="cvK">Riding</span>
-                      {all ? 'Everyone' : g.who.map(nm).filter(Boolean).join(', ')}
-                    </div>
-                  ) : g.pro ? (
-                    <div className="cvLine">
-                      <span className="cvK">Driver</span>Shuttle service
-                    </div>
-                  ) : null}
-                  {g.boats.length || g.gear ? (
-                    <div className="cvLine">
-                      <span className="cvK">Hauling</span>
-                      {[...g.boats.map(nm).filter(Boolean), g.gear ? 'Gear' : null].filter(Boolean).join(', ')}
-                    </div>
-                  ) : null}
-                </div>
-              );
-            })}
-        </div>
-      ))}
-    </>
-  );
-}
 const byName = (list, id) => list.find((x) => x.id === id)?.name;
 
 function Shuttle({ s }) {
@@ -2950,6 +2881,16 @@ function Shuttle({ s }) {
   );
 
   const days = [...new Set(legs.map((l) => l.date))].sort();
+  const at = (id) => {
+    const x = S.legs.find((q) => q.id === id);
+    return x ? clockOf(x.t0) : '';
+  };
+  const riders = (l) => {
+    const w = l.who || [];
+    if (!w.length) return l.pro ? 'shuttle service' : 'empty';
+    if (w.length === t.crew.length && w.length > 1) return 'everyone';
+    return w.length > 3 ? `${w.length} aboard` : w.map((x) => byName(t.crew, x)).filter(Boolean).join(', ');
+  };
 
   return (
     <>
@@ -2967,11 +2908,7 @@ function Shuttle({ s }) {
         </div>
       )}
 
-      <span className="label mt">Plan</span>
-      <Convoys S={S} crew={t.crew} boats={boats} />
-
-      <details className="fold">
-        <summary>Edit legs</summary>
+      <span className="label mt">Legs</span>
       {days.map((d) => {
         const mine = legs.filter((l) => l.date === d);
         const step = mine.map((l, i) => (i ? (l.par ? 0 : 1) : 1)).map((v, i, arr) => arr.slice(0, i + 1).reduce((x, y) => x + y, 0));
@@ -2996,7 +2933,7 @@ function Shuttle({ s }) {
                         {c?.name || 'No vehicle'} <span className="legWay">{pname(l.from)} → {pname(l.to)}</span>
                       </span>
                       <span className="muted">
-                        {[hm(S.hrs(l.from, l.to)), who ? `${who} aboard` : l.pro ? 'shuttle service' : 'empty', nb ? `${nb} boat${nb > 1 ? 's' : ''}` : null, l.gear ? 'gear' : null].filter(Boolean).join(' · ')}
+                        {[at(l.id), hm(S.hrs(l.from, l.to)), riders(l), nb ? (nb === boats.length && nb > 1 ? 'all boats' : (l.boats || []).map((x) => byName(boats, x)).filter(Boolean).join(', ')) : null, l.gear ? 'gear' : null].filter(Boolean).join(' · ')}
                       </span>
                     </span>
                   </button>
@@ -3093,7 +3030,6 @@ function Shuttle({ s }) {
       <button className="btn ghost mt-s" onClick={addLeg} disabled={!cars.length}>
         Add leg
       </button>
-      </details>
 
 
       <span className="label mt">Vehicles</span>
