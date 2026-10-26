@@ -3016,7 +3016,7 @@ function Shuttle({ s }) {
       az = arrZone(l);
     const a = x.t0 - zShift(dz, l.date),
       b = x.t1 - zShift(az, l.date);
-    return { dep: hm24(a), arr: hm24(b), next: Math.floor(b) - Math.floor(x.t0 - zShift(dz, l.date)), dz, az, a, b };
+    return { dep: hm24(a), arr: hm24(b), depDate: addDays(start, Math.floor(a)), arrDate: addDays(start, Math.floor(b)), next: Math.floor(b) - Math.floor(a), dz, az, a, b };
   };
   const at = (l) => {
     const x = times(l);
@@ -3025,14 +3025,39 @@ function Shuttle({ s }) {
   };
   const zones = [...ZONES, ...(ZONES.some(([z]) => z === zoneOf()) ? [] : [[zoneOf(), zoneOf().split('/').pop().replace(/_/g, ' ')]])];
   const zoneSel = (l, key, value) => (
-    <Sel label="Time zone" value={value} onChange={(v) => setLeg(l.id, { [key]: v })}>
+    <select className="sel" aria-label="Time zone" value={value} onChange={(e) => setLeg(l.id, { [key]: e.target.value })}>
       {zones.map(([z, n]) => (
         <option key={z} value={z}>
-          {n} ({tzAbbr(z, l.date)})
+          {n}
         </option>
       ))}
-    </Sel>
+    </select>
   );
+  const when = (l) => {
+    const x = times(l) || {};
+    const arrPin = !!l.arr;
+    const depPin = !!l.dep;
+    const dd = arrPin ? x.depDate || l.date : l.date;
+    const ad = arrPin ? l.arrDate || l.date : x.arrDate || l.date;
+    const depTo = (p) => setLeg(l.id, { dep: x.dep || '', date: dd, arr: '', arrDate: '', ...p });
+    const arrTo = (p) => setLeg(l.id, { arr: x.arr || '', arrDate: ad, date: ad, dep: '', ...p });
+    return (
+      <>
+        <span className="label">Depart</span>
+        <div className="when">
+          <input className={arrPin ? 'auto' : ''} type="date" value={dd} onChange={(e) => okDate(e.target.value) && (arrPin ? depTo({ date: e.target.value }) : setLeg(l.id, { date: e.target.value }))} />
+          <input className={depPin ? '' : 'auto'} type="time" value={l.dep || x.dep || ''} onChange={(e) => depTo({ dep: e.target.value })} />
+          {zoneSel(l, 'depTz', depZone(l))}
+        </div>
+        <span className="label">Arrive</span>
+        <div className="when">
+          <input className={arrPin ? '' : 'auto'} type="date" value={ad} onChange={(e) => okDate(e.target.value) && arrTo({ arrDate: e.target.value, date: e.target.value })} />
+          <input className={arrPin ? '' : 'auto'} type="time" value={l.arr || x.arr || ''} onChange={(e) => arrTo({ arr: e.target.value })} />
+          {zoneSel(l, 'arrTz', arrZone(l))}
+        </div>
+      </>
+    );
+  };
 
   return (
     <>
@@ -3100,23 +3125,8 @@ function Shuttle({ s }) {
                             </option>
                           ))}
                         </Sel>
-                        <Sel label="Date" value={l.date} onChange={(v) => setLeg(l.id, { date: v })}>
-                          {dates.map((x) => (
-                            <option key={x} value={x}>
-                              {fmt(x)}
-                              {dtag(x)}
-                            </option>
-                          ))}
-                        </Sel>
                       </div>
-                      <div className="row">
-                        <Field className={l.dep ? '' : 'auto'} label="Depart" type="time" value={l.dep || times(l)?.dep || ''} onChange={(e) => setLeg(l.id, { dep: e.target.value, arr: '' })} />
-                        {zoneSel(l, 'depTz', depZone(l))}
-                      </div>
-                      <div className="row">
-                        <Field className={l.arr ? '' : 'auto'} label="Arrive by" type="time" value={l.arr || times(l)?.arr || ''} onChange={(e) => setLeg(l.id, { arr: e.target.value, dep: '' })} />
-                        {zoneSel(l, 'arrTz', arrZone(l))}
-                      </div>
+                      {when(l)}
                       <div className="row">
                         <Sel label="From" value={l.from} onChange={(v) => setLeg(l.id, { from: v })}>
                           {opts}

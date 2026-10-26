@@ -706,3 +706,5 @@ body.shot #fakeStatus { background: var(--bg); }
 .rg .mapType button { font: 600 11px Oswald, sans-serif; letter-spacing: .02em; padding: 3px 10px; background: transparent; color: #6b6154; border: 0; min-height: 0; }
 .rg .mapType button.on { background: #2b241d; color: #faf8f3; }
 .rg input.auto { color: #a39a8c; }
+.rg .when { display: grid; grid-template-columns: 1.2fr 1.05fr 1fr; gap: 6px; margin-bottom: 12px; }
+.rg .when > input, .rg .when > select { min-width: 0; width: 100%; font-size: 15px; }
