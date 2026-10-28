@@ -65,12 +65,12 @@ try {
   assert.ok((await r.v2Join(newCode, V, 'Pat')).trip);
   ok('owner can change roles, remove people and reset the invite');
 
-  // the owner cannot be removed, demoted or leave
+  // the owner cannot be removed or demoted; nobody can delete the trip
   const ownerId = (await r.v2Get(trip, O, 0)).members.find((m) => m.r === 'owner').id;
   assert.equal(await r.v2Remove(trip, O, ownerId), false);
   assert.equal(await r.v2Role(trip, O, ownerId, 'viewer'), false);
-  assert.equal(await r.v2Leave(trip, O), false);
-  ok('owner is protected');
+  assert.equal(await r.v2Delete(trip, O), false);
+  ok('owner is protected and delete is refused');
 
   // legacy upgrade needs the owner secret
   const lc = r.newCode();
@@ -80,8 +80,9 @@ try {
   const up = await r.v2Upgrade(lc, lo, O, 'Brian');
   assert.equal(up.role, 'owner');
   assert.deepEqual(await r.get(lc, 0), { upgraded: true });
-  assert.equal(await r.v2Delete(up.trip, O), true);
+  assert.equal(await r.v2Delete(up.trip, O), false);
+  assert.equal(await r.v2Leave(up.trip, O), true);
   ok('legacy upgrade needs the owner secret');
 } finally {
-  if (trip) console.log('cleanup', await r.v2Delete(trip, O));
+  if (trip) console.log('cleanup', await r.v2Leave(trip, O));
 }
