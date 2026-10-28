@@ -790,9 +790,8 @@ function useStore() {
     const ent = (stateRef.current.sync || {})[id];
     if (!ent) return;
     if (ent.trip && !ent.removed) {
-      if (ent.role === 'owner') await remote.v2Delete(ent.trip, ent.member); // removes the server copy for everyone
-      else await remote.v2Leave(ent.trip, ent.member).catch(() => {});
-    } else if (ent.owner && ent.owner !== 'v2') await remote.del(ent.code, ent.owner);
+      await remote.v2Leave(ent.trip, ent.member).catch(() => {});
+    }
     commit((s0) => {
       const { [id]: _gone, ...rest } = s0.sync || {};
       return { ...s0, sync: rest };
@@ -927,7 +926,8 @@ function useStore() {
     remove: (id) => {
       const st = stateRef.current;
       const list = st.trips.filter((t) => t.id !== id);
-      const { [id]: _gone, ...sync } = st.sync || {}; // removing a trip only leaves the shared copy; use Stop sharing to delete it
+      const { [id]: _gone, ...sync } = st.sync || {};
+      if (_gone && _gone.trip && !_gone.removed) remote.v2Leave(_gone.trip, _gone.member).catch(() => {});
       const onAccount = st.cloud && st.cloud.trips && st.cloud.trips[id];
       const cloud = st.cloud ? { ...st.cloud, trips: Object.fromEntries(Object.entries(st.cloud.trips || {}).filter(([k]) => k !== id)), del: onAccount ? [...(st.cloud.del || []), id] : st.cloud.del } : st.cloud;
       persist({ ...st, trips: list, sync, cloud, active: id === st.active ? list[0]?.id ?? null : st.active });
@@ -3951,11 +3951,9 @@ function People({ s }) {
       <button className="linkBtn mt" onClick={() => openUrl(SUPPORT_URL)}>
         Report a problem
       </button>
-      {!owner ? (
-        <button className="btn ghost danger mt" disabled={busy} onClick={() => window.confirm('Leave this trip? You keep your copy but it stops syncing.') && act(() => s.stopSharing(t.id))}>
-          Leave trip
-        </button>
-      ) : null}
+      <button className="btn ghost danger mt" disabled={busy} onClick={() => window.confirm('Leave this trip? You keep your copy but it stops syncing. Everyone else keeps the trip.') && act(() => s.stopSharing(t.id))}>
+        Leave trip
+      </button>
     </>
   );
 }
@@ -4029,8 +4027,7 @@ function SyncCard({ s, t }) {
           <button
             className="btn ghost danger"
             onClick={async () => {
-              const owner = !!ent.owner;
-              if (!window.confirm(owner ? 'Stop sharing? The shared copy is deleted from the server and crew members keep only the copy already on their device.' : 'Leave this shared trip? You keep your copy but it stops syncing.')) return;
+              if (!window.confirm('Leave this shared trip? You keep your copy but it stops syncing. Everyone else keeps the trip.')) return;
               try {
                 await s.stopSharing(t.id);
                 setMsg('');
@@ -4039,7 +4036,7 @@ function SyncCard({ s, t }) {
               }
             }}
           >
-            {ent.owner ? 'Stop sharing' : 'Leave shared trip'}
+            Leave shared trip
           </button>
         </>
       )}
@@ -4149,7 +4146,7 @@ function Settings({ s, back }) {
 
       <div className="card formCard dangerCard mt">
         <span className="label">Danger zone</span>
-        <div className="muted mb-s">Deleting a trip removes its crew, gear, meals and log for everyone it is shared with.</div>
+        <div className="muted mb-s">Removes the trip from this device. Everyone else keeps it.</div>
         <button
           className="btn ghost danger"
           onClick={() => {
@@ -5365,11 +5362,11 @@ function Account({ s }) {
         </div>
         <div className="card formCard dangerCard mt">
           <span className="label">Delete account</span>
-          <div className="muted mb-s">Permanently deletes your account, your backed-up trips on our server, and any trips you shared with a join code. Trips on this device stay unless you erase them.</div>
+          <div className="muted mb-s">Permanently deletes your account, your backed-up trips on our server. Shared trips stay for the other people on them. Trips on this device stay unless you erase them.</div>
           <button
             className="btn ghost danger"
             onClick={() =>
-              window.confirm('Delete your account? This permanently deletes your account, your backed-up trips and any trips you shared. It cannot be undone.') &&
+              window.confirm('Delete your account? This permanently deletes your account, your backed-up trips. Shared trips stay for the other people on them. It cannot be undone.') &&
               window.confirm('Really delete the account?') &&
               run(async () => {
                 await s.deleteAccount();

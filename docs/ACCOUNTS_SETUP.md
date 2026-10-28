@@ -52,7 +52,7 @@ iPhone it hides the Google button unless Apple is enabled too.
 ## What the account does
 - Signed in, every trip on the device is backed up and kept in sync on the user's other devices (same merge engine as crew sharing).
 - A trip shared with a join code belongs to the account, so the owner can stop sharing from any device.
-- Signing out keeps the trips on the device (or removes them if the user chooses). **Delete my account** erases the account, its backed-up trips and any trips it shared, on the server.
+- Signing out keeps the trips on the device (or removes them if the user chooses). **Delete my account** erases the account, its backed-up trips on the server. Shared trips stay for the other people on them.
 - The fictional sample trip is never uploaded.
 
 ## Test accounts
