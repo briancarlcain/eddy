@@ -1115,23 +1115,60 @@ function Stats({ s }) {
   );
 }
 
+function TravelDay({ s, x, hasStart, fresh }) {
+  const ref = useRef(null);
+  const moved = useRef(!!fresh);
+  // keep the row on screen when a new date moves it up or down the list
+  useEffect(() => {
+    if (!moved.current) return;
+    const el = ref.current;
+    const id = setTimeout(() => el && el.scrollIntoView({ block: 'center', behavior: 'smooth' }), 60);
+    return () => clearTimeout(id);
+  }, [x.date]);
+  return (
+    <div ref={ref}>
+      <Acc open={fresh} title={x.date ? fmt(x.date) : 'Travel day'}>
+        <Field
+          label="Date"
+          type="date"
+          value={x.date}
+          onChange={(e) => {
+            if (okDate(e.target.value)) {
+              moved.current = true;
+              s.patch('travel', x.id, { date: e.target.value });
+            }
+          }}
+        />
+        <Field area className="mt" value={x.note ?? ''} onChange={(e) => s.patch('travel', x.id, { note: e.target.value })} placeholder="Notes" />
+        <button className="btn ghost danger mt-s" onClick={() => s.drop('travel', x.id)}>
+          Remove
+        </button>
+      </Acc>
+    </div>
+  );
+}
+
 function Itinerary({ s }) {
   const t = s.trip;
   const ramps = ACCESS.filter((p) => p.mile != null);
   const L = ramps.find((p) => p.id === t.launch) || ramps[0];
   const O = ramps.find((p) => p.id === t.out) || ramps[ramps.length - 1];
-  const travel = t.travel || [];
-  const travelRow = (x, off) => {
-    const date = okDate(t.start) ? addDays(t.start, off) : '';
-    return (
-      <Acc key={x.id} title={date ? fmt(date) : 'Travel day'}>
-        <Field area value={x.note ?? ''} onChange={(e) => s.patch('travel', x.id, { note: e.target.value })} placeholder="Notes" />
-        <button className="btn ghost danger mt-s" onClick={() => s.drop('travel', x.id)}>
-          Remove
-        </button>
-      </Acc>
-    );
+  const [fresh, setFresh] = useState(null);
+  const hasStart = okDate(t.start);
+  const lastRiver = hasStart ? addDays(t.start, t.days) : '';
+  const travel = (t.travel || []).map((x) => ({ ...x, date: okDate(x.date) ? x.date : lastRiver }));
+  const addTravel = () => {
+    const last = travel.reduce((m, x) => (x.date > m ? x.date : m), lastRiver);
+    const id = uid();
+    s.push('travel', { id, date: last ? addDays(last, 1) : '', note: '' });
+    setFresh(id);
   };
+  // river days and travel days in one list, by date (river first on a shared date)
+  const rows = [
+    ...tripDays(t).map((d) => ({ key: 'r' + d.i, date: d.date, river: d })),
+    ...travel.map((x) => ({ key: x.id, date: x.date, travel: x })),
+  ];
+  if (hasStart) rows.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : a.river ? -1 : b.river ? 1 : 0));
   return (
     <>
       <div className="muted mb">
@@ -1143,8 +1180,9 @@ function Itinerary({ s }) {
         <RiverEnd s={s} which="out" noTime />
       </div>
       <span className="label sectionLabel">Day by day</span>
-      {travel.filter((x) => x.side === 'before').map((x, k, a) => travelRow(x, -(a.length - k)))}
-      {tripDays(t).map((d) => {
+      {rows.map((row) => {
+        if (row.travel) return <TravelDay key={row.key} s={s} x={row.travel} hasStart={hasStart} fresh={fresh === row.key} />;
+        const d = row.river;
         const p = t.plans[d.i] || {};
         const prev = t.plans[d.i - 1] || {};
         const from = d.i === 0 ? RIVER.miles[0] : prev.mile;
@@ -1203,15 +1241,9 @@ function Itinerary({ s }) {
           </Acc>
         );
       })}
-      {travel.filter((x) => x.side !== 'before').map((x, k) => travelRow(x, t.days + 1 + k))}
-      <div className="row mt">
-        <button className="btn ghost" onClick={() => s.push('travel', { side: 'before', note: '' })}>
-          Add travel day before launch
-        </button>
-        <button className="btn ghost" onClick={() => s.push('travel', { side: 'after', note: '' })}>
-          Add travel day after takeout
-        </button>
-      </div>
+      <button className="btn ghost mt" onClick={addTravel}>
+        Add travel day
+      </button>
     </>
   );
 }
