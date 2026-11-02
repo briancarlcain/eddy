@@ -291,7 +291,7 @@ function hash53(str) {
 const st0cloud = () => null;
 
 // one-line description of what changed between two copies of a trip (for the activity feed)
-const KIND_LABEL = { crew: 'crew', meals: 'meal', gear: 'gear', boats: 'craft', cars: 'vehicle', places: 'place', log: 'journal entry', pay: 'payment' };
+const KIND_LABEL = { crew: 'crew', meals: 'meal', gear: 'gear', boats: 'craft', cars: 'vehicle', places: 'place', log: 'journal entry', pay: 'payment', travel: 'travel day' };
 function summarize(a, b) {
   if (!a || !b) return null;
   const out = [];
@@ -1120,6 +1120,18 @@ function Itinerary({ s }) {
   const ramps = ACCESS.filter((p) => p.mile != null);
   const L = ramps.find((p) => p.id === t.launch) || ramps[0];
   const O = ramps.find((p) => p.id === t.out) || ramps[ramps.length - 1];
+  const travel = t.travel || [];
+  const travelRow = (x, off) => {
+    const date = okDate(t.start) ? addDays(t.start, off) : '';
+    return (
+      <Acc key={x.id} title={date ? fmt(date) : 'Travel day'}>
+        <Field area value={x.note ?? ''} onChange={(e) => s.patch('travel', x.id, { note: e.target.value })} placeholder="Notes" />
+        <button className="btn ghost danger mt-s" onClick={() => s.drop('travel', x.id)}>
+          Remove
+        </button>
+      </Acc>
+    );
+  };
   return (
     <>
       <div className="muted mb">
@@ -1131,6 +1143,7 @@ function Itinerary({ s }) {
         <RiverEnd s={s} which="out" noTime />
       </div>
       <span className="label sectionLabel">Day by day</span>
+      {travel.filter((x) => x.side === 'before').map((x, k, a) => travelRow(x, -(a.length - k)))}
       {tripDays(t).map((d) => {
         const p = t.plans[d.i] || {};
         const prev = t.plans[d.i - 1] || {};
@@ -1190,6 +1203,15 @@ function Itinerary({ s }) {
           </Acc>
         );
       })}
+      {travel.filter((x) => x.side !== 'before').map((x, k) => travelRow(x, t.days + 1 + k))}
+      <div className="row mt">
+        <button className="btn ghost" onClick={() => s.push('travel', { side: 'before', note: '' })}>
+          Add travel day before launch
+        </button>
+        <button className="btn ghost" onClick={() => s.push('travel', { side: 'after', note: '' })}>
+          Add travel day after takeout
+        </button>
+      </div>
     </>
   );
 }
