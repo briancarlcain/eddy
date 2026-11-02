@@ -2177,9 +2177,9 @@ function GroupSummary({ L, crew }) {
           <table className="gtable">
             <thead>
               <tr>
-                <th className="l">Who</th>
+                <th className="l">Borrower</th>
                 <th className="l">Item</th>
-                <th className="l">From</th>
+                <th className="l">Lender</th>
                 <th>Qty</th>
               </tr>
             </thead>
