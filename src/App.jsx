@@ -1074,7 +1074,7 @@ function Trip({ s, back, onAccount, onRiver }) {
     } catch {}
     setNudge(false);
   };
-  const OLD = { Settings: 'About', Shuttle: 'Itinerary', People: 'Crew', 'Crew & Crafts': 'Crew', Ledger: 'Costs', Log: 'Journal', Info: 'Itinerary', Notes: 'Itinerary', Card: 'Itinerary', Emergency: 'Itinerary' };
+  const OLD = { Settings: 'About', Shuttle: 'Itinerary', People: 'Crew', 'Crew & Crafts': 'Crew', Ledger: 'About', Costs: 'About', Log: 'Journal', Info: 'Itinerary', Notes: 'Itinerary', Card: 'Itinerary', Emergency: 'Itinerary' };
   const q = QS.get('sub');
   const [tab, setTab] = useState((q && (OLD[q] || q)) || lastSub[s.trip?.id] || 'Itinerary');
   useEffect(() => {
@@ -1083,9 +1083,9 @@ function Trip({ s, back, onAccount, onRiver }) {
   if (!s.trip) return <NewTrip s={s} />;
   const tripEnt = s.sync[s.trip.id];
   const tripStatus0 = s.syncStatus[s.trip.id];
-  const panels = { Itinerary, Crew, Meals, Gear, Costs: Ledger, Journal: Log, About: Settings };
+  const panels = { Itinerary, Crew, Meals, Gear, Journal: Log, About: Settings };
   const P = panels[tab] || Itinerary;
-  const items = ['Itinerary', 'Crew', 'Meals', 'Gear', 'Costs', 'Journal', 'About', ...(onRiver && riverOf(s.trip) ? ['River'] : [])];
+  const items = ['Itinerary', 'Crew', 'Meals', 'Gear', 'Journal', 'About', ...(onRiver && riverOf(s.trip) ? ['River'] : [])];
   return (
     <>
       <Tabs trip items={items} value={tab} onChange={(t) => (t === 'River' ? onRiver() : setTab(t))} />
@@ -4175,6 +4175,9 @@ function Settings({ s, back }) {
           ))}
         </Sel>
       </div>
+
+      <span className="label sectionLabel">Costs</span>
+      <Ledger s={s} />
 
       <SyncCard s={s} t={t} />
 
