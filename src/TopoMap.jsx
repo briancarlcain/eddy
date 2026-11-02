@@ -127,15 +127,38 @@ export default function TopoMap({ rid, river, planned, colors, date: date0, onOp
   // fill the screen from the map's top edge down to the tab bar
   const [h, setH] = useState(null);
   useEffect(() => {
+    // start at the top of the page and keep the page itself still: the map fills the screen and only the map moves
+    window.scrollTo(0, 0);
+    const root = document.documentElement;
+    root.classList.add('lockScroll');
     const fit = () => {
       if (!el.current) return;
       const nav = document.querySelector('.tabbar')?.getBoundingClientRect().height || 58;
-      setH(Math.max(320, Math.round(window.innerHeight - el.current.getBoundingClientRect().top - nav)));
+      const top = el.current.getBoundingClientRect().top + window.scrollY;
+      const vh = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+      setH(Math.max(320, Math.round(vh - top - nav)));
     };
     fit();
+    const late = setTimeout(fit, 250);
     window.addEventListener('resize', fit);
-    return () => window.removeEventListener('resize', fit);
+    window.addEventListener('orientationchange', fit);
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', fit);
+    return () => {
+      clearTimeout(late);
+      root.classList.remove('lockScroll');
+      window.removeEventListener('resize', fit);
+      window.removeEventListener('orientationchange', fit);
+      if (window.visualViewport) window.visualViewport.removeEventListener('resize', fit);
+    };
   }, []);
+  useEffect(() => { if (map.current) setTimeout(() => map.current && map.current.invalidateSize(), 0); }, [h]);
+  const [layersOpen, setLayersOpen] = useState(false);
+  useEffect(() => {
+    if (!layersOpen) return;
+    const away = (e) => { if (!e.target.closest || !e.target.closest('.layerWrap')) setLayersOpen(false); };
+    document.addEventListener('pointerdown', away);
+    return () => document.removeEventListener('pointerdown', away);
+  }, [layersOpen]);
   useEffect(() => { if (date0) setDate(date0); }, [date0]);
 
   const line = useMemo(() => riverLine(rid), [rid]);
@@ -357,13 +380,28 @@ export default function TopoMap({ rid, river, planned, colors, date: date0, onOp
     <div className="topo">
       <div className="topoMap" ref={el} style={h ? { height: h } : undefined} />
       <div className="topoBar">
-        <button className="chip" onClick={() => setBase(BASES[(BASES.indexOf(base) + 1) % BASES.length])} title="Map style">
-          {BASE_NAME[base]} ▾
-        </button>
         <button className={'chip' + (shadeOn ? ' on river' : '')} onClick={() => setShadeOn((v) => !v)}>Sun &amp; shade</button>
         <button className={'chip' + (panel === 'offline' ? ' on river' : '')} onClick={() => setPanel(panel === 'offline' ? null : 'offline')}>Offline</button>
       </div>
       <div className="topoTools">
+        <div className="layerWrap">
+          <button className={'toolBtn' + (layersOpen ? ' on' : '')} onClick={() => setLayersOpen((v) => !v)} aria-label="Map layers" aria-expanded={layersOpen} title="Map layers">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+              <path d="M12 3l9 5-9 5-9-5 9-5z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+              <path d="M3 12.5l9 5 9-5M3 16.5l9 5 9-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
+            </svg>
+          </button>
+          {layersOpen ? (
+            <div className="layerMenu" role="radiogroup" aria-label="Map layers">
+              {BASES.map((k) => (
+                <button key={k} role="radio" aria-checked={base === k} className={'layerOpt' + (base === k ? ' on' : '')} onClick={() => { setBase(k); setLayersOpen(false); }}>
+                  <i className={'layerSw ' + k} />
+                  <span>{BASE_NAME[k]}</span>
+                </button>
+              ))}
+            </div>
+          ) : null}
+        </div>
         <button className={'toolBtn' + (dropMode ? ' on' : '')} onClick={() => setDropMode((v) => !v)} aria-label="Drop a pin" title="Drop a pin">
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 22s7-6.6 7-12a7 7 0 0 0-14 0c0 5.4 7 12 7 12z" fill="none" stroke="currentColor" strokeWidth="2" /><circle cx="12" cy="10" r="2.5" fill="currentColor" /></svg>
         </button>
