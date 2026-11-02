@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
 import { createRoot } from 'react-dom/client';
 import { BUILTIN_RIVERS, DEFAULT_RIVER, normalizeRiver } from './rivers.js';
 import GENERAL from '../data/general.json';
+import { ledger, num } from './gearLedger.js';
 import GEAR_ALL from '../data/gear.json';
 import SEED from '../data/trip.json';
 import SOURCES from '../data/sources.json';
@@ -1499,86 +1500,6 @@ const SPLIT_HELP = {
 const REQ = { req: ['Required', '#9c3326'], rec: ['Recommended', '#a8722a'], maybe: ['Maybe', '#6b6154'] };
 const usd = (n) => (n >= 0.005 ? '$' + n.toFixed(2) : '');
 const usd0 = (n) => '$' + Math.round(n).toLocaleString();
-const num = (v) => (Number.isFinite(+v) ? +v : 0);
-
-// personal = each person brings their own; group = shared by the whole crew
-const GROUP_PERSONAL_BILLED = /^(Guitar & Other Musical|Guitar Dry Bag|Food, ice and sundries|Boil-in-a-Bag)/;
-const gearKind = (g) => g.k || (g.s && g.s !== 'personal' ? 'group' : GROUP_PERSONAL_BILLED.test(g.n ?? g.name ?? '') ? 'group' : 'personal');
-
-const norm = (g) => ({
-  kind: gearKind(g),
-  name: g.n ?? g.name ?? '',
-  cat: g.c ?? g.cat ?? 'Gear',
-  split: g.s || 'personal',
-  req: g.r || '',
-  flat: num(g.f),
-  day: num(g.d),
-  qty: num(g.q),
-  e: g.e || {},
-});
-
-function ledger(t) {
-  const D = Math.max(1, num(t.days) || 1);
-  const crew = t.crew;
-  const span = (c) => (okDate(c.onDate) && okDate(c.offDate) ? Math.round((new Date(c.offDate + 'T12:00:00Z') - new Date(c.onDate + 'T12:00:00Z')) / 864e5) : 0);
-  const nights = (c) => (num(c.days) > 0 ? num(c.days) : span(c) > 0 ? span(c) : D);
-  const allNights = crew.reduce((a, c) => a + nights(c), 0);
-  const items = (t.gear || []).map((g) => {
-    const it = norm(g);
-    const unit = Math.max(it.flat, it.day * D);
-    let have = 0,
-      need = 0,
-      lend = 0,
-      net = 0;
-    const own = {};
-    crew.forEach((c) => {
-      const e = it.e[c.id] || {};
-      // what a person brings for themselves only covers what they need
-      own[c.id] = Math.min(num(e.have), num(e.need));
-      have += own[c.id];
-      need += num(e.need);
-      net += num(e.need) - own[c.id];
-      lend += num(e.lend);
-    });
-    const target = it.split === 'personal' ? need : it.qty || need;
-    const rent = Math.max(0, target - have - lend);
-    const total = unit * rent;
-    const share = {};
-    crew.forEach((c) => {
-      const e = it.e[c.id] || {};
-      const v =
-        it.split === 'even'
-          ? crew.length
-            ? total / crew.length
-            : 0
-          : it.split === 'nights'
-            ? allNights
-              ? (total * nights(c)) / allNights
-              : 0
-            : net
-              ? (total * (num(e.need) - own[c.id])) / net
-              : 0;
-      if (v) share[c.id] = v;
-    });
-    const assigned = Object.values(share).reduce((a, b) => a + b, 0);
-    return { id: g.id, raw: g, ...it, unit, have, need, lend, target, rent, total, share, loose: total - assigned };
-  });
-  const by = {};
-  crew.forEach((c) => (by[c.id] = { even: 0, nights: 0, users: 0, personal: 0, total: 0, nightsCount: nights(c) }));
-  let total = 0,
-    loose = 0;
-  items.forEach((it) => {
-    total += it.total;
-    loose += it.loose;
-    crew.forEach((c) => {
-      const v = it.share[c.id] || 0;
-      by[c.id][it.split] += v;
-      by[c.id].total += v;
-    });
-  });
-  return { items, by, total, loose, allNights, days: D };
-}
-
 const TIPS = {
   need: 'How many you will personally use on the trip, e.g. 1 for a PFD. Enter 0 if you don’t need it.',
   have: 'How many of your own you can bring for yourself. You aren’t charged for these.',
@@ -1705,7 +1626,7 @@ function Gear({ s }) {
   const whoName = (t.crew.find((c) => c.id === who) || {}).name || '';
   const mineOf = (i) => {
     const e = i.e[who] || {};
-    return !!(i.share[who] || num(e.have) || num(e.need) || num(e.lend));
+    return !!(i.share[who] || i.named[who] || num(e.have) || num(e.need) || num(e.lend));
   };
   const shown = secItems.filter(
     (i) => (cat === 'All' || (cat === 'Mine' ? who && mineOf(i) : i.cat === cat)) && (!q || i.name.toLowerCase().includes(q))
@@ -1814,7 +1735,7 @@ function GearCover({ L }) {
   const n = { own: 0, borrow: 0, rent: 0, none: 0 };
   L.items.forEach((i) => {
     if (i.target <= 0) return;
-    n[i.rent > 0.005 ? (i.unit > 0 ? 'rent' : 'none') : i.lend > 0 ? 'borrow' : 'own']++;
+    n[i.rent > 0.005 ? (i.unit > 0 ? 'rent' : 'none') : i.borrowed > 0 ? 'borrow' : 'own']++;
   });
   const sum = n.own + n.borrow + n.rent + n.none;
   if (!sum) return null;
@@ -1921,7 +1842,38 @@ const Step = ({ label, hint, value, onChange }) => {
 function gearStatus(it) {
   if (it.target <= 0) return { text: 'No one needs it yet', k: 'idle' };
   if (it.rent > 0.005) return it.unit > 0 ? { text: `Renting ${+it.rent.toFixed(2)} · ${usd(it.total)}`, k: 'rent' } : { text: `${+it.rent.toFixed(2)} short · nobody has it`, k: 'none' };
-  return it.lend > 0 ? { text: 'Covered with borrowed', k: 'borrow' } : { text: 'Covered', k: 'own' };
+  return it.borrowed > 0 ? { text: 'Covered with borrowed', k: 'borrow' } : { text: 'Covered', k: 'own' };
+}
+
+const firstName = (c) => (c.name || '').trim().split(/\s+/)[0] || '';
+
+// who uses one unit someone is bringing: the group first, then crew by first name
+function UnitPick({ title, u, crew, me, group, money, onChange }) {
+  const others = crew.filter((c) => c.id !== me).sort((a, b) => firstName(a).localeCompare(firstName(b)));
+  const to = Array.isArray(u.to) ? u.to : [];
+  const forGroup = group ? !to.length : !!u.g;
+  const flip = (id) => onChange({ to: to.includes(id) ? to.filter((x) => x !== id) : [...to, id], g: false });
+  return (
+    <div className="unitPick">
+      <span className="label">{title}</span>
+      <div className="chips scroll">
+        <button className={'chip' + (forGroup ? ' on' : '')} onClick={() => onChange({ to: [], g: !group && !u.g })}>
+          Group
+        </button>
+        {others.map((c) => (
+          <button key={c.id} className={'chip' + (to.includes(c.id) ? ' on' : '')} onClick={() => flip(c.id)}>
+            {c.name}
+          </button>
+        ))}
+      </div>
+      {to.length > 0 && money && (
+        <label className="chk">
+          <input type="checkbox" checked={!!u.x} onChange={(e) => onChange({ x: e.target.checked })} />
+          <span>Not responsible for rental cost</span>
+        </label>
+      )}
+    </div>
+  );
 }
 
 function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
@@ -1932,6 +1884,19 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
   const patch = (o) => s.patch('gear', it.id, o);
   const e = it.e[me] || {};
   const setE = (k, v) => patch({ e: { ...it.e, [me]: { ...(it.e[me] || {}), [k]: v } } });
+  const setUnit = (k, i, o) => {
+    const list = Array.from({ length: Math.max(i + 1, ((it.e[me] || {})[k] || []).length) }, (_, j) => ((it.e[me] || {})[k] || [])[j] || {});
+    list[i] = { ...list[i], ...o };
+    setE(k, list);
+  };
+  const nameOf = (id) => (crew.find((c) => c.id === id) || {}).name || '';
+  // who else is using the same unit as this person, with the one bringing it marked
+  const sharing = it.units
+    .filter((u) => u.to.length && (u.owner === me || u.to.includes(me)))
+    .map((u) =>
+      [u.owner !== me ? nameOf(u.owner) + ' (bringing)' : '', ...u.to.filter((id) => id !== me).map(nameOf)].filter(Boolean).join(', ')
+    )
+    .filter(Boolean);
   // the form reads and writes the short stored keys
   const v = { n: it.name, k: it.kind, c: it.cat, s: it.split, r: it.req, f: it.raw.f, d: it.raw.d, q: it.raw.q, qHint: it.split === 'personal' ? '' : String(+it.need.toFixed(2)) };
     const need = num(e.need),
@@ -1940,7 +1905,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
   const left = Math.max(0, need - Math.min(have, need));
   const parts = [
     [Math.min(have, need), 'own', 'Own'],
-    [it.lend, 'borrow', 'Lent'],
+    [it.borrowed, 'borrow', 'Borrowed'],
     [it.rent, it.unit > 0 ? 'rent' : 'none', it.unit > 0 ? 'Rented' : 'Short'],
   ];
   const others = crew.filter((c) => c.id !== me && ['need', 'have', 'lend'].some((k) => num((it.e[c.id] || {})[k])));
@@ -1969,6 +1934,22 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
               <Step label={you ? 'I need' : `${name} needs`} hint="How many will be used on the trip" value={e.need} onChange={(x) => setE('need', x)} />
               <Step label={you ? 'Bringing my own' : 'Bringing own'} hint="Own ones, so no rental charge" value={e.have} onChange={(x) => setE('have', x)} />
               <Step label="Can lend" hint="Extras for others to use" value={e.lend} onChange={(x) => setE('lend', x)} />
+              {crew.length > 1 && (Math.floor(have) > 0 || Math.floor(lend) > 0) && (
+                <details className="gdet" open={[...(e.share || []), ...(e.lends || [])].some((u) => u && ((u.to || []).length || u.g))}>
+                  <summary>Who uses what you bring</summary>
+                  {Array.from({ length: Math.floor(have) }, (_, i) => (
+                    <UnitPick key={'o' + i} title={`Mine #${i + 1}: also used by`} u={(e.share || [])[i] || {}} crew={crew} me={me} money={it.split !== 'personal'} onChange={(o) => setUnit('share', i, o)} />
+                  ))}
+                  {Array.from({ length: Math.floor(lend) }, (_, i) => (
+                    <UnitPick key={'l' + i} title={`Lending #${i + 1}: used by`} u={(e.lends || [])[i] || {}} crew={crew} me={me} group money={it.split !== 'personal'} onChange={(o) => setUnit('lends', i, o)} />
+                  ))}
+                </details>
+              )}
+              {sharing.map((l, i) => (
+                <div className="muted mb-s" key={i}>
+                  Sharing with {l}
+                </div>
+              ))}
               {have > need && <div className="gwarn">Only {+need.toFixed(2)} of the {+have.toFixed(2)} count: the rest is spare. Use “Can lend” for extras.</div>}
               {need > 0 && left > 0 && (
                 <div className="muted mb-s">

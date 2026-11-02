@@ -747,3 +747,7 @@ body.shot #fakeStatus { background: var(--bg); }
 .rg .tabs.trip .tab.on, .rg .tabs.trip .tab.on:active { color: var(--ink) !important; font-weight: 700; }
 .rg .tabs.trip .tab.on::after { content: ''; position: absolute; left: 10px; right: 10px; bottom: 0; height: 3px; border-radius: 3px 3px 0 0; background: var(--accent); }
 .rg .tabs.trip .tab:hover:not(.on) { background: transparent !important; color: var(--ink) !important; }
+
+.rg .unitPick { margin-top: 6px; }
+.rg .chk { display: flex; align-items: center; gap: 8px; min-height: 36px; font-size: 14px; color: var(--ink-dim); }
+.rg .chk input { width: 20px; height: 20px; accent-color: var(--accent); flex: none; }
