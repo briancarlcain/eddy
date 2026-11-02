@@ -35,7 +35,7 @@ const balanced = (it) => near(Object.values(it.share).reduce((a, b) => a + b, 0)
 }
 // users split: a borrower pays a share of rentals unless excluded
 {
-  const g = (x) => ({ s: 'users', q: 4, e: { s: { need: 1, have: 1 }, a: { need: 1 }, j: { need: 1 }, k: { need: 1 }, m: { lend: 1, lends: [{ to: ['k'], x }] } } });
+  const g = (x) => ({ s: 'users', k: 'personal', q: 4, e: { s: { need: 1, have: 1 }, a: { need: 1 }, j: { need: 1 }, k: { need: 1 }, m: { lend: 1, lends: [{ to: ['k'], x }] } } });
   const c4 = [...crew, { id: 'k', name: 'Kai' }, { id: 'm', name: 'Mo' }];
   const keep = one(g(false), c4);
   near(keep.rent, 4 - 1 - 1, 'rent'); near(keep.total, 200, 'total');
@@ -47,13 +47,13 @@ const balanced = (it) => near(Object.values(it.share).reduce((a, b) => a + b, 0)
 // even and nights splits go to the people using it once it is shared; excluded borrowers owe nothing
 {
   for (const sp of ['even', 'nights']) {
-    const it = one({ s: sp, q: 3, e: { s: { need: 1, have: 1, share: [{ to: ['a'], x: true }] }, a: { need: 1 }, j: { need: 1 } } });
+    const it = one({ s: sp, k: 'personal', q: 3, e: { s: { need: 1, have: 1, share: [{ to: ['a'], x: true }] }, a: { need: 1 }, j: { need: 1 } } });
     near(it.rent, 1, sp + ' rent'); assert.equal(it.share.a, undefined, sp + ' excluded');
     near(it.share.s + it.share.j, 100, sp + ' split'); balanced(it);
   }
-  const plain = one({ s: 'even', q: 3, e: { s: { need: 3, have: 3 } } });
+  const plain = one({ s: 'even', k: 'personal', q: 3, e: { s: { need: 3, have: 3 } } });
   near(plain.total, 0, 'covered');
-  const legacy = one({ s: 'even', q: 2, e: { s: { need: 1 } } });
+  const legacy = one({ s: 'even', k: 'personal', q: 2, e: { s: { need: 1 } } });
   near(legacy.share.a, 200 / 3, 'unshared even split stays across the whole crew');
 }
 // junk in saved units is ignored
@@ -69,6 +69,23 @@ const balanced = (it) => near(Object.values(it.share).reduce((a, b) => a + b, 0)
   assert.deepEqual(coverOf(it, 'j'), { own: false, borrowed: false, rented: true });
   const pool = one({ s: 'personal', e: { s: { have: 1, need: 1, lend: 1 }, a: { need: 1 } } });
   assert.equal(coverOf(pool, 'a').borrowed, true); assert.equal(coverOf(pool, 'a').rented, false);
+}
+// group items: one count for the group, no personal need
+{
+  const it = one({ s: 'even', q: 3, e: { s: { have: 1 }, a: { have: 1, need: 5 } } });
+  near(it.rent, 1, 'group rent'); near(it.total, 100, 'total'); near(it.need, 0, 'personal needs are ignored');
+  near(it.share.s, 100 / 3, 'even split'); balanced(it);
+  assert.deepEqual(coverOf(it, 's'), { own: true, borrowed: false, rented: true });
+  const lent = one({ s: 'even', q: 3, e: { s: { have: 1, lend: 1, lends: [{ to: ['a'] }] }, j: { have: 1 } } });
+  near(lent.rent, 0, 'lent extra covers the rest'); assert.equal(coverOf(lent, 'a').borrowed, true);
+  const shared = one({ s: 'even', q: 2, e: { s: { have: 1, share: [{ to: ['a'] }] } } });
+  near(shared.rent, 1, 'sharing a unit does not make it count twice'); near(shared.share.s, 100 / 3, 'everyone pays');
+  const nights = one({ s: 'nights', q: 1, e: {} }, [{ id: 's', days: 10 }, { id: 'a', days: 30 }]);
+  near(nights.share.a, 75, 'nights split'); balanced(nights);
+  const per = one({ s: 'personal', k: 'group', q: 3, e: {} });
+  near(per.share.s, 100, 'group item billed per person splits evenly'); balanced(per);
+  const skip = one({ s: 'even', q: 3, e: { s: { lend: 1, lends: [{ to: ['a'], x: true }] } } });
+  assert.equal(skip.share.a, undefined); balanced(skip);
 }
 assert.equal(gearKind({ n: 'Cot', s: 'personal' }), 'personal');
 assert.equal(gearKind({ n: 'Roster', s: 'even' }), 'group');

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
 import { createRoot } from 'react-dom/client';
 import { BUILTIN_RIVERS, DEFAULT_RIVER, normalizeRiver } from './rivers.js';
 import GENERAL from '../data/general.json';
-import { coverOf, ledger, num } from './gearLedger.js';
+import { coverOf, gearKind, ledger, num } from './gearLedger.js';
 import GEAR_ALL from '../data/gear.json';
 import SEED from '../data/trip.json';
 import SOURCES from '../data/sources.json';
@@ -678,13 +678,14 @@ function useStore() {
     cloudTimers.current[id] = setTimeout(() => cloudSyncTrip(id, undefined).catch(() => setCloudStatus('offline')), 1500);
   };
 
-  // River Essentials was split into clearer categories: move saved trips over (viewers can't edit)
+  // saved trips: River Essentials was split into clearer categories, and a group item's count is now one group number (viewers can't edit)
   useEffect(() => {
     const st = stateRef.current;
-    const stale = st.trips.filter((t) => (t.gear || []).some((g) => g.c === 'River Essentials') && ((st.sync || {})[t.id] || {}).role !== 'viewer');
+    const needsQ = (g) => gearKind(g) === 'group' && !num(g.q) && Object.values(g.e || {}).some((x) => num(x && x.need) > 0);
+    const stale = st.trips.filter((t) => (t.gear || []).some((g) => g.c === 'River Essentials' || needsQ(g)) && ((st.sync || {})[t.id] || {}).role !== 'viewer');
     if (!stale.length) return;
     const t0 = now();
-    const trips = st.trips.map((t) => (stale.includes(t) ? stamp(t, { ...t, gear: t.gear.map((g) => ({ ...g, c: recat(g) })), at: t0 }, t0) : t));
+    const trips = st.trips.map((t) => (stale.includes(t) ? stamp(t, { ...t, gear: t.gear.map((g) => ({ ...g, c: recat(g), ...(needsQ(g) ? { q: Object.values(g.e).reduce((a, x) => a + num(x && x.need), 0) } : {}) })), at: t0 }, t0) : t));
     persist({ ...st, trips });
     stale.forEach((t) => {
       if ((stateRef.current.sync || {})[t.id]) syncSoon(t.id);
@@ -1639,7 +1640,7 @@ function GearFields({ v, up, days, cats, T }) {
         <Num usd label="Flat fee" value={v.f} onChange={(x) => up('f', x)} />
         <Num usd label="Per day" value={v.d} onChange={(x) => up('d', x)} />
         </div>
-      {v.s !== 'personal' && (
+      {v.s !== 'personal' && v.k === 'personal' && (
         <>
           <span className="label">Group total (leave blank to add up everyone’s needs) {T.btn('group')}</span>
           {T.box('group')}
@@ -1818,7 +1819,7 @@ function GearPack({ L, me, you, name, tripId }) {
     } catch {}
   };
   const groups = [
-    [you ? 'Bringing my own' : 'Bringing their own', 'own', (i) => Math.min(num((i.e[me] || {}).have), num((i.e[me] || {}).need))],
+    [you ? 'Bringing my own' : 'Bringing their own', 'own', (i) => (i.kind === 'group' ? num((i.e[me] || {}).have) : Math.min(num((i.e[me] || {}).have), num((i.e[me] || {}).need)))],
     ['Bringing to lend', 'lend', (i) => num((i.e[me] || {}).lend)],
     ['Renting', 'rent', (i) => (i.share[me] > 0.005 ? i.share[me] : 0)],
   ].map(([title, kind, f]) => ({ title, kind, rows: [...L.items].sort(byItem).map((i) => ({ i, v: f(i) })).filter((r) => r.v > 0) }));
@@ -1943,13 +1944,14 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
     const need = num(e.need),
     have = num(e.have),
     lend = num(e.lend);
+  const grp = it.kind === 'group';
   const left = Math.max(0, need - Math.min(have, need));
   const parts = [
-    [Math.min(have, need), 'own', 'Own'],
+    [grp ? have : Math.min(have, need), 'own', 'Own'],
     [it.borrowed, 'borrow', 'Borrowed'],
     [it.rent, it.unit > 0 ? 'rent' : 'none', it.unit > 0 ? 'Rented' : 'Short'],
   ];
-  const others = crew.filter((c) => c.id !== me && ['need', 'have', 'lend'].some((k) => num((it.e[c.id] || {})[k])));
+  const others = crew.filter((c) => c.id !== me && (grp ? ['have', 'lend'] : ['need', 'have', 'lend']).some((k) => num((it.e[c.id] || {})[k])));
   return (
     <div className={'grItem' + (open ? ' open' : '')}>
       <button className="grHead" onClick={onOpen}>
@@ -1971,7 +1973,11 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
             <div className="muted">Pick your name above to enter your numbers.</div>
           ) : (
             <>
-              <Step label={you ? 'I need' : `${name} needs`} hint="How many will be used on the trip" value={e.need} onChange={(x) => setE('need', x)} />
+              {grp ? (
+                <Step label="Group needs" hint="How many the whole group needs" value={it.raw.q} onChange={(x) => patch({ q: x })} />
+              ) : (
+                <Step label={you ? 'I need' : `${name} needs`} hint="How many will be used on the trip" value={e.need} onChange={(x) => setE('need', x)} />
+              )}
               <Step label={you ? 'Bringing my own' : 'Bringing own'} hint="Own ones, so no rental charge" value={e.have} onChange={(x) => setE('have', x)} />
               <Step label="Can lend" hint="Extras for others to use" value={e.lend} onChange={(x) => setE('lend', x)} />
               {crew.length > 1 && (Math.floor(have) > 0 || Math.floor(lend) > 0) && (
@@ -1990,8 +1996,8 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                   Sharing with {l}
                 </div>
               ))}
-              {have > need && <div className="gwarn">Only {+need.toFixed(2)} of the {+have.toFixed(2)} count: the rest is spare. Use “Can lend” for extras.</div>}
-              {need > 0 && left > 0 && (
+              {!grp && have > need && <div className="gwarn">Only {+need.toFixed(2)} of the {+have.toFixed(2)} count: the rest is spare. Use “Can lend” for extras.</div>}
+              {!grp && need > 0 && left > 0 && (
                 <div className="muted mb-s">
                   {+left.toFixed(2)} still to come from lenders or rental{mine ? ` · ${usd(mine)} for ${you ? 'you' : name}` : ''}
                 </div>
@@ -2027,7 +2033,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                   <div className="gother" key={c.id}>
                     <span className="gcName">{c.name}</span>
                     <span className="muted">
-                      needs {+num(x.need).toFixed(2)} · own {+Math.min(num(x.have), num(x.need)).toFixed(2)} · lends {+num(x.lend).toFixed(2)}
+                      {it.kind === 'group' ? '' : `needs ${+num(x.need).toFixed(2)} · `}own {+(it.kind === 'group' ? num(x.have) : Math.min(num(x.have), num(x.need))).toFixed(2)} · lends {+num(x.lend).toFixed(2)}
                     </span>
                     <span className="gcAmt">{it.share[c.id] ? usd(it.share[c.id]) : ''}</span>
                   </div>

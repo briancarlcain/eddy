@@ -37,6 +37,7 @@ export function unitsOf(e, owner, ids) {
 
 // how one person's need for an item is covered: bringing their own, borrowed, or rented
 export function coverOf(it, id) {
+  if (it.kind === 'group') return { own: num((it.e[id] || {}).have) > 0, borrowed: (it.named[id] || 0) > 0, rented: (it.share[id] || 0) > 0.005 };
   const need = num((it.e[id] || {}).need);
   const own = Math.min(num((it.e[id] || {}).have), need);
   const named = it.named[id] || 0;
@@ -55,6 +56,8 @@ export function ledger(t) {
   const items = (t.gear || []).map((g) => {
     const it = norm(g);
     const unit = Math.max(it.flat, it.day * D);
+    // a group item has one count for the whole group; nobody enters a personal need
+    const grp = it.kind === 'group';
     let have = 0,
       need = 0,
       lend = 0,
@@ -66,9 +69,9 @@ export function ledger(t) {
     crew.forEach((c) => {
       const e = it.e[c.id] || {};
       // what a person brings for themselves only covers what they need
-      own[c.id] = Math.min(num(e.have), num(e.need));
+      own[c.id] = grp ? num(e.have) : Math.min(num(e.have), num(e.need));
       have += own[c.id];
-      need += num(e.need);
+      need += grp ? 0 : num(e.need);
       lend += num(e.lend);
       const u = unitsOf(e, c.id, ids);
       lendGroup += u.spare;
@@ -89,23 +92,27 @@ export function ledger(t) {
     let namedTotal = 0;
     crew.forEach((c) => {
       const e = it.e[c.id] || {};
-      named[c.id] = Math.min(raw[c.id] || 0, Math.max(0, num(e.need) - own[c.id]));
-      namedTotal += named[c.id];
+      named[c.id] = grp ? raw[c.id] || 0 : Math.min(raw[c.id] || 0, Math.max(0, num(e.need) - own[c.id]));
+      if (!grp) namedTotal += named[c.id];
     });
     const shared = units.some((x) => x.to.length);
-    const borrowed = namedTotal + lendGroup;
-    const target = it.split === 'personal' ? need : it.qty || need;
+    // lent units are extra physical units, whoever they go to
+    const borrowed = grp ? lend : namedTotal + lendGroup;
+    const target = grp ? it.qty : it.split === 'personal' ? need : it.qty || need;
     const rent = Math.max(0, target - have - borrowed);
     const total = unit * rent;
     // who pays, and in what proportion
     const weight = {};
-    crew.forEach((c) => {
+    if (grp) {
+      const pool = crew.filter((c) => !excl[c.id]);
+      (pool.length ? pool : crew).forEach((c) => (weight[c.id] = it.split === 'nights' ? nights(c) : 1));
+    } else crew.forEach((c) => {
       const e = it.e[c.id] || {};
       const gap = Math.max(0, num(e.need) - own[c.id]);
       if (it.split === 'personal') weight[c.id] = Math.max(0, gap - named[c.id]);
       else if (it.split === 'users') weight[c.id] = excl[c.id] ? 0 : gap;
     });
-    if (it.split === 'even' || it.split === 'nights') {
+    if (!grp && (it.split === 'even' || it.split === 'nights')) {
       const users = crew.filter((c) => !excl[c.id] && (num((it.e[c.id] || {}).need) > 0 || raw[c.id] > 0));
       const pool = shared ? (users.length ? users : crew.filter((c) => !excl[c.id])) : crew;
       pool.forEach((c) => (weight[c.id] = it.split === 'even' ? 1 : nights(c)));
