@@ -74,4 +74,12 @@ const converge = (a, b) => { for (let i = 0; i < 4; i++) [a, b] = sync(a, b); re
   assert.equal(canon(m1), canon(m2));
   assert.equal(canon(mergeTrips(A, A, T)), canon(A));
 }
+// 8. A private list that the other copy never has survives a merge with it (personal journal)
+{
+  const mine = { ...base, journal: [{ id: 'j1', date: '2027-01-01', text: 'private', _u: 5 }] };
+  const m = mergeTrips(mine, base, T);
+  assert.deepEqual(m.journal.map((x) => x.text), ['private']);
+  const m2 = mergeTrips(mine, { ...base, name: 'Renamed' }, T);
+  assert.equal(m2.journal.length, 1);
+}
 console.log('merge tests passed');
