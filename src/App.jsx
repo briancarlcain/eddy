@@ -4307,6 +4307,10 @@ function Settings({ s, back }) {
           <Icon name="trash" size={16} /> Delete trip
         </button>
       </div>
+
+      <div className="card formCard mt">
+        <Field area rows={8} label="Notes" value={t.notes ?? ''} onChange={(e) => s.set({ notes: e.target.value })} />
+      </div>
     </>
   );
 }
