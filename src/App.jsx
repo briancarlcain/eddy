@@ -1866,7 +1866,7 @@ const Step = ({ label, hint, value, onChange, max }) => {
     <div className="step">
       <span className="stepText">
         <span className="stepLabel">{label}</span>
-        <span className="muted">{hint}</span>
+        {hint ? <span className="muted">{hint}</span> : null}
       </span>
       <span className="stepCtl">
         <button type="button" className="stepBtn" aria-label={`Less ${label}`} disabled={n <= 0} onClick={() => set(n - 1)}>
@@ -1987,12 +1987,12 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
           ) : (
             <>
               {grp ? (
-                <Step label="Group needs" hint="How many the whole group needs" value={it.raw.q} onChange={(x) => patch({ q: x })} />
+                <Step label="Group needs" value={it.raw.q} onChange={(x) => patch({ q: x })} />
               ) : (
-                <Step label={you ? 'I need' : `${name} needs`} hint="How many will be used on the trip" value={e.need} onChange={(x) => setE('need', x)} />
+                <Step label={you ? 'I need' : `${name} needs`} value={e.need} onChange={(x) => setE('need', x)} />
               )}
-              <Step label={you ? 'Bringing for myself' : `Bringing for ${(name || '').split(' ')[0] || 'them'}`} hint="Own ones, so no rental charge" value={e.have} onChange={(x) => setE('have', x)} />
-              <Step label="Bringing for others" hint="Extras for the group or other people" value={e.lend} onChange={(x) => setE('lend', x)} />
+              <Step label={you ? 'Bringing for myself' : `Bringing for ${(name || '').split(' ')[0] || 'them'}`} value={e.have} onChange={(x) => setE('have', x)} />
+              <Step label="Bringing for others" value={e.lend} onChange={(x) => setE('lend', x)} />
               {Math.floor(lend) > 0 && crew.length > 1 && (
                 <div className="assign">
                   <span className="label">Who gets them</span>
@@ -2007,7 +2007,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                     const a = alloc[c.id] || {};
                     return (
                       <div key={c.id}>
-                        <Step label={c.name || 'Unnamed'} hint="" value={a.n} max={Math.floor(num(a.n)) + restLend} onChange={(x) => setAlloc(c.id, { n: x })} />
+                        <Step label={c.name || 'Unnamed'} value={a.n} max={Math.floor(num(a.n)) + restLend} onChange={(x) => setAlloc(c.id, { n: x })} />
                         {num(a.n) > 0 && it.split !== 'personal' && (
                           <label className="chk">
                             <input type="checkbox" checked={!!a.x} onChange={(ev) => setAlloc(c.id, { x: ev.target.checked })} />
