@@ -414,7 +414,22 @@ function useStore() {
   }, []);
   const commit = useCallback((fn) => persist(fn(stateRef.current)), [persist]);
 
+  // the personal journal is yours alone: it backs up to your account but never goes to the crew
+  const stripPrivate = (d) => {
+    const { journal: _j, ...o } = d;
+    for (const k of ['_del', '_ts']) {
+      if (o[k] && 'journal' in o[k]) {
+        const { journal: _x, ...r } = o[k];
+        o[k] = r;
+      }
+    }
+    return o;
+  };
   const hashOf = (d) => {
+    const { _river, ...rest } = stripPrivate(d);
+    return hash53(canon(rest));
+  };
+  const hashFull = (d) => {
     const { _river, ...rest } = d;
     return hash53(canon(rest));
   };
@@ -503,8 +518,8 @@ function useStore() {
         let done = false;
         for (let i = 0; i < 4 && !done; i++) {
           const r = v2
-            ? await remote.v2Put(ent.trip, ent.member, version, withRiver(doc), summarize(lastSrv.current[id], doc))
-            : await remote.put(ent.code, version, withRiver(doc));
+            ? await remote.v2Put(ent.trip, ent.member, version, stripPrivate(withRiver(doc)), summarize(lastSrv.current[id], doc))
+            : await remote.put(ent.code, version, stripPrivate(withRiver(doc)));
           if (r.missing) return setSt(id, 'gone');
           if (r.removed) {
             commit((s0) => ({ ...s0, sync: { ...(s0.sync || {}), [id]: { ...((s0.sync || {})[id] || ent), removed: true } } }));
@@ -581,13 +596,13 @@ function useStore() {
       if (g && g.data) {
         doc = mergeTrips(doc, g.data);
         version = g.version;
-        known = hashOf(g.data);
+        known = hashFull(g.data);
         shareCode = g.share_code;
       }
     }
     const mine = (s0.sync || {})[id];
     const share = opts.share !== undefined ? opts.share : mine && mine.owner ? mine.code : null;
-    if (hashOf(doc) !== known || opts.share !== undefined || (share && shareCode !== undefined && shareCode !== share)) {
+    if (hashFull(doc) !== known || opts.share !== undefined || (share && shareCode !== undefined && shareCode !== share)) {
       let done = false;
       for (let i = 0; i < 4 && !done; i++) {
         const r = await remote.acctPut(id, version, withRiver(doc), share);
@@ -598,7 +613,7 @@ function useStore() {
           shareCode = r.share_code;
         } else {
           version = r.version;
-          known = hashOf(doc);
+          known = hashFull(doc);
           done = true;
         }
       }
@@ -658,7 +673,7 @@ function useStore() {
               trips: [{ crew: [], boats: [], cars: [], places: [], gear: [], meals: [], log: [], pay: [], plans: {}, ...doc }, ...s0.trips.filter((t) => t.id !== doc.id)],
               rivers: adoptRiver(s0, g.data),
               sync: g.share_code && !(s0.sync || {})[doc.id] ? { ...(s0.sync || {}), [doc.id]: { code: g.share_code, owner: 'account', version: 0, h: '' } } : s0.sync,
-              cloud: { ...s0.cloud, trips: { ...s0.cloud.trips, [doc.id]: { version: g.version, h: hashOf(g.data) } } },
+              cloud: { ...s0.cloud, trips: { ...s0.cloud.trips, [doc.id]: { version: g.version, h: hashFull(g.data) } } },
               active: s0.active || doc.id,
             }));
           }
@@ -754,13 +769,22 @@ function useStore() {
     cloudSoon(next.id);
   };
 
+  // edits to your own private notes: allowed even on a view-only trip, never sent to the crew
+  const editMine = (fn) => {
+    if (!trip) return;
+    const t0 = now();
+    const next = stamp(trip, { ...fn({ ...trip }), at: t0 }, t0);
+    persist({ ...stateRef.current, trips: stateRef.current.trips.map((t) => (t.id === next.id ? next : t)) });
+    cloudSoon(next.id);
+  };
+
   const shareTrip = async (id) => {
     const t = stateRef.current.trips.find((x) => x.id === id);
     if (!t) throw new Error('no trip');
     const code = remote.newCode();
     const member = remote.newSecret();
-    const r = await remote.v2Create(code, member, nameFor(t), withRiver(t));
-    const { _river: _x, ...srv } = withRiver(t);
+    const r = await remote.v2Create(code, member, nameFor(t), stripPrivate(withRiver(t)));
+    const { _river: _x, ...srv } = stripPrivate(withRiver(t));
     lastSrv.current[id] = srv;
     commit((s0) => ({ ...s0, sync: { ...(s0.sync || {}), [id]: { code, owner: 'v2', trip: r.trip, member, me: r.me, role: 'owner', version: r.version, h: hashOf(t) } } }));
     setSt(id, 'ok');
@@ -959,6 +983,11 @@ function useStore() {
     },
     set: (patch) => edit((t) => ({ ...t, ...patch })),
     push: (key, item) => edit((t) => ({ ...t, [key]: [...(t[key] || []), { id: uid(), ...item }] })),
+    mine: {
+      push: (item) => editMine((t) => ({ ...t, journal: [...(t.journal || []), { id: uid(), ...item }] })),
+      patch: (id, p) => editMine((t) => ({ ...t, journal: (t.journal || []).map((x) => (x.id === id ? { ...x, ...p } : x)) })),
+      drop: (id) => editMine((t) => ({ ...t, journal: (t.journal || []).filter((x) => x.id !== id) })),
+    },
     patch: (key, id, p) => edit((t) => ({ ...t, [key]: (t[key] || []).map((x) => (x.id === id ? { ...x, ...p } : x)) })),
     drop: (key, id) =>
       edit((t) => ({
@@ -3789,35 +3818,39 @@ function Ledger({ s }) {
   );
 }
 
-function Log({ s }) {
+// one list of dated entries; the trip beta is shared with the crew, the personal journal is yours alone
+function Entries({ list, ops, label, empty }) {
   const [open, setOpen] = useState(null);
   return (
     <>
-      <button
-        className="btn ghost mb"
-        onClick={() => {
-          const id = uid();
-          s.push('log', { id, date: today(), text: '' });
-          setOpen(id);
-        }}
-      >
-        Add entry
-      </button>
-      {!s.trip.log.length && (
-        <Empty icon="inbox" title="No log entries yet">
-          Jot down the day's river notes, hazards and wildlife sightings here.
+      <div className="row between mb-s">
+        <span className="label sectionLabel">{label}</span>
+        <button
+          className="btn ghost"
+          onClick={() => {
+            const id = uid();
+            ops.push({ id, date: today(), text: '' });
+            setOpen(id);
+          }}
+        >
+          Add entry
+        </button>
+      </div>
+      {!list.length && (
+        <Empty icon="inbox" title="No entries yet">
+          {empty}
         </Empty>
       )}
-      {[...s.trip.log].reverse().map((e) =>
+      {[...list].reverse().map((e) =>
         open === e.id ? (
           <div className="entry" key={e.id}>
-            <Field type="date" value={e.date} onChange={(x) => okDate(x.target.value) && s.patch('log', e.id, { date: x.target.value })} />
-            <Field area autoFocus value={e.text} onChange={(x) => s.patch('log', e.id, { text: x.target.value })} />
+            <Field type="date" value={e.date} onChange={(x) => okDate(x.target.value) && ops.patch(e.id, { date: x.target.value })} />
+            <Field area autoFocus value={e.text} onChange={(x) => ops.patch(e.id, { text: x.target.value })} />
             <div className="chips">
               <button className="chip" onClick={() => setOpen(null)}>
                 Done
               </button>
-              <button className="chip danger" onClick={() => (s.drop('log', e.id), setOpen(null))}>
+              <button className="chip danger" onClick={() => (ops.drop(e.id), setOpen(null))}>
                 Remove
               </button>
             </div>
@@ -3831,6 +3864,22 @@ function Log({ s }) {
           </div>
         )
       )}
+    </>
+  );
+}
+
+function Log({ s }) {
+  const t = s.trip;
+  return (
+    <>
+      <Entries
+        label="Trip beta"
+        list={t.log}
+        ops={{ push: (x) => s.push('log', x), patch: (id, p) => s.patch('log', id, p), drop: (id) => s.drop('log', id) }}
+        empty="River notes, hazards and wildlife sightings for the whole crew."
+      />
+      <div className="mt" />
+      <Entries label="Personal journal" list={t.journal || []} ops={s.mine} empty="Only you can see these." />
     </>
   );
 }
