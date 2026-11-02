@@ -827,3 +827,8 @@ body.shot .onBehalf { top: calc(52px + 54px + 45px); }
 .rg .sortOpt:last-child { border-bottom: 0; }
 .rg .sortOpt.on { color: var(--accent); font-weight: 600; }
 .rg .sortOpt:active { background: var(--accent-soft); }
+
+.rg .homeMenu { display: flex; flex-direction: column; gap: 10px; }
+.rg .homeCard { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 62px; padding: 0 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); color: var(--ink); font-size: 17px; font-weight: 600; text-align: left; box-shadow: var(--shadow-1); }
+.rg .homeCard .chev { transform: rotate(-90deg); color: var(--ink-faint); }
+.rg .homeCard:active { background: var(--accent-soft); }
