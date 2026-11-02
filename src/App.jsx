@@ -1045,7 +1045,7 @@ function Trip({ s, back, onAccount, onRiver }) {
     } catch {}
     setNudge(false);
   };
-  const OLD = { People: 'Crew', 'Crew & Crafts': 'Crew', Ledger: 'Costs', Log: 'Journal', Info: 'Notes', Card: 'Emergency' };
+  const OLD = { Shuttle: 'Itinerary', People: 'Crew', 'Crew & Crafts': 'Crew', Ledger: 'Costs', Log: 'Journal', Info: 'Notes', Card: 'Emergency' };
   const q = QS.get('sub');
   const [tab, setTab] = useState((q && (OLD[q] || q)) || lastSub[s.trip?.id] || 'Itinerary');
   useEffect(() => {
@@ -1054,9 +1054,9 @@ function Trip({ s, back, onAccount, onRiver }) {
   if (!s.trip) return <NewTrip s={s} />;
   const tripEnt = s.sync[s.trip.id];
   const tripStatus0 = s.syncStatus[s.trip.id];
-  const panels = { Itinerary, Crew, Meals, Gear, Shuttle, Costs: Ledger, Emergency: Card, Journal: Log, Notes: Info, Settings };
+  const panels = { Itinerary, Crew, Meals, Gear, Costs: Ledger, Emergency: Card, Journal: Log, Notes: Info, Settings };
   const P = panels[tab] || Itinerary;
-  const items = ['Itinerary', 'Crew', 'Meals', 'Gear', 'Shuttle', 'Costs', 'Emergency', 'Journal', ...(REFS[s.trip.id] || RIVER.flowDoy || RIVER.climateDoy ? ['Notes'] : []), 'Settings', ...(onRiver && riverOf(s.trip) ? ['River'] : [])];
+  const items = ['Itinerary', 'Crew', 'Meals', 'Gear', 'Costs', 'Emergency', 'Journal', ...(REFS[s.trip.id] || RIVER.flowDoy || RIVER.climateDoy ? ['Notes'] : []), 'Settings', ...(onRiver && riverOf(s.trip) ? ['River'] : [])];
   return (
     <>
       <Tabs trip items={items} value={tab} onChange={(t) => (t === 'River' ? onRiver() : setTab(t))} />
@@ -1267,6 +1267,8 @@ function Itinerary({ s }) {
       <button className="btn ghost mt" onClick={addTravel}>
         Add travel day
       </button>
+      <span className="label sectionLabel">Shuttle</span>
+      <Shuttle s={s} />
     </>
   );
 }
@@ -2926,7 +2928,7 @@ function RiverEnd({ s, which, noTime }) {
           }}
         />
         {noTime ? null : <When type="time" value={time || ''} onCommit={(v) => s.set({ [k.time]: v })} />}
-        <span className="tzTag">{tzAbbr(tz, date)}</span>
+        {noTime ? null : <span className="tzTag">{tzAbbr(tz, date)}</span>}
       </div>
       <Sel value={at} onChange={(v) => s.set({ [k.at]: v })}>
         <option value="">—</option>

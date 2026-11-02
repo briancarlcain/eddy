@@ -41,7 +41,7 @@ human pass before the app is public. Tick these off as you go:
   ones the guide names; USGS has no gauges in Canada, so the Alsek and Tatshenshini basins show none north of the border.
 - [ ] **Explanatory captions taken out of the app** (kept here in case any should come back): the Notes tab notes on the Shopping list ("Draft list from the
   sheet. The day names (Friday, Saturday...) predate the current menu dates, so match items to meals by name.") and Crew Council ("Notes are kept as
-  recorded; plans changed over time, so check the Itinerary and Shuttle tabs for the current plan."); the cost-summary footer ("The Ledger tab recomputes
+  recorded; plans changed over time, so check the Itinerary tab (including its Shuttle section) for the current plan."); the cost-summary footer ("The Ledger tab recomputes
   these from the gear list; the by-user shuttle shares differ (the sheet charges some shuttle lines to only part of the group)."); "(from the sheet)" in
   that section's title; "(calculated)" on Group needs; and "(the larger of the flat fee or per-day x days)" on the gear price line.
 - [ ] **Elevation and gradient** (`stats.elev`, `gradient`, `steep`): measured from terrain tiles, rounded to 50 ft, good

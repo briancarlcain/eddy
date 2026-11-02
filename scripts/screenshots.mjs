@@ -26,7 +26,6 @@ const shots = [
   ['02-itinerary', 'tab=Trips&open=1&sub=Itinerary'],
   ['03-crew', 'tab=Trips&open=1&sub=Crew'],
   ['04-gear', 'tab=Trips&open=1&sub=Gear'],
-  ['05-shuttle', 'tab=Trips&open=1&sub=Shuttle'],
   ['06-river-map', 'tab=River&sub=Map'],
   ['07-safety', 'tab=Safety&sub=Medical'],
 ];
