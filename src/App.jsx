@@ -2975,10 +2975,20 @@ function RiverEnd({ s, which, noTime }) {
   const k = out ? { time: 'outTime', at: 'out' } : { time: 'launchTime', at: 'launch' };
   const at = (out ? t.out : t.launch) || '';
   const tz = placeZone(t, ramps.find((p) => p.id === at));
+  const pick = (
+    <Sel value={at} onChange={(v) => s.set({ [k.at]: v })}>
+      <option value="">—</option>
+      {ramps.map((p) => (
+        <option key={p.id} value={p.id}>
+          {p.name}
+        </option>
+      ))}
+    </Sel>
+  );
   return (
-    <>
+    <div className={'rend' + (noTime ? ' two' : '')}>
       <span className="label">{out ? 'Take out' : 'Put in'}</span>
-      <div className="when">
+      <div className={'when' + (noTime ? ' two' : '')}>
         <When
           type="date"
           value={date}
@@ -2991,16 +3001,10 @@ function RiverEnd({ s, which, noTime }) {
         />
         {noTime ? null : <When type="time" value={time || ''} onCommit={(v) => s.set({ [k.time]: v })} />}
         {noTime ? null : <span className="tzTag">{tzAbbr(tz, date)}</span>}
+        {noTime ? pick : null}
       </div>
-      <Sel value={at} onChange={(v) => s.set({ [k.at]: v })}>
-        <option value="">—</option>
-        {ramps.map((p) => (
-          <option key={p.id} value={p.id}>
-            {p.name}
-          </option>
-        ))}
-      </Sel>
-    </>
+      {noTime ? null : pick}
+    </div>
   );
 }
 
