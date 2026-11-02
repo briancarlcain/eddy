@@ -1147,26 +1147,6 @@ function Trip({ s, back, onAccount, onRiver }) {
   );
 }
 
-function Stats({ s }) {
-  const t = s.trip;
-  const cells = [
-    ['Days', t.days],
-    ['Crew', t.crew.length],
-    ['Camps set', Object.values(t.plans).filter((p) => p.camp).length],
-    ['Vehicles', (t.cars || []).length],
-  ];
-  return (
-    <div className="stats">
-      {cells.map(([k, v]) => (
-        <div className="stat" key={k}>
-          <div className="statNum">{v}</div>
-          <div className="statKey">{k}</div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 function TravelDay({ s, x, hasStart, fresh }) {
   const ref = useRef(null);
   const moved = useRef(!!fresh);
@@ -1226,7 +1206,6 @@ function Itinerary({ s }) {
       <div className="muted mb">
         {L ? L.name : 'Launch'} → {O ? O.name : 'take-out'} · {RIVER.name}
       </div>
-      <Stats s={s} />
       <div className="card formCard mb">
         <RiverEnd s={s} which="launch" noTime />
         <RiverEnd s={s} which="out" noTime />
