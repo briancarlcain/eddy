@@ -1045,7 +1045,7 @@ function Trip({ s, back, onAccount, onRiver }) {
     } catch {}
     setNudge(false);
   };
-  const OLD = { Shuttle: 'Itinerary', People: 'Crew', 'Crew & Crafts': 'Crew', Ledger: 'Costs', Log: 'Journal', Info: 'Notes', Card: 'Emergency' };
+  const OLD = { Settings: 'About', Shuttle: 'Itinerary', People: 'Crew', 'Crew & Crafts': 'Crew', Ledger: 'Costs', Log: 'Journal', Info: 'Notes', Card: 'Emergency' };
   const q = QS.get('sub');
   const [tab, setTab] = useState((q && (OLD[q] || q)) || lastSub[s.trip?.id] || 'Itinerary');
   useEffect(() => {
@@ -1054,9 +1054,9 @@ function Trip({ s, back, onAccount, onRiver }) {
   if (!s.trip) return <NewTrip s={s} />;
   const tripEnt = s.sync[s.trip.id];
   const tripStatus0 = s.syncStatus[s.trip.id];
-  const panels = { Itinerary, Crew, Meals, Gear, Costs: Ledger, Emergency: Card, Journal: Log, Notes: Info, Settings };
+  const panels = { Itinerary, Crew, Meals, Gear, Costs: Ledger, Emergency: Card, Journal: Log, Notes: Info, About: Settings };
   const P = panels[tab] || Itinerary;
-  const items = ['Itinerary', 'Crew', 'Meals', 'Gear', 'Costs', 'Emergency', 'Journal', ...(REFS[s.trip.id] || RIVER.flowDoy || RIVER.climateDoy ? ['Notes'] : []), 'Settings', ...(onRiver && riverOf(s.trip) ? ['River'] : [])];
+  const items = ['Itinerary', 'Crew', 'Meals', 'Gear', 'Costs', 'Emergency', 'Journal', ...(REFS[s.trip.id] || RIVER.flowDoy || RIVER.climateDoy ? ['Notes'] : []), 'About', ...(onRiver && riverOf(s.trip) ? ['River'] : [])];
   return (
     <>
       <Tabs trip items={items} value={tab} onChange={(t) => (t === 'River' ? onRiver() : setTab(t))} />
@@ -4203,6 +4203,8 @@ function tripSummary(t, riverName) {
   return lines.join('\n').trim();
 }
 
+const byRiverName = (a, b) => String(a.name).localeCompare(String(b.name), undefined, { sensitivity: 'base' });
+
 function Settings({ s, back }) {
   const t = s.trip;
   const info = s.info[t.id];
@@ -4223,7 +4225,7 @@ function Settings({ s, back }) {
             s.set({ river: v, launch: undefined, out: undefined, plans });
           }}
         >
-          {s.riverList().map((r) => (
+          {[...s.riverList()].sort(byRiverName).map((r) => (
             <option key={r.id} value={r.id}>
               {r.name}
             </option>
@@ -6048,7 +6050,7 @@ function NewTrip({ s, preset, onDone, onCancel }) {
           if (!touched) setLen(String(rivers.find((r) => r.id === v)?.days || 7));
         }}
       >
-        {rivers.map((r) => (
+        {[...rivers].sort(byRiverName).map((r) => (
           <option key={r.id} value={r.id}>
             {r.name}
             {r.reach ? ` — ${r.reach}` : ''}
