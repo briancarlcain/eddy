@@ -1693,7 +1693,6 @@ function Gear({ s }) {
         </div>
       )}
       <GearCover L={L} />
-      {who && <GearPack L={L} me={who} you={!as} name={whoName} tripId={t.id} />}
 
       <div className="chips mt">
         {[['personal', 'Personal gear'], ['group', 'Group gear']].map(([k, l]) => (
@@ -1720,7 +1719,7 @@ function Gear({ s }) {
       {shown.map((it) => (
         <GearRow key={it.id} it={it} s={s} crew={t.crew} days={L.days} cats={allCats} me={who} name={whoName} you={!as} open={open === it.id} onOpen={() => setOpen(open === it.id ? null : it.id)} />
       ))}
-      <GearRef />
+      <GearRef pack={who ? <GearPack L={L} me={who} you={!as} name={whoName} tripId={t.id} /> : <div className="muted mt">Pick your name on the Gear tab to see your list.</div>} />
     </>
   );
 }
@@ -1782,7 +1781,7 @@ function GearPack({ L, me, you, name, tripId }) {
   ].map(([title, kind, f]) => ({ title, kind, rows: L.items.map((i) => ({ i, v: f(i) })).filter((r) => r.v > 0) }));
   const bring = groups.slice(0, 2).flatMap((g) => g.rows.map((r) => g.kind + r.i.id));
   const packed = bring.filter((k) => done[k]).length;
-  if (!groups.some((g) => g.rows.length)) return null;
+  if (!groups.some((g) => g.rows.length)) return <div className="muted mt">Nothing to pack or rent yet. Enter what you need and what you’re bringing on the items.</div>;
   return (
     <div className="gpack mb">
       <span className="label">
@@ -1791,9 +1790,9 @@ function GearPack({ L, me, you, name, tripId }) {
       {groups.map(
         (g) =>
           g.rows.length > 0 && (
-            <details key={g.kind} open={g.kind !== 'rent'}>
+            <details key={g.kind} open>
               <summary className="gpackHead">
-                {g.title} <span className="muted">{g.rows.length}</span>
+                {g.kind === 'rent' ? 'Rent from the outfitter' : g.title} <span className="muted">{g.rows.length}</span>
               </summary>
               {g.rows.map(({ i, v }) =>
                 g.kind === 'rent' ? (
@@ -5791,41 +5790,57 @@ const Pairs = ({ data, numbered }) =>
     </div>
   ));
 
-const GearRef = () => {
-  const [open, setOpen] = useState(false);
+function FullPop({ title, onClose, children }) {
   useEffect(() => {
-    if (!open) return;
-    const k = (e) => e.key === 'Escape' && setOpen(false);
+    const k = (e) => e.key === 'Escape' && onClose();
     window.addEventListener('keydown', k);
     return () => window.removeEventListener('keydown', k);
-  }, [open]);
+  }, [onClose]);
   return (
-    <div className="mt">
-      <button className="linkBtn" onClick={() => setOpen(true)}>
+    <div className="fullPop" role="dialog" aria-modal="true" aria-label={title}>
+      <div className="fullPopHead">
+        <span className="fullPopTitle">{title}</span>
+        <button className="fullPopX" aria-label="Close" onClick={onClose}>
+          ×
+        </button>
+      </div>
+      <div className="fullPopBody">{children}</div>
+    </div>
+  );
+}
+
+const GearRef = ({ pack }) => {
+  const [open, setOpen] = useState('');
+  const close = useCallback(() => setOpen(''), []);
+  return (
+    <div className="mt popLinks">
+      {pack && (
+        <button className="linkBtn" onClick={() => setOpen('list')}>
+          Packing list
+        </button>
+      )}
+      <button className="linkBtn" onClick={() => setOpen('ref')}>
         Packing reference
       </button>
-      {open && (
-        <div className="fullPop" role="dialog" aria-modal="true" aria-label="Packing reference">
-          <div className="fullPopHead">
-            <span className="fullPopTitle">Packing reference</span>
-            <button className="fullPopX" aria-label="Close" onClick={() => setOpen(false)}>
-              ×
-            </button>
-          </div>
-          <div className="fullPopBody">
-            {Object.entries(GENERAL.gear).map(([cat, items]) => (
-              <div className="prCat" key={cat}>
-                <span className="label">{cat}</span>
-                {items.map((x) => (
-                  <div className="prItem" key={x.n}>
-                    <div className="line">{x.n}</div>
-                    <div className="muted">{x.r} recommended</div>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
+      {open === 'list' && (
+        <FullPop title="Packing list" onClose={close}>
+          {pack}
+        </FullPop>
+      )}
+      {open === 'ref' && (
+        <FullPop title="Packing reference" onClose={close}>
+          {Object.entries(GENERAL.gear).map(([cat, items]) => (
+            <div className="prCat" key={cat}>
+              <span className="label">{cat}</span>
+              {items.map((x) => (
+                <div className="prItem" key={x.n}>
+                  <div className="line">{x.n}</div>
+                  <div className="muted">{x.r} recommended</div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </FullPop>
       )}
     </div>
   );
