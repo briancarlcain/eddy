@@ -1971,7 +1971,6 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
             <div className="muted">Pick your name above to enter your numbers.</div>
           ) : (
             <>
-              <span className="label">{you ? 'Your part' : `${name}’s part`}</span>
               <Step label={you ? 'I need' : `${name} needs`} hint="How many will be used on the trip" value={e.need} onChange={(x) => setE('need', x)} />
               <Step label={you ? 'Bringing my own' : 'Bringing own'} hint="Own ones, so no rental charge" value={e.have} onChange={(x) => setE('have', x)} />
               <Step label="Can lend" hint="Extras for others to use" value={e.lend} onChange={(x) => setE('lend', x)} />
