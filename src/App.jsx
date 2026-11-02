@@ -2082,7 +2082,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
             <summary>Edit item</summary>
             <GearFields v={v} up={(k, x) => patch({ [k]: x })} days={days} cats={cats} T={T} />
             <Field area label="Note" value={it.raw.note || ''} onChange={(ev) => patch({ note: ev.target.value })} placeholder="Where to rent it, sizes, who’s bringing it…" />
-            <button className="btn ghost danger mt-s" onClick={() => s.drop('gear', it.id)}>
+            <button className="btn ghost danger mt-s" onClick={() => window.confirm(`Remove ${it.name}?`) && s.drop('gear', it.id)}>
               Remove item
             </button>
           </details>
