@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
 import { createRoot } from 'react-dom/client';
 import { BUILTIN_RIVERS, DEFAULT_RIVER, normalizeRiver } from './rivers.js';
 import GENERAL from '../data/general.json';
-import { coverOf, gearKind, ledger, num } from './gearLedger.js';
+import { coverOf, gearKind, ledger, lendAlloc, num } from './gearLedger.js';
 import GEAR_ALL from '../data/gear.json';
 import SEED from '../data/trip.json';
 import SOURCES from '../data/sources.json';
@@ -1819,8 +1819,8 @@ function GearPack({ L, me, you, name, tripId }) {
     } catch {}
   };
   const groups = [
-    [you ? 'Bringing my own' : 'Bringing their own', 'own', (i) => (i.kind === 'group' ? num((i.e[me] || {}).have) : Math.min(num((i.e[me] || {}).have), num((i.e[me] || {}).need)))],
-    ['Bringing to lend', 'lend', (i) => num((i.e[me] || {}).lend)],
+    [you ? 'Bringing for myself' : `Bringing for ${(name || '').split(' ')[0] || 'them'}`, 'own', (i) => (i.kind === 'group' ? num((i.e[me] || {}).have) : Math.min(num((i.e[me] || {}).have), num((i.e[me] || {}).need)))],
+    ['Bringing for others', 'lend', (i) => num((i.e[me] || {}).lend)],
     ['Renting', 'rent', (i) => (i.share[me] > 0.005 ? i.share[me] : 0)],
   ].map(([title, kind, f]) => ({ title, kind, rows: [...L.items].sort(byItem).map((i) => ({ i, v: f(i) })).filter((r) => r.v > 0) }));
   const bring = groups.slice(0, 2).flatMap((g) => g.rows.map((r) => g.kind + r.i.id));
@@ -1859,7 +1859,7 @@ function GearPack({ L, me, you, name, tripId }) {
   );
 }
 
-const Step = ({ label, hint, value, onChange }) => {
+const Step = ({ label, hint, value, onChange, max }) => {
   const n = num(value);
   const set = (x) => onChange(x > 0 ? String(+x.toFixed(2)) : '');
   return (
@@ -1873,7 +1873,7 @@ const Step = ({ label, hint, value, onChange }) => {
           −
         </button>
         <input inputMode="decimal" aria-label={label} placeholder="0" value={value ?? ''} onChange={(e) => onChange(e.target.value)} />
-        <button type="button" className="stepBtn" aria-label={`More ${label}`} onClick={() => set(n + 1)}>
+        <button type="button" className="stepBtn" aria-label={`More ${label}`} disabled={max != null && n >= max} onClick={() => set(n + 1)}>
           +
         </button>
       </span>
@@ -1931,6 +1931,16 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
     list[i] = { ...list[i], ...o };
     setE(k, list);
   };
+  // what this person brings for others: whole units per person, the rest go to the group
+  const alloc = lendAlloc(e, me);
+  const restLend = Math.max(0, Math.floor(num(e.lend)) - crew.reduce((a, c) => a + (c.id !== me ? Math.floor(num((alloc[c.id] || {}).n)) : 0), 0));
+  const setAlloc = (id, o) => {
+    const merged = { ...(alloc[id] || {}), ...o };
+    const next = { ...alloc, [id]: merged };
+    if (!num(merged.n) && !merged.x) delete next[id];
+    const { lends: _l, ...rest } = e;
+    patch({ e: { ...it.e, [me]: { ...rest, lendTo: next } } });
+  };
   const nameOf = (id) => (crew.find((c) => c.id === id) || {}).name || '';
   // who else is using the same unit as this person, with the one bringing it marked
   const sharing = it.units
@@ -1981,16 +1991,39 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
               ) : (
                 <Step label={you ? 'I need' : `${name} needs`} hint="How many will be used on the trip" value={e.need} onChange={(x) => setE('need', x)} />
               )}
-              <Step label={you ? 'Bringing my own' : 'Bringing own'} hint="Own ones, so no rental charge" value={e.have} onChange={(x) => setE('have', x)} />
-              <Step label="Can lend" hint="Extras for others to use" value={e.lend} onChange={(x) => setE('lend', x)} />
-              {crew.length > 1 && (Math.floor(have) > 0 || Math.floor(lend) > 0) && (
-                <details className="gdet" open={[...(e.share || []), ...(e.lends || [])].some((u) => u && ((u.to || []).length || u.g))}>
-                  <summary>Who uses what you bring</summary>
+              <Step label={you ? 'Bringing for myself' : `Bringing for ${(name || '').split(' ')[0] || 'them'}`} hint="Own ones, so no rental charge" value={e.have} onChange={(x) => setE('have', x)} />
+              <Step label="Bringing for others" hint="Extras for the group or other people" value={e.lend} onChange={(x) => setE('lend', x)} />
+              {Math.floor(lend) > 0 && crew.length > 1 && (
+                <div className="assign">
+                  <span className="label">Who gets them</span>
+                  <div className="step">
+                    <span className="stepText">
+                      <span className="stepLabel">Group</span>
+                      <span className="muted">Whatever is not given to someone below</span>
+                    </span>
+                    <span className="stepNum">{restLend}</span>
+                  </div>
+                  {byFirst(crew.filter((c) => c.id !== me)).map((c) => {
+                    const a = alloc[c.id] || {};
+                    return (
+                      <div key={c.id}>
+                        <Step label={c.name || 'Unnamed'} hint="" value={a.n} max={Math.floor(num(a.n)) + restLend} onChange={(x) => setAlloc(c.id, { n: x })} />
+                        {num(a.n) > 0 && it.split !== 'personal' && (
+                          <label className="chk">
+                            <input type="checkbox" checked={!!a.x} onChange={(ev) => setAlloc(c.id, { x: ev.target.checked })} />
+                            <span>Not responsible for rental cost</span>
+                          </label>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+              {crew.length > 1 && Math.floor(have) > 0 && (
+                <details className="gdet" open={(e.share || []).some((u) => u && ((u.to || []).length || u.g))}>
+                  <summary>Who else uses what you bring for yourself</summary>
                   {Array.from({ length: Math.floor(have) }, (_, i) => (
                     <UnitPick key={'o' + i} title={`Mine #${i + 1}: also used by`} u={(e.share || [])[i] || {}} crew={crew} me={me} money={it.split !== 'personal'} onChange={(o) => setUnit('share', i, o)} />
-                  ))}
-                  {Array.from({ length: Math.floor(lend) }, (_, i) => (
-                    <UnitPick key={'l' + i} title={`Lending #${i + 1}: used by`} u={(e.lends || [])[i] || {}} crew={crew} me={me} group money={it.split !== 'personal'} onChange={(o) => setUnit('lends', i, o)} />
                   ))}
                 </details>
               )}
@@ -1999,7 +2032,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                   Sharing with {l}
                 </div>
               ))}
-              {!grp && have > need && <div className="gwarn">Only {+need.toFixed(2)} of the {+have.toFixed(2)} count: the rest is spare. Use “Can lend” for extras.</div>}
+              {!grp && have > need && <div className="gwarn">Only {+need.toFixed(2)} of the {+have.toFixed(2)} count: the rest is spare. Use “Bringing for others” for extras.</div>}
               {!grp && need > 0 && left > 0 && (
                 <div className="muted mb-s">
                   {+left.toFixed(2)} still to come from lenders or rental{mine ? ` · ${usd(mine)} for ${you ? 'you' : name}` : ''}
@@ -2036,7 +2069,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                   <div className="gother" key={c.id}>
                     <span className="gcName">{c.name}</span>
                     <span className="muted">
-                      {it.kind === 'group' ? '' : `needs ${+num(x.need).toFixed(2)} · `}own {+(it.kind === 'group' ? num(x.have) : Math.min(num(x.have), num(x.need))).toFixed(2)} · lends {+num(x.lend).toFixed(2)}
+                      {it.kind === 'group' ? '' : `needs ${+num(x.need).toFixed(2)} · `}own {+(it.kind === 'group' ? num(x.have) : Math.min(num(x.have), num(x.need))).toFixed(2)} · for others {+num(x.lend).toFixed(2)}
                     </span>
                     <span className="gcAmt">{it.share[c.id] ? usd(it.share[c.id]) : ''}</span>
                   </div>

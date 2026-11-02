@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { coverOf, gearKind, ledger } from '../src/gearLedger.js';
+import { coverOf, gearKind, ledger, lendAlloc, unitsOf } from '../src/gearLedger.js';
 
 const crew = [{ id: 's', name: 'Sam' }, { id: 'a', name: 'Alex' }, { id: 'j', name: 'Jo' }];
 const run = (g, c = crew) => ledger({ days: 10, crew: c, gear: [{ id: 'g', n: 'Tent', f: 100, ...g }] });
@@ -86,6 +86,16 @@ const balanced = (it) => near(Object.values(it.share).reduce((a, b) => a + b, 0)
   near(per.share.s, 100, 'group item billed per person splits evenly'); balanced(per);
   const skip = one({ s: 'even', q: 3, e: { s: { lend: 1, lends: [{ to: ['a'], x: true }] } } });
   assert.equal(skip.share.a, undefined); balanced(skip);
+}
+// bringing for others: quantities per person, the rest to the group
+{
+  const ids = new Set(['s', 'a', 'j']);
+  const u = unitsOf({ lend: 3, lendTo: { a: { n: 2, x: true }, zzz: { n: 1 } } }, 's', ids).lent;
+  assert.deepEqual(u.map((x) => x.to), [['a'], ['a'], []]); assert.equal(u[0].x, true); assert.equal(u[2].group, true);
+  assert.equal(unitsOf({ lend: 1, lendTo: { a: { n: 5 } } }, 's', ids).lent.length, 1);
+  assert.deepEqual(lendAlloc({ lend: 2, lends: [{ to: ['a'] }, { to: ['a'], x: true }] }, 's'), { a: { n: '2', x: true } });
+  const it = one({ s: 'even', q: 3, e: { s: { have: 1, lend: 2, lendTo: { a: { n: 1 } } } } });
+  near(it.rent, 0, 'covered'); assert.equal(coverOf(it, 'a').borrowed, true); assert.equal(coverOf(it, 'j').borrowed, false);
 }
 assert.equal(gearKind({ n: 'Cot', s: 'personal' }), 'personal');
 assert.equal(gearKind({ n: 'Roster', s: 'even' }), 'group');

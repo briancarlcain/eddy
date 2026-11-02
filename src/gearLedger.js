@@ -27,12 +27,37 @@ export function unitsOf(e, owner, ids) {
     const u = (e.share || [])[i] || {};
     own.push({ to: clean(u), x: !!u.x });
   }
-  for (let j = 0; j < Math.floor(num(e.lend)); j++) {
-    const u = (e.lends || [])[j] || {};
-    const to = clean(u);
-    lent.push({ to, group: !to.length, x: !!u.x });
+  const cnt = Math.floor(num(e.lend));
+  if (e.lendTo) {
+    // quantities per person; whatever is not given to someone goes to the group
+    let left = cnt;
+    for (const id of Object.keys(e.lendTo)) {
+      if (id === owner || !ids.has(id)) continue;
+      const n = Math.min(left, Math.floor(num((e.lendTo[id] || {}).n)));
+      for (let k = 0; k < n; k++) lent.push({ to: [id], group: false, x: !!e.lendTo[id].x });
+      left -= Math.max(0, n);
+    }
+    for (let k = 0; k < left; k++) lent.push({ to: [], group: true, x: false });
+  } else {
+    for (let j = 0; j < cnt; j++) {
+      const u = (e.lends || [])[j] || {};
+      const to = clean(u);
+      lent.push({ to, group: !to.length, x: !!u.x });
+    }
   }
   return { own, lent, spare: Math.max(0, num(e.lend) - Math.floor(num(e.lend))) };
+}
+
+// what a person is bringing for others, as quantities per person ({ id: { n, x } })
+export function lendAlloc(e, owner) {
+  if (e.lendTo) return e.lendTo;
+  const out = {};
+  for (let j = 0; j < Math.floor(num(e.lend)); j++) {
+    const u = (e.lends || [])[j] || {};
+    const to = Array.isArray(u.to) ? u.to.filter((id) => id !== owner) : [];
+    if (to.length === 1) out[to[0]] = { n: String(num((out[to[0]] || {}).n) + 1), x: !!(u.x || (out[to[0]] || {}).x) };
+  }
+  return out;
 }
 
 // how one person's need for an item is covered: bringing their own, borrowed, or rented
