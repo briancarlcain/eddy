@@ -1523,6 +1523,7 @@ function Crew({ s }) {
 
 function Meals({ s }) {
   const [shop, setShop] = useState(false);
+  const [draft, setDraft] = useState('');
   const t = s.trip;
   const list = useMemo(() => {
     const m = new Map();
@@ -1531,10 +1532,17 @@ function Meals({ s }) {
         .split('\n')
         .map((v) => v.trim())
         .filter(Boolean)
-        .forEach((v) => m.set(v.toLowerCase(), v))
+        .forEach((v) => m.set(v.toLowerCase(), { text: v }))
     );
-    return [...m.values()].sort();
-  }, [t.meals]);
+    (t.shop || []).forEach((x) => x.name && m.set(x.name.trim().toLowerCase(), { text: x.name.trim(), id: x.id }));
+    return [...m.values()].sort((a, b) => a.text.localeCompare(b.text));
+  }, [t.meals, t.shop]);
+  const addShop = () => {
+    const v = draft.trim();
+    if (!v) return;
+    s.push('shop', { name: v });
+    setDraft('');
+  };
 
   if (shop)
     return (
@@ -1542,8 +1550,33 @@ function Meals({ s }) {
         <button className="btn ghost" onClick={() => setShop(false)}>
           ← Menu
         </button>
+        <form
+          className="shopAdd mt-s"
+          onSubmit={(e) => {
+            e.preventDefault();
+            addShop();
+          }}
+        >
+          <input value={draft} onChange={(e) => setDraft(e.target.value)} placeholder="Add an item" aria-label="Add an item" enterKeyHint="done" />
+          <button type="submit" className="btn" disabled={!draft.trim()}>
+            Add
+          </button>
+        </form>
         <div className="mt">
-          {list.length ? list.map((x) => <div className="shop" key={x}>{x}</div>) : <div className="muted">Nothing listed yet.</div>}
+          {list.length ? (
+            list.map((x) => (
+              <div className="shop shopRow" key={x.text.toLowerCase()}>
+                <span>{x.text}</span>
+                {x.id ? (
+                  <button className="shopDel" aria-label={'Remove ' + x.text} onClick={() => s.drop('shop', x.id)}>
+                    ×
+                  </button>
+                ) : null}
+              </div>
+            ))
+          ) : (
+            <div className="muted">Nothing listed yet.</div>
+          )}
         </div>
       </>
     );

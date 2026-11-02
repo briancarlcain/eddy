@@ -798,3 +798,10 @@ html.lockScroll, html.lockScroll body { overflow: hidden; overscroll-behavior: n
 
 .rg .row.between { justify-content: space-between; align-items: center; margin-bottom: 8px; }
 .rg .row.between .sectionLabel { margin: 0; }
+
+.rg .shopAdd { display: flex; gap: 8px; }
+.rg .shopAdd input { flex: 1; min-width: 0; font-size: 16px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--ink); }
+.rg .shopAdd .btn { flex: none; padding: 0 18px; }
+.rg .shopRow { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.rg .shopDel { flex: none; width: 32px; height: 32px; border: 0; background: transparent; color: var(--ink-faint); font-size: 22px; line-height: 1; border-radius: 16px; }
+.rg .shopDel:active { background: var(--accent-soft); }
