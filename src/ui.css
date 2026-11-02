@@ -815,3 +815,15 @@ html.lockScroll, html.lockScroll body { overflow: hidden; overscroll-behavior: n
 
 .rg .onBehalf { position: sticky; top: calc(var(--head-h) + env(safe-area-inset-top) + 45px); z-index: 11; margin: 0 -15px 4px; padding: 8px 15px; background: var(--glass); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--line-soft); }
 body.shot .onBehalf { top: calc(52px + 54px + 45px); }
+
+.rg .gtools { display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.rg .gtool { display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 0 14px; font-size: 15px; width: auto; }
+.rg .gtool.on { background: var(--accent-soft); border-color: var(--accent-line); color: var(--accent); }
+.rg .gbadge { min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--accent); color: #fff; font-size: 12px; font-weight: 700; line-height: 18px; text-align: center; }
+.rg .gsortNow { font-size: 13px; color: var(--ink-dim); }
+.rg .gclear { margin-left: auto; background: transparent; border: 0; color: var(--accent); font-size: 14px; font-weight: 600; padding: 8px 4px; }
+.rg .sortMenu { margin-top: 8px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); overflow: hidden; }
+.rg .sortOpt { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 0 14px; min-height: 42px; border: 0; border-bottom: 1px solid var(--line-soft); background: transparent; color: var(--ink); font-size: 15px; text-align: left; }
+.rg .sortOpt:last-child { border-bottom: 0; }
+.rg .sortOpt.on { color: var(--accent); font-weight: 600; }
+.rg .sortOpt:active { background: var(--accent-soft); }
