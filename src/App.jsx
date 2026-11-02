@@ -1022,7 +1022,7 @@ function Trip({ s, back, onAccount, onRiver }) {
     } catch {}
     setNudge(false);
   };
-  const OLD = { 'Crew & Crafts': 'Crew', Ledger: 'Costs', Log: 'Journal', Info: 'Notes', Card: 'Emergency' };
+  const OLD = { People: 'Crew', 'Crew & Crafts': 'Crew', Ledger: 'Costs', Log: 'Journal', Info: 'Notes', Card: 'Emergency' };
   const q = QS.get('sub');
   const [tab, setTab] = useState((q && (OLD[q] || q)) || lastSub[s.trip?.id] || 'Itinerary');
   useEffect(() => {
@@ -1031,9 +1031,9 @@ function Trip({ s, back, onAccount, onRiver }) {
   if (!s.trip) return <NewTrip s={s} />;
   const tripEnt = s.sync[s.trip.id];
   const tripStatus0 = s.syncStatus[s.trip.id];
-  const panels = { Itinerary, Crew, Meals, Gear, Shuttle, Costs: Ledger, Emergency: Card, Journal: Log, Notes: Info, People, Settings };
+  const panels = { Itinerary, Crew, Meals, Gear, Shuttle, Costs: Ledger, Emergency: Card, Journal: Log, Notes: Info, Settings };
   const P = panels[tab] || Itinerary;
-  const items = ['Itinerary', 'Crew', 'Meals', 'Gear', 'Shuttle', 'Costs', 'Emergency', 'Journal', ...(REFS[s.trip.id] || RIVER.flowDoy || RIVER.climateDoy ? ['Notes'] : []), 'People', 'Settings', ...(onRiver && riverOf(s.trip) ? ['River'] : [])];
+  const items = ['Itinerary', 'Crew', 'Meals', 'Gear', 'Shuttle', 'Costs', 'Emergency', 'Journal', ...(REFS[s.trip.id] || RIVER.flowDoy || RIVER.climateDoy ? ['Notes'] : []), 'Settings', ...(onRiver && riverOf(s.trip) ? ['River'] : [])];
   return (
     <>
       <Tabs trip items={items} value={tab} onChange={(t) => (t === 'River' ? onRiver() : setTab(t))} />
@@ -1043,7 +1043,7 @@ function Trip({ s, back, onAccount, onRiver }) {
             <div className="noticeHead">
               <Icon name="alert" size={17} /> View only
             </div>
-            <div className="muted">The owner can give you edit access from People.</div>
+            <div className="muted">The owner can give you edit access from Crew & Crafts.</div>
           </div>
         ) : null}
         {tripEnt && (tripEnt.removed || tripStatus0 === 'removed') ? (
@@ -1299,17 +1299,11 @@ function Crew({ s }) {
   const [open, setOpen] = useState(null);
   const [fresh, setFresh] = useState(null);
   const aboard = (id) => t.crew.filter((m) => m.boat === id);
-  const inv = useInvite(s, t);
   const [meId, setMeId] = useState(() => getMe(t.id));
 
   return (
     <>
-      {!(s.sync[t.id] && (s.sync[t.id].removed || s.sync[t.id].role === 'viewer')) ? (
-        <button className="btn ghost block mb" disabled={inv.busy} onClick={() => inv.send(false)}>
-          <Icon name="users" size={16} /> {inv.busy ? 'Preparing…' : 'Invite people to this trip'}
-        </button>
-      ) : null}
-      {inv.msg ? <div className="muted mb-s">{inv.msg}</div> : null}
+      <Members s={s} part="top" />
       <span className="label mt">Crew</span>
       {byFirst(t.crew).map((m) => (
         <Acc key={m.id} open={fresh === m.id} lead={<Avatar name={m.name || '?'} />} title={m.name || 'New person'} tag={meId === m.id ? 'You' : undefined} note={[m.role, boats.find((b) => b.id === m.boat)?.name].filter(Boolean).join(' · ') || null}>
@@ -1414,6 +1408,7 @@ function Crew({ s }) {
       >
         Add craft
       </button>
+      <Members s={s} part="bottom" />
     </>
   );
 }
@@ -3776,7 +3771,7 @@ const ago = (iso) => {
 };
 const ROLE_LABEL = { owner: 'Owner', editor: 'Can edit', viewer: 'View only' };
 
-function People({ s }) {
+function Members({ s, part }) {
   const t = s.trip;
   const ent = s.sync[t.id];
   const info = s.info[t.id];
@@ -3795,87 +3790,81 @@ function People({ s }) {
     }
     setBusy(false);
   };
+  const top = part === 'top';
   if (!ent)
-    return (
+    return top ? (
       <>
-        <Empty icon="users" title="Just you so far">
-          Invite your crew to plan together. Everyone sees changes as they happen.
-        </Empty>
-        <button className="btn block" disabled={inv.busy} onClick={() => inv.send(false)}>
-          <Icon name="users" size={16} /> {inv.busy ? 'Preparing…' : 'Invite people'}
+        <button className="btn ghost block mb" disabled={inv.busy} onClick={() => inv.send(false)}>
+          <Icon name="users" size={16} /> {inv.busy ? 'Preparing…' : 'Invite people to this trip'}
         </button>
-        {inv.msg ? <div className="muted mt-s">{inv.msg}</div> : null}
+        {inv.msg ? <div className="muted mb-s">{inv.msg}</div> : null}
       </>
-    );
+    ) : null;
   const role = (info && info.role) || ent.role || 'editor';
   const owner = role === 'owner';
   const members = (info && info.members) || [];
-  const byId = Object.fromEntries(members.map((m) => [m.id, m.n || 'Someone']));
   const me = (info && info.me) || ent.me;
   const myRec = members.find((m) => m.id === me);
   const needName = ent.trip && myRec && !myRec.n;
   const inviteRole = (info && info.inviteRole) || 'editor';
-  if (!ent.trip)
-    return <div className="muted">The member list appears once the trip owner opens the app.</div>;
+  if (!ent.trip) return top ? null : <div className="muted mt">The member list appears once the trip owner opens the app.</div>;
+  if (top)
+    return (
+      <>
+        {needName ? (
+          <div className="card formCard mb">
+            <span className="label">Your name</span>
+            <div className="muted mb-s">So the others know who you are.</div>
+            <div className="row">
+              <Field value={myName} onChange={(e) => setMyName(e.target.value)} placeholder="Your name" />
+              <button className="btn" disabled={busy || !myName.trim()} onClick={() => act(() => s.renameMe(t.id, myName))}>
+                Save
+              </button>
+            </div>
+          </div>
+        ) : null}
+        {role !== 'viewer' && !ent.removed ? (
+          <div className="card formCard mb">
+            <span className="label">Invite</span>
+            <div className="row">
+              <button className="btn" disabled={inv.busy} onClick={() => inv.send(false)}>
+                Invite people
+              </button>
+              <button className="btn ghost" disabled={inv.busy} onClick={() => inv.send(true)}>
+                Copy link
+              </button>
+            </div>
+            {inv.msg ? <div className="muted mb-s">{inv.msg}</div> : null}
+            {owner ? (
+              <>
+                <div className="muted mb-s">People who join with the link can:</div>
+                <div className="chips">
+                  {['editor', 'viewer'].map((r) => (
+                    <button key={r} className={'chip' + (inviteRole === r ? ' on' : '')} disabled={busy} onClick={() => inviteRole !== r && act(() => s.setInviteRole(t.id, r))}>
+                      {r === 'editor' ? 'Edit' : 'View only'}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  className="btn ghost"
+                  disabled={busy}
+                  onClick={() =>
+                    window.confirm('Reset the invite link? Old links and codes stop working. People already in the trip stay.') &&
+                    act(() => s.resetInvite(t.id), 'Invite link reset. Send the new link to anyone who still needs it.')
+                  }
+                >
+                  Reset invite link
+                </button>
+              </>
+            ) : null}
+          </div>
+        ) : null}
+        {msg ? <div className="warn mb-s">{msg}</div> : null}
+      </>
+    );
   return (
     <>
-      {needName ? (
-        <div className="card formCard mb">
-          <span className="label">Your name</span>
-          <div className="muted mb-s">So the others know who you are.</div>
-          <div className="row">
-            <Field value={myName} onChange={(e) => setMyName(e.target.value)} placeholder="Your name" />
-            <button className="btn" disabled={busy || !myName.trim()} onClick={() => act(() => s.renameMe(t.id, myName))}>
-              Save
-            </button>
-          </div>
-        </div>
-      ) : null}
-      <div className="card mb">
-        <div className="serif">{ROLE_LABEL[role]}</div>
-        <div className="muted">
-          {owner ? 'You can invite people, change what they can do and remove them.' : role === 'viewer' ? 'You can see the trip but not change it.' : 'You can edit everything in this trip.'}
-        </div>
-      </div>
-
-      {role !== 'viewer' ? (
-        <div className="card formCard mb">
-          <span className="label">Invite</span>
-          <div className="row">
-            <button className="btn" disabled={inv.busy} onClick={() => inv.send(false)}>
-              Invite people
-            </button>
-            <button className="btn ghost" disabled={inv.busy} onClick={() => inv.send(true)}>
-              Copy link
-            </button>
-          </div>
-          {inv.msg ? <div className="muted mb-s">{inv.msg}</div> : null}
-          {owner ? (
-            <>
-              <div className="muted mb-s">People who join with the link can:</div>
-              <div className="chips">
-                {['editor', 'viewer'].map((r) => (
-                  <button key={r} className={'chip' + (inviteRole === r ? ' on' : '')} disabled={busy} onClick={() => inviteRole !== r && act(() => s.setInviteRole(t.id, r))}>
-                    {r === 'editor' ? 'Edit' : 'View only'}
-                  </button>
-                ))}
-              </div>
-              <button
-                className="btn ghost"
-                disabled={busy}
-                onClick={() =>
-                  window.confirm('Reset the invite link? Old links and codes stop working. People already in the trip stay.') &&
-                  act(() => s.resetInvite(t.id), 'Invite link reset. Send the new link to anyone who still needs it.')
-                }
-              >
-                Reset invite link
-              </button>
-            </>
-          ) : null}
-        </div>
-      ) : null}
-
-      <span className="label">People ({members.length || 1})</span>
+      <span className="label mt">Trip members ({members.length || 1}) · {ROLE_LABEL[role]}</span>
       {members.map((m) => (
         <Acc key={m.id} lead={<Avatar name={m.n || '?'} />} title={m.n || 'Someone'} tag={m.id === me ? 'You' : undefined} note={ROLE_LABEL[m.r] + (m.t ? ' · joined ' + ago(m.t) : '')}>
           {owner && m.r !== 'owner' ? (
