@@ -1149,8 +1149,9 @@ function Trip({ s, back, onAccount, onRiver }) {
   );
 }
 
-function TravelDay({ s, x, hasStart, fresh }) {
+function TravelDay({ s, x, hasStart, fresh, first, last, others }) {
   const ref = useRef(null);
+  const [err, setErr] = useState('');
   const moved = useRef(!!fresh);
   // keep the row on screen when a new date moves it up or down the list
   useEffect(() => {
@@ -1161,18 +1162,22 @@ function TravelDay({ s, x, hasStart, fresh }) {
   }, [x.date]);
   return (
     <div ref={ref}>
-      <Acc open={fresh} title={x.date ? fmt(x.date) : 'Travel day'}>
+      <Acc open={fresh} title={x.date ? fmt(x.date) : 'Travel day'} note={x.date && hasStart ? (x.date < first ? 'Pre-launch day' : x.date > last ? 'Post-takeout day' : null) : null}>
         <Field
           label="Date"
           type="date"
           value={x.date}
           onChange={(e) => {
-            if (okDate(e.target.value)) {
-              moved.current = true;
-              s.patch('travel', x.id, { date: e.target.value });
-            }
+            const v = e.target.value;
+            if (!okDate(v)) return;
+            if (hasStart && v >= first && v <= last) return setErr('That date is already on the trip.');
+            if (others.includes(v)) return setErr('Another travel day is already on that date.');
+            setErr('');
+            moved.current = true;
+            s.patch('travel', x.id, { date: v });
           }}
         />
+        {err ? <div className="warn">{err}</div> : null}
         <Field area className="mt" value={x.note ?? ''} onChange={(e) => s.patch('travel', x.id, { note: e.target.value })} placeholder="Notes" />
         <button className="btn ghost danger mt-s" onClick={() => s.drop('travel', x.id)}>
           Remove
@@ -1208,7 +1213,7 @@ function Itinerary({ s }) {
       </div>
       <span className="label sectionLabel">Day by day</span>
       {rows.map((row) => {
-        if (row.travel) return <TravelDay key={row.key} s={s} x={row.travel} hasStart={hasStart} fresh={fresh === row.key} />;
+        if (row.travel) return <TravelDay key={row.key} s={s} x={row.travel} hasStart={hasStart} fresh={fresh === row.key} first={t.start} last={lastRiver} others={travel.filter((y) => y.id !== row.travel.id).map((y) => y.date)} />;
         const d = row.river;
         const p = t.plans[d.i] || {};
         const prev = t.plans[d.i - 1] || {};
