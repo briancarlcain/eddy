@@ -5791,18 +5791,45 @@ const Pairs = ({ data, numbered }) =>
     </div>
   ));
 
-const GearRef = () => (
-  <div className="mt">
-    <span className="label">Packing reference</span>
-    {Object.entries(GENERAL.gear).map(([cat, items]) => (
-      <Acc key={cat} title={cat} note={items.length + ' items'}>
-        {items.map((x) => (
-          <div className="line" key={x}>{x}</div>
-        ))}
-      </Acc>
-    ))}
-  </div>
-);
+const GearRef = () => {
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    if (!open) return;
+    const k = (e) => e.key === 'Escape' && setOpen(false);
+    window.addEventListener('keydown', k);
+    return () => window.removeEventListener('keydown', k);
+  }, [open]);
+  return (
+    <div className="mt">
+      <button className="linkBtn" onClick={() => setOpen(true)}>
+        Packing reference
+      </button>
+      {open && (
+        <div className="fullPop" role="dialog" aria-modal="true" aria-label="Packing reference">
+          <div className="fullPopHead">
+            <span className="fullPopTitle">Packing reference</span>
+            <button className="fullPopX" aria-label="Close" onClick={() => setOpen(false)}>
+              ×
+            </button>
+          </div>
+          <div className="fullPopBody">
+            {Object.entries(GENERAL.gear).map(([cat, items]) => (
+              <div className="prCat" key={cat}>
+                <span className="label">{cat}</span>
+                {items.map((x) => (
+                  <div className="prItem" key={x.n}>
+                    <div className="line">{x.n}</div>
+                    <div className="muted">{x.r} recommended</div>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const Card = ({ s }) => (
   <>
