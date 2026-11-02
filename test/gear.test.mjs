@@ -79,6 +79,13 @@ const balanced = (it) => near(Object.values(it.share).reduce((a, b) => a + b, 0)
   assert.equal(one({ s: 'even', q: 3, rn: 2, rnTo: { group: 2 }, f: undefined, d: 0 }).issues.length, 0);
   assert.equal(one({ s: 'even', q: 3, f: undefined }).issues.length, 0);
 }
+// both a flat fee and a per-day price can be saved; the cheaper one for the trip is charged (10 days)
+{
+  const cost = (g) => one({ s: 'even', q: 1, rn: 1, rnTo: { group: 1 }, ...g }).total;
+  near(cost({ f: 800, d: 30 }), 300, 'per day is cheaper'); near(cost({ f: 200, d: 30 }), 200, 'flat is cheaper');
+  near(cost({ f: undefined, d: 30 }), 300, 'only per day'); near(cost({ f: 200, d: undefined }), 200, 'only flat');
+  near(cost({ f: 800, d: 30, pm: 'flat' }), 300, 'the toggle only picks what the form shows');
+}
 // bringing for others: quantities per person, the rest to the group
 {
   const ids = new Set(['s', 'a', 'j']);

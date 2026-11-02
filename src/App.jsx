@@ -1637,7 +1637,7 @@ const TIPS = {
   have: 'How many of your own you can bring for yourself. You aren’t charged for these.',
   group: 'Total the group needs. Calculated from everyone’s “I need”. Type a number to override it.',
   lend: 'Extra ones you can bring for others to use. Each one lent means one fewer rented.',
-  price: 'Rental cost of one item. A flat fee is charged once; a per-day price is multiplied by the trip’s days.',
+  price: 'Rental cost of one item. A flat fee is charged once; a per-day price is multiplied by the trip’s days. If both are entered, the lower cost is charged.',
   split: Object.entries(SPLIT_HELP).map(([k, v]) => SPLITS[k] + ': ' + v).join('\n'),
 };
 function useTip() {
@@ -1668,9 +1668,10 @@ function PriceField({ v, up, days }) {
   return (
     <>
       <div className="chips">
-        {[['flat', 'Flat fee'], ['day', 'Per day']].map(([k, l]) => (
+        {[['flat', 'Flat fee', v.f], ['day', 'Per day', v.d]].map(([k, l, amt]) => (
           <button key={k} className={'chip' + (mode === k ? ' on' : '')} aria-pressed={mode === k} onClick={() => up('pm', k)}>
             {l}
+            {amt !== undefined && amt !== null && String(amt).trim() !== '' ? ` · $${amt}` : ''}
           </button>
         ))}
       </div>
