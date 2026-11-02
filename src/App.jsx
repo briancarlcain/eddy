@@ -1688,7 +1688,7 @@ function Gear({ s }) {
       <div className="chips scroll">
         {cats.map((c) => (
           <button key={c} className={'chip' + (catOn.includes(c) ? ' on river' : '')} aria-pressed={catOn.includes(c)} onClick={() => flip(catSel, setCatSel, c)}>
-            {c}
+            {c} · {inSec.filter((i) => i.cat === c).length}
           </button>
         ))}
       </div>
