@@ -1946,9 +1946,12 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
     lend = num(e.lend);
   const grp = it.kind === 'group';
   const left = Math.max(0, need - Math.min(have, need));
+  // the bar covers the whole group's count, never more than what the group needs
+  const gOwn = Math.min(it.have, it.target);
+  const gBor = Math.min(it.borrowed, Math.max(0, it.target - gOwn));
   const parts = [
-    [grp ? have : Math.min(have, need), 'own', 'Own'],
-    [it.borrowed, 'borrow', 'Borrowed'],
+    [gOwn, 'own', 'Own'],
+    [gBor, 'borrow', 'Borrowed'],
     [it.rent, it.unit > 0 ? 'rent' : 'none', it.unit > 0 ? 'Rented' : 'Short'],
   ];
   const others = crew.filter((c) => c.id !== me && (grp ? ['have', 'lend'] : ['need', 'have', 'lend']).some((k) => num((it.e[c.id] || {})[k])));
@@ -2005,28 +2008,28 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
             </>
           )}
 
-          {it.target > 0 && (
-            <div className="gsum">
-              <div className="gsumHead">Group needs {+it.target.toFixed(2)}</div>
-              <div className="gcovBar">
-                {parts.map(([n, k], i) => n > 0.005 && <span key={i} style={{ flex: n, background: COVER.find((c) => c[0] === k)[2] }} />)}
-              </div>
-              <div className="gcovKey">
-                {parts.map(([n, k, l], i) => n > 0.005 && (
-                  <span key={i}>
-                    <i style={{ background: COVER.find((c) => c[0] === k)[2] }} />
-                    {+n.toFixed(2)} {l}
-                  </span>
-                ))}
-                {it.total > 0 && <span className="gsumCost">{usd(it.total)} total</span>}
-              </div>
+          <div className="gsum">
+            <div className="gsumHead">Group needs {+it.target.toFixed(2)}</div>
+            <div className="gcovBar">
+              {parts.map(([n, k], i) => n > 0.005 && <span key={i} style={{ flex: n, background: COVER.find((c) => c[0] === k)[2] }} />)}
             </div>
-          )}
+            <div className="gcovKey">
+              {parts.map(([n, k, l], i) => n > 0.005 && (
+                <span key={i}>
+                  <i style={{ background: COVER.find((c) => c[0] === k)[2] }} />
+                  {+n.toFixed(2)} {l}
+                </span>
+              ))}
+              {!parts.some(([n]) => n > 0.005) && <span className="muted">Nothing set yet</span>}
+              {it.total > 0 && <span className="gsumCost">{usd(it.total)} total</span>}
+            </div>
+          </div>
           {it.loose > 0.005 && <div className="muted">{usd(it.loose)} not yet billed to anyone: nobody has entered a need.</div>}
 
-          {others.length > 0 && (
+          {crew.length > 1 && (
             <details className="gdet">
               <summary>Everyone’s numbers</summary>
+              {others.length === 0 && <div className="muted">No one else has entered numbers yet.</div>}
               {others.map((c) => {
                 const x = it.e[c.id] || {};
                 return (
