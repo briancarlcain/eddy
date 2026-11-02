@@ -100,6 +100,8 @@ const ICONS = {
   check: 'M20 6L9 17l-5-5',
   cloud: 'M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z',
   refresh: 'M21 12a9 9 0 0 0-15-6.7L3 8M3 3v5h5M3 12a9 9 0 0 0 15 6.7L21 16M21 21v-5h-5',
+  filter: 'M22 3H2l8 9.46V19l4 2v-8.54z',
+  sort: 'M21 16l-4 4-4-4M17 20V4M3 8l4-4 4 4M7 4v16',
   alert: 'M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01',
 };
 const Icon = ({ name, size = 18, className = '' }) => (
@@ -1730,6 +1732,9 @@ function Gear({ s }) {
   const [secSel, setSecSel] = useState([]);
   const [srcSel, setSrcSel] = useState([]);
   const [attn, setAttn] = useState(false);
+  const [filtOpen, setFiltOpen] = useState(false);
+  const [sortOpen, setSortOpen] = useState(false);
+  const [sortBy, setSortBy] = useState('name');
   const [find, setFind] = useState('');
   const [open, setOpen] = useState(null);
   const [adding, setAdding] = useState(false);
@@ -1763,7 +1768,35 @@ function Gear({ s }) {
     if (!srcOn.length) return true;
     const c = coverOf(i, who);
     return srcOn.some((k) => c[k]);
-  }).sort(byItem);
+  });
+  const first = (whoName || '').split(' ')[0];
+  const SORTS = [
+    ['name', 'Name, A to Z', null, 1],
+    ['name-', 'Name, Z to A', null, -1],
+    ['cat', 'Category, A to Z', (i) => i.cat, 1],
+    ['target-', 'Group needs, most first', (i) => i.target, -1],
+    ['target', 'Group needs, fewest first', (i) => i.target, 1],
+    ['short-', 'Still needed, most first', (i) => i.short, -1],
+    ['short', 'Still needed, fewest first', (i) => i.short, 1],
+    ['mine-', first ? `${first}’s quantity, most first` : 'Your quantity, most first', (i) => num((i.e[who] || {}).need), -1],
+    ['mine', first ? `${first}’s quantity, fewest first` : 'Your quantity, fewest first', (i) => num((i.e[who] || {}).need), 1],
+    ['cost-', 'Group cost, high to low', (i) => i.total, -1],
+    ['cost', 'Group cost, low to high', (i) => i.total, 1],
+    ['my-', first ? `${first}’s cost, high to low` : 'Your cost, high to low', (i) => i.share[who] || 0, -1],
+    ['my', first ? `${first}’s cost, low to high` : 'Your cost, low to high', (i) => i.share[who] || 0, 1],
+    ['unit-', 'Price each, high to low', (i) => i.unit, -1],
+    ['unit', 'Price each, low to high', (i) => i.unit, 1],
+  ];
+  const sortSel = SORTS.find((x) => x[0] === sortBy) || SORTS[0];
+  const [, , sortFn, sortDir] = sortSel;
+  shown.sort((a, b) => {
+    if (!sortFn) return sortDir * byItem(a, b);
+    const x = sortFn(a);
+    const y = sortFn(b);
+    const d = typeof x === 'string' ? x.localeCompare(y) : x - y;
+    return d ? sortDir * d : byItem(a, b);
+  });
+  const nFilt = secSel.length + catOn.length + srcOn.length + (attn ? 1 : 0);
   const you0 = !as;
   const flip = (list, set, k) => set(list.includes(k) ? list.filter((x) => x !== k) : [...list, k]);
   const mine = who ? L.by[who] : null;
@@ -1804,6 +1837,48 @@ function Gear({ s }) {
         </button>
       </div>
       {adding && <AddGear s={s} days={L.days} cats={allCats} kind={secSel.length === 1 ? secSel[0] : 'personal'} onDone={() => setAdding(false)} />}
+      <div className="gtools">
+        <button className={'btn ghost gtool' + (filtOpen ? ' on' : '')} aria-expanded={filtOpen} onClick={() => setFiltOpen(!filtOpen)}>
+          <Icon name="filter" size={17} /> Filter{nFilt ? <span className="gbadge">{nFilt}</span> : null}
+        </button>
+        <button className={'btn ghost gtool' + (sortOpen ? ' on' : '')} aria-expanded={sortOpen} onClick={() => setSortOpen(!sortOpen)}>
+          <Icon name="sort" size={17} /> Sort
+        </button>
+        {sortBy !== 'name' ? <span className="gsortNow">{sortSel[1]}</span> : null}
+        {nFilt ? (
+          <button
+            className="gclear"
+            onClick={() => {
+              setSecSel([]);
+              setCatSel([]);
+              setSrcSel([]);
+              setAttn(false);
+            }}
+          >
+            Clear
+          </button>
+        ) : null}
+      </div>
+      {sortOpen && (
+        <div className="sortMenu" role="listbox" aria-label="Sort gear">
+          {SORTS.map(([k, l]) => (
+            <button
+              key={k}
+              role="option"
+              aria-selected={sortBy === k}
+              className={'sortOpt' + (sortBy === k ? ' on' : '')}
+              onClick={() => {
+                setSortBy(k);
+                setSortOpen(false);
+              }}
+            >
+              {l}
+              {sortBy === k ? <Icon name="check" size={16} /> : null}
+            </button>
+          ))}
+        </div>
+      )}
+      {filtOpen && (
       <div className="chipStack">
       <div className="chips">
         {[['personal', 'Personal gear'], ['group', 'Group gear']].map(([k, l]) => (
@@ -1832,6 +1907,7 @@ function Gear({ s }) {
         </div>
       )}
       </div>
+      )}
       {shown.length === 0 && <div className="muted mt">Nothing matches.</div>}
       {shown.map((it) => (
         <GearRow key={it.id} it={it} s={s} crew={t.crew} days={L.days} cats={allCats} me={who} name={whoName} you={!as} open={open === it.id} onOpen={() => setOpen(open === it.id ? null : it.id)} />
