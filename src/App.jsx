@@ -9,6 +9,7 @@ import SOURCES from '../data/sources.json';
 import GC_REF from '../data/trips/gc2026-ref.json';
 import { askReminders, boot, clearReminders, hideSplash, isNative, onOpenUrl, onResume, openUrl, remindersAllowed, saveBackup, saveFile, scheduleReminders, shareText, success } from './native.js';
 import { canon, mergeTrips, stamp, strip } from './merge.js';
+import { recat } from './gearCats.js';
 import * as remote from './sync.js';
 import * as authApi from './auth.js';
 import TopoMap, { OfflinePanel } from './TopoMap.jsx';
@@ -677,6 +678,19 @@ function useStore() {
     cloudTimers.current[id] = setTimeout(() => cloudSyncTrip(id, undefined).catch(() => setCloudStatus('offline')), 1500);
   };
 
+  // River Essentials was split into clearer categories: move saved trips over (viewers can't edit)
+  useEffect(() => {
+    const st = stateRef.current;
+    const stale = st.trips.filter((t) => (t.gear || []).some((g) => g.c === 'River Essentials') && ((st.sync || {})[t.id] || {}).role !== 'viewer');
+    if (!stale.length) return;
+    const t0 = now();
+    const trips = st.trips.map((t) => (stale.includes(t) ? stamp(t, { ...t, gear: t.gear.map((g) => ({ ...g, c: recat(g) })), at: t0 }, t0) : t));
+    persist({ ...st, trips });
+    stale.forEach((t) => {
+      if ((stateRef.current.sync || {})[t.id]) syncSoon(t.id);
+      cloudSoon(t.id);
+    });
+  }, [state.trips]);
   useEffect(() => {
     authApi.getSession().then((x) => {
       sessionRef.current = x;
@@ -1601,8 +1615,14 @@ function GearFields({ v, up, days, cats, T }) {
           </button>
         ))}
       </div>
-      <Field label="Category" value={v.c} onChange={(e) => up('c', e.target.value)} placeholder="Kitchen" list="gearCats" />
-      <datalist id="gearCats">{(cats || []).map((c) => <option key={c} value={c} />)}</datalist>
+      <Sel label="Category" value={v.c} onChange={(x) => up('c', x)}>
+        {!v.c && <option value="">Pick a category</option>}
+        {[...new Set([...GEAR_ALL.map((g) => g.c), ...(cats || []), v.c].filter(Boolean))].sort().map((c) => (
+          <option key={c} value={c}>
+            {c}
+          </option>
+        ))}
+      </Sel>
       <span className="label">How it’s billed {T.btn('split')}</span>
       {T.box('split')}
       <div className="chips">
@@ -2038,9 +2058,9 @@ function AddGear({ s, days, cats, kind, onDone }) {
       <GearFields v={f} up={up} days={days} cats={cats} T={T} />
       <button
         className="btn"
-        disabled={!f.n.trim()}
+        disabled={!f.n.trim() || !f.c}
         onClick={() => {
-          s.push('gear', { n: f.n.trim(), k: f.k, c: f.c.trim() || 'Gear', s: f.s, r: f.r, f: num(f.f), d: num(f.d), q: num(f.q), e: {} });
+          s.push('gear', { n: f.n.trim(), k: f.k, c: f.c, s: f.s, r: f.r, f: num(f.f), d: num(f.d), q: num(f.q), e: {} });
           setF({ n: '', k: f.k, c: f.c, s: f.s, f: '', d: '', q: '', r: '' });
           onDone();
         }}
