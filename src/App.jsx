@@ -1127,8 +1127,8 @@ function Itinerary({ s }) {
       </div>
       <Stats s={s} />
       <div className="card formCard mb">
-        <RiverEnd s={s} which="launch" />
-        <RiverEnd s={s} which="out" />
+        <RiverEnd s={s} which="launch" noTime />
+        <RiverEnd s={s} which="out" noTime />
       </div>
       <span className="label sectionLabel">Day by day</span>
       {tripDays(t).map((d) => {
@@ -2720,7 +2720,7 @@ function When({ value, onCommit, ...p }) {
   );
 }
 
-function RiverEnd({ s, which }) {
+function RiverEnd({ s, which, noTime }) {
   const t = s.trip;
   const out = which === 'out';
   const ramps = [...ACCESS.filter((p) => p.mile != null), ...(t.places || []).filter((p) => p.mile != null)];
@@ -2743,7 +2743,7 @@ function RiverEnd({ s, which }) {
             if (n > 0 && n <= 60) s.set({ days: n });
           }}
         />
-        <When type="time" value={time || ''} onCommit={(v) => s.set({ [k.time]: v })} />
+        {noTime ? null : <When type="time" value={time || ''} onCommit={(v) => s.set({ [k.time]: v })} />}
         <span className="tzTag">{tzAbbr(tz, date)}</span>
       </div>
       <Sel value={at} onChange={(v) => s.set({ [k.at]: v })}>
