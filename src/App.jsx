@@ -2104,14 +2104,6 @@ function GroupSummary({ L, crew }) {
   const people = byFirst(crew);
   const nm = (id) => firstOf(crew.find((c) => c.id === id)) || 'Someone';
   const shared = (b) => b.even + b.nights + b.users;
-  const count = (c, f) => L.items.filter((i) => f(i, c.id)).length;
-  const table = people.map((c) => ({
-    c,
-    bring: count(c, (i, id) => (i.kind === 'group' ? num((i.e[id] || {}).have) : Math.min(num((i.e[id] || {}).have), num((i.e[id] || {}).need))) > 0.005),
-    lend: count(c, (i, id) => num((i.e[id] || {}).lend) > 0.005),
-    rent: count(c, (i, id) => coverOf(i, id).rented),
-    borrow: count(c, (i, id) => coverOf(i, id).borrowed),
-  }));
   const borrows = L.items.flatMap((i) => gearFlows(i, crew).borrow.map((b) => ({ ...b, item: i.name })));
   borrows.sort((a, b) => (a.to === 'group') - (b.to === 'group') || a.toName.localeCompare(b.toName) || a.item.localeCompare(b.item));
   const rented = L.items.filter((i) => i.rent > 0.005).sort(byItem);
@@ -2178,30 +2170,6 @@ function GroupSummary({ L, crew }) {
               <td>{m2(L.total)}</td>
             </tr>
           </tfoot>
-        </table>
-      </Acc>
-      <Acc title="Who’s bringing what" note="Items per person">
-        <table className="gtable">
-          <thead>
-            <tr>
-              <th>Person</th>
-              <th>Bringing</th>
-              <th>Lending</th>
-              <th>Renting</th>
-              <th>Borrowing</th>
-            </tr>
-          </thead>
-          <tbody>
-            {table.map((r) => (
-              <tr key={r.c.id}>
-                <td>{r.c.name}</td>
-                <td>{r.bring || '–'}</td>
-                <td>{r.lend || '–'}</td>
-                <td>{r.rent || '–'}</td>
-                <td>{r.borrow || '–'}</td>
-              </tr>
-            ))}
-          </tbody>
         </table>
       </Acc>
       <Acc title="Borrowing" note={borrows.length ? `${borrows.length} ${borrows.length === 1 ? 'arrangement' : 'arrangements'}` : 'None yet'}>
