@@ -1736,6 +1736,7 @@ function Gear({ s }) {
         </button>
       </div>
       {adding && <AddGear s={s} days={L.days} cats={allCats} kind={secSel.length === 1 ? secSel[0] : 'personal'} onDone={() => setAdding(false)} />}
+      <div className="chipStack">
       <div className="chips">
         {[['personal', 'Personal gear'], ['group', 'Group gear']].map(([k, l]) => (
           <button key={k} className={'chip' + (secSel.includes(k) ? ' on river' : '')} aria-pressed={secSel.includes(k)} onClick={() => flip(secSel, setSecSel, k)}>
@@ -1752,13 +1753,14 @@ function Gear({ s }) {
       </div>
       {who && (
         <div className="chips scroll">
-          {[['own', you0 ? 'Bringing for yourself' : `Bringing for ${(whoName || '').split(' ')[0]}`], ['borrowed', 'Borrowed'], ['rented', 'Rented']].map(([k, l]) => (
+          {[['own', you0 ? 'Bringing for yourself' : `Bringing for ${(whoName || '').split(' ')[0]}`], ['borrowed', 'Borrowing'], ['rented', 'Renting']].map(([k, l]) => (
             <button key={k} className={'chip' + (srcOn.includes(k) ? ' on river' : '')} aria-pressed={srcOn.includes(k)} onClick={() => flip(srcSel, setSrcSel, k)}>
-              {l}
+              {l} · {inSec.filter((i) => coverOf(i, who)[k]).length}
             </button>
           ))}
         </div>
       )}
+      </div>
       {shown.length === 0 && <div className="muted mt">Nothing matches.</div>}
       {shown.map((it) => (
         <GearRow key={it.id} it={it} s={s} crew={t.crew} days={L.days} cats={allCats} me={who} name={whoName} you={!as} open={open === it.id} onOpen={() => setOpen(open === it.id ? null : it.id)} />
