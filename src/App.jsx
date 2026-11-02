@@ -4191,18 +4191,6 @@ function tripICS(t, riverName) {
   return lines.join('\r\n') + '\r\n';
 }
 
-function tripSummary(t, riverName) {
-  const days = tripDays(t);
-  const lines = [t.name, `${riverName} · ${okDate(t.start) ? fmt(t.start) + ' ' + t.start.slice(0, 4) : t.start} · ${t.days + 1} days`, ''];
-  if ((t.crew || []).length) lines.push(`Crew (${t.crew.length}): ${byFirst(t.crew).map((c) => c.name).join(', ')}`, '');
-  const camps = days.filter((d) => (t.plans || {})[d.i]?.camp);
-  if (camps.length) {
-    lines.push('Camps');
-    camps.forEach((d) => lines.push(`  ${d.label.replace(/^Day (\d+) · /, 'Day $1 · ')}: ${t.plans[d.i].camp}`));
-  }
-  return lines.join('\n').trim();
-}
-
 const byRiverName = (a, b) => String(a.name).localeCompare(String(b.name), undefined, { sensitivity: 'base' });
 
 function Settings({ s, back }) {
@@ -4256,20 +4244,6 @@ function Settings({ s, back }) {
         <div className="muted mb-s">Add the trip and each day's camp to your calendar.</div>
         <button className="btn ghost" onClick={() => saveFile(`${slug(t.name)}.ics`, tripICS(t, s.riverRec(riverOf(t)).name), 'text/calendar')}>
           <Icon name="calendar" size={16} /> Add to Calendar
-        </button>
-      </div>
-
-      <div className="card formCard mt">
-        <span className="label">Summary</span>
-        <div className="muted mb-s">Send a plain-text summary of this trip (dates, crew, camps) with Messages, Mail or Notes.</div>
-        <button
-          className="btn ghost"
-          onClick={async () => {
-            const r = await shareText(t.name, tripSummary(t, s.riverRec(riverOf(t)).name));
-            if (r === 'copied') window.alert('Trip summary copied to the clipboard.');
-          }}
-        >
-          <Icon name="copy" size={16} /> Share trip summary
         </button>
       </div>
 
