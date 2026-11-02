@@ -3900,26 +3900,6 @@ function People({ s }) {
       ))}
       {msg ? <div className="warn mt-s">{msg}</div> : null}
 
-      {info && info.activity && info.activity.length ? (
-        <div className="mt">
-          <span className="label">Activity</span>
-          <div className="card permitList">
-            {[...info.activity].reverse().slice(0, 30).map((a, i) => {
-              const system = /^(.+ (joined|left|was removed|is now .+)|Invite link was reset|Someone joined)$/.test(a.s || '');
-              return (
-                <div className="permitItem" key={i}>
-                  <div className="permitT">{system ? a.s : byId[a.w] || 'Someone'}</div>
-                  <div className="permitD">
-                    {system ? '' : (a.s || 'Made a change') + ' · '}
-                    {ago(a.t)}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      ) : null}
-
       <button className="linkBtn mt" onClick={() => openUrl(SUPPORT_URL)}>
         Report a problem
       </button>
@@ -4052,6 +4032,8 @@ function tripSummary(t, riverName) {
 
 function Settings({ s, back }) {
   const t = s.trip;
+  const info = s.info[t.id];
+  const byId = Object.fromEntries(((info && info.members) || []).map((m) => [m.id, m.n || 'Someone']));
   return (
     <>
       <div className="card formCard">
@@ -4115,6 +4097,26 @@ function Settings({ s, back }) {
           <Icon name="copy" size={16} /> Share trip summary
         </button>
       </div>
+
+      {info && info.activity && info.activity.length ? (
+        <div className="mt">
+          <span className="label">Recent activity</span>
+          <div className="card permitList">
+            {[...info.activity].reverse().slice(0, 30).map((a, i) => {
+              const system = /^(.+ (joined|left|was removed|is now .+)|Invite link was reset|Someone joined)$/.test(a.s || '');
+              return (
+                <div className="permitItem" key={i}>
+                  <div className="permitT">{system ? a.s : byId[a.w] || 'Someone'}</div>
+                  <div className="permitD">
+                    {system ? '' : (a.s || 'Made a change') + ' · '}
+                    {ago(a.t)}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
 
       <div className="card formCard dangerCard mt">
         <span className="label">Danger zone</span>
