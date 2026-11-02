@@ -956,7 +956,7 @@ function useStore() {
       edit((t) => ({
         ...t,
         [key]: (t[key] || []).filter((x) => x.id !== id),
-        gear: key === 'crew' ? t.gear.map((g) => (g.by === id ? { ...g, by: '' } : g)) : t.gear,
+        ...(key === 'crew' ? { gear: t.gear.map((g) => (g.by === id ? { ...g, by: '' } : g)) } : {}),
       })),
     plan: (i, p) => edit((t) => ({ ...t, plans: { ...t.plans, [i]: { ...t.plans[i], ...p } } })),
   };
