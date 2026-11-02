@@ -948,8 +948,8 @@ function useStore() {
 
 /* ---------- ui ---------- */
 
-const Tabs = ({ items, value, onChange, danger }) => (
-  <div className={'tabs' + (danger ? ' danger' : '')}>
+const Tabs = ({ items, value, onChange, danger, trip }) => (
+  <div className={'tabs' + (danger ? ' danger' : '') + (trip ? ' trip' : '')}>
     {items.map((t) => (
       <button
         key={t}
@@ -1026,7 +1026,7 @@ function Trip({ s, back, onAccount, onRiver }) {
   const items = ['Itinerary', ...(onRiver && riverOf(s.trip) ? ['River'] : []), 'Crew', 'Meals', 'Gear', 'Shuttle', 'Costs', 'Emergency', 'Journal', ...(REFS[s.trip.id] || RIVER.flowDoy || RIVER.climateDoy ? ['Notes'] : []), 'People', 'Settings'];
   return (
     <>
-      <Tabs items={items} value={tab} onChange={(t) => (t === 'River' ? onRiver() : setTab(t))} />
+      <Tabs trip items={items} value={tab} onChange={(t) => (t === 'River' ? onRiver() : setTab(t))} />
       <div className="pad">
         {tripEnt && tripEnt.role === 'viewer' && !tripEnt.removed ? (
           <div className="notice mb note">

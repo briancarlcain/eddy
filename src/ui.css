@@ -739,3 +739,11 @@ body.shot #fakeStatus { background: var(--bg); }
 .tabbar, .pageHeader, .rg .tabs { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
 .gateCard .btn.block { display: block; width: 100%; min-height: 48px; font-size: 14px; }
 .lntNote { margin-bottom: 10px; font-size: 14px; }
+
+/* ---- trip sub-tabs: underlined text row, distinct from the river pill tabs ---- */
+.rg .tabs.trip { gap: 0; padding: 0 6px; background: var(--surface-3); border-bottom: 1px solid var(--line); overflow-x: auto; scrollbar-width: none; }
+.rg .tabs.trip::-webkit-scrollbar { display: none; }
+.rg .tabs.trip .tab, .rg .tabs.trip .tab.on, .rg .tabs.trip .tab.on:active { background: transparent !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; min-height: 44px; padding: 0 13px; font-size: 14px; font-weight: 500; color: var(--ink-dim) !important; position: relative; flex: none; }
+.rg .tabs.trip .tab.on, .rg .tabs.trip .tab.on:active { color: var(--ink) !important; font-weight: 700; }
+.rg .tabs.trip .tab.on::after { content: ''; position: absolute; left: 10px; right: 10px; bottom: 0; height: 3px; border-radius: 3px 3px 0 0; background: var(--accent); }
+.rg .tabs.trip .tab:hover:not(.on) { background: transparent !important; color: var(--ink) !important; }
