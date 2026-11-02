@@ -964,6 +964,15 @@ const Tabs = ({ items, value, onChange, danger, trip }) => (
 );
 const TAB_NAMES = { Crew: 'Crew & Crafts' };
 
+// crew in alphabetical order by first name; a blank (new) name goes last
+const firstOf = (c) => ((c && c.name) || '').trim().split(/\s+/)[0] || '';
+const byFirst = (list) =>
+  [...list].sort((a, b) => {
+    const x = firstOf(a),
+      y = firstOf(b);
+    return !x !== !y ? (x ? -1 : 1) : x.localeCompare(y, undefined, { sensitivity: 'base' }) || (a.name || '').localeCompare(b.name || '');
+  });
+
 function Acc({ title, note, tag, lead, children, open: start }) {
   const [open, setOpen] = useState(!!start);
   return (
@@ -1302,7 +1311,7 @@ function Crew({ s }) {
       ) : null}
       {inv.msg ? <div className="muted mb-s">{inv.msg}</div> : null}
       <span className="label mt">Crew</span>
-      {t.crew.map((m) => (
+      {byFirst(t.crew).map((m) => (
         <Acc key={m.id} open={fresh === m.id} lead={<Avatar name={m.name || '?'} />} title={m.name || 'New person'} tag={meId === m.id ? 'You' : undefined} note={[m.role, boats.find((b) => b.id === m.boat)?.name].filter(Boolean).join(' · ') || null}>
           <button
             className="btn ghost mb-s"
@@ -1460,7 +1469,7 @@ function Meals({ s }) {
                   <Field label="Dish" value={m.name} onChange={(e) => s.patch('meals', m.id, { name: e.target.value })} placeholder="Dish" />
                   <span className="label">Cook</span>
                   <div className="chips scroll">
-                    {t.crew.map((c) => (
+                    {byFirst(t.crew).map((c) => (
                       <button
                         key={c.id}
                         className={'chip' + (m.cook === c.id ? ' on' : '')}
@@ -1651,7 +1660,7 @@ function Gear({ s }) {
           <span>Editing gear list on behalf of:</span>
           <select className="sel" aria-label="Edit gear list on behalf of" value={who || ''} onChange={(e) => pickWho(e.target.value)}>
             {!who && <option value="">Pick a name</option>}
-            {t.crew.map((c) => (
+            {byFirst(t.crew).map((c) => (
               <option key={c.id} value={c.id}>
                 {c.name}
                 {c.id === me ? ' (you)' : ''}
@@ -1805,11 +1814,10 @@ function gearStatus(it) {
   return it.borrowed > 0 ? { text: 'Covered with borrowed', k: 'borrow' } : { text: 'Covered', k: 'own' };
 }
 
-const firstName = (c) => (c.name || '').trim().split(/\s+/)[0] || '';
 
 // who uses one unit someone is bringing: the group first, then crew by first name
 function UnitPick({ title, u, crew, me, group, money, onChange }) {
-  const others = crew.filter((c) => c.id !== me).sort((a, b) => firstName(a).localeCompare(firstName(b)));
+  const others = byFirst(crew.filter((c) => c.id !== me));
   const to = Array.isArray(u.to) ? u.to : [];
   const forGroup = group ? !to.length : !!u.g;
   const flip = (id) => onChange({ to: to.includes(id) ? to.filter((x) => x !== id) : [...to, id], g: false });
@@ -2355,7 +2363,7 @@ function story(t) {
     if (offAt[e.id] != null) segs.push({ t0: offAt[e.id] - 0.02, t1: offAt[e.id], from: 'river', to: e.offP });
     return segs.sort((a, b) => a.t0 - b.t0);
   };
-  const people = t.crew.map((m) => ({ ...m, kind: 'person', segs: segsOf(ents.find((e) => e.id === m.id), 'who') }));
+  const people = byFirst(t.crew).map((m) => ({ ...m, kind: 'person', segs: segsOf(ents.find((e) => e.id === m.id), 'who') }));
   const boats = (t.boats || []).map((b) => ({ ...b, kind: 'boat', segs: segsOf(ents.find((e) => e.id === b.id), 'boats') }));
   const rigs = [...cars, ...flights].map((c) => ({ ...c, kind: 'car', segs: legs.filter((l) => l.car.id === c.id).map(seg) }));
 
@@ -3349,7 +3357,7 @@ function Shuttle({ s }) {
                       {when(l)}
                       <span className="label">Passengers</span>
                       <div className="chips">
-                        {[...Object.entries(DRIVERS).map(([id, name]) => ({ id, name })), ...t.crew].map((m) => {
+                        {[...Object.entries(DRIVERS).map(([id, name]) => ({ id, name })), ...byFirst(t.crew)].map((m) => {
                           const on = (l.who || []).includes(m.id);
                           return (
                             <button key={m.id} className={'chip' + (on ? ' on' : '')} onClick={() => setLeg(l.id, { who: on ? l.who.filter((q) => q !== m.id) : [...(l.who || []), m.id] })}>
@@ -3411,7 +3419,7 @@ function Shuttle({ s }) {
               <Field label="Name" value={c.name} autoFocus={freshCar === c.id} onChange={(e) => s.patch('cars', c.id, { name: e.target.value })} />
               <span className="label">Owner</span>
               <div className="chips">
-                {[...Object.entries(DRIVERS).map(([id, name]) => ({ id, name })), ...t.crew].map((x) => (
+                {[...Object.entries(DRIVERS).map(([id, name]) => ({ id, name })), ...byFirst(t.crew)].map((x) => (
                   <button key={x.id} className={'chip' + (c.owner === x.id ? ' on' : '')} onClick={() => s.patch('cars', c.id, { owner: c.owner === x.id ? '' : x.id })}>
                     {x.name}
                   </button>
@@ -3493,7 +3501,7 @@ function Ledger({ s }) {
           <span>Paid</span>
           <span>Balance</span>
         </div>
-        {t.crew.map((c) => {
+        {byFirst(t.crew).map((c) => {
           const d = (paid[c.id] || 0) - L.by[c.id].total;
           return (
             <div className="tr2" key={c.id}>
@@ -3558,7 +3566,7 @@ function Ledger({ s }) {
                 </div>
                 <span className="label">Paid by</span>
                 <div className="chips">
-                  {t.crew.map((c) => (
+                  {byFirst(t.crew).map((c) => (
                     <button key={c.id} className={'chip' + (p.by === c.id ? ' on' : '')} onClick={() => up({ by: p.by === c.id ? '' : c.id, ...(p.to === c.id ? { to: '' } : {}) })}>
                       {c.name}
                     </button>
@@ -4033,7 +4041,7 @@ function tripICS(t, riverName) {
 function tripSummary(t, riverName) {
   const days = tripDays(t);
   const lines = [t.name, `${riverName} · ${okDate(t.start) ? fmt(t.start) + ' ' + t.start.slice(0, 4) : t.start} · ${t.days + 1} days`, ''];
-  if ((t.crew || []).length) lines.push(`Crew (${t.crew.length}): ${t.crew.map((c) => c.name).join(', ')}`, '');
+  if ((t.crew || []).length) lines.push(`Crew (${t.crew.length}): ${byFirst(t.crew).map((c) => c.name).join(', ')}`, '');
   const camps = days.filter((d) => (t.plans || {})[d.i]?.camp);
   if (camps.length) {
     lines.push('Camps');
@@ -5821,7 +5829,7 @@ const Card = ({ s }) => (
         <div className="line">
           {okDate(s.trip.start) ? `${fmt(s.trip.start)} ${s.trip.start.slice(0, 4)}` : s.trip.start} · {s.trip.days} days · {s.trip.crew.length} people
         </div>
-        {s.trip.crew.map((c) => (
+        {byFirst(s.trip.crew).map((c) => (
           <div className="mt-s" key={c.id}>
             <div className="line">
               <b>{c.name}</b>
@@ -5934,7 +5942,7 @@ function WhoAreYou({ s, tripId, onDone }) {
   return (
     <div className="pad">
       <h1>Which one are you?</h1>
-      {(t.crew || []).map((c) => (
+      {byFirst(t.crew || []).map((c) => (
         <button key={c.id} className="btn ghost block mb-s" onClick={() => finish(c.id, c.name)}>
           {c.name}
         </button>
