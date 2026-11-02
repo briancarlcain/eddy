@@ -1599,8 +1599,8 @@ function Gear({ s }) {
   // entering for someone else is a separate, temporary mode
   const [as, setAs] = useState('');
   const [other, setOther] = useState(false);
-  const [cat, setCat] = useState('All');
-  const [sec, setSec] = useState('personal');
+  const [catSel, setCatSel] = useState([]);
+  const [secSel, setSecSel] = useState([]);
   const [find, setFind] = useState('');
   const [open, setOpen] = useState(null);
   const [adding, setAdding] = useState(false);
@@ -1618,19 +1618,16 @@ function Gear({ s }) {
       </>
     );
 
-  const secItems = L.items.filter((i) => i.kind === sec);
-  const cats = [...new Set(secItems.map((i) => i.cat))];
   const allCats = [...new Set(L.items.map((i) => i.cat))];
+  // nothing selected shows everything; several selected show items matching any of them
+  const inSec = L.items.filter((i) => !secSel.length || secSel.includes(i.kind));
+  const cats = [...new Set(inSec.map((i) => i.cat))];
+  const catOn = catSel.filter((c) => cats.includes(c));
   const q = find.trim().toLowerCase();
   const who = as || me;
   const whoName = (t.crew.find((c) => c.id === who) || {}).name || '';
-  const mineOf = (i) => {
-    const e = i.e[who] || {};
-    return !!(i.share[who] || i.named[who] || num(e.have) || num(e.need) || num(e.lend));
-  };
-  const shown = secItems.filter(
-    (i) => (cat === 'All' || (cat === 'Mine' ? who && mineOf(i) : i.cat === cat)) && (!q || i.name.toLowerCase().includes(q))
-  );
+  const shown = inSec.filter((i) => (!catOn.length || catOn.includes(i.cat)) && (!q || i.name.toLowerCase().includes(q)));
+  const flip = (list, set, k) => set(list.includes(k) ? list.filter((x) => x !== k) : [...list, k]);
   const mine = who ? L.by[who] : null;
 
   return (
@@ -1694,24 +1691,24 @@ function Gear({ s }) {
       )}
       <GearCover L={L} />
 
-      <div className="chips mt">
-        {[['personal', 'Personal gear'], ['group', 'Group gear']].map(([k, l]) => (
-          <button key={k} className={'chip' + (sec === k ? ' on river' : '')} onClick={() => (setSec(k), setCat('All'))}>
-            {l} · {L.items.filter((i) => i.kind === k).length}
-          </button>
-        ))}
-      </div>
-      <div className="row">
-        <Field value={find} onChange={(e) => setFind(e.target.value)} placeholder={`Search ${secItems.length} items`} />
+      <div className="row mt">
+        <Field value={find} onChange={(e) => setFind(e.target.value)} placeholder={`Search ${L.items.length} items`} />
         <button className="btn ghost" onClick={() => setAdding(!adding)}>
           {adding ? 'Close' : 'Add item'}
         </button>
       </div>
-      {adding && <AddGear s={s} days={L.days} cats={allCats} kind={sec} onDone={() => setAdding(false)} />}
+      {adding && <AddGear s={s} days={L.days} cats={allCats} kind={secSel.length === 1 ? secSel[0] : 'personal'} onDone={() => setAdding(false)} />}
+      <div className="chips">
+        {[['personal', 'Personal gear'], ['group', 'Group gear']].map(([k, l]) => (
+          <button key={k} className={'chip' + (secSel.includes(k) ? ' on river' : '')} aria-pressed={secSel.includes(k)} onClick={() => flip(secSel, setSecSel, k)}>
+            {l} · {L.items.filter((i) => i.kind === k).length}
+          </button>
+        ))}
+      </div>
       <div className="chips scroll">
-        {['All', ...(who ? ['Mine'] : []), ...cats].map((c) => (
-          <button key={c} className={'chip' + (cat === c ? ' on river' : '')} onClick={() => setCat(c)}>
-            {c === 'Mine' ? (as ? `${whoName}’s items` : 'My items') : c}
+        {cats.map((c) => (
+          <button key={c} className={'chip' + (catOn.includes(c) ? ' on river' : '')} aria-pressed={catOn.includes(c)} onClick={() => flip(catSel, setCatSel, c)}>
+            {c}
           </button>
         ))}
       </div>
