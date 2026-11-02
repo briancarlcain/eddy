@@ -777,3 +777,10 @@ html.lockScroll, html.lockScroll body { overflow: hidden; overscroll-behavior: n
 .topo .layerSw.dem { background: linear-gradient(135deg, #e8e2d2, #b9a98a); }
 .topo .layerSw.usgs { background: linear-gradient(135deg, #dfe8cf, #9db27f); }
 .topo .layerSw.img { background: linear-gradient(135deg, #5b6b4a, #2f3a2c); }
+
+/* gear filter rows: even, compact spacing */
+.rg .chipStack { margin: 8px 0 6px; }
+.rg .chipStack .chips { margin-top: 0; margin-bottom: 6px; }
+.rg .chipStack .chips:last-child { margin-bottom: 0; }
+.rg .chipStack .chips.scroll { padding-top: 0; padding-bottom: 0; }
+.rg .chipStack .chip { min-height: 32px; }
