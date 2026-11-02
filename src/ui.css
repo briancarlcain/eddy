@@ -786,3 +786,8 @@ html.lockScroll, html.lockScroll body { overflow: hidden; overscroll-behavior: n
 .rg .chipStack .chip { min-height: 32px; }
 
 .rg .stats.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+.rg .assign { margin: 4px 0 8px 14px; padding-left: 12px; border-left: 2px solid var(--line-soft); }
+.rg .assign .step:last-child { border-bottom: 0; }
+.rg .stepNum { font-size: 17px; font-weight: 650; min-width: 52px; text-align: center; }
+.rg .step .stepText .muted:empty { display: none; }
