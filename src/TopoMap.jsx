@@ -92,6 +92,11 @@ const MAX_TILES = 30;
 
 export const fmtTime = (d, tz) => d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: tz });
 const todayIn = (tz) => new Intl.DateTimeFormat('en-CA', { timeZone: tz }).format(new Date());
+// the launch date while it is still ahead; once it has passed, today
+const startDate = (launch, tz) => {
+  const today = todayIn(tz);
+  return launch && launch >= today ? launch : today;
+};
 const pinIcon = (on) =>
   L.divIcon({ className: 'dropPin' + (on ? ' on' : ''), html: '<span></span>', iconSize: [22, 30], iconAnchor: [11, 29] });
 
@@ -108,7 +113,7 @@ export default function TopoMap({ rid, river, planned, colors, date: date0, onOp
   const layers = useRef({});
   const [base, setBase] = useState('dem');
   const [shadeOn, setShadeOn] = useState(false);
-  const [date, setDate] = useState(date0 || todayIn(river.tz));
+  const [date, setDate] = useState(() => startDate(date0, river.tz));
   const [mins, setMins] = useState(null);
   const [playing, setPlaying] = useState(false);
   const [dropMode, setDropMode] = useState(false);
@@ -159,7 +164,7 @@ export default function TopoMap({ rid, river, planned, colors, date: date0, onOp
     document.addEventListener('pointerdown', away);
     return () => document.removeEventListener('pointerdown', away);
   }, [layersOpen]);
-  useEffect(() => { if (date0) setDate(date0); }, [date0]);
+  useEffect(() => { setDate(startDate(date0, river.tz)); }, [date0]);
 
   const line = useMemo(() => riverLine(rid), [rid]);
   const center = useMemo(() => (line ? line.ll[Math.floor(line.ll.length / 2)] : river.coords), [line, river]);
