@@ -4143,6 +4143,8 @@ function River({ s, browse, onBrowse, onPlan }) {
 
 function RiverDetail({ s }) {
   const [tab, setTab] = useState(QS.get('sub') || 'Map');
+  // arriving from another page (a scrolled trip, say) starts at the top, so the section tabs are in view
+  useLayoutEffect(() => window.scrollTo(0, 0), []);
   const [mapMode, setMapModeRaw] = useState(() => {
     try {
       return QS.get('map') || localStorage.getItem('eddy.mapMode') || 'chart';
