@@ -4221,22 +4221,6 @@ function Settings({ s, back }) {
         </Sel>
       </div>
 
-      {t.id === SEED.id && !IS_STORE && (
-        <div className="card formCard mt">
-          <span className="label">Planning sheet</span>
-          <div className="muted mb-s">Replaces crew, boats, cars, gear, meals, payments and day notes with the data from the planning spreadsheet. Log entries are kept.</div>
-          <button
-            className="btn ghost"
-            onClick={() =>
-              window.confirm('Replace crew, boats, cars, gear, meals, payments and day notes with the planning-sheet data? Your log entries are kept.') &&
-              s.set({ crew: SEED.crew, boats: SEED.boats, cars: SEED.cars, places: SEED.places, gear: SEED.gear, meals: SEED.meals, pay: SEED.pay, plans: SEED.plans })
-            }
-          >
-            Reload planning-sheet data
-          </button>
-        </div>
-      )}
-
       <SyncCard s={s} t={t} />
 
       <div className="card formCard mt">
