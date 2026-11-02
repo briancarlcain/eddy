@@ -35,6 +35,16 @@ export function unitsOf(e, owner, ids) {
   return { own, lent, spare: Math.max(0, num(e.lend) - Math.floor(num(e.lend))) };
 }
 
+// how one person's need for an item is covered: bringing their own, borrowed, or rented
+export function coverOf(it, id) {
+  const need = num((it.e[id] || {}).need);
+  const own = Math.min(num((it.e[id] || {}).have), need);
+  const named = it.named[id] || 0;
+  const left = Math.max(0, need - own - named);
+  const pool = left > 0 && it.rent <= 0.005 && it.lendGroup > 0;
+  return { own: own > 0, borrowed: named > 0 || pool, rented: left > 0 && it.rent > 0.005 && it.unit > 0 };
+}
+
 export function ledger(t) {
   const D = Math.max(1, num(t.days) || 1);
   const crew = t.crew;
@@ -107,7 +117,7 @@ export function ledger(t) {
       if (v) share[c.id] = v;
     });
     const assigned = Object.values(share).reduce((a, b) => a + b, 0);
-    return { id: g.id, raw: g, ...it, unit, have, need, lend, borrowed, target, rent, total, share, loose: total - assigned, units, named, excl };
+    return { id: g.id, raw: g, ...it, unit, have, need, lend, borrowed, lendGroup, target, rent, total, share, loose: total - assigned, units, named, excl };
   });
   const by = {};
   crew.forEach((c) => (by[c.id] = { even: 0, nights: 0, users: 0, personal: 0, total: 0, nightsCount: nights(c) }));

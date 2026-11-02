@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
 import { createRoot } from 'react-dom/client';
 import { BUILTIN_RIVERS, DEFAULT_RIVER, normalizeRiver } from './rivers.js';
 import GENERAL from '../data/general.json';
-import { ledger, num } from './gearLedger.js';
+import { coverOf, ledger, num } from './gearLedger.js';
 import GEAR_ALL from '../data/gear.json';
 import SEED from '../data/trip.json';
 import SOURCES from '../data/sources.json';
@@ -1604,6 +1604,7 @@ function Gear({ s }) {
   };
   const [catSel, setCatSel] = useState([]);
   const [secSel, setSecSel] = useState([]);
+  const [srcSel, setSrcSel] = useState([]);
   const [find, setFind] = useState('');
   const [open, setOpen] = useState(null);
   const [adding, setAdding] = useState(false);
@@ -1629,7 +1630,15 @@ function Gear({ s }) {
   const q = find.trim().toLowerCase();
   const who = as || me;
   const whoName = (t.crew.find((c) => c.id === who) || {}).name || '';
-  const shown = inSec.filter((i) => (!catOn.length || catOn.includes(i.cat)) && (!q || i.name.toLowerCase().includes(q)));
+  const srcOn = who ? srcSel : [];
+  const shown = inSec.filter((i) => {
+    if (catOn.length && !catOn.includes(i.cat)) return false;
+    if (q && !i.name.toLowerCase().includes(q)) return false;
+    if (!srcOn.length) return true;
+    const c = coverOf(i, who);
+    return srcOn.some((k) => c[k]);
+  });
+  const you0 = !as;
   const flip = (list, set, k) => set(list.includes(k) ? list.filter((x) => x !== k) : [...list, k]);
   const mine = who ? L.by[who] : null;
 
@@ -1683,6 +1692,15 @@ function Gear({ s }) {
           </button>
         ))}
       </div>
+      {who && (
+        <div className="chips scroll">
+          {[['own', you0 ? 'Bringing for yourself' : `Bringing for ${(whoName || '').split(' ')[0]}`], ['borrowed', 'Borrowed'], ['rented', 'Rented']].map(([k, l]) => (
+            <button key={k} className={'chip' + (srcOn.includes(k) ? ' on river' : '')} aria-pressed={srcOn.includes(k)} onClick={() => flip(srcSel, setSrcSel, k)}>
+              {l}
+            </button>
+          ))}
+        </div>
+      )}
       {shown.length === 0 && <div className="muted mt">Nothing matches.</div>}
       {shown.map((it) => (
         <GearRow key={it.id} it={it} s={s} crew={t.crew} days={L.days} cats={allCats} me={who} name={whoName} you={!as} open={open === it.id} onOpen={() => setOpen(open === it.id ? null : it.id)} />
