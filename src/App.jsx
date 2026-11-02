@@ -1719,7 +1719,7 @@ function Gear({ s }) {
         </div>
       )}
 
-      <div className="stats mt">
+      <div className="stats two mt">
         <div className="stat">
           <div className="statNum">{usd0(L.total)}</div>
           <div className="statKey">Trip gear cost</div>
