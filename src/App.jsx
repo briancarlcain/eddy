@@ -1045,7 +1045,7 @@ function Trip({ s, back, onAccount, onRiver }) {
     } catch {}
     setNudge(false);
   };
-  const OLD = { Settings: 'About', Shuttle: 'Itinerary', People: 'Crew', 'Crew & Crafts': 'Crew', Ledger: 'Costs', Log: 'Journal', Info: 'Notes', Card: 'Emergency' };
+  const OLD = { Settings: 'About', Shuttle: 'Itinerary', People: 'Crew', 'Crew & Crafts': 'Crew', Ledger: 'Costs', Log: 'Journal', Info: 'Itinerary', Notes: 'Itinerary', Card: 'Emergency' };
   const q = QS.get('sub');
   const [tab, setTab] = useState((q && (OLD[q] || q)) || lastSub[s.trip?.id] || 'Itinerary');
   useEffect(() => {
@@ -1054,9 +1054,9 @@ function Trip({ s, back, onAccount, onRiver }) {
   if (!s.trip) return <NewTrip s={s} />;
   const tripEnt = s.sync[s.trip.id];
   const tripStatus0 = s.syncStatus[s.trip.id];
-  const panels = { Itinerary, Crew, Meals, Gear, Costs: Ledger, Emergency: Card, Journal: Log, Notes: Info, About: Settings };
+  const panels = { Itinerary, Crew, Meals, Gear, Costs: Ledger, Emergency: Card, Journal: Log, About: Settings };
   const P = panels[tab] || Itinerary;
-  const items = ['Itinerary', 'Crew', 'Meals', 'Gear', 'Costs', 'Emergency', 'Journal', ...(REFS[s.trip.id] || RIVER.flowDoy || RIVER.climateDoy ? ['Notes'] : []), 'About', ...(onRiver && riverOf(s.trip) ? ['River'] : [])];
+  const items = ['Itinerary', 'Crew', 'Meals', 'Gear', 'Costs', 'Emergency', 'Journal', 'About', ...(onRiver && riverOf(s.trip) ? ['River'] : [])];
   return (
     <>
       <Tabs trip items={items} value={tab} onChange={(t) => (t === 'River' ? onRiver() : setTab(t))} />
@@ -3785,100 +3785,6 @@ function Ledger({ s }) {
       </button>
       {pay.length > 0 && <div className="muted mt-s">{usd0(potted)} paid so far</div>}
       {L.loose > 0.005 && <div className="muted">{usd0(L.loose)} unclaimed</div>}
-    </>
-  );
-}
-
-function InfoSection({ sec }) {
-  return (
-    <Acc title={sec.title}>
-      {sec.kv && <Pairs data={sec.kv} />}
-      {sec.rows &&
-        sec.rows.map((r, i) => (
-          <div className="pair" key={i}>
-            <div className="pairKey">{r[0]}</div>
-            {sec.cols.slice(1).map((c, j) =>
-              r[j + 1] ? (
-                <div className="line" key={j}>
-                  <span className="muted">{c}: </span>
-                  {r[j + 1]}
-                </div>
-              ) : null
-            )}
-          </div>
-        ))}
-      {sec.text && <div className="line pre">{sec.text}</div>}
-      {sec.foot ? <div className="muted mt">{sec.foot}</div> : null}
-    </Acc>
-  );
-}
-
-// Typical weather and flow for the trip's middle day (river records: `climateDoy`, `flowDoy`).
-function Conditions({ trip }) {
-  const f = RIVER.flowDoy;
-  const w = RIVER.climateDoy;
-  if ((!f && !w) || !okDate(trip.start)) return null;
-  const mid = addDays(trip.start, Math.floor((num(trip.days) || 0) / 2));
-  const d = new Date(mid + 'T12:00:00Z');
-  const doy = Math.floor((Date.UTC(2001, d.getUTCMonth(), Math.min(d.getUTCDate(), d.getUTCMonth() === 1 ? 28 : 31)) - Date.UTC(2001, 0, 1)) / 864e5);
-  const i = Math.min(52, Math.floor((doy + 3) / 7));
-  const c = (n) => Math.round(n).toLocaleString('en-US');
-  const note = fmt(mid);
-  return (
-    <>
-      {w && (
-        <Acc title="Typical weather" note={note} open>
-          <Pairs
-            data={[
-              ['Daytime high', `${w.hi[i]}°F`],
-              ['Night low', `${w.lo[i]}°F`],
-              ['Cloud cover', `${w.cloud[i]}%`],
-            ]}
-          />
-          <div className="muted mt">Check the forecast before you go.</div>
-        </Acc>
-      )}
-      {f && (
-        <Acc title="Typical flow" note={note} open>
-          <Pairs
-            data={[
-              ['Usual range', `${c(f.p25[i])} to ${c(f.p75[i])} cfs`],
-              ['Middle value', `${c(f.p50[i])} cfs`],
-            ]}
-          />
-          {f.regime === 'regulated' ? <div className="muted mt">A dam sets this river’s flow. Check the release schedule before you go.</div> : null}
-        </Acc>
-      )}
-    </>
-  );
-}
-
-function Info({ s }) {
-  const ref = REFS[s.trip.id];
-  const groups = ref ? [...new Set(ref.sections.map((x) => x.group))] : [];
-  const [g, setG] = useState(groups[0]);
-  if (!ref)
-    return (
-      <>
-        <Conditions trip={s.trip} />
-        {!RIVER.flowDoy && !RIVER.climateDoy && <div className="muted">No reference notes for this trip.</div>}
-      </>
-    );
-  return (
-    <>
-      <Conditions trip={s.trip} />
-      <div className="chips scroll">
-        {groups.map((x) => (
-          <button key={x} className={'chip' + (g === x ? ' on' : '')} onClick={() => setG(x)}>
-            {x}
-          </button>
-        ))}
-      </div>
-      <div className="mt">
-        {ref.sections.filter((x) => x.group === g).map((x, i) => (
-          <InfoSection sec={x} key={g + i} />
-        ))}
-      </div>
     </>
   );
 }
