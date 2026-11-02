@@ -1076,21 +1076,28 @@ function Trip({ s, back, onAccount, onRiver }) {
     } catch {}
     setNudge(false);
   };
-  const OLD = { Settings: 'Overview', About: 'Overview', Shuttle: 'Itinerary', People: 'Crew', 'Crew & Crafts': 'Crew', Ledger: 'Overview', Costs: 'Overview', Log: 'Journal', Info: 'Itinerary', Notes: 'Itinerary', Card: 'Itinerary', Emergency: 'Itinerary' };
+  const OLD = { Settings: 'Overview', About: 'Overview', Shuttle: 'Overview', Itinerary: 'Overview', People: 'Crew', 'Crew & Crafts': 'Crew', Ledger: 'Overview', Costs: 'Overview', Log: 'Journal', Info: 'Overview', Notes: 'Overview', Card: 'Overview', Emergency: 'Overview' };
+  // old tab names that are now a card inside Overview
+  const SEC = { Settings: 'Settings', About: 'About', Costs: 'Costs', Ledger: 'Costs', Itinerary: 'Itinerary', Shuttle: 'Itinerary', Info: 'Itinerary', Notes: 'Itinerary', Card: 'Itinerary', Emergency: 'Itinerary' };
   const q = QS.get('sub');
-  const [tab, setTab] = useState((q && (OLD[q] || q)) || lastSub[s.trip?.id] || 'Itinerary');
+  const [tab, setTab] = useState((q && (OLD[q] || q)) || lastSub[s.trip?.id] || 'Overview');
+  const [sec, setSec] = useState((q && SEC[q]) || null);
   useEffect(() => {
     if (s.trip) lastSub[s.trip.id] = tab;
   }, [tab, s.trip?.id]);
   if (!s.trip) return <NewTrip s={s} />;
   const tripEnt = s.sync[s.trip.id];
   const tripStatus0 = s.syncStatus[s.trip.id];
-  const panels = { Itinerary, Crew, Meals, Gear, Journal: Log, Overview: Settings };
-  const P = panels[tab] || Itinerary;
-  const items = ['Overview', 'Itinerary', 'Gear', 'Meals', 'Crew', ...(onRiver && riverOf(s.trip) ? ['River'] : []), 'Journal'];
+  const panels = { Overview: TripHome, Crew, Meals, Gear, Journal: Log };
+  const P = panels[tab] || TripHome;
+  const items = ['Overview', 'Gear', 'Meals', 'Crew', ...(onRiver && riverOf(s.trip) ? ['River'] : []), 'Journal'];
   return (
     <>
-      <Tabs trip items={items} value={tab} onChange={(t) => (t === 'River' ? onRiver() : setTab(t))} />
+      <Tabs trip items={items} value={tab} onChange={(t) => {
+          if (t === 'River') return onRiver();
+          if (t === 'Overview') setSec(null);
+          setTab(t);
+        }} />
       <div className="pad">
         {tripEnt && tripEnt.role === 'viewer' && !tripEnt.removed ? (
           <div className="notice mb note">
@@ -1143,7 +1150,7 @@ function Trip({ s, back, onAccount, onRiver }) {
             </div>
           </div>
         ) : null}
-        <P s={s} back={back} />
+        <P s={s} back={back} sec={sec} setSec={setSec} />
       </div>
     </>
   );
@@ -4239,85 +4246,113 @@ function tripICS(t, riverName) {
 
 const byRiverName = (a, b) => String(a.name).localeCompare(String(b.name), undefined, { sensitivity: 'base' });
 
-function Settings({ s, back }) {
+const HOME = [
+  ['About', 'About'],
+  ['Costs', 'Costs'],
+  ['Itinerary', 'Itinerary'],
+  ['Share', 'Share trip'],
+  ['Settings', 'Trip settings'],
+];
+
+function TripHome({ s, back, sec, setSec }) {
   const t = s.trip;
+  if (!sec || !HOME.some(([k]) => k === sec))
+    return (
+      <div className="homeMenu">
+        {HOME.map(([k, l]) => (
+          <button key={k} className="homeCard" onClick={() => setSec(k)}>
+            <span>{l}</span>
+            <Icon name="chevron" size={18} className="chev" />
+          </button>
+        ))}
+      </div>
+    );
   const info = s.info[t.id];
   const byId = Object.fromEntries(((info && info.members) || []).map((m) => [m.id, m.n || 'Someone']));
   return (
     <>
-      <div className="card formCard">
-        <span className="label">Trip details</span>
-        <Field label="Name" value={t.name} onChange={(e) => s.set({ name: e.target.value })} />
-        <Field label="Permit holder" value={t.permit ?? ''} onChange={(e) => s.set({ permit: e.target.value })} />
-        <Sel
-          label="River"
-          value={riverOf(t)}
-          onChange={(v) => {
-            const planned = Object.values(t.plans || {}).some((p) => p.camp);
-            if (planned && !window.confirm('Switching rivers clears the launch, take-out and camp picks for this trip. Continue?')) return;
-            const plans = Object.fromEntries(Object.entries(t.plans || {}).map(([k, p]) => [k, { ...p, camp: undefined }]));
-            s.set({ river: v, launch: undefined, out: undefined, plans });
-          }}
-        >
-          {[...s.riverList()].sort(byRiverName).map((r) => (
-            <option key={r.id} value={r.id}>
-              {r.name}
-            </option>
-          ))}
-        </Sel>
-      </div>
-
-      <span className="label sectionLabel">Costs</span>
-      <Ledger s={s} />
-
-      <SyncCard s={s} t={t} />
-
-      <div className="card formCard mt">
-        <span className="label">Calendar</span>
-        <div className="muted mb-s">Add the trip and each day's camp to your calendar.</div>
-        <button className="btn ghost" onClick={() => saveFile(`${slug(t.name)}.ics`, tripICS(t, s.riverRec(riverOf(t)).name), 'text/calendar')}>
-          <Icon name="calendar" size={16} /> Add to Calendar
-        </button>
-      </div>
-
-      {info && info.activity && info.activity.length ? (
-        <div className="mt">
-          <span className="label">Recent activity</span>
-          <div className="card permitList">
-            {[...info.activity].reverse().slice(0, 30).map((a, i) => {
-              const system = /^(.+ (joined|left|was removed|is now .+)|Invite link was reset|Someone joined)$/.test(a.s || '');
-              return (
-                <div className="permitItem" key={i}>
-                  <div className="permitT">{system ? a.s : byId[a.w] || 'Someone'}</div>
-                  <div className="permitD">
-                    {system ? '' : (a.s || 'Made a change') + ' · '}
-                    {ago(a.t)}
-                  </div>
-                </div>
-              );
-            })}
+      <button className="btn ghost mb-s" onClick={() => setSec(null)}>
+        ← Overview
+      </button>
+      {sec === 'About' && (
+        <>
+          <div className="card formCard">
+            <span className="label">Trip details</span>
+            <Field label="Name" value={t.name} onChange={(e) => s.set({ name: e.target.value })} />
+            <Field label="Permit holder" value={t.permit ?? ''} onChange={(e) => s.set({ permit: e.target.value })} />
+            <Sel
+              label="River"
+              value={riverOf(t)}
+              onChange={(v) => {
+                const planned = Object.values(t.plans || {}).some((p) => p.camp);
+                if (planned && !window.confirm('Switching rivers clears the launch, take-out and camp picks for this trip. Continue?')) return;
+                const plans = Object.fromEntries(Object.entries(t.plans || {}).map(([k, p]) => [k, { ...p, camp: undefined }]));
+                s.set({ river: v, launch: undefined, out: undefined, plans });
+              }}
+            >
+              {[...s.riverList()].sort(byRiverName).map((r) => (
+                <option key={r.id} value={r.id}>
+                  {r.name}
+                </option>
+              ))}
+            </Sel>
           </div>
-        </div>
-      ) : null}
-
-      <div className="card formCard dangerCard mt">
-        <span className="label">Danger zone</span>
-        <div className="muted mb-s">Removes the trip from this device. Everyone else keeps it.</div>
-        <button
-          className="btn ghost danger"
-          onClick={() => {
-            if (!window.confirm(`Delete "${t.name}"? This cannot be undone.`)) return;
-            s.remove(t.id);
-            back && back();
-          }}
-        >
-          <Icon name="trash" size={16} /> Delete trip
-        </button>
-      </div>
-
-      <div className="card formCard mt">
-        <Field area rows={8} label="Notes" value={t.notes ?? ''} onChange={(e) => s.set({ notes: e.target.value })} />
-      </div>
+          <div className="card formCard mt">
+            <Field area rows={8} label="Notes" value={t.notes ?? ''} onChange={(e) => s.set({ notes: e.target.value })} />
+          </div>
+        </>
+      )}
+      {sec === 'Costs' && <Ledger s={s} />}
+      {sec === 'Itinerary' && <Itinerary s={s} />}
+      {sec === 'Share' && (
+        <>
+          <SyncCard s={s} t={t} />
+          {info && info.activity && info.activity.length ? (
+            <div className="mt">
+              <span className="label">Recent activity</span>
+              <div className="card permitList">
+                {[...info.activity].reverse().slice(0, 30).map((a, i) => {
+                  const system = /^(.+ (joined|left|was removed|is now .+)|Invite link was reset|Someone joined)$/.test(a.s || '');
+                  return (
+                    <div className="permitItem" key={i}>
+                      <div className="permitT">{system ? a.s : byId[a.w] || 'Someone'}</div>
+                      <div className="permitD">
+                        {system ? '' : (a.s || 'Made a change') + ' · '}
+                        {ago(a.t)}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ) : null}
+        </>
+      )}
+      {sec === 'Settings' && (
+        <>
+          <div className="card formCard">
+            <span className="label">Calendar</span>
+            <div className="muted mb-s">Add the trip and each day's camp to your calendar.</div>
+            <button className="btn ghost" onClick={() => saveFile(`${slug(t.name)}.ics`, tripICS(t, s.riverRec(riverOf(t)).name), 'text/calendar')}>
+              <Icon name="calendar" size={16} /> Add to Calendar
+            </button>
+          </div>
+          <div className="card formCard dangerCard mt">
+            <span className="label">Danger zone</span>
+            <div className="muted mb-s">Removes the trip from this device. Everyone else keeps it.</div>
+            <button
+              className="btn ghost danger"
+              onClick={() => {
+                if (!window.confirm(`Delete "${t.name}"? This cannot be undone.`)) return;
+                s.remove(t.id);
+                back && back();
+              }}
+            >
+              <Icon name="trash" size={16} /> Delete trip
+            </button>
+          </div>
+        </>
+      )}
     </>
   );
 }
