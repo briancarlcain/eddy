@@ -1617,7 +1617,7 @@ const SPLIT_HELP = {
   users: 'Shared items the group needs (set how many). Paid only by people who enter a Need, in proportion to how many each needs.',
   personal: 'Everyone rents their own, like a PFD. Paid only by people who enter a Need, in proportion to how many each needs.',
 };
-const REQ = { req: ['Required', '#9c3326'], rec: ['Recommended', '#a8722a'], maybe: ['Maybe', '#6b6154'] };
+const REQ = { req: ['Required', '#9c3326'], rec: ['Recommended', '#a8722a'] };
 const usd = (n) => (n >= 0.005 ? '$' + n.toFixed(2) : '');
 const usd0 = (n) => '$' + Math.round(n).toLocaleString();
 const TIPS = {
