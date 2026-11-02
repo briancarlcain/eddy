@@ -9,6 +9,7 @@ human pass before the app is public. Tick these off as you go:
 - [ ] **Launch pages** (`LNT_ITEMS`, `GIVE_ORGS` in `src/App.jsx`): check the Leave No Trace wording and that each donate link opens the right page (American Whitewater, American Rivers, Leave No Trace, Grand Canyon River Guides). URLs written from memory.
 - [ ] **Packing reference quantities** (`gear` in `data/general.json`, Gear > Packing reference): each item's "per person / per group / per boat" recommendation was written from general knowledge, not a source. Check the counts and who each item is for.
 - [ ] **Gear categories** (`data/gear.json`): River Essentials was split into Boats & Rigging, Permits & Documents, Camp, Safety and Bathroom. Check each moved item sits where you expect.
+- [ ] **Gear names** (`data/gear.json`, `src/gearRename.js`): quantity, size and unit moved after the item name (for example Solar Panel (21W)). Check the 16 renamed items read right.
 - [ ] **LNT tab** (`lnt` in `data/general.json`): check each tip against current Leave No Trace guidance and the rules of the rivers you cover (gray water, ash, urine, toilet paper, wood collecting differ by river). Written from general knowledge, no sources recorded.
 - [ ] **Preliminary river entries** (Alsek, Tatshenshini, Bruneau-Jarbidge, Deschutes, John Day, Owyhee, Green River
   Labyrinth/Stillwater, Dolores): the river miles, access-point miles and map coordinates were written from memory and are

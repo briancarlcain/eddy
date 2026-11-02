@@ -10,6 +10,7 @@ import GC_REF from '../data/trips/gc2026-ref.json';
 import { askReminders, boot, clearReminders, hideSplash, isNative, onOpenUrl, onResume, openUrl, remindersAllowed, saveBackup, saveFile, scheduleReminders, shareText, success } from './native.js';
 import { canon, mergeTrips, stamp, strip } from './merge.js';
 import { recat } from './gearCats.js';
+import { GEAR_RENAMES } from './gearRename.js';
 import * as remote from './sync.js';
 import * as authApi from './auth.js';
 import TopoMap, { OfflinePanel } from './TopoMap.jsx';
@@ -682,10 +683,11 @@ function useStore() {
   useEffect(() => {
     const st = stateRef.current;
     const needsQ = (g) => gearKind(g) === 'group' && !num(g.q) && Object.values(g.e || {}).some((x) => num(x && x.need) > 0);
-    const stale = st.trips.filter((t) => (t.gear || []).some((g) => g.c === 'River Essentials' || needsQ(g)) && ((st.sync || {})[t.id] || {}).role !== 'viewer');
+    const oldName = (t, g) => t.id === SEED.id && GEAR_RENAMES[g.n];
+    const stale = st.trips.filter((t) => (t.gear || []).some((g) => g.c === 'River Essentials' || needsQ(g) || oldName(t, g)) && ((st.sync || {})[t.id] || {}).role !== 'viewer');
     if (!stale.length) return;
     const t0 = now();
-    const trips = st.trips.map((t) => (stale.includes(t) ? stamp(t, { ...t, gear: t.gear.map((g) => ({ ...g, c: recat(g), ...(needsQ(g) ? { q: Object.values(g.e).reduce((a, x) => a + num(x && x.need), 0) } : {}) })), at: t0 }, t0) : t));
+    const trips = st.trips.map((t) => (stale.includes(t) ? stamp(t, { ...t, gear: t.gear.map((g) => ({ ...g, c: recat(g), ...(oldName(t, g) ? { n: GEAR_RENAMES[g.n] } : {}), ...(needsQ(g) ? { q: Object.values(g.e).reduce((a, x) => a + num(x && x.need), 0) } : {}) })), at: t0 }, t0) : t));
     persist({ ...st, trips });
     stale.forEach((t) => {
       if ((stateRef.current.sync || {})[t.id]) syncSoon(t.id);
