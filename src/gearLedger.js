@@ -62,13 +62,13 @@ export function lendAlloc(e, owner) {
 
 // how one person's need for an item is covered: bringing their own, borrowed, or rented
 export function coverOf(it, id) {
-  if (it.kind === 'group') return { own: num((it.e[id] || {}).have) > 0, borrowed: (it.named[id] || 0) > 0, rented: (it.share[id] || 0) > 0.005 };
+  if (it.kind === 'group') return { own: num((it.e[id] || {}).have) > 0, borrowed: (it.named[id] || 0) > 0, rented: (it.rented[id] || 0) > 0 || (it.share[id] || 0) > 0.005 };
   const need = num((it.e[id] || {}).need);
   const own = Math.min(num((it.e[id] || {}).have), need);
   const named = it.named[id] || 0;
   const left = Math.max(0, need - own - named);
   const pool = left > 0 && it.rent <= 0.005 && it.lendGroup > 0;
-  return { own: own > 0, borrowed: named > 0 || pool, rented: left > 0 && it.rent > 0.005 && it.unit > 0 };
+  return { own: own > 0, borrowed: named > 0 || pool, rented: (it.rented[id] || 0) > 0 || (it.share[id] || 0) > 0.005 };
 }
 
 export function ledger(t) {
@@ -124,32 +124,47 @@ export function ledger(t) {
     // lent units are extra physical units, whoever they go to
     const borrowed = grp ? lend : namedTotal + lendGroup;
     const target = grp ? it.qty : it.split === 'personal' ? need : it.qty || need;
-    const rent = Math.max(0, target - have - borrowed);
-    const total = unit * rent;
-    // who pays, and in what proportion
-    const weight = {};
-    if (grp) {
-      const pool = crew.filter((c) => !excl[c.id]);
-      (pool.length ? pool : crew).forEach((c) => (weight[c.id] = it.split === 'nights' ? nights(c) : 1));
-    } else crew.forEach((c) => {
-      const e = it.e[c.id] || {};
-      const gap = Math.max(0, num(e.need) - own[c.id]);
-      if (it.split === 'personal') weight[c.id] = Math.max(0, gap - named[c.id]);
-      else if (it.split === 'users') weight[c.id] = excl[c.id] ? 0 : gap;
+    // rentals are entered by hand: a quantity, and who each unit is for (the group or a person)
+    const rt = g.rnTo && typeof g.rnTo === 'object' ? g.rnTo : {};
+    const rent = Math.max(0, num(g.rn));
+    const rg = Math.max(0, num(rt.group));
+    const rented = {};
+    let rAssigned = rg;
+    crew.forEach((c) => {
+      const n = Math.max(0, num(rt[c.id]));
+      if (n) {
+        rented[c.id] = n;
+        rAssigned += n;
+      }
     });
-    if (!grp && (it.split === 'even' || it.split === 'nights')) {
-      const users = crew.filter((c) => !excl[c.id] && (num((it.e[c.id] || {}).need) > 0 || raw[c.id] > 0));
-      const pool = shared ? (users.length ? users : crew.filter((c) => !excl[c.id])) : crew;
-      pool.forEach((c) => (weight[c.id] = it.split === 'even' ? 1 : nights(c)));
-    }
-    const wsum = Object.values(weight).reduce((a, b) => a + b, 0);
+    const short = Math.max(0, target - have - borrowed - rent);
+    const total = unit * rent;
     const share = {};
     crew.forEach((c) => {
-      const v = wsum ? (total * (weight[c.id] || 0)) / wsum : 0;
-      if (v) share[c.id] = v;
+      if (rented[c.id] && unit) share[c.id] = unit * rented[c.id];
     });
+    if (rg > 0 && unit > 0) {
+      // the group's units are split by the item's billing, skipping people who were excused
+      const free = crew.filter((c) => !excl[c.id]);
+      const pool = free.length ? free : crew;
+      const w = (c) => (it.split === 'nights' ? nights(c) : 1);
+      const ws = pool.reduce((a, c) => a + w(c), 0);
+      if (ws) pool.forEach((c) => (share[c.id] = (share[c.id] || 0) + (unit * rg * w(c)) / ws));
+    }
     const assigned = Object.values(share).reduce((a, b) => a + b, 0);
-    return { id: g.id, raw: g, ...it, unit, have, need, lend, borrowed, lendGroup, target, rent, total, share, loose: total - assigned, units, named, excl };
+    // what needs fixing before the numbers can be trusted
+    const issues = [];
+    const blank = (v) => v === undefined || v === null || String(v).trim() === '';
+    const f2 = (x) => +x.toFixed(2);
+    if (Math.abs(rAssigned - rent) > 0.005) {
+      issues.push(
+        rAssigned < rent
+          ? `Renting ${f2(rent)}, but only ${f2(rAssigned)} is assigned. Assign the other ${f2(rent - rAssigned)} to the group or crew.`
+          : `${f2(rAssigned)} is assigned, but Renting is ${f2(rent)}. Lower the assigned numbers or raise Renting.`
+      );
+    }
+    if (rent > 0 && blank(g.f) && blank(g.d)) issues.push('Add a rental price. $0 is fine, but it can’t be blank.');
+    return { id: g.id, raw: g, ...it, unit, have, need, lend, borrowed, lendGroup, target, rent, short, total, share, loose: Math.max(0, total - assigned), units, named, excl, rented, rAssigned, issues };
   });
   const by = {};
   crew.forEach((c) => (by[c.id] = { even: 0, nights: 0, users: 0, personal: 0, total: 0, nightsCount: nights(c) }));

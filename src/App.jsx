@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BUILTIN_RIVERS, DEFAULT_RIVER, normalizeRiver } from './rivers.js';
 import GENERAL from '../data/general.json';
 import { coverOf, gearKind, ledger, lendAlloc, num } from './gearLedger.js';
+import { convertRentals } from './gearLegacy.js';
 import GEAR_ALL from '../data/gear.json';
 import SEED from '../data/trip.json';
 import SOURCES from '../data/sources.json';
@@ -684,10 +685,14 @@ function useStore() {
     const st = stateRef.current;
     const needsQ = (g) => gearKind(g) === 'group' && !num(g.q) && Object.values(g.e || {}).some((x) => num(x && x.need) > 0);
     const oldName = (t, g) => t.id === SEED.id && GEAR_RENAMES[g.n];
-    const stale = st.trips.filter((t) => (t.gear || []).some((g) => g.c === 'River Essentials' || needsQ(g) || oldName(t, g)) && ((st.sync || {})[t.id] || {}).role !== 'viewer');
+    const stale = st.trips.filter((t) => (t.rentV !== 2 || (t.gear || []).some((g) => g.c === 'River Essentials' || needsQ(g) || oldName(t, g))) && ((st.sync || {})[t.id] || {}).role !== 'viewer');
     if (!stale.length) return;
     const t0 = now();
-    const trips = st.trips.map((t) => (stale.includes(t) ? stamp(t, { ...t, gear: t.gear.map((g) => ({ ...g, c: recat(g), ...(oldName(t, g) ? { n: GEAR_RENAMES[g.n] } : {}), ...(needsQ(g) ? { q: Object.values(g.e).reduce((a, x) => a + num(x && x.need), 0) } : {}) })), at: t0 }, t0) : t));
+    const trips = st.trips.map((t) => {
+      if (!stale.includes(t)) return t;
+      const rent = t.rentV === 2 ? {} : convertRentals(t);
+      return stamp(t, { ...t, rentV: 2, gear: (t.gear || []).map((g) => ({ ...g, c: recat(g), ...(oldName(t, g) ? { n: GEAR_RENAMES[g.n] } : {}), ...(needsQ(g) ? { q: Object.values(g.e).reduce((a, x) => a + num(x && x.need), 0) } : {}), ...(rent[g.id] || {}) })), at: t0 }, t0);
+    });
     persist({ ...st, trips });
     stale.forEach((t) => {
       if ((stateRef.current.sync || {})[t.id]) syncSoon(t.id);
@@ -935,6 +940,7 @@ function useStore() {
         log: [],
         pay: [],
         plans: {},
+        rentV: 2,
         at: now(),
         ...t,
       };
@@ -1686,6 +1692,7 @@ function Gear({ s }) {
   const [catSel, setCatSel] = useState([]);
   const [secSel, setSecSel] = useState([]);
   const [srcSel, setSrcSel] = useState([]);
+  const [attn, setAttn] = useState(false);
   const [find, setFind] = useState('');
   const [open, setOpen] = useState(null);
   const [adding, setAdding] = useState(false);
@@ -1715,6 +1722,7 @@ function Gear({ s }) {
   const shown = inSec.filter((i) => {
     if (catOn.length && !catOn.includes(i.cat)) return false;
     if (q && !i.name.toLowerCase().includes(q)) return false;
+    if (attn && !i.issues.length) return false;
     if (!srcOn.length) return true;
     const c = coverOf(i, who);
     return srcOn.some((k) => c[k]);
@@ -1766,6 +1774,9 @@ function Gear({ s }) {
             {l} · {L.items.filter((i) => i.kind === k).length}
           </button>
         ))}
+        <button className={'chip' + (attn ? ' on river' : '')} aria-pressed={attn} onClick={() => setAttn(!attn)}>
+          Needs attention · {L.items.filter((i) => i.issues.length).length}
+        </button>
       </div>
       <div className="chips scroll">
         {cats.map((c) => (
@@ -1885,8 +1896,9 @@ const Step = ({ label, hint, value, onChange, max }) => {
 
 // one line that says where the items come from
 function gearStatus(it) {
-  if (it.target <= 0) return { text: 'No one needs it yet', k: 'idle' };
-  if (it.rent > 0.005) return it.unit > 0 ? { text: `Renting ${+it.rent.toFixed(2)} · ${usd(it.total)}`, k: 'rent' } : { text: `${+it.rent.toFixed(2)} short · nobody has it`, k: 'none' };
+  if (it.target <= 0 && it.rent <= 0) return { text: 'No one needs it yet', k: 'idle' };
+  if (it.rent > 0.005) return { text: `Renting ${+it.rent.toFixed(2)}${it.total > 0 ? ' · ' + usd(it.total) : ''}${it.short > 0.005 ? ` · ${+it.short.toFixed(2)} short` : ''}`, k: 'rent' };
+  if (it.short > 0.005) return { text: `${+it.short.toFixed(2)} short`, k: 'none' };
   return it.borrowed > 0 ? { text: 'Covered with borrowed', k: 'borrow' } : { text: 'Covered', k: 'own' };
 }
 
@@ -1961,11 +1973,22 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
   // the bar covers the whole group's count, never more than what the group needs
   const gOwn = Math.min(it.have, it.target);
   const gBor = Math.min(it.borrowed, Math.max(0, it.target - gOwn));
+  const gRent = Math.min(it.rent, Math.max(0, it.target - gOwn - gBor));
   const parts = [
     [gOwn, 'own', 'Own'],
     [gBor, 'borrow', 'Borrowed'],
-    [it.rent, it.unit > 0 ? 'rent' : 'none', it.unit > 0 ? 'Rented' : 'Short'],
+    [gRent, 'rent', 'Renting'],
+    [it.short, 'none', 'Still needed'],
   ];
+  const [warn, setWarn] = useState(false);
+  const rt = it.raw.rnTo && typeof it.raw.rnTo === 'object' ? it.raw.rnTo : {};
+  const rn = Math.max(0, num(it.raw.rn));
+  const rnLeft = Math.max(0, rn - it.rAssigned);
+  const setRent = (id, x) => {
+    const next = { ...rt, [id]: x };
+    if (!num(x)) delete next[id];
+    patch({ rnTo: next });
+  };
   const others = crew.filter((c) => c.id !== me && (grp ? ['have', 'lend'] : ['need', 'have', 'lend']).some((k) => num((it.e[c.id] || {})[k])));
   return (
     <div className={'grItem' + (open ? ' open' : '')}>
@@ -1977,9 +2000,31 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
             {st.text}
           </span>
         </span>
+        {it.issues.length > 0 && (
+          <span
+            role="button"
+            tabIndex={0}
+            className="warnDot"
+            aria-label="Needs attention: tap for details"
+            onClick={(ev) => {
+              ev.stopPropagation();
+              setWarn(!warn);
+            }}
+            onKeyDown={(ev) => (ev.key === 'Enter' || ev.key === ' ') && (ev.preventDefault(), ev.stopPropagation(), setWarn(!warn))}
+          >
+            !
+          </span>
+        )}
         {tag && !open ? <Tag label={tag[0]} tint={tag[1]} /> : null}
         <span className="grAmt">{mine ? usd(mine) : ''}</span>
       </button>
+      {warn && it.issues.length > 0 && (
+        <div className="gissues">
+          {it.issues.map((m, i) => (
+            <div key={i}>{m}</div>
+          ))}
+        </div>
+      )}
       {open && (
         <div className="grBody">
           {crew.length === 0 ? (
@@ -2034,6 +2079,22 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                   Sharing with {l}
                 </div>
               ))}
+              <Step label="Renting" value={it.raw.rn} onChange={(x) => patch({ rn: x })} />
+              {rn > 0 && (
+                <div className="assign">
+                  <span className="label">
+                    Who is it for · {+it.rAssigned.toFixed(2)} of {+rn.toFixed(2)} assigned
+                  </span>
+                  <Step label="Group" value={rt.group} max={Math.max(0, num(rt.group)) + rnLeft} onChange={(x) => setRent('group', x)} />
+                  {byFirst(crew).map((c) => (
+                    <Step key={c.id} label={c.id === me ? `${c.name || 'Unnamed'} (${you ? 'you' : 'them'})` : c.name || 'Unnamed'} value={rt[c.id]} max={Math.max(0, num(rt[c.id])) + rnLeft} onChange={(x) => setRent(c.id, x)} />
+                  ))}
+                  <div className="numRow mt-s">
+                    <Num usd label="Flat fee" value={it.raw.f} onChange={(x) => patch({ f: x })} />
+                    <Num usd label="Per day" value={it.raw.d} onChange={(x) => patch({ d: x })} />
+                  </div>
+                </div>
+              )}
               {!grp && have > need && <div className="gwarn">Only {+need.toFixed(2)} of the {+have.toFixed(2)} count: the rest is spare. Use “Bringing for others” for extras.</div>}
               {!grp && need > 0 && left > 0 && (
                 <div className="muted mb-s">
@@ -2059,7 +2120,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
               {it.total > 0 && <span className="gsumCost">{usd(it.total)} total</span>}
             </div>
           </div>
-          {it.loose > 0.005 && <div className="muted">{usd(it.loose)} not yet billed to anyone: nobody has entered a need.</div>}
+          {it.loose > 0.005 && <div className="muted">{usd(it.loose)} is not assigned to anyone yet.</div>}
 
           {crew.length > 1 && (
             <details className="gdet">
@@ -2105,7 +2166,7 @@ function AddGear({ s, days, cats, kind, onDone }) {
         className="btn"
         disabled={!f.n.trim() || !f.c}
         onClick={() => {
-          s.push('gear', { n: f.n.trim(), k: f.k, c: f.c, s: f.s, r: f.r, f: num(f.f), d: num(f.d), q: num(f.q), e: {} });
+          s.push('gear', { n: f.n.trim(), k: f.k, c: f.c, s: f.s, r: f.r, f: f.f, d: f.d, q: num(f.q), e: {} });
           setF({ n: '', k: f.k, c: f.c, s: f.s, f: '', d: '', q: '', r: '' });
           onDone();
         }}
