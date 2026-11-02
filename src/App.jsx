@@ -1182,9 +1182,6 @@ function TravelDay({ s, x, hasStart, fresh }) {
 
 function Itinerary({ s }) {
   const t = s.trip;
-  const ramps = ACCESS.filter((p) => p.mile != null);
-  const L = ramps.find((p) => p.id === t.launch) || ramps[0];
-  const O = ramps.find((p) => p.id === t.out) || ramps[ramps.length - 1];
   const [fresh, setFresh] = useState(null);
   const hasStart = okDate(t.start);
   const lastRiver = hasStart ? addDays(t.start, t.days) : '';
@@ -1203,9 +1200,6 @@ function Itinerary({ s }) {
   if (hasStart) rows.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : a.river ? -1 : b.river ? 1 : 0));
   return (
     <>
-      <div className="muted mb">
-        {L ? L.name : 'Launch'} → {O ? O.name : 'take-out'} · {RIVER.name}
-      </div>
       <div className="card formCard mb">
         <RiverEnd s={s} which="launch" noTime />
         <RiverEnd s={s} which="out" noTime />
