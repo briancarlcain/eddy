@@ -1755,6 +1755,7 @@ function Gear({ s }) {
   const [as, setAs] = useState('');
   const pickWho = (id) => {
     if (!id) return;
+    if (id === 'group') return setAs('group');
     if (!me || id === me) setMe(id);
     else setAs(id);
   };
@@ -1762,6 +1763,7 @@ function Gear({ s }) {
   const [secSel, setSecSel] = useState([]);
   const [srcSel, setSrcSel] = useState([]);
   const [attn, setAttn] = useState(false);
+  const [grpSel, setGrpSel] = useState([]);
   const [filtOpen, setFiltOpen] = useState(false);
   const [sortOpen, setSortOpen] = useState(false);
   const [sortBy, setSortBy] = useState('name');
@@ -1788,19 +1790,23 @@ function Gear({ s }) {
   const cats = [...new Set(inSec.map((i) => i.cat))];
   const catOn = catSel.filter((c) => cats.includes(c));
   const q = find.trim().toLowerCase();
-  const who = as || me;
+  const grp = as === 'group';
+  const who = grp ? '' : as || me;
   const whoName = (t.crew.find((c) => c.id === who) || {}).name || '';
   const srcOn = who ? srcSel : [];
+  const grpTests = { short: (i) => i.short > 0.005, rent: (i) => i.rent > 0.005, borrow: (i) => i.borrowed > 0.005 };
+  const grpOn = grp ? grpSel : [];
   const shown = inSec.filter((i) => {
     if (catOn.length && !catOn.includes(i.cat)) return false;
     if (q && !i.name.toLowerCase().includes(q)) return false;
     if (attn && !i.issues.length) return false;
+    if (grpOn.length && !grpOn.some((k) => grpTests[k](i))) return false;
     if (!srcOn.length) return true;
     const c = coverOf(i, who);
     return srcOn.some((k) => c[k]);
   });
   const first = (whoName || '').split(' ')[0];
-  const SORTS = [
+  const ALLSORTS = [
     ['name', 'Name, A to Z', null, 1],
     ['name-', 'Name, Z to A', null, -1],
     ['cat', 'Category, A to Z', (i) => i.cat, 1],
@@ -1817,6 +1823,9 @@ function Gear({ s }) {
     ['unit-', 'Price each, high to low', (i) => i.unit, -1],
     ['unit', 'Price each, low to high', (i) => i.unit, 1],
   ];
+  const SORTS = grp
+    ? [...ALLSORTS.filter((x) => !/^(mine|my)-?$/.test(x[0])), ['rent-', 'Renting, most first', (i) => i.rent, -1], ['rent', 'Renting, fewest first', (i) => i.rent, 1]]
+    : ALLSORTS;
   const sortSel = SORTS.find((x) => x[0] === sortBy) || SORTS[0];
   const [, , sortFn, sortDir] = sortSel;
   shown.sort((a, b) => {
@@ -1826,7 +1835,7 @@ function Gear({ s }) {
     const d = typeof x === 'string' ? x.localeCompare(y) : x - y;
     return d ? sortDir * d : byItem(a, b);
   });
-  const nFilt = secSel.length + catOn.length + srcOn.length + (attn ? 1 : 0);
+  const nFilt = secSel.length + catOn.length + srcOn.length + grpOn.length + (attn ? 1 : 0);
   const you0 = !as;
   const flip = (list, set, k) => set(list.includes(k) ? list.filter((x) => x !== k) : [...list, k]);
   const mine = who ? L.by[who] : null;
@@ -1837,9 +1846,10 @@ function Gear({ s }) {
         <div className="muted mb">Add crew on the Crew tab to split costs.</div>
       ) : (
         <div className="onBehalf">
-          <span>Editing gear list on behalf of:</span>
-          <select className="sel" aria-label="Edit gear list on behalf of" value={who || ''} onChange={(e) => pickWho(e.target.value)}>
-            {!who && <option value="">Pick a name</option>}
+          <span>View/edit from perspective of:</span>
+          <select className="sel" aria-label="View or edit from the perspective of" value={grp ? 'group' : who || ''} onChange={(e) => pickWho(e.target.value)}>
+            {!who && !grp && <option value="" hidden>Pick a name</option>}
+            <option value="group">The group</option>
             {byFirst(t.crew).map((c) => (
               <option key={c.id} value={c.id}>
                 {c.name}
@@ -1855,11 +1865,19 @@ function Gear({ s }) {
           <div className="statNum">{usd0(L.total)}</div>
           <div className="statKey">Trip gear cost</div>
         </div>
-        <div className="stat">
-          <div className="statNum">{mine ? usd0(mine.total) : '—'}</div>
-          <div className="statKey">{mine ? `${whoName}’s share` : 'Pick a name'}</div>
-        </div>
+        {grp ? (
+          <div className="stat">
+            <div className="statNum">{L.items.filter((i) => i.short > 0.005).length}</div>
+            <div className="statKey">Items still needed</div>
+          </div>
+        ) : (
+          <div className="stat">
+            <div className="statNum">{mine ? usd0(mine.total) : '—'}</div>
+            <div className="statKey">{mine ? `${whoName}’s share` : 'Pick a name'}</div>
+          </div>
+        )}
       </div>
+      {grp && <GroupSummary L={L} crew={t.crew} />}
       <div className="row mt">
         <Field value={find} onChange={(e) => setFind(e.target.value)} placeholder={`Search ${L.items.length} items`} />
         <button className="btn ghost" onClick={() => setAdding(!adding)}>
@@ -1882,6 +1900,7 @@ function Gear({ s }) {
               setSecSel([]);
               setCatSel([]);
               setSrcSel([]);
+              setGrpSel([]);
               setAttn(false);
             }}
           >
@@ -1927,6 +1946,15 @@ function Gear({ s }) {
           </button>
         ))}
       </div>
+      {grp && (
+        <div className="chips scroll">
+          {[['short', 'Still needed'], ['rent', 'Renting'], ['borrow', 'Borrowing']].map(([k, l]) => (
+            <button key={k} className={'chip' + (grpOn.includes(k) ? ' on river' : '')} aria-pressed={grpOn.includes(k)} onClick={() => flip(grpSel, setGrpSel, k)}>
+              {l} · {inSec.filter(grpTests[k]).length}
+            </button>
+          ))}
+        </div>
+      )}
       {who && (
         <div className="chips scroll">
           {[['own', you0 ? 'Bringing for yourself' : `Bringing for ${(whoName || '').split(' ')[0]}`], ['borrowed', 'Borrowing'], ['rented', 'Renting']].map(([k, l]) => (
@@ -1939,14 +1967,329 @@ function Gear({ s }) {
       </div>
       )}
       {shown.length === 0 && <div className="muted mt">Nothing matches.</div>}
-      {shown.map((it) => (
+      {grp && shown.map((it) => <GroupRow key={it.id} it={it} crew={t.crew} open={open === it.id} onOpen={() => setOpen(open === it.id ? null : it.id)} />)}
+      {!grp && shown.map((it) => (
         <GearRow key={it.id} it={it} s={s} crew={t.crew} days={L.days} cats={allCats} me={who} name={whoName} you={!as} open={open === it.id} onOpen={() => setOpen(open === it.id ? null : it.id)} />
       ))}
-      <GearRef pack={who ? <GearPack L={L} me={who} you={!as} name={whoName} tripId={t.id} /> : <div className="muted mt">Pick your name on the Gear tab to see your list.</div>} />
+      <GearRef pack={grp ? null : who ? <GearPack L={L} me={who} you={!as} name={whoName} tripId={t.id} /> : <div className="muted mt">Pick your name on the Gear tab to see your list.</div>} />
     </>
   );
 }
 
+const m2 = (n) => (n >= 0.005 ? '$' + n.toFixed(2) : '–');
+const qn = (n) => +(+n).toFixed(2);
+
+// who is bringing, lending and borrowing one item, read from the units people entered
+function gearFlows(it, crew) {
+  const nm = (id) => firstOf(crew.find((c) => c.id === id)) || 'Someone';
+  const grp = it.kind === 'group';
+  const bring = byFirst(crew)
+    .map((c) => [c.id, grp ? num((it.e[c.id] || {}).have) : Math.min(num((it.e[c.id] || {}).have), num((it.e[c.id] || {}).need))])
+    .filter(([, n]) => n > 0.005);
+  const flows = new Map();
+  it.units.forEach((u) => {
+    if (u.to.length) u.to.forEach((id) => flows.set(id + '|' + u.owner, (flows.get(id + '|' + u.owner) || 0) + 1));
+    else if (u.kind === 'lend') flows.set('group|' + u.owner, (flows.get('group|' + u.owner) || 0) + 1);
+  });
+  const borrow = [...flows.entries()]
+    .map(([k, n]) => {
+      const [to, from] = k.split('|');
+      return { to, from, n, toName: to === 'group' ? 'The group' : nm(to), fromName: nm(from) };
+    })
+    .sort((a, b) => (a.to === 'group') - (b.to === 'group') || a.toName.localeCompare(b.toName) || a.fromName.localeCompare(b.fromName));
+  const rt = it.raw.rnTo && typeof it.raw.rnTo === 'object' ? it.raw.rnTo : {};
+  const rent = [];
+  if (num(rt.group) > 0) rent.push(['The group', num(rt.group)]);
+  byFirst(crew).forEach((c) => num(rt[c.id]) > 0 && rent.push([nm(c.id), num(rt[c.id])]));
+  return { bring, borrow, rent, nm };
+}
+
+function GroupRow({ it, crew, open, onOpen }) {
+  const [warn, setWarn] = useState(false);
+  const st = gearStatus(it);
+  const tag = REQ[it.req];
+  const f = gearFlows(it, crew);
+  const gOwn = Math.min(it.have, it.target);
+  const gBor = Math.min(it.borrowed, Math.max(0, it.target - gOwn));
+  const gRent = Math.min(it.rent, Math.max(0, it.target - gOwn - gBor));
+  const parts = [
+    [gOwn, 'own', 'Own'],
+    [gBor, 'borrow', 'Borrowed'],
+    [gRent, 'rent', 'Renting'],
+    [it.short, 'none', 'Still needed'],
+  ];
+  return (
+    <div className={'grItem' + (open ? ' open' : '')}>
+      <button className="grHead" onClick={onOpen}>
+        <span className="grText">
+          <span className="grName">{it.name}</span>
+          <span className="muted">
+            {it.target > 0 ? `Group needs ${qn(it.target)} · ` : ''}
+            {st.text}
+          </span>
+        </span>
+        {it.issues.length > 0 && (
+          <span
+            role="button"
+            tabIndex={0}
+            className="warnDot"
+            aria-label="Needs attention: tap for details"
+            onClick={(ev) => {
+              ev.stopPropagation();
+              setWarn(!warn);
+            }}
+            onKeyDown={(ev) => (ev.key === 'Enter' || ev.key === ' ') && (ev.preventDefault(), ev.stopPropagation(), setWarn(!warn))}
+          >
+            !
+          </span>
+        )}
+        {tag && !open ? <Tag label={tag[0]} tint={tag[1]} /> : null}
+      </button>
+      {warn && it.issues.length > 0 && (
+        <div className="gissues">
+          {it.issues.map((m, i) => (
+            <div key={i}>{m}</div>
+          ))}
+        </div>
+      )}
+      {open && (
+        <div className="grBody">
+          <div className="gsum">
+            <div className="gsumHead">Group needs {qn(it.target)}</div>
+            <div className="gcovBar">
+              {parts.map(([n, k], i) => n > 0.005 && <span key={i} style={{ flex: n, background: COVER.find((c) => c[0] === k)[2] }} />)}
+            </div>
+            <div className="gcovKey">
+              {parts.map(([n, k, l], i) => n > 0.005 && (
+                <span key={i}>
+                  <i style={{ background: COVER.find((c) => c[0] === k)[2] }} />
+                  {qn(n)} {l}
+                </span>
+              ))}
+              {!parts.some(([n]) => n > 0.005) && <span className="muted">Nothing set yet</span>}
+              {it.total > 0 && <span className="gsumCost">{usd(it.total)} total</span>}
+            </div>
+          </div>
+          {f.bring.length > 0 && (
+            <div className="gline">
+              <b>Bringing</b> {f.bring.map(([id, n]) => `${f.nm(id)} ${qn(n)}`).join(', ')}
+            </div>
+          )}
+          {f.borrow.length > 0 && (
+            <div className="gline">
+              <b>Borrowing</b> {f.borrow.map((b) => `${b.toName} ${qn(b.n)} from ${b.fromName}`).join(', ')}
+            </div>
+          )}
+          {f.rent.length > 0 && (
+            <div className="gline">
+              <b>Renting</b> {f.rent.map(([n, q]) => `${n} ${qn(q)}`).join(', ')}
+              {it.total > 0 ? ` · ${usd(it.total)}` : ''}
+            </div>
+          )}
+          {it.short > 0.005 && (
+            <div className="gline">
+              <b>Still needed</b> {qn(it.short)}
+            </div>
+          )}
+          {it.loose > 0.005 && <div className="muted">{usd(it.loose)} is not assigned to anyone yet.</div>}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// the group's view: what each person pays, who brings what, who borrows from whom, what is rented and still missing
+function GroupSummary({ L, crew }) {
+  const [who, setWho] = useState(null);
+  const people = byFirst(crew);
+  const nm = (id) => firstOf(crew.find((c) => c.id === id)) || 'Someone';
+  const shared = (b) => b.even + b.nights + b.users;
+  const count = (c, f) => L.items.filter((i) => f(i, c.id)).length;
+  const table = people.map((c) => ({
+    c,
+    bring: count(c, (i, id) => (i.kind === 'group' ? num((i.e[id] || {}).have) : Math.min(num((i.e[id] || {}).have), num((i.e[id] || {}).need))) > 0.005),
+    lend: count(c, (i, id) => num((i.e[id] || {}).lend) > 0.005),
+    rent: count(c, (i, id) => coverOf(i, id).rented),
+    borrow: count(c, (i, id) => coverOf(i, id).borrowed),
+  }));
+  const borrows = L.items.flatMap((i) => gearFlows(i, crew).borrow.map((b) => ({ ...b, item: i.name })));
+  borrows.sort((a, b) => (a.to === 'group') - (b.to === 'group') || a.toName.localeCompare(b.toName) || a.item.localeCompare(b.item));
+  const rented = L.items.filter((i) => i.rent > 0.005).sort(byItem);
+  const missing = L.items.filter((i) => i.short > 0.005).sort(byItem);
+  return (
+    <div className="gsummary mt">
+      <Acc open title="Costs by person" note={usd0(L.total) + ' total'}>
+        <table className="gtable">
+          <thead>
+            <tr>
+              <th>Person</th>
+              <th>Individual</th>
+              <th>Shared</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {people.map((c) => {
+              const b = L.by[c.id];
+              const open = who === c.id;
+              return (
+                <React.Fragment key={c.id}>
+                  <tr className="gtRow" onClick={() => setWho(open ? null : c.id)}>
+                    <td>{c.name}</td>
+                    <td>{m2(b.personal)}</td>
+                    <td>{m2(shared(b))}</td>
+                    <td>
+                      <b>{m2(b.total)}</b>
+                    </td>
+                  </tr>
+                  {open && (
+                    <tr className="gtSub">
+                      <td colSpan={4}>
+                        {L.items
+                          .filter((i) => (i.share[c.id] || 0) > 0.005)
+                          .sort((a, b2) => b2.share[c.id] - a.share[c.id])
+                          .map((i) => (
+                            <div className="gtItem" key={i.id}>
+                              <span>{i.name}</span>
+                              <span>{m2(i.share[c.id])}</span>
+                            </div>
+                          ))}
+                        {!L.items.some((i) => (i.share[c.id] || 0) > 0.005) && <div className="muted">Nothing charged yet.</div>}
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
+              );
+            })}
+            {L.loose > 0.005 && (
+              <tr>
+                <td>Not assigned</td>
+                <td />
+                <td />
+                <td>{m2(L.loose)}</td>
+              </tr>
+            )}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>Total</td>
+              <td>{m2(people.reduce((a, c) => a + L.by[c.id].personal, 0))}</td>
+              <td>{m2(people.reduce((a, c) => a + shared(L.by[c.id]), 0))}</td>
+              <td>{m2(L.total)}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </Acc>
+      <Acc title="Who’s bringing what" note="Items per person">
+        <table className="gtable">
+          <thead>
+            <tr>
+              <th>Person</th>
+              <th>Bringing</th>
+              <th>Lending</th>
+              <th>Renting</th>
+              <th>Borrowing</th>
+            </tr>
+          </thead>
+          <tbody>
+            {table.map((r) => (
+              <tr key={r.c.id}>
+                <td>{r.c.name}</td>
+                <td>{r.bring || '–'}</td>
+                <td>{r.lend || '–'}</td>
+                <td>{r.rent || '–'}</td>
+                <td>{r.borrow || '–'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </Acc>
+      <Acc title="Borrowing" note={borrows.length ? `${borrows.length} ${borrows.length === 1 ? 'arrangement' : 'arrangements'}` : 'None yet'}>
+        {borrows.length ? (
+          <table className="gtable">
+            <thead>
+              <tr>
+                <th className="l">Who</th>
+                <th className="l">Item</th>
+                <th className="l">From</th>
+                <th>Qty</th>
+              </tr>
+            </thead>
+            <tbody>
+              {borrows.map((b, i) => (
+                <tr key={i}>
+                  <td className="l nw">{b.toName}</td>
+                  <td className="l">{b.item}</td>
+                  <td className="l">{b.fromName}</td>
+                  <td>{qn(b.n)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div className="muted">No one is lending or borrowing yet.</div>
+        )}
+      </Acc>
+      <Acc title="To rent" note={rented.length ? `${rented.length} ${rented.length === 1 ? 'item' : 'items'} · ${usd0(rented.reduce((a, i) => a + i.total, 0))}` : 'None yet'}>
+        {rented.length ? (
+          <table className="gtable">
+            <thead>
+              <tr>
+                <th className="l">Item</th>
+                <th>Qty</th>
+                <th>Each</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rented.map((i) => (
+                <React.Fragment key={i.id}>
+                  <tr>
+                    <td className="l">{i.name}</td>
+                    <td>{qn(i.rent)}</td>
+                    <td>{m2(i.unit)}</td>
+                    <td>{m2(i.total)}</td>
+                  </tr>
+                  {gearFlows(i, crew).rent.length > 0 && (
+                    <tr className="gtSub">
+                      <td colSpan={4} className="muted">
+                        For {gearFlows(i, crew).rent.map(([n, q]) => `${n} ${qn(q)}`).join(', ')}
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div className="muted">Nothing is being rented yet.</div>
+        )}
+      </Acc>
+      <Acc title="Still needed" note={missing.length ? `${missing.length} ${missing.length === 1 ? 'item' : 'items'}` : 'Nothing missing'}>
+        {missing.length ? (
+          <table className="gtable">
+            <thead>
+              <tr>
+                <th className="l">Item</th>
+                <th>Short</th>
+              </tr>
+            </thead>
+            <tbody>
+              {missing.map((i) => (
+                <tr key={i.id}>
+                  <td className="l">{i.name}</td>
+                  <td>{qn(i.short)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div className="muted">Everything needed is covered.</div>
+        )}
+      </Acc>
+    </div>
+  );
+}
 const COVER = [
   ['own', 'Own', 'var(--ok, #2f7d4f)'],
   ['borrow', 'Borrowed', 'var(--accent, #2b6cb0)'],

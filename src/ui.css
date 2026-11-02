@@ -832,3 +832,20 @@ body.shot .onBehalf { top: calc(52px + 54px + 45px); }
 .rg .homeCard { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 62px; padding: 0 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); color: var(--ink); font-size: 17px; font-weight: 600; text-align: left; box-shadow: var(--shadow-1); }
 .rg .homeCard .chev { transform: rotate(-90deg); color: var(--ink-faint); }
 .rg .homeCard:active { background: var(--accent-soft); }
+
+.rg .gsummary .acc { margin-bottom: 8px; }
+.rg .gtable { width: 100%; border-collapse: collapse; font-size: 14px; }
+.rg .gtable th { text-align: right; font-weight: 600; color: var(--ink-dim); font-size: 12px; padding: 4px 6px 6px; border-bottom: 1px solid var(--line); }
+.rg .gtable td { text-align: right; padding: 8px 6px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+.rg .gtable th:first-child, .rg .gtable td:first-child { text-align: left; padding-left: 0; }
+.rg .gtable th:last-child, .rg .gtable td:last-child { padding-right: 0; }
+.rg .gtable tfoot td { font-weight: 700; border-bottom: 0; border-top: 1px solid var(--line); }
+.rg .gtRow { cursor: pointer; }
+.rg .gtRow:active { background: var(--accent-soft); }
+.rg .gtSub td { text-align: left; padding: 4px 0 10px; font-size: 13px; }
+.rg .gtItem { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; }
+.rg .gline { font-size: 14px; margin: 6px 0; }
+.rg .gline b { font-weight: 600; margin-right: 6px; }
+
+.rg .gtable th.l, .rg .gtable td.l { text-align: left; padding-left: 0; }
+.rg .gtable td.nw { white-space: nowrap; padding-right: 10px; }
