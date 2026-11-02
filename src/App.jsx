@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
 import { createRoot } from 'react-dom/client';
 import { BUILTIN_RIVERS, DEFAULT_RIVER, normalizeRiver } from './rivers.js';
 import GENERAL from '../data/general.json';
-import { coverOf, gearKind, ledger, lendAlloc, num } from './gearLedger.js';
+import { coverOf, gearKind, ledger, lendAlloc, num, priceMode, priceOf } from './gearLedger.js';
 import { convertRentals } from './gearLegacy.js';
 import GEAR_ALL from '../data/gear.json';
 import SEED from '../data/trip.json';
@@ -1637,7 +1637,7 @@ const TIPS = {
   have: 'How many of your own you can bring for yourself. You aren’t charged for these.',
   group: 'Total the group needs. Calculated from everyone’s “I need”. Type a number to override it.',
   lend: 'Extra ones you can bring for others to use. Each one lent means one fewer rented.',
-  price: 'Rental cost of one item. A flat fee is charged once; a per-day price is multiplied by the trip’s days. The larger of the two is used.',
+  price: 'Rental cost of one item. A flat fee is charged once; a per-day price is multiplied by the trip’s days.',
   split: Object.entries(SPLIT_HELP).map(([k, v]) => SPLITS[k] + ': ' + v).join('\n'),
 };
 function useTip() {
@@ -1661,9 +1661,29 @@ const Num = ({ label, value, onChange, usd: money, hint }) => (
   </label>
 );
 
+// how an item is priced: a flat fee or a price per day, with one amount
+function PriceField({ v, up, days }) {
+  const mode = priceMode(v, days);
+  const key = mode === 'day' ? 'd' : 'f';
+  return (
+    <>
+      <div className="chips">
+        {[['flat', 'Flat fee'], ['day', 'Per day']].map(([k, l]) => (
+          <button key={k} className={'chip' + (mode === k ? ' on' : '')} aria-pressed={mode === k} onClick={() => up('pm', k)}>
+            {l}
+          </button>
+        ))}
+      </div>
+      <div className="numRow">
+        <Num usd label={mode === 'day' ? 'Price per day' : 'Price'} value={v[key]} onChange={(x) => up(key, x)} />
+      </div>
+    </>
+  );
+}
+
 // the same fields for every item, whether it is being added or edited
 function GearFields({ v, up, days, cats, T }) {
-  const unit = Math.max(num(v.f), num(v.d) * days);
+  const unit = priceOf(v, days);
   return (
     <>
       <Field label="Item" value={v.n} onChange={(e) => up('n', e.target.value)} />
@@ -1695,10 +1715,7 @@ function GearFields({ v, up, days, cats, T }) {
       <div className="muted mb">{SPLIT_HELP[v.s]}</div>
       <span className="label">Rental price per item {T.btn('price')}</span>
       {T.box('price')}
-      <div className="numRow">
-        <Num usd label="Flat fee" value={v.f} onChange={(x) => up('f', x)} />
-        <Num usd label="Per day" value={v.d} onChange={(x) => up('d', x)} />
-        </div>
+      <PriceField v={v} up={up} days={days} />
       {v.s !== 'personal' && v.k === 'personal' && (
         <>
           <span className="label">Group total (leave blank to add up everyone’s needs) {T.btn('group')}</span>
@@ -2089,7 +2106,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
     )
     .filter(Boolean);
   // the form reads and writes the short stored keys
-  const v = { n: it.name, k: it.kind, c: it.cat, s: it.split, r: it.req, f: it.raw.f, d: it.raw.d, q: it.raw.q, qHint: it.split === 'personal' ? '' : String(+it.need.toFixed(2)) };
+  const v = { n: it.name, k: it.kind, c: it.cat, s: it.split, r: it.req, f: it.raw.f, d: it.raw.d, pm: it.raw.pm, q: it.raw.q, qHint: it.split === 'personal' ? '' : String(+it.need.toFixed(2)) };
     const need = num(e.need),
     have = num(e.have),
     lend = num(e.lend);
@@ -2214,10 +2231,8 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                   {byFirst(crew).map((c) => (
                     <Step key={c.id} label={c.id === me ? `${c.name || 'Unnamed'} (${you ? 'you' : 'them'})` : c.name || 'Unnamed'} value={rt[c.id]} max={Math.max(0, num(rt[c.id])) + rnLeft} onChange={(x) => setRent(c.id, x)} />
                   ))}
-                  <div className="numRow mt-s">
-                    <Num usd label="Flat fee" value={it.raw.f} onChange={(x) => patch({ f: x })} />
-                    <Num usd label="Per day" value={it.raw.d} onChange={(x) => patch({ d: x })} />
-                  </div>
+                  <span className="label mt-s">Rental price per item</span>
+                  <PriceField v={it.raw} up={(k, x) => patch({ [k]: x })} days={days} />
                 </div>
               )}
               {!grp && have > need && <div className="gwarn">Only {+need.toFixed(2)} of the {+have.toFixed(2)} count: the rest is spare. Use “Bringing for others” for extras.</div>}
@@ -2281,7 +2296,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
 }
 
 function AddGear({ s, days, cats, kind, onDone }) {
-  const [f, setF] = useState({ n: '', k: kind || 'personal', c: '', s: 'personal', f: '', d: '', q: '', r: '' });
+  const [f, setF] = useState({ n: '', k: kind || 'personal', c: '', s: 'personal', pm: 'flat', f: '', d: '', q: '', r: '' });
   const T = useTip();
   const up = (k, v) => setF({ ...f, [k]: v });
   return (
@@ -2291,8 +2306,8 @@ function AddGear({ s, days, cats, kind, onDone }) {
         className="btn"
         disabled={!f.n.trim() || !f.c}
         onClick={() => {
-          s.push('gear', { n: f.n.trim(), k: f.k, c: f.c, s: f.s, r: f.r, f: f.f, d: f.d, q: num(f.q), e: {} });
-          setF({ n: '', k: f.k, c: f.c, s: f.s, f: '', d: '', q: '', r: '' });
+          s.push('gear', { n: f.n.trim(), k: f.k, c: f.c, s: f.s, r: f.r, pm: f.pm, f: f.f, d: f.d, q: num(f.q), e: {} });
+          setF({ n: '', k: f.k, c: f.c, s: f.s, pm: 'flat', f: '', d: '', q: '', r: '' });
           onDone();
         }}
       >
