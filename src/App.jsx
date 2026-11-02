@@ -1715,7 +1715,7 @@ function Gear({ s }) {
     if (!srcOn.length) return true;
     const c = coverOf(i, who);
     return srcOn.some((k) => c[k]);
-  });
+  }).sort(byItem);
   const you0 = !as;
   const flip = (list, set, k) => set(list.includes(k) ? list.filter((x) => x !== k) : [...list, k]);
   const mine = who ? L.by[who] : null;
@@ -1805,6 +1805,8 @@ const getPacked = (tripId) => {
     return {};
   }
 };
+const byItem = (a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' });
+
 function GearPack({ L, me, you, name, tripId }) {
   const [done, setDone] = useState(() => getPacked(tripId));
   const flip = (k) => {
@@ -1819,7 +1821,7 @@ function GearPack({ L, me, you, name, tripId }) {
     [you ? 'Bringing my own' : 'Bringing their own', 'own', (i) => Math.min(num((i.e[me] || {}).have), num((i.e[me] || {}).need))],
     ['Bringing to lend', 'lend', (i) => num((i.e[me] || {}).lend)],
     ['Renting', 'rent', (i) => (i.share[me] > 0.005 ? i.share[me] : 0)],
-  ].map(([title, kind, f]) => ({ title, kind, rows: L.items.map((i) => ({ i, v: f(i) })).filter((r) => r.v > 0) }));
+  ].map(([title, kind, f]) => ({ title, kind, rows: [...L.items].sort(byItem).map((i) => ({ i, v: f(i) })).filter((r) => r.v > 0) }));
   const bring = groups.slice(0, 2).flatMap((g) => g.rows.map((r) => g.kind + r.i.id));
   const packed = bring.filter((k) => done[k]).length;
   if (!groups.some((g) => g.rows.length)) return <div className="muted mt">Nothing to pack or rent yet. Enter what you need and what you’re bringing on the items.</div>;
