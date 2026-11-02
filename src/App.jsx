@@ -1594,11 +1594,14 @@ function Gear({ s }) {
     setMeState(id);
     setMeFor(s.trip.id, id);
     setAs('');
-    setOther(false);
   };
   // entering for someone else is a separate, temporary mode
   const [as, setAs] = useState('');
-  const [other, setOther] = useState(false);
+  const pickWho = (id) => {
+    if (!id) return;
+    if (!me || id === me) setMe(id);
+    else setAs(id);
+  };
   const [catSel, setCatSel] = useState([]);
   const [secSel, setSecSel] = useState([]);
   const [find, setFind] = useState('');
@@ -1635,43 +1638,18 @@ function Gear({ s }) {
       {t.crew.length === 0 ? (
         <div className="muted mb">Add crew on the Crew tab to split costs.</div>
       ) : (
-        <>
-          <span className="label">{me ? 'You' : 'Who are you? Pick your name to enter your gear'}</span>
-          <div className="chips scroll">
+        <div className="onBehalf">
+          <span>Editing gear list on behalf of:</span>
+          <select className="sel" aria-label="Edit gear list on behalf of" value={who || ''} onChange={(e) => pickWho(e.target.value)}>
+            {!who && <option value="">Pick a name</option>}
             {t.crew.map((c) => (
-              <button key={c.id} className={'chip' + (me === c.id ? ' on' : '')} onClick={() => setMe(me === c.id ? '' : c.id)}>
+              <option key={c.id} value={c.id}>
                 {c.name}
-              </button>
+                {c.id === me ? ' (you)' : ''}
+              </option>
             ))}
-          </div>
-          {as ? (
-            <div className="gasBanner">
-              <span>Entering for {whoName}</span>
-              <button className="btn ghost" onClick={() => setAs('')}>
-                Back to me
-              </button>
-            </div>
-          ) : me && t.crew.length > 1 ? (
-            other ? (
-              <>
-                <span className="label">Enter for someone else</span>
-                <div className="chips scroll">
-                  {t.crew
-                    .filter((c) => c.id !== me)
-                    .map((c) => (
-                      <button key={c.id} className="chip" onClick={() => (setAs(c.id), setOther(false))}>
-                        {c.name}
-                      </button>
-                    ))}
-                </div>
-              </>
-            ) : (
-              <button className="linkBtn" onClick={() => setOther(true)}>
-                Enter for someone else
-              </button>
-            )
-          ) : null}
-        </>
+          </select>
+        </div>
       )}
 
       <div className="stats mt">
@@ -1681,16 +1659,9 @@ function Gear({ s }) {
         </div>
         <div className="stat">
           <div className="statNum">{mine ? usd0(mine.total) : '—'}</div>
-          <div className="statKey">{mine ? (as ? `${whoName}’s share` : 'Your share') : 'Pick your name'}</div>
+          <div className="statKey">{mine ? `${whoName}’s share` : 'Pick a name'}</div>
         </div>
       </div>
-      {mine && (
-        <div className="muted mb">
-          {as ? `${whoName}’s share` : 'Your share'}: {usd0(mine.even)} even split · {usd0(mine.nights)} by nights on river · {usd0(mine.users)} shared by users · {usd0(mine.personal)} individual
-        </div>
-      )}
-      <GearCover L={L} />
-
       <div className="row mt">
         <Field value={find} onChange={(e) => setFind(e.target.value)} placeholder={`Search ${L.items.length} items`} />
         <button className="btn ghost" onClick={() => setAdding(!adding)}>
@@ -1727,31 +1698,6 @@ const COVER = [
   ['rent', 'Rented', 'var(--warn, #c98a1b)'],
   ['none', 'Nobody has it', 'var(--bad, #b83b3b)'],
 ];
-function GearCover({ L }) {
-  const n = { own: 0, borrow: 0, rent: 0, none: 0 };
-  L.items.forEach((i) => {
-    if (i.target <= 0) return;
-    n[i.rent > 0.005 ? (i.unit > 0 ? 'rent' : 'none') : i.borrowed > 0 ? 'borrow' : 'own']++;
-  });
-  const sum = n.own + n.borrow + n.rent + n.none;
-  if (!sum) return null;
-  return (
-    <div className="gcov mb">
-      <div className="gcovBar" role="img" aria-label={COVER.map(([k, l]) => `${n[k]} ${l}`).join(', ')}>
-        {COVER.map(([k, , c]) => n[k] > 0 && <span key={k} style={{ flex: n[k], background: c }} />)}
-      </div>
-      <div className="gcovKey">
-        {COVER.map(([k, l, c]) => (
-          <span key={k}>
-            <i style={{ background: c }} />
-            {n[k]} {l}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 // packed ticks are a note on this device, like "who are you"
 const packKey = (tripId) => 'eddy.packed.' + tripId;
 const getPacked = (tripId) => {
