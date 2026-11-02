@@ -1501,7 +1501,12 @@ const usd = (n) => (n >= 0.005 ? '$' + n.toFixed(2) : '');
 const usd0 = (n) => '$' + Math.round(n).toLocaleString();
 const num = (v) => (Number.isFinite(+v) ? +v : 0);
 
+// personal = each person brings their own; group = shared by the whole crew
+const GROUP_PERSONAL_BILLED = /^(Guitar & Other Musical|Guitar Dry Bag|Food, ice and sundries|Boil-in-a-Bag)/;
+const gearKind = (g) => g.k || (g.s && g.s !== 'personal' ? 'group' : GROUP_PERSONAL_BILLED.test(g.n ?? g.name ?? '') ? 'group' : 'personal');
+
 const norm = (g) => ({
+  kind: gearKind(g),
   name: g.n ?? g.name ?? '',
   cat: g.c ?? g.cat ?? 'Gear',
   split: g.s || 'personal',
@@ -1609,6 +1614,14 @@ function GearFields({ v, up, days, cats, T }) {
   return (
     <>
       <Field label="Item" value={v.n} onChange={(e) => up('n', e.target.value)} />
+      <span className="label">Type</span>
+      <div className="chips">
+        {[['personal', 'Personal'], ['group', 'Group']].map(([k, l]) => (
+          <button key={k} className={'chip' + (v.k === k ? ' on' : '')} onClick={() => up('k', k)}>
+            {l}
+          </button>
+        ))}
+      </div>
       <Field label="Category" value={v.c} onChange={(e) => up('c', e.target.value)} placeholder="Kitchen" list="gearCats" />
       <datalist id="gearCats">{(cats || []).map((c) => <option key={c} value={c} />)}</datalist>
       <span className="label">How it’s billed {T.btn('split')}</span>
@@ -1666,6 +1679,7 @@ function Gear({ s }) {
   const [as, setAs] = useState('');
   const [other, setOther] = useState(false);
   const [cat, setCat] = useState('All');
+  const [sec, setSec] = useState('personal');
   const [find, setFind] = useState('');
   const [open, setOpen] = useState(null);
   const [adding, setAdding] = useState(false);
@@ -1683,7 +1697,9 @@ function Gear({ s }) {
       </>
     );
 
-  const cats = [...new Set(L.items.map((i) => i.cat))];
+  const secItems = L.items.filter((i) => i.kind === sec);
+  const cats = [...new Set(secItems.map((i) => i.cat))];
+  const allCats = [...new Set(L.items.map((i) => i.cat))];
   const q = find.trim().toLowerCase();
   const who = as || me;
   const whoName = (t.crew.find((c) => c.id === who) || {}).name || '';
@@ -1691,7 +1707,7 @@ function Gear({ s }) {
     const e = i.e[who] || {};
     return !!(i.share[who] || num(e.have) || num(e.need) || num(e.lend));
   };
-  const shown = L.items.filter(
+  const shown = secItems.filter(
     (i) => (cat === 'All' || (cat === 'Mine' ? who && mineOf(i) : i.cat === cat)) && (!q || i.name.toLowerCase().includes(q))
   );
   const mine = who ? L.by[who] : null;
@@ -1758,13 +1774,20 @@ function Gear({ s }) {
       <GearCover L={L} />
       {who && <GearPack L={L} me={who} you={!as} name={whoName} tripId={t.id} />}
 
+      <div className="chips mt">
+        {[['personal', 'Personal gear'], ['group', 'Group gear']].map(([k, l]) => (
+          <button key={k} className={'chip' + (sec === k ? ' on river' : '')} onClick={() => (setSec(k), setCat('All'))}>
+            {l} · {L.items.filter((i) => i.kind === k).length}
+          </button>
+        ))}
+      </div>
       <div className="row">
-        <Field value={find} onChange={(e) => setFind(e.target.value)} placeholder={`Search ${L.items.length} items`} />
+        <Field value={find} onChange={(e) => setFind(e.target.value)} placeholder={`Search ${secItems.length} items`} />
         <button className="btn ghost" onClick={() => setAdding(!adding)}>
           {adding ? 'Close' : 'Add item'}
         </button>
       </div>
-      {adding && <AddGear s={s} days={L.days} cats={cats} onDone={() => setAdding(false)} />}
+      {adding && <AddGear s={s} days={L.days} cats={allCats} kind={sec} onDone={() => setAdding(false)} />}
       <div className="chips scroll">
         {['All', ...(who ? ['Mine'] : []), ...cats].map((c) => (
           <button key={c} className={'chip' + (cat === c ? ' on river' : '')} onClick={() => setCat(c)}>
@@ -1774,7 +1797,7 @@ function Gear({ s }) {
       </div>
       {shown.length === 0 && <div className="muted mt">Nothing matches.</div>}
       {shown.map((it) => (
-        <GearRow key={it.id} it={it} s={s} crew={t.crew} days={L.days} cats={cats} me={who} name={whoName} you={!as} open={open === it.id} onOpen={() => setOpen(open === it.id ? null : it.id)} />
+        <GearRow key={it.id} it={it} s={s} crew={t.crew} days={L.days} cats={allCats} me={who} name={whoName} you={!as} open={open === it.id} onOpen={() => setOpen(open === it.id ? null : it.id)} />
       ))}
       <GearRef />
     </>
@@ -1910,7 +1933,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
   const e = it.e[me] || {};
   const setE = (k, v) => patch({ e: { ...it.e, [me]: { ...(it.e[me] || {}), [k]: v } } });
   // the form reads and writes the short stored keys
-  const v = { n: it.name, c: it.cat, s: it.split, r: it.req, f: it.raw.f, d: it.raw.d, q: it.raw.q, qHint: it.split === 'personal' ? '' : String(+it.need.toFixed(2)) };
+  const v = { n: it.name, k: it.kind, c: it.cat, s: it.split, r: it.req, f: it.raw.f, d: it.raw.d, q: it.raw.q, qHint: it.split === 'personal' ? '' : String(+it.need.toFixed(2)) };
     const need = num(e.need),
     have = num(e.have),
     lend = num(e.lend);
@@ -2006,8 +2029,8 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
   );
 }
 
-function AddGear({ s, days, cats, onDone }) {
-  const [f, setF] = useState({ n: '', c: '', s: 'personal', f: '', d: '', q: '', r: '' });
+function AddGear({ s, days, cats, kind, onDone }) {
+  const [f, setF] = useState({ n: '', k: kind || 'personal', c: '', s: 'personal', f: '', d: '', q: '', r: '' });
   const T = useTip();
   const up = (k, v) => setF({ ...f, [k]: v });
   return (
@@ -2017,8 +2040,8 @@ function AddGear({ s, days, cats, onDone }) {
         className="btn"
         disabled={!f.n.trim()}
         onClick={() => {
-          s.push('gear', { n: f.n.trim(), c: f.c.trim() || 'Gear', s: f.s, r: f.r, f: num(f.f), d: num(f.d), q: num(f.q), e: {} });
-          setF({ n: '', c: f.c, s: f.s, f: '', d: '', q: '', r: '' });
+          s.push('gear', { n: f.n.trim(), k: f.k, c: f.c.trim() || 'Gear', s: f.s, r: f.r, f: num(f.f), d: num(f.d), q: num(f.q), e: {} });
+          setF({ n: '', k: f.k, c: f.c, s: f.s, f: '', d: '', q: '', r: '' });
           onDone();
         }}
       >
