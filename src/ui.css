@@ -761,3 +761,5 @@ body.shot #fakeStatus { background: var(--bg); }
 .prCat { margin-top: 14px; }
 .prItem { padding: 8px 0; border-bottom: 1px solid var(--line-soft); }
 .prItem .muted { margin-top: 1px; }
+
+.rg .popLinks { display: flex; gap: 22px; flex-wrap: wrap; }
