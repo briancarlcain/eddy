@@ -784,3 +784,5 @@ html.lockScroll, html.lockScroll body { overflow: hidden; overscroll-behavior: n
 .rg .chipStack .chips:last-child { margin-bottom: 0; }
 .rg .chipStack .chips.scroll { padding-top: 0; padding-bottom: 0; }
 .rg .chipStack .chip { min-height: 32px; }
+
+.rg .stats.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
