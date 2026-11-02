@@ -2435,6 +2435,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
     [it.short, 'none', 'Still needed'],
   ];
   const [warn, setWarn] = useState(false);
+  const [rentOpen, setRentOpen] = useState(true);
   const rt = it.raw.rnTo && typeof it.raw.rnTo === 'object' ? it.raw.rnTo : {};
   const rn = Math.max(0, num(it.raw.rn));
   const rnLeft = Math.max(0, rn - it.rAssigned);
@@ -2536,13 +2537,20 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
               <Step label="Renting" value={it.raw.rn} onChange={(x) => patch({ rn: x })} />
               {rn > 0 && (
                 <div className="assign">
-                  <span className="label">
-                    Who is it for · {+it.rAssigned.toFixed(2)} of {+rn.toFixed(2)} assigned
-                  </span>
+                  <button type="button" className="assignHead" aria-expanded={rentOpen} onClick={() => setRentOpen(!rentOpen)}>
+                    <span className="label">
+                      Who is it for · {+it.rAssigned.toFixed(2)} of {+rn.toFixed(2)} assigned
+                    </span>
+                    <Icon name="chevron" size={16} className="chev" />
+                  </button>
+                  {rentOpen && (
+                    <>
                   <Step label="Group" value={rt.group} max={Math.max(0, num(rt.group)) + rnLeft} onChange={(x) => setRent('group', x)} />
                   {byFirst(crew).map((c) => (
                     <Step key={c.id} label={c.id === me ? `${c.name || 'Unnamed'} (${you ? 'you' : 'them'})` : c.name || 'Unnamed'} value={rt[c.id]} max={Math.max(0, num(rt[c.id])) + rnLeft} onChange={(x) => setRent(c.id, x)} />
                   ))}
+                    </>
+                  )}
                   <span className="label mt-s">Rental price per item</span>
                   <PriceField v={it.raw} up={(k, x) => patch({ [k]: x })} days={days} />
                 </div>

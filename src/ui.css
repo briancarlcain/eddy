@@ -849,3 +849,8 @@ body.shot .onBehalf { top: calc(52px + 54px + 45px); }
 
 .rg .gtable th.l, .rg .gtable td.l { text-align: left; padding-left: 0; }
 .rg .gtable td.nw { white-space: nowrap; padding-right: 10px; }
+
+.rg .assignHead { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 0; margin: 0 0 6px; border: 0; background: transparent; color: inherit; text-align: left; }
+.rg .assignHead .label { margin: 0; }
+.rg .assignHead .chev { flex: none; color: var(--ink-faint); transition: transform .15s; }
+.rg .assignHead[aria-expanded=false] .chev { transform: rotate(-90deg); }
