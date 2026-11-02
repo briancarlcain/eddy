@@ -6984,7 +6984,7 @@ function App() {
       </main>
 
       <nav className="tabbar">
-        {TABS.map((t) => (
+        {[...TABS].reverse().map((t) => (
           <button
             key={t.id}
             className={'tabbtn' + (tab === t.id ? ' on' : '')}
