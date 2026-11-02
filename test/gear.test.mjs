@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { gearKind, ledger } from '../src/gearLedger.js';
+import { coverOf, gearKind, ledger } from '../src/gearLedger.js';
 
 const crew = [{ id: 's', name: 'Sam' }, { id: 'a', name: 'Alex' }, { id: 'j', name: 'Jo' }];
 const run = (g, c = crew) => ledger({ days: 10, crew: c, gear: [{ id: 'g', n: 'Tent', f: 100, ...g }] });
@@ -60,6 +60,15 @@ const balanced = (it) => near(Object.values(it.share).reduce((a, b) => a + b, 0)
 {
   const it = one({ s: 'personal', e: { s: { need: 1, have: 1, share: [{ to: ['s', 'zzz', 'a'] }] }, a: { need: 1 } } });
   assert.deepEqual(it.units[0].to, ['a']); near(it.rent, 0, 'rent');
+}
+// who is bringing, borrowing or renting
+{
+  const it = one({ s: 'personal', e: { s: { need: 1, have: 1, share: [{ to: ['a'] }] }, a: { need: 1 }, j: { need: 1 } } });
+  assert.deepEqual(coverOf(it, 's'), { own: true, borrowed: false, rented: false });
+  assert.deepEqual(coverOf(it, 'a'), { own: false, borrowed: true, rented: false });
+  assert.deepEqual(coverOf(it, 'j'), { own: false, borrowed: false, rented: true });
+  const pool = one({ s: 'personal', e: { s: { have: 1, need: 1, lend: 1 }, a: { need: 1 } } });
+  assert.equal(coverOf(pool, 'a').borrowed, true); assert.equal(coverOf(pool, 'a').rented, false);
 }
 assert.equal(gearKind({ n: 'Cot', s: 'personal' }), 'personal');
 assert.equal(gearKind({ n: 'Roster', s: 'even' }), 'group');
