@@ -1074,7 +1074,7 @@ function Trip({ s, back, onAccount, onRiver }) {
     } catch {}
     setNudge(false);
   };
-  const OLD = { Settings: 'About', Shuttle: 'Itinerary', People: 'Crew', 'Crew & Crafts': 'Crew', Ledger: 'Costs', Log: 'Journal', Info: 'Itinerary', Notes: 'Itinerary', Card: 'Emergency' };
+  const OLD = { Settings: 'About', Shuttle: 'Itinerary', People: 'Crew', 'Crew & Crafts': 'Crew', Ledger: 'Costs', Log: 'Journal', Info: 'Itinerary', Notes: 'Itinerary', Card: 'Itinerary', Emergency: 'Itinerary' };
   const q = QS.get('sub');
   const [tab, setTab] = useState((q && (OLD[q] || q)) || lastSub[s.trip?.id] || 'Itinerary');
   useEffect(() => {
@@ -1083,9 +1083,9 @@ function Trip({ s, back, onAccount, onRiver }) {
   if (!s.trip) return <NewTrip s={s} />;
   const tripEnt = s.sync[s.trip.id];
   const tripStatus0 = s.syncStatus[s.trip.id];
-  const panels = { Itinerary, Crew, Meals, Gear, Costs: Ledger, Emergency: Card, Journal: Log, About: Settings };
+  const panels = { Itinerary, Crew, Meals, Gear, Costs: Ledger, Journal: Log, About: Settings };
   const P = panels[tab] || Itinerary;
-  const items = ['Itinerary', 'Crew', 'Meals', 'Gear', 'Costs', 'Emergency', 'Journal', 'About', ...(onRiver && riverOf(s.trip) ? ['River'] : [])];
+  const items = ['Itinerary', 'Crew', 'Meals', 'Gear', 'Costs', 'Journal', 'About', ...(onRiver && riverOf(s.trip) ? ['River'] : [])];
   return (
     <>
       <Tabs trip items={items} value={tab} onChange={(t) => (t === 'River' ? onRiver() : setTab(t))} />
@@ -5910,35 +5910,6 @@ const GearRef = ({ pack }) => {
     </div>
   );
 };
-
-const Card = ({ s }) => (
-  <>
-    <div className="muted mb">Read this out in an emergency. Give the river mile and bank first.</div>
-    <div className="card red">
-      <div className="line">{RIVER.name} — {RIVER.reach}</div>
-      <div className="line">{RIVER.coords[0].toFixed(5)}, {RIVER.coords[1].toFixed(5)}</div>
-      <div className="line">{RIVER.agency}</div>
-    </div>
-    {s.trip && (
-      <div className="card mt">
-        <span className="label">{s.trip.name}</span>
-        <div className="line">
-          {okDate(s.trip.start) ? `${fmt(s.trip.start)} ${s.trip.start.slice(0, 4)}` : s.trip.start} · {s.trip.days} days · {s.trip.crew.length} people
-        </div>
-        {byFirst(s.trip.crew).map((c) => (
-          <div className="mt-s" key={c.id}>
-            <div className="line">
-              <b>{c.name}</b>
-              {c.boat ? ` · ${((s.trip.boats || []).find((b) => b.id === c.boat) || {}).name || ''}` : ''}
-            </div>
-            {c.ice ? <div className="muted">{c.ice}</div> : null}
-            {c.diet ? <div className="muted">{c.diet}</div> : null}
-          </div>
-        ))}
-      </div>
-    )}
-  </>
-);
 
 /* ---------- trips list ---------- */
 
