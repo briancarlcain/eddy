@@ -5,10 +5,19 @@ const okDate = (s) => /^\d{4}-\d{2}-\d{2}$/.test(s) && !isNaN(new Date(s + 'T12:
 const GROUP_PERSONAL_BILLED = /^(Guitar & Other Musical|Guitar Dry Bag|Food, ice and sundries|Boil-in-a-Bag)/;
 export const gearKind = (g) => g.k || (g.s && g.s !== 'personal' ? 'group' : GROUP_PERSONAL_BILLED.test(g.n ?? g.name ?? '') ? 'group' : 'personal');
 
-// how an item is priced: a flat fee, or a price per day. Items saved before the toggle keep what they cost (the larger of the two)
+// an item can carry both a flat fee and a per-day price; the cheaper one for the trip is charged.
+// pm only says which of the two the form shows.
 const isBlank = (v) => v === undefined || v === null || String(v).trim() === '';
-export const priceMode = (g, days) => (g.pm === 'flat' || g.pm === 'day' ? g.pm : (isBlank(g.f) && !isBlank(g.d)) || num(g.d) * days > num(g.f) ? 'day' : 'flat');
-export const priceOf = (g, days) => (priceMode(g, days) === 'day' ? num(g.d) * days : num(g.f));
+export const priceOf = (g, days) => {
+  const c = [];
+  if (!isBlank(g.f)) c.push(num(g.f));
+  if (!isBlank(g.d)) c.push(num(g.d) * days);
+  return c.length ? Math.min(...c) : 0;
+};
+export const priceMode = (g, days) => {
+  if (g.pm === 'flat' || g.pm === 'day') return g.pm;
+  return !isBlank(g.d) && (isBlank(g.f) || num(g.d) * days < num(g.f)) ? 'day' : 'flat';
+};
 
 export const norm = (g) => ({
   kind: gearKind(g),
@@ -168,7 +177,7 @@ export function ledger(t) {
           : `${f2(rAssigned)} is assigned, but Renting is ${f2(rent)}. Lower the assigned numbers or raise Renting.`
       );
     }
-    if (rent > 0 && blank(priceMode(g, D) === 'day' ? g.d : g.f)) issues.push('Add a rental price. $0 is fine, but it can’t be blank.');
+    if (rent > 0 && blank(g.f) && blank(g.d)) issues.push('Add a rental price. $0 is fine, but it can’t be blank.');
     return { id: g.id, raw: g, ...it, unit, have, need, lend, borrowed, lendGroup, target, rent, short, total, share, loose: Math.max(0, total - assigned), units, named, excl, rented, rAssigned, issues };
   });
   const by = {};
