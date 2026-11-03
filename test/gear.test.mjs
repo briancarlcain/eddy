@@ -121,6 +121,14 @@ assert.equal(gearKind({ n: 'x', s: 'even', k: 'personal' }), 'personal');
   for (const c of trip.crew) assert.ok(Math.abs(before.by[c.id].total - after.by[c.id].total) < 1, `${c.name}: ${before.by[c.id].total} vs ${after.by[c.id].total}`);
   assert.equal(after.items.filter((i) => i.issues.length).length, 0, 'converted rentals have nothing to fix');
 }
+// two people split one rented unit: it covers both and they pay half each
+{
+  const it = one({ k: 'personal', s: 'personal', d: 10, rn: '1', rnTo: { s: '1' }, e: { s: { need: 1, rentWith: ['a'] }, a: { need: 1 }, j: { need: 1 } } });
+  near(it.target, 2, 'two need one unit between them, plus Jo'); near(it.short, 1, 'only Jo is short');
+  near(it.total, 100, 'one unit'); near(it.share.s, 50, 'half'); near(it.share.a, 50, 'half'); balanced(it);
+  const solo = one({ k: 'personal', s: 'personal', d: 10, rn: '1', rnTo: { s: '1' }, e: { s: { need: 1 }, a: { need: 1 } } });
+  near(solo.target, 2, 'not split'); near(solo.share.a || 0, 0, 'Alex pays nothing'); near(solo.short, 1, 'short');
+}
 // Grand Canyon 2026: the counts match the trip sheet
 {
   const trip = JSON.parse(readFileSync(new URL('../data/trip.json', import.meta.url)));

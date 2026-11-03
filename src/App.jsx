@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
 import { createRoot } from 'react-dom/client';
 import { BUILTIN_RIVERS, DEFAULT_RIVER, normalizeRiver } from './rivers.js';
 import GENERAL from '../data/general.json';
-import { coverOf, gearKind, ledger, lendAlloc, num, priceMode, priceOf } from './gearLedger.js';
+import { coverOf, gearKind, ledger, lendAlloc, num, priceMode, priceOf, rentGroups } from './gearLedger.js';
 import { convertRentals } from './gearLegacy.js';
 import GEAR_ALL from '../data/gear.json';
 import SEED from '../data/trip.json';
@@ -2413,6 +2413,17 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
     patch({ e: { ...it.e, [me]: { ...rest, lendTo: next } } });
   };
   const nameOf = (id) => (crew.find((c) => c.id === id) || {}).name || '';
+  // people splitting one rented unit with this person
+  const mates = (rentGroups(it.e, crew.map((c) => c.id)).find((g) => g.includes(me)) || []).filter((id) => id !== me);
+  const setMate = (id, on) => {
+    const upd = (a, b) => {
+      const cur = ((it.e[a] || {}).rentWith || []).filter((x) => x !== b);
+      return { ...(it.e[a] || {}), rentWith: on ? [...cur, b] : cur };
+    };
+    const e2 = { ...it.e, [me]: upd(me, id), [id]: upd(id, me) };
+    [me, id].forEach((k) => !e2[k].rentWith.length && delete e2[k].rentWith);
+    patch({ e: e2 });
+  };
   // who else is using the same unit as this person, with the one bringing it marked
   const sharing = it.units
     .filter((u) => u.to.length && (u.owner === me || u.to.includes(me)))
@@ -2538,6 +2549,18 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                 </div>
               ))}
               <Step label="Renting" value={it.raw.rn} onChange={(x) => patch({ rn: x })} />
+              {!grp && crew.length > 1 && (
+                <details className="gdet" open={mates.length > 0}>
+                  <summary>{mates.length ? `Splitting a rental with ${mates.map(nameOf).join(', ')}` : 'Splitting a rental with someone'}</summary>
+                  <div className="muted mb-s">One rented unit covers everyone checked, and they pay equal shares.</div>
+                  {byFirst(crew).filter((c) => c.id !== me).map((c) => (
+                    <label className="chk" key={c.id}>
+                      <input type="checkbox" checked={mates.includes(c.id)} onChange={(ev) => setMate(c.id, ev.target.checked)} />
+                      <span>{c.name || 'Unnamed'}</span>
+                    </label>
+                  ))}
+                </details>
+              )}
               {rn > 0 && (
                 <div className="assign">
                   <button type="button" className="assignHead" aria-expanded={rentOpen} onClick={() => setRentOpen(!rentOpen)}>
@@ -2596,6 +2619,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                     <span className="gcName">{c.name}</span>
                     <span className="muted">
                       {it.kind === 'group' ? '' : `needs ${+num(x.need).toFixed(2)} · `}own {+(it.kind === 'group' ? num(x.have) : Math.min(num(x.have), num(x.need))).toFixed(2)} · for others {+num(x.lend).toFixed(2)}
+                      {(rentGroups(it.e, crew.map((k) => k.id)).find((g) => g.includes(c.id)) || []).filter((id) => id !== c.id).length > 0 && ` · splits a rental with ${rentGroups(it.e, crew.map((k) => k.id)).find((g) => g.includes(c.id)).filter((id) => id !== c.id).map(nameOf).join(', ')}`}
                     </span>
                     <span className="gcAmt">{it.share[c.id] ? usd(it.share[c.id]) : ''}</span>
                   </div>
