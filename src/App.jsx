@@ -1032,6 +1032,15 @@ const byFirst = (list) =>
     return !x !== !y ? (x ? -1 : 1) : x.localeCompare(y, undefined, { sensitivity: 'base' }) || (a.name || '').localeCompare(b.name || '');
   });
 
+// A list keeps the order it was first shown in while its rows are edited, so a row doesn't jump away
+// as its name, quantity or cost changes. `ref` is a useRef; the order is taken again when `key` changes
+// (a new sort, filter or search, or rows added or removed) and whenever the screen is opened again.
+const frozenOrder = (ref, list, pool, key) => {
+  if (ref.current.key !== key) ref.current = { key, ids: list.map((x) => x.id) };
+  const by = new Map(pool.map((x) => [x.id, x]));
+  return ref.current.ids.map((id) => by.get(id)).filter(Boolean);
+};
+
 function Acc({ title, note, tag, lead, children, open: start }) {
   const [open, setOpen] = useState(!!start);
   return (
@@ -1400,12 +1409,15 @@ function Crew({ s }) {
   const [fresh, setFresh] = useState(null);
   const aboard = (id) => t.crew.filter((m) => m.boat === id);
   const [meId, setMeId] = useState(() => getMe(t.id));
+  const order = useRef({ key: null, ids: [] });
+  // typing a name doesn't move the person down the list
+  const crew = frozenOrder(order, byFirst(t.crew), t.crew, t.crew.map((m) => m.id).join());
 
   return (
     <>
       <Members s={s} part="top" />
       <span className="label mt">Crew</span>
-      {byFirst(t.crew).map((m) => (
+      {crew.map((m) => (
         <Acc key={m.id} open={fresh === m.id} lead={<Avatar name={m.name || '?'} />} title={m.name || 'New person'} tag={meId === m.id ? 'You' : undefined} note={[m.role, boats.find((b) => b.id === m.boat)?.name].filter(Boolean).join(' · ') || null}>
           <button
             className="btn ghost mb-s"
@@ -1773,6 +1785,8 @@ function Gear({ s }) {
   const [find, setFind] = useState('');
   const [open, setOpen] = useState(null);
   const [adding, setAdding] = useState(false);
+  const [tick, setTick] = useState(0);
+  const order = useRef({ key: null, ids: [] });
   const L = useMemo(() => ledger(t), [t]);
 
   if (!t.gear.length)
@@ -1799,7 +1813,7 @@ function Gear({ s }) {
   const srcOn = who ? srcSel : [];
   const grpTests = { short: (i) => i.short > 0.005, rent: (i) => i.rent > 0.005, borrow: (i) => i.borrowed > 0.005 };
   const grpOn = grp ? grpSel : [];
-  const shown = inSec.filter((i) => {
+  const fresh = inSec.filter((i) => {
     if (catOn.length && !catOn.includes(i.cat)) return false;
     if (q && !i.name.toLowerCase().includes(q)) return false;
     if (attn && !i.issues.length) return false;
@@ -1831,13 +1845,15 @@ function Gear({ s }) {
     : ALLSORTS;
   const sortSel = SORTS.find((x) => x[0] === sortBy) || SORTS[0];
   const [, , sortFn, sortDir] = sortSel;
-  shown.sort((a, b) => {
+  fresh.sort((a, b) => {
     if (!sortFn) return sortDir * byItem(a, b);
     const x = sortFn(a);
     const y = sortFn(b);
     const d = typeof x === 'string' ? x.localeCompare(y) : x - y;
     return d ? sortDir * d : byItem(a, b);
   });
+  // editing an item doesn't re-sort the list under it
+  const shown = frozenOrder(order, fresh, L.items, JSON.stringify([sortBy, tick, q, secSel, catSel, srcSel, grpSel, attn, who, grp, L.items.map((i) => i.id).join()]));
   const nFilt = secSel.length + catOn.length + srcOn.length + grpOn.length + (attn ? 1 : 0);
   const you0 = !as;
   const flip = (list, set, k) => set(list.includes(k) ? list.filter((x) => x !== k) : [...list, k]);
@@ -1921,6 +1937,7 @@ function Gear({ s }) {
               className={'sortOpt' + (sortBy === k ? ' on' : '')}
               onClick={() => {
                 setSortBy(k);
+                setTick(tick + 1);
                 setSortOpen(false);
               }}
             >
@@ -3825,10 +3842,23 @@ function Shuttle({ s }) {
   if (openLeg && !(openLeg in pinDay.current)) pinDay.current = { [openLeg]: legDay(legs.find((l) => l.id === openLeg) || {}) };
   if (!openLeg) pinDay.current = {};
   const dayOf = (l) => (l.id in pinDay.current ? pinDay.current[l.id] : legDay(l));
-  const days = [...new Set([...legs.map(dayOf), ...S.river.map((g) => g.date)])].sort((a, b) => (!a ? 1 : !b ? -1 : a < b ? -1 : a > b ? 1 : 0));
+  // the open leg and the open put-in/take-out card keep their place while their time or date is edited
   const [openRiver, setOpenRiver] = useState(null);
+  const rkey = (g) => (g.main ? 'main' + g.kind : g.kind + g.t + g.place);
+  const pinT = useRef({});
+  const pinKey = openLeg ? 'l' + openLeg : openRiver ? 'r' + openRiver : null;
+  if (!pinKey) pinT.current = {};
+  else if (!(pinKey in pinT.current)) {
+    const g = openRiver && !openLeg ? S.river.find((x) => rkey(x) === openRiver) : null;
+    pinT.current = { [pinKey]: openLeg ? S.legs.find((q) => q.id === openLeg)?.t0 : g ? { t: g.t, date: g.date } : null };
+  }
+  const pinned = pinKey ? pinT.current[pinKey] : null;
+  const t0Of = (id) => (openLeg === id && typeof pinned === 'number' ? pinned : S.legs.find((q) => q.id === id)?.t0 ?? Infinity);
+  const gt = (g) => (g.main && openRiver === rkey(g) && pinned && typeof pinned === 'object' ? pinned.t : g.t);
+  const gd = (g) => (g.main && openRiver === rkey(g) && pinned && typeof pinned === 'object' ? pinned.date : g.date);
+  const days = [...new Set([...legs.map(dayOf), ...S.river.map(gd)])].sort((a, b) => (!a ? 1 : !b ? -1 : a < b ? -1 : a > b ? 1 : 0));
   const riverCard = (g) => {
-    const key = g.kind + g.t + g.place;
+    const key = rkey(g);
     const z = S.zoneAt(g.place);
     const isOpen = g.main && openRiver === key;
     const ppl = g.who.map((x) => abbr(byName(t.crew, x))).filter(Boolean).join(', ');
@@ -3926,12 +3956,12 @@ function Shuttle({ s }) {
 
       <span className="label mt">Legs</span>
       {days.map((d) => {
-        const t0 = (id) => S.legs.find((q) => q.id === id)?.t0 ?? Infinity;
+        const t0 = t0Of;
         const mine = legs.filter((l) => dayOf(l) === d).map((l, i) => [l, i]).sort((a, b) => t0(a[0].id) - t0(b[0].id) || a[1] - b[1]).map(([l]) => l);
         const ts = [...new Set(mine.map((l) => t0(l.id)))];
-        const evs = S.river.filter((g) => g.date === d).sort((a, b) => a.t - b.t);
+        const evs = S.river.filter((g) => gd(g) === d).sort((a, b) => gt(a) - gt(b));
         const shown = new Set();
-        const before = (l) => evs.filter((g) => g.t <= t0(l.id) && !shown.has(g) && shown.add(g));
+        const before = (l) => evs.filter((g) => gt(g) <= t0(l.id) && !shown.has(g) && shown.add(g));
         const step = mine.map((l) => ts.indexOf(t0(l.id)) + 1);
         return (
           <div key={d} className="dayBlock">
