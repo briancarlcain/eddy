@@ -23,7 +23,7 @@ export const norm = (g) => ({
   kind: gearKind(g),
   name: g.n ?? g.name ?? '',
   cat: g.c ?? g.cat ?? 'Gear',
-  split: g.s || 'personal',
+  split: g.s || 'even',
   req: g.r === 'req' || g.r === 'rec' ? g.r : '',
   flat: num(g.f),
   day: num(g.d),
@@ -85,26 +85,11 @@ export function coverOf(it, id) {
   return { own: own > 0, borrowed: named > 0 || pool, rented: (it.rented[id] || 0) > 0 || (it.share[id] || 0) > 0.005 };
 }
 
-// people splitting one rented unit (each lists who they split with; either side is enough)
-export function rentGroups(e, ids) {
-  const up = {};
-  const find = (x) => (up[x] === undefined || up[x] === x ? (up[x] = x) : (up[x] = find(up[x])));
-  ids.forEach((id) => {
-    (((e[id] || {}).rentWith) || []).forEach((o) => {
-      if (o !== id && ids.includes(o)) up[find(id)] = find(o);
-    });
-  });
-  const by = {};
-  ids.forEach((id) => {
-    if ((((e[id] || {}).rentWith) || []).some((o) => o !== id && ids.includes(o)) || ids.some((o) => o !== id && (((e[o] || {}).rentWith) || []).includes(id))) (by[find(id)] ||= []).push(id);
-  });
-  return Object.values(by).filter((g) => g.length > 1);
-}
-
 export function ledger(t) {
   const D = Math.max(1, num(t.days) || 1);
   const crew = t.crew;
   const ids = new Set(crew.map((c) => c.id));
+  const byId = Object.fromEntries(crew.map((c) => [c.id, c]));
   const span = (c) => (okDate(c.onDate) && okDate(c.offDate) ? Math.round((new Date(c.offDate + 'T12:00:00Z') - new Date(c.onDate + 'T12:00:00Z')) / 864e5) : 0);
   const nights = (c) => (num(c.days) > 0 ? num(c.days) : span(c) > 0 ? span(c) : D);
   const allNights = crew.reduce((a, c) => a + nights(c), 0);
@@ -153,53 +138,69 @@ export function ledger(t) {
     const shared = units.some((x) => x.to.length);
     // lent units are extra physical units, whoever they go to
     const borrowed = grp ? lend : namedTotal + lendGroup;
-    // people splitting a rented unit need one between them
-    const pools = grp ? [] : rentGroups(it.e, crew.map((c) => c.id));
+    // rentals are entered by hand: how many, then who each unit is for.
+    // 'manual': each unit lists the people who pay for it, split by the item's method.
+    // otherwise the whole group pays, split the same way. (Old copies keep a quantity per person or group in rnTo.)
+    const manual = g.ra === 'manual';
+    const legacy = !manual && g.ra === undefined && g.rnTo && typeof g.rnTo === 'object';
+    const rows = manual
+      ? (Array.isArray(g.ru) ? g.ru : []).map((r) => ({ n: r && r.n !== undefined && String(r.n) !== '' ? Math.max(0, num(r.n)) : 1, to: [...new Set((r && Array.isArray(r.to) ? r.to : []).filter((id) => ids.has(id)))] }))
+      : [];
+    // people sharing a unit need one between them
     let cut = 0;
-    pools.forEach((p) => {
-      const gaps = p.map((id) => Math.max(0, num((it.e[id] || {}).need) - own[id]));
-      cut += gaps.reduce((a, b) => a + b, 0) - Math.max(...gaps);
-    });
+    if (!grp) {
+      const cnt = {};
+      rows.forEach((r) => r.to.forEach((id) => (cnt[id] = (cnt[id] || 0) + 1)));
+      rows.forEach((r) => {
+        if (!(r.n > 0) || r.to.length < 2) return;
+        const v = r.to.map((id) => Math.max(0, num((it.e[id] || {}).need) - own[id]) / cnt[id]);
+        cut += v.reduce((a, b) => a + b, 0) - Math.max(...v);
+      });
+      cut = Math.min(cut, need);
+    }
     const target = grp ? it.qty : it.split === 'personal' ? Math.max(0, need - cut) : it.qty || Math.max(0, need - cut);
-    // rentals are entered by hand: a quantity, and who each unit is for (the group or a person)
-    const rt = g.rnTo && typeof g.rnTo === 'object' ? g.rnTo : {};
     const rent = Math.max(0, num(g.rn));
-    const rg = Math.max(0, num(rt.group));
-    const rented = {};
+    const rt = legacy ? g.rnTo : {};
+    const rented = {},
+      single = {},
+      share = {},
+      lines = [];
+    let rg = manual ? 0 : legacy ? Math.max(0, num(rt.group)) : rent;
     let rAssigned = rg;
+    const wOf = (c) => (it.split === 'nights' ? nights(c) : 1);
+    rows.forEach((r) => {
+      if (!(r.n > 0) || !r.to.length) return;
+      rAssigned += r.n;
+      lines.push({ to: r.to, n: r.n });
+      const ws = r.to.reduce((a, id) => a + wOf(byId[id]), 0) || 1;
+      r.to.forEach((id) => {
+        const f = wOf(byId[id]) / ws;
+        rented[id] = (rented[id] || 0) + r.n * f;
+        if (unit) {
+          share[id] = (share[id] || 0) + unit * r.n * f;
+          if (r.to.length === 1) single[id] = (single[id] || 0) + unit * r.n;
+        }
+      });
+    });
     crew.forEach((c) => {
       const n = Math.max(0, num(rt[c.id]));
       if (n) {
         rented[c.id] = n;
         rAssigned += n;
+        lines.push({ to: [c.id], n });
+        if (unit) share[c.id] = single[c.id] = unit * n;
       }
     });
     const short = Math.max(0, target - have - borrowed - rent);
     const total = unit * rent;
-    const share = {};
-    crew.forEach((c) => {
-      if (rented[c.id] && unit) share[c.id] = unit * rented[c.id];
-    });
+    if (rg > 0) lines.unshift({ to: [], n: rg });
     if (rg > 0 && unit > 0) {
-      // the group's units are split by the item's billing, skipping people who were excused
+      // the group's units are split by the item's method, skipping people who were excused
       const free = crew.filter((c) => !excl[c.id]);
       const pool = free.length ? free : crew;
-      const w = (c) => (it.split === 'nights' ? nights(c) : 1);
-      const ws = pool.reduce((a, c) => a + w(c), 0);
-      if (ws) pool.forEach((c) => (share[c.id] = (share[c.id] || 0) + (unit * rg * w(c)) / ws));
+      const ws = pool.reduce((a, c) => a + wOf(c), 0);
+      if (ws) pool.forEach((c) => (share[c.id] = (share[c.id] || 0) + (unit * rg * wOf(c)) / ws));
     }
-    // the cost of a split rental is shared by the people splitting it: by their nights on the river, or equally
-    const byNights = (g.rw || (priceMode(g, D) === 'day' ? 'nights' : 'even')) === 'nights';
-    pools.forEach((p) => {
-      const sum = p.reduce((a, id) => a + (share[id] || 0), 0);
-      const units = p.reduce((a, id) => a + (rented[id] || 0), 0);
-      const w = (id) => (byNights ? nights(crew.find((c) => c.id === id)) : 1);
-      const ws = p.reduce((a, id) => a + w(id), 0) || 1;
-      p.forEach((id) => {
-        if (sum) share[id] = (sum * w(id)) / ws;
-        if (units) rented[id] = (units * w(id)) / ws;
-      });
-    });
     const assigned = Object.values(share).reduce((a, b) => a + b, 0);
     // what needs fixing before the numbers can be trusted
     const issues = [];
@@ -208,12 +209,12 @@ export function ledger(t) {
     if (Math.abs(rAssigned - rent) > 0.005) {
       issues.push(
         rAssigned < rent
-          ? `Renting ${f2(rent)}, but only ${f2(rAssigned)} is assigned. Assign the other ${f2(rent - rAssigned)} to the group or crew.`
+          ? `Renting ${f2(rent)}, but only ${f2(rAssigned)} is assigned. Assign the other ${f2(rent - rAssigned)} to people.`
           : `${f2(rAssigned)} is assigned, but Renting is ${f2(rent)}. Lower the assigned numbers or raise Renting.`
       );
     }
     if (rent > 0 && blank(g.f) && blank(g.d)) issues.push('Add a rental price. $0 is fine, but it can’t be blank.');
-    return { id: g.id, raw: g, ...it, unit, have, need, lend, borrowed, lendGroup, target, rent, short, total, share, loose: Math.max(0, total - assigned), units, named, excl, rented, rAssigned, issues };
+    return { id: g.id, raw: g, ...it, unit, have, need, lend, borrowed, lendGroup, target, rent, short, total, share, single, lines, manual, loose: Math.max(0, total - assigned), units, named, excl, rented, rAssigned, issues };
   });
   const by = {};
   crew.forEach((c) => (by[c.id] = { even: 0, nights: 0, users: 0, personal: 0, total: 0, nightsCount: nights(c) }));
@@ -224,7 +225,9 @@ export function ledger(t) {
     loose += it.loose;
     crew.forEach((c) => {
       const v = it.share[c.id] || 0;
-      by[c.id][it.split] += v;
+      const one = Math.min(v, it.single[c.id] || 0);
+      by[c.id].personal += one;
+      by[c.id][it.split] = (by[c.id][it.split] || 0) + v - one;
       by[c.id].total += v;
     });
   });

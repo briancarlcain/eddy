@@ -13,6 +13,7 @@ human pass before the app is public. Tick these off as you go:
 - [ ] **Grand Canyon 2026 gear counts** (`data/trip.json`, `src/gearQty.js`): every item's counts (needs, brings, lends, renting, group total) were set from the Gear tab of the trip sheet; older copies take them once (`qtyV`). Check against the sheet:
   - PFD: Tyler Karian needs 1. The sheet counts 8 and 7 are bringing one, so the missing one is his (inferred).
   - Rented with no price in the sheet (left blank): River Shoes, Neoprene Socks, Dry Suit, Rear Deck, Gear Pickup Tip, Gear Delivery Tip.
+  - Rentals are now split either evenly or by nights on the river, and allocated to the whole group or unit by unit. Old copies were converted without changing totals; check the Grand Canyon items that were "Individual" or "Shared by users" (by-user lines below are divided among the whole group until you allocate them manually).
   - By-user lines (NPS pass, Hualapai personal vehicle fee, vehicle shuttle tip, personal-vehicle shuttles, parking) are split evenly; the sheet splits them by who uses each (Jane and Maya pay less or nothing).
   - Per-person Renting entries on group items (Extra Sand Stakes, Truck & Trailer Gear Pickup - Diamond Creek) are not carried; group counts come from the sheet's group columns.
   - Text in number cells: Guitar & Other Musical Instruments (Davis, "1 (guitar harp shaker)") counts as 1; "Optional", "BYO" and Jetboil Fuel "X ml" have no count.

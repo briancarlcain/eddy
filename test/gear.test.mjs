@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { coverOf, gearKind, ledger, lendAlloc, unitsOf } from '../src/gearLedger.js';
 import { convertRentals, legacyLedger } from '../src/gearLegacy.js';
 import { applySheetQty } from '../src/gearQty.js';
+import { convertSplits } from '../src/gearSplit.js';
 import { readFileSync } from 'node:fs';
 
 const crew = [{ id: 's', name: 'Sam' }, { id: 'a', name: 'Alex' }, { id: 'j', name: 'Jo' }];
@@ -121,24 +122,59 @@ assert.equal(gearKind({ n: 'x', s: 'even', k: 'personal' }), 'personal');
   for (const c of trip.crew) assert.ok(Math.abs(before.by[c.id].total - after.by[c.id].total) < 1, `${c.name}: ${before.by[c.id].total} vs ${after.by[c.id].total}`);
   assert.equal(after.items.filter((i) => i.issues.length).length, 0, 'converted rentals have nothing to fix');
 }
-// two people split one rented unit: it covers both and they pay half each
+// rentals listed unit by unit: each unit's people pay for it by the item's method
 {
-  const it = one({ k: 'personal', s: 'personal', d: 10, rn: '1', rnTo: { s: '1' }, e: { s: { need: 1, rentWith: ['a'] }, a: { need: 1 }, j: { need: 1 } } });
-  near(it.target, 2, 'two need one unit between them, plus Jo'); near(it.short, 1, 'only Jo is short');
-  near(it.total, 100, 'one unit'); near(it.share.s, 50, 'half'); near(it.share.a, 50, 'half'); balanced(it);
-  const solo = one({ k: 'personal', s: 'personal', d: 10, rn: '1', rnTo: { s: '1' }, e: { s: { need: 1 }, a: { need: 1 } } });
-  near(solo.target, 2, 'not split'); near(solo.share.a || 0, 0, 'Alex pays nothing'); near(solo.short, 1, 'short');
+  const c4 = [{ id: 'j', name: 'Joe', days: 3 }, { id: 'm', name: 'Jim', days: 3 }, { id: 'n', name: 'John', days: 2 }, { id: 'k', name: 'Jack', days: 3 }, { id: 'x', name: 'James', days: 2 }];
+  const pads = { k: 'personal', s: 'nights', f: undefined, d: 10, ra: 'manual', rn: '4', ru: [{ to: ['j'] }, { to: ['j'] }, { to: ['m'] }, { to: ['n', 'k'] }], e: { j: { need: 2 }, m: { need: 1 }, n: { need: 1 }, k: { need: 1 }, x: { need: 0 } } };
+  const it = ledger({ days: 3, crew: c4, gear: [{ id: 'p', n: 'Paco Pad', ...pads }] }).items[0];
+  near(it.total, 120, 'four pads at $30'); near(it.share.j, 60, 'Joe'); near(it.share.m, 30, 'Jim'); near(it.share.n, 12, 'John'); near(it.share.k, 18, 'Jack'); near(it.share.x || 0, 0, 'James');
+  near(it.target, 4, 'two people on one pad need one between them'); near(it.short, 0, 'covered'); near(it.loose, 0, 'all assigned'); assert.equal(it.issues.length, 0);
+  const even = ledger({ days: 3, crew: c4, gear: [{ id: 'p', n: 'Paco Pad', ...pads, s: 'even' }] }).items[0];
+  near(even.share.n, 15, 'equal'); near(even.share.k, 15, 'equal');
+  // the units do not add up to what is rented
+  const few = ledger({ days: 3, crew: c4, gear: [{ id: 'p', n: 'Paco Pad', ...pads, rn: '6' }] }).items[0];
+  assert.equal(few.issues.length, 1); assert.match(few.issues[0], /only 4 is assigned/); near(few.loose, 60, 'unassigned cost');
+  const over = ledger({ days: 3, crew: c4, gear: [{ id: 'p', n: 'Paco Pad', ...pads, rn: '3' }] }).items[0];
+  assert.match(over.issues[0], /4 is assigned, but Renting is 3/);
+  // a unit with no one on it is not assigned
+  const none = ledger({ days: 3, crew: c4, gear: [{ id: 'p', n: 'Paco Pad', ...pads, ru: [{ to: [] }, ...pads.ru.slice(1)] }] }).items[0];
+  assert.match(none.issues[0], /only 3 is assigned/);
+  // dividing among the entire group uses the same method
+  const grp = ledger({ days: 3, crew: c4, gear: [{ id: 'p', n: 'Paco Pad', k: 'group', s: 'nights', f: undefined, d: 10, ra: 'group', rn: '1' }] }).items[0];
+  near(grp.share.j, 30 * 3 / 13, 'by nights'); near(grp.share.x, 30 * 2 / 13, 'by nights'); balanced(grp);
 }
-// a split rental is shared by nights on the river when priced per day, or equally when asked
+// saved trips move to the two methods and unit rentals without changing what anyone pays
 {
-  const c2 = [{ id: 's', name: 'Sam', days: 6 }, { id: 'a', name: 'Alex', days: 18 }];
-  const g = { k: 'personal', s: 'personal', f: undefined, d: 10, rn: '1', rnTo: { a: '1' }, e: { s: { need: 1, rentWith: ['a'] }, a: { need: 1 } } };
-  const n = one(g, c2);
-  near(n.total, 100, 'one unit'); near(n.share.s, 25, 'Sam 6 of 24 nights'); near(n.share.a, 75, 'Alex 18 of 24 nights'); balanced(n);
-  const ev = one({ ...g, rw: 'even' }, c2);
-  near(ev.share.s, 50, 'equal'); near(ev.share.a, 50, 'equal');
-  const flat = one({ ...g, d: undefined, f: 100 }, c2);
-  near(flat.share.s, 50, 'flat fee defaults to equal');
+  const c3 = [{ id: 's', name: 'Sam', days: 6 }, { id: 'a', name: 'Alex', days: 10 }, { id: 'j', name: 'Jo', days: 10 }];
+  const old = {
+    days: 10,
+    crew: c3,
+    gear: [
+      { id: '1', n: 'Tent', c: 'Sleep', s: 'personal', d: 10, rn: '2', rnTo: { s: '1', j: '1' }, e: { s: { need: 1, rentWith: ['a'] }, a: { need: 1 }, j: { need: 1 } } },
+      { id: '2', n: 'Kitchen', c: 'Kitchen', s: 'nights', f: 90, q: 1, rn: '1', rnTo: { group: '1' }, e: {} },
+      { id: '3', n: 'Fee', c: 'Shuttle', s: 'users', f: 30, q: 2, rn: '3', rnTo: { group: '1', a: '1' }, e: {} },
+      { id: '4', n: 'Cot', c: 'Sleep', s: 'personal', d: 5, q: 9, rn: '1', rnTo: { j: '1' }, e: { j: { need: 1 } } },
+      { id: '5', n: 'Stove', c: 'Kitchen', s: 'even', f: 40, rn: '2', e: {} },
+    ],
+  };
+  const before = ledger(old);
+  const gear = convertSplits(old);
+  const after = ledger({ ...old, gear });
+  assert.ok(before.total > 0);
+  before.items.forEach((x, i) => {
+    const y = after.items[i];
+    if (x.name === 'Tent' || x.name === 'Stove') return; // sharing a unit lived in each person's entry; a rental nobody was assigned stays unassigned
+    for (const f of ['total', 'rent', 'short', 'target', 'loose']) near(x[f], y[f], `${x.name} ${f}`);
+    for (const c of c3) near(x.share[c.id] || 0, y.share[c.id] || 0, `${x.name} ${c.name}`);
+    assert.equal(x.kind, y.kind); assert.equal(x.issues.length, y.issues.length, x.name);
+  });
+  const tent = after.items[0];
+  near(tent.target, 2, 'Sam and Alex share one'); near(tent.short, 0, 'covered'); near(tent.share.s, 37.5, 'Sam 6 of 16 nights'); near(tent.share.a, 62.5, 'Alex'); near(tent.share.j, 100, 'Jo');
+  near(after.items[4].loose, 80, 'unassigned rental stays unassigned'); assert.equal(after.items[4].issues.length, 1);
+  assert.deepEqual(gear.map((g) => g.s), ['nights', 'nights', 'even', 'even', 'even']);
+  assert.equal(gear[0].ra, 'manual'); assert.deepEqual(gear[0].ru[0].to, ['s', 'a']); assert.equal(gear[0].rnTo, undefined); assert.equal(gear[0].e.s.rentWith, undefined);
+  assert.equal(gear[1].ra, 'group'); assert.equal(gear[3].q, undefined);
+  assert.deepEqual(convertSplits({ ...old, gear }).map((g) => [g.s, g.k, g.ra]), gear.map((g) => [g.s, g.k, g.ra]));
 }
 // Grand Canyon 2026: the counts match the trip sheet
 {

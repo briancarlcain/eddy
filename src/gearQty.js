@@ -5,9 +5,9 @@ export function applySheetQty(gear, seedGear) {
   return gear.map((g) => {
     const s = by.get(g.id);
     if (!s) return g;
-    const { q, rn, rnTo, e, ...rest } = g;
+    const { q, rn, rnTo, ra, ru, e, ...rest } = g;
     // people the sheet leaves out are emptied, not dropped, so an older copy can't bring them back when synced
     const blank = Object.fromEntries(Object.keys(e || {}).map((k) => [k, {}]));
-    return { ...rest, e: { ...blank, ...s.e }, ...(s.q !== undefined ? { q: s.q } : {}), ...(s.rn !== undefined ? { rn: s.rn, rnTo: s.rnTo } : {}) };
+    return { ...rest, e: { ...blank, ...s.e }, ...(s.q !== undefined ? { q: s.q } : {}), ...(s.rn !== undefined ? { rn: s.rn, ...(s.ra ? { ra: s.ra } : {}), ...(s.ru ? { ru: s.ru } : {}), ...(s.rnTo ? { rnTo: s.rnTo } : {}) } : {}) };
   });
 }

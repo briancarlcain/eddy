@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
 import { createRoot } from 'react-dom/client';
 import { BUILTIN_RIVERS, DEFAULT_RIVER, normalizeRiver } from './rivers.js';
 import GENERAL from '../data/general.json';
-import { coverOf, gearKind, ledger, lendAlloc, num, priceMode, priceOf, rentGroups } from './gearLedger.js';
+import { coverOf, gearKind, ledger, lendAlloc, num, priceMode, priceOf } from './gearLedger.js';
 import { convertRentals } from './gearLegacy.js';
 import GEAR_ALL from '../data/gear.json';
 import SEED from '../data/trip.json';
@@ -13,6 +13,7 @@ import { canon, mergeTrips, stamp, strip } from './merge.js';
 import { recat } from './gearCats.js';
 import { GEAR_RENAMES } from './gearRename.js';
 import { applySheetQty } from './gearQty.js';
+import { convertSplits } from './gearSplit.js';
 import * as remote from './sync.js';
 import * as authApi from './auth.js';
 import TopoMap, { OfflinePanel } from './TopoMap.jsx';
@@ -704,14 +705,15 @@ function useStore() {
     const needsQ = (g) => gearKind(g) === 'group' && !num(g.q) && Object.values(g.e || {}).some((x) => num(x && x.need) > 0);
     const oldName = (t, g) => t.id === SEED.id && GEAR_RENAMES[g.n];
     const qtyOld = (t) => t.id === SEED.id && t.qtyV !== SEED.qtyV;
-    const stale = st.trips.filter((t) => (t.rentV !== 2 || qtyOld(t) || (t.gear || []).some((g) => g.c === 'River Essentials' || needsQ(g) || oldName(t, g))) && ((st.sync || {})[t.id] || {}).role !== 'viewer');
+    const stale = st.trips.filter((t) => (t.rentV !== 3 || qtyOld(t) || (t.gear || []).some((g) => g.c === 'River Essentials' || needsQ(g) || oldName(t, g))) && ((st.sync || {})[t.id] || {}).role !== 'viewer');
     if (!stale.length) return;
     const t0 = now();
     const trips = st.trips.map((t) => {
       if (!stale.includes(t)) return t;
       const sq = qtyOld(t);
-      const rent = t.rentV === 2 || sq ? {} : convertRentals(t);
-      return stamp(t, { ...t, rentV: 2, ...(sq ? { qtyV: SEED.qtyV } : {}), gear: (sq ? applySheetQty(t.gear || [], SEED.gear) : t.gear || []).map((g) => ({ ...g, c: recat(g), ...(oldName(t, g) ? { n: GEAR_RENAMES[g.n] } : {}), ...(needsQ(g) ? { q: Object.values(g.e).reduce((a, x) => a + num(x && x.need), 0) } : {}), ...(rent[g.id] || {}) })), at: t0 }, t0);
+      const rent = t.rentV >= 2 || sq ? {} : convertRentals(t);
+      const gear = (sq ? applySheetQty(t.gear || [], SEED.gear) : t.gear || []).map((g) => ({ ...g, c: recat(g), ...(oldName(t, g) ? { n: GEAR_RENAMES[g.n] } : {}), ...(needsQ(g) ? { q: Object.values(g.e).reduce((a, x) => a + num(x && x.need), 0) } : {}), ...(rent[g.id] || {}) }));
+      return stamp(t, { ...t, rentV: 3, ...(sq ? { qtyV: SEED.qtyV } : {}), gear: t.rentV === 3 ? gear : convertSplits({ ...t, gear }), at: t0 }, t0);
     });
     persist({ ...st, trips });
     stale.forEach((t) => {
@@ -1625,12 +1627,10 @@ function Meals({ s }) {
   );
 }
 
-const SPLITS = { even: 'Even split', nights: 'By nights on river', users: 'Shared by users', personal: 'Individual' };
+const SPLITS = [['even', 'Split evenly'], ['nights', 'Split based on nights on the river']];
 const SPLIT_HELP = {
-  even: 'Everyone pays the same, however long they’re on the river.',
-  nights: 'Pay for the nights you’re on the river. Someone aboard 10 of the group’s 40 total nights pays 10/40 (25%) of the cost. Good for things used every day, like the kitchen.',
-  users: 'Shared items the group needs (set how many). Paid only by people who enter a Need, in proportion to how many each needs.',
-  personal: 'Everyone rents their own, like a PFD. Paid only by people who enter a Need, in proportion to how many each needs.',
+  even: 'Everyone counted pays the same, however long they’re on the river.',
+  nights: 'Pay for the nights you’re on the river. Someone aboard 10 of the group’s 40 total nights pays 10/40 (25%) of the cost.',
 };
 const REQ = { req: ['Required', '#9c3326'], rec: ['Recommended', '#a8722a'] };
 const usd = (n) => (n >= 0.005 ? '$' + n.toFixed(2) : '');
@@ -1641,7 +1641,7 @@ const TIPS = {
   group: 'Total the group needs. Calculated from everyone’s “I need”. Type a number to override it.',
   lend: 'Extra ones you can bring for others to use. Each one lent means one fewer rented.',
   price: 'Rental cost of one item. A flat fee is charged once; a per-day price is multiplied by the trip’s days. If both are entered, the lower cost is charged.',
-  split: Object.entries(SPLIT_HELP).map(([k, v]) => SPLITS[k] + ': ' + v).join('\n'),
+  split: SPLITS.map(([k, l]) => l + ': ' + SPLIT_HELP[k]).join('\n'),
 };
 function useTip() {
   const [tip, setTip] = useState('');
@@ -1707,10 +1707,10 @@ function GearFields({ v, up, days, cats, T }) {
           </option>
         ))}
       </Sel>
-      <span className="label">How it’s billed {T.btn('split')}</span>
+      <span className="label">How it’s split {T.btn('split')}</span>
       {T.box('split')}
       <div className="chips">
-        {Object.entries(SPLITS).map(([k, l]) => (
+        {SPLITS.map(([k, l]) => (
           <button key={k} className={'chip' + (v.s === k ? ' on' : '')} onClick={() => up('s', k)}>
             {l}
           </button>
@@ -1720,7 +1720,7 @@ function GearFields({ v, up, days, cats, T }) {
       <span className="label">Rental price per item {T.btn('price')}</span>
       {T.box('price')}
       <PriceField v={v} up={up} days={days} />
-      {v.s !== 'personal' && v.k === 'personal' && (
+      {v.k === 'personal' && (
         <>
           <span className="label">Group total (leave blank to add up everyone’s needs) {T.btn('group')}</span>
           {T.box('group')}
@@ -2000,10 +2000,7 @@ function gearFlows(it, crew) {
       return { to, from, n, toName: to === 'group' ? 'The group' : nm(to), fromName: nm(from) };
     })
     .sort((a, b) => (a.to === 'group') - (b.to === 'group') || a.toName.localeCompare(b.toName) || a.fromName.localeCompare(b.fromName));
-  const rt = it.raw.rnTo && typeof it.raw.rnTo === 'object' ? it.raw.rnTo : {};
-  const rent = [];
-  if (num(rt.group) > 0) rent.push(['The group', num(rt.group)]);
-  byFirst(crew).forEach((c) => num(rt[c.id]) > 0 && rent.push([nm(c.id), num(rt[c.id])]));
+  const rent = it.lines.map((l) => [l.to.length ? l.to.map(nm).join(' & ') : 'The group', l.n]);
   return { bring, borrow, rent, nm };
 }
 
@@ -2413,18 +2410,6 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
     patch({ e: { ...it.e, [me]: { ...rest, lendTo: next } } });
   };
   const nameOf = (id) => (crew.find((c) => c.id === id) || {}).name || '';
-  // people splitting one rented unit with this person
-  const mates = (rentGroups(it.e, crew.map((c) => c.id)).find((g) => g.includes(me)) || []).filter((id) => id !== me);
-  const rw = it.raw.rw || (priceMode(it.raw, days) === 'day' ? 'nights' : 'even');
-  const setMate = (id, on) => {
-    const upd = (a, b) => {
-      const cur = ((it.e[a] || {}).rentWith || []).filter((x) => x !== b);
-      return { ...(it.e[a] || {}), rentWith: on ? [...cur, b] : cur };
-    };
-    const e2 = { ...it.e, [me]: upd(me, id), [id]: upd(id, me) };
-    [me, id].forEach((k) => !e2[k].rentWith.length && delete e2[k].rentWith);
-    patch({ e: e2 });
-  };
   // who else is using the same unit as this person, with the one bringing it marked
   const sharing = it.units
     .filter((u) => u.to.length && (u.owner === me || u.to.includes(me)))
@@ -2433,7 +2418,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
     )
     .filter(Boolean);
   // the form reads and writes the short stored keys
-  const v = { n: it.name, k: it.kind, c: it.cat, s: it.split, r: it.req, f: it.raw.f, d: it.raw.d, pm: it.raw.pm, q: it.raw.q, qHint: it.split === 'personal' ? '' : String(+it.need.toFixed(2)) };
+  const v = { n: it.name, k: it.kind, c: it.cat, s: it.split, r: it.req, f: it.raw.f, d: it.raw.d, pm: it.raw.pm, q: it.raw.q, qHint: String(+it.need.toFixed(2)) };
     const need = num(e.need),
     have = num(e.have),
     lend = num(e.lend);
@@ -2451,14 +2436,16 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
   ];
   const [warn, setWarn] = useState(false);
   const [rentOpen, setRentOpen] = useState(true);
-  const rt = it.raw.rnTo && typeof it.raw.rnTo === 'object' ? it.raw.rnTo : {};
   const rn = Math.max(0, num(it.raw.rn));
-  const rnLeft = Math.max(0, rn - it.rAssigned);
-  const setRent = (id, x) => {
-    const next = { ...rt, [id]: x };
-    if (!num(x)) delete next[id];
-    patch({ rnTo: next });
+  const manual = it.raw.ra === 'manual';
+  const rows = Array.isArray(it.raw.ru) ? it.raw.ru : [];
+  const setRows = (next) => patch({ ru: next });
+  const setRow = (i, o) => setRows(rows.map((r, j) => (j === i ? { ...r, ...o } : r)));
+  const toggleRow = (i, id) => {
+    const to = rows[i].to || [];
+    setRow(i, { to: to.includes(id) ? to.filter((x) => x !== id) : [...to, id] });
   };
+  const setMode = (m) => patch(m === 'manual' ? { ra: 'manual', ru: rows.length ? rows : Array.from({ length: Math.min(30, Math.round(rn)) }, () => ({ to: [] })) } : { ra: 'group' });
   const others = crew.filter((c) => c.id !== me && (grp ? ['have', 'lend'] : ['need', 'have', 'lend']).some((k) => num((it.e[c.id] || {})[k])));
   return (
     <div className={'grItem' + (open ? ' open' : '')}>
@@ -2525,7 +2512,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                     return (
                       <div key={c.id}>
                         <Step label={c.name || 'Unnamed'} value={a.n} max={Math.floor(num(a.n)) + restLend} onChange={(x) => setAlloc(c.id, { n: x })} />
-                        {num(a.n) > 0 && it.split !== 'personal' && (
+                        {num(a.n) > 0 && !manual && (
                           <label className="chk">
                             <input type="checkbox" checked={!!a.x} onChange={(ev) => setAlloc(c.id, { x: ev.target.checked })} />
                             <span>Not responsible for rental cost</span>
@@ -2540,7 +2527,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                 <details className="gdet" open={(e.share || []).some((u) => u && ((u.to || []).length || u.g))}>
                   <summary>Who else uses what you bring for yourself</summary>
                   {Array.from({ length: Math.floor(have) }, (_, i) => (
-                    <UnitPick key={'o' + i} title={`Mine #${i + 1}: also used by`} u={(e.share || [])[i] || {}} crew={crew} me={me} money={it.split !== 'personal'} onChange={(o) => setUnit('share', i, o)} />
+                    <UnitPick key={'o' + i} title={`Mine #${i + 1}: also used by`} u={(e.share || [])[i] || {}} crew={crew} me={me} money={!manual} onChange={(o) => setUnit('share', i, o)} />
                   ))}
                 </details>
               )}
@@ -2550,42 +2537,55 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                 </div>
               ))}
               <Step label="Renting" value={it.raw.rn} onChange={(x) => patch({ rn: x })} />
-              {!grp && crew.length > 1 && (
-                <details className="gdet" open={mates.length > 0}>
-                  <summary>{mates.length ? `Splitting a rental with ${mates.map(nameOf).join(', ')}` : 'Splitting a rental with someone'}</summary>
-                  <div className="muted mb-s">One rented unit covers everyone checked.</div>
-                  {mates.length > 0 && (
-                    <div className="seg mb-s">
-                      {[['nights', 'Split by nights on the river'], ['even', 'Split equally']].map(([k, l]) => (
-                        <label className="chk" key={k}>
-                          <input type="radio" name={'rw' + it.id} checked={rw === k} onChange={() => patch({ rw: k })} />
-                          <span>{l}</span>
-                        </label>
-                      ))}
-                    </div>
-                  )}
-                  {byFirst(crew).filter((c) => c.id !== me).map((c) => (
-                    <label className="chk" key={c.id}>
-                      <input type="checkbox" checked={mates.includes(c.id)} onChange={(ev) => setMate(c.id, ev.target.checked)} />
-                      <span>{c.name || 'Unnamed'}</span>
-                    </label>
-                  ))}
-                </details>
-              )}
               {rn > 0 && (
                 <div className="assign">
                   <button type="button" className="assignHead" aria-expanded={rentOpen} onClick={() => setRentOpen(!rentOpen)}>
-                    <span className="label">
-                      Who is it for · {+it.rAssigned.toFixed(2)} of {+rn.toFixed(2)} assigned
-                    </span>
+                    <span className="label">{manual ? `Who pays · ${+it.rAssigned.toFixed(2)} of ${+rn.toFixed(2)} assigned` : 'Who pays · the entire group'}</span>
                     <Icon name="chevron" size={16} className="chev" />
                   </button>
                   {rentOpen && (
                     <>
-                  <Step label="Group" value={rt.group} max={Math.max(0, num(rt.group)) + rnLeft} onChange={(x) => setRent('group', x)} />
-                  {byFirst(crew).map((c) => (
-                    <Step key={c.id} label={c.id === me ? `${c.name || 'Unnamed'} (${you ? 'you' : 'them'})` : c.name || 'Unnamed'} value={rt[c.id]} max={Math.max(0, num(rt[c.id])) + rnLeft} onChange={(x) => setRent(c.id, x)} />
-                  ))}
+                      <span className="label">How it’s split</span>
+                      <div className="chips">
+                        {SPLITS.map(([k, l]) => (
+                          <button key={k} className={'chip' + (it.split === k ? ' on' : '')} onClick={() => patch({ s: k })}>
+                            {l}
+                          </button>
+                        ))}
+                      </div>
+                      <span className="label">Allocation</span>
+                      <div className="chips">
+                        {[['group', 'Divide among the entire group'], ['manual', 'Allocate manually']].map(([k, l]) => (
+                          <button key={k} className={'chip' + ((manual ? 'manual' : 'group') === k ? ' on' : '')} onClick={() => setMode(k)}>
+                            {l}
+                          </button>
+                        ))}
+                      </div>
+                      {manual && (
+                        <>
+                          {rows.map((r, i) => (
+                            <div className="unitRow" key={i}>
+                              <div className="unitHead">
+                                <b>Rental {i + 1}</b>
+                                <button type="button" className="unitX" aria-label={`Remove rental ${i + 1}`} onClick={() => setRows(rows.filter((_, j) => j !== i))}>
+                                  Remove
+                                </button>
+                              </div>
+                              {r.n !== undefined && num(r.n) !== 1 && <Step label="Quantity" value={r.n} onChange={(x) => setRow(i, { n: x })} />}
+                              <div className="chips">
+                                {byFirst(crew).map((c) => (
+                                  <button key={c.id} className={'chip' + ((r.to || []).includes(c.id) ? ' on' : '')} onClick={() => toggleRow(i, c.id)}>
+                                    {crew.filter((x) => firstOf(x) === firstOf(c)).length > 1 ? `${firstOf(c)} ${((c.name || '').trim().split(/\s+/).pop() || '')[0] || ''}.` : firstOf(c) || 'Unnamed'}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                          <button type="button" className="btn ghost" onClick={() => setRows([...rows, { to: [] }])}>
+                            Add rental
+                          </button>
+                        </>
+                      )}
                     </>
                   )}
                   <span className="label mt-s">Rental price per item</span>
@@ -2630,7 +2630,6 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                     <span className="gcName">{c.name}</span>
                     <span className="muted">
                       {it.kind === 'group' ? '' : `needs ${+num(x.need).toFixed(2)} · `}own {+(it.kind === 'group' ? num(x.have) : Math.min(num(x.have), num(x.need))).toFixed(2)} · for others {+num(x.lend).toFixed(2)}
-                      {(rentGroups(it.e, crew.map((k) => k.id)).find((g) => g.includes(c.id)) || []).filter((id) => id !== c.id).length > 0 && ` · splits a rental with ${rentGroups(it.e, crew.map((k) => k.id)).find((g) => g.includes(c.id)).filter((id) => id !== c.id).map(nameOf).join(', ')}`}
                     </span>
                     <span className="gcAmt">{it.share[c.id] ? usd(it.share[c.id]) : ''}</span>
                   </div>
@@ -2654,7 +2653,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
 }
 
 function AddGear({ s, days, cats, kind, onDone }) {
-  const [f, setF] = useState({ n: '', k: kind || 'personal', c: '', s: 'personal', pm: 'flat', f: '', d: '', q: '', r: '' });
+  const [f, setF] = useState({ n: '', k: kind || 'personal', c: '', s: 'even', pm: 'flat', f: '', d: '', q: '', r: '' });
   const T = useTip();
   const up = (k, v) => setF({ ...f, [k]: v });
   return (
