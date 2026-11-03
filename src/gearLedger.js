@@ -85,6 +85,22 @@ export function coverOf(it, id) {
   return { own: own > 0, borrowed: named > 0 || pool, rented: (it.rented[id] || 0) > 0 || (it.share[id] || 0) > 0.005 };
 }
 
+// people splitting one rented unit (each lists who they split with; either side is enough)
+export function rentGroups(e, ids) {
+  const up = {};
+  const find = (x) => (up[x] === undefined || up[x] === x ? (up[x] = x) : (up[x] = find(up[x])));
+  ids.forEach((id) => {
+    (((e[id] || {}).rentWith) || []).forEach((o) => {
+      if (o !== id && ids.includes(o)) up[find(id)] = find(o);
+    });
+  });
+  const by = {};
+  ids.forEach((id) => {
+    if ((((e[id] || {}).rentWith) || []).some((o) => o !== id && ids.includes(o)) || ids.some((o) => o !== id && (((e[o] || {}).rentWith) || []).includes(id))) (by[find(id)] ||= []).push(id);
+  });
+  return Object.values(by).filter((g) => g.length > 1);
+}
+
 export function ledger(t) {
   const D = Math.max(1, num(t.days) || 1);
   const crew = t.crew;
@@ -137,7 +153,14 @@ export function ledger(t) {
     const shared = units.some((x) => x.to.length);
     // lent units are extra physical units, whoever they go to
     const borrowed = grp ? lend : namedTotal + lendGroup;
-    const target = grp ? it.qty : it.split === 'personal' ? need : it.qty || need;
+    // people splitting a rented unit need one between them
+    const pools = grp ? [] : rentGroups(it.e, crew.map((c) => c.id));
+    let cut = 0;
+    pools.forEach((p) => {
+      const gaps = p.map((id) => Math.max(0, num((it.e[id] || {}).need) - own[id]));
+      cut += gaps.reduce((a, b) => a + b, 0) - Math.max(...gaps);
+    });
+    const target = grp ? it.qty : it.split === 'personal' ? Math.max(0, need - cut) : it.qty || Math.max(0, need - cut);
     // rentals are entered by hand: a quantity, and who each unit is for (the group or a person)
     const rt = g.rnTo && typeof g.rnTo === 'object' ? g.rnTo : {};
     const rent = Math.max(0, num(g.rn));
@@ -165,6 +188,15 @@ export function ledger(t) {
       const ws = pool.reduce((a, c) => a + w(c), 0);
       if (ws) pool.forEach((c) => (share[c.id] = (share[c.id] || 0) + (unit * rg * w(c)) / ws));
     }
+    // the cost of a split rental is shared equally by the people splitting it
+    pools.forEach((p) => {
+      const sum = p.reduce((a, id) => a + (share[id] || 0), 0);
+      const units = p.reduce((a, id) => a + (rented[id] || 0), 0);
+      p.forEach((id) => {
+        if (sum) share[id] = sum / p.length;
+        if (units) rented[id] = units / p.length;
+      });
+    });
     const assigned = Object.values(share).reduce((a, b) => a + b, 0);
     // what needs fixing before the numbers can be trusted
     const issues = [];
