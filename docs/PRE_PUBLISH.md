@@ -10,6 +10,13 @@ human pass before the app is public. Tick these off as you go:
 - [ ] **Packing reference quantities** (`gear` in `data/general.json`, Gear > Packing reference): each item's "per person / per group / per boat" recommendation was written from general knowledge, not a source. Check the counts and who each item is for.
 - [ ] **Gear categories** (`data/gear.json`): River Essentials was split into Boats & Rigging, Permits & Documents, Camp, Safety and Bathroom. Check each moved item sits where you expect.
 - [ ] **Gear names** (`data/gear.json`, `src/gearRename.js`): quantity, size and unit moved after the item name (for example Solar Panel (21W)). Check the 16 renamed items read right.
+- [ ] **Grand Canyon 2026 gear counts** (`data/trip.json`, `src/gearQty.js`): every item's counts (needs, brings, lends, renting, group total) were set from the Gear tab of the trip sheet; older copies take them once (`qtyV`). Check against the sheet:
+  - PFD: Tyler Karian needs 1. The sheet counts 8 and 7 are bringing one, so the missing one is his (inferred).
+  - Rented with no price in the sheet (left blank): River Shoes, Neoprene Socks, Dry Suit, Rear Deck, Gear Pickup Tip, Gear Delivery Tip.
+  - By-user lines (NPS pass, Hualapai personal vehicle fee, vehicle shuttle tip, personal-vehicle shuttles, parking) are split evenly; the sheet splits them by who uses each (Jane and Maya pay less or nothing).
+  - Per-person Renting entries on group items (Extra Sand Stakes, Truck & Trailer Gear Pickup - Diamond Creek) are not carried; group counts come from the sheet's group columns.
+  - Text in number cells: Guitar & Other Musical Instruments (Davis, "1 (guitar harp shaker)") counts as 1; "Optional", "BYO" and Jetboil Fuel "X ml" have no count.
+  - Counts the sheet leaves blank stay blank (for example Saw, Lantern, Pots have no group total).
 - [ ] **LNT tab** (`lnt` in `data/general.json`): check each tip against current Leave No Trace guidance and the rules of the rivers you cover (gray water, ash, urine, toilet paper, wood collecting differ by river). Written from general knowledge, no sources recorded.
 - [ ] **Preliminary river entries** (Alsek, Tatshenshini, Bruneau-Jarbidge, Deschutes, John Day, Owyhee, Green River
   Labyrinth/Stillwater, Dolores): the river miles, access-point miles and map coordinates were written from memory and are

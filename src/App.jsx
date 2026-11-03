@@ -12,6 +12,7 @@ import { askReminders, boot, clearReminders, hideSplash, isNative, onOpenUrl, on
 import { canon, mergeTrips, stamp, strip } from './merge.js';
 import { recat } from './gearCats.js';
 import { GEAR_RENAMES } from './gearRename.js';
+import { applySheetQty } from './gearQty.js';
 import * as remote from './sync.js';
 import * as authApi from './auth.js';
 import TopoMap, { OfflinePanel } from './TopoMap.jsx';
@@ -702,13 +703,15 @@ function useStore() {
     const st = stateRef.current;
     const needsQ = (g) => gearKind(g) === 'group' && !num(g.q) && Object.values(g.e || {}).some((x) => num(x && x.need) > 0);
     const oldName = (t, g) => t.id === SEED.id && GEAR_RENAMES[g.n];
-    const stale = st.trips.filter((t) => (t.rentV !== 2 || (t.gear || []).some((g) => g.c === 'River Essentials' || needsQ(g) || oldName(t, g))) && ((st.sync || {})[t.id] || {}).role !== 'viewer');
+    const qtyOld = (t) => t.id === SEED.id && t.qtyV !== SEED.qtyV;
+    const stale = st.trips.filter((t) => (t.rentV !== 2 || qtyOld(t) || (t.gear || []).some((g) => g.c === 'River Essentials' || needsQ(g) || oldName(t, g))) && ((st.sync || {})[t.id] || {}).role !== 'viewer');
     if (!stale.length) return;
     const t0 = now();
     const trips = st.trips.map((t) => {
       if (!stale.includes(t)) return t;
-      const rent = t.rentV === 2 ? {} : convertRentals(t);
-      return stamp(t, { ...t, rentV: 2, gear: (t.gear || []).map((g) => ({ ...g, c: recat(g), ...(oldName(t, g) ? { n: GEAR_RENAMES[g.n] } : {}), ...(needsQ(g) ? { q: Object.values(g.e).reduce((a, x) => a + num(x && x.need), 0) } : {}), ...(rent[g.id] || {}) })), at: t0 }, t0);
+      const sq = qtyOld(t);
+      const rent = t.rentV === 2 || sq ? {} : convertRentals(t);
+      return stamp(t, { ...t, rentV: 2, ...(sq ? { qtyV: SEED.qtyV } : {}), gear: (sq ? applySheetQty(t.gear || [], SEED.gear) : t.gear || []).map((g) => ({ ...g, c: recat(g), ...(oldName(t, g) ? { n: GEAR_RENAMES[g.n] } : {}), ...(needsQ(g) ? { q: Object.values(g.e).reduce((a, x) => a + num(x && x.need), 0) } : {}), ...(rent[g.id] || {}) })), at: t0 }, t0);
     });
     persist({ ...st, trips });
     stale.forEach((t) => {
