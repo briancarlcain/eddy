@@ -2415,6 +2415,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
   const nameOf = (id) => (crew.find((c) => c.id === id) || {}).name || '';
   // people splitting one rented unit with this person
   const mates = (rentGroups(it.e, crew.map((c) => c.id)).find((g) => g.includes(me)) || []).filter((id) => id !== me);
+  const rw = it.raw.rw || (priceMode(it.raw, days) === 'day' ? 'nights' : 'even');
   const setMate = (id, on) => {
     const upd = (a, b) => {
       const cur = ((it.e[a] || {}).rentWith || []).filter((x) => x !== b);
@@ -2552,7 +2553,17 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
               {!grp && crew.length > 1 && (
                 <details className="gdet" open={mates.length > 0}>
                   <summary>{mates.length ? `Splitting a rental with ${mates.map(nameOf).join(', ')}` : 'Splitting a rental with someone'}</summary>
-                  <div className="muted mb-s">One rented unit covers everyone checked, and they pay equal shares.</div>
+                  <div className="muted mb-s">One rented unit covers everyone checked.</div>
+                  {mates.length > 0 && (
+                    <div className="seg mb-s">
+                      {[['nights', 'Split by nights on the river'], ['even', 'Split equally']].map(([k, l]) => (
+                        <label className="chk" key={k}>
+                          <input type="radio" name={'rw' + it.id} checked={rw === k} onChange={() => patch({ rw: k })} />
+                          <span>{l}</span>
+                        </label>
+                      ))}
+                    </div>
+                  )}
                   {byFirst(crew).filter((c) => c.id !== me).map((c) => (
                     <label className="chk" key={c.id}>
                       <input type="checkbox" checked={mates.includes(c.id)} onChange={(ev) => setMate(c.id, ev.target.checked)} />
