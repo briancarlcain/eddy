@@ -188,13 +188,16 @@ export function ledger(t) {
       const ws = pool.reduce((a, c) => a + w(c), 0);
       if (ws) pool.forEach((c) => (share[c.id] = (share[c.id] || 0) + (unit * rg * w(c)) / ws));
     }
-    // the cost of a split rental is shared equally by the people splitting it
+    // the cost of a split rental is shared by the people splitting it: by their nights on the river, or equally
+    const byNights = (g.rw || (priceMode(g, D) === 'day' ? 'nights' : 'even')) === 'nights';
     pools.forEach((p) => {
       const sum = p.reduce((a, id) => a + (share[id] || 0), 0);
       const units = p.reduce((a, id) => a + (rented[id] || 0), 0);
+      const w = (id) => (byNights ? nights(crew.find((c) => c.id === id)) : 1);
+      const ws = p.reduce((a, id) => a + w(id), 0) || 1;
       p.forEach((id) => {
-        if (sum) share[id] = sum / p.length;
-        if (units) rented[id] = units / p.length;
+        if (sum) share[id] = (sum * w(id)) / ws;
+        if (units) rented[id] = (units * w(id)) / ws;
       });
     });
     const assigned = Object.values(share).reduce((a, b) => a + b, 0);

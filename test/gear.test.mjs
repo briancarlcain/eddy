@@ -129,6 +129,17 @@ assert.equal(gearKind({ n: 'x', s: 'even', k: 'personal' }), 'personal');
   const solo = one({ k: 'personal', s: 'personal', d: 10, rn: '1', rnTo: { s: '1' }, e: { s: { need: 1 }, a: { need: 1 } } });
   near(solo.target, 2, 'not split'); near(solo.share.a || 0, 0, 'Alex pays nothing'); near(solo.short, 1, 'short');
 }
+// a split rental is shared by nights on the river when priced per day, or equally when asked
+{
+  const c2 = [{ id: 's', name: 'Sam', days: 6 }, { id: 'a', name: 'Alex', days: 18 }];
+  const g = { k: 'personal', s: 'personal', f: undefined, d: 10, rn: '1', rnTo: { a: '1' }, e: { s: { need: 1, rentWith: ['a'] }, a: { need: 1 } } };
+  const n = one(g, c2);
+  near(n.total, 100, 'one unit'); near(n.share.s, 25, 'Sam 6 of 24 nights'); near(n.share.a, 75, 'Alex 18 of 24 nights'); balanced(n);
+  const ev = one({ ...g, rw: 'even' }, c2);
+  near(ev.share.s, 50, 'equal'); near(ev.share.a, 50, 'equal');
+  const flat = one({ ...g, d: undefined, f: 100 }, c2);
+  near(flat.share.s, 50, 'flat fee defaults to equal');
+}
 // Grand Canyon 2026: the counts match the trip sheet
 {
   const trip = JSON.parse(readFileSync(new URL('../data/trip.json', import.meta.url)));
