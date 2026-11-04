@@ -706,7 +706,8 @@ function useStore() {
     const needsQ = (g) => gearKind(g) === 'group' && !num(g.q) && Object.values(g.e || {}).some((x) => num(x && x.need) > 0);
     const oldName = (t, g) => t.id === SEED.id && GEAR_RENAMES[g.n];
     const qtyOld = (t) => t.id === SEED.id && t.qtyV !== SEED.qtyV;
-    const stale = st.trips.filter((t) => (t.rentV !== 3 || qtyOld(t) || (t.gear || []).some((g) => g.c === 'River Essentials' || needsQ(g) || oldName(t, g))) && ((st.sync || {})[t.id] || {}).role !== 'viewer');
+    // one-time upgrades only: they must never rerun on a trip being edited (clearing a quantity would snap it back)
+    const stale = st.trips.filter((t) => (t.rentV !== 3 || qtyOld(t)) && ((st.sync || {})[t.id] || {}).role !== 'viewer');
     if (!stale.length) return;
     const t0 = now();
     const trips = st.trips.map((t) => {
