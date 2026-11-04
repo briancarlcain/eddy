@@ -231,5 +231,5 @@ export function ledger(t) {
       by[c.id].total += v;
     });
   });
-  return { items, by, total, loose, allNights, days: D };
+  return { items, by, total, loose, allNights, days: D, nights: Object.fromEntries(crew.map((c) => [c.id, nights(c)])) };
 }

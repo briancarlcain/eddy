@@ -862,3 +862,41 @@ body.shot .onBehalf { top: calc(52px + 54px + 45px); }
 
 .rg .statBtn { background: none; font: inherit; color: inherit; cursor: pointer; min-height: 52px; display: flex; align-items: center; justify-content: center; }
 .rg .statBtn .statNum { font-size: 16px; }
+
+/* gear cost breakdown */
+.cb { padding-bottom: 24px; }
+.cb .sel { margin-top: 8px; }
+.cbHero { text-align: center; padding: 18px 0 8px; }
+.cbNum { font-size: 40px; font-weight: 650; color: var(--ink); letter-spacing: -.01em; }
+.cbKey { font-size: 14px; font-weight: 500; color: var(--ink-faint); margin-top: 2px; }
+.cbLoose { display: flex; justify-content: space-between; padding: 10px 12px; margin: 8px 0; border-radius: 10px; background: var(--accent-soft); }
+.cbBar { display: flex; height: 14px; border-radius: 7px; overflow: hidden; background: var(--line-soft); margin: 10px 0 6px; }
+.cbBar span { display: block; height: 100%; min-width: 2px; }
+.cbLegend.two { display: flex; flex-direction: column; gap: 4px; font-size: 14px; margin-bottom: 4px; }
+.cbLegend i, .cbCat i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 8px; flex: none; }
+.cbLegend b { margin-left: 6px; }
+.cbCats { display: flex; flex-direction: column; }
+.cbCat { display: flex; align-items: center; gap: 8px; padding: 9px 4px; border: 0; border-bottom: 1px solid var(--line-soft); background: none; font: inherit; color: var(--ink); text-align: left; min-height: 44px; cursor: pointer; }
+.cbCat.on { background: var(--accent-soft); border-radius: 8px; }
+.cbCatName { flex: 1; }
+.cbPerson { display: flex; align-items: center; gap: 10px; width: 100%; padding: 8px 0; border: 0; background: none; font: inherit; color: var(--ink); min-height: 44px; cursor: pointer; }
+.cbPName { flex: 0 0 34%; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cbPerson b { flex: 0 0 64px; text-align: right; }
+.cbTrack { flex: 1; height: 8px; border-radius: 4px; background: var(--line-soft); overflow: hidden; display: block; }
+.cbTrack span { display: block; height: 100%; border-radius: 4px; background: var(--accent); }
+.cbTrack.wide { flex: 0 0 100%; margin-top: 2px; height: 6px; }
+.cbHead { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.cbSort { display: inline-flex; gap: 4px; }
+.cbSortBtn { border: 1px solid var(--line); background: none; border-radius: 14px; padding: 4px 10px; font: inherit; font-size: 13px; color: var(--ink-dim); min-height: 30px; }
+.cbSortBtn.on { background: var(--accent-soft); border-color: var(--accent-line); color: var(--accent); font-weight: 600; }
+.cbItem { border-bottom: 1px solid var(--line-soft); }
+.cbItemHead { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; width: 100%; padding: 10px 0; border: 0; background: none; font: inherit; color: var(--ink); text-align: left; cursor: pointer; }
+.cbItemText { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.cbItemName { overflow-wrap: anywhere; }
+.cbDetail { padding: 0 0 12px; font-size: 14px; }
+.cbRow { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; color: var(--ink-dim); }
+.cbRow span:last-child { color: var(--ink); text-align: right; flex: none; }
+.cbRow.warn span { color: #b3341a; }
+.cbSub { font-weight: 600; margin: 8px 0 2px; }
+.rg .statTap { background: none; font: inherit; color: inherit; cursor: pointer; display: block; width: 100%; }
+.rg .statTap:disabled { cursor: default; }

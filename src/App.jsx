@@ -19,6 +19,7 @@ import * as authApi from './auth.js';
 import TopoMap, { OfflinePanel } from './TopoMap.jsx';
 import BasinMap, { hasBasin } from './BasinMap.jsx';
 import SunChart from './SunChart.jsx';
+import GearCost from './GearCost.jsx';
 import { applyTheme, riverCardStyle } from './theme.js';
 import { campHorizon, campSun, riverLine, dropHorizon, drops, dropsGPX, hasGeo, hikeTrack, onGeoChange, parseGPX, position, removeDrop, setHikeTrack, trackStats, updateDrop } from './geo/index.js';
 import { sunDay } from './geo/sun.js';
@@ -1786,6 +1787,7 @@ function Gear({ s }) {
   const [open, setOpen] = useState(null);
   const [adding, setAdding] = useState(false);
   const [tick, setTick] = useState(0);
+  const [cost, setCost] = useState(null);
   const order = useRef({ key: null, ids: [] });
   const L = useMemo(() => ledger(t), [t]);
 
@@ -1880,23 +1882,28 @@ function Gear({ s }) {
       )}
 
       <div className="stats two mt">
-        <div className="stat">
+        <button className="stat statTap" onClick={() => setCost('group')}>
           <div className="statNum">{usd0(L.total)}</div>
-          <div className="statKey">Trip gear cost</div>
-        </div>
+          <div className="statKey">Trip gear cost ›</div>
+        </button>
         {grp ? (
           <div className="stat">
             <div className="statNum">{L.items.filter((i) => i.short > 0.005).length}</div>
             <div className="statKey">Items still needed</div>
           </div>
         ) : (
-          <div className="stat">
+          <button className="stat statTap" disabled={!mine} onClick={() => setCost(who)}>
             <div className="statNum">{mine ? usd0(mine.total) : '—'}</div>
-            <div className="statKey">{mine ? `${whoName}’s share` : 'Pick a name'}</div>
-          </div>
+            <div className="statKey">{mine ? `${whoName}’s share ›` : 'Pick a name'}</div>
+          </button>
         )}
       </div>
       <GearRef pack={grp ? null : who ? <GearPack L={L} me={who} you={!as} name={whoName} tripId={t.id} crew={t.crew} /> : <div className="muted mt">Pick your name on the Gear tab to see your list.</div>} />
+      {cost && (
+        <FullPop title="Gear costs" onClose={() => setCost(null)}>
+          <GearCost L={L} crew={t.crew} start={cost} />
+        </FullPop>
+      )}
       {grp && <GroupSummary L={L} crew={t.crew} />}
       <div className="row mt">
         <Field value={find} onChange={(e) => setFind(e.target.value)} placeholder={`Search ${L.items.length} items`} />
