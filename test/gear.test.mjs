@@ -199,3 +199,20 @@ assert.equal(gearKind({ n: 'x', s: 'even', k: 'personal' }), 'personal');
   assert.equal(fixed[1], old[1]);
 }
 console.log('gear tests passed');
+
+// cost breakdown lines add up to each person's share (Grand Canyon seed)
+{
+  const { costLines } = await import('../src/gearCost.js');
+  const SEED = JSON.parse((await import('node:fs')).readFileSync(new URL('../data/trip.json', import.meta.url)));
+  const L = ledger(SEED);
+  let n = 0;
+  for (const it of L.items) {
+    for (const c of SEED.crew) {
+      const sum = costLines(it, SEED.crew, L.nights, c.id).reduce((a, x) => a + x.amount, 0);
+      const want = it.share[c.id] || 0;
+      assert.ok(Math.abs(sum - want) < 0.005, `${it.name} / ${c.name}: ${sum} vs ${want}`);
+      n++;
+    }
+  }
+  assert.ok(n > 1000);
+}
