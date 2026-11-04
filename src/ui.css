@@ -859,3 +859,6 @@ body.shot .onBehalf { top: calc(52px + 54px + 45px); }
 .rg .unitHead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; font-size: 14px; }
 .rg .unitX { border: 0; background: transparent; color: var(--ink-faint); font-size: 13px; padding: 4px 0; }
 .rg .unitRow .chips { flex-wrap: wrap; }
+
+.rg .statBtn { background: none; font: inherit; color: inherit; cursor: pointer; min-height: 52px; display: flex; align-items: center; justify-content: center; }
+.rg .statBtn .statNum { font-size: 16px; }

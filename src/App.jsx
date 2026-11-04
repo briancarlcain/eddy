@@ -1896,6 +1896,7 @@ function Gear({ s }) {
           </div>
         )}
       </div>
+      <GearRef pack={grp ? null : who ? <GearPack L={L} me={who} you={!as} name={whoName} tripId={t.id} crew={t.crew} /> : <div className="muted mt">Pick your name on the Gear tab to see your list.</div>} />
       {grp && <GroupSummary L={L} crew={t.crew} />}
       <div className="row mt">
         <Field value={find} onChange={(e) => setFind(e.target.value)} placeholder={`Search ${L.items.length} items`} />
@@ -1991,7 +1992,6 @@ function Gear({ s }) {
       {!grp && shown.map((it) => (
         <GearRow key={it.id} it={it} s={s} crew={t.crew} days={L.days} cats={allCats} me={who} name={whoName} you={!as} open={open === it.id} onOpen={() => setOpen(open === it.id ? null : it.id)} />
       ))}
-      <GearRef pack={grp ? null : who ? <GearPack L={L} me={who} you={!as} name={whoName} tripId={t.id} crew={t.crew} /> : <div className="muted mt">Pick your name on the Gear tab to see your list.</div>} />
     </>
   );
 }
@@ -6470,14 +6470,14 @@ const GearRef = ({ pack }) => {
   const [open, setOpen] = useState('');
   const close = useCallback(() => setOpen(''), []);
   return (
-    <div className="mt popLinks">
+    <div className={'stats mt' + (pack ? ' two' : '')}>
       {pack && (
-        <button className="linkBtn" onClick={() => setOpen('list')}>
-          Packing list
+        <button className="stat statBtn" onClick={() => setOpen('list')}>
+          <div className="statNum">Packing list</div>
         </button>
       )}
-      <button className="linkBtn" onClick={() => setOpen('ref')}>
-        Packing reference
+      <button className="stat statBtn" onClick={() => setOpen('ref')}>
+        <div className="statNum">Packing reference</div>
       </button>
       {open === 'list' && (
         <FullPop title="Packing list" onClose={close}>
