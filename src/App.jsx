@@ -2321,9 +2321,20 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
     subs.forEach((g) => n[g.id] > 0 && g.rows.push({ i, v: n[g.id], key: 'lend' + i.id + (g.id === 'group' ? '' : ':' + g.id) }));
   });
   groups[1].subs = subs.filter((g) => g.rows.length);
+  // gear others bring for this person, by who brings it
+  const from = crew.filter((c) => c.id !== me).map((c) => ({ id: c.id, title: c.name || 'Unnamed', rows: [] }));
+  [...L.items].sort(byItem).forEach((i) => {
+    let left = Math.floor(i.named[me] || 0);
+    from.forEach((g) => {
+      const n = Math.min(left, i.units.filter((u) => u.owner === g.id && u.to.includes(me)).length);
+      if (n > 0) g.rows.push({ i, v: n, key: 'from' + i.id + ':' + g.id });
+      left -= Math.max(0, n);
+    });
+  });
+  const fromSubs = from.filter((g) => g.rows.length);
   const bring = [...groups[0].rows.map((r) => 'own' + r.i.id), ...groups[1].subs.flatMap((g) => g.rows.map((r) => r.key))];
   const packed = bring.filter((k) => done[k]).length;
-  if (!groups.some((g) => g.rows.length)) return <div className="muted mt">Nothing to pack or rent yet. Enter what you need and what you’re bringing on the items.</div>;
+  if (!groups.some((g) => g.rows.length) && !fromSubs.length) return <div className="muted mt">Nothing to pack or rent yet. Enter what you need and what you’re bringing on the items.</div>;
   return (
     <div className="gpack mb">
       <span className="label">
@@ -2367,6 +2378,27 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
               )}
             </details>
           )
+      )}
+      {fromSubs.length > 0 && (
+        <details open>
+          <summary className="gpackHead">
+            Brought for me by others <span className="muted">{fromSubs.reduce((a, g) => a + g.rows.length, 0)}</span>
+          </summary>
+          {fromSubs.map((sg) => (
+            <div className="gpackSub" key={sg.id}>
+              <div className="gpackSubHead">
+                From {sg.title} <span className="muted">{sg.rows.length}</span>
+              </div>
+              {sg.rows.map(({ i, v, key }) => (
+                <label className={'gpackRow' + (done[key] ? ' done' : '')} key={key}>
+                  <input type="checkbox" checked={!!done[key]} onChange={() => flip(key)} />
+                  <span className="gpackName">{i.name}</span>
+                  {v !== 1 && <span className="muted">×{+v.toFixed(2)}</span>}
+                </label>
+              ))}
+            </div>
+          ))}
+        </details>
       )}
     </div>
   );
