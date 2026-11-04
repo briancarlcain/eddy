@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
 import { createRoot } from 'react-dom/client';
 import { BUILTIN_RIVERS, DEFAULT_RIVER, normalizeRiver } from './rivers.js';
 import GENERAL from '../data/general.json';
-import { coverOf, gearKind, ledger, lendAlloc, num, priceMode, priceOf } from './gearLedger.js';
+import { coverOf, gearKind, ledger, lendAlloc, num, priceMode, priceOf, unitsOf } from './gearLedger.js';
 import { convertRentals } from './gearLegacy.js';
 import GEAR_ALL from '../data/gear.json';
 import SEED from '../data/trip.json';
@@ -1991,7 +1991,7 @@ function Gear({ s }) {
       {!grp && shown.map((it) => (
         <GearRow key={it.id} it={it} s={s} crew={t.crew} days={L.days} cats={allCats} me={who} name={whoName} you={!as} open={open === it.id} onOpen={() => setOpen(open === it.id ? null : it.id)} />
       ))}
-      <GearRef pack={grp ? null : who ? <GearPack L={L} me={who} you={!as} name={whoName} tripId={t.id} /> : <div className="muted mt">Pick your name on the Gear tab to see your list.</div>} />
+      <GearRef pack={grp ? null : who ? <GearPack L={L} me={who} you={!as} name={whoName} tripId={t.id} crew={t.crew} /> : <div className="muted mt">Pick your name on the Gear tab to see your list.</div>} />
     </>
   );
 }
@@ -2292,7 +2292,7 @@ const getPacked = (tripId) => {
 };
 const byItem = (a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' });
 
-function GearPack({ L, me, you, name, tripId }) {
+function GearPack({ L, me, you, name, tripId, crew = [] }) {
   const [done, setDone] = useState(() => getPacked(tripId));
   const flip = (k) => {
     const next = { ...done, [k]: !done[k] };
@@ -2307,7 +2307,21 @@ function GearPack({ L, me, you, name, tripId }) {
     ['Bringing for others', 'lend', (i) => num((i.e[me] || {}).lend)],
     ['Renting', 'rent', (i) => (i.share[me] > 0.005 ? i.share[me] : 0)],
   ].map(([title, kind, f]) => ({ title, kind, rows: [...L.items].sort(byItem).map((i) => ({ i, v: f(i) })).filter((r) => r.v > 0) }));
-  const bring = groups.slice(0, 2).flatMap((g) => g.rows.map((r) => g.kind + r.i.id));
+  // gear for others, split by who it's for: each crew member, then the group
+  const ids = new Set(crew.map((c) => c.id));
+  const subs = [...crew.filter((c) => c.id !== me).map((c) => ({ id: c.id, title: c.name || 'Unnamed', rows: [] })), { id: 'group', title: 'The group', rows: [] }];
+  groups[1].rows.forEach(({ i, v }) => {
+    const n = {};
+    unitsOf(i.e[me] || {}, me, ids).lent.forEach((u) => {
+      const k = u.to.length === 1 ? u.to[0] : 'group';
+      n[k] = (n[k] || 0) + 1;
+    });
+    const named = Object.values(n).reduce((a, b) => a + b, 0);
+    n.group = (n.group || 0) + Math.max(0, v - named);
+    subs.forEach((g) => n[g.id] > 0 && g.rows.push({ i, v: n[g.id], key: 'lend' + i.id + (g.id === 'group' ? '' : ':' + g.id) }));
+  });
+  groups[1].subs = subs.filter((g) => g.rows.length);
+  const bring = [...groups[0].rows.map((r) => 'own' + r.i.id), ...groups[1].subs.flatMap((g) => g.rows.map((r) => r.key))];
   const packed = bring.filter((k) => done[k]).length;
   if (!groups.some((g) => g.rows.length)) return <div className="muted mt">Nothing to pack or rent yet. Enter what you need and what you’re bringing on the items.</div>;
   return (
@@ -2322,7 +2336,22 @@ function GearPack({ L, me, you, name, tripId }) {
               <summary className="gpackHead">
                 {g.kind === 'rent' ? 'Rent from the outfitter' : g.title} <span className="muted">{g.rows.length}</span>
               </summary>
-              {g.rows.map(({ i, v }) =>
+              {g.subs
+                ? g.subs.map((sg) => (
+                    <div className="gpackSub" key={sg.id}>
+                      <div className="gpackSubHead">
+                        {sg.id === 'group' ? sg.title : `For ${sg.title}`} <span className="muted">{sg.rows.length}</span>
+                      </div>
+                      {sg.rows.map(({ i, v, key }) => (
+                        <label className={'gpackRow' + (done[key] ? ' done' : '')} key={key}>
+                          <input type="checkbox" checked={!!done[key]} onChange={() => flip(key)} />
+                          <span className="gpackName">{i.name}</span>
+                          {v !== 1 && <span className="muted">×{+v.toFixed(2)}</span>}
+                        </label>
+                      ))}
+                    </div>
+                  ))
+                : g.rows.map(({ i, v }) =>
                 g.kind === 'rent' ? (
                   <div className="gpackRow" key={i.id}>
                     <span className="gpackName">{i.name}</span>

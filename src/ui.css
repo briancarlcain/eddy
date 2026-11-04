@@ -662,6 +662,7 @@ body.shot #fakeStatus { background: var(--bg); }
 .rg .gcovKey { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 8px; font-size: 13px; color: var(--muted, inherit); }
 .rg .gcovKey i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; }
 .rg .gpackHead { cursor: pointer; font-weight: 650; margin: 10px 0 2px; }
+.rg .gpackSubHead { font-weight: 600; font-size: .9em; margin: 8px 0 0 4px; color: var(--muted); }
 .rg .gpackRow { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line-soft); }
 .rg .gpackRow input { width: 20px; height: 20px; flex: none; margin: 0; }
 .rg .gpackName { flex: 1; }
