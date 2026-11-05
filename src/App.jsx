@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
 import { createRoot } from 'react-dom/client';
 import { BUILTIN_RIVERS, DEFAULT_RIVER, normalizeRiver } from './rivers.js';
 import GENERAL from '../data/general.json';
-import { bringForm, coverOf, gearKind, ledger, num, priceMode, priceOf, unitList } from './gearLedger.js';
+import { bringForm, coverOf, ledger, num, priceMode, priceOf, unitList } from './gearLedger.js';
 import { convertRentals } from './gearLegacy.js';
 import GEAR_ALL from '../data/gear.json';
 import SEED from '../data/trip.json';
@@ -1701,14 +1701,6 @@ function GearFields({ v, up, days, cats, T }) {
   return (
     <>
       <Field label="Item" value={v.n} onChange={(e) => up('n', e.target.value)} />
-      <span className="label">Type</span>
-      <div className="chips">
-        {[['personal', 'Personal'], ['group', 'Group']].map(([k, l]) => (
-          <button key={k} className={'chip' + (v.k === k ? ' on' : '')} onClick={() => up('k', k)}>
-            {l}
-          </button>
-        ))}
-      </div>
       <Sel label="Category" value={v.c} onChange={(x) => up('c', x)}>
         {!v.c && <option value="">Pick a category</option>}
         {[...new Set([...GEAR_ALL.map((g) => g.c), ...(cats || []), v.c].filter(Boolean))].sort().map((c) => (
@@ -1764,7 +1756,6 @@ function Gear({ s }) {
     else setAs(id);
   };
   const [catSel, setCatSel] = useState([]);
-  const [secSel, setSecSel] = useState([]);
   const [srcSel, setSrcSel] = useState([]);
   const [attn, setAttn] = useState(false);
   const [grpSel, setGrpSel] = useState([]);
@@ -1792,8 +1783,7 @@ function Gear({ s }) {
     );
 
   const allCats = [...new Set(L.items.map((i) => i.cat))];
-  // nothing selected shows everything; several selected show items matching any of them
-  const inSec = L.items.filter((i) => !secSel.length || secSel.includes(i.kind));
+  const inSec = L.items;
   const cats = [...new Set(inSec.map((i) => i.cat))];
   const catOn = catSel.filter((c) => cats.includes(c));
   const q = find.trim().toLowerCase();
@@ -1841,8 +1831,8 @@ function Gear({ s }) {
     return d ? sortDir * d : byItem(a, b);
   });
   // editing an item doesn't re-sort the list under it
-  const shown = frozenOrder(order, fresh, L.items, JSON.stringify([sortBy, tick, q, secSel, catSel, srcSel, grpSel, attn, who, grp, L.items.map((i) => i.id).join()]));
-  const nFilt = secSel.length + catOn.length + srcOn.length + grpOn.length + (attn ? 1 : 0);
+  const shown = frozenOrder(order, fresh, L.items, JSON.stringify([sortBy, tick, q, catSel, srcSel, grpSel, attn, who, grp, L.items.map((i) => i.id).join()]));
+  const nFilt = catOn.length + srcOn.length + grpOn.length + (attn ? 1 : 0);
   const you0 = !as;
   const flip = (list, set, k) => set(list.includes(k) ? list.filter((x) => x !== k) : [...list, k]);
   const mine = who ? L.by[who] : null;
@@ -1897,7 +1887,7 @@ function Gear({ s }) {
           {adding ? 'Close' : 'Add item'}
         </button>
       </div>
-      {adding && <AddGear s={s} days={L.days} cats={allCats} kind={secSel.length === 1 ? secSel[0] : 'personal'} onDone={() => setAdding(false)} />}
+      {adding && <AddGear s={s} days={L.days} cats={allCats} onDone={() => setAdding(false)} />}
       <div className="gtools">
         <button className={'btn ghost gtool' + (filtOpen ? ' on' : '')} aria-expanded={filtOpen} onClick={() => setFiltOpen(!filtOpen)}>
           <Icon name="filter" size={17} /> Filter{nFilt ? <span className="gbadge">{nFilt}</span> : null}
@@ -1944,11 +1934,6 @@ function Gear({ s }) {
       {filtOpen && (
       <div className="chipStack">
       <div className="chips">
-        {[['personal', 'Personal gear'], ['group', 'Group gear']].map(([k, l]) => (
-          <button key={k} className={'chip' + (secSel.includes(k) ? ' on river' : '')} aria-pressed={secSel.includes(k)} onClick={() => flip(secSel, setSecSel, k)}>
-            {l} · {L.items.filter((i) => i.kind === k).length}
-          </button>
-        ))}
         <button className={'chip' + (attn ? ' on river' : '')} aria-pressed={attn} onClick={() => setAttn(!attn)}>
           Needs attention · {L.items.filter((i) => i.issues.length).length}
         </button>
@@ -2001,7 +1986,7 @@ function gearFlows(it, crew) {
   const flows = new Map();
   it.units.forEach((u) => {
     if (u.to.length) u.to.forEach((id) => flows.set(id + '|' + u.owner, (flows.get(id + '|' + u.owner) || 0) + 1));
-    else if (u.kind === 'lend' && it.kind !== 'group') flows.set('group|' + u.owner, (flows.get('group|' + u.owner) || 0) + 1);
+    else if (u.kind === 'lend') flows.set('group|' + u.owner, (flows.get('group|' + u.owner) || 0) + 1);
   });
   const borrow = [...flows.entries()]
     .map(([k, n]) => {
@@ -2403,13 +2388,13 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
   const ids = new Set(crew.map((c) => c.id));
   const first = firstOf(crew.find((c) => c.id === me)) || (name || '').split(' ')[0] || 'them';
   // what this person brings: a quantity, and for each one who uses it (copies from before this are read the same way)
-  const base = e.bring !== undefined ? e : bringForm(e, me, ids, it.kind);
-  const units = unitList(e, me, ids, it.kind);
-  const isDef = (u) => (it.kind === 'group' ? u.g : !u.g && u.to.length === 1 && u.to[0] === me) && !u.x;
+  const base = e.bring !== undefined ? e : bringForm(e, me, ids);
+  const units = unitList(e, me, ids);
+  const isDef = (u) => !u.g && u.to.length === 1 && u.to[0] === me && !u.x;
   const [allocOpen, setAllocOpen] = useState(null);
   const setBring = (x) => patch({ e: { ...it.e, [me]: { ...base, bring: x } } });
   const setUse = (i, o) => {
-    const b = bringForm(e, me, ids, it.kind);
+    const b = bringForm(e, me, ids);
     const use = Array.from({ length: Math.max(units.length, i + 1) }, (_, j) => b.use[j] || {});
     use[i] = { ...use[i], ...o };
     patch({ e: { ...it.e, [me]: { ...b, bring: base.bring ?? b.bring, use } } });
@@ -2434,7 +2419,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
     return [...m.entries()].map(([k, n]) => `${n} for ${k}`).join(', ');
   })();
   // the form reads and writes the short stored keys
-  const v = { n: it.name, k: it.kind, c: it.cat, s: it.split, r: it.req, f: it.raw.f, d: it.raw.d, pm: it.raw.pm };
+  const v = { n: it.name, c: it.cat, s: it.split, r: it.req, f: it.raw.f, d: it.raw.d, pm: it.raw.pm };
   const parts = [
     [it.bring, 'own', 'Bringing'],
     [it.rent, 'rent', 'Renting'],
@@ -2639,8 +2624,8 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
   );
 }
 
-function AddGear({ s, days, cats, kind, onDone }) {
-  const [f, setF] = useState({ n: '', k: kind || 'personal', c: '', s: 'even', pm: 'flat', f: '', d: '', r: '' });
+function AddGear({ s, days, cats, onDone }) {
+  const [f, setF] = useState({ n: '', c: '', s: 'even', pm: 'flat', f: '', d: '', r: '' });
   const T = useTip();
   const up = (k, v) => setF({ ...f, [k]: v });
   return (
@@ -2650,8 +2635,8 @@ function AddGear({ s, days, cats, kind, onDone }) {
         className="btn"
         disabled={!f.n.trim() || !f.c}
         onClick={() => {
-          s.push('gear', { n: f.n.trim(), k: f.k, c: f.c, s: f.s, r: f.r, pm: f.pm, f: f.f, d: f.d, e: {} });
-          setF({ n: '', k: f.k, c: f.c, s: f.s, pm: 'flat', f: '', d: '', r: '' });
+          s.push('gear', { n: f.n.trim(), c: f.c, s: f.s, r: f.r, pm: f.pm, f: f.f, d: f.d, e: {} });
+          setF({ n: '', c: f.c, s: f.s, pm: 'flat', f: '', d: '', r: '' });
           onDone();
         }}
       >

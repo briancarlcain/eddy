@@ -20,7 +20,6 @@ export const priceMode = (g, days) => {
 };
 
 export const norm = (g) => ({
-  kind: gearKind(g),
   name: g.n ?? g.name ?? '',
   cat: g.c ?? g.cat ?? 'Gear',
   split: g.s || 'even',
@@ -32,23 +31,20 @@ export const norm = (g) => ({
 
 // What a person brings: a quantity, and for each unit who uses it.
 // e.bring is the quantity; e.use[i] = { to: [crew ids, the owner included when it is for them], g: true when it is for the group, x }.
-// A unit with nothing chosen is for the owner on a personal item and for the group on a group item.
+// A unit with nothing chosen is for the owner.
 // Older copies keep have / lend / share / lends / lendTo instead; they read the same way.
 export const bringOf = (e) => (e && e.bring !== undefined ? num(e.bring) : num(e && e.have) + num(e && e.lend));
 
 // every unit, in order: { to: ids (owner included when it is for them), g: for the group, x: excused from rental cost }
-export function unitList(e, owner, ids, kind) {
+export function unitList(e, owner, ids) {
   const valid = (u) => (Array.isArray(u && u.to) ? [...new Set(u.to.filter((id) => ids.has(id)))] : []);
   const out = [];
   if (e.bring !== undefined || e.use !== undefined) {
     for (let i = 0; i < Math.floor(num(e.bring)); i++) {
       const u = (e.use || [])[i] || {};
       let to = valid(u);
-      let g = !!u.g && !to.length;
-      if (!g && !to.length) {
-        if (kind === 'group') g = true;
-        else to = [owner];
-      }
+      const g = !!u.g && !to.length;
+      if (!g && !to.length) to = [owner];
       out.push({ to, g, x: !!u.x });
     }
     return out;
@@ -79,10 +75,10 @@ export function unitList(e, owner, ids, kind) {
 }
 
 // the same units split into what the owner uses (own, possibly shared with others) and what is only for others (lent)
-export function unitsOf(e, owner, ids, kind) {
+export function unitsOf(e, owner, ids) {
   const own = [],
     lent = [];
-  unitList(e, owner, ids, kind).forEach((u) => {
+  unitList(e, owner, ids).forEach((u) => {
     const to = u.to.filter((id) => id !== owner);
     if (u.to.includes(owner)) own.push({ to, x: u.x });
     else lent.push({ to, group: u.g, x: u.x });
@@ -91,9 +87,9 @@ export function unitsOf(e, owner, ids, kind) {
 }
 
 // the stored form of a person's units, with the old keys dropped
-export function bringForm(e, owner, ids, kind) {
+export function bringForm(e, owner, ids) {
   const { have: _h, lend: _l, share: _s, lends: _ls, lendTo: _lt, ...rest } = e || {};
-  const list = unitList(e || {}, owner, ids, kind);
+  const list = unitList(e || {}, owner, ids);
   const use = list.map((u) => ({ ...(u.g ? { g: true } : { to: u.to }), ...(u.x ? { x: true } : {}) }));
   return { ...rest, bring: String(+bringOf(e || {}).toFixed(2) || ''), use };
 }
@@ -137,7 +133,7 @@ export function ledger(t) {
       const e = it.e[c.id] || {};
       own[c.id] = bringOf(e);
       bring += own[c.id];
-      const u = unitsOf(e, c.id, ids, it.kind);
+      const u = unitsOf(e, c.id, ids);
       have += u.own.length;
       lend += u.lent.length;
       u.own.forEach((x) => units.push({ owner: c.id, kind: 'own', ...x }));
