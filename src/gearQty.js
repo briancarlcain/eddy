@@ -1,4 +1,4 @@
-// Grand Canyon 2026: counts (who needs, brings, lends and rents each item) come from the trip sheet.
+// Grand Canyon 2026: counts (who brings, lends and rents each item) come from the trip sheet.
 // Replaces them on older copies of the trip; names, prices, categories and notes are left alone.
 export function applySheetQty(gear, seedGear) {
   const by = new Map(seedGear.map((g) => [g.id, g]));

@@ -900,3 +900,4 @@ body.shot .onBehalf { top: calc(52px + 54px + 45px); }
 .cbSub { font-weight: 600; margin: 8px 0 2px; }
 .rg .statTap { background: none; font: inherit; color: inherit; cursor: pointer; display: block; width: 100%; }
 .rg .statTap:disabled { cursor: default; }
+.rg .stats.one { grid-template-columns: minmax(0, 1fr); }
