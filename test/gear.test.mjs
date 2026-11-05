@@ -160,7 +160,7 @@ assert.equal(gearKind({ n: 'x', s: 'even', k: 'personal' }), 'personal');
     if (x.name === 'Tent' || x.name === 'Stove') return; // sharing a unit lived in each person's entry; a rental nobody was assigned stays unassigned
     for (const f of ['total', 'rent', 'loose']) near(x[f], y[f], `${x.name} ${f}`);
     for (const c of c3) near(x.share[c.id] || 0, y.share[c.id] || 0, `${x.name} ${c.name}`);
-    assert.equal(x.kind, y.kind); assert.equal(x.issues.length, y.issues.length, x.name);
+    assert.equal(x.issues.length, y.issues.length, x.name);
   });
   const tent = after.items[0];
   near(tent.share.s, 37.5, 'Sam 6 of 16 nights'); near(tent.share.a, 62.5, 'Alex'); near(tent.share.j, 100, 'Jo');
@@ -192,14 +192,13 @@ assert.equal(gearKind({ n: 'x', s: 'even', k: 'personal' }), 'personal');
 // quantity I can bring, then who uses each one
 {
   const ids = new Set(['s', 'a', 'j']);
-  const ul = (e, kind = 'personal') => unitList(e, 's', ids, kind);
-  // unallocated units are for the owner on a personal item and for the group on a group item
+  const ul = (e) => unitList(e, 's', ids);
+  // unallocated units are for the owner, on every item
   assert.deepEqual(ul({ bring: '2' }).map((u) => [u.to, u.g]), [[['s'], false], [['s'], false]]);
-  assert.deepEqual(ul({ bring: '1' }, 'group').map((u) => [u.to, u.g]), [[[], true]]);
   // each unit: the owner, others, both, or the group
   const e = { bring: '4', use: [{}, { g: true }, { to: ['a'] }, { to: ['s', 'j'], x: true }] };
   assert.deepEqual(ul(e).map((u) => [u.to, u.g, u.x]), [[['s'], false, false], [[], true, false], [['a'], false, false], [['s', 'j'], false, true]]);
-  const { own, lent } = unitsOf(e, 's', ids, 'personal');
+  const { own, lent } = unitsOf(e, 's', ids);
   assert.deepEqual(own.map((u) => u.to), [[], ['j']]); assert.deepEqual(lent.map((u) => [u.to, u.group]), [[[], true], [['a'], false]]);
   const it = one({ k: 'personal', e: { s: e } });
   near(it.count, 4, 'group total'); assert.equal(it.named.a, 1); assert.equal(it.named.j, 1); assert.equal(it.bringBy.s, 4);
@@ -208,9 +207,9 @@ assert.equal(gearKind({ n: 'x', s: 'even', k: 'personal' }), 'personal');
   assert.equal(it.excl.j, true);
   // old copies convert without changing anything
   const old = { have: 2, lend: 3, share: [{ to: ['a'] }, { x: true, to: ['j'] }], lendTo: { a: { n: 1, x: true } } };
-  const conv = bringForm(old, 's', ids, 'personal');
+  const conv = bringForm(old, 's', ids);
   assert.equal(conv.have, undefined); assert.equal(conv.lendTo, undefined); assert.equal(conv.bring, '5');
-  assert.deepEqual(unitList(conv, 's', ids, 'personal'), unitList(old, 's', ids, 'personal'));
+  assert.deepEqual(unitList(conv, 's', ids), unitList(old, 's', ids));
   const a = one({ k: 'personal', e: { s: old, a: { have: 1 } } }), b = one({ k: 'personal', e: { s: conv, a: { have: 1 } } });
   near(a.count, b.count, 'count'); assert.deepEqual(a.named, b.named); assert.deepEqual(a.excl, b.excl);
   // a bigger quantity keeps what was chosen; fewer units ignore the rest
