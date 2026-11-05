@@ -30,35 +30,72 @@ export const norm = (g) => ({
   e: g.e || {},
 });
 
-// Units a person brings. Each is { to: [crew ids or 'group'], x: true when named borrowers owe no rental cost }.
-// Own units (have) can be shared with others; lent units (lend) go to named people or the group (the default).
-export function unitsOf(e, owner, ids) {
-  const clean = (u) => (Array.isArray(u && u.to) ? u.to.filter((id) => id !== owner && ids.has(id)) : []);
-  const own = [],
-    lent = [];
+// What a person brings: a quantity, and for each unit who uses it.
+// e.bring is the quantity; e.use[i] = { to: [crew ids, the owner included when it is for them], g: true when it is for the group, x }.
+// A unit with nothing chosen is for the owner on a personal item and for the group on a group item.
+// Older copies keep have / lend / share / lends / lendTo instead; they read the same way.
+export const bringOf = (e) => (e && e.bring !== undefined ? num(e.bring) : num(e && e.have) + num(e && e.lend));
+
+// every unit, in order: { to: ids (owner included when it is for them), g: for the group, x: excused from rental cost }
+export function unitList(e, owner, ids, kind) {
+  const valid = (u) => (Array.isArray(u && u.to) ? [...new Set(u.to.filter((id) => ids.has(id)))] : []);
+  const out = [];
+  if (e.bring !== undefined || e.use !== undefined) {
+    for (let i = 0; i < Math.floor(num(e.bring)); i++) {
+      const u = (e.use || [])[i] || {};
+      let to = valid(u);
+      let g = !!u.g && !to.length;
+      if (!g && !to.length) {
+        if (kind === 'group') g = true;
+        else to = [owner];
+      }
+      out.push({ to, g, x: !!u.x });
+    }
+    return out;
+  }
+  const others = (u) => valid(u).filter((id) => id !== owner);
   for (let i = 0; i < Math.floor(num(e.have)); i++) {
     const u = (e.share || [])[i] || {};
-    own.push({ to: clean(u), x: !!u.x });
+    out.push({ to: [owner, ...others(u)], g: false, x: !!u.x });
   }
   const cnt = Math.floor(num(e.lend));
   if (e.lendTo) {
-    // quantities per person; whatever is not given to someone goes to the group
     let left = cnt;
     for (const id of Object.keys(e.lendTo)) {
       if (id === owner || !ids.has(id)) continue;
       const n = Math.min(left, Math.floor(num((e.lendTo[id] || {}).n)));
-      for (let k = 0; k < n; k++) lent.push({ to: [id], group: false, x: !!e.lendTo[id].x });
+      for (let k = 0; k < n; k++) out.push({ to: [id], g: false, x: !!e.lendTo[id].x });
       left -= Math.max(0, n);
     }
-    for (let k = 0; k < left; k++) lent.push({ to: [], group: true, x: false });
+    for (let k = 0; k < left; k++) out.push({ to: [], g: true, x: false });
   } else {
     for (let j = 0; j < cnt; j++) {
       const u = (e.lends || [])[j] || {};
-      const to = clean(u);
-      lent.push({ to, group: !to.length, x: !!u.x });
+      const to = others(u);
+      out.push({ to, g: !to.length, x: !!u.x });
     }
   }
-  return { own, lent, spare: Math.max(0, num(e.lend) - Math.floor(num(e.lend))) };
+  return out;
+}
+
+// the same units split into what the owner uses (own, possibly shared with others) and what is only for others (lent)
+export function unitsOf(e, owner, ids, kind) {
+  const own = [],
+    lent = [];
+  unitList(e, owner, ids, kind).forEach((u) => {
+    const to = u.to.filter((id) => id !== owner);
+    if (u.to.includes(owner)) own.push({ to, x: u.x });
+    else lent.push({ to, group: u.g, x: u.x });
+  });
+  return { own, lent };
+}
+
+// the stored form of a person's units, with the old keys dropped
+export function bringForm(e, owner, ids, kind) {
+  const { have: _h, lend: _l, share: _s, lends: _ls, lendTo: _lt, ...rest } = e || {};
+  const list = unitList(e || {}, owner, ids, kind);
+  const use = list.map((u) => ({ ...(u.g ? { g: true } : { to: u.to }), ...(u.x ? { x: true } : {}) }));
+  return { ...rest, bring: String(+bringOf(e || {}).toFixed(2) || ''), use };
 }
 
 // what a person is bringing for others, as quantities per person ({ id: { n, x } })
@@ -75,7 +112,7 @@ export function lendAlloc(e, owner) {
 
 // how one person is covered for an item: bringing their own, borrowing from someone, or sharing a rental
 export function coverOf(it, id) {
-  return { own: num((it.e[id] || {}).have) > 0, borrowed: (it.named[id] || 0) > 0, rented: (it.rented[id] || 0) > 0 || (it.share[id] || 0) > 0.005 };
+  return { own: bringOf(it.e[id] || {}) > 0, borrowed: (it.named[id] || 0) > 0, rented: (it.rented[id] || 0) > 0 || (it.share[id] || 0) > 0.005 };
 }
 
 export function ledger(t) {
@@ -89,7 +126,8 @@ export function ledger(t) {
   const items = (t.gear || []).map((g) => {
     const it = norm(g);
     const unit = priceOf(g, D);
-    let have = 0,
+    let bring = 0,
+      have = 0,
       lend = 0;
     const own = {},
       raw = {},
@@ -97,10 +135,11 @@ export function ledger(t) {
       units = [];
     crew.forEach((c) => {
       const e = it.e[c.id] || {};
-      own[c.id] = num(e.have);
-      have += own[c.id];
-      lend += num(e.lend);
-      const u = unitsOf(e, c.id, ids);
+      own[c.id] = bringOf(e);
+      bring += own[c.id];
+      const u = unitsOf(e, c.id, ids, it.kind);
+      have += u.own.length;
+      lend += u.lent.length;
       u.own.forEach((x) => units.push({ owner: c.id, kind: 'own', ...x }));
       u.lent.forEach((x) => units.push({ owner: c.id, kind: 'lend', ...x }));
     });
@@ -155,7 +194,7 @@ export function ledger(t) {
         if (unit) share[c.id] = single[c.id] = unit * n;
       }
     });
-    const count = have + lend + rent;
+    const count = bring + rent;
     const total = unit * rent;
     if (rg > 0) lines.unshift({ to: [], n: rg });
     if (rg > 0 && unit > 0) {
@@ -178,7 +217,7 @@ export function ledger(t) {
       );
     }
     if (rent > 0 && blank(g.f) && blank(g.d)) issues.push('Add a rental price. $0 is fine, but it can’t be blank.');
-    return { id: g.id, raw: g, ...it, unit, have, lend, borrowed, count, rent, total, share, single, lines, manual, loose: Math.max(0, total - assigned), units, named, excl, rented, rAssigned, issues };
+    return { id: g.id, raw: g, ...it, unit, bring, bringBy: own, have, lend, borrowed, count, rent, total, share, single, lines, manual, loose: Math.max(0, total - assigned), units, named, excl, rented, rAssigned, issues };
   });
   const by = {};
   crew.forEach((c) => (by[c.id] = { even: 0, nights: 0, users: 0, personal: 0, total: 0, nightsCount: nights(c) }));
