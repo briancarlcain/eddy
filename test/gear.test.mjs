@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { coverOf, gearKind, ledger, lendAlloc, unitsOf } from '../src/gearLedger.js';
+import { bringForm, coverOf, gearKind, ledger, lendAlloc, unitList, unitsOf } from '../src/gearLedger.js';
 import { convertRentals, legacyLedger } from '../src/gearLegacy.js';
 import { applySheetQty } from '../src/gearQty.js';
 import { convertSplits } from '../src/gearSplit.js';
@@ -178,7 +178,7 @@ assert.equal(gearKind({ n: 'x', s: 'even', k: 'personal' }), 'personal');
   near(L.total, 16071.65, 'total'); near(L.loose, 0, 'every rented unit is assigned');
   const tent = it('Personal Tent');
   near(tent.rent, 1, 'tent rented'); near(tent.rented['davis-snedeker'], 1, 'Davis rents it'); near(tent.total, 133, 'tent cost');
-  assert.deepEqual(['brian-cain', 'brian-laitsch', 'violet-scott'].map((id) => tent.e[id].have), [1, 1, 1]);
+  assert.deepEqual(['brian-cain', 'brian-laitsch', 'violet-scott'].map((id) => tent.bringBy[id]), [1, 1, 1]);
   const cot = it('Cot');
   near(cot.rent, 3, 'cots rented'); near(cot.total, 285, 'cot cost');
   for (const x of L.items) near(x.count, x.have + x.lend + x.rent, x.name + ' group total');
@@ -188,6 +188,33 @@ assert.equal(gearKind({ n: 'x', s: 'even', k: 'personal' }), 'personal');
   const fixed = applySheetQty(old, trip.gear);
   assert.deepEqual(fixed[0].e.gone, {}); assert.equal(fixed[0].f, 1); assert.equal(fixed[0].rn, trip.gear[0].rn);
   assert.equal(fixed[1], old[1]);
+}
+// quantity I can bring, then who uses each one
+{
+  const ids = new Set(['s', 'a', 'j']);
+  const ul = (e, kind = 'personal') => unitList(e, 's', ids, kind);
+  // unallocated units are for the owner on a personal item and for the group on a group item
+  assert.deepEqual(ul({ bring: '2' }).map((u) => [u.to, u.g]), [[['s'], false], [['s'], false]]);
+  assert.deepEqual(ul({ bring: '1' }, 'group').map((u) => [u.to, u.g]), [[[], true]]);
+  // each unit: the owner, others, both, or the group
+  const e = { bring: '4', use: [{}, { g: true }, { to: ['a'] }, { to: ['s', 'j'], x: true }] };
+  assert.deepEqual(ul(e).map((u) => [u.to, u.g, u.x]), [[['s'], false, false], [[], true, false], [['a'], false, false], [['s', 'j'], false, true]]);
+  const { own, lent } = unitsOf(e, 's', ids, 'personal');
+  assert.deepEqual(own.map((u) => u.to), [[], ['j']]); assert.deepEqual(lent.map((u) => [u.to, u.group]), [[[], true], [['a'], false]]);
+  const it = one({ k: 'personal', e: { s: e } });
+  near(it.count, 4, 'group total'); assert.equal(it.named.a, 1); assert.equal(it.named.j, 1); assert.equal(it.bringBy.s, 4);
+  assert.equal(coverOf(it, 's').own, true); assert.equal(coverOf(it, 'a').borrowed, true); assert.equal(coverOf(it, 'j').borrowed, true);
+  // allocation does not change what a rental costs anyone
+  assert.equal(it.excl.j, true);
+  // old copies convert without changing anything
+  const old = { have: 2, lend: 3, share: [{ to: ['a'] }, { x: true, to: ['j'] }], lendTo: { a: { n: 1, x: true } } };
+  const conv = bringForm(old, 's', ids, 'personal');
+  assert.equal(conv.have, undefined); assert.equal(conv.lendTo, undefined); assert.equal(conv.bring, '5');
+  assert.deepEqual(unitList(conv, 's', ids, 'personal'), unitList(old, 's', ids, 'personal'));
+  const a = one({ k: 'personal', e: { s: old, a: { have: 1 } } }), b = one({ k: 'personal', e: { s: conv, a: { have: 1 } } });
+  near(a.count, b.count, 'count'); assert.deepEqual(a.named, b.named); assert.deepEqual(a.excl, b.excl);
+  // a bigger quantity keeps what was chosen; fewer units ignore the rest
+  assert.equal(ul({ bring: '1', use: [{ to: ['a'] }, { g: true }] }).length, 1);
 }
 console.log('gear tests passed');
 

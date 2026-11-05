@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
 import { createRoot } from 'react-dom/client';
 import { BUILTIN_RIVERS, DEFAULT_RIVER, normalizeRiver } from './rivers.js';
 import GENERAL from '../data/general.json';
-import { coverOf, gearKind, ledger, lendAlloc, num, priceMode, priceOf, unitsOf } from './gearLedger.js';
+import { bringForm, coverOf, gearKind, ledger, num, priceMode, priceOf, unitList } from './gearLedger.js';
 import { convertRentals } from './gearLegacy.js';
 import GEAR_ALL from '../data/gear.json';
 import SEED from '../data/trip.json';
@@ -1649,8 +1649,7 @@ const REQ = { req: ['Required', '#9c3326'], rec: ['Recommended', '#a8722a'] };
 const usd = (n) => (n >= 0.005 ? '$' + n.toFixed(2) : '');
 const usd0 = (n) => '$' + Math.round(n).toLocaleString();
 const TIPS = {
-  have: 'How many of your own you can bring for yourself. You aren’t charged for these.',
-  lend: 'Extra ones you can bring for others to use. Each one lent means one fewer rented.',
+  bring: 'How many you can bring. Choose who uses each one: you, other people, or the group. You aren’t charged for what you bring.',
   price: 'Rental cost of one item. A flat fee is charged once; a per-day price is multiplied by the trip’s days. If both are entered, the lower cost is charged.',
   split: SPLITS.map(([k, l]) => l + ': ' + SPLIT_HELP[k]).join('\n'),
 };
@@ -1820,8 +1819,8 @@ function Gear({ s }) {
     ['cat', 'Category, A to Z', (i) => i.cat, 1],
     ['count-', 'Group total, most first', (i) => i.count, -1],
     ['count', 'Group total, fewest first', (i) => i.count, 1],
-    ['mine-', first ? `${first}’s quantity, most first` : 'Your quantity, most first', (i) => num((i.e[who] || {}).have), -1],
-    ['mine', first ? `${first}’s quantity, fewest first` : 'Your quantity, fewest first', (i) => num((i.e[who] || {}).have), 1],
+    ['mine-', first ? `${first}’s quantity, most first` : 'Your quantity, most first', (i) => num((i.bringBy || {})[who]), -1],
+    ['mine', first ? `${first}’s quantity, fewest first` : 'Your quantity, fewest first', (i) => num((i.bringBy || {})[who]), 1],
     ['cost-', 'Group cost, high to low', (i) => i.total, -1],
     ['cost', 'Group cost, low to high', (i) => i.total, 1],
     ['my-', first ? `${first}’s cost, high to low` : 'Your cost, high to low', (i) => i.share[who] || 0, -1],
@@ -1972,7 +1971,7 @@ function Gear({ s }) {
       )}
       {who && (
         <div className="chips scroll">
-          {[['own', you0 ? 'Bringing for yourself' : `Bringing for ${(whoName || '').split(' ')[0]}`], ['borrowed', 'Borrowing'], ['rented', 'Renting']].map(([k, l]) => (
+          {[['own', 'Bringing'], ['borrowed', 'Borrowing'], ['rented', 'Renting']].map(([k, l]) => (
             <button key={k} className={'chip' + (srcOn.includes(k) ? ' on river' : '')} aria-pressed={srcOn.includes(k)} onClick={() => flip(srcSel, setSrcSel, k)}>
               {l} · {inSec.filter((i) => coverOf(i, who)[k]).length}
             </button>
@@ -1997,12 +1996,12 @@ const qn = (n) => +(+n).toFixed(2);
 function gearFlows(it, crew) {
   const nm = (id) => firstOf(crew.find((c) => c.id === id)) || 'Someone';
   const bring = byFirst(crew)
-    .map((c) => [c.id, num((it.e[c.id] || {}).have)])
+    .map((c) => [c.id, num((it.bringBy || {})[c.id])])
     .filter(([, n]) => n > 0.005);
   const flows = new Map();
   it.units.forEach((u) => {
     if (u.to.length) u.to.forEach((id) => flows.set(id + '|' + u.owner, (flows.get(id + '|' + u.owner) || 0) + 1));
-    else if (u.kind === 'lend') flows.set('group|' + u.owner, (flows.get('group|' + u.owner) || 0) + 1);
+    else if (u.kind === 'lend' && it.kind !== 'group') flows.set('group|' + u.owner, (flows.get('group|' + u.owner) || 0) + 1);
   });
   const borrow = [...flows.entries()]
     .map(([k, n]) => {
@@ -2020,8 +2019,7 @@ function GroupRow({ it, crew, open, onOpen }) {
   const tag = REQ[it.req];
   const f = gearFlows(it, crew);
   const parts = [
-    [it.have, 'own', 'Own'],
-    [it.borrowed, 'borrow', 'Lent'],
+    [it.bring, 'own', 'Bringing'],
     [it.rent, 'rent', 'Renting'],
   ];
   return (
@@ -2261,25 +2259,27 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
       localStorage.setItem(packKey(tripId), JSON.stringify(next));
     } catch {}
   };
+  const mineU = (i, kind) => i.units.filter((u) => u.owner === me && u.kind === kind);
   const groups = [
-    [you ? 'Bringing for myself' : `Bringing for ${(name || '').split(' ')[0] || 'them'}`, 'own', (i) => num((i.e[me] || {}).have)],
-    ['Bringing for others', 'lend', (i) => num((i.e[me] || {}).lend)],
+    [you ? 'Bringing for myself' : `Bringing for ${(name || '').split(' ')[0] || 'them'}`, 'own', (i) => mineU(i, 'own').length],
+    ['Bringing for others', 'lend', (i) => mineU(i, 'lend').length],
     ['Renting', 'rent', (i) => (i.share[me] > 0.005 ? i.share[me] : 0)],
   ].map(([title, kind, f]) => ({ title, kind, rows: [...L.items].sort(byItem).map((i) => ({ i, v: f(i) })).filter((r) => r.v > 0) }));
-  // gear for others, split by who it's for: each crew member, then the group
-  const ids = new Set(crew.map((c) => c.id));
-  const subs = [...crew.filter((c) => c.id !== me).map((c) => ({ id: c.id, title: c.name || 'Unnamed', rows: [] })), { id: 'group', title: 'The group', rows: [] }];
-  groups[1].rows.forEach(({ i, v }) => {
+  // gear for others, split by who it's for: people first, then the group
+  const nameOf = (id) => (crew.find((c) => c.id === id) || {}).name || 'Unnamed';
+  const subMap = new Map();
+  groups[1].rows.forEach(({ i }) => {
     const n = {};
-    unitsOf(i.e[me] || {}, me, ids).lent.forEach((u) => {
-      const k = u.to.length === 1 ? u.to[0] : 'group';
+    mineU(i, 'lend').forEach((u) => {
+      const k = u.group || !u.to.length ? 'group' : [...u.to].sort().join('+');
       n[k] = (n[k] || 0) + 1;
     });
-    const named = Object.values(n).reduce((a, b) => a + b, 0);
-    n.group = (n.group || 0) + Math.max(0, v - named);
-    subs.forEach((g) => n[g.id] > 0 && g.rows.push({ i, v: n[g.id], key: 'lend' + i.id + (g.id === 'group' ? '' : ':' + g.id) }));
+    Object.entries(n).forEach(([k, v]) => {
+      if (!subMap.has(k)) subMap.set(k, { id: k, title: k === 'group' ? 'The group' : k.split('+').map(nameOf).join(' & '), rows: [] });
+      subMap.get(k).rows.push({ i, v, key: 'lend' + i.id + (k === 'group' ? '' : ':' + k) });
+    });
   });
-  groups[1].subs = subs.filter((g) => g.rows.length);
+  groups[1].subs = [...subMap.values()].sort((a, b) => (a.id === 'group') - (b.id === 'group') || a.title.localeCompare(b.title));
   // gear others bring for this person, by who brings it
   const from = crew.filter((c) => c.id !== me).map((c) => ({ id: c.id, title: c.name || 'Unnamed', rows: [] }));
   [...L.items].sort(byItem).forEach((i) => {
@@ -2393,35 +2393,6 @@ function gearStatus(it) {
 }
 
 
-// who uses one unit someone is bringing: the group first, then crew by first name
-function UnitPick({ title, u, crew, me, group, money, onChange }) {
-  const others = byFirst(crew.filter((c) => c.id !== me));
-  const to = Array.isArray(u.to) ? u.to : [];
-  const forGroup = group ? !to.length : !!u.g;
-  const flip = (id) => onChange({ to: to.includes(id) ? to.filter((x) => x !== id) : [...to, id], g: false });
-  return (
-    <div className="unitPick">
-      <span className="label">{title}</span>
-      <div className="chips scroll">
-        <button className={'chip' + (forGroup ? ' on' : '')} onClick={() => onChange({ to: [], g: !group && !u.g })}>
-          Group
-        </button>
-        {others.map((c) => (
-          <button key={c.id} className={'chip' + (to.includes(c.id) ? ' on' : '')} onClick={() => flip(c.id)}>
-            {c.name}
-          </button>
-        ))}
-      </div>
-      {to.length > 0 && money && (
-        <label className="chk">
-          <input type="checkbox" checked={!!u.x} onChange={(e) => onChange({ x: e.target.checked })} />
-          <span>Not responsible for rental cost</span>
-        </label>
-      )}
-    </div>
-  );
-}
-
 function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
   const T = useTip();
   const mine = it.share[me] || 0;
@@ -2429,38 +2400,43 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
   const st = gearStatus(it);
   const patch = (o) => s.patch('gear', it.id, o);
   const e = it.e[me] || {};
-  const setE = (k, v) => patch({ e: { ...it.e, [me]: { ...(it.e[me] || {}), [k]: v } } });
-  const setUnit = (k, i, o) => {
-    const list = Array.from({ length: Math.max(i + 1, ((it.e[me] || {})[k] || []).length) }, (_, j) => ((it.e[me] || {})[k] || [])[j] || {});
-    list[i] = { ...list[i], ...o };
-    setE(k, list);
+  const ids = new Set(crew.map((c) => c.id));
+  const first = firstOf(crew.find((c) => c.id === me)) || (name || '').split(' ')[0] || 'them';
+  // what this person brings: a quantity, and for each one who uses it (copies from before this are read the same way)
+  const base = e.bring !== undefined ? e : bringForm(e, me, ids, it.kind);
+  const units = unitList(e, me, ids, it.kind);
+  const isDef = (u) => (it.kind === 'group' ? u.g : !u.g && u.to.length === 1 && u.to[0] === me) && !u.x;
+  const [allocOpen, setAllocOpen] = useState(null);
+  const setBring = (x) => patch({ e: { ...it.e, [me]: { ...base, bring: x } } });
+  const setUse = (i, o) => {
+    const b = bringForm(e, me, ids, it.kind);
+    const use = Array.from({ length: Math.max(units.length, i + 1) }, (_, j) => b.use[j] || {});
+    use[i] = { ...use[i], ...o };
+    patch({ e: { ...it.e, [me]: { ...b, bring: base.bring ?? b.bring, use } } });
   };
-  // what this person brings for others: whole units per person, the rest go to the group
-  const alloc = lendAlloc(e, me);
-  const restLend = Math.max(0, Math.floor(num(e.lend)) - crew.reduce((a, c) => a + (c.id !== me ? Math.floor(num((alloc[c.id] || {}).n)) : 0), 0));
-  const setAlloc = (id, o) => {
-    const merged = { ...(alloc[id] || {}), ...o };
-    const next = { ...alloc, [id]: merged };
-    if (!num(merged.n) && !merged.x) delete next[id];
-    const { lends: _l, ...rest } = e;
-    patch({ e: { ...it.e, [me]: { ...rest, lendTo: next } } });
+  const pick = (i, id) => {
+    const u = units[i];
+    if (id === 'group') return setUse(i, { g: true, to: [], x: false });
+    const to = u.g ? [] : u.to;
+    const next = to.includes(id) ? to.filter((x) => x !== id) : [...to, id];
+    setUse(i, { g: false, to: next, ...(next.some((x) => x !== me) ? {} : { x: false }) });
   };
-  const nameOf = (id) => (crew.find((c) => c.id === id) || {}).name || '';
-  // who else is using the same unit as this person, with the one bringing it marked
+  const label = (id) => (id === me ? (you ? 'Me' : first) : crew.filter((x) => firstOf(x) === firstOf(crew.find((c) => c.id === id))).length > 1 ? `${firstOf(crew.find((c) => c.id === id))} ${((crew.find((c) => c.id === id).name || '').trim().split(/\s+/).pop() || '')[0] || ''}.` : firstOf(crew.find((c) => c.id === id)) || 'Unnamed');
   const sharing = it.units
-    .filter((u) => u.to.length && (u.owner === me || u.to.includes(me)))
-    .map((u) =>
-      [u.owner !== me ? nameOf(u.owner) + ' (bringing)' : '', ...u.to.filter((id) => id !== me).map(nameOf)].filter(Boolean).join(', ')
-    )
-    .filter(Boolean);
+    .filter((u) => u.owner !== me && u.to.includes(me))
+    .map((u) => `${label(u.owner)} is bringing one for ${you ? 'you' : first}${u.to.length > 1 ? ', shared with ' + u.to.filter((id) => id !== me).map(label).join(', ') : ''}`);
+  const useSummary = (() => {
+    const m = new Map();
+    units.forEach((u) => {
+      const k = u.g ? 'the group' : u.to.map((id) => (id === me ? (you ? 'me' : first) : label(id))).join(' & ');
+      m.set(k, (m.get(k) || 0) + 1);
+    });
+    return [...m.entries()].map(([k, n]) => `${n} for ${k}`).join(', ');
+  })();
   // the form reads and writes the short stored keys
   const v = { n: it.name, k: it.kind, c: it.cat, s: it.split, r: it.req, f: it.raw.f, d: it.raw.d, pm: it.raw.pm };
-  const have = num(e.have),
-    lend = num(e.lend);
-  const grp = it.kind === 'group';
   const parts = [
-    [it.have, 'own', 'Own'],
-    [it.borrowed, 'borrow', 'Lent'],
+    [it.bring, 'own', 'Bringing'],
     [it.rent, 'rent', 'Renting'],
   ];
   const [warn, setWarn] = useState(false);
@@ -2475,7 +2451,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
     setRow(i, { to: to.includes(id) ? to.filter((x) => x !== id) : [...to, id] });
   };
   const setMode = (m) => patch(m === 'manual' ? { ra: 'manual', ru: rows.length ? rows : Array.from({ length: Math.min(30, Math.round(rn)) }, () => ({ to: [] })) } : { ra: 'group' });
-  const others = crew.filter((c) => c.id !== me && ['have', 'lend'].some((k) => num((it.e[c.id] || {})[k])));
+  const others = crew.filter((c) => c.id !== me && num((it.bringBy || {})[c.id]) > 0);
   return (
     <div className={'grItem' + (open ? ' open' : '')}>
       <button className="grHead" onClick={onOpen}>
@@ -2518,45 +2494,39 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
             <div className="muted">Pick your name above to enter your numbers.</div>
           ) : (
             <>
-              <Step label={you ? 'Bringing for myself' : `Bringing for ${(name || '').split(' ')[0] || 'them'}`} value={e.have} onChange={(x) => setE('have', x)} />
-              <Step label="Bringing for others" value={e.lend} onChange={(x) => setE('lend', x)} />
-              {Math.floor(lend) > 0 && crew.length > 1 && (
-                <div className="assign">
-                  <span className="label">Who gets them</span>
-                  <div className="step">
-                    <span className="stepText">
-                      <span className="stepLabel">Group</span>
-                      <span className="muted">Whatever is not given to someone below</span>
-                    </span>
-                    <span className="stepNum">{restLend}</span>
-                  </div>
-                  {byFirst(crew.filter((c) => c.id !== me)).map((c) => {
-                    const a = alloc[c.id] || {};
-                    return (
-                      <div key={c.id}>
-                        <Step label={c.name || 'Unnamed'} value={a.n} max={Math.floor(num(a.n)) + restLend} onChange={(x) => setAlloc(c.id, { n: x })} />
-                        {num(a.n) > 0 && !manual && (
-                          <label className="chk">
-                            <input type="checkbox" checked={!!a.x} onChange={(ev) => setAlloc(c.id, { x: ev.target.checked })} />
-                            <span>Not responsible for rental cost</span>
-                          </label>
-                        )}
+              <Step label={you ? 'Quantity I can bring' : `Quantity ${first} can bring`} value={e.bring !== undefined ? e.bring : base.bring} onChange={setBring} />
+              {units.length > 0 && (
+                <details className="gdet" open={allocOpen ?? units.some((u) => !isDef(u))} onToggle={(ev) => setAllocOpen(ev.currentTarget.open)}>
+                  <summary>Who uses them · {useSummary}</summary>
+                  {units.slice(0, 30).map((u, i) => (
+                    <div className="unitRow" key={i}>
+                      <div className="unitHead">
+                        <b>{units.length === 1 ? 'Who uses it' : `#${i + 1}`}</b>
                       </div>
-                    );
-                  })}
-                </div>
-              )}
-              {crew.length > 1 && Math.floor(have) > 0 && (
-                <details className="gdet" open={(e.share || []).some((u) => u && ((u.to || []).length || u.g))}>
-                  <summary>Who else uses what you bring for yourself</summary>
-                  {Array.from({ length: Math.floor(have) }, (_, i) => (
-                    <UnitPick key={'o' + i} title={`Mine #${i + 1}: also used by`} u={(e.share || [])[i] || {}} crew={crew} me={me} money={!manual} onChange={(o) => setUnit('share', i, o)} />
+                      <div className="chips">
+                        <button className={'chip' + (u.g ? ' on' : '')} aria-pressed={u.g} onClick={() => pick(i, 'group')}>
+                          The group
+                        </button>
+                        {[me, ...byFirst(crew.filter((c) => c.id !== me)).map((c) => c.id)].map((id) => (
+                          <button key={id} className={'chip' + (!u.g && u.to.includes(id) ? ' on' : '')} aria-pressed={!u.g && u.to.includes(id)} onClick={() => pick(i, id)}>
+                            {label(id)}
+                          </button>
+                        ))}
+                      </div>
+                      {!manual && u.to.some((id) => id !== me) && (
+                        <label className="chk">
+                          <input type="checkbox" checked={u.x} onChange={(ev) => setUse(i, { x: ev.target.checked })} />
+                          <span>Not responsible for rental cost</span>
+                        </label>
+                      )}
+                    </div>
                   ))}
+                  {units.length > 30 && <div className="muted">The other {units.length - 30} use the default.</div>}
                 </details>
               )}
               {sharing.map((l, i) => (
                 <div className="muted mb-s" key={i}>
-                  Sharing with {l}
+                  {l}
                 </div>
               ))}
               <Step label="Renting" value={it.raw.rn} onChange={(x) => patch({ rn: x })} />
@@ -2646,7 +2616,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                   <div className="gother" key={c.id}>
                     <span className="gcName">{c.name}</span>
                     <span className="muted">
-                      own {+num(x.have).toFixed(2)} · for others {+num(x.lend).toFixed(2)}
+                      bringing {+num((it.bringBy || {})[c.id]).toFixed(2)}
                     </span>
                     <span className="gcAmt">{it.share[c.id] ? usd(it.share[c.id]) : ''}</span>
                   </div>
