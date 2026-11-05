@@ -19,6 +19,7 @@ human pass before the app is public. Tick these off as you go:
   - Text in number cells: Guitar & Other Musical Instruments (Davis, "1 (guitar harp shaker)") counts as 1; "Optional", "BYO" and Jetboil Fuel "X ml" have no count.
   - Counts the sheet leaves blank stay blank.
   - Each person's "bringing for myself" and "bringing for others" counts became one quantity they can bring; on personal items the extras (formerly "for others") are allocated to the group, and on group items everything they bring is for the group. Check who each unit is meant for.
+  - Personal/Group item type is gone; every unit defaults to the person bringing it, and the units the sheet had as group items are set to the group.
 - [ ] **LNT tab** (`lnt` in `data/general.json`): check each tip against current Leave No Trace guidance and the rules of the rivers you cover (gray water, ash, urine, toilet paper, wood collecting differ by river). Written from general knowledge, no sources recorded.
 - [ ] **Preliminary river entries** (Alsek, Tatshenshini, Bruneau-Jarbidge, Deschutes, John Day, Owyhee, Green River
   Labyrinth/Stillwater, Dolores): the river miles, access-point miles and map coordinates were written from memory and are
