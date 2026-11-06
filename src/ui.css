@@ -684,10 +684,6 @@ body.shot #fakeStatus { background: var(--bg); }
 .rg .gsumCost { margin-left: auto; font-weight: 650; color: var(--ink); }
 .rg .gdet { margin-top: 10px; border-top: 1px solid var(--line-soft); padding-top: 8px; }
 .rg .gdet > summary { cursor: pointer; font-weight: 650; padding: 6px 0; }
-.rg .step:has(+ .gsub) { border-bottom: 0; padding-bottom: 2px; }
-.rg .gdet.gsub { margin: 0 0 6px 14px; padding: 0 0 0 12px; border-top: 0; border-left: 2px solid var(--line-soft); }
-.rg .gdet.gsub > summary { font-weight: 400; font-size: 13.5px; color: var(--ink-dim); padding: 4px 0; }
-.rg .gdet.gsub .unitRow { margin-left: 0; }
 .rg .gother { display: grid; grid-template-columns: minmax(60px, auto) 1fr auto; gap: 8px; padding: 4px 0; font-size: 13.5px; }
 
 .rg .gmap { position: relative; border-radius: 12px; overflow: hidden; }

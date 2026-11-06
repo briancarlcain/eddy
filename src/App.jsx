@@ -2390,8 +2390,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
   // what this person brings: a quantity, and for each one who uses it (copies from before this are read the same way)
   const base = e.bring !== undefined ? e : bringForm(e, me, ids);
   const units = unitList(e, me, ids);
-  const isDef = (u) => !u.g && u.to.length === 1 && u.to[0] === me && !u.x;
-  const [allocOpen, setAllocOpen] = useState(null);
+  const [useOpen, setUseOpen] = useState(true);
   const setBring = (x) => patch({ e: { ...it.e, [me]: { ...base, bring: x } } });
   const setUse = (i, o) => {
     const b = bringForm(e, me, ids);
@@ -2489,12 +2488,15 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
             <>
               <Step label={you ? 'Quantity I can bring' : `Quantity ${first} can bring`} value={e.bring !== undefined ? e.bring : base.bring} onChange={setBring} />
               {units.length > 0 && (
-                <details className="gdet gsub" open={allocOpen ?? units.some((u) => !isDef(u))} onToggle={(ev) => setAllocOpen(ev.currentTarget.open)}>
-                  <summary>Who uses them · {useSummary}</summary>
-                  {units.slice(0, 30).map((u, i) => (
+                <div className="assign">
+                  <button type="button" className="assignHead" aria-expanded={useOpen} onClick={() => setUseOpen(!useOpen)}>
+                    <span className="label">Who uses them · {useSummary}</span>
+                    <Icon name="chevron" size={16} className="chev" />
+                  </button>
+                  {useOpen && units.slice(0, 30).map((u, i) => (
                     <div className="unitRow" key={i}>
                       <div className="unitHead">
-                        <b>{units.length === 1 ? 'Who uses it' : `#${i + 1}`}</b>
+                        <b>{units.length === 1 ? 'Who uses it' : `Item ${i + 1}`}</b>
                       </div>
                       <div className="chips">
                         <button className={'chip' + (u.g ? ' on' : '')} aria-pressed={u.g} onClick={() => pick(i, 'group')}>
@@ -2514,8 +2516,8 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                       )}
                     </div>
                   ))}
-                  {units.length > 30 && <div className="muted">The other {units.length - 30} use the default.</div>}
-                </details>
+                  {useOpen && units.length > 30 && <div className="muted">The other {units.length - 30} use the default.</div>}
+                </div>
               )}
               {sharing.map((l, i) => (
                 <div className="muted mb-s" key={i}>
