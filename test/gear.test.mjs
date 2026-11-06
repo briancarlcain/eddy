@@ -125,9 +125,12 @@ assert.equal(gearKind({ n: 'x', s: 'even', k: 'personal' }), 'personal');
   near(it.loose, 0, 'all assigned'); assert.equal(it.issues.length, 0);
   const even = ledger({ days: 3, crew: c4, gear: [{ id: 'p', n: 'Paco Pad', ...pads, s: 'even' }] }).items[0];
   near(even.share.n, 15, 'equal'); near(even.share.k, 15, 'equal');
-  // the units do not add up to what is rented
+  // units not listed yet are the group's
   const few = ledger({ days: 3, crew: c4, gear: [{ id: 'p', n: 'Paco Pad', ...pads, rn: '6' }] }).items[0];
-  assert.equal(few.issues.length, 1); assert.match(few.issues[0], /only 4 is assigned/); near(few.loose, 60, 'unassigned cost');
+  assert.equal(few.issues.length, 0); near(few.loose, 0, 'covered'); near(few.total, 180, 'six pads'); balanced(few);
+  // a unit marked for the group is split among the group by the item's method
+  const gr = ledger({ days: 3, crew: c4, gear: [{ id: 'p', n: 'Paco Pad', ...pads, rn: '1', ru: [{ g: true }] }] }).items[0];
+  assert.equal(gr.issues.length, 0); near(gr.share.j, 30 * 3 / 13, 'by nights'); near(gr.share.x, 30 * 2 / 13, 'by nights'); balanced(gr);
   const over = ledger({ days: 3, crew: c4, gear: [{ id: 'p', n: 'Paco Pad', ...pads, rn: '3' }] }).items[0];
   // lowering Renting leaves the extra assignments unused: only the first 3 units count, with no warning
   assert.equal(over.issues.length, 0); near(over.total, 90, 'three pads'); near(over.loose, 0, 'covered'); near(Object.values(over.share).reduce((x, y) => x + y, 0), 90, 'shares add up to three pads');
