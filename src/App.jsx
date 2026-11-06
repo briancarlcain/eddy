@@ -2427,22 +2427,21 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
   const [rentOpen, setRentOpen] = useState(true);
   const rn = Math.max(0, num(it.raw.rn));
   const manual = it.raw.ra === 'manual';
-  const rows = Array.isArray(it.raw.ru) ? it.raw.ru : [];
-  // one row per rented unit (a row can also stand for several); assignments past Renting are ignored
+  const rows = manual && Array.isArray(it.raw.ru) ? it.raw.ru : [];
+  // one row per rented unit (a row can also stand for several); units without a row are the group's, and rows past Renting are ignored
   const slots = [];
   let spare = rn;
-  rows.forEach((r, i) => {
+  rows.forEach((r) => {
     const n = r && r.n !== undefined && String(r.n) !== '' ? Math.max(0, num(r.n)) : 1;
-    if (n > 0 && spare > 0 && slots.length < 30) slots.push({ i, r: r || {} });
+    if (n > 0 && spare > 0 && slots.length < 30) slots.push(r || { to: [] });
     if (n > 0) spare -= Math.min(n, spare);
   });
-  for (let k = 0; spare > 0 && slots.length < 30; k++, spare -= 1) slots.push({ i: rows.length + k, r: {} });
-  const setRow = (i, o) => patch({ ru: Array.from({ length: Math.max(rows.length, i + 1) }, (_, j) => (j === i ? { ...(rows[j] || {}), ...o } : rows[j] || { to: [] })) });
-  const toggleRow = (i, id) => {
-    const to = (rows[i] || {}).to || [];
-    setRow(i, { to: to.includes(id) ? to.filter((x) => x !== id) : [...to, id] });
+  for (; spare > 0 && slots.length < 30; spare -= 1) slots.push({ g: true });
+  const setRow = (k, o) => patch({ ra: 'manual', ru: slots.map((r, j) => (j === k ? { ...r, ...o } : r)) });
+  const toggleRow = (k, id) => {
+    const to = slots[k].g ? [] : slots[k].to || [];
+    setRow(k, { g: false, to: to.includes(id) ? to.filter((x) => x !== id) : [...to, id] });
   };
-  const setMode = (m) => patch(m === 'manual' ? { ra: 'manual' } : { ra: 'group' });
   const others = crew.filter((c) => c.id !== me && num((it.bringBy || {})[c.id]) > 0);
   return (
     <div className={'grItem' + (open ? ' open' : '')}>
@@ -2528,7 +2527,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
               {rn > 0 && (
                 <div className="assign">
                   <button type="button" className="assignHead" aria-expanded={rentOpen} onClick={() => setRentOpen(!rentOpen)}>
-                    <span className="label">{manual ? `Who pays · ${+it.rAssigned.toFixed(2)} of ${+rn.toFixed(2)} assigned` : 'Who pays · the entire group'}</span>
+                    <span className="label">Who pays{it.rAssigned < rn - 0.005 ? ` · ${+(rn - it.rAssigned).toFixed(2)} unassigned` : ''}</span>
                     <Icon name="chevron" size={16} className="chev" />
                   </button>
                   {rentOpen && (
@@ -2541,33 +2540,24 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                           </button>
                         ))}
                       </div>
-                      <span className="label">Allocation</span>
-                      <div className="chips">
-                        {[['group', 'Divide among the entire group'], ['manual', 'Allocate manually']].map(([k, l]) => (
-                          <button key={k} className={'chip' + ((manual ? 'manual' : 'group') === k ? ' on' : '')} onClick={() => setMode(k)}>
-                            {l}
-                          </button>
-                        ))}
-                      </div>
-                      {manual && (
-                        <>
-                          {slots.map(({ i, r }, k) => (
-                            <div className="unitRow" key={i}>
-                              <div className="unitHead">
-                                <b>{slots.length === 1 ? 'Who pays' : `Rental ${k + 1}`}</b>
-                              </div>
-                              {r.n !== undefined && num(r.n) !== 1 && <Step label="Quantity" value={r.n} onChange={(x) => setRow(i, { n: x })} />}
-                              <div className="chips">
-                                {byFirst(crew).map((c) => (
-                                  <button key={c.id} className={'chip' + ((r.to || []).includes(c.id) ? ' on' : '')} onClick={() => toggleRow(i, c.id)}>
-                                    {crew.filter((x) => firstOf(x) === firstOf(c)).length > 1 ? `${firstOf(c)} ${((c.name || '').trim().split(/\s+/).pop() || '')[0] || ''}.` : firstOf(c) || 'Unnamed'}
-                                  </button>
-                                ))}
-                              </div>
-                            </div>
-                          ))}
-                        </>
-                      )}
+                      {slots.map((r, k) => (
+                        <div className="unitRow" key={k}>
+                          <div className="unitHead">
+                            <b>{slots.length === 1 ? 'Who pays' : `Rental ${k + 1}`}</b>
+                          </div>
+                          {r.n !== undefined && num(r.n) !== 1 && <Step label="Quantity" value={r.n} onChange={(x) => setRow(k, { n: x })} />}
+                          <div className="chips">
+                            <button className={'chip' + (r.g ? ' on' : '')} aria-pressed={!!r.g} onClick={() => setRow(k, { g: true, to: [] })}>
+                              The group
+                            </button>
+                            {byFirst(crew).map((c) => (
+                              <button key={c.id} className={'chip' + (!r.g && (r.to || []).includes(c.id) ? ' on' : '')} aria-pressed={!r.g && (r.to || []).includes(c.id)} onClick={() => toggleRow(k, c.id)}>
+                                {crew.filter((x) => firstOf(x) === firstOf(c)).length > 1 ? `${firstOf(c)} ${((c.name || '').trim().split(/\s+/).pop() || '')[0] || ''}.` : firstOf(c) || 'Unnamed'}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
                     </>
                   )}
                   <span className="label mt-s">Rental price per item</span>

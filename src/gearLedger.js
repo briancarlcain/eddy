@@ -151,12 +151,12 @@ export function ledger(t) {
     crew.forEach((c) => (named[c.id] = raw[c.id] || 0));
     const borrowed = lend;
     // rentals are entered by hand: how many, then who each unit is for.
-    // 'manual': each unit lists the people who pay for it, split by the item's method.
+    // 'manual': each unit is for the group or lists the people who pay for it, split by the item's method (unlisted units are the group's).
     // otherwise the whole group pays, split the same way. (Old copies keep a quantity per person or group in rnTo.)
     const manual = g.ra === 'manual';
     const legacy = !manual && g.ra === undefined && g.rnTo && typeof g.rnTo === 'object';
     const rows = manual
-      ? (Array.isArray(g.ru) ? g.ru : []).map((r) => ({ n: r && r.n !== undefined && String(r.n) !== '' ? Math.max(0, num(r.n)) : 1, to: [...new Set((r && Array.isArray(r.to) ? r.to : []).filter((id) => ids.has(id)))] }))
+      ? (Array.isArray(g.ru) ? g.ru : []).map((r) => ({ n: r && r.n !== undefined && String(r.n) !== '' ? Math.max(0, num(r.n)) : 1, g: !!(r && r.g), to: [...new Set((r && Array.isArray(r.to) ? r.to : []).filter((id) => ids.has(id)))] }))
       : [];
     const rent = Math.max(0, num(g.rn));
     const rt = legacy ? g.rnTo : {};
@@ -173,6 +173,11 @@ export function ledger(t) {
       if (!(r.n > 0) || left <= 0) return;
       const n = Math.min(r.n, left);
       left -= n;
+      if (r.g) {
+        rg += n;
+        rAssigned += n;
+        return;
+      }
       if (!r.to.length) return;
       rAssigned += n;
       lines.push({ to: r.to, n });
@@ -186,6 +191,11 @@ export function ledger(t) {
         }
       });
     });
+    // units not listed yet are for the group
+    if (manual && left > 0) {
+      rg += left;
+      rAssigned += left;
+    }
     crew.forEach((c) => {
       const n = Math.max(0, num(rt[c.id]));
       if (n) {
