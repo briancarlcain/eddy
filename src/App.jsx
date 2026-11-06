@@ -2428,13 +2428,12 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
   const rn = Math.max(0, num(it.raw.rn));
   const manual = it.raw.ra === 'manual';
   const rows = manual && Array.isArray(it.raw.ru) ? it.raw.ru : [];
-  // one row per rented unit (a row can also stand for several); units without a row are the group's, and rows past Renting are ignored
+  // exactly one row per rented unit; units without a row are the group's, and rows past Renting are ignored
   const slots = [];
   let spare = rn;
   rows.forEach((r) => {
-    const n = r && r.n !== undefined && String(r.n) !== '' ? Math.max(0, num(r.n)) : 1;
-    if (n > 0 && spare > 0 && slots.length < 30) slots.push(r || { to: [] });
-    if (n > 0) spare -= Math.min(n, spare);
+    const n = r && r.n !== undefined && String(r.n) !== '' ? Math.max(0, Math.round(num(r.n))) : 1;
+    for (let c = 0; c < n && spare > 0 && slots.length < 30; c++, spare -= 1) slots.push({ g: !!(r && r.g), to: (r && r.to) || [] });
   });
   for (; spare > 0 && slots.length < 30; spare -= 1) slots.push({ g: true });
   const setRow = (k, o) => patch({ ra: 'manual', ru: slots.map((r, j) => (j === k ? { ...r, ...o } : r)) });
@@ -2545,7 +2544,6 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                           <div className="unitHead">
                             <b>{slots.length === 1 ? 'Who pays' : `Rental ${k + 1}`}</b>
                           </div>
-                          {r.n !== undefined && num(r.n) !== 1 && <Step label="Quantity" value={r.n} onChange={(x) => setRow(k, { n: x })} />}
                           <div className="chips">
                             <button className={'chip' + (r.g ? ' on' : '')} aria-pressed={!!r.g} onClick={() => setRow(k, { g: true, to: [] })}>
                               The group
