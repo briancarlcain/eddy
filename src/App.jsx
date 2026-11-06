@@ -2575,28 +2575,28 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
             </>
           )}
 
-          <div className="gsum">
-            <div className="gsumHead">Group total {+it.count.toFixed(2)}</div>
-            <div className="gcovBar">
-              {parts.map(([n, k], i) => n > 0.005 && <span key={i} style={{ flex: n, background: COVER.find((c) => c[0] === k)[2] }} />)}
-            </div>
-            <div className="gcovKey">
-              {parts.map(([n, k, l], i) => n > 0.005 && (
-                <span key={i}>
-                  <i style={{ background: COVER.find((c) => c[0] === k)[2] }} />
-                  {+n.toFixed(2)} {l}
-                </span>
-              ))}
-              {!parts.some(([n]) => n > 0.005) && <span className="muted">Nothing set yet</span>}
-              {it.total > 0 && <span className="gsumCost">{usd(it.total)} total</span>}
-            </div>
-          </div>
           {it.loose > 0.005 && <div className="muted">{usd(it.loose)} is not assigned to anyone yet.</div>}
 
-          {crew.length > 1 && (
+          {(crew.length > 1 || it.count > 0.005) && (
             <details className="gdet">
               <summary>Everyone’s numbers</summary>
-              {others.length === 0 && <div className="muted">No one else has entered numbers yet.</div>}
+              <div className="gsum">
+                <div className="gsumHead">Group total {+it.count.toFixed(2)}</div>
+                <div className="gcovBar">
+                  {parts.map(([n, k], i) => n > 0.005 && <span key={i} style={{ flex: n, background: COVER.find((c) => c[0] === k)[2] }} />)}
+                </div>
+                <div className="gcovKey">
+                  {parts.map(([n, k, l], i) => n > 0.005 && (
+                    <span key={i}>
+                      <i style={{ background: COVER.find((c) => c[0] === k)[2] }} />
+                      {+n.toFixed(2)} {l}
+                    </span>
+                  ))}
+                  {!parts.some(([n]) => n > 0.005) && <span className="muted">Nothing set yet</span>}
+                  {it.total > 0 && <span className="gsumCost">{usd(it.total)} total</span>}
+                </div>
+              </div>
+              {crew.length > 1 && others.length === 0 && <div className="muted">No one else has entered numbers yet.</div>}
               {others.map((c) => {
                 const x = it.e[c.id] || {};
                 return (
