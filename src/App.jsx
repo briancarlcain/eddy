@@ -2437,6 +2437,37 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
     for (let c = 0; c < n && spare > 0 && slots.length < 30; c++, spare -= 1) slots.push({ g: !!(r && r.g), to: (r && r.to) || [] });
   });
   for (; spare > 0 && slots.length < 30; spare -= 1) slots.push({ g: true });
+  // who brings, who uses, who rents, in one line per person
+  const nm = (id) => firstOf(crew.find((c) => c.id === id)) || 'Unnamed';
+  const tally = (m) => Object.entries(m).map(([k, v]) => (v > 1 ? `${v} ${k}` : `1 ${k}`)).join(', ');
+  const flowText = (c) => {
+    const out = {}, from = {};
+    let own = 0;
+    it.units.forEach((u) => {
+      if (u.owner === c.id) {
+        if (u.kind === 'lend') {
+          const k = u.group ? 'group' : u.to.map(nm).join(' & ') || 'no one';
+          out[k] = (out[k] || 0) + 1;
+        } else {
+          own += 1;
+          if (u.to.length) {
+            const k = `shared with ${u.to.map(nm).join(' & ')}`;
+            out[k] = (out[k] || 0) + 1;
+          }
+        }
+      } else if (u.to.includes(c.id)) from[nm(u.owner)] = (from[nm(u.owner)] || 0) + 1;
+    });
+    const bring = num((it.bringBy || {})[c.id]);
+    const uses = own + Object.values(from).reduce((a, b) => a + b, 0);
+    const rent = it.rented[c.id] || 0;
+    const bits = [];
+    if (bring > 0) bits.push(`brings ${qn(bring)}${Object.keys(out).length ? ` (${tally(out)})` : ''}`);
+    if (uses > 0) bits.push(`uses ${qn(uses)}${Object.keys(from).length ? ` (${tally(Object.fromEntries(Object.entries(from).map(([k, v]) => ['from ' + k, v])))})` : ''}`);
+    if (rent > 0.005) bits.push(`rents ${qn(rent)}`);
+    return bits.join(' · ');
+  };
+  const groupUse = it.units.filter((u) => u.kind === 'lend' && u.group).length;
+  const groupRent = (it.lines || []).filter((l) => !l.to.length).reduce((a, l) => a + l.n, 0);
   const setRow = (k, o) => patch({ ra: 'manual', ru: slots.map((r, j) => (j === k ? { ...r, ...o } : r)) });
   const toggleRow = (k, id) => {
     const to = slots[k].g ? [] : slots[k].to || [];
@@ -2587,17 +2618,20 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                   {it.total > 0 && <span className="gsumCost">{usd(it.total)} total</span>}
                 </div>
               </div>
-              {byFirst(crew).map((c) => {
-                return (
-                  <div className="gother" key={c.id}>
-                    <span className="gcName">{c.name}</span>
-                    <span className="muted">
-                      bringing {+num((it.bringBy || {})[c.id]).toFixed(2)}
-                    </span>
-                    <span className="gcAmt">{it.share[c.id] ? usd(it.share[c.id]) : ''}</span>
-                  </div>
-                );
-              })}
+              {byFirst(crew).map((c) => (
+                <div className="gother" key={c.id}>
+                  <span className="gcName">{c.name}</span>
+                  <span className="gcAmt">{it.share[c.id] ? usd(it.share[c.id]) : ''}</span>
+                  {flowText(c) && <span className="gcSub">{flowText(c)}</span>}
+                </div>
+              ))}
+              {(groupUse > 0 || groupRent > 0) && (
+                <div className="gother">
+                  <span className="gcName">The group</span>
+                  <span className="gcAmt" />
+                  <span className="gcSub">{[groupUse > 0 && `uses ${qn(groupUse)}`, groupRent > 0 && `rents ${qn(groupRent)}`].filter(Boolean).join(' · ')}</span>
+                </div>
+              )}
             </details>
           )}
 
