@@ -167,17 +167,22 @@ export function ledger(t) {
     let rg = manual ? 0 : legacy ? Math.max(0, num(rt.group)) : rent;
     let rAssigned = rg;
     const wOf = (c) => (it.split === 'nights' ? nights(c) : 1);
+    // only the first Renting units count; assignments past that are ignored, like extra units in Quantity I can bring
+    let left = rent;
     rows.forEach((r) => {
-      if (!(r.n > 0) || !r.to.length) return;
-      rAssigned += r.n;
-      lines.push({ to: r.to, n: r.n });
+      if (!(r.n > 0) || left <= 0) return;
+      const n = Math.min(r.n, left);
+      left -= n;
+      if (!r.to.length) return;
+      rAssigned += n;
+      lines.push({ to: r.to, n });
       const ws = r.to.reduce((a, id) => a + wOf(byId[id]), 0) || 1;
       r.to.forEach((id) => {
         const f = wOf(byId[id]) / ws;
-        rented[id] = (rented[id] || 0) + r.n * f;
+        rented[id] = (rented[id] || 0) + n * f;
         if (unit) {
-          share[id] = (share[id] || 0) + unit * r.n * f;
-          if (r.to.length === 1) single[id] = (single[id] || 0) + unit * r.n;
+          share[id] = (share[id] || 0) + unit * n * f;
+          if (r.to.length === 1) single[id] = (single[id] || 0) + unit * n;
         }
       });
     });

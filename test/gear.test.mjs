@@ -129,7 +129,10 @@ assert.equal(gearKind({ n: 'x', s: 'even', k: 'personal' }), 'personal');
   const few = ledger({ days: 3, crew: c4, gear: [{ id: 'p', n: 'Paco Pad', ...pads, rn: '6' }] }).items[0];
   assert.equal(few.issues.length, 1); assert.match(few.issues[0], /only 4 is assigned/); near(few.loose, 60, 'unassigned cost');
   const over = ledger({ days: 3, crew: c4, gear: [{ id: 'p', n: 'Paco Pad', ...pads, rn: '3' }] }).items[0];
-  assert.match(over.issues[0], /4 is assigned, but Renting is 3/);
+  // lowering Renting leaves the extra assignments unused: only the first 3 units count, with no warning
+  assert.equal(over.issues.length, 0); near(over.total, 90, 'three pads'); near(over.loose, 0, 'covered'); near(Object.values(over.share).reduce((x, y) => x + y, 0), 90, 'shares add up to three pads');
+  const zero = ledger({ days: 3, crew: c4, gear: [{ id: 'p', n: 'Paco Pad', ...pads, rn: '0' }] }).items[0];
+  assert.equal(zero.issues.length, 0); near(zero.total, 0, 'nothing rented');
   // a unit with no one on it is not assigned
   const none = ledger({ days: 3, crew: c4, gear: [{ id: 'p', n: 'Paco Pad', ...pads, ru: [{ to: [] }, ...pads.ru.slice(1)] }] }).items[0];
   assert.match(none.issues[0], /only 3 is assigned/);
