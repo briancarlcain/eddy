@@ -2442,7 +2442,6 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
     const to = slots[k].g ? [] : slots[k].to || [];
     setRow(k, { g: false, to: to.includes(id) ? to.filter((x) => x !== id) : [...to, id] });
   };
-  const others = crew.filter((c) => c.id !== me && num((it.bringBy || {})[c.id]) > 0);
   return (
     <div className={'grItem' + (open ? ' open' : '')}>
       <button className="grHead" onClick={onOpen}>
@@ -2569,7 +2568,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
 
           {it.loose > 0.005 && <div className="muted">{usd(it.loose)} is not assigned to anyone yet.</div>}
 
-          {(crew.length > 1 || it.count > 0.005) && (
+          {crew.length > 0 && (
             <details className="gdet">
               <summary>Everyone’s numbers</summary>
               <div className="gsum">
@@ -2588,9 +2587,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                   {it.total > 0 && <span className="gsumCost">{usd(it.total)} total</span>}
                 </div>
               </div>
-              {crew.length > 1 && others.length === 0 && <div className="muted">No one else has entered numbers yet.</div>}
-              {others.map((c) => {
-                const x = it.e[c.id] || {};
+              {byFirst(crew).map((c) => {
                 return (
                   <div className="gother" key={c.id}>
                     <span className="gcName">{c.name}</span>
