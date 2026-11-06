@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BUILTIN_RIVERS, DEFAULT_RIVER, normalizeRiver } from './rivers.js';
 import GENERAL from '../data/general.json';
 import { bringForm, coverOf, ledger, num, priceMode, priceOf, unitList } from './gearLedger.js';
+import { shortOf } from './names.js';
 import { convertRentals } from './gearLegacy.js';
 import GEAR_ALL from '../data/gear.json';
 import SEED from '../data/trip.json';
@@ -1802,7 +1803,7 @@ function Gear({ s }) {
     const c = coverOf(i, who);
     return srcOn.some((k) => c[k]);
   });
-  const first = (whoName || '').split(' ')[0];
+  const first = shortOf(t.crew, who) || (whoName || '').split(' ')[0];
   const ALLSORTS = [
     ['name', 'Name, A to Z', null, 1],
     ['name-', 'Name, Z to A', null, -1],
@@ -1979,7 +1980,7 @@ const qn = (n) => +(+n).toFixed(2);
 
 // who is bringing, lending and borrowing one item, read from the units people entered
 function gearFlows(it, crew) {
-  const nm = (id) => firstOf(crew.find((c) => c.id === id)) || 'Someone';
+  const nm = (id) => shortOf(crew, id) || 'Someone';
   const bring = byFirst(crew)
     .map((c) => [c.id, num((it.bringBy || {})[c.id])])
     .filter(([, n]) => n > 0.005);
@@ -2086,7 +2087,7 @@ function GroupRow({ it, crew, open, onOpen }) {
 function GroupSummary({ L, crew }) {
   const [who, setWho] = useState(null);
   const people = byFirst(crew);
-  const nm = (id) => firstOf(crew.find((c) => c.id === id)) || 'Someone';
+  const nm = (id) => shortOf(crew, id) || 'Someone';
   const shared = (b) => b.even + b.nights + b.users;
   const borrows = L.items.flatMap((i) => gearFlows(i, crew).borrow.map((b) => ({ ...b, item: i.name })));
   borrows.sort((a, b) => (a.to === 'group') - (b.to === 'group') || a.toName.localeCompare(b.toName) || a.item.localeCompare(b.item));
@@ -2247,7 +2248,7 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
   };
   const mineU = (i, kind) => i.units.filter((u) => u.owner === me && u.kind === kind);
   const groups = [
-    [you ? 'Bringing for myself' : `Bringing for ${(name || '').split(' ')[0] || 'them'}`, 'own', (i) => mineU(i, 'own').length],
+    [you ? 'Bringing for myself' : `Bringing for ${shortOf(crew, me) || (name || '').split(' ')[0] || 'them'}`, 'own', (i) => mineU(i, 'own').length],
     ['Bringing for others', 'lend', (i) => mineU(i, 'lend').length],
     ['Renting', 'rent', (i) => (i.share[me] > 0.005 ? i.share[me] : 0)],
   ].map(([title, kind, f]) => ({ title, kind, rows: [...L.items].sort(byItem).map((i) => ({ i, v: f(i) })).filter((r) => r.v > 0) }));
@@ -2387,7 +2388,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
   const patch = (o) => s.patch('gear', it.id, o);
   const e = it.e[me] || {};
   const ids = new Set(crew.map((c) => c.id));
-  const first = firstOf(crew.find((c) => c.id === me)) || (name || '').split(' ')[0] || 'them';
+  const first = shortOf(crew, me) || (name || '').split(' ')[0] || 'them';
   // what this person brings: a quantity, and for each one who uses it (copies from before this are read the same way)
   const base = e.bring !== undefined ? e : bringForm(e, me, ids);
   const units = unitList(e, me, ids);
@@ -2406,7 +2407,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
     const next = to.includes(id) ? to.filter((x) => x !== id) : [...to, id];
     setUse(i, { g: false, to: next, ...(next.some((x) => x !== me) ? {} : { x: false }) });
   };
-  const label = (id) => (id === me ? (you ? 'Me' : first) : crew.filter((x) => firstOf(x) === firstOf(crew.find((c) => c.id === id))).length > 1 ? `${firstOf(crew.find((c) => c.id === id))} ${((crew.find((c) => c.id === id).name || '').trim().split(/\s+/).pop() || '')[0] || ''}.` : firstOf(crew.find((c) => c.id === id)) || 'Unnamed');
+  const label = (id) => (id === me ? (you ? 'Me' : first) : shortOf(crew, id) || 'Unnamed');
   const sharing = it.units
     .filter((u) => u.owner !== me && u.to.includes(me))
     .map((u) => `${label(u.owner)} is bringing one for ${you ? 'you' : first}${u.to.length > 1 ? ', shared with ' + u.to.filter((id) => id !== me).map(label).join(', ') : ''}`);
@@ -2438,7 +2439,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
   });
   for (; spare > 0 && slots.length < 30; spare -= 1) slots.push({ g: true });
   // who brings, who uses, who rents, in one line per person
-  const nm = (id) => firstOf(crew.find((c) => c.id === id)) || 'Unnamed';
+  const nm = (id) => shortOf(crew, id) || 'Unnamed';
   const tally = (m) => Object.entries(m).map(([k, v]) => (v > 1 ? `${v} ${k}` : `1 ${k}`)).join(', ');
   const flowText = (c) => {
     const out = {}, from = {};
@@ -2582,7 +2583,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                             </button>
                             {byFirst(crew).map((c) => (
                               <button key={c.id} className={'chip' + (!r.g && (r.to || []).includes(c.id) ? ' on' : '')} aria-pressed={!r.g && (r.to || []).includes(c.id)} onClick={() => toggleRow(k, c.id)}>
-                                {crew.filter((x) => firstOf(x) === firstOf(c)).length > 1 ? `${firstOf(c)} ${((c.name || '').trim().split(/\s+/).pop() || '')[0] || ''}.` : firstOf(c) || 'Unnamed'}
+                                {shortOf(crew, c.id) || 'Unnamed'}
                               </button>
                             ))}
                           </div>
