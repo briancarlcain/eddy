@@ -901,3 +901,5 @@ body.shot .onBehalf { top: calc(52px + 54px + 45px); }
 .rg .statTap { background: none; font: inherit; color: inherit; cursor: pointer; display: block; width: 100%; }
 .rg .statTap:disabled { cursor: default; }
 .rg .stats.one { grid-template-columns: minmax(0, 1fr); }
+
+.rg .gdesc { margin: 0 0 10px; font-size: 14px; color: var(--ink-dim); white-space: pre-wrap; }
