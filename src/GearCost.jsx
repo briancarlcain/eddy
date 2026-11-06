@@ -1,3 +1,4 @@
+import { shortOf } from './names.js';
 import React, { useMemo, useState } from 'react';
 import { costLines, priceText } from './gearCost.js';
 
@@ -94,7 +95,7 @@ export default function GearCost({ L, crew, start }) {
             ]}
           />
           <div className="cbLegend two">
-            <span><i style={{ background: PAL[0] }} />Only for {me.name.split(' ')[0]} <b>{usd(b.personal)}</b></span>
+            <span><i style={{ background: PAL[0] }} />Only for {shortOf(crew, me.id) || me.name.split(' ')[0]} <b>{usd(b.personal)}</b></span>
             <span><i style={{ background: PAL[1] }} />Split with others <b>{usd(b.total - b.personal)}</b></span>
           </div>
         </>
@@ -153,7 +154,6 @@ function Item({ i, v, max, color, open, onOpen, L, crew, pid }) {
   const price = priceText(i, L.days);
   const payers = crew.map((c) => ({ c, v: i.share[c.id] || 0 })).filter((x) => x.v > 0.005).sort((a, b) => b.v - a.v);
   const lines = pid ? costLines(i, crew, L.nights, pid) : [];
-  const first = (n) => (n || '').split(' ')[0];
   const qty = (n) => +n.toFixed(2);
   return (
     <div className={'cbItem' + (open ? ' open' : '')}>
