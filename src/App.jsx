@@ -2042,6 +2042,7 @@ function GroupRow({ it, crew, open, onOpen }) {
       )}
       {open && (
         <div className="grBody">
+          {it.raw.note ? <div className="gdesc">{it.raw.note}</div> : null}
           <div className="gsum">
             <div className="gsumHead">Group total {qn(it.count)}</div>
             <div className="gcovBar">
@@ -2478,6 +2479,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
       )}
       {open && (
         <div className="grBody">
+          {it.raw.note ? <div className="gdesc">{it.raw.note}</div> : null}
           {crew.length === 0 ? (
             <div className="muted">Add crew on the Crew tab first.</div>
           ) : !me ? (
@@ -2605,7 +2607,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
           <details className="gdet">
             <summary>Edit item</summary>
             <GearFields v={v} up={(k, x) => patch({ [k]: x })} days={days} cats={cats} T={T} />
-            <Field area label="Note" value={it.raw.note || ''} onChange={(ev) => patch({ note: ev.target.value })} placeholder="Where to rent it, sizes, who’s bringing it…" />
+            <Field area label="Description" value={it.raw.note || ''} onChange={(ev) => patch({ note: ev.target.value })} placeholder="What it is, sizes, where to rent it…" />
             <button className="btn ghost danger mt-s" onClick={() => window.confirm(`Remove ${it.name}?`) && s.drop('gear', it.id)}>
               Remove item
             </button>
@@ -2623,12 +2625,13 @@ function AddGear({ s, days, cats, onDone }) {
   return (
     <div className="card mt mb">
       <GearFields v={f} up={up} days={days} cats={cats} T={T} />
+      <Field area label="Description" value={f.note || ''} onChange={(ev) => up('note', ev.target.value)} placeholder="What it is, sizes, where to rent it…" />
       <button
         className="btn"
         disabled={!f.n.trim() || !f.c}
         onClick={() => {
-          s.push('gear', { n: f.n.trim(), c: f.c, s: f.s, r: f.r, pm: f.pm, f: f.f, d: f.d, e: {} });
-          setF({ n: '', c: f.c, s: f.s, pm: 'flat', f: '', d: '', r: '' });
+          s.push('gear', { n: f.n.trim(), c: f.c, s: f.s, r: f.r, pm: f.pm, f: f.f, d: f.d, ...(f.note && f.note.trim() ? { note: f.note.trim() } : {}), e: {} });
+          setF({ n: '', c: f.c, s: f.s, pm: 'flat', f: '', d: '', r: '', note: '' });
           onDone();
         }}
       >
