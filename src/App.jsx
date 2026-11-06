@@ -2429,13 +2429,21 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
   const rn = Math.max(0, num(it.raw.rn));
   const manual = it.raw.ra === 'manual';
   const rows = Array.isArray(it.raw.ru) ? it.raw.ru : [];
-  const setRows = (next) => patch({ ru: next });
-  const setRow = (i, o) => setRows(rows.map((r, j) => (j === i ? { ...r, ...o } : r)));
+  // one row per rented unit (a row can also stand for several); assignments past Renting are ignored
+  const slots = [];
+  let spare = rn;
+  rows.forEach((r, i) => {
+    const n = r && r.n !== undefined && String(r.n) !== '' ? Math.max(0, num(r.n)) : 1;
+    if (n > 0 && spare > 0 && slots.length < 30) slots.push({ i, r: r || {} });
+    if (n > 0) spare -= Math.min(n, spare);
+  });
+  for (let k = 0; spare > 0 && slots.length < 30; k++, spare -= 1) slots.push({ i: rows.length + k, r: {} });
+  const setRow = (i, o) => patch({ ru: Array.from({ length: Math.max(rows.length, i + 1) }, (_, j) => (j === i ? { ...(rows[j] || {}), ...o } : rows[j] || { to: [] })) });
   const toggleRow = (i, id) => {
-    const to = rows[i].to || [];
+    const to = (rows[i] || {}).to || [];
     setRow(i, { to: to.includes(id) ? to.filter((x) => x !== id) : [...to, id] });
   };
-  const setMode = (m) => patch(m === 'manual' ? { ra: 'manual', ru: rows.length ? rows : Array.from({ length: Math.min(30, Math.round(rn)) }, () => ({ to: [] })) } : { ra: 'group' });
+  const setMode = (m) => patch(m === 'manual' ? { ra: 'manual' } : { ra: 'group' });
   const others = crew.filter((c) => c.id !== me && num((it.bringBy || {})[c.id]) > 0);
   return (
     <div className={'grItem' + (open ? ' open' : '')}>
@@ -2481,7 +2489,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
             <>
               <Step label={you ? 'Quantity I can bring' : `Quantity ${first} can bring`} value={e.bring !== undefined ? e.bring : base.bring} onChange={setBring} />
               {units.length > 0 && (
-                <details className="gdet" open={allocOpen ?? units.some((u) => !isDef(u))} onToggle={(ev) => setAllocOpen(ev.currentTarget.open)}>
+                <details className="gdet gsub" open={allocOpen ?? units.some((u) => !isDef(u))} onToggle={(ev) => setAllocOpen(ev.currentTarget.open)}>
                   <summary>Who uses them · {useSummary}</summary>
                   {units.slice(0, 30).map((u, i) => (
                     <div className="unitRow" key={i}>
@@ -2541,13 +2549,10 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                       </div>
                       {manual && (
                         <>
-                          {rows.map((r, i) => (
+                          {slots.map(({ i, r }, k) => (
                             <div className="unitRow" key={i}>
                               <div className="unitHead">
-                                <b>Rental {i + 1}</b>
-                                <button type="button" className="unitX" aria-label={`Remove rental ${i + 1}`} onClick={() => setRows(rows.filter((_, j) => j !== i))}>
-                                  Remove
-                                </button>
+                                <b>{slots.length === 1 ? 'Who pays' : `Rental ${k + 1}`}</b>
                               </div>
                               {r.n !== undefined && num(r.n) !== 1 && <Step label="Quantity" value={r.n} onChange={(x) => setRow(i, { n: x })} />}
                               <div className="chips">
@@ -2559,9 +2564,6 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                               </div>
                             </div>
                           ))}
-                          <button type="button" className="btn ghost" onClick={() => setRows([...rows, { to: [] }])}>
-                            Add rental
-                          </button>
                         </>
                       )}
                     </>
