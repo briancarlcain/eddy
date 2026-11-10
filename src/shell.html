@@ -60,6 +60,7 @@ header{position:fixed; top:0; left:0; right:0; z-index:20;
 .fsheetWrap{position:fixed; inset:0; z-index:60; background:rgba(40,24,12,.55); backdrop-filter:blur(3px);
   display:flex; align-items:flex-end; opacity:0; pointer-events:none; transition:opacity .22s ease;}
 .fsheetWrap.show{opacity:1; pointer-events:auto;}
+.fsheetWrap:not(.show), .calc:not(.show){visibility:hidden; transition:opacity .22s ease, visibility 0s .22s;}
 .fsheet{width:100%; max-height:88vh; overflow-y:auto; -webkit-overflow-scrolling:touch; background:var(--card);
   border-top-left-radius:18px; border-top-right-radius:18px; border-top:1px solid var(--line);
   box-shadow:0 -12px 34px rgba(40,20,10,.4); transform:translateY(12%); transition:transform .24s cubic-bezier(.4,0,.2,1);
