@@ -2471,7 +2471,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
     if (id === 'group') return setUse(i, { g: true, to: [], x: false });
     const to = u.g ? [] : u.to;
     const next = to.includes(id) ? to.filter((x) => x !== id) : [...to, id];
-    setUse(i, { g: false, to: next, ...(next.some((x) => x !== me) ? {} : { x: false }) });
+    setUse(i, { g: false, to: next, x: false });
   };
   const label = (id) => (id === me ? (you ? 'Me' : first) : shortOf(crew, id) || 'Unnamed');
   const sharing = it.units
@@ -2588,12 +2588,6 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                           </button>
                         ))}
                       </div>
-                      {!manual && u.to.some((id) => id !== me) && (
-                        <label className="chk">
-                          <input type="checkbox" checked={u.x} onChange={(ev) => setUse(i, { x: ev.target.checked })} />
-                          <span>Not responsible for rental cost</span>
-                        </label>
-                      )}
                     </div>
                   ))}
                   {useOpen && units.length > 30 && <div className="muted">The other {units.length - 30} use the default.</div>}
