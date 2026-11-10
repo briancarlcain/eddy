@@ -1967,7 +1967,7 @@ function Gear({ s }) {
       </div>
       )}
       {shown.length === 0 && <div className="muted mt">Nothing matches.</div>}
-      {grp && shown.map((it) => <GroupRow key={it.id} it={it} crew={t.crew} open={open === it.id} onOpen={() => setOpen(open === it.id ? null : it.id)} />)}
+      {grp && shown.map((it) => <GroupRow key={it.id} it={it} s={s} crew={t.crew} days={L.days} open={open === it.id} onOpen={() => setOpen(open === it.id ? null : it.id)} />)}
       {!grp && shown.map((it) => (
         <GearRow key={it.id} it={it} s={s} crew={t.crew} days={L.days} cats={allCats} me={who} name={whoName} you={!as} open={open === it.id} onOpen={() => setOpen(open === it.id ? null : it.id)} />
       ))}
@@ -1999,7 +1999,7 @@ function gearFlows(it, crew) {
   return { bring, borrow, rent, nm };
 }
 
-function GroupRow({ it, crew, open, onOpen }) {
+function GroupRow({ it, s, crew, days, open, onOpen }) {
   const [warn, setWarn] = useState(false);
   const st = gearStatus(it);
   const tag = REQ[it.req];
@@ -2076,6 +2076,7 @@ function GroupRow({ it, crew, open, onOpen }) {
               {it.total > 0 ? ` · ${usd(it.total)}` : ''}
             </div>
           )}
+          <RentEdit it={it} crew={crew} days={days} patch={(o) => s.patch('gear', it.id, o)} />
           {it.loose > 0.005 && <div className="muted">{usd(it.loose)} is not assigned to anyone yet.</div>}
         </div>
       )}
@@ -2380,6 +2381,71 @@ function gearStatus(it) {
 }
 
 
+// rented quantity, how it is split, and who pays for each rented unit
+function RentEdit({ it, crew, days, patch }) {
+  const [rentOpen, setRentOpen] = useState(true);
+  const rn = Math.max(0, num(it.raw.rn));
+  const manual = it.raw.ra === 'manual';
+  const rows = manual && Array.isArray(it.raw.ru) ? it.raw.ru : [];
+  // exactly one row per rented unit; units without a row are the group's, and rows past Renting are ignored
+  const slots = [];
+  let spare = rn;
+  rows.forEach((r) => {
+    const n = r && r.n !== undefined && String(r.n) !== '' ? Math.max(0, Math.round(num(r.n))) : 1;
+    for (let c = 0; c < n && spare > 0 && slots.length < 30; c++, spare -= 1) slots.push({ g: !!(r && r.g), to: (r && r.to) || [] });
+  });
+  for (; spare > 0 && slots.length < 30; spare -= 1) slots.push({ g: true });
+  const setRow = (k, o) => patch({ ra: 'manual', ru: slots.map((r, j) => (j === k ? { ...r, ...o } : r)) });
+  const toggleRow = (k, id) => {
+    const to = slots[k].g ? [] : slots[k].to || [];
+    setRow(k, { g: false, to: to.includes(id) ? to.filter((x) => x !== id) : [...to, id] });
+  };
+  return (
+    <>
+    <Step label="Renting" value={it.raw.rn} onChange={(x) => patch({ rn: x })} />
+    {rn > 0 && (
+      <div className="assign">
+        <button type="button" className="assignHead" aria-expanded={rentOpen} onClick={() => setRentOpen(!rentOpen)}>
+          <span className="label">Who pays{it.rAssigned < rn - 0.005 ? ` · ${+(rn - it.rAssigned).toFixed(2)} unassigned` : ''}</span>
+          <Icon name="chevron" size={16} className="chev" />
+        </button>
+        {rentOpen && (
+          <>
+            <span className="label">How it’s split</span>
+            <div className="chips">
+              {SPLITS.map(([k, l]) => (
+                <button key={k} className={'chip' + (it.split === k ? ' on' : '')} onClick={() => patch({ s: k })}>
+                  {l}
+                </button>
+              ))}
+            </div>
+            {slots.map((r, k) => (
+              <div className="unitRow" key={k}>
+                <div className="unitHead">
+                  <b>{slots.length === 1 ? 'Who pays' : `Rental ${k + 1}`}</b>
+                </div>
+                <div className="chips">
+                  <button className={'chip' + (r.g ? ' on' : '')} aria-pressed={!!r.g} onClick={() => setRow(k, { g: true, to: [] })}>
+                    The group
+                  </button>
+                  {byFirst(crew).map((c) => (
+                    <button key={c.id} className={'chip' + (!r.g && (r.to || []).includes(c.id) ? ' on' : '')} aria-pressed={!r.g && (r.to || []).includes(c.id)} onClick={() => toggleRow(k, c.id)}>
+                      {shortOf(crew, c.id) || 'Unnamed'}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </>
+        )}
+        <span className="label mt-s">Rental price per item</span>
+        <PriceField v={it.raw} up={(k, x) => patch({ [k]: x })} days={days} />
+      </div>
+    )}
+    </>
+  );
+}
+
 function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
   const T = useTip();
   const mine = it.share[me] || 0;
@@ -2426,18 +2492,6 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
     [it.rent, 'rent', 'Renting'],
   ];
   const [warn, setWarn] = useState(false);
-  const [rentOpen, setRentOpen] = useState(true);
-  const rn = Math.max(0, num(it.raw.rn));
-  const manual = it.raw.ra === 'manual';
-  const rows = manual && Array.isArray(it.raw.ru) ? it.raw.ru : [];
-  // exactly one row per rented unit; units without a row are the group's, and rows past Renting are ignored
-  const slots = [];
-  let spare = rn;
-  rows.forEach((r) => {
-    const n = r && r.n !== undefined && String(r.n) !== '' ? Math.max(0, Math.round(num(r.n))) : 1;
-    for (let c = 0; c < n && spare > 0 && slots.length < 30; c++, spare -= 1) slots.push({ g: !!(r && r.g), to: (r && r.to) || [] });
-  });
-  for (; spare > 0 && slots.length < 30; spare -= 1) slots.push({ g: true });
   // who brings, who uses, who rents, in one line per person
   const nm = (id) => shortOf(crew, id) || 'Unnamed';
   const tally = (m) => Object.entries(m).map(([k, v]) => (v > 1 ? `${v} ${k}` : `1 ${k}`)).join(', ');
@@ -2469,11 +2523,6 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
   };
   const groupUse = it.units.filter((u) => u.kind === 'lend' && u.group).length;
   const groupRent = (it.lines || []).filter((l) => !l.to.length).reduce((a, l) => a + l.n, 0);
-  const setRow = (k, o) => patch({ ra: 'manual', ru: slots.map((r, j) => (j === k ? { ...r, ...o } : r)) });
-  const toggleRow = (k, id) => {
-    const to = slots[k].g ? [] : slots[k].to || [];
-    setRow(k, { g: false, to: to.includes(id) ? to.filter((x) => x !== id) : [...to, id] });
-  };
   return (
     <div className={'grItem' + (open ? ' open' : '')}>
       <button className="grHead" onClick={onOpen}>
@@ -2555,46 +2604,6 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                   {l}
                 </div>
               ))}
-              <Step label="Renting" value={it.raw.rn} onChange={(x) => patch({ rn: x })} />
-              {rn > 0 && (
-                <div className="assign">
-                  <button type="button" className="assignHead" aria-expanded={rentOpen} onClick={() => setRentOpen(!rentOpen)}>
-                    <span className="label">Who pays{it.rAssigned < rn - 0.005 ? ` · ${+(rn - it.rAssigned).toFixed(2)} unassigned` : ''}</span>
-                    <Icon name="chevron" size={16} className="chev" />
-                  </button>
-                  {rentOpen && (
-                    <>
-                      <span className="label">How it’s split</span>
-                      <div className="chips">
-                        {SPLITS.map(([k, l]) => (
-                          <button key={k} className={'chip' + (it.split === k ? ' on' : '')} onClick={() => patch({ s: k })}>
-                            {l}
-                          </button>
-                        ))}
-                      </div>
-                      {slots.map((r, k) => (
-                        <div className="unitRow" key={k}>
-                          <div className="unitHead">
-                            <b>{slots.length === 1 ? 'Who pays' : `Rental ${k + 1}`}</b>
-                          </div>
-                          <div className="chips">
-                            <button className={'chip' + (r.g ? ' on' : '')} aria-pressed={!!r.g} onClick={() => setRow(k, { g: true, to: [] })}>
-                              The group
-                            </button>
-                            {byFirst(crew).map((c) => (
-                              <button key={c.id} className={'chip' + (!r.g && (r.to || []).includes(c.id) ? ' on' : '')} aria-pressed={!r.g && (r.to || []).includes(c.id)} onClick={() => toggleRow(k, c.id)}>
-                                {shortOf(crew, c.id) || 'Unnamed'}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-                    </>
-                  )}
-                  <span className="label mt-s">Rental price per item</span>
-                  <PriceField v={it.raw} up={(k, x) => patch({ [k]: x })} days={days} />
-                </div>
-              )}
             </>
           )}
 
@@ -2612,6 +2621,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                   {parts.map(([n, k, l], i) => n > 0.005 && (
                     <span key={i}>
                       <i style={{ background: COVER.find((c) => c[0] === k)[2] }} />
+              <RentEdit it={it} crew={crew} days={days} patch={patch} />
                       {+n.toFixed(2)} {l}
                     </span>
                   ))}
