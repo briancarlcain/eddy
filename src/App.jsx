@@ -5672,7 +5672,7 @@ const Hikes = () => (
     data={RIVER.hikes}
     placeholder="Hike"
     render={(h, i) => (
-      <Acc key={i} title={`${h.mile.toFixed(1)}  ${h.name}`} note={[h.bank, h.time, h.diff].filter(Boolean).join(' · ')}>
+      <Acc key={i} title={`${h.mile.toFixed(1)}  ${h.name}`} note={[h.bank, h.time, h.diff != null ? 'difficulty ' + h.diff : '', h.qual != null ? 'quality ' + h.qual : ''].filter(Boolean).join(' · ')}>
         <div className="line">{h.desc}</div>
       </Acc>
     )}
