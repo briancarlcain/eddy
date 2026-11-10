@@ -1074,6 +1074,20 @@ const Field = ({ label, area, ...p }) => (
   </label>
 );
 
+// a search field with an x that clears it while there is text
+const SearchField = ({ value, onChange, placeholder }) => (
+  <div className="field">
+    <div className="searchF">
+      <input type="search" value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} aria-label={placeholder} />
+      {value ? (
+        <button type="button" className="searchX" aria-label="Clear search" onClick={() => onChange('')}>
+          <Icon name="close" size={16} />
+        </button>
+      ) : null}
+    </div>
+  </div>
+);
+
 /* ---------- trip ---------- */
 
 const lastSub = {};
@@ -1883,7 +1897,7 @@ function Gear({ s }) {
       )}
       {grp && <GroupSummary L={L} crew={t.crew} />}
       <div className="row mt">
-        <Field value={find} onChange={(e) => setFind(e.target.value)} placeholder={`Search ${L.items.length} items`} />
+        <SearchField value={find} onChange={setFind} placeholder={`Search ${L.items.length} items`} />
         <button className="btn ghost" onClick={() => setAdding(!adding)}>
           {adding ? 'Close' : 'Add item'}
         </button>
@@ -5583,7 +5597,7 @@ function Search({ data, placeholder, render }) {
   );
   return (
     <>
-      <Field value={q} onChange={(e) => setQ(e.target.value)} placeholder={placeholder} />
+      <SearchField value={q} onChange={setQ} placeholder={placeholder} />
       {hits.map(render)}
     </>
   );
@@ -7152,7 +7166,7 @@ function RiverList({ s, onOpen }) {
 
   return (
     <div className="pad">
-      <Field value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search rivers" />
+      <SearchField value={q} onChange={setQ} placeholder="Search rivers" />
       {groups.map(([label, list]) => (
         <div className="mt" key={label}>
           <span className="label">{label}</span>
