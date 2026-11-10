@@ -909,3 +909,4 @@ body.shot .onBehalf { top: calc(52px + 54px + 45px); }
 .rg .searchF input { padding-right: 40px; }
 .rg .searchF input::-webkit-search-cancel-button { -webkit-appearance: none; display: none; }
 .rg .searchX { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border: 0; background: transparent; color: var(--ink-faint); cursor: pointer; }
+.rg .step + .gdet { margin-top: 0; border-top: 0; }

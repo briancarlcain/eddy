@@ -1981,7 +1981,7 @@ function Gear({ s }) {
       </div>
       )}
       {shown.length === 0 && <div className="muted mt">Nothing matches.</div>}
-      {grp && shown.map((it) => <GroupRow key={it.id} it={it} s={s} crew={t.crew} days={L.days} open={open === it.id} onOpen={() => setOpen(open === it.id ? null : it.id)} />)}
+      {grp && shown.map((it) => <GroupRow key={it.id} it={it} s={s} crew={t.crew} days={L.days} cats={allCats} open={open === it.id} onOpen={() => setOpen(open === it.id ? null : it.id)} />)}
       {!grp && shown.map((it) => (
         <GearRow key={it.id} it={it} s={s} crew={t.crew} days={L.days} cats={allCats} me={who} name={whoName} you={!as} open={open === it.id} onOpen={() => setOpen(open === it.id ? null : it.id)} />
       ))}
@@ -2013,7 +2013,7 @@ function gearFlows(it, crew) {
   return { bring, borrow, rent, nm };
 }
 
-function GroupRow({ it, s, crew, days, open, onOpen }) {
+function GroupRow({ it, s, crew, days, cats, open, onOpen }) {
   const [warn, setWarn] = useState(false);
   const st = gearStatus(it);
   const tag = REQ[it.req];
@@ -2092,6 +2092,7 @@ function GroupRow({ it, s, crew, days, open, onOpen }) {
           )}
           <RentEdit it={it} crew={crew} days={days} patch={(o) => s.patch('gear', it.id, o)} />
           {it.loose > 0.005 && <div className="muted">{usd(it.loose)} is not assigned to anyone yet.</div>}
+          <ItemEdit it={it} s={s} days={days} cats={cats} patch={(o) => s.patch('gear', it.id, o)} />
         </div>
       )}
     </div>
@@ -2395,6 +2396,22 @@ function gearStatus(it) {
 }
 
 
+// edit an item's name, category, price and description, or remove it
+function ItemEdit({ it, s, days, cats, patch }) {
+  const T = useTip();
+  const v = { n: it.name, c: it.cat, s: it.split, r: it.req, f: it.raw.f, d: it.raw.d, pm: it.raw.pm };
+  return (
+    <details className="gdet">
+      <summary>Edit item</summary>
+      <GearFields v={v} up={(k, x) => patch({ [k]: x })} days={days} cats={cats} T={T} />
+      <Field area label="Description" value={it.raw.note || ''} onChange={(ev) => patch({ note: ev.target.value })} placeholder="What it is, sizes, where to rent it…" />
+      <button className="btn ghost danger mt-s" onClick={() => window.confirm(`Remove ${it.name}?`) && s.drop('gear', it.id)}>
+        Remove item
+      </button>
+    </details>
+  );
+}
+
 // rented quantity, how it is split, and who pays for each rented unit
 function RentEdit({ it, crew, days, patch }) {
   const [rentOpen, setRentOpen] = useState(true);
@@ -2435,9 +2452,11 @@ function RentEdit({ it, crew, days, patch }) {
             </div>
             {slots.map((r, k) => (
               <div className="unitRow" key={k}>
-                <div className="unitHead">
-                  <b>{slots.length === 1 ? 'Who pays' : `Rental ${k + 1}`}</b>
-                </div>
+                {slots.length > 1 && (
+                  <div className="unitHead">
+                    <b>{`Rental ${k + 1}`}</b>
+                  </div>
+                )}
                 <div className="chips">
                   <button className={'chip' + (r.g ? ' on' : '')} aria-pressed={!!r.g} onClick={() => setRow(k, { g: true, to: [] })}>
                     The group
@@ -2461,7 +2480,6 @@ function RentEdit({ it, crew, days, patch }) {
 }
 
 function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
-  const T = useTip();
   const mine = it.share[me] || 0;
   const tag = REQ[it.req];
   const st = gearStatus(it);
@@ -2500,7 +2518,6 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
     return [...m.entries()].map(([k, n]) => `${n} for ${k}`).join(', ');
   })();
   // the form reads and writes the short stored keys
-  const v = { n: it.name, c: it.cat, s: it.split, r: it.req, f: it.raw.f, d: it.raw.d, pm: it.raw.pm };
   const parts = [
     [it.bring, 'own', 'Bringing'],
     [it.rent, 'rent', 'Renting'],
@@ -2589,9 +2606,11 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                   </button>
                   {useOpen && units.slice(0, 30).map((u, i) => (
                     <div className="unitRow" key={i}>
-                      <div className="unitHead">
-                        <b>{units.length === 1 ? 'Who uses it' : `Item ${i + 1}`}</b>
-                      </div>
+                      {units.length > 1 && (
+                        <div className="unitHead">
+                          <b>{`Item ${i + 1}`}</b>
+                        </div>
+                      )}
                       <div className="chips">
                         <button className={'chip' + (u.g ? ' on' : '')} aria-pressed={u.g} onClick={() => pick(i, 'group')}>
                           The group
@@ -2612,6 +2631,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                   {l}
                 </div>
               ))}
+              <RentEdit it={it} crew={crew} days={days} patch={patch} />
             </>
           )}
 
@@ -2629,7 +2649,6 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                   {parts.map(([n, k, l], i) => n > 0.005 && (
                     <span key={i}>
                       <i style={{ background: COVER.find((c) => c[0] === k)[2] }} />
-              <RentEdit it={it} crew={crew} days={days} patch={patch} />
                       {+n.toFixed(2)} {l}
                     </span>
                   ))}
@@ -2654,14 +2673,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
             </details>
           )}
 
-          <details className="gdet">
-            <summary>Edit item</summary>
-            <GearFields v={v} up={(k, x) => patch({ [k]: x })} days={days} cats={cats} T={T} />
-            <Field area label="Description" value={it.raw.note || ''} onChange={(ev) => patch({ note: ev.target.value })} placeholder="What it is, sizes, where to rent it…" />
-            <button className="btn ghost danger mt-s" onClick={() => window.confirm(`Remove ${it.name}?`) && s.drop('gear', it.id)}>
-              Remove item
-            </button>
-          </details>
+          <ItemEdit it={it} s={s} days={days} cats={cats} patch={patch} />
         </div>
       )}
     </div>
