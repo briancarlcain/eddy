@@ -904,3 +904,8 @@ body.shot .onBehalf { top: calc(52px + 54px + 45px); }
 .rg .stats.one { grid-template-columns: minmax(0, 1fr); }
 
 .rg .gdesc { margin: 0 0 10px; font-size: 14px; color: var(--ink-dim); white-space: pre-wrap; }
+
+.rg .searchF { position: relative; }
+.rg .searchF input { padding-right: 40px; }
+.rg .searchF input::-webkit-search-cancel-button { -webkit-appearance: none; display: none; }
+.rg .searchX { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border: 0; background: transparent; color: var(--ink-faint); cursor: pointer; }
