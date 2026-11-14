@@ -910,3 +910,14 @@ body.shot .onBehalf { top: calc(52px + 54px + 45px); }
 .rg .searchF input::-webkit-search-cancel-button { -webkit-appearance: none; display: none; }
 .rg .searchX { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border: 0; background: transparent; color: var(--ink-faint); cursor: pointer; }
 .rg .step + .gdet { margin-top: 0; border-top: 0; }
+
+.rg .favStar { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; margin: -6px -4px -6px 0; padding: 0; border: 0; background: transparent; color: var(--ink-faint); cursor: pointer; }
+.rg .favStar.on { color: #c98a1b; }
+.rg .favStar.on .ico, .rg .favFill { fill: currentColor; }
+.rg .favMain { flex: 1; min-width: 0; }
+.rg .favNote { display: block; width: 100%; margin-top: 6px; padding: 7px 10px; font: inherit; font-size: 13.5px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); box-sizing: border-box; }
+.rg .accBody .favNote { margin-top: 10px; }
+.rg .favRow { display: flex; align-items: flex-start; gap: 8px; margin-top: 8px; }
+.rg .favRow .favStar { margin: 0; }
+.rg .favRow .favNote { margin-top: 0; flex: 1; }
+.rg .chip .ico { margin-right: 4px; vertical-align: -2px; }

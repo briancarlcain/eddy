@@ -4,6 +4,7 @@ import { BUILTIN_RIVERS, DEFAULT_RIVER, normalizeRiver } from './rivers.js';
 import GENERAL from '../data/general.json';
 import { bringForm, coverOf, ledger, num, priceMode, priceOf, unitList } from './gearLedger.js';
 import { shortOf } from './names.js';
+import { favKey, setFav, useFavs } from './favs.js';
 import { convertRentals } from './gearLegacy.js';
 import GEAR_ALL from '../data/gear.json';
 import SEED from '../data/trip.json';
@@ -92,6 +93,7 @@ const ICONS = {
   sunrise: 'M12 2v8M4.93 10.93l1.41 1.41M2 18h2M20 18h2M19.07 10.93l-1.41 1.41M22 22H2M8 6l4-4 4 4M16 18a4 4 0 0 0-8 0',
   sunset: 'M12 10V2M4.93 10.93l1.41 1.41M2 18h2M20 18h2M19.07 10.93l-1.41 1.41M22 22H2M16 6l-4 4-4-4M16 18a4 4 0 0 0-8 0',
   chevron: 'M6 9l6 6 6-6',
+  star: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',
   back: 'M15 18l-6-6 6-6',
   plus: 'M12 5v14M5 12h14',
   close: 'M18 6L6 18M6 6l12 12',
@@ -5593,6 +5595,12 @@ function DetailSheet({ sheet, onClose, trip, actions }) {
       <div className="iname">{name}</div>
       <div className="imeta">{meta}</div>
       <div className="idesc">{desc}</div>
+      {kind === 'camp' || kind === 'hike' ? (
+        <div className="favRow">
+          <FavStar k={favKey(RIVER.id, kind, d)} name={name} />
+          <FavNote k={favKey(RIVER.id, kind, d)} />
+        </div>
+      ) : null}
       {actions}
       <div className="ifoot" style={{ whiteSpace: 'pre-line' }}>
         {foot}
@@ -5601,15 +5609,52 @@ function DetailSheet({ sheet, onClose, trip, actions }) {
   );
 }
 
-function Search({ data, placeholder, render }) {
+// star a camp or hike and keep a private note on it (this device only)
+function FavStar({ k, name, inline }) {
+  const f = useFavs()[k];
+  const on = !!(f && f.s);
+  const toggle = (e) => {
+    e.stopPropagation();
+    setFav(k, { s: !on });
+  };
+  const props = { className: 'favStar' + (on ? ' on' : ''), 'aria-pressed': on, 'aria-label': (on ? 'Remove favorite: ' : 'Favorite: ') + name, onClick: toggle };
+  return inline ? (
+    <span role="button" tabIndex={0} {...props} onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), toggle(e))}>
+      <Icon name="star" size={18} />
+    </span>
+  ) : (
+    <button type="button" {...props}>
+      <Icon name="star" size={18} />
+    </button>
+  );
+}
+
+function FavNote({ k }) {
+  const f = useFavs()[k];
+  if (!f || !f.s) return null;
+  return <input className="favNote" value={f.n || ''} onChange={(e) => setFav(k, { n: e.target.value })} placeholder="Add a note (only you see this)" aria-label="Note" maxLength={500} />;
+}
+
+function Search({ data, placeholder, render, kind }) {
   const [q, setQ] = useState('');
+  const [favOnly, setFavOnly] = useState(false);
+  const favs = useFavs();
+  const isFav = (x) => !!(favs[favKey(RIVER.id, kind, x)] || {}).s;
+  const nFav = kind ? data.filter(isFav).length : 0;
   const hits = useMemo(
-    () => data.filter((x) => x.name.toLowerCase().includes(q.toLowerCase())).sort((a, b) => a.mile - b.mile),
-    [q, data]
+    () => data.filter((x) => x.name.toLowerCase().includes(q.toLowerCase()) && (!(favOnly && nFav > 0) || isFav(x))).sort((a, b) => a.mile - b.mile),
+    [q, data, favOnly, nFav, favs]
   );
   return (
     <>
       <SearchField value={q} onChange={setQ} placeholder={placeholder} />
+      {kind && nFav > 0 ? (
+        <div className="chips mb">
+          <button className={'chip' + (favOnly ? ' on river' : '')} aria-pressed={favOnly} onClick={() => setFavOnly(!favOnly)}>
+            <Icon name="star" size={14} className={favOnly ? 'favFill' : ''} /> Favorites · {nFav}
+          </button>
+        </div>
+      ) : null}
       {hits.map(render)}
     </>
   );
@@ -5645,20 +5690,23 @@ function Camps({ s }) {
       ) : null}
       <Search
         data={RIVER.camps}
+        kind="camp"
         placeholder="Camp"
         render={(c, i) => {
           const cs = geo ? campSunOn(c, iso) : null;
           return (
             <div className="listRow" key={i}>
               <span className="mile">{c.mile.toFixed(1)}</span>
-              <span>
+              <span className="favMain">
                 {c.name} <span className="muted">{[c.bank, c.size != null ? 'size ' + c.size : '', c.qual != null ? 'qual ' + c.qual : ''].filter(Boolean).join(' · ')}</span>
                 {cs ? (
                   <span className="campSunRow">
                     {cs.on ? `sun ${clock(cs.on)} – ${clock(cs.off)} · ${cs.hours.toFixed(1)} h` : 'no direct sun'}
                   </span>
                 ) : null}
+                <FavNote k={favKey(RIVER.id, 'camp', c)} />
               </span>
+              <FavStar k={favKey(RIVER.id, 'camp', c)} name={c.name} />
             </div>
           );
         }}
@@ -5670,10 +5718,17 @@ function Camps({ s }) {
 const Hikes = () => (
   <Search
     data={RIVER.hikes}
+    kind="hike"
     placeholder="Hike"
     render={(h, i) => (
-      <Acc key={i} title={`${h.mile.toFixed(1)}  ${h.name}`} note={[h.bank, h.time, h.diff != null ? 'difficulty ' + h.diff : '', h.qual != null ? 'quality ' + h.qual : ''].filter(Boolean).join(' · ')}>
+      <Acc
+        key={i}
+        title={`${h.mile.toFixed(1)}  ${h.name}`}
+        note={[h.bank, h.time, h.diff != null ? 'difficulty ' + h.diff : '', h.qual != null ? 'quality ' + h.qual : ''].filter(Boolean).join(' · ')}
+        tag={<FavStar k={favKey(RIVER.id, 'hike', h)} name={h.name} inline />}
+      >
         <div className="line">{h.desc}</div>
+        <FavNote k={favKey(RIVER.id, 'hike', h)} />
       </Acc>
     )}
   />
