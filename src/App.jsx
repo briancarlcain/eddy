@@ -4,7 +4,7 @@ import { BUILTIN_RIVERS, DEFAULT_RIVER, normalizeRiver } from './rivers.js';
 import GENERAL from '../data/general.json';
 import { bringForm, coverOf, ledger, num, priceMode, priceOf, unitList } from './gearLedger.js';
 import { shortOf } from './names.js';
-import { favKey, setFav, useFavs } from './favs.js';
+import { crewFavs, favKey, getFavs, mergeFavs, reconcileFavs, setFav, subscribeFavs, useFavs } from './favs.js';
 import { convertRentals } from './gearLegacy.js';
 import GEAR_ALL from '../data/gear.json';
 import SEED from '../data/trip.json';
@@ -758,6 +758,32 @@ function useStore() {
     clearTimeout(timers.current[id]);
     timers.current[id] = setTimeout(() => syncTrip(id), 1500);
   };
+
+  // your favorites follow you between trips on the same river and show to each trip's crew
+  const reconcileFavsAll = useCallback(() => {
+    const st = stateRef.current;
+    const t0 = now();
+    const changed = [];
+    const trips = st.trips.map((t) => {
+      const me = getMe(t.id);
+      if (!me || !(t.crew || []).some((c) => c.id === me) || ((st.sync || {})[t.id] || {}).role === 'viewer') return t;
+      const r = reconcileFavs(t.favs, me, getFavs(), riverOf(t));
+      if (Object.keys(r.pull).length) mergeFavs(r.pull);
+      if (!r.favs) return t;
+      changed.push(t.id);
+      return stamp(t, { ...t, favs: r.favs, at: t0 }, t0);
+    });
+    if (!changed.length) return;
+    persist({ ...stateRef.current, trips });
+    for (const id of changed) {
+      if ((stateRef.current.sync || {})[id]) syncSoon(id);
+      cloudSoon(id);
+    }
+  }, [persist]);
+  useEffect(() => {
+    reconcileFavsAll();
+  }, [state.trips, reconcileFavsAll]);
+  useEffect(() => subscribeFavs(reconcileFavsAll), [reconcileFavsAll]);
 
   useEffect(() => {
     syncAll();
@@ -4819,6 +4845,7 @@ function RiverDetail({ s }) {
   const P = { Overview, Rapids, Camps, Hikes, Permits, Geology, Guide, Almanac, Rules }[cur];
   const rec = s.riverRec(RIVER.id);
   return (
+    <FavCtx.Provider value={sm.trip}>
     <>
       <Tabs items={items} value={cur} onChange={setTab} />
       {cur === 'Map' ? (
@@ -4878,6 +4905,7 @@ function RiverDetail({ s }) {
         <div className="pad"><P s={sm} /></div>
       )}
     </>
+    </FavCtx.Provider>
   );
 }
 
@@ -5598,6 +5626,7 @@ function DetailSheet({ sheet, onClose, trip, actions }) {
       {kind === 'camp' || kind === 'hike' ? (
         <div className="favRow">
           <FavStar k={favKey(RIVER.id, kind, d)} name={name} />
+          <FavCrew k={favKey(RIVER.id, kind, d)} />
           <FavNote k={favKey(RIVER.id, kind, d)} />
         </div>
       ) : null}
@@ -5609,7 +5638,15 @@ function DetailSheet({ sheet, onClose, trip, actions }) {
   );
 }
 
-// star a camp or hike and keep a private note on it (this device only)
+// star a camp or hike and add a note; the trip's crew sees yours and you see theirs
+const FavCtx = React.createContext(null);
+const useCrewFavs = (k) => {
+  const t = React.useContext(FavCtx);
+  if (!t) return [];
+  const me = getMe(t.id);
+  return crewFavs(t, k, me).map((f) => ({ ...f, name: shortOf(t.crew, f.by) })).filter((f) => f.name);
+};
+
 function FavStar({ k, name, inline }) {
   const f = useFavs()[k];
   const on = !!(f && f.s);
@@ -5632,18 +5669,38 @@ function FavStar({ k, name, inline }) {
 function FavNote({ k }) {
   const f = useFavs()[k];
   if (!f || !f.s) return null;
-  return <input className="favNote" value={f.n || ''} onChange={(e) => setFav(k, { n: e.target.value })} placeholder="Add a note (only you see this)" aria-label="Note" maxLength={500} />;
+  return <input className="favNote" value={f.n || ''} onChange={(e) => setFav(k, { n: e.target.value })} placeholder="Add a note" aria-label="Note" maxLength={500} />;
+}
+
+// who else on the trip starred this, with their notes
+function FavCrew({ k }) {
+  const list = useCrewFavs(k);
+  if (!list.length) return null;
+  return (
+    <span className="favCrew">
+      <Icon name="star" size={12} className="favFill" /> {list.map((f) => f.name).join(', ')}
+      {list.filter((f) => f.n).map((f) => (
+        <span className="favCrewNote" key={f.id}>
+          {f.name}: {f.n}
+        </span>
+      ))}
+    </span>
+  );
 }
 
 function Search({ data, placeholder, render, kind }) {
   const [q, setQ] = useState('');
   const [favOnly, setFavOnly] = useState(false);
   const favs = useFavs();
-  const isFav = (x) => !!(favs[favKey(RIVER.id, kind, x)] || {}).s;
+  const trip = React.useContext(FavCtx);
+  const isFav = (x) => {
+    const k = favKey(RIVER.id, kind, x);
+    return !!(favs[k] || {}).s || (trip ? crewFavs(trip, k, getMe(trip.id)).length > 0 : false);
+  };
   const nFav = kind ? data.filter(isFav).length : 0;
   const hits = useMemo(
     () => data.filter((x) => x.name.toLowerCase().includes(q.toLowerCase()) && (!(favOnly && nFav > 0) || isFav(x))).sort((a, b) => a.mile - b.mile),
-    [q, data, favOnly, nFav, favs]
+    [q, data, favOnly, nFav, favs, trip]
   );
   return (
     <>
@@ -5704,6 +5761,7 @@ function Camps({ s }) {
                     {cs.on ? `sun ${clock(cs.on)} – ${clock(cs.off)} · ${cs.hours.toFixed(1)} h` : 'no direct sun'}
                   </span>
                 ) : null}
+                <FavCrew k={favKey(RIVER.id, 'camp', c)} />
                 <FavNote k={favKey(RIVER.id, 'camp', c)} />
               </span>
               <FavStar k={favKey(RIVER.id, 'camp', c)} name={c.name} />
@@ -5728,6 +5786,7 @@ const Hikes = () => (
         tag={<FavStar k={favKey(RIVER.id, 'hike', h)} name={h.name} inline />}
       >
         <div className="line">{h.desc}</div>
+        <FavCrew k={favKey(RIVER.id, 'hike', h)} />
         <FavNote k={favKey(RIVER.id, 'hike', h)} />
       </Acc>
     )}
