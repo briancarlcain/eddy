@@ -1800,7 +1800,6 @@ function Gear({ s }) {
   };
   const [catSel, setCatSel] = useState([]);
   const [srcSel, setSrcSel] = useState([]);
-  const [attn, setAttn] = useState(false);
   const [grpSel, setGrpSel] = useState([]);
   const [filtOpen, setFiltOpen] = useState(false);
   const [sortOpen, setSortOpen] = useState(false);
@@ -1839,7 +1838,6 @@ function Gear({ s }) {
   const fresh = inSec.filter((i) => {
     if (catOn.length && !catOn.includes(i.cat)) return false;
     if (q && !i.name.toLowerCase().includes(q)) return false;
-    if (attn && !i.issues.length) return false;
     if (grpOn.length && !grpOn.some((k) => grpTests[k](i))) return false;
     if (!srcOn.length) return true;
     const c = coverOf(i, who);
@@ -1874,8 +1872,8 @@ function Gear({ s }) {
     return d ? sortDir * d : byItem(a, b);
   });
   // editing an item doesn't re-sort the list under it
-  const shown = frozenOrder(order, fresh, L.items, JSON.stringify([sortBy, tick, q, catSel, srcSel, grpSel, attn, who, grp, L.items.map((i) => i.id).join()]));
-  const nFilt = catOn.length + srcOn.length + grpOn.length + (attn ? 1 : 0);
+  const shown = frozenOrder(order, fresh, L.items, JSON.stringify([sortBy, tick, q, catSel, srcSel, grpSel, who, grp, L.items.map((i) => i.id).join()]));
+  const nFilt = catOn.length + srcOn.length + grpOn.length;
   const you0 = !as;
   const flip = (list, set, k) => set(list.includes(k) ? list.filter((x) => x !== k) : [...list, k]);
   const mine = who ? L.by[who] : null;
@@ -1947,7 +1945,6 @@ function Gear({ s }) {
               setCatSel([]);
               setSrcSel([]);
               setGrpSel([]);
-              setAttn(false);
             }}
           >
             Clear
@@ -1976,11 +1973,6 @@ function Gear({ s }) {
       )}
       {filtOpen && (
       <div className="chipStack">
-      <div className="chips">
-        <button className={'chip' + (attn ? ' on river' : '')} aria-pressed={attn} onClick={() => setAttn(!attn)}>
-          Needs attention · {L.items.filter((i) => i.issues.length).length}
-        </button>
-      </div>
       <div className="chips scroll">
         {cats.map((c) => (
           <button key={c} className={'chip' + (catOn.includes(c) ? ' on river' : '')} aria-pressed={catOn.includes(c)} onClick={() => flip(catSel, setCatSel, c)}>
