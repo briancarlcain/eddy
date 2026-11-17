@@ -69,8 +69,7 @@ const balanced = (it) => near(Object.values(it.share).reduce((a, b) => a + b, 0)
   assert.equal(under.issues.length, 1); assert.match(under.issues[0], /only 1 is assigned/); near(under.loose, 200, 'unassigned cost');
   const over = one({ s: 'even', q: 3, rn: 1, rnTo: { group: 2 } });
   assert.match(over.issues[0], /Renting is 1/);
-  const none = one({ s: 'even', q: 3, rn: 2, rnTo: { group: 2 }, f: undefined });
-  assert.match(none.issues[0], /rental price/);
+  assert.equal(one({ s: 'even', q: 3, rn: 2, rnTo: { group: 2 }, f: undefined }).issues.length, 0, 'blank price is fine');
   assert.equal(one({ s: 'even', q: 3, rn: 2, rnTo: { group: 2 }, f: '0' }).issues.length, 0);
   assert.equal(one({ s: 'even', q: 3, rn: 2, rnTo: { group: 2 }, f: undefined, d: 0 }).issues.length, 0);
   assert.equal(one({ s: 'even', q: 3, f: undefined }).issues.length, 0);
