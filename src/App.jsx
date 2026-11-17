@@ -1798,7 +1798,7 @@ function Gear({ s }) {
     if (!me || id === me) setMe(id);
     else setAs(id);
   };
-  const [catSel, setCatSel] = useState([]);
+  const [catOff, setCatOff] = useState([]); // categories switched off
   const [srcSel, setSrcSel] = useState([]);
   const [grpSel, setGrpSel] = useState([]);
   const [filtOpen, setFiltOpen] = useState(false);
@@ -1827,7 +1827,7 @@ function Gear({ s }) {
   const allCats = [...new Set(L.items.map((i) => i.cat))];
   const inSec = L.items;
   const cats = [...new Set(inSec.map((i) => i.cat))];
-  const catOn = catSel.filter((c) => cats.includes(c));
+  const catHide = catOff.filter((c) => cats.includes(c));
   const q = find.trim().toLowerCase();
   const grp = as === 'group';
   const who = grp ? '' : as || me;
@@ -1836,7 +1836,7 @@ function Gear({ s }) {
   const grpTests = { none: (i) => i.count <= 0.005, rent: (i) => i.rent > 0.005, borrow: (i) => i.borrowed > 0.005 };
   const grpOn = grp ? grpSel : [];
   const fresh = inSec.filter((i) => {
-    if (catOn.length && !catOn.includes(i.cat)) return false;
+    if (catHide.includes(i.cat)) return false;
     if (q && !i.name.toLowerCase().includes(q)) return false;
     if (grpOn.length && !grpOn.some((k) => grpTests[k](i))) return false;
     if (!srcOn.length) return true;
@@ -1872,8 +1872,8 @@ function Gear({ s }) {
     return d ? sortDir * d : byItem(a, b);
   });
   // editing an item doesn't re-sort the list under it
-  const shown = frozenOrder(order, fresh, L.items, JSON.stringify([sortBy, tick, q, catSel, srcSel, grpSel, who, grp, L.items.map((i) => i.id).join()]));
-  const nFilt = catOn.length + srcOn.length + grpOn.length;
+  const shown = frozenOrder(order, fresh, L.items, JSON.stringify([sortBy, tick, q, catOff, srcSel, grpSel, who, grp, L.items.map((i) => i.id).join()]));
+  const nFilt = catHide.length + srcOn.length + grpOn.length;
   const you0 = !as;
   const flip = (list, set, k) => set(list.includes(k) ? list.filter((x) => x !== k) : [...list, k]);
   const mine = who ? L.by[who] : null;
@@ -1941,8 +1941,7 @@ function Gear({ s }) {
           <button
             className="gclear"
             onClick={() => {
-              setSecSel([]);
-              setCatSel([]);
+              setCatOff([]);
               setSrcSel([]);
               setGrpSel([]);
             }}
@@ -1975,7 +1974,7 @@ function Gear({ s }) {
       <div className="chipStack">
       <div className="chips scroll">
         {cats.map((c) => (
-          <button key={c} className={'chip' + (catOn.includes(c) ? ' on river' : '')} aria-pressed={catOn.includes(c)} onClick={() => flip(catSel, setCatSel, c)}>
+          <button key={c} className={'chip' + (catHide.includes(c) ? '' : ' on river')} aria-pressed={!catHide.includes(c)} onClick={() => flip(catOff, setCatOff, c)}>
             {c} · {inSec.filter((i) => i.cat === c).length}
           </button>
         ))}
