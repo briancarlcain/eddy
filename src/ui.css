@@ -823,7 +823,8 @@ body.shot .onBehalf { top: calc(52px + 54px + 45px); }
 .rg .gtool.on { background: var(--accent-soft); border-color: var(--accent-line); color: var(--accent); }
 .rg .gbadge { min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--accent); color: #fff; font-size: 12px; font-weight: 700; line-height: 18px; text-align: center; }
 .rg .gsortNow { font-size: 13px; color: var(--ink-dim); }
-.rg .gclear { margin-left: auto; background: transparent; border: 0; color: var(--accent); font-size: 14px; font-weight: 600; padding: 8px 4px; }
+.rg .gright { margin-left: auto; display: flex; gap: 8px; }
+.rg .gclear { margin-left: 0; background: transparent; border: 0; color: var(--accent); font-size: 14px; font-weight: 600; padding: 8px 4px; }
 .rg .sortMenu { margin-top: 8px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); overflow: hidden; }
 .rg .sortOpt { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 0 14px; min-height: 42px; border: 0; border-bottom: 1px solid var(--line-soft); background: transparent; color: var(--ink); font-size: 15px; text-align: left; }
 .rg .sortOpt:last-child { border-bottom: 0; }

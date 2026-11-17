@@ -1937,18 +1937,25 @@ function Gear({ s }) {
           <Icon name="sort" size={17} /> Sort
         </button>
         {sortBy !== 'name' ? <span className="gsortNow">{sortSel[1]}</span> : null}
-        {nFilt ? (
-          <button
-            className="gclear"
-            onClick={() => {
-              setCatOff([]);
-              setSrcSel([]);
-              setGrpSel([]);
-            }}
-          >
-            Clear
-          </button>
-        ) : null}
+        <span className="gright">
+          {catHide.length < cats.length ? (
+            <button className="gclear" onClick={() => setCatOff(cats)}>
+              Deselect all
+            </button>
+          ) : null}
+          {nFilt ? (
+            <button
+              className="gclear"
+              onClick={() => {
+                setCatOff([]);
+                setSrcSel([]);
+                setGrpSel([]);
+              }}
+            >
+              Clear
+            </button>
+          ) : null}
+        </span>
       </div>
       {sortOpen && (
         <div className="sortMenu" role="listbox" aria-label="Sort gear">
