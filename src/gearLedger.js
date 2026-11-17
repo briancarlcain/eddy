@@ -227,7 +227,6 @@ export function ledger(t) {
           : `${f2(rAssigned)} is assigned, but Renting is ${f2(rent)}. Lower the assigned numbers or raise Renting.`
       );
     }
-    if (rent > 0 && blank(g.f) && blank(g.d)) issues.push('Add a rental price. $0 is fine, but it can’t be blank.');
     return { id: g.id, raw: g, ...it, unit, bring, bringBy: own, have, lend, borrowed, count, rent, total, share, single, lines, manual, loose: Math.max(0, total - assigned), units, named, excl, rented, rAssigned, issues };
   });
   const by = {};
