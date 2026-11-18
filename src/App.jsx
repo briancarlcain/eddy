@@ -1799,8 +1799,8 @@ function Gear({ s }) {
     else setAs(id);
   };
   const [catOff, setCatOff] = useState([]); // categories switched off
-  const [srcSel, setSrcSel] = useState([]);
-  const [grpSel, setGrpSel] = useState([]);
+  const [srcOff, setSrcOff] = useState([]);
+  const [grpOff, setGrpOff] = useState([]);
   const [filtOpen, setFiltOpen] = useState(false);
   const [sortOpen, setSortOpen] = useState(false);
   const [sortBy, setSortBy] = useState('name');
@@ -1832,16 +1832,23 @@ function Gear({ s }) {
   const grp = as === 'group';
   const who = grp ? '' : as || me;
   const whoName = (t.crew.find((c) => c.id === who) || {}).name || '';
-  const srcOn = who ? srcSel : [];
+  const SRC_KEYS = ['own', 'borrowed', 'rented'];
+  const GRP_KEYS = ['none', 'rent', 'borrow'];
+  const srcHide = who ? srcOff : [];
   const grpTests = { none: (i) => i.count <= 0.005, rent: (i) => i.rent > 0.005, borrow: (i) => i.borrowed > 0.005 };
-  const grpOn = grp ? grpSel : [];
+  const grpHide = grp ? grpOff : [];
+  // hidden when every pill the item fits is switched off
+  const allOff = (keys, off, fits) => {
+    const m = keys.filter(fits);
+    return m.length > 0 && m.every((k) => off.includes(k));
+  };
   const fresh = inSec.filter((i) => {
     if (catHide.includes(i.cat)) return false;
     if (q && !i.name.toLowerCase().includes(q)) return false;
-    if (grpOn.length && !grpOn.some((k) => grpTests[k](i))) return false;
-    if (!srcOn.length) return true;
+    if (grpHide.length && allOff(GRP_KEYS, grpHide, (k) => grpTests[k](i))) return false;
+    if (!srcHide.length) return true;
     const c = coverOf(i, who);
-    return srcOn.some((k) => c[k]);
+    return !allOff(SRC_KEYS, srcHide, (k) => c[k]);
   });
   const first = shortOf(t.crew, who) || (whoName || '').split(' ')[0];
   const ALLSORTS = [
@@ -1872,8 +1879,8 @@ function Gear({ s }) {
     return d ? sortDir * d : byItem(a, b);
   });
   // editing an item doesn't re-sort the list under it
-  const shown = frozenOrder(order, fresh, L.items, JSON.stringify([sortBy, tick, q, catOff, srcSel, grpSel, who, grp, L.items.map((i) => i.id).join()]));
-  const nFilt = catHide.length + srcOn.length + grpOn.length;
+  const shown = frozenOrder(order, fresh, L.items, JSON.stringify([sortBy, tick, q, catOff, srcOff, grpOff, who, grp, L.items.map((i) => i.id).join()]));
+  const nFilt = catHide.length + srcHide.length + grpHide.length;
   const you0 = !as;
   const flip = (list, set, k) => set(list.includes(k) ? list.filter((x) => x !== k) : [...list, k]);
   const mine = who ? L.by[who] : null;
@@ -1938,8 +1945,8 @@ function Gear({ s }) {
         </button>
         {sortBy !== 'name' ? <span className="gsortNow">{sortSel[1]}</span> : null}
         <span className="gright">
-          {catHide.length < cats.length ? (
-            <button className="gclear" onClick={() => setCatOff(cats)}>
+          {catHide.length < cats.length || (who && srcHide.length < SRC_KEYS.length) || (grp && grpHide.length < GRP_KEYS.length) ? (
+            <button className="gclear" onClick={() => (setCatOff(cats), setSrcOff(SRC_KEYS), setGrpOff(GRP_KEYS))}>
               Deselect all
             </button>
           ) : null}
@@ -1948,8 +1955,8 @@ function Gear({ s }) {
               className="gclear"
               onClick={() => {
                 setCatOff([]);
-                setSrcSel([]);
-                setGrpSel([]);
+                setSrcOff([]);
+                setGrpOff([]);
               }}
             >
               Clear
@@ -1989,7 +1996,7 @@ function Gear({ s }) {
       {grp && (
         <div className="chips scroll">
           {[['none', 'Nobody has it'], ['rent', 'Renting'], ['borrow', 'Borrowing']].map(([k, l]) => (
-            <button key={k} className={'chip' + (grpOn.includes(k) ? ' on river' : '')} aria-pressed={grpOn.includes(k)} onClick={() => flip(grpSel, setGrpSel, k)}>
+            <button key={k} className={'chip' + (grpHide.includes(k) ? '' : ' on river')} aria-pressed={!grpHide.includes(k)} onClick={() => flip(grpOff, setGrpOff, k)}>
               {l} · {inSec.filter(grpTests[k]).length}
             </button>
           ))}
@@ -1998,7 +2005,7 @@ function Gear({ s }) {
       {who && (
         <div className="chips scroll">
           {[['own', 'Bringing'], ['borrowed', 'Borrowing'], ['rented', 'Renting']].map(([k, l]) => (
-            <button key={k} className={'chip' + (srcOn.includes(k) ? ' on river' : '')} aria-pressed={srcOn.includes(k)} onClick={() => flip(srcSel, setSrcSel, k)}>
+            <button key={k} className={'chip' + (srcHide.includes(k) ? '' : ' on river')} aria-pressed={!srcHide.includes(k)} onClick={() => flip(srcOff, setSrcOff, k)}>
               {l} · {inSec.filter((i) => coverOf(i, who)[k]).length}
             </button>
           ))}
