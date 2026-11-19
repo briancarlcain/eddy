@@ -110,6 +110,6 @@ Shared trips let members see each other's display names and free-text trip notes
 
 ## Terms of use
 - Draft: `terms.html` (published at https://briancarlcain.github.io/eddy/terms.html). It is linked from Profile → About, the sign-in screen, the join screen and the privacy policy.
-- **Needs a lawyer before publishing:** fill every [BRACKETED] item (legal name, governing law and venue, liability cap, contact), then delete the red "Draft for legal review" box.
+- **Needs a lawyer before publishing:** fill every [BRACKETED] item (legal name, governing law and venue, liability cap, contact).
 - App Store Connect → App Information → *License Agreement*: either keep Apple's standard EULA, or choose a custom EULA and paste the text of `terms.html`. Section 20 already contains the minimum terms Apple requires of a custom EULA.
 - Put the same URL in the app's *Terms of Use (EULA)* field if you add one to the listing.
