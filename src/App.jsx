@@ -1702,7 +1702,7 @@ function Meals({ s }) {
               const m = meals.find((x) => x.slot === slot);
               if (!m)
                 return (
-                  <button className="addSlot" key={slot} onClick={() => s.push('meals', { day: d.i, slot, name: '', cook: '', items: '' })}>
+                  <button className="addSlot" key={slot} onClick={() => s.push('meals', { day: d.i, slot, name: '', items: '' })}>
                     + {slot}
                   </button>
                 );
@@ -1710,18 +1710,6 @@ function Meals({ s }) {
                 <div className="mealBlock" key={slot}>
                   <span className="label">{slot}</span>
                   <Field label="Dish" value={m.name} onChange={(e) => s.patch('meals', m.id, { name: e.target.value })} placeholder="Dish" />
-                  <span className="label">Cook</span>
-                  <div className="chips scroll">
-                    {byFirst(t.crew).map((c) => (
-                      <button
-                        key={c.id}
-                        className={'chip' + (m.cook === c.id ? ' on' : '')}
-                        onClick={() => s.patch('meals', m.id, { cook: m.cook === c.id ? '' : c.id })}
-                      >
-                        {c.name}
-                      </button>
-                    ))}
-                  </div>
                   <Field
                     area
                     label="Shopping items (one per line)"
