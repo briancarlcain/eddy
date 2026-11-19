@@ -28,6 +28,14 @@ import { sunDay } from './geo/sun.js';
 import { atMile } from './geo/line.js';
 import tzlookup from '@photostructure/tz-lookup';
 
+// hide the tab bar while a text field has focus, so it does not ride above the keyboard
+if (typeof document !== 'undefined') {
+  const typing = (el) => !!el && /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName) && !/^(checkbox|radio|button|submit|range|file)$/.test(el.type || '');
+  const sync = () => document.body.classList.toggle('typing', typing(document.activeElement));
+  document.addEventListener('focusin', sync);
+  document.addEventListener('focusout', () => setTimeout(sync, 60));
+}
+
 // set by build.mjs: the App Store build ships a fictional sample trip, never the crew's real one
 const IS_STORE = typeof __STORE__ !== 'undefined' && __STORE__;
 const APP_VERSION = typeof __VERSION__ !== 'undefined' ? __VERSION__ : 'dev';
