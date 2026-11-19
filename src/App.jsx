@@ -1136,7 +1136,7 @@ function Trip({ s, back, onAccount, onRiver }) {
   };
   const OLD = { Settings: 'Overview', About: 'Overview', People: 'Crew', 'Crew & Crafts': 'Crew', Ledger: 'Costs', Log: 'Journal', Info: 'Itinerary', Notes: 'Itinerary', Card: 'Itinerary', Emergency: 'Itinerary' };
   // old tab names that are now a card inside Overview
-  const SEC = { Settings: 'Settings', About: 'About' };
+  const SEC = { About: 'About' };
   const q = QS.get('sub');
   const [tab, setTab] = useState((q && (OLD[q] || q)) || lastSub[s.trip?.id] || 'Overview');
   const [sec, setSec] = useState((q && SEC[q]) || null);
@@ -4695,7 +4695,8 @@ const HOME = [
   ['About', 'About'],
   ['Share', 'Share trip'],
   ['Activity', 'Recent activity'],
-  ['Settings', 'Trip settings'],
+  ['Calendar', 'Calendar'],
+  ['Danger', 'Danger zone'],
 ];
 
 function TripHome({ s, back, sec, setSec }) {
@@ -4766,7 +4767,7 @@ function TripHome({ s, back, sec, setSec }) {
         ) : (
           <div className="muted">No activity yet.</div>
         ))}
-      {sec === 'Settings' && (
+      {sec === 'Calendar' && (
         <>
           <div className="card formCard">
             <span className="label">Calendar</span>
@@ -4775,7 +4776,11 @@ function TripHome({ s, back, sec, setSec }) {
               <Icon name="calendar" size={16} /> Add to Calendar
             </button>
           </div>
-          <div className="card formCard dangerCard mt">
+        </>
+      )}
+      {sec === 'Danger' && (
+        <>
+          <div className="card formCard dangerCard">
             <span className="label">Danger zone</span>
             <div className="muted mb-s">Removes the trip from this device. Everyone else keeps it.</div>
             <button
