@@ -1134,11 +1134,11 @@ function Trip({ s, back, onAccount, onRiver }) {
     } catch {}
     setNudge(false);
   };
-  const OLD = { Settings: 'Overview', About: 'Overview', People: 'Crew', 'Crew & Crafts': 'Crew', Ledger: 'Costs', Log: 'Journal', Info: 'Itinerary', Notes: 'Itinerary', Card: 'Itinerary', Emergency: 'Itinerary' };
-  // old tab names that are now a card inside Overview
+  const OLD = { Overview: 'Details', Settings: 'Details', About: 'Details', People: 'Crew', 'Crew & Crafts': 'Crew', Ledger: 'Costs', Log: 'Journal', Info: 'Itinerary', Notes: 'Itinerary', Card: 'Itinerary', Emergency: 'Itinerary' };
+  // old tab names that are now a card inside Details
   const SEC = { About: 'About' };
   const q = QS.get('sub');
-  const [tab, setTab] = useState((q && (OLD[q] || q)) || lastSub[s.trip?.id] || 'Overview');
+  const [tab, setTab] = useState((q && (OLD[q] || q)) || lastSub[s.trip?.id] || 'Details');
   const [sec, setSec] = useState((q && SEC[q]) || null);
   useEffect(() => {
     if (s.trip) lastSub[s.trip.id] = tab;
@@ -1146,14 +1146,14 @@ function Trip({ s, back, onAccount, onRiver }) {
   if (!s.trip) return <NewTrip s={s} />;
   const tripEnt = s.sync[s.trip.id];
   const tripStatus0 = s.syncStatus[s.trip.id];
-  const panels = { Overview: TripHome, Itinerary, Shuttle, Costs: Ledger, Crew, Meals, Gear, Journal: Log };
+  const panels = { Details: TripHome, Itinerary, Shuttle, Costs: Ledger, Crew, Meals, Gear, Journal: Log };
   const P = panels[tab] || TripHome;
-  const items = ['Overview', 'Itinerary', 'Shuttle', 'Costs', 'Gear', 'Meals', 'Crew', ...(onRiver && riverOf(s.trip) ? ['River'] : []), 'Journal'];
+  const items = ['Details', 'Itinerary', 'Shuttle', 'Costs', 'Gear', 'Meals', 'Crew', ...(onRiver && riverOf(s.trip) ? ['River'] : []), 'Journal'];
   return (
     <>
       <Tabs trip items={items} value={tab} onChange={(t) => {
           if (t === 'River') return onRiver();
-          if (t === 'Overview') setSec(null);
+          if (t === 'Details') setSec(null);
           setTab(t);
         }} />
       <div className="pad">
@@ -4704,7 +4704,7 @@ function TripHome({ s, back, sec, setSec }) {
   return (
     <>
       <button className="btn ghost mb-s" onClick={() => setSec(null)}>
-        ← Overview
+        ← Details
       </button>
       {sec === 'About' && (
         <>
