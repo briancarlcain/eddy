@@ -4647,20 +4647,6 @@ function SyncCard({ s, t }) {
               <Icon name="refresh" size={16} /> Sync now
             </button>
           </div>
-          <button
-            className="btn ghost danger"
-            onClick={async () => {
-              if (!window.confirm('Leave this shared trip? You keep your copy but it stops syncing. Everyone else keeps the trip.')) return;
-              try {
-                await s.stopSharing(t.id);
-                setMsg('');
-              } catch (e) {
-                setMsg(netMsg(e));
-              }
-            }}
-          >
-            Leave shared trip
-          </button>
         </>
       )}
       {msg ? <div className="warn mb-s">{msg}</div> : null}
@@ -4712,6 +4698,7 @@ function TripHome({ s, back, sec, setSec }) {
         ))}
       </div>
     );
+  const [leaveMsg, setLeaveMsg] = useState('');
   const info = s.info[t.id];
   const byId = Object.fromEntries(((info && info.members) || []).map((m) => [m.id, m.n || 'Someone']));
   return (
@@ -4782,6 +4769,26 @@ function TripHome({ s, back, sec, setSec }) {
         <>
           <div className="card formCard dangerCard">
             <span className="label">Danger zone</span>
+            {s.sync[t.id] ? (
+              <>
+                <div className="muted mb-s">You keep your copy but it stops syncing. Everyone else keeps the trip.</div>
+                <button
+                  className="btn ghost danger mb-s"
+                  onClick={async () => {
+                    if (!window.confirm('Leave this shared trip? You keep your copy but it stops syncing. Everyone else keeps the trip.')) return;
+                    try {
+                      await s.stopSharing(t.id);
+                      setLeaveMsg('');
+                    } catch (e) {
+                      setLeaveMsg(netMsg(e));
+                    }
+                  }}
+                >
+                  Leave shared trip
+                </button>
+                {leaveMsg ? <div className="warn mb-s">{leaveMsg}</div> : null}
+              </>
+            ) : null}
             <div className="muted mb-s">Removes the trip from this device. Everyone else keeps it.</div>
             <button
               className="btn ghost danger"
