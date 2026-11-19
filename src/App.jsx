@@ -1071,6 +1071,20 @@ const frozenOrder = (ref, list, pool, key) => {
   return ref.current.ids.map((id) => by.get(id)).filter(Boolean);
 };
 
+// a section heading that folds its content away
+function Fold({ label, children, closed }) {
+  const [open, setOpen] = useState(!closed);
+  return (
+    <div className={'fold' + (open ? ' open' : '')}>
+      <button className="foldHead" onClick={() => setOpen(!open)} aria-expanded={open}>
+        <span className="label sectionLabel">{label}</span>
+        <Icon name="chevron" size={18} className="chev" />
+      </button>
+      {open ? children : null}
+    </div>
+  );
+}
+
 function Acc({ title, note, tag, lead, children, open: start }) {
   const [open, setOpen] = useState(!!start);
   return (
@@ -1134,7 +1148,7 @@ function Trip({ s, back, onAccount, onRiver }) {
     } catch {}
     setNudge(false);
   };
-  const OLD = { Overview: 'Details', Settings: 'Details', About: 'Details', People: 'Crew', 'Crew & Crafts': 'Crew', Ledger: 'Costs', Log: 'Journal', Info: 'Itinerary', Notes: 'Itinerary', Card: 'Itinerary', Emergency: 'Itinerary' };
+  const OLD = { Shuttle: 'Itinerary', Overview: 'Details', Settings: 'Details', About: 'Details', People: 'Crew', 'Crew & Crafts': 'Crew', Ledger: 'Costs', Log: 'Journal', Info: 'Itinerary', Notes: 'Itinerary', Card: 'Itinerary', Emergency: 'Itinerary' };
   // old tab names that are now a card inside Details
   const SEC = { About: 'About' };
   const q = QS.get('sub');
@@ -1146,9 +1160,9 @@ function Trip({ s, back, onAccount, onRiver }) {
   if (!s.trip) return <NewTrip s={s} />;
   const tripEnt = s.sync[s.trip.id];
   const tripStatus0 = s.syncStatus[s.trip.id];
-  const panels = { Details: TripHome, Itinerary, Shuttle, Costs: Ledger, Crew, Meals, Gear, Journal: Log };
+  const panels = { Details: TripHome, Itinerary, Costs: Ledger, Crew, Meals, Gear, Journal: Log };
   const P = panels[tab] || TripHome;
-  const items = ['Crew', 'Gear', 'Itinerary', 'Shuttle', 'Meals', 'Journal', ...(onRiver && riverOf(s.trip) ? ['River'] : []), 'Costs', 'Details'];
+  const items = ['Crew', 'Gear', 'Itinerary', 'Meals', 'Journal', ...(onRiver && riverOf(s.trip) ? ['River'] : []), 'Costs', 'Details'];
   return (
     <>
       <Tabs trip items={items} value={tab} onChange={(t) => {
@@ -1276,7 +1290,7 @@ function Itinerary({ s }) {
         <RiverEnd s={s} which="launch" noTime />
         <RiverEnd s={s} which="out" noTime />
       </div>
-      <span className="label sectionLabel">Day by day</span>
+      <Fold label="Day by day">
       {rows.map((row) => {
         if (row.travel) return <TravelDay key={row.key} s={s} x={row.travel} hasStart={hasStart} fresh={fresh === row.key} first={t.start} last={lastRiver} others={travel.filter((y) => y.id !== row.travel.id).map((y) => y.date)} />;
         const d = row.river;
@@ -1341,6 +1355,10 @@ function Itinerary({ s }) {
       <button className="btn ghost mt" onClick={addTravel}>
         Add travel day
       </button>
+      </Fold>
+      <Fold label="Shuttle">
+        <Shuttle s={s} />
+      </Fold>
     </>
   );
 }
