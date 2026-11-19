@@ -1138,7 +1138,7 @@ function Trip({ s, back, onAccount, onRiver }) {
   // old tab names that are now a card inside Details
   const SEC = { About: 'About' };
   const q = QS.get('sub');
-  const [tab, setTab] = useState((q && (OLD[q] || q)) || lastSub[s.trip?.id] || 'Details');
+  const [tab, setTab] = useState((q && (OLD[q] || q)) || lastSub[s.trip?.id] || 'Crew');
   const [sec, setSec] = useState((q && SEC[q]) || null);
   useEffect(() => {
     if (s.trip) lastSub[s.trip.id] = tab;
@@ -1148,7 +1148,7 @@ function Trip({ s, back, onAccount, onRiver }) {
   const tripStatus0 = s.syncStatus[s.trip.id];
   const panels = { Details: TripHome, Itinerary, Shuttle, Costs: Ledger, Crew, Meals, Gear, Journal: Log };
   const P = panels[tab] || TripHome;
-  const items = ['Details', 'Itinerary', 'Shuttle', 'Costs', 'Gear', 'Meals', 'Crew', ...(onRiver && riverOf(s.trip) ? ['River'] : []), 'Journal'];
+  const items = ['Crew', 'Gear', 'Itinerary', 'Shuttle', 'Meals', 'Journal', ...(onRiver && riverOf(s.trip) ? ['River'] : []), 'Costs', 'Details'];
   return (
     <>
       <Tabs trip items={items} value={tab} onChange={(t) => {
