@@ -4698,6 +4698,7 @@ const HOME = [
   ['Costs', 'Costs'],
   ['Itinerary', 'Itinerary'],
   ['Share', 'Share trip'],
+  ['Activity', 'Recent activity'],
   ['Settings', 'Trip settings'],
 ];
 
@@ -4751,30 +4752,26 @@ function TripHome({ s, back, sec, setSec }) {
       )}
       {sec === 'Costs' && <Ledger s={s} />}
       {sec === 'Itinerary' && <Itinerary s={s} />}
-      {sec === 'Share' && (
-        <>
-          <SyncCard s={s} t={t} />
-          {info && info.activity && info.activity.length ? (
-            <div className="mt">
-              <span className="label">Recent activity</span>
-              <div className="card permitList">
-                {[...info.activity].reverse().slice(0, 30).map((a, i) => {
-                  const system = /^(.+ (joined|left|was removed|is now .+)|Invite link was reset|Someone joined)$/.test(a.s || '');
-                  return (
-                    <div className="permitItem" key={i}>
-                      <div className="permitT">{system ? a.s : byId[a.w] || 'Someone'}</div>
-                      <div className="permitD">
-                        {system ? '' : (a.s || 'Made a change') + ' · '}
-                        {ago(a.t)}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          ) : null}
-        </>
-      )}
+      {sec === 'Share' && <SyncCard s={s} t={t} />}
+      {sec === 'Activity' &&
+        (info && info.activity && info.activity.length ? (
+          <div className="card permitList">
+            {[...info.activity].reverse().slice(0, 30).map((a, i) => {
+              const system = /^(.+ (joined|left|was removed|is now .+)|Invite link was reset|Someone joined)$/.test(a.s || '');
+              return (
+                <div className="permitItem" key={i}>
+                  <div className="permitT">{system ? a.s : byId[a.w] || 'Someone'}</div>
+                  <div className="permitD">
+                    {system ? '' : (a.s || 'Made a change') + ' · '}
+                    {ago(a.t)}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="muted">No activity yet.</div>
+        ))}
       {sec === 'Settings' && (
         <>
           <div className="card formCard">
