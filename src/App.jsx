@@ -4626,9 +4626,6 @@ function Members({ s, part }) {
       ))}
       {msg ? <div className="warn mt-s">{msg}</div> : null}
 
-      <button className="linkBtn mt" onClick={() => openUrl(SUPPORT_URL)}>
-        Report a problem
-      </button>
       <button className="btn ghost danger mt" disabled={busy} onClick={() => window.confirm('Leave this trip? You keep your copy but it stops syncing. Everyone else keeps the trip.') && act(() => s.stopSharing(t.id))}>
         Leave trip
       </button>
