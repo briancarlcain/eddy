@@ -4680,8 +4680,8 @@ const byRiverName = (a, b) => String(a.name).localeCompare(String(b.name), undef
 const HOME = [
   ['About', 'About'],
   ['Share', 'Share trip'],
-  ['Activity', 'Recent activity'],
   ['Calendar', 'Calendar'],
+  ['Activity', 'Recent activity'],
   ['Danger', 'Danger zone'],
 ];
 
