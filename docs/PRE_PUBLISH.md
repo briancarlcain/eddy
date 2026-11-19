@@ -76,7 +76,7 @@ human pass before the app is public. Tick these off as you go:
 Edit the JSON in `data/rivers/*.json` (it is the source of truth), then `npm run build` and commit `index.html`.
 
 ## 1. Legal review of terms.html (do first)
-Fill every [BRACKETED] item, get a lawyer's review, then delete the red "Draft for legal review" box.
+Fill every [BRACKETED] item and get a lawyer's review. (The red draft box is already removed.)
 - Publisher identity: individual or LLC (affects personal liability more than any clause).
 - **Section 4 (danger, assumption of risk, release):** enforceability of a pre-injury release varies by state; wrongful-death and minors' claims; whether a click-through is enough; carve-outs for gross negligence.
 - **Section 16 (limitation of liability):** cap amount; personal-injury and consumer-law limits.
