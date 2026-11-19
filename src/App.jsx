@@ -1134,9 +1134,9 @@ function Trip({ s, back, onAccount, onRiver }) {
     } catch {}
     setNudge(false);
   };
-  const OLD = { Settings: 'Overview', About: 'Overview', Shuttle: 'Overview', Itinerary: 'Overview', People: 'Crew', 'Crew & Crafts': 'Crew', Ledger: 'Overview', Costs: 'Overview', Log: 'Journal', Info: 'Overview', Notes: 'Overview', Card: 'Overview', Emergency: 'Overview' };
+  const OLD = { Settings: 'Overview', About: 'Overview', People: 'Crew', 'Crew & Crafts': 'Crew', Ledger: 'Overview', Costs: 'Overview', Log: 'Journal', Info: 'Itinerary', Notes: 'Itinerary', Card: 'Itinerary', Emergency: 'Itinerary' };
   // old tab names that are now a card inside Overview
-  const SEC = { Settings: 'Settings', About: 'About', Costs: 'Costs', Ledger: 'Costs', Itinerary: 'Itinerary', Shuttle: 'Itinerary', Info: 'Itinerary', Notes: 'Itinerary', Card: 'Itinerary', Emergency: 'Itinerary' };
+  const SEC = { Settings: 'Settings', About: 'About', Costs: 'Costs', Ledger: 'Costs' };
   const q = QS.get('sub');
   const [tab, setTab] = useState((q && (OLD[q] || q)) || lastSub[s.trip?.id] || 'Overview');
   const [sec, setSec] = useState((q && SEC[q]) || null);
@@ -1146,9 +1146,9 @@ function Trip({ s, back, onAccount, onRiver }) {
   if (!s.trip) return <NewTrip s={s} />;
   const tripEnt = s.sync[s.trip.id];
   const tripStatus0 = s.syncStatus[s.trip.id];
-  const panels = { Overview: TripHome, Crew, Meals, Gear, Journal: Log };
+  const panels = { Overview: TripHome, Itinerary, Shuttle, Crew, Meals, Gear, Journal: Log };
   const P = panels[tab] || TripHome;
-  const items = ['Overview', 'Gear', 'Meals', 'Crew', ...(onRiver && riverOf(s.trip) ? ['River'] : []), 'Journal'];
+  const items = ['Overview', 'Itinerary', 'Shuttle', 'Gear', 'Meals', 'Crew', ...(onRiver && riverOf(s.trip) ? ['River'] : []), 'Journal'];
   return (
     <>
       <Tabs trip items={items} value={tab} onChange={(t) => {
@@ -1341,8 +1341,6 @@ function Itinerary({ s }) {
       <button className="btn ghost mt" onClick={addTravel}>
         Add travel day
       </button>
-      <span className="label sectionLabel">Shuttle</span>
-      <Shuttle s={s} />
     </>
   );
 }
@@ -4696,7 +4694,6 @@ const byRiverName = (a, b) => String(a.name).localeCompare(String(b.name), undef
 const HOME = [
   ['About', 'About'],
   ['Costs', 'Costs'],
-  ['Itinerary', 'Itinerary'],
   ['Share', 'Share trip'],
   ['Activity', 'Recent activity'],
   ['Settings', 'Trip settings'],
@@ -4751,7 +4748,6 @@ function TripHome({ s, back, sec, setSec }) {
         </>
       )}
       {sec === 'Costs' && <Ledger s={s} />}
-      {sec === 'Itinerary' && <Itinerary s={s} />}
       {sec === 'Share' && <SyncCard s={s} t={t} />}
       {sec === 'Activity' &&
         (info && info.activity && info.activity.length ? (
