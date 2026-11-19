@@ -931,3 +931,10 @@ body.shot .onBehalf { top: calc(52px + 54px + 45px); }
 .campSunHead { display: flex; align-items: center; gap: 5px; margin-top: 4px; font-size: 13px; color: var(--ink-dim); font-variant-numeric: tabular-nums; }
 .campSunHead .ico { color: var(--accent); }
 body.typing .tabbar { display: none; }
+html.mapLock, html.mapLock body { overflow: hidden; height: 100%; overscroll-behavior: none; }
+html.mapLock body { position: fixed; inset: 0; width: 100%; }
+@supports (height: 100dvh) {
+  .shell:not(.onmap) .mapWindow { height: calc(100dvh - var(--nav-h) - 132px - 42px); }
+  .topoMap { height: calc(100dvh - var(--nav-h) - 150px); }
+  .shell:not(.onmap) .mapMode + .gcmap .mapWindow { height: calc(100dvh - var(--nav-h) - 132px - 42px - 58px); }
+}
