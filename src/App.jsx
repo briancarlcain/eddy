@@ -350,6 +350,16 @@ const effRiver = (id, rivers) => {
   return { ...b, ...rest, id };
 };
 
+const PENDING_JOIN = 'eddy.v1.pendingJoin';
+const takePendingJoin = () => {
+  try {
+    const j = JSON.parse(localStorage.getItem(PENDING_JOIN) || 'null');
+    localStorage.removeItem(PENDING_JOIN);
+    return j && Date.now() - j.t < 15 * 60 * 1000 ? remote.cleanCode(j.c) : '';
+  } catch {
+    return '';
+  }
+};
 const NAME_KEY = 'eddy.name';
 const savedName = () => {
   try {
@@ -466,6 +476,7 @@ function useStore() {
   // Returns the updated entry, null when the trip is still a legacy share, or 'gone'.
   const ensureV2 = async (id, ent, local) => {
     if (ent.trip) return ent;
+    if (!sessionRef.current) return null;
     const member = ent.member || remote.newSecret();
     const name = nameFor(local);
     const mine = ent.owner && ent.owner !== 'account' && ent.owner !== 'v2';
@@ -481,6 +492,7 @@ function useStore() {
     const local = stateRef.current.trips.find((t) => t.id === id);
     if (!ent || !local || busy.current.has(id)) return;
     if (ent.removed) return setSt(id, 'removed');
+    if (ent.acct && !sessionRef.current) return setSt(id, 'signin'); // this device's place on the trip is the account's
     busy.current.add(id);
     setSt(id, 'busy');
     try {
@@ -492,6 +504,18 @@ function useStore() {
           ent = r;
           v2 = true;
         }
+      }
+      // signed in: this device's membership becomes the account's (one entry per person)
+      const sess = sessionRef.current;
+      if (v2 && sess && ent.member && ent.acct !== sess.user.id) {
+        try {
+          const a = await remote.v2Adopt(ent.trip, ent.member);
+          if (a && a.me) {
+            ent = { ...ent, acct: sess.user.id, me: a.me };
+            commit((s0) => ({ ...s0, sync: { ...(s0.sync || {}), [id]: { ...((s0.sync || {})[id] || ent), acct: sess.user.id, me: a.me } } }));
+            infoRef.current[id] = null;
+          }
+        } catch {}
       }
       let version = ent.version || 0;
       let doc = local;
@@ -791,6 +815,10 @@ function useStore() {
     onResume(syncAll);
     return () => clearInterval(iv);
   }, [syncAll]);
+  const sessId = session && session.user ? session.user.id : '';
+  useEffect(() => {
+    if (sessId) syncAll(); // signing in claims this device's place on shared trips
+  }, [sessId, syncAll]);
 
   const trips = state.trips;
   const trip = trips.find((t) => t.id === state.active) || null;
@@ -818,6 +846,7 @@ function useStore() {
   const shareTrip = async (id) => {
     const t = stateRef.current.trips.find((x) => x.id === id);
     if (!t) throw new Error('no trip');
+    if (!sessionRef.current) throw new Error('Sign in to share a trip.');
     const code = remote.newCode();
     const member = remote.newSecret();
     const r = await remote.v2Create(code, member, nameFor(t), stripPrivate(withRiver(t)));
@@ -832,6 +861,7 @@ function useStore() {
   const joinTrip = async (raw, name) => {
     const code = remote.cleanCode(raw);
     if (!code) throw new Error('That code does not look right. It has 16 letters and numbers.');
+    if (!sessionRef.current) throw new Error('Sign in to join a trip.');
     const clean = String(name || '').trim().slice(0, 40);
     if (clean) {
       try {
@@ -4493,12 +4523,16 @@ function Members({ s, part }) {
   const top = part === 'top';
   if (!ent)
     return top ? (
-      <>
-        <button className="btn ghost block mb" disabled={inv.busy} onClick={() => inv.send(false)}>
-          <Icon name="users" size={16} /> {inv.busy ? 'Preparing…' : 'Invite people to this trip'}
-        </button>
-        {inv.msg ? <div className="muted mb-s">{inv.msg}</div> : null}
-      </>
+      inv.need ? (
+        <Account s={s} why={SHARE_WHY} />
+      ) : (
+        <>
+          <button className="btn ghost block mb" disabled={inv.busy} onClick={() => inv.send(false)}>
+            <Icon name="users" size={16} /> {inv.busy ? 'Preparing…' : 'Invite people to this trip'}
+          </button>
+          {inv.msg ? <div className="muted mb-s">{inv.msg}</div> : null}
+        </>
+      )
     ) : null;
   const role = (info && info.role) || ent.role || 'editor';
   const owner = role === 'owner';
@@ -4523,7 +4557,8 @@ function Members({ s, part }) {
             </div>
           </div>
         ) : null}
-        {role !== 'viewer' && !ent.removed ? (
+        {role !== 'viewer' && !ent.removed && inv.need ? <Account s={s} why="Sign in so you stay one person on this trip, on every device you use." /> : null}
+        {role !== 'viewer' && !ent.removed && !inv.need ? (
           <div className="card formCard mb">
             <span className="label">Invite</span>
             <div className="row">
@@ -4567,11 +4602,13 @@ function Members({ s, part }) {
       <span className="label mt">Trip members ({members.length || 1}) · {ROLE_LABEL[role]}</span>
       {members.map((m) => (
         <Acc key={m.id} lead={<Avatar name={m.n || '?'} />} title={m.n || 'Someone'} tag={m.id === me ? 'You' : undefined} note={ROLE_LABEL[m.r] + (m.t ? ' · joined ' + ago(m.t) : '')}>
-          {owner && m.r !== 'owner' ? (
+          {owner && m.id !== me ? (
             <div className="row">
-              <button className="btn ghost" disabled={busy} onClick={() => act(() => s.setMemberRole(t.id, m.id, m.r === 'viewer' ? 'editor' : 'viewer'))}>
-                {m.r === 'viewer' ? 'Allow editing' : 'Make view only'}
-              </button>
+              {m.r !== 'owner' ? (
+                <button className="btn ghost" disabled={busy} onClick={() => act(() => s.setMemberRole(t.id, m.id, m.r === 'viewer' ? 'editor' : 'viewer'))}>
+                  {m.r === 'viewer' ? 'Allow editing' : 'Make view only'}
+                </button>
+              ) : null}
               <button
                 className="btn ghost danger"
                 disabled={busy}
@@ -4609,6 +4646,7 @@ function useInvite(s, t) {
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState('');
   const send = async (copyOnly) => {
+    if (!s.session) return;
     setBusy(true);
     setMsg('');
     try {
@@ -4629,8 +4667,10 @@ function useInvite(s, t) {
     }
     setBusy(false);
   };
-  return { send, busy, msg };
+  return { send, busy, msg, need: !s.session };
 }
+
+const SHARE_WHY = 'Sign in to share this trip. Everyone on a trip signs in, so each person shows up once, on every device they use.';
 
 function SyncCard({ s, t }) {
   const ent = s.sync[t.id];
@@ -4638,7 +4678,9 @@ function SyncCard({ s, t }) {
   const [msg, setMsg] = useState('');
   const inv = useInvite(s, t);
   const start = () => inv.send(false);
+  if (!ent && inv.need) return <Account s={s} why={SHARE_WHY} />;
   return (
+    <>
     <div className="card formCard mt">
       <span className="label">Crew sync</span>
       {!ent ? (
@@ -4655,12 +4697,16 @@ function SyncCard({ s, t }) {
             <Icon name="cloud" size={14} /> {syncLabel(st, !!ent.owner)}. Anyone with this code can view and edit the trip.
           </div>
           <div className="row">
-            <button className="btn" onClick={() => inv.send(false)}>
-              Invite people
-            </button>
-            <button className="btn ghost" onClick={() => inv.send(true)}>
-              Copy link
-            </button>
+            {inv.need ? null : (
+              <>
+                <button className="btn" onClick={() => inv.send(false)}>
+                  Invite people
+                </button>
+                <button className="btn ghost" onClick={() => inv.send(true)}>
+                  Copy link
+                </button>
+              </>
+            )}
             <button className="btn ghost" onClick={() => s.syncNow(t.id)}>
               <Icon name="refresh" size={16} /> Sync now
             </button>
@@ -4670,6 +4716,12 @@ function SyncCard({ s, t }) {
       {msg ? <div className="warn mb-s">{msg}</div> : null}
       {inv.msg ? <div className="muted mb-s">{inv.msg}</div> : null}
     </div>
+    {ent && inv.need ? (
+      <div className="mt">
+        <Account s={s} why="Sign in so you stay one person on this trip, on every device you use." />
+      </div>
+    ) : null}
+    </>
   );
 }
 
@@ -6033,7 +6085,7 @@ const Rules = () =>
 
 /* ---------- general ---------- */
 
-function Account({ s }) {
+function Account({ s, why }) {
   const [prov, setProv] = useState(null);
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
@@ -6140,8 +6192,8 @@ function Account({ s }) {
   return (
     <>
       <div className="card formCard">
-        <span className="label">Account</span>
-        <div className="muted mb-s">An account is optional. Sign in to back up your trips and keep them in sync across your phone and tablet. We only store your email address and your trips.</div>
+        <span className="label">{why ? 'Sign in' : 'Account'}</span>
+        <div className="muted mb-s">{why || 'An account is optional. Sign in to back up your trips and keep them in sync across your phone and tablet. We only store your email address and your trips.'}</div>
         {!prov ? <div className="muted mb-s">Loading…</div> : null}
         {prov && prov.offline ? <div className="warn mb-s">Could not reach the sign-in service. Check your connection.</div> : null}
         {none ? <div className="warn mb-s">Sign-in is not available yet.</div> : null}
@@ -6663,7 +6715,7 @@ function NewTrip({ s, preset, onDone, onCancel }) {
   );
 }
 
-const syncLabel = (st, owner) => ({ busy: 'Syncing…', ok: owner ? 'Shared · up to date' : 'Shared with you · up to date', offline: 'Shared · offline, will sync later', gone: 'Sharing was stopped', removed: 'You were removed from this trip' }[st] || (owner ? 'Shared' : 'Shared with you'));
+const syncLabel = (st, owner) => ({ busy: 'Syncing…', ok: owner ? 'Shared · up to date' : 'Shared with you · up to date', offline: 'Shared · offline, will sync later', gone: 'Sharing was stopped', removed: 'You were removed from this trip', signin: 'Sign in to sync this trip' }[st] || (owner ? 'Shared' : 'Shared with you'));
 
 function tripStatus(t) {
   if (!okDate(t.start)) return null;
@@ -6730,6 +6782,28 @@ function JoinTrip({ s, initial, by, onJoined, onCancel }) {
   const [busy, setBusy] = useState(false);
   const [peek, setPeek] = useState(null); // preview of the invited trip
   const [yourName, setYourName] = useState(() => savedName());
+  const signedIn = !!s.session;
+  useEffect(() => {
+    // a web sign-in leaves the page and comes back: keep the invite for it
+    try {
+      if (!signedIn && remote.cleanCode(code)) localStorage.setItem(PENDING_JOIN, JSON.stringify({ c: remote.cleanCode(code), t: Date.now() }));
+      else localStorage.removeItem(PENDING_JOIN);
+    } catch {}
+  }, [code, signedIn]);
+  useEffect(
+    () => () => {
+      try {
+        localStorage.removeItem(PENDING_JOIN);
+      } catch {}
+    },
+    []
+  );
+  useEffect(() => {
+    const u = s.session && s.session.user;
+    if (!u || yourName.trim()) return;
+    const m = u.user_metadata || {};
+    setYourName(m.full_name || m.name || savedName() || (u.email ? u.email.split('@')[0] : ''));
+  }, [signedIn]);
   useEffect(() => {
     const c = remote.cleanCode(code);
     if (!c) {
@@ -6789,8 +6863,18 @@ function JoinTrip({ s, initial, by, onJoined, onCancel }) {
         autoComplete="off"
         spellCheck={false}
       />
-      <Field label="Your name" value={yourName} onChange={(e) => setYourName(e.target.value)} placeholder="First name or nickname" autoComplete="name" />
+      {!signedIn ? (
+        <>
+          <Account s={s} why="Sign in to join. Everyone on a trip signs in, so each person shows up once, on every device they use." />
+          <button className="btn ghost block mt" onClick={onCancel}>
+            Cancel
+          </button>
+        </>
+      ) : null}
+      {signedIn ? <Field label="Your name" value={yourName} onChange={(e) => setYourName(e.target.value)} placeholder="First name or nickname" autoComplete="name" /> : null}
       {err ? <div className="warn mb-s">{err}</div> : null}
+      {signedIn ? (
+      <>
       <div className="muted mb-s">
         By joining you agree to the{' '}
         <button className="linkBtn inline" onClick={() => openUrl(TERMS_URL)}>
@@ -6810,6 +6894,8 @@ function JoinTrip({ s, initial, by, onJoined, onCancel }) {
           Cancel
         </button>
       </div>
+      </>
+      ) : null}
     </div>
   );
 }
@@ -7529,7 +7615,7 @@ function App() {
   const [inTrip, setInTrip] = useState(QS.get('open') === '1'); // Trips tab: false = overview list, true = inside the active trip
   const [browse, setBrowse] = useState(QS.get('river') || null); // river being browsed on the River tab (null = the trip's own)
   const [preset, setPreset] = useState(null); // river chosen from the library for a new trip
-  const [joinCode, setJoinCode] = useState(() => remote.cleanCode(QS.get('join')) || ''); // from an invite link or eddy://join/CODE
+  const [joinCode, setJoinCode] = useState(() => remote.cleanCode(QS.get('join')) || takePendingJoin()); // from an invite link or eddy://join/CODE
   const [welcome, setWelcome] = useState(''); // trip just joined; asks which crew member you are
   const [joinBy] = useState(() => (QS.get('by') || '').replace(/[^\p{L}\p{N} '.-]/gu, '').slice(0, 24));
   const [profSub, setProfSub] = useState(null); // open Profile on a given sub-tab
