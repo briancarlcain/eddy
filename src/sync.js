@@ -72,6 +72,7 @@ export const v2Role = (trip, owner, target, role) => rpc('tp_role', { p_trip: tr
 export const v2Remove = (trip, owner, target) => rpc('tp_remove', { p_trip: trip, p_owner: owner, p_target: target });
 export const v2Rotate = (trip, owner, newCode) => rpc('tp_rotate', { p_trip: trip, p_owner: owner, p_new_code: newCode });
 export const v2InviteRole = (trip, owner, role) => rpc('tp_invite_role', { p_trip: trip, p_owner: owner, p_role: role });
+export const v2Adopt = (trip, member) => rpc('tp_adopt', { p_trip: trip, p_member: member });
 export const v2Leave = (trip, member) => rpc('tp_leave', { p_trip: trip, p_member: member });
 export const v2Rename = (trip, member, name) => rpc('tp_rename', { p_trip: trip, p_member: member, p_name: name });
 export const v2Delete = (trip, owner) => rpc('tp_delete', { p_trip: trip, p_owner: owner });
