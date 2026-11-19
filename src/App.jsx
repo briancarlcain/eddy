@@ -1632,6 +1632,10 @@ function Meals({ s }) {
   const [shop, setShop] = useState(false);
   const [draft, setDraft] = useState('');
   const t = s.trip;
+  const hasCook = t.meals.some((m) => 'cook' in m);
+  useEffect(() => {
+    if (hasCook) s.set({ meals: t.meals.map(({ cook: _c, ...m }) => m) });
+  }, [hasCook]);
   const list = useMemo(() => {
     const m = new Map();
     t.meals.forEach((x) =>
