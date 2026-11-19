@@ -928,3 +928,5 @@ body.shot .onBehalf { top: calc(52px + 54px + 45px); }
 .rg .foldHead { display: flex; align-items: center; width: 100%; background: none; border: 0; padding: 0; text-align: left; cursor: pointer; }
 .rg .foldHead .sectionLabel { flex: 1; }
 .rg .fold.open > .foldHead .chev { transform: rotate(180deg); }
+.campSunHead { display: flex; align-items: center; gap: 5px; margin-top: 4px; font-size: 13px; color: var(--ink-dim); font-variant-numeric: tabular-nums; }
+.campSunHead .ico { color: var(--accent); }

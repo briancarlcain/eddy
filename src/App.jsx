@@ -115,8 +115,8 @@ const Icon = ({ name, size = 18, className = '' }) => (
   </svg>
 );
 
-const SunTimes = ({ rise, set, canyon }) => (
-  <span className="sun" title={canyon ? 'First and last direct sun in camp, past the canyon walls' : undefined}>
+const SunTimes = ({ rise, set }) => (
+  <span className="sun">
     <span className="sunUp">
       <Icon name="sunrise" size={20} />
       <span className="sr">Sunrise </span>
@@ -1329,9 +1329,8 @@ function Itinerary({ s }) {
         const leg = from != null && p.mile != null ? Math.round((p.mile - from) * 10) / 10 : null;
         const runs = from != null && p.mile != null ? RIVER.rapids.filter((r) => r.mile > from && r.mile <= p.mile) : [];
         const sn = d.date && sun(d.date, RIVER.coords[0], RIVER.coords[1]);
-        // canyon sun: the morning at the camp you woke in, the evening at tonight's camp
-        const tonight = campOf(p), woke = d.i > 0 ? campOf(prev) : null;
-        const am = d.date && campSunOn(woke, d.date), pm = d.date && campSunOn(tonight, d.date);
+        const tonight = campOf(p);
+        const pm = d.date && campSunOn(tonight, d.date);
         const meals = t.meals.filter((m) => m.day === d.i);
         return (
           <Acc
@@ -1347,18 +1346,25 @@ function Itinerary({ s }) {
                     </span>
                   ) : null}
                   {sn ? (
-                    <SunTimes
-                      rise={am ? (am.on ? clock(am.on) : 'no sun') : clock(sn.rise)}
-                      set={pm ? (pm.off ? clock(pm.off) : 'no sun') : clock(sn.set)}
-                      canyon={!!(am || pm)}
-                    />
+                    <SunTimes rise={clock(sn.rise)} set={clock(sn.set)} />
+                  ) : null}
+                  {pm ? (
+                    <span className="campSunHead">
+                      <Icon name="sunset" size={14} /> Sun in camp{' '}
+                      {pm.on ? (
+                        <>
+                          {clock(pm.on)} – {clock(pm.off)} · {pm.hours.toFixed(1)} h{pm.spans.length > 1 ? ` · ${pm.spans.length} spells` : ''}
+                        </>
+                      ) : (
+                        'none'
+                      )}
+                    </span>
                   ) : null}
                 </>
               ) : null
             }
           >
             <CampPick min={from} current={p.camp} date={d.date} onPick={(c) => s.plan(d.i, { camp: c.name, mile: c.mile })} />
-            {d.date && tonight ? <CampSunLine c={tonight} iso={d.date} /> : null}
             {runs.length > 0 && (
               <div className="mt">
                 {runs.map((r) => (
