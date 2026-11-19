@@ -925,3 +925,6 @@ body.shot .onBehalf { top: calc(52px + 54px + 45px); }
 .favCrew{display:block;font-size:12px;color:var(--muted);margin-top:3px}
 .favCrew .favFill{fill:currentColor;color:#d9a21b;vertical-align:-1px}
 .favCrewNote{display:block;margin-top:2px;white-space:pre-wrap}
+.rg .foldHead { display: flex; align-items: center; width: 100%; background: none; border: 0; padding: 0; text-align: left; cursor: pointer; }
+.rg .foldHead .sectionLabel { flex: 1; }
+.rg .fold.open > .foldHead .chev { transform: rotate(180deg); }
