@@ -11,9 +11,10 @@ import SEED from '../data/trip.json';
 import SOURCES from '../data/sources.json';
 import GC_REF from '../data/trips/gc2026-ref.json';
 import { askReminders, boot, clearReminders, hideSplash, isNative, onOpenUrl, onResume, openUrl, remindersAllowed, saveBackup, saveFile, scheduleReminders, shareText, success } from './native.js';
-import { canon, mergeTrips, stamp, strip } from './merge.js';
+import { canon, mergeTrips as mergeRaw, stamp, strip } from './merge.js';
 import { recat } from './gearCats.js';
 import { GEAR_RENAMES } from './gearRename.js';
+import { alignGear } from './gearAlign.js';
 import { applySheetQty } from './gearQty.js';
 import { convertSplits } from './gearSplit.js';
 import * as remote from './sync.js';
@@ -27,6 +28,10 @@ import { campHorizon, campSun, riverLine, dropHorizon, drops, dropsGPX, hasGeo, 
 import { sunDay } from './geo/sun.js';
 import { atMile } from './geo/line.js';
 import tzlookup from '@photostructure/tz-lookup';
+
+// gear ids from an older list of the Grand Canyon trip point at different items: line them up by name before combining copies
+const alignTrip = (t) => (t && t.id === SEED.id ? alignGear(t, SEED.gear, GEAR_RENAMES) : t);
+const mergeTrips = (a, b, now) => mergeRaw(alignTrip(a), alignTrip(b), now);
 
 // hide the tab bar while a text field has focus, so it does not ride above the keyboard
 if (typeof document !== 'undefined') {
@@ -740,11 +745,12 @@ function useStore() {
     const oldName = (t, g) => t.id === SEED.id && GEAR_RENAMES[g.n];
     const qtyOld = (t) => t.id === SEED.id && t.qtyV !== SEED.qtyV;
     // one-time upgrades only: they must never rerun on a trip being edited (clearing a quantity would snap it back)
-    const stale = st.trips.filter((t) => (t.rentV !== 3 || qtyOld(t)) && ((st.sync || {})[t.id] || {}).role !== 'viewer');
+    const stale = st.trips.filter((t) => (t.rentV !== 3 || qtyOld(t) || alignTrip(t) !== t) && ((st.sync || {})[t.id] || {}).role !== 'viewer');
     if (!stale.length) return;
     const t0 = now();
-    const trips = st.trips.map((t) => {
-      if (!stale.includes(t)) return t;
+    const trips = st.trips.map((t0t) => {
+      if (!stale.includes(t0t)) return t0t;
+      const t = alignTrip(t0t);
       const sq = qtyOld(t);
       const rent = t.rentV >= 2 || sq ? {} : convertRentals(t);
       const gear = (sq ? applySheetQty(t.gear || [], SEED.gear) : t.gear || []).map((g) => ({ ...g, c: recat(g), ...(oldName(t, g) ? { n: GEAR_RENAMES[g.n] } : {}), ...(rent[g.id] || {}) }));

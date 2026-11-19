@@ -17,7 +17,7 @@
   edits (they blank `note` and `notes`): do not rerun them.
 - After adding or renaming camps, run `npm run geo -- <river-id>` (horizons are keyed by name and mile). `npm test`
   checks it.
-- Access points get ids by position in `access[]`: append, never reorder.
+- Access points get ids by position in `access[]`: append, never reorder. Same for gear ids in `data/trip.json`: copies are combined by id, so a moved or renumbered item takes another item's quantities. `npm test` checks `data/gear-ids.json`; a rename also goes in `src/gearRename.js`.
 - The README documents the river record shape, including `stats` (River > Overview).
 
 ## Content is safety-relevant and unverified
