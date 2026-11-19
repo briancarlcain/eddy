@@ -1996,20 +1996,13 @@ function Gear({ s }) {
         </button>
         {sortBy !== 'name' ? <span className="gsortNow">{sortSel[1]}</span> : null}
         <span className="gright">
-          {catHide.length < cats.length || (who && srcHide.length < SRC_KEYS.length) || (grp && grpHide.length < GRP_KEYS.length) ? (
-            <button className="gclear" onClick={() => (setCatOff(cats), setSrcOff(SRC_KEYS), setGrpOff(GRP_KEYS))}>
+          {catHide.length < cats.length ? (
+            <button className="gclear" onClick={() => setCatOff(cats)}>
               Deselect all
             </button>
           ) : null}
-          {nFilt ? (
-            <button
-              className="gclear"
-              onClick={() => {
-                setCatOff([]);
-                setSrcOff([]);
-                setGrpOff([]);
-              }}
-            >
+          {catHide.length ? (
+            <button className="gclear" onClick={() => setCatOff([])}>
               Clear
             </button>
           ) : null}
