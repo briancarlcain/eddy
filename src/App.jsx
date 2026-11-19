@@ -4922,6 +4922,13 @@ function RiverDetail({ s }) {
   };
   const items = ['Map', ...Object.keys(has).filter((k) => has[k]), 'More'];
   const cur = items.includes(tab) ? tab : 'Map';
+  // the map fills the screen: the page itself must not scroll under it
+  useLayoutEffect(() => {
+    if (cur !== 'Map') return;
+    window.scrollTo(0, 0);
+    document.documentElement.classList.add('mapLock');
+    return () => document.documentElement.classList.remove('mapLock');
+  }, [cur]);
   const P = { Overview, Rapids, Camps, Hikes, Permits, Geology, Guide, Almanac, Rules }[cur];
   const rec = s.riverRec(RIVER.id);
   return (
