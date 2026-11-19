@@ -33,7 +33,6 @@ const IS_STORE = typeof __STORE__ !== 'undefined' && __STORE__;
 const APP_VERSION = typeof __VERSION__ !== 'undefined' ? __VERSION__ : 'dev';
 const POLICY_URL = 'https://briancarlcain.github.io/eddy/privacy.html';
 const TERMS_URL = 'https://briancarlcain.github.io/eddy/terms.html';
-const SUPPORT_URL = 'https://github.com/briancarlcain/eddy/issues';
 // outfitter-specific price lines are left out of the public catalog
 const GEAR = IS_STORE ? GEAR_ALL.filter((g) => !/Ceiba|^Truck & Trailer|^Van Passenger|^Shuttle -|^Vehicle Shuttle|Gear (Pickup|Delivery) Tip|^Parking -|^Hualapai/i.test(g.n)) : GEAR_ALL;
 
@@ -6361,9 +6360,6 @@ function About({ s, part = 'about' }) {
         </button>
         <button className="btn ghost block" onClick={() => openUrl(TERMS_URL)}>
           Terms of use
-        </button>
-        <button className="btn ghost block" onClick={() => openUrl(SUPPORT_URL)}>
-          Support &amp; feedback
         </button>
       </div>
       )}
