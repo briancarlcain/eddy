@@ -23,6 +23,7 @@ export const norm = (g) => ({
   name: g.n ?? g.name ?? '',
   cat: g.c ?? g.cat ?? 'Gear',
   split: g.s || 'even',
+  picked: g.s === 'even' || g.s === 'nights' ? g.s : '',
   req: g.r === 'req' || g.r === 'rec' ? g.r : '',
   flat: num(g.f),
   day: num(g.d),

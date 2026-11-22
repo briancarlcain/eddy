@@ -1813,7 +1813,7 @@ function GearFields({ v, up, days, cats, T }) {
       {T.box('split')}
       <div className="chips">
         {SPLITS.map(([k, l]) => (
-          <button key={k} className={'chip' + (v.s === k ? ' on' : '')} onClick={() => up('s', k)}>
+          <button key={k} className={'chip' + (v.s === k ? ' on' : '')} aria-pressed={v.s === k} onClick={() => up('s', v.s === k ? '' : k)}>
             {l}
           </button>
         ))}
@@ -2528,7 +2528,7 @@ function RentEdit({ it, crew, days, patch }) {
             <span className="label">How it’s split</span>
             <div className="chips">
               {SPLITS.map(([k, l]) => (
-                <button key={k} className={'chip' + (it.split === k ? ' on' : '')} onClick={() => patch({ s: k })}>
+                <button key={k} className={'chip' + (it.picked === k ? ' on' : '')} aria-pressed={it.picked === k} onClick={() => patch({ s: it.picked === k ? '' : k })}>
                   {l}
                 </button>
               ))}
