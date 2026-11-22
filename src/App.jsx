@@ -6201,7 +6201,7 @@ function Account({ s, why }) {
     <>
       <div className="card formCard">
         <span className="label">{why ? 'Sign in' : 'Account'}</span>
-        <div className="muted mb-s">{why || 'An account is optional. Sign in to back up your trips and keep them in sync across your phone and tablet. We only store your email address and your trips.'}</div>
+        <div className="muted mb-s">{why || 'Sign in to back up your trips and keep them in sync across your devices.'}</div>
         {!prov ? <div className="muted mb-s">Loading…</div> : null}
         {prov && prov.offline ? <div className="warn mb-s">Could not reach the sign-in service. Check your connection.</div> : null}
         {none ? <div className="warn mb-s">Sign-in is not available yet.</div> : null}
