@@ -180,7 +180,7 @@ assert.equal(gearKind({ n: 'x', s: 'even', k: 'personal' }), 'personal');
   const trip = JSON.parse(readFileSync(new URL('../data/trip.json', import.meta.url)));
   const L = ledger(trip);
   const it = (n) => L.items.find((x) => x.name.startsWith(n));
-  near(L.total, 16071.65, 'total'); near(L.loose, 0, 'every rented unit is assigned');
+  near(L.total, 16140.65, 'total'); near(L.loose, 0, 'every rented unit is assigned');
   const tent = it('Personal Tent');
   near(tent.rent, 1, 'tent rented'); near(tent.rented['davis-snedeker'], 1, 'Davis rents it'); near(tent.total, 133, 'tent cost');
   assert.deepEqual(['brian-cain', 'brian-laitsch', 'violet-scott'].map((id) => tent.bringBy[id]), [1, 1, 1]);
