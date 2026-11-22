@@ -66,7 +66,7 @@ const balanced = (it) => near(Object.values(it.share).reduce((a, b) => a + b, 0)
 // renting must be fully assigned and priced
 {
   const under = one({ s: 'even', q: 3, rn: 3, rnTo: { group: 1 } });
-  assert.equal(under.issues.length, 1); assert.match(under.issues[0], /only 1 is assigned/); near(under.loose, 200, 'unassigned cost');
+  assert.equal(under.issues.length, 1); assert.match(under.issues[0], /Choose who pays for 2 of the 3 rented/); near(under.loose, 200, 'unassigned cost');
   const over = one({ s: 'even', q: 3, rn: 1, rnTo: { group: 2 } });
   assert.match(over.issues[0], /Renting is 1/);
   assert.equal(one({ s: 'even', q: 3, rn: 2, rnTo: { group: 2 }, f: undefined }).issues.length, 0, 'blank price is fine');
@@ -124,9 +124,9 @@ assert.equal(gearKind({ n: 'x', s: 'even', k: 'personal' }), 'personal');
   near(it.loose, 0, 'all assigned'); assert.equal(it.issues.length, 0);
   const even = ledger({ days: 3, crew: c4, gear: [{ id: 'p', n: 'Paco Pad', ...pads, s: 'even' }] }).items[0];
   near(even.share.n, 15, 'equal'); near(even.share.k, 15, 'equal');
-  // units not listed yet are the group's
+  // units not listed yet wait for someone to say who pays
   const few = ledger({ days: 3, crew: c4, gear: [{ id: 'p', n: 'Paco Pad', ...pads, rn: '6' }] }).items[0];
-  assert.equal(few.issues.length, 0); near(few.loose, 0, 'covered'); near(few.total, 180, 'six pads'); balanced(few);
+  assert.equal(few.issues.length, 1); near(few.loose, 60, 'two pads unassigned'); near(few.total, 180, 'six pads'); balanced(few);
   // a unit marked for the group is split among the group by the item's method
   const gr = ledger({ days: 3, crew: c4, gear: [{ id: 'p', n: 'Paco Pad', ...pads, rn: '1', ru: [{ g: true }] }] }).items[0];
   assert.equal(gr.issues.length, 0); near(gr.share.j, 30 * 3 / 13, 'by nights'); near(gr.share.x, 30 * 2 / 13, 'by nights'); balanced(gr);
@@ -137,7 +137,7 @@ assert.equal(gearKind({ n: 'x', s: 'even', k: 'personal' }), 'personal');
   assert.equal(zero.issues.length, 0); near(zero.total, 0, 'nothing rented');
   // a unit with no one on it is not assigned
   const none = ledger({ days: 3, crew: c4, gear: [{ id: 'p', n: 'Paco Pad', ...pads, ru: [{ to: [] }, ...pads.ru.slice(1)] }] }).items[0];
-  assert.match(none.issues[0], /only 3 is assigned/);
+  assert.match(none.issues[0], /Choose who pays for 1 of the 4 rented/);
   // dividing among the entire group uses the same method
   const grp = ledger({ days: 3, crew: c4, gear: [{ id: 'p', n: 'Paco Pad', k: 'group', s: 'nights', f: undefined, d: 10, ra: 'group', rn: '1' }] }).items[0];
   near(grp.share.j, 30 * 3 / 13, 'by nights'); near(grp.share.x, 30 * 2 / 13, 'by nights'); balanced(grp);
@@ -219,6 +219,20 @@ assert.equal(gearKind({ n: 'x', s: 'even', k: 'personal' }), 'personal');
   near(a.count, b.count, 'count'); assert.deepEqual(a.named, b.named); assert.deepEqual(a.excl, b.excl);
   // a bigger quantity keeps what was chosen; fewer units ignore the rest
   assert.equal(ul({ bring: '1', use: [{ to: ['a'] }, { g: true }] }).length, 1);
+}
+// a rental that costs money has to say who pays; one that costs nothing does not
+{
+  const blankRent = one({ s: 'even', rn: 2 });
+  assert.equal(blankRent.issues.length, 1); assert.match(blankRent.issues[0], /Choose who pays for 2 of the 2 rented/);
+  near(blankRent.loose, 200, 'nobody is charged yet'); balanced(blankRent);
+  const group = one({ s: 'even', rn: 2, ra: 'group' });
+  assert.equal(group.issues.length, 0); near(group.share.s, 200 / 3, 'sam'); balanced(group);
+  assert.equal(one({ s: 'even', rn: 2, f: '0' }).issues.length, 0, 'free rentals need no answer');
+  const part = one({ s: 'even', rn: 2, ra: 'manual', ru: [{ n: 1, to: ['a'] }] });
+  assert.equal(part.issues.length, 1); assert.match(part.issues[0], /Choose who pays for 1 of the 2 rented/);
+  near(part.share.a, 100, 'alex pays his unit');
+  const full = one({ s: 'even', rn: 2, ra: 'manual', ru: [{ n: 1, to: ['a'] }, { n: 1, g: true }] });
+  assert.equal(full.issues.length, 0); balanced(full);
 }
 console.log('gear tests passed');
 

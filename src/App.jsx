@@ -2508,7 +2508,7 @@ function RentEdit({ it, crew, days, patch }) {
     const n = r && r.n !== undefined && String(r.n) !== '' ? Math.max(0, Math.round(num(r.n))) : 1;
     for (let c = 0; c < n && spare > 0 && slots.length < 30; c++, spare -= 1) slots.push({ g: !!(r && r.g), to: (r && r.to) || [] });
   });
-  for (; spare > 0 && slots.length < 30; spare -= 1) slots.push({ g: true });
+  for (; spare > 0 && slots.length < 30; spare -= 1) slots.push(it.unit > 0 ? { g: false, to: [] } : { g: true });
   const setRow = (k, o) => patch({ ra: 'manual', ru: slots.map((r, j) => (j === k ? { ...r, ...o } : r)) });
   const toggleRow = (k, id) => {
     const to = slots[k].g ? [] : slots[k].to || [];

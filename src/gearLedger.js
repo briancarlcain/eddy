@@ -165,7 +165,9 @@ export function ledger(t) {
       single = {},
       share = {},
       lines = [];
-    let rg = manual ? 0 : legacy ? Math.max(0, num(rt.group)) : rent;
+    // a rental that costs money has to say who pays for it; one that costs nothing needs no answer
+    const mustSay = unit > 0;
+    let rg = manual ? 0 : legacy ? Math.max(0, num(rt.group)) : g.ra === 'group' || !mustSay ? rent : 0;
     let rAssigned = rg;
     const wOf = (c) => (it.split === 'nights' ? nights(c) : 1);
     // only the first Renting units count; assignments past that are ignored, like extra units in Quantity I can bring
@@ -192,8 +194,8 @@ export function ledger(t) {
         }
       });
     });
-    // units not listed yet are for the group
-    if (manual && left > 0) {
+    // units not listed yet are the group's when they cost nothing, and wait for an answer when they do
+    if (manual && left > 0 && !mustSay) {
       rg += left;
       rAssigned += left;
     }
@@ -224,7 +226,7 @@ export function ledger(t) {
     if (Math.abs(rAssigned - rent) > 0.005) {
       issues.push(
         rAssigned < rent
-          ? `Renting ${f2(rent)}, but only ${f2(rAssigned)} is assigned. Assign the other ${f2(rent - rAssigned)} to people.`
+          ? `Choose who pays for ${f2(rent - rAssigned)} of the ${f2(rent)} rented.`
           : `${f2(rAssigned)} is assigned, but Renting is ${f2(rent)}. Lower the assigned numbers or raise Renting.`
       );
     }
