@@ -5,6 +5,7 @@
 //   - scalar fields (name, start, days, ...)  last write wins, per field (_ts)
 //   - lists of {id} items (crew, gear, meals)  last write wins, per item (_u);
 //       removals are remembered as tombstones (_del) so they are not undone
+//   - a gear item's own fields (price, rentals…)  last write wins, per field (_f), once stamped
 //   - gear.e[personId]                         merged per person, so two people can fill in
 //                                              their own quantities on the same item at once
 //   - plans[dayIndex]                          last write wins, per day (_u)
@@ -55,7 +56,11 @@ export function stamp(old, next, now, under = false) {
           const { e: _e0, ...restOld } = p;
           const e = {};
           for (const pid of Object.keys(it.e)) e[pid] = same(it.e[pid], (p.e || {})[pid]) ? it.e[pid] : { ...it.e[pid], _u: at((p.e || {})[pid]) };
-          return { ...it, e, _u: same(restNew, restOld) ? it._u || p._u : at(p) };
+          if (same(restNew, restOld)) return { ...it, e, _u: it._u || p._u };
+          // each of the item's own fields keeps its own time, so edits to different fields both survive a merge
+          const _f = {};
+          for (const f of itemFields(restNew, restOld)) _f[f] = same(restNew[f], restOld[f]) ? fieldAt(p, f) : under ? fieldAt(p, f) + 1 : now;
+          return { ...it, e, _u: at(p), _f };
         }
         return { ...it, _u: at(p) };
       });
@@ -74,6 +79,9 @@ export function stamp(old, next, now, under = false) {
 }
 
 const pick = (local, remote) => (U(local) > U(remote) ? local : remote); // remote wins ties
+const itemFields = (...xs) => [...new Set(xs.flatMap((x) => Object.keys(x || {}).concat(Object.keys((x && x._f) || {}))))].filter((k) => k[0] !== '_' && k !== 'id' && k !== 'e');
+// a field missing from _f was never set on that copy; an item edited later by an app without field times counts as edited throughout
+const fieldAt = (x, f) => (x._f && U(x) <= Math.max(0, ...Object.values(x._f)) ? x._f[f] || 0 : U(x));
 
 function mergeList(a = [], b = [], delA = {}, delB = {}) {
   const del = { ...delA };
@@ -99,7 +107,16 @@ function mergeItem(l, r) {
     e[pid] = x && y ? pick(x, y) : x || y;
   }
   const u = Math.max(U(l), U(r));
-  return u ? { ...base, e, _u: u } : { ...base, e };
+  if (!l._f && !r._f) return u ? { ...base, e, _u: u } : { ...base, e };
+  const out = { id: r.id };
+  const _f = {};
+  for (const f of itemFields(l, r)) {
+    const a = fieldAt(l, f), b = fieldAt(r, f);
+    const src = a > b ? l : r; // remote wins ties
+    if (src[f] !== undefined) out[f] = src[f];
+    _f[f] = Math.max(a, b);
+  }
+  return { ...out, e, _u: u, _f };
 }
 
 export function mergeTrips(local, remote, now = Date.now()) {

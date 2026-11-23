@@ -99,4 +99,37 @@ const converge = (a, b) => { for (let i = 0; i < 4; i++) [a, b] = sync(a, b); re
   // a normal edit is still stamped with the time it was made
   assert.equal(stamp(old, upgrade(old), T).gear[0]._u, T);
 }
+// 10. Different fields of one gear item edited on two devices: both edits survive
+{
+  const A = edit(base, (t) => { t.gear[0].f = 40; return t; });
+  const B = edit(base, (t) => { t.gear[0].rn = '3'; t.gear[0].ra = 'group'; return t; });
+  const [a, b] = converge(A, B);
+  assert.equal(canon(a), canon(b));
+  assert.equal(a.gear[0].f, 40, 'price kept'); assert.equal(a.gear[0].rn, '3', 'renting kept');
+  // the same field: the later edit wins
+  const C = edit(a, (t) => { t.gear[0].f = 50; return t; });
+  const D = edit(b, (t) => { t.gear[0].f = 60; return t; });
+  const [c] = converge(C, D);
+  assert.equal(c.gear[0].f, 60);
+  // a field removed (price switched to per day) stays removed
+  const E = edit(c, (t) => { delete t.gear[0].f; t.gear[0].d = 5; return t; });
+  const [e1, e2] = converge(E, c);
+  assert.equal(e1.gear[0].f, undefined); assert.equal(e1.gear[0].d, 5); assert.equal(canon(e1), canon(e2));
+}
+// 11. A copy that missed a newer price edit can't put the old price back by changing something else on the item
+{
+  const priced = edit(base, (t) => { t.gear[0].f = 40; return t; }); // on the server, from a device without field times
+  delete priced.gear[0]._f;
+  const stale = edit(base, (t) => { t.gear[0].rn = '2'; return t; }); // a phone that never saw it
+  const [a] = converge(stale, priced);
+  assert.equal(a.gear[0].f, 40, 'newer price kept'); assert.equal(a.gear[0].rn, '2', 'rental kept');
+}
+// 12. An edit from an app that doesn't keep field times still wins over older values
+{
+  const A = edit(base, (t) => { t.gear[0].f = 40; t.gear[0].rn = '1'; return t; });
+  T += 10;
+  const old = { ...A, gear: A.gear.map((g, i) => (i ? g : { ...g, rn: '5', _u: T })) }; // older app: bumps _u, leaves _f alone
+  const [a, b] = converge(old, A);
+  assert.equal(a.gear[0].rn, '5'); assert.equal(a.gear[0].f, 40); assert.equal(canon(a), canon(b));
+}
 console.log('merge tests passed');
