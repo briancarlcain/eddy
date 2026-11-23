@@ -2577,18 +2577,29 @@ function RentEdit({ it, crew, days, patch }) {
   const rn = Math.max(0, num(it.raw.rn));
   const manual = it.raw.ra === 'manual';
   const rows = manual && Array.isArray(it.raw.ru) ? it.raw.ru : [];
-  // exactly one row per rented unit; units without a row are the group's, and rows past Renting are ignored
-  const slots = [];
+  // one entry per rented unit (rows past Renting are ignored); units without a row keep the item's default
+  const blankUnit = () => (manual ? (it.unit > 0 ? { g: false, to: [] } : { g: true }) : it.raw.ra === 'group' || !(it.unit > 0) ? { g: true } : { g: false, to: [] });
+  const all = [];
   let spare = rn;
   rows.forEach((r) => {
     const n = r && r.n !== undefined && String(r.n) !== '' ? Math.max(0, Math.round(num(r.n))) : 1;
-    for (let c = 0; c < n && spare > 0 && slots.length < 30; c++, spare -= 1) slots.push({ g: !!(r && r.g), to: (r && r.to) || [] });
+    for (let c = 0; c < n && spare > 0; c++, spare -= 1) all.push({ g: !!(r && r.g), to: (r && r.to) || [], ...(r && r.x ? { x: true } : {}) });
   });
-  for (; spare > 0 && slots.length < 30; spare -= 1) slots.push(it.unit > 0 ? { g: false, to: [] } : { g: true });
-  const setRow = (k, o) => patch({ ra: 'manual', ru: slots.map((r, j) => (j === k ? { ...r, ...o } : r)) });
+  for (; spare > 0; spare -= 1) all.push(blankUnit());
+  const slots = all.slice(0, 30);
+  // stored compactly: runs of identical units become one row with a count
+  const pack = (list) =>
+    list.reduce((out, u) => {
+      const last = out[out.length - 1];
+      const same = last && !!last.g === !!u.g && !!last.x === !!u.x && (last.to || []).join() === (u.to || []).join();
+      if (same) last.n = (last.n || 1) + 1;
+      else out.push({ ...(u.g ? { g: true, to: [] } : { g: false, to: u.to || [] }), ...(u.x ? { x: true } : {}) });
+      return out;
+    }, []);
+  const setRow = (k, o) => patch({ ra: 'manual', ru: pack(all.map((r, j) => (j === k ? { ...r, ...o } : r))) });
   const removeSlot = (k) => {
     const n = Math.max(0, rn - 1);
-    patch({ rn: n > 0 ? String(+n.toFixed(2)) : '', ...(manual ? { ru: slots.filter((_, j) => j !== k) } : {}) });
+    patch({ rn: n > 0 ? String(+n.toFixed(2)) : '', ...(manual ? { ru: pack(all.filter((_, j) => j !== k)) } : {}) });
   };
   const toggleRow = (k, id) => {
     const to = slots[k].g ? [] : slots[k].to || [];
