@@ -179,7 +179,7 @@ function Item({ i, v, max, color, open, onOpen, L, crew, pid }) {
                     {x.all
                       ? `Split by everyone${i.split === 'nights' ? ' by nights' : ' evenly'}`
                       : x.with.length
-                        ? `${qty(x.n) === 1 ? '1 unit' : qty(x.n) + ' of a unit'} with ${x.with.map(first).join(', ')}${i.split === 'nights' ? ', by nights' : ''}`
+                        ? `${qty(x.n) === 1 ? '1 unit' : qty(x.n) < 1 ? qty(x.n) + ' of a unit' : qty(x.n) + ' units'} with ${x.with.map(first).join(', ')}${i.split === 'nights' ? ', by nights' : ''}`
                         : `${qty(x.units)} ${x.units === 1 ? 'unit' : 'units'} just for you`}
                   </span>
                   <span>{usd(x.amount)}</span>
