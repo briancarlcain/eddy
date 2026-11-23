@@ -861,6 +861,9 @@ body.shot .onBehalf { top: calc(52px + 54px + 45px); }
 .rg .unitHead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; font-size: 14px; }
 .rg .unitX { border: 0; background: transparent; color: var(--ink-faint); font-size: 13px; padding: 4px 0; }
 .rg .unitRow .chips { flex-wrap: wrap; }
+.rg .swipe { position: relative; margin: 6px 0 8px; border-radius: 10px; overflow: hidden; }
+.rg .swipeBg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: flex-end; padding-right: 18px; background: #b3341a; color: #fff; border-radius: 10px; }
+.rg .swipe > .swipeFg { position: relative; margin: 0; background: #f5eede; touch-action: pan-y; }
 
 .rg .statBtn { background: none; font: inherit; color: inherit; cursor: pointer; min-height: 52px; display: flex; align-items: center; justify-content: center; }
 .rg .statBtn .statNum { font-size: 16px; }

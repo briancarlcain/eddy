@@ -2450,6 +2450,81 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
   );
 }
 
+// a row that is removed by swiping it left
+function SwipeRow({ onRemove, children }) {
+  const fg = useRef(null);
+  const st = useRef(null);
+  const dxRef = useRef(0);
+  const skip = useRef(false);
+  const [dx, setDx] = useState(0);
+  const [anim, setAnim] = useState(false);
+  const set = (v) => {
+    dxRef.current = v;
+    setDx(v);
+  };
+  const down = (ev) => {
+    if (ev.pointerType === 'mouse' && ev.button !== 0) return;
+    st.current = { x: ev.clientX, y: ev.clientY, id: ev.pointerId, on: false };
+    setAnim(false);
+  };
+  const move = (ev) => {
+    const s = st.current;
+    if (!s) return;
+    const mx = ev.clientX - s.x,
+      my = ev.clientY - s.y;
+    if (!s.on) {
+      if (Math.abs(my) > 10 && Math.abs(my) >= Math.abs(mx)) return void (st.current = null);
+      if (mx > -10 || Math.abs(mx) <= Math.abs(my)) return;
+      s.on = true;
+      try {
+        fg.current.setPointerCapture(s.id);
+      } catch {}
+    }
+    set(Math.min(0, mx));
+  };
+  const up = () => {
+    const s = st.current;
+    st.current = null;
+    if (!s || !s.on) return;
+    skip.current = true;
+    setTimeout(() => (skip.current = false), 0);
+    const w = (fg.current && fg.current.offsetWidth) || 300;
+    setAnim(true);
+    if (-dxRef.current > Math.min(110, w * 0.35)) {
+      set(-w);
+      setTimeout(() => {
+        setAnim(false);
+        set(0);
+        onRemove();
+      }, 180);
+    } else set(0);
+  };
+  return (
+    <div className="swipe">
+      <div className="swipeBg" aria-hidden="true" style={{ opacity: dx ? 1 : 0 }}>
+        <Icon name="trash" size={18} />
+      </div>
+      <div
+        ref={fg}
+        className="unitRow swipeFg"
+        style={{ transform: dx ? `translateX(${dx}px)` : undefined, transition: anim ? 'transform .18s ease' : 'none' }}
+        onPointerDown={down}
+        onPointerMove={move}
+        onPointerUp={up}
+        onPointerCancel={up}
+        onClickCapture={(ev) => {
+          if (skip.current) {
+            ev.stopPropagation();
+            ev.preventDefault();
+          }
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
 const Step = ({ label, hint, value, onChange, max }) => {
   const n = num(value);
   const set = (x) => onChange(x > 0 ? String(+x.toFixed(2)) : '');
@@ -2511,6 +2586,10 @@ function RentEdit({ it, crew, days, patch }) {
   });
   for (; spare > 0 && slots.length < 30; spare -= 1) slots.push(it.unit > 0 ? { g: false, to: [] } : { g: true });
   const setRow = (k, o) => patch({ ra: 'manual', ru: slots.map((r, j) => (j === k ? { ...r, ...o } : r)) });
+  const removeSlot = (k) => {
+    const n = Math.max(0, rn - 1);
+    patch({ rn: n > 0 ? String(+n.toFixed(2)) : '', ...(manual ? { ru: slots.filter((_, j) => j !== k) } : {}) });
+  };
   const toggleRow = (k, id) => {
     const to = slots[k].g ? [] : slots[k].to || [];
     setRow(k, { g: false, to: to.includes(id) ? to.filter((x) => x !== id) : [...to, id] });
@@ -2535,7 +2614,7 @@ function RentEdit({ it, crew, days, patch }) {
               ))}
             </div>
             {slots.map((r, k) => (
-              <div className="unitRow" key={k}>
+              <SwipeRow key={k} onRemove={() => removeSlot(k)}>
                 {slots.length > 1 && (
                   <div className="unitHead">
                     <b>{`Rental ${k + 1}`}</b>
@@ -2551,7 +2630,7 @@ function RentEdit({ it, crew, days, patch }) {
                     </button>
                   ))}
                 </div>
-              </div>
+              </SwipeRow>
             ))}
           </>
         )}
@@ -2581,6 +2660,11 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
     const use = Array.from({ length: Math.max(units.length, i + 1) }, (_, j) => b.use[j] || {});
     use[i] = { ...use[i], ...o };
     patch({ e: { ...it.e, [me]: { ...b, bring: base.bring ?? b.bring, use } } });
+  };
+  const removeUnit = (i) => {
+    const b = bringForm(e, me, ids);
+    const n = Math.max(0, num(base.bring ?? b.bring) - 1);
+    patch({ e: { ...it.e, [me]: { ...b, bring: n > 0 ? String(+n.toFixed(2)) : '', use: b.use.filter((_, j) => j !== i) } } });
   };
   const pick = (i, id) => {
     const u = units[i];
@@ -2689,7 +2773,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                     <Icon name="chevron" size={16} className="chev" />
                   </button>
                   {useOpen && units.slice(0, 30).map((u, i) => (
-                    <div className="unitRow" key={i}>
+                    <SwipeRow key={i} onRemove={() => removeUnit(i)}>
                       {units.length > 1 && (
                         <div className="unitHead">
                           <b>{`Item ${i + 1}`}</b>
@@ -2705,7 +2789,7 @@ function GearRow({ it, s, crew, days, cats, me, name, you, open, onOpen }) {
                           </button>
                         ))}
                       </div>
-                    </div>
+                    </SwipeRow>
                   ))}
                   {useOpen && units.length > 30 && <div className="muted">The other {units.length - 30} use the default.</div>}
                 </div>
