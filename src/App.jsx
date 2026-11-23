@@ -2517,7 +2517,7 @@ function RentEdit({ it, crew, days, patch }) {
   };
   return (
     <>
-    <Step label="Renting" value={it.raw.rn} onChange={(x) => patch({ rn: x })} />
+    <Step label="Group is renting" value={it.raw.rn} onChange={(x) => patch({ rn: x })} />
     {rn > 0 && (
       <div className="assign">
         <button type="button" className="assignHead" aria-expanded={rentOpen} onClick={() => setRentOpen(!rentOpen)}>
