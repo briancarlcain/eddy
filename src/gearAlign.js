@@ -42,6 +42,8 @@ export function alignGear(trip, ref, renames = {}) {
     ids[i] = keep ? g.id : 'x' + hash(g.id + '|' + g.n);
     taken.add(ids[i]);
   });
+  // nothing moved (e.g. an added item shares a name with a listed one): leave the trip as it is
+  if (gear.every((g, i) => ids[i] === g.id)) return trip;
   const out = { ...trip, gear: gear.map((g, i) => (ids[i] === g.id ? g : { ...g, id: ids[i] })) };
   // removals recorded under the old numbering can't be matched to an item
   if (trip._del && trip._del.gear) out._del = { ...trip._del, gear: Object.fromEntries(Object.entries(trip._del.gear).filter(([id]) => !refName.has(id))) };

@@ -73,6 +73,11 @@ assert.equal(align({ id: SEED.id, gear: ref.map((g) => ({ ...g })) }).gear[40].i
   const other = { id: 'other', gear: [{ id: 'g001', n: 'Tent' }] };
   assert.equal(align(other), other);
 }
+// an added item with the same name as a listed one leaves the trip untouched (no endless re-saving)
+{
+  const t = { id: SEED.id, gear: [...ref.map((g) => ({ ...g })), { id: 'mwlwk9ljwvzb8z', n: ref.find((g) => g.id === 'g178').n }], _del: { gear: { g010: 5 } } };
+  assert.equal(align(t), t);
+}
 console.log('align tests passed');
 
 // ids are permanent: append new items, never reorder; a renamed item needs an entry in gearRename.js and the pin updated
