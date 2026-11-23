@@ -31,8 +31,11 @@ export const canon = (v) => {
 const same = (a, b) => canon(strip(a)) === canon(strip(b));
 const U = (x) => (x && x._u) || 0;
 
-// stamp the differences between two versions of a trip with `now`
-export function stamp(old, next, now) {
+// stamp the differences between two versions of a trip with `now`.
+// under: a one-time upgrade of a possibly stale copy. Its changes are stamped just after this copy's own
+// last edit, so they never beat newer edits made on other devices.
+export function stamp(old, next, now, under = false) {
+  const at = (x) => (under ? ((x && x._u) || 0) + 1 : now);
   const out = { ...next };
   const ts = { ...(old._ts || {}), ...(next._ts || {}) };
   const del = JSON.parse(JSON.stringify(old._del || {}));
@@ -44,26 +47,26 @@ export function stamp(old, next, now) {
       const prev = new Map((Array.isArray(o) ? o : []).map((it) => [it.id, it]));
       out[k] = v.map((it) => {
         const p = prev.get(it.id);
-        if (!p) return { ...it, _u: now };
+        if (!p) return { ...it, _u: under ? 1 : now };
         if (same(p, it)) return it;
         if (it.e && typeof it.e === 'object') {
           // gear-style item: stamp per person, bump the item only if something else changed
           const { e: _e1, ...restNew } = it;
           const { e: _e0, ...restOld } = p;
           const e = {};
-          for (const pid of Object.keys(it.e)) e[pid] = same(it.e[pid], (p.e || {})[pid]) ? it.e[pid] : { ...it.e[pid], _u: now };
-          return { ...it, e, _u: same(restNew, restOld) ? it._u || p._u : now };
+          for (const pid of Object.keys(it.e)) e[pid] = same(it.e[pid], (p.e || {})[pid]) ? it.e[pid] : { ...it.e[pid], _u: at((p.e || {})[pid]) };
+          return { ...it, e, _u: same(restNew, restOld) ? it._u || p._u : at(p) };
         }
-        return { ...it, _u: now };
+        return { ...it, _u: at(p) };
       });
       const have = new Set(v.map((it) => it.id));
       for (const [id] of prev) if (!have.has(id)) (del[k] ||= {})[id] = now;
     } else if (k === 'plans') {
       const plans = {};
-      for (const d of Object.keys(v || {})) plans[d] = same(v[d], (o || {})[d]) ? v[d] : { ...v[d], _u: now };
+      for (const d of Object.keys(v || {})) plans[d] = same(v[d], (o || {})[d]) ? v[d] : { ...v[d], _u: at((o || {})[d]) };
       for (const d of Object.keys(o || {})) if (!(d in (v || {}))) (del.plans ||= {})[d] = now;
       out.plans = plans;
-    } else if (!same(v, o)) ts[k] = now;
+    } else if (!same(v, o)) ts[k] = under ? ((old._ts || {})[k] || 0) + 1 : now;
   }
   out._ts = ts;
   out._del = del;
