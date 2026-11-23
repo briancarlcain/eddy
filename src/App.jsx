@@ -754,7 +754,8 @@ function useStore() {
       const sq = qtyOld(t);
       const rent = t.rentV >= 2 || sq ? {} : convertRentals(t);
       const gear = (sq ? applySheetQty(t.gear || [], SEED.gear) : t.gear || []).map((g) => ({ ...g, c: recat(g), ...(oldName(t, g) ? { n: GEAR_RENAMES[g.n] } : {}), ...(rent[g.id] || {}) }));
-      return stamp(t, { ...t, rentV: 3, ...(sq ? { qtyV: SEED.qtyV } : {}), gear: t.rentV === 3 ? gear : convertSplits({ ...t, gear }), at: t0 }, t0);
+      // stamped under newer edits elsewhere: a stale copy upgraded on open must not overwrite the crew's work
+      return stamp(t, { ...t, rentV: 3, ...(sq ? { qtyV: SEED.qtyV } : {}), gear: t.rentV === 3 ? gear : convertSplits({ ...t, gear }), at: t0 }, t0, true);
     });
     persist({ ...st, trips });
     stale.forEach((t) => {

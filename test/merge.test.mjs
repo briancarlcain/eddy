@@ -82,4 +82,21 @@ const converge = (a, b) => { for (let i = 0; i < 4; i++) [a, b] = sync(a, b); re
   const m2 = mergeTrips(mine, { ...base, name: 'Renamed' }, T);
   assert.equal(m2.journal.length, 1);
 }
+// 9. A stale copy upgraded on open (one-time gear upgrades) does not overwrite newer edits from the crew
+{
+  const old = edit(base, (t) => t);
+  let crew = edit(old, (t) => { t.gear[0].f = 40; t.gear[0].rn = '2'; t.gear[0].e.a = { bring: '3' }; t.rentV = 3; return t; });
+  T += 1e6; // the stale device opens much later
+  const upgrade = (t) => ({ ...t, rentV: 3, gear: t.gear.map((g) => ({ ...g, rn: '1', e: { a: {}, b: {} } })), at: T });
+  const stale = stamp(old, upgrade(old), T, true);
+  const [a, b] = converge(stale, crew);
+  assert.equal(canon(a), canon(b));
+  assert.equal(a.gear[0].f, 40, 'price kept'); assert.equal(a.gear[0].rn, '2', 'renting kept');
+  assert.equal(a.gear[0].e.a.bring, '3', 'quantity kept'); assert.equal(a.rentV, 3);
+  // where nobody else changed anything, the upgrade still applies over the old copy
+  const [c] = converge(stale, old);
+  assert.equal(c.gear[1].rn, '1'); assert.equal(c.rentV, 3);
+  // a normal edit is still stamped with the time it was made
+  assert.equal(stamp(old, upgrade(old), T).gear[0]._u, T);
+}
 console.log('merge tests passed');
