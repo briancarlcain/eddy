@@ -114,8 +114,8 @@ export function coverOf(it, id) {
 
 export function ledger(t) {
   const D = Math.max(1, num(t.days) || 1);
-  // per-day rentals are billed for the rental days (the outfitter may count a rig day), else the trip's days
-  const RD = Math.max(1, num(t.rentDays) || D);
+  // per-day rentals count the put-in and take-out days (trip days + 1) unless the trip sets its own rental days
+  const RD = Math.max(1, num(t.rentDays) || D + 1);
   const crew = t.crew;
   const ids = new Set(crew.map((c) => c.id));
   const byId = Object.fromEntries(crew.map((c) => [c.id, c]));
