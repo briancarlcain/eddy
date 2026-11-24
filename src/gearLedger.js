@@ -114,6 +114,8 @@ export function coverOf(it, id) {
 
 export function ledger(t) {
   const D = Math.max(1, num(t.days) || 1);
+  // per-day rentals are billed for the rental days (the outfitter may count a rig day), else the trip's days
+  const RD = Math.max(1, num(t.rentDays) || D);
   const crew = t.crew;
   const ids = new Set(crew.map((c) => c.id));
   const byId = Object.fromEntries(crew.map((c) => [c.id, c]));
@@ -122,7 +124,7 @@ export function ledger(t) {
   const allNights = crew.reduce((a, c) => a + nights(c), 0);
   const items = (t.gear || []).map((g) => {
     const it = norm(g);
-    const unit = priceOf(g, D);
+    const unit = priceOf(g, RD);
     let bring = 0,
       have = 0,
       lend = 0;
@@ -247,5 +249,5 @@ export function ledger(t) {
       by[c.id].total += v;
     });
   });
-  return { items, by, total, loose, allNights, days: D, nights: Object.fromEntries(crew.map((c) => [c.id, nights(c)])) };
+  return { items, by, total, loose, allNights, days: RD, tripDays: D, nights: Object.fromEntries(crew.map((c) => [c.id, nights(c)])) };
 }
