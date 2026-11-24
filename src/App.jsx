@@ -2103,7 +2103,7 @@ function Gear({ s }) {
         </div>
       )}
 
-      <Step label="Rental days" value={t.rentDays !== undefined && String(t.rentDays) !== '' ? t.rentDays : t.days} onChange={(x) => s.set({ rentDays: x })} />
+      <Step label="Rental days" value={t.rentDays !== undefined && String(t.rentDays) !== '' ? t.rentDays : L.days} onChange={(x) => s.set({ rentDays: x })} />
       <div className="stats two mt">
         <button className="stat statTap" onClick={() => setCost('group')}>
           <div className="statNum">{usd0(L.total)}</div>
