@@ -160,6 +160,9 @@ const Empty = ({ icon = 'inbox', title, children }) => (
 const QS = typeof location !== 'undefined' ? new URLSearchParams(location.search) : new URLSearchParams();
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 const now = () => Date.now();
+// an edit's time: never earlier than anything this copy has already seen, so a phone whose clock is behind
+// still has its edits win over older ones
+const editTime = (t) => Math.max(now(), ((t && t.at) || 0) + 1);
 const SLOTS = ['Breakfast', 'Lunch', 'Snack', 'Dinner', 'Happy hour'];
 // evacuation difficulty: a quiet ramp from stone to deep river blue (the number carries the meaning)
 const EVAC = { 1: '#6f7c85', 2: '#4f84a3', 3: '#1f6c9f', 4: '#154d77' };
@@ -828,7 +831,8 @@ function useStore() {
       const crew = crew0.map((c) => (c.id === target ? (c.m === inf.me ? c : { ...c, m: inf.me }) : c.m === inf.me ? { ...c, m: '' } : c));
       if (crew.every((c, i) => c === crew0[i])) return t;
       changed = true;
-      return stamp(t, { ...t, crew, at: t0 }, t0);
+      const tt = editTime(t);
+      return stamp(t, { ...t, crew, at: tt }, tt);
     });
     if (!changed) return;
     persist({ ...st, trips });
@@ -851,7 +855,10 @@ function useStore() {
       if (Object.keys(r.pull).length) mergeFavs(r.pull);
       if (!r.favs) return t;
       changed.push(t.id);
-      return stamp(t, { ...t, favs: r.favs, at: t0 }, t0);
+      {
+        const tt = editTime(t);
+        return stamp(t, { ...t, favs: r.favs, at: tt }, tt);
+      }
     });
     if (!changed.length) return;
     persist({ ...stateRef.current, trips });
@@ -879,12 +886,20 @@ function useStore() {
   const trips = state.trips;
   const trip = trips.find((t) => t.id === state.active) || null;
 
+  // an edit is what changed on screen, merged into the latest saved copy: two changes from one tap both
+  // stick, and a sync that landed since the screen was drawn isn't undone
+  const latest = () => (trip && stateRef.current.trips.find((x) => x.id === trip.id)) || trip;
+  const applyEdit = (fn) => {
+    const cur = latest();
+    const t0 = editTime(cur);
+    const mine = stamp(trip, { ...fn({ ...trip }), at: t0 }, t0);
+    return cur === trip ? mine : mergeTrips(cur, mine, t0);
+  };
   const edit = (fn) => {
     if (!trip) return;
     const e0 = (stateRef.current.sync || {})[trip.id];
     if (e0 && e0.role === 'viewer') return; // view-only member
-    const t0 = now();
-    const next = stamp(trip, { ...fn({ ...trip }), at: t0 }, t0);
+    const next = applyEdit(fn);
     persist({ ...stateRef.current, trips: stateRef.current.trips.map((t) => (t.id === next.id ? next : t)) });
     if ((stateRef.current.sync || {})[next.id]) syncSoon(next.id);
     cloudSoon(next.id);
@@ -893,8 +908,7 @@ function useStore() {
   // edits to your own private notes: allowed even on a view-only trip, never sent to the crew
   const editMine = (fn) => {
     if (!trip) return;
-    const t0 = now();
-    const next = stamp(trip, { ...fn({ ...trip }), at: t0 }, t0);
+    const next = applyEdit(fn);
     persist({ ...stateRef.current, trips: stateRef.current.trips.map((t) => (t.id === next.id ? next : t)) });
     cloudSoon(next.id);
   };
@@ -1351,7 +1365,7 @@ function TravelDay({ s, x, hasStart, fresh, first, last, others }) {
         />
         {err ? <div className="warn">{err}</div> : null}
         <Field area className="mt" value={x.note ?? ''} onChange={(e) => s.patch('travel', x.id, { note: e.target.value })} placeholder="Notes" />
-        <button className="btn ghost danger mt-s" onClick={() => s.drop('travel', x.id)}>
+        <button className="btn ghost danger mt-s" onClick={() => window.confirm('Remove this?') && s.drop('travel', x.id)}>
           Remove
         </button>
       </Acc>
@@ -1607,7 +1621,7 @@ function Crew({ s }) {
       if (!window.confirm('Remove ' + (m.name || 'this person') + ' from the trip?')) return;
       s.drop('crew', m.id);
       act(() => s.removeMember(t.id, login.id));
-    } else s.drop('crew', m.id);
+    } else if (window.confirm('Remove ' + (m.name || 'this person') + '?')) s.drop('crew', m.id);
   };
   const ownerControls = (login) =>
     owner && login && login.id !== myLogin && login.r !== 'owner' ? (
@@ -1737,7 +1751,7 @@ function Crew({ s }) {
                   <Num label="Capacity" value={b.cap} onChange={(v) => s.patch('boats', b.id, { cap: v })} />
                 </div>
                 {cap && on.length > cap ? <div className="warn">{on.length} on a {cap}-person craft.</div> : null}
-                <button className="btn ghost danger mt-s" onClick={() => s.drop('boats', b.id)}>
+                <button className="btn ghost danger mt-s" onClick={() => window.confirm(`Remove ${b.name || 'this craft'}?`) && s.drop('boats', b.id)}>
                   Remove
                 </button>
               </div>
@@ -1850,7 +1864,7 @@ function Meals({ s }) {
                     onChange={(e) => s.patch('meals', m.id, { items: e.target.value })}
                     placeholder={'3 lb ground beef\n2 onions'}
                   />
-                  <button className="btn ghost danger" onClick={() => s.drop('meals', m.id)}>
+                  <button className="btn ghost danger" onClick={() => window.confirm(`Remove ${m.name || 'this meal'}?`) && s.drop('meals', m.id)}>
                     Remove
                   </button>
                 </div>
@@ -4460,6 +4474,7 @@ function Shuttle({ s }) {
               <button
                 className="btn ghost danger mt-s"
                 onClick={() => {
+                  if (!window.confirm(`Remove ${c.name || 'this vehicle'}?`)) return;
                   save(legs.filter((l) => l.car !== c.id));
                   s.drop('cars', c.id);
                 }}
@@ -4609,7 +4624,7 @@ function Ledger({ s }) {
                       </button>
                     ))}
                 </div>
-                <button className="btn ghost danger mt-s" onClick={() => s.drop('pay', p.id)}>
+                <button className="btn ghost danger mt-s" onClick={() => window.confirm(`Remove ${p.what || 'this payment'}?`) && s.drop('pay', p.id)}>
                   Remove
                 </button>
               </div>
