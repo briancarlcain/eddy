@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BUILTIN_RIVERS, DEFAULT_RIVER, normalizeRiver } from './rivers.js';
 import GENERAL from '../data/general.json';
 import { bringForm, coverOf, ledger, num, priceMode, priceOf, unitList } from './gearLedger.js';
+import { linkMembers } from './crewLink.js';
 import { shortOf } from './names.js';
 import { crewFavs, favKey, getFavs, mergeFavs, reconcileFavs, setFav, subscribeFavs, useFavs } from './favs.js';
 import { convertRentals } from './gearLegacy.js';
@@ -279,6 +280,13 @@ const clean = (h) =>
 // run it, mirrors every record so the crew sees each other's edits live.
 
 const LOCAL = 'eddy.v1';
+// a trip's private journal (and its removals), carried over when the rest of the trip is replaced
+const keepJournal = (t) => (t && t.journal ? { journal: t.journal, ...(t._del && t._del.journal ? { _del: { journal: t._del.journal } } : {}) } : {});
+const withJournal = (base, from) => {
+  const j = keepJournal(from);
+  if (!j.journal) return base;
+  return { ...base, journal: j.journal, ...(j._del ? { _del: { ...(base._del || {}), journal: j._del.journal } } : {}) };
+};
 
 function mergeSeed(have) {
   if ((have.at || 0) <= 2) return SEED;
@@ -633,26 +641,28 @@ function useStore() {
     let version = ent.version || 0;
     let known = ent.h;
     let doc = local;
+    // fresh: this device just joined the crew's copy; the account's older backup is overwritten, only its journal is kept
+    const take = (data) => (ent.fresh ? withJournal(doc, mergeTrips({ journal: [], ...keepJournal(doc) }, { journal: [], ...keepJournal(data) })) : mergeTrips(doc, data));
     let shareCode; // undefined = not fetched; null = fetched, trip not shared
     if (info ? info.version > version : version > 0) {
       const g = await remote.acctGet(id, version);
       if (g && g.deleted) return dropLocal(id);
       if (g && g.data) {
-        doc = mergeTrips(doc, g.data);
+        doc = take(g.data);
         version = g.version;
-        known = hashFull(g.data);
+        known = ent.fresh ? '' : hashFull(g.data);
         shareCode = g.share_code;
       }
     }
     const mine = (s0.sync || {})[id];
     const share = opts.share !== undefined ? opts.share : mine && mine.owner ? mine.code : null;
-    if (hashFull(doc) !== known || opts.share !== undefined || (share && shareCode !== undefined && shareCode !== share)) {
+    if (ent.fresh || hashFull(doc) !== known || opts.share !== undefined || (share && shareCode !== undefined && shareCode !== share)) {
       let done = false;
       for (let i = 0; i < 4 && !done; i++) {
         const r = await remote.acctPut(id, version, withRiver(doc), share);
         if (r.deleted) return dropLocal(id);
         if (r.conflict) {
-          doc = mergeTrips(doc, r.data);
+          doc = take(r.data);
           version = r.version;
           shareCode = r.share_code;
         } else {
@@ -898,13 +908,20 @@ function useStore() {
     const { _river, ...doc } = g.data;
     commit((s0) => {
       const have = s0.trips.find((t) => t.id === doc.id);
-      const { _river: _r2, ...merged } = have ? mergeTrips(have, g.data) : { crew: [], boats: [], cars: [], places: [], gear: [], meals: [], log: [], pay: [], plans: {}, ...doc };
+      const was = (s0.sync || {})[doc.id];
+      // rejoining the same shared trip keeps this phone's unsent edits; any other copy here (the built-in trip,
+      // an old install) is replaced by the crew's, so it can't overwrite their work. Your private journal stays.
+      const same = have && was && (ent.trip ? was.trip === ent.trip : was.code === code);
+      const empty = { crew: [], boats: [], cars: [], places: [], gear: [], meals: [], log: [], pay: [], plans: {} };
+      const { _river: _r2, ...merged } = same ? mergeTrips(have, g.data) : withJournal({ ...empty, ...doc }, have);
       return {
         ...s0,
         trips: [merged, ...s0.trips.filter((t) => t.id !== doc.id)],
         active: doc.id,
         rivers: adoptRiver(s0, g.data),
         sync: { ...(s0.sync || {}), [doc.id]: ent },
+        // the account's backup of the old copy is replaced too, not merged back in
+        ...(same || !s0.cloud ? {} : { cloud: { ...s0.cloud, trips: { ...s0.cloud.trips, [doc.id]: { ...((s0.cloud.trips || {})[doc.id] || { version: 0, h: '' }), fresh: true } } } }),
       };
     });
     lastSrv.current[doc.id] = doc;
@@ -1522,22 +1539,75 @@ function Crew({ s }) {
   const order = useRef({ key: null, ids: [] });
   // typing a name doesn't move the person down the list
   const crew = frozenOrder(order, byFirst(t.crew), t.crew, t.crew.map((m) => m.id).join());
+  // each person on the crew is also their app login on a shared trip
+  const ent = s.sync[t.id];
+  const info = s.info[t.id];
+  const shared = !!(ent && ent.trip && !ent.removed);
+  const members = shared ? (info && info.members) || [] : [];
+  const myLogin = shared ? (info && info.me) || ent.me || '' : '';
+  const role = (info && info.role) || (ent && ent.role) || 'editor';
+  const owner = shared && role === 'owner';
+  const { byCrew, loose } = linkMembers(t.crew, members);
+  const loginOf = (cid) => members.find((m) => m.id === byCrew[cid]);
+  const youId = (t.crew.find((c) => byCrew[c.id] && byCrew[c.id] === myLogin) || {}).id || meId;
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState('');
+  const act = async (fn) => {
+    setBusy(true);
+    setMsg('');
+    try {
+      await fn();
+    } catch (e) {
+      setMsg(netMsg(e));
+    }
+    setBusy(false);
+  };
+  const setYou = (id) => {
+    setMeFor(t.id, id);
+    setMeId(id);
+    if (!shared || !myLogin || role === 'viewer') return;
+    const next = t.crew.map((c) => (c.id === id ? { ...c, m: myLogin } : c.m === myLogin ? { ...c, m: '' } : c));
+    if (next.some((c, i) => c !== t.crew[i])) s.set({ crew: next });
+  };
+  // keep this login tied to its person on the crew, so every device shows the same list
+  useEffect(() => {
+    if (!shared || !myLogin || !info || role === 'viewer') return;
+    const target = t.crew.find((c) => byCrew[c.id] === myLogin) || t.crew.find((c) => c.id === meId && !loginOf(c.id));
+    if (target && target.m !== myLogin) setYou(target.id);
+    else if (target && meId !== target.id) {
+      setMeFor(t.id, target.id);
+      setMeId(target.id);
+    }
+  }, [shared, myLogin, info, t.crew]);
+  const removePerson = (m, login) => {
+    if (login && owner && login.id !== myLogin) {
+      if (!window.confirm('Remove ' + (m.name || 'this person') + ' from the trip?')) return;
+      s.drop('crew', m.id);
+      act(() => s.removeMember(t.id, login.id));
+    } else s.drop('crew', m.id);
+  };
+  const ownerControls = (login) =>
+    owner && login && login.id !== myLogin && login.r !== 'owner' ? (
+      <button className="btn ghost mb-s" disabled={busy} onClick={() => act(() => s.setMemberRole(t.id, login.id, login.r === 'viewer' ? 'editor' : 'viewer'))}>
+        {login.r === 'viewer' ? 'Allow editing' : 'Make view only'}
+      </button>
+    ) : null;
 
   return (
     <>
       <Members s={s} part="top" />
-      <span className="label mt">Crew</span>
-      {crew.map((m) => (
-        <Acc key={m.id} open={fresh === m.id} lead={<Avatar name={m.name || '?'} />} title={m.name || 'New person'} tag={meId === m.id ? 'You' : undefined} note={[m.role, boats.find((b) => b.id === m.boat)?.name].filter(Boolean).join(' · ') || null}>
-          <button
-            className="btn ghost mb-s"
-            onClick={() => {
-              setMeFor(t.id, meId === m.id ? '' : m.id);
-              setMeId(meId === m.id ? '' : m.id);
-            }}
-          >
-            {meId === m.id ? "This isn't me" : 'This is me'}
+      <span className="label mt">
+        Crew{shared ? ` (${t.crew.length + loose.length}) · ${ROLE_LABEL[role]}` : ''}
+      </span>
+      {crew.map((m) => {
+        const login = loginOf(m.id);
+        const joined = login ? ROLE_LABEL[login.r] + (login.t ? ' · joined ' + ago(login.t) : '') : shared ? 'Not joined' : '';
+        return (
+        <Acc key={m.id} open={fresh === m.id} lead={<Avatar name={m.name || '?'} />} title={m.name || 'New person'} tag={youId === m.id ? 'You' : undefined} note={[m.role, boats.find((b) => b.id === m.boat)?.name, joined].filter(Boolean).join(' · ') || null}>
+          <button className="btn ghost mb-s" onClick={() => setYou(youId === m.id ? '' : m.id)}>
+            {youId === m.id ? "This isn't me" : 'This is me'}
           </button>
+          {ownerControls(login)}
           <Field label="Name" value={m.name} autoFocus={fresh === m.id} onChange={(e) => s.patch('crew', m.id, { name: e.target.value })} />
           <Field label="Role" value={m.role} onChange={(e) => s.patch('crew', m.id, { role: e.target.value })} />
           <Sel label="Craft" value={m.boat} onChange={(v) => s.patch('crew', m.id, { boat: v })}>
@@ -1557,11 +1627,38 @@ function Crew({ s }) {
           />
           <Field label="Emergency contact" value={m.ice} onChange={(e) => s.patch('crew', m.id, { ice: e.target.value })} />
           <Field label="Diet / meds" value={m.diet} onChange={(e) => s.patch('crew', m.id, { diet: e.target.value })} />
-          <button className="btn ghost danger" onClick={() => s.drop('crew', m.id)}>
+          <button className="btn ghost danger" disabled={busy} onClick={() => removePerson(m, login)}>
             Remove
           </button>
         </Acc>
+        );
+      })}
+      {loose.map((l) => (
+        <Acc key={'login' + l.id} lead={<Avatar name={l.n || '?'} />} title={l.n || 'Someone'} tag={l.id === myLogin ? 'You' : undefined} note={ROLE_LABEL[l.r] + (l.t ? ' · joined ' + ago(l.t) : '')}>
+          {(owner || l.id === myLogin) && role !== 'viewer' ? (
+            <button
+              className="btn ghost mb-s"
+              onClick={() => {
+                const id = uid();
+                s.push('crew', { id, name: l.n || '', role: '', boat: '', ice: '', diet: '', days: '', m: l.id });
+                if (l.id === myLogin) {
+                  setMeFor(t.id, id);
+                  setMeId(id);
+                }
+              }}
+            >
+              Add to crew
+            </button>
+          ) : null}
+          {ownerControls(l)}
+          {owner && l.id !== myLogin ? (
+            <button className="btn ghost danger" disabled={busy} onClick={() => window.confirm('Remove ' + (l.n || 'this person') + ' from the trip?') && act(() => s.removeMember(t.id, l.id))}>
+              Remove
+            </button>
+          ) : null}
+        </Acc>
       ))}
+      {msg ? <div className="warn mt-s">{msg}</div> : null}
       <button
         className="btn ghost mt-s"
         onClick={() => {
@@ -4699,31 +4796,6 @@ function Members({ s, part }) {
     );
   return (
     <>
-      <span className="label mt">Trip members ({members.length || 1}) · {ROLE_LABEL[role]}</span>
-      {members.map((m) => (
-        <Acc key={m.id} lead={<Avatar name={m.n || '?'} />} title={m.n || 'Someone'} tag={m.id === me ? 'You' : undefined} note={ROLE_LABEL[m.r] + (m.t ? ' · joined ' + ago(m.t) : '')}>
-          {owner && m.id !== me ? (
-            <div className="row">
-              {m.r !== 'owner' ? (
-                <button className="btn ghost" disabled={busy} onClick={() => act(() => s.setMemberRole(t.id, m.id, m.r === 'viewer' ? 'editor' : 'viewer'))}>
-                  {m.r === 'viewer' ? 'Allow editing' : 'Make view only'}
-                </button>
-              ) : null}
-              <button
-                className="btn ghost danger"
-                disabled={busy}
-                onClick={() => window.confirm('Remove ' + (m.n || 'this person') + ' from the trip? They keep their own copy but stop syncing. To keep them out, also reset the invite link.') && act(() => s.removeMember(t.id, m.id))}
-              >
-                Remove
-              </button>
-            </div>
-          ) : m.id === me ? (
-            <div className="muted">This is you.</div>
-          ) : (
-            <div className="muted">{ROLE_LABEL[m.r]}</div>
-          )}
-        </Acc>
-      ))}
       {msg ? <div className="warn mt-s">{msg}</div> : null}
 
       <button className="btn ghost danger mt" disabled={busy} onClick={() => window.confirm('Leave this trip? You keep your copy but it stops syncing. Everyone else keeps the trip.') && act(() => s.stopSharing(t.id))}>
