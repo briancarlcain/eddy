@@ -142,4 +142,16 @@ const converge = (a, b) => { for (let i = 0; i < 4; i++) [a, b] = sync(a, b); re
   assert.equal(a.plans[0].camp, 'Y'); assert.equal(a.plans[0].note, 'early start'); assert.equal(a.plans[0].mile, 1);
   assert.equal(a.crew[0].diet, 'vegan'); assert.equal(a.crew[0].ice, 'Mom');
 }
+// 14. Edits made from a screen drawn before the latest change (two changes from one tap, or a sync landing
+//     in between) are merged into the latest copy: nothing is undone
+{
+  const shown = edit(base, (t) => t);
+  const applyEdit = (cur, fn) => { T += 10; const mine = stamp(shown, { ...fn(structuredClone(shown)), at: T }, T); return mergeTrips(cur, mine, T); };
+  let cur = applyEdit(shown, (t) => { t.meals[0].name = 'Tacos'; return t; }); // first change from the tap
+  cur = mergeTrips(cur, edit(shown, (t) => { t.crew.push({ id: 'c', name: 'Cy' }); return t; }), T); // a sync lands
+  cur = applyEdit(cur, (t) => { t.gear = t.gear.filter((g) => g.id !== 'g2'); t.crew = t.crew.map((c) => ({ ...c })); return t; }); // second change, whole lists from the old screen
+  assert.equal(cur.meals[0].name, 'Tacos', 'first change kept');
+  assert.deepEqual(cur.gear.map((g) => g.id), ['g1'], 'second change applied');
+  assert.ok(cur.crew.some((c) => c.id === 'c'), 'synced change kept');
+}
 console.log('merge tests passed');
