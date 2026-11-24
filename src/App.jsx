@@ -2142,7 +2142,7 @@ function Gear({ s }) {
         </button>
         {sortBy !== 'name' ? <span className="gsortNow">{sortSel[1]}</span> : null}
         <span className="gright">
-          {catHide.length < cats.length ? (
+          {filtOpen && catHide.length < cats.length ? (
             <button className="gclear" onClick={() => setCatOff(cats)}>
               Deselect all
             </button>
