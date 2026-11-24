@@ -194,6 +194,20 @@ function tripDays(trip) {
     label: okDate(trip.start) ? `Day ${i + 1} · ${fmt(addDays(trip.start, i))}` : `Day ${i + 1}`,
   }));
 }
+// river days and travel days in one list, by date (river first on a shared date)
+function allDays(trip) {
+  const hasStart = okDate(trip.start);
+  const lastRiver = hasStart ? addDays(trip.start, trip.days) : '';
+  const travel = (trip.travel || []).map((x) => ({ ...x, date: okDate(x.date) ? x.date : lastRiver }));
+  const rows = [
+    ...tripDays(trip).map((d) => ({ key: 'r' + d.i, date: d.date, river: d })),
+    ...travel.map((x) => ({ key: x.id, date: x.date, travel: x })),
+  ];
+  if (hasStart) rows.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : a.river ? -1 : b.river ? 1 : 0));
+  return { rows, travel, lastRiver, hasStart };
+}
+// meals of one row from allDays(): river meals carry day, travel-day meals carry travel (the travel day's id)
+const mealsOn = (meals, row) => (meals || []).filter((m) => (row.travel ? m.travel === row.travel.id : m.travel == null && m.day === row.river.i));
 
 /* sun — NOAA, flat horizon */
 function sun(iso, lat, lon) {
@@ -1139,6 +1153,7 @@ function useStore() {
         ...t,
         [key]: (t[key] || []).filter((x) => x.id !== id),
         ...(key === 'crew' ? { gear: t.gear.map((g) => (g.by === id ? { ...g, by: '' } : g)) } : {}),
+        ...(key === 'travel' ? { meals: (t.meals || []).filter((m) => m.travel !== id) } : {}),
       })),
     plan: (i, p) => edit((t) => ({ ...t, plans: { ...t.plans, [i]: { ...t.plans[i], ...p } } })),
   };
@@ -1336,7 +1351,7 @@ function Trip({ s, back, onAccount, onRiver }) {
   );
 }
 
-function TravelDay({ s, x, hasStart, fresh, first, last, others }) {
+function TravelDay({ s, x, meals, hasStart, fresh, first, last, others }) {
   const ref = useRef(null);
   const [err, setErr] = useState('');
   const moved = useRef(!!fresh);
@@ -1365,8 +1380,9 @@ function TravelDay({ s, x, hasStart, fresh, first, last, others }) {
           }}
         />
         {err ? <div className="warn">{err}</div> : null}
+        {meals.length > 0 && <div className="line mt">{meals.map((m) => m.name || m.slot).join(' · ')}</div>}
         <Field area className="mt" value={x.note ?? ''} onChange={(e) => s.patch('travel', x.id, { note: e.target.value })} placeholder="Notes" />
-        <button className="btn ghost danger mt-s" onClick={() => window.confirm('Remove this?') && s.drop('travel', x.id)}>
+        <button className="btn ghost danger mt-s" onClick={() => window.confirm(meals.length ? 'Remove this day and its meals?' : 'Remove this?') && s.drop('travel', x.id)}>
           Remove
         </button>
       </Acc>
@@ -1377,21 +1393,13 @@ function TravelDay({ s, x, hasStart, fresh, first, last, others }) {
 function Itinerary({ s }) {
   const t = s.trip;
   const [fresh, setFresh] = useState(null);
-  const hasStart = okDate(t.start);
-  const lastRiver = hasStart ? addDays(t.start, t.days) : '';
-  const travel = (t.travel || []).map((x) => ({ ...x, date: okDate(x.date) ? x.date : lastRiver }));
+  const { rows, travel, lastRiver, hasStart } = allDays(t);
   const addTravel = () => {
     const last = travel.reduce((m, x) => (x.date > m ? x.date : m), lastRiver);
     const id = uid();
     s.push('travel', { id, date: last ? addDays(last, 1) : '', note: '' });
     setFresh(id);
   };
-  // river days and travel days in one list, by date (river first on a shared date)
-  const rows = [
-    ...tripDays(t).map((d) => ({ key: 'r' + d.i, date: d.date, river: d })),
-    ...travel.map((x) => ({ key: x.id, date: x.date, travel: x })),
-  ];
-  if (hasStart) rows.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : a.river ? -1 : b.river ? 1 : 0));
   return (
     <>
       <div className="card formCard mb">
@@ -1400,7 +1408,7 @@ function Itinerary({ s }) {
       </div>
       <Fold label="Day by day">
       {rows.map((row) => {
-        if (row.travel) return <TravelDay key={row.key} s={s} x={row.travel} hasStart={hasStart} fresh={fresh === row.key} first={t.start} last={lastRiver} others={travel.filter((y) => y.id !== row.travel.id).map((y) => y.date)} />;
+        if (row.travel) return <TravelDay key={row.key} s={s} x={row.travel} meals={mealsOn(t.meals, row)} hasStart={hasStart} fresh={fresh === row.key} first={t.start} last={lastRiver} others={travel.filter((y) => y.id !== row.travel.id).map((y) => y.date)} />;
         const d = row.river;
         const p = t.plans[d.i] || {};
         const prev = t.plans[d.i - 1] || {};
@@ -1410,7 +1418,7 @@ function Itinerary({ s }) {
         const sn = d.date && sun(d.date, RIVER.coords[0], RIVER.coords[1]);
         const tonight = campOf(p);
         const pm = d.date && campSunOn(tonight, d.date);
-        const meals = t.meals.filter((m) => m.day === d.i);
+        const meals = mealsOn(t.meals, row);
         return (
           <Acc
             key={d.i}
@@ -1842,15 +1850,17 @@ function Meals({ s }) {
         Shopping list ({list.length})
       </button>
       <div className="mt" />
-      {tripDays(t).map((d) => {
-        const meals = t.meals.filter((m) => m.day === d.i);
+      {allDays(t).rows.map((row) => {
+        const meals = mealsOn(t.meals, row);
+        const title = row.river ? row.river.label : row.date ? fmt(row.date) : 'Travel day';
+        const at = row.river ? { day: row.river.i } : { travel: row.travel.id };
         return (
-          <Acc key={d.i} title={d.label} note={meals.map((m) => m.name).filter(Boolean).join(' · ') || null}>
+          <Acc key={row.key} title={title} note={meals.map((m) => m.name).filter(Boolean).join(' · ') || null}>
             {SLOTS.map((slot) => {
               const m = meals.find((x) => x.slot === slot);
               if (!m)
                 return (
-                  <button className="addSlot" key={slot} onClick={() => s.push('meals', { day: d.i, slot, name: '', items: '' })}>
+                  <button className="addSlot" key={slot} onClick={() => s.push('meals', { ...at, slot, name: '', items: '' })}>
                     + {slot}
                   </button>
                 );
