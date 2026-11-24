@@ -234,6 +234,13 @@ assert.equal(gearKind({ n: 'x', s: 'even', k: 'personal' }), 'personal');
   const full = one({ s: 'even', rn: 2, ra: 'manual', ru: [{ n: 1, to: ['a'] }, { n: 1, g: true }] });
   assert.equal(full.issues.length, 0); balanced(full);
 }
+// rental days: per-day prices use them when set (an outfitter's rig day), the trip's days otherwise
+{
+  const L = ledger({ days: 19, rentDays: 20, crew, gear: [{ id: 'g', n: 'Pad', d: 4, rn: '1', ra: 'group' }] });
+  assert.equal(L.items[0].unit, 80);
+  assert.equal(L.days, 20);
+  assert.equal(ledger({ days: 19, crew, gear: [{ id: 'g', n: 'Pad', d: 4, rn: '1', ra: 'group' }] }).items[0].unit, 76);
+}
 console.log('gear tests passed');
 
 // cost breakdown lines add up to each person's share (Grand Canyon seed)

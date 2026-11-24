@@ -331,6 +331,7 @@ function summarize(a, b) {
   const out = [];
   if (a.name !== b.name) out.push(`Renamed the trip to "${b.name}"`);
   if (a.start !== b.start || a.days !== b.days) out.push('Changed the trip dates');
+  if ((a.rentDays || '') !== (b.rentDays || '')) out.push('Changed the rental days');
   for (const [k, label] of Object.entries(KIND_LABEL)) {
     const A = new Map((a[k] || []).map((x) => [x.id, x]));
     const B = new Map((b[k] || []).map((x) => [x.id, x]));
@@ -2102,6 +2103,7 @@ function Gear({ s }) {
         </div>
       )}
 
+      <Step label="Rental days" value={t.rentDays !== undefined && String(t.rentDays) !== '' ? t.rentDays : t.days} onChange={(x) => s.set({ rentDays: x })} />
       <div className="stats two mt">
         <button className="stat statTap" onClick={() => setCost('group')}>
           <div className="statNum">{usd0(L.total)}</div>
