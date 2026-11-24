@@ -5,10 +5,10 @@
 //   - scalar fields (name, start, days, ...)  last write wins, per field (_ts)
 //   - lists of {id} items (crew, gear, meals)  last write wins, per item (_u);
 //       removals are remembered as tombstones (_del) so they are not undone
-//   - a gear item's own fields (price, rentals…)  last write wins, per field (_f), once stamped
+//   - an item's or day plan's own fields       last write wins, per field (_f), once stamped
 //   - gear.e[personId]                         merged per person, so two people can fill in
 //                                              their own quantities on the same item at once
-//   - plans[dayIndex]                          last write wins, per day (_u)
+//   - plans[dayIndex]                          kept per day (_u), merged per field
 // mergeTrips(local, remote) is deterministic: remote order and remote wins ties, so two
 // devices that exchange copies converge on identical data and stop pushing.
 
@@ -37,6 +37,23 @@ const U = (x) => (x && x._u) || 0;
 // last edit, so they never beat newer edits made on other devices.
 export function stamp(old, next, now, under = false) {
   const at = (x) => (under ? ((x && x._u) || 0) + 1 : now);
+  // one item (or day plan): each of its own fields keeps its own time, so edits to different fields both
+  // survive a merge; a gear item's per-person numbers are stamped per person and don't bump the item
+  const stampItem = (it, p) => {
+    if (!p) return { ...it, _u: under ? 1 : now };
+    if (same(p, it)) return it;
+    const { e: e1, ...restNew } = it;
+    const { e: e0, ...restOld } = p;
+    let e;
+    if (e1 && typeof e1 === 'object') {
+      e = {};
+      for (const pid of Object.keys(e1)) e[pid] = same(e1[pid], (e0 || {})[pid]) ? e1[pid] : { ...e1[pid], _u: at((e0 || {})[pid]) };
+      if (same(restNew, restOld)) return { ...it, e, _u: it._u || p._u };
+    }
+    const _f = {};
+    for (const f of itemFields(restNew, restOld)) _f[f] = same(restNew[f], restOld[f]) ? fieldAt(p, f) : under ? fieldAt(p, f) + 1 : now;
+    return { ...it, ...(e ? { e } : {}), _u: at(p), _f };
+  };
   const out = { ...next };
   const ts = { ...(old._ts || {}), ...(next._ts || {}) };
   const del = JSON.parse(JSON.stringify(old._del || {}));
@@ -46,29 +63,12 @@ export function stamp(old, next, now, under = false) {
     const o = old[k];
     if (Array.isArray(v)) {
       const prev = new Map((Array.isArray(o) ? o : []).map((it) => [it.id, it]));
-      out[k] = v.map((it) => {
-        const p = prev.get(it.id);
-        if (!p) return { ...it, _u: under ? 1 : now };
-        if (same(p, it)) return it;
-        if (it.e && typeof it.e === 'object') {
-          // gear-style item: stamp per person, bump the item only if something else changed
-          const { e: _e1, ...restNew } = it;
-          const { e: _e0, ...restOld } = p;
-          const e = {};
-          for (const pid of Object.keys(it.e)) e[pid] = same(it.e[pid], (p.e || {})[pid]) ? it.e[pid] : { ...it.e[pid], _u: at((p.e || {})[pid]) };
-          if (same(restNew, restOld)) return { ...it, e, _u: it._u || p._u };
-          // each of the item's own fields keeps its own time, so edits to different fields both survive a merge
-          const _f = {};
-          for (const f of itemFields(restNew, restOld)) _f[f] = same(restNew[f], restOld[f]) ? fieldAt(p, f) : under ? fieldAt(p, f) + 1 : now;
-          return { ...it, e, _u: at(p), _f };
-        }
-        return { ...it, _u: at(p) };
-      });
+      out[k] = v.map((it) => stampItem(it, prev.get(it.id)));
       const have = new Set(v.map((it) => it.id));
       for (const [id] of prev) if (!have.has(id)) (del[k] ||= {})[id] = now;
     } else if (k === 'plans') {
       const plans = {};
-      for (const d of Object.keys(v || {})) plans[d] = same(v[d], (o || {})[d]) ? v[d] : { ...v[d], _u: at((o || {})[d]) };
+      for (const d of Object.keys(v || {})) plans[d] = stampItem(v[d], (o || {})[d]);
       for (const d of Object.keys(o || {})) if (!(d in (v || {}))) (del.plans ||= {})[d] = now;
       out.plans = plans;
     } else if (!same(v, o)) ts[k] = under ? ((old._ts || {})[k] || 0) + 1 : now;
@@ -99,16 +99,21 @@ function mergeList(a = [], b = [], delA = {}, delB = {}) {
 }
 
 function mergeItem(l, r) {
-  const base = pick(l, r);
-  if (!(l.e || r.e)) return base;
-  const e = {};
-  for (const pid of new Set([...Object.keys(r.e || {}), ...Object.keys(l.e || {})])) {
-    const x = (l.e || {})[pid], y = (r.e || {})[pid];
-    e[pid] = x && y ? pick(x, y) : x || y;
-  }
   const u = Math.max(U(l), U(r));
-  if (!l._f && !r._f) return u ? { ...base, e, _u: u } : { ...base, e };
-  const out = { id: r.id };
+  let e;
+  if (l.e || r.e) {
+    e = {};
+    for (const pid of new Set([...Object.keys(r.e || {}), ...Object.keys(l.e || {})])) {
+      const x = (l.e || {})[pid], y = (r.e || {})[pid];
+      e[pid] = x && y ? pick(x, y) : x || y;
+    }
+  }
+  if (!l._f && !r._f) {
+    const base = pick(l, r);
+    return e ? (u ? { ...base, e, _u: u } : { ...base, e }) : base;
+  }
+  const out = {};
+  if (r.id !== undefined || l.id !== undefined) out.id = r.id !== undefined ? r.id : l.id;
   const _f = {};
   for (const f of itemFields(l, r)) {
     const a = fieldAt(l, f), b = fieldAt(r, f);
@@ -116,7 +121,7 @@ function mergeItem(l, r) {
     if (src[f] !== undefined) out[f] = src[f];
     _f[f] = Math.max(a, b);
   }
-  return { ...out, e, _u: u, _f };
+  return { ...out, ...(e ? { e } : {}), _u: u, _f };
 }
 
 export function mergeTrips(local, remote, now = Date.now()) {
@@ -137,7 +142,7 @@ export function mergeTrips(local, remote, now = Date.now()) {
       for (const d of Object.keys(delR.plans || {})) dl[d] = Math.max(dl[d] || 0, delR.plans[d]);
       for (const d of new Set([...Object.keys(r || {}), ...Object.keys(l || {})])) {
         const x = (l || {})[d], y = (r || {})[d];
-        const m = x && y ? pick(x, y) : x || y;
+        const m = x && y ? mergeItem(x, y) : x || y;
         if (!(dl[d] && dl[d] >= U(m))) p[d] = m;
       }
       out.plans = p;
