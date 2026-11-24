@@ -132,4 +132,14 @@ const converge = (a, b) => { for (let i = 0; i < 4; i++) [a, b] = sync(a, b); re
   const [a, b] = converge(old, A);
   assert.equal(a.gear[0].rn, '5'); assert.equal(a.gear[0].f, 40); assert.equal(canon(a), canon(b));
 }
+// 13. Meals, crew details and day plans merge per field too
+{
+  const A = edit(base, (t) => { t.meals[0].name = 'Tacos'; t.plans[0].camp = 'Y'; t.crew[0].diet = 'vegan'; return t; });
+  const B = edit(base, (t) => { t.meals[0].items = 'tortillas'; t.plans[0].note = 'early start'; t.crew[0].ice = 'Mom'; return t; });
+  const [a, b] = converge(A, B);
+  assert.equal(canon(a), canon(b));
+  assert.equal(a.meals[0].name, 'Tacos'); assert.equal(a.meals[0].items, 'tortillas');
+  assert.equal(a.plans[0].camp, 'Y'); assert.equal(a.plans[0].note, 'early start'); assert.equal(a.plans[0].mile, 1);
+  assert.equal(a.crew[0].diet, 'vegan'); assert.equal(a.crew[0].ice, 'Mom');
+}
 console.log('merge tests passed');

@@ -808,6 +808,38 @@ function useStore() {
   };
 
   // your favorites follow you between trips on the same river and show to each trip's crew
+  // on a shared trip each login is a person on the crew: this device's person follows its login,
+  // and the link is saved on the trip so every device shows the same list
+  useEffect(() => {
+    const st = stateRef.current;
+    const t0 = now();
+    let changed = false;
+    const trips = st.trips.map((t) => {
+      const inf = infoRef.current[t.id];
+      const ent = (st.sync || {})[t.id];
+      if (!inf || !inf.me || !ent || !ent.trip || ent.removed) return t;
+      const crew0 = t.crew || [];
+      const { byCrew } = linkMembers(crew0, inf.members || []);
+      const mine = getMe(t.id);
+      const target = Object.keys(byCrew).find((k) => byCrew[k] === inf.me) || (crew0.find((c) => c.id === mine && !byCrew[c.id]) || {}).id;
+      if (!target) return t;
+      if (mine !== target) setMeFor(t.id, target);
+      if (inf.role === 'viewer') return t;
+      const crew = crew0.map((c) => (c.id === target ? (c.m === inf.me ? c : { ...c, m: inf.me }) : c.m === inf.me ? { ...c, m: '' } : c));
+      if (crew.every((c, i) => c === crew0[i])) return t;
+      changed = true;
+      return stamp(t, { ...t, crew, at: t0 }, t0);
+    });
+    if (!changed) return;
+    persist({ ...st, trips });
+    trips.forEach((t, i) => {
+      if (t !== st.trips[i]) {
+        syncSoon(t.id);
+        cloudSoon(t.id);
+      }
+    });
+  }, [info, state.trips]);
+
   const reconcileFavsAll = useCallback(() => {
     const st = stateRef.current;
     const t0 = now();
@@ -1569,16 +1601,7 @@ function Crew({ s }) {
     const next = t.crew.map((c) => (c.id === id ? { ...c, m: myLogin } : c.m === myLogin ? { ...c, m: '' } : c));
     if (next.some((c, i) => c !== t.crew[i])) s.set({ crew: next });
   };
-  // keep this login tied to its person on the crew, so every device shows the same list
-  useEffect(() => {
-    if (!shared || !myLogin || !info || role === 'viewer') return;
-    const target = t.crew.find((c) => byCrew[c.id] === myLogin) || t.crew.find((c) => c.id === meId && !loginOf(c.id));
-    if (target && target.m !== myLogin) setYou(target.id);
-    else if (target && meId !== target.id) {
-      setMeFor(t.id, target.id);
-      setMeId(target.id);
-    }
-  }, [shared, myLogin, info, t.crew]);
+  useEffect(() => setMeId(getMe(t.id)), [info, t.crew]);
   const removePerson = (m, login) => {
     if (login && owner && login.id !== myLogin) {
       if (!window.confirm('Remove ' + (m.name || 'this person') + ' from the trip?')) return;
@@ -1604,9 +1627,15 @@ function Crew({ s }) {
         const joined = login ? ROLE_LABEL[login.r] + (login.t ? ' · joined ' + ago(login.t) : '') : shared ? 'Not joined' : '';
         return (
         <Acc key={m.id} open={fresh === m.id} lead={<Avatar name={m.name || '?'} />} title={m.name || 'New person'} tag={youId === m.id ? 'You' : undefined} note={[m.role, boats.find((b) => b.id === m.boat)?.name, joined].filter(Boolean).join(' · ') || null}>
-          <button className="btn ghost mb-s" onClick={() => setYou(youId === m.id ? '' : m.id)}>
-            {youId === m.id ? "This isn't me" : 'This is me'}
-          </button>
+          {!shared || !myLogin ? (
+            <button className="btn ghost mb-s" onClick={() => setYou(youId === m.id ? '' : m.id)}>
+              {youId === m.id ? "This isn't me" : 'This is me'}
+            </button>
+          ) : !login && youId !== m.id ? (
+            <button className="btn ghost mb-s" onClick={() => setYou(m.id)}>
+              This is me
+            </button>
+          ) : null}
           {ownerControls(login)}
           <Field label="Name" value={m.name} autoFocus={fresh === m.id} onChange={(e) => s.patch('crew', m.id, { name: e.target.value })} />
           <Field label="Role" value={m.role} onChange={(e) => s.patch('crew', m.id, { role: e.target.value })} />
@@ -1736,10 +1765,6 @@ function Meals({ s }) {
   const [shop, setShop] = useState(false);
   const [draft, setDraft] = useState('');
   const t = s.trip;
-  const hasCook = t.meals.some((m) => 'cook' in m);
-  useEffect(() => {
-    if (hasCook) s.set({ meals: t.meals.map(({ cook: _c, ...m }) => m) });
-  }, [hasCook]);
   const list = useMemo(() => {
     const m = new Map();
     t.meals.forEach((x) =>
@@ -1940,6 +1965,9 @@ function GearFields({ v, up, days, cats, T }) {
 function Gear({ s }) {
   const t = s.trip;
   const [me, setMeState] = useState(() => getMe(s.trip.id));
+  useEffect(() => {
+    if (!me && getMe(s.trip.id)) setMeState(getMe(s.trip.id));
+  }, [s.info[s.trip.id], s.trip.crew]);
   const setMe = (id) => {
     setMeState(id);
     setMeFor(s.trip.id, id);
