@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BUILTIN_RIVERS, DEFAULT_RIVER, normalizeRiver } from './rivers.js';
 import GENERAL from '../data/general.json';
 import { bringForm, coverOf, ledger, num, priceMode, priceOf, unitList } from './gearLedger.js';
-import { packInfo, flipParts, inOrder, moveShown } from './gearPack.js';
+import { packInfo, flipParts, inOrder, moveShown, withSaved } from './gearPack.js';
 import { linkMembers } from './crewLink.js';
 import { shortOf } from './names.js';
 import { crewFavs, favKey, getFavs, mergeFavs, reconcileFavs, setFav, subscribeFavs, useFavs } from './favs.js';
@@ -2503,7 +2503,7 @@ const getPackView = () => {
   const old = typeof v.group === 'string' ? v.group.split('-') : ['cat'];
   const on = (Array.isArray(v.on) ? v.on : old).filter((k) => keys.includes(k));
   const dims = inOrder(keys, Array.isArray(v.dims) ? v.dims : old);
-  return { dims, on, sort: v.sort || 'name', order: list(v.order), howOrder: list(v.howOrder), reqOrder: list(v.reqOrder), useOrder: list(v.useOrder) };
+  return { dims, on, sort: v.sort || 'name', order: list(v.order), howOrder: list(v.howOrder), reqOrder: list(v.reqOrder), userOrder: list(v.userOrder) };
 };
 
 // rows dragged by their handle, or moved with the arrow keys
@@ -2622,8 +2622,20 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
   const KINDS = hows.map((k) => [k, names[k], (r) => fits(r, k)]);
   const reqNames = { req: 'Required', rec: 'Recommended', other: 'Other' };
   const reqs = inOrder(Object.keys(reqNames), view.reqOrder);
-  const userNames = { me: you ? 'You' : first, group: 'Group', else: 'Someone else' };
-  const uses = inOrder(Object.keys(userNames), view.useOrder);
+  // one group per exact set of users: single people, then combinations, then the whole group
+  const comboName = (k) => {
+    if (k === 'group') return 'Group';
+    const ns = k.split('+').map(label);
+    const text = ns.length > 1 ? ns.slice(0, -1).join(', ') + ' & ' + ns[ns.length - 1] : ns[0];
+    return text[0].toUpperCase() + text.slice(1);
+  };
+  const size = (k) => k.split('+').length;
+  const hasMe = (k) => k.split('+').includes(me);
+  const comboKeys = [...new Set(rows.flatMap((r) => r.atoms.map((a) => a.use)))].sort(
+    (a, b) => (a === 'group') - (b === 'group') || size(a) - size(b) || hasMe(b) - hasMe(a) || comboName(a).localeCompare(comboName(b))
+  );
+  const allUses = withSaved(comboKeys, view.userOrder);
+  const uses = allUses.filter((k) => comboKeys.includes(k));
   const levels = view.dims.filter((k) => view.on.includes(k));
   // grouped by owner or user, an item has one entry under each that applies
   const splitHow = levels.includes('how');
@@ -2637,11 +2649,6 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
     });
     return [...m].map(([k, atoms]) => ({ ...r, id: r.id + '|' + k, atoms, how: splitHow ? atoms[0].how : null, use: splitUse ? atoms[0].use : null }));
   });
-  // the cost shows once per item, on your own entry when there is one
-  const costAt = new Map();
-  [...entries.filter((e) => e.use === 'me'), ...entries].forEach((e) => {
-    if (fits(e, 'rent') && !costAt.has(e.i.id)) costAt.set(e.i.id, e.id);
-  });
   const TICKS = [
     ['todo', 'Not packed', (r) => canTick(r) && !rowDone(r)],
     ['done', 'Packed', (r) => canTick(r) && rowDone(r)],
@@ -2649,7 +2656,7 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
   const whose = you ? 'Your' : `${first}’s`;
   const total = (r, how) => r.atoms.filter((a) => a.how === how).reduce((x, a) => x + a.n, 0);
   const amount = (r) => (splitUse ? total(r, 'bring') + total(r, 'borrow') : total(r, 'bring') || total(r, 'borrow'));
-  const cost = (r) => (costAt.get(r.i.id) === r.id ? r.p.share : 0);
+  const cost = (r) => r.atoms.reduce((x, a) => x + a.cost, 0);
   // to pack, then rental only, then packed
   const rank = (r) => (!canTick(r) ? 1 : rowDone(r) ? 2 : 0);
   const SORTS = [
@@ -2712,7 +2719,7 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
     cat: { values: cats.map((c) => [c, c]), of: (r) => r.i.cat, onMove: (from, to) => saveView({ order: moveShown(allCats, cats, from, to) }) },
     how: { values: hows.map((k) => [k, names[k]]), of: (r) => r.how, onMove: keyed('howOrder', hows) },
     req: { values: reqs.map((k) => [k, reqNames[k]]), of: (r) => r.i.req || 'other', onMove: keyed('reqOrder', reqs) },
-    use: { values: uses.map((k) => [k, userNames[k]]), of: (r) => r.use, onMove: keyed('useOrder', uses) },
+    use: { values: uses.map((k) => [k, comboName(k)]), of: (r) => r.use, onMove: (from, to) => saveView({ userOrder: moveShown(allUses, uses, from, to) }) },
   };
   const row = (r) => {
     const { id, i, p } = r;
@@ -2731,7 +2738,7 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
             {lines.length > 0 && <span className="gpackSubt">{lines.join(' · ')}</span>}
           </button>
           {tick && n !== 1 && <span className="muted">×{qty(n)}</span>}
-          {cost(r) > 0.005 && <span className="grAmt">{usd(p.share)}</span>}
+          {cost(r) > 0.005 && <span className="grAmt">{usd(cost(r))}</span>}
         </div>
         {open && (
           <div className="gpackDetail">

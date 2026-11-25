@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { ledger } from '../src/gearLedger.js';
-import { packInfo, flipParts, inOrder, moveShown } from '../src/gearPack.js';
+import { packInfo, flipParts, inOrder, moveShown, withSaved } from '../src/gearPack.js';
 
 const crew = ['a', 'b', 'c', 'd'].map((id) => ({ id, name: id.toUpperCase() }));
 const t = {
@@ -20,8 +20,9 @@ const label = (id) => (id === 'a' ? 'you' : id.toUpperCase());
 const ch = packInfo(it('chair'), 'a', crew, label);
 assert.equal(ch.bring, 3);
 assert.deepEqual(ch.sub, ['Bringing 1 for you, 1 shared with B, 1 for the group']);
-assert.deepEqual(ch.atoms, [{ how: 'bring', use: 'me', n: 2 }, { how: 'bring', use: 'group', n: 1 }]);
+assert.deepEqual(ch.atoms.map((a) => [a.use, a.n]), [['a', 1], ['a+b', 1], ['group', 1]]);
 assert.deepEqual(ch.subFor(null, 'group'), ['Bringing 1 for the group']);
+assert.deepEqual(ch.subFor(null, 'a+b'), ['Bringing 1 shared with B']);
 assert.deepEqual(ch.bringLines.map(ch.full), ['1 for you', '1 for you & B', '1 for the group']);
 assert.deepEqual(ch.elsewhere.map((x) => x.id), ['c', 'd']);
 
@@ -34,7 +35,7 @@ const tn = packInfo(it('tent'), 'a', crew, label);
 assert.ok(tn.renting);
 assert.deepEqual(tn.sub, ['Rented by the group, split 4 ways', 'Renting 1, split with C']);
 assert.deepEqual(tn.subFor('rent'), tn.sub);
-assert.deepEqual(tn.atoms, [{ how: 'rent', use: 'group', n: 1 }, { how: 'rent', use: 'me', n: 1 }]);
+assert.deepEqual(tn.atoms, [{ how: 'rent', use: 'group', n: 1, cost: 2.5 }, { how: 'rent', use: 'a+c', n: 1, cost: 5 }]);
 assert.deepEqual(tn.rentElse.map(tn.rentFull), ['1 for D']);
 assert.equal(+tn.share.toFixed(2), 7.5);
 
@@ -51,4 +52,8 @@ const one = flipParts({}, 'ownx', all, ['bring:me'], true);
 assert.deepEqual(one, { 'ownx#bring:me': true });
 assert.deepEqual(flipParts(one, 'ownx', all, ['bring:group'], true), { ownx: true });
 assert.deepEqual(flipParts({ ownx: true, ownxy: true }, 'ownx', all, ['bring:me'], false), { ownxy: true, 'ownx#bring:group': true });
+// a new set of users lands where it would by default, not after the group
+assert.deepEqual(withSaved(['a', 'a+b', 'group'], []), ['a', 'a+b', 'group']);
+assert.deepEqual(withSaved(['a', 'a+b', 'a+c', 'group'], ['a', 'a+b', 'group']), ['a', 'a+b', 'a+c', 'group']);
+assert.deepEqual(withSaved(['a', 'b', 'group'], ['group', 'a']), ['group', 'a', 'b']);
 console.log('pack tests passed');

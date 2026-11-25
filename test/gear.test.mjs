@@ -257,6 +257,8 @@ console.log('gear tests passed');
       const sum = costLines(it, SEED.crew, L.nights, c.id).reduce((a, x) => a + x.amount, 0);
       const want = it.share[c.id] || 0;
       assert.ok(Math.abs(sum - want) < 0.005, `${it.name} / ${c.name}: ${sum} vs ${want}`);
+      const onLines = it.lines.reduce((x, l) => x + (l.cost[c.id] || 0), 0);
+      assert.ok(Math.abs(onLines - want) < 0.005, `lines ${it.name} / ${c.name}: ${onLines} vs ${want}`);
       n++;
     }
   }
