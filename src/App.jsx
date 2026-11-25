@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BUILTIN_RIVERS, DEFAULT_RIVER, normalizeRiver } from './rivers.js';
 import GENERAL from '../data/general.json';
 import { bringForm, coverOf, ledger, num, priceMode, priceOf, unitList } from './gearLedger.js';
+import { packInfo } from './gearPack.js';
 import { linkMembers } from './crewLink.js';
 import { shortOf } from './names.js';
 import { crewFavs, favKey, getFavs, mergeFavs, reconcileFavs, setFav, subscribeFavs, useFavs } from './favs.js';
@@ -2489,114 +2490,105 @@ const byItem = (a, b) => a.name.localeCompare(b.name, undefined, { numeric: true
 
 function GearPack({ L, me, you, name, tripId, crew = [] }) {
   const [done, setDone] = useState(() => getPacked(tripId));
-  const flip = (k) => {
-    const next = { ...done, [k]: !done[k] };
-    if (!next[k]) delete next[k];
+  const [openId, setOpenId] = useState(null);
+  const first = shortOf(crew, me) || (name || '').split(' ')[0] || 'them';
+  const label = (id) => (id === me ? (you ? 'you' : first) : shortOf(crew, id) || 'Unnamed');
+  const Label = (id) => (id === me ? (you ? 'You' : first) : shortOf(crew, id) || 'Unnamed');
+  // ticks from earlier lists were kept per kind and per person
+  const oldKeys = (pre, id) => Object.keys(done).filter((k) => (pre === 'own' ? k === 'lend' + id || k.startsWith('lend' + id + ':') : k.startsWith('from' + id + ':')));
+  const isDone = (pre, id) => !!done[pre + id] || oldKeys(pre, id).some((k) => done[k]);
+  const flip = (pre, id) => {
+    const on = !isDone(pre, id);
+    const drop = new Set([pre + id, ...oldKeys(pre, id)]);
+    const next = Object.fromEntries(Object.entries(done).filter(([k]) => !drop.has(k)));
+    if (on) next[pre + id] = true;
     setDone(next);
     try {
       localStorage.setItem(packKey(tripId), JSON.stringify(next));
     } catch {}
   };
-  const mineU = (i, kind) => i.units.filter((u) => u.owner === me && u.kind === kind);
-  const groups = [
-    [you ? 'Bringing for myself' : `Bringing for ${shortOf(crew, me) || (name || '').split(' ')[0] || 'them'}`, 'own', (i) => mineU(i, 'own').length],
-    ['Bringing for others', 'lend', (i) => mineU(i, 'lend').length],
-    ['Renting', 'rent', (i) => (i.share[me] > 0.005 ? i.share[me] : 0)],
-  ].map(([title, kind, f]) => ({ title, kind, rows: [...L.items].sort(byItem).map((i) => ({ i, v: f(i) })).filter((r) => r.v > 0) }));
-  // gear for others, split by who it's for: people first, then the group
-  const nameOf = (id) => (crew.find((c) => c.id === id) || {}).name || 'Unnamed';
-  const subMap = new Map();
-  groups[1].rows.forEach(({ i }) => {
-    const n = {};
-    mineU(i, 'lend').forEach((u) => {
-      const k = u.group || !u.to.length ? 'group' : [...u.to].sort().join('+');
-      n[k] = (n[k] || 0) + 1;
-    });
-    Object.entries(n).forEach(([k, v]) => {
-      if (!subMap.has(k)) subMap.set(k, { id: k, title: k === 'group' ? 'The group' : k.split('+').map(nameOf).join(' & '), rows: [] });
-      subMap.get(k).rows.push({ i, v, key: 'lend' + i.id + (k === 'group' ? '' : ':' + k) });
-    });
-  });
-  groups[1].subs = [...subMap.values()].sort((a, b) => (a.id === 'group') - (b.id === 'group') || a.title.localeCompare(b.title));
-  // gear others bring for this person, by who brings it
-  const from = crew.filter((c) => c.id !== me).map((c) => ({ id: c.id, title: c.name || 'Unnamed', rows: [] }));
-  [...L.items].sort(byItem).forEach((i) => {
-    let left = Math.floor(i.named[me] || 0);
-    from.forEach((g) => {
-      const n = Math.min(left, i.units.filter((u) => u.owner === g.id && u.to.includes(me)).length);
-      if (n > 0) g.rows.push({ i, v: n, key: 'from' + i.id + ':' + g.id });
-      left -= Math.max(0, n);
-    });
-  });
-  const fromSubs = from.filter((g) => g.rows.length);
-  const bring = [...groups[0].rows.map((r) => 'own' + r.i.id), ...groups[1].subs.flatMap((g) => g.rows.map((r) => r.key))];
-  const packed = bring.filter((k) => done[k]).length;
-  if (!groups.some((g) => g.rows.length) && !fromSubs.length) return <div className="muted mt">Nothing to pack or rent yet. Enter what you’re bringing on the items.</div>;
+  const rows = [...L.items]
+    .sort(byItem)
+    .map((i) => ({ i, p: packInfo(i, me, crew, label) }))
+    .filter(({ p }) => p.bring > 0 || p.borrowN > 0 || p.renting);
+  if (!rows.length) return <div className="muted mt">Nothing to pack or rent yet. Enter what you’re bringing on the items.</div>;
+  const cats = [...new Set(L.items.map((i) => i.cat))].filter((c) => rows.some((r) => r.i.cat === c));
+  const tickable = rows.filter(({ p }) => p.bring > 0 || p.borrowN > 0);
+  const packed = tickable.filter(({ i, p }) => isDone(p.bring > 0 ? 'own' : 'from', i.id)).length;
+  const qty = (n) => +n.toFixed(2);
   return (
     <div className="gpack mb">
       <span className="label">
-        {you ? 'Your list' : `${name}’s list`}{bring.length ? ` · ${packed} of ${bring.length} packed` : ''}
+        {you ? 'Your list' : `${name}’s list`}
+        {tickable.length ? ` · ${packed} of ${tickable.length} packed` : ''}
       </span>
-      {groups.map(
-        (g) =>
-          g.rows.length > 0 && (
-            <details key={g.kind} open>
-              <summary className="gpackHead">
-                {g.kind === 'rent' ? 'Rent from the outfitter' : g.title} <span className="muted">{g.rows.length}</span>
-              </summary>
-              {g.subs
-                ? g.subs.map((sg) => (
-                    <div className="gpackSub" key={sg.id}>
-                      <div className="gpackSubHead">
-                        {sg.id === 'group' ? sg.title : `For ${sg.title}`} <span className="muted">{sg.rows.length}</span>
-                      </div>
-                      {sg.rows.map(({ i, v, key }) => (
-                        <label className={'gpackRow' + (done[key] ? ' done' : '')} key={key}>
-                          <input type="checkbox" checked={!!done[key]} onChange={() => flip(key)} />
-                          <span className="gpackName">{i.name}</span>
-                          {v !== 1 && <span className="muted">×{+v.toFixed(2)}</span>}
-                        </label>
-                      ))}
-                    </div>
-                  ))
-                : g.rows.map(({ i, v }) =>
-                g.kind === 'rent' ? (
-                  <div className="gpackRow" key={i.id}>
-                    <span className="gpackName">{i.name}</span>
-                    <span className="grAmt">{usd(v)}</span>
+      {cats.map((c) => {
+        const cr = rows.filter((r) => r.i.cat === c);
+        return (
+          <details key={c} open>
+            <summary className="gpackHead">
+              {c} <span className="muted">{cr.length}</span>
+            </summary>
+            {cr.map(({ i, p }) => {
+              const pre = p.bring > 0 ? 'own' : 'from';
+              const tick = p.bring > 0 || p.borrowN > 0;
+              const on = tick && isDone(pre, i.id);
+              const open = openId === i.id;
+              const n = p.bring > 0 ? p.bring : p.borrowN;
+              return (
+                <div className={'gpackItem' + (on ? ' done' : '')} key={i.id}>
+                  <div className="gpackRow">
+                    {tick ? <input type="checkbox" checked={on} aria-label={i.name} onChange={() => flip(pre, i.id)} /> : <span className="gpackTickGap" />}
+                    <button className="gpackMain" aria-expanded={open} onClick={() => setOpenId(open ? null : i.id)}>
+                      <span className="gpackName">{i.name}</span>
+                      {p.sub.length > 0 && <span className="gpackSubt">{p.sub.join(' · ')}</span>}
+                    </button>
+                    {tick && n !== 1 && <span className="muted">×{qty(n)}</span>}
+                    {p.share > 0.005 && <span className="grAmt">{usd(p.share)}</span>}
                   </div>
-                ) : (
-                  <label className={'gpackRow' + (done[g.kind + i.id] ? ' done' : '')} key={i.id}>
-                    <input type="checkbox" checked={!!done[g.kind + i.id]} onChange={() => flip(g.kind + i.id)} />
-                    <span className="gpackName">{i.name}</span>
-                    {v !== 1 && <span className="muted">×{+v.toFixed(2)}</span>}
-                  </label>
-                )
-              )}
-            </details>
-          )
-      )}
-      {fromSubs.length > 0 && (
-        <details open>
-          <summary className="gpackHead">
-            Brought for me by others <span className="muted">{fromSubs.reduce((a, g) => a + g.rows.length, 0)}</span>
-          </summary>
-          {fromSubs.map((sg) => (
-            <div className="gpackSub" key={sg.id}>
-              <div className="gpackSubHead">
-                From {sg.title} <span className="muted">{sg.rows.length}</span>
-              </div>
-              {sg.rows.map(({ i, v, key }) => (
-                <label className={'gpackRow' + (done[key] ? ' done' : '')} key={key}>
-                  <input type="checkbox" checked={!!done[key]} onChange={() => flip(key)} />
-                  <span className="gpackName">{i.name}</span>
-                  {v !== 1 && <span className="muted">×{+v.toFixed(2)}</span>}
-                </label>
-              ))}
-            </div>
-          ))}
-        </details>
-      )}
+                  {open && (
+                    <div className="gpackDetail">
+                      {p.bring > 0 && (
+                        <div>
+                          <div className="gpackDHead">{Label(me)} {you ? 'bring' : 'brings'} {qty(p.bring)}</div>
+                          {p.bringLines.map((l, k) => <div key={k}>{p.full(l)}</div>)}
+                        </div>
+                      )}
+                      {p.borrow.map((b) => (
+                        <div key={b.id}>
+                          <div className="gpackDHead">{Label(b.id)} brings</div>
+                          {b.lines.map((l, k) => <div key={k}>{p.full(l)}</div>)}
+                        </div>
+                      ))}
+                      {(p.renting || p.rentElse.length > 0) && i.rent > 0 && (
+                        <div>
+                          <div className="gpackDHead">
+                            Renting {qty(i.rent)}
+                            {i.unit > 0 ? ` · ${usd(i.unit)} each` : ''}
+                          </div>
+                          {p.rentMine.map((l, k) => <div key={'m' + k}>{p.rentFull(l)}</div>)}
+                          {p.rentElse.length > 0 && (
+                            <div className="muted">
+                              {you ? 'Not yours' : `Not ${first}’s`}: {p.rentElse.map(p.rentFull).join(', ')}
+                            </div>
+                          )}
+                          {p.share > 0.005 && <div>{you ? 'Your' : `${first}’s`} share {usd(p.share)}</div>}
+                        </div>
+                      )}
+                      {p.elsewhere.length > 0 && (
+                        <div className="muted">
+                          <div className="gpackDHead">Others bringing</div>
+                          {p.elsewhere.map((b) => <div key={b.id}>{Label(b.id)}: {b.lines.map((l) => (l.to.length === 1 && l.to[0] === b.id ? l.n : p.full(l))).join(', ')}</div>)}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </details>
+        );
+      })}
     </div>
   );
 }
