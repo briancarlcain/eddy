@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { ledger } from '../src/gearLedger.js';
-import { packInfo } from '../src/gearPack.js';
+import { packInfo, inOrder, moveShown } from '../src/gearPack.js';
 
 const crew = ['a', 'b', 'c', 'd'].map((id) => ({ id, name: id.toUpperCase() }));
 const t = {
@@ -38,4 +38,8 @@ assert.equal(+tn.share.toFixed(2), 7.5);
 // someone with nothing on an item
 const none = packInfo(it('tent'), 'b', crew, label);
 assert.deepEqual(none.rentMine.map(none.rentFull), ['1 for the group (4)']);
+// saved order comes first; new entries follow
+assert.deepEqual(inOrder(['A', 'B', 'C', 'D'], ['C', 'A']), ['C', 'A', 'B', 'D']);
+// moving within the shown entries leaves the others in place
+assert.deepEqual(moveShown(['A', 'B', 'C', 'D'], ['A', 'C', 'D'], 2, 0), ['D', 'B', 'A', 'C']);
 console.log('pack tests passed');

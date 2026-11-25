@@ -1,5 +1,19 @@
 import { num } from './gearLedger.js';
 
+// in the saved order; anything not saved yet follows
+export const inOrder = (list, saved) => {
+  const at = (x) => (saved.includes(x) ? saved.indexOf(x) : saved.length);
+  return [...list].sort((a, b) => at(a) - at(b));
+};
+
+// move one of the shown entries; the ones not shown keep their places
+export const moveShown = (all, shown, from, to) => {
+  const next = [...shown];
+  next.splice(to, 0, ...next.splice(from, 1));
+  let k = 0;
+  return all.map((x) => (shown.includes(x) ? next[k++] : x));
+};
+
 // one person's part in an item: what they bring, what others bring them, what they rent, and everyone else's part
 export function packInfo(i, me, crew, label) {
   const who = (ids) => {
