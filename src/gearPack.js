@@ -14,6 +14,16 @@ export const moveShown = (all, shown, from, to) => {
   return all.map((x) => (shown.includes(x) ? next[k++] : x));
 };
 
+// packed ticks: one key for the whole item, or one per part (base#part) while only some are packed
+export function flipParts(done, base, all, parts, on) {
+  const have = new Set(done[base] ? all : all.filter((a) => done[base + '#' + a]));
+  parts.forEach((a) => (on ? have.add(a) : have.delete(a)));
+  const next = Object.fromEntries(Object.entries(done).filter(([k]) => k !== base && !k.startsWith(base + '#')));
+  if (all.every((a) => have.has(a))) next[base] = true;
+  else have.forEach((a) => (next[base + '#' + a] = true));
+  return next;
+}
+
 // one person's part in an item: what they bring, what others bring them, what they rent, and everyone else's part
 export function packInfo(i, me, crew, label) {
   const who = (ids) => {
@@ -62,11 +72,33 @@ export function packInfo(i, me, crew, label) {
     return o.length ? `Renting ${l.n}, split with ${o.length > 1 ? o.length + ' others' : label(o[0])}` : `Renting ${l.n} for ${label(me)}`;
   };
   const rentFull = (l) => `${l.n} for ${l.to.length ? who(l.to) : `the group (${groupIds.length})`}`;
-  const subBy = {
-    bring: [bring > 0 && (bringLines.length === 1 && bringLines[0].to.length === 1 && bringLines[0].to[0] === me ? '' : 'Bringing ' + bringLines.map(short).join(', '))].filter(Boolean),
-    borrow: borrowN > 0 ? [`From ${who(borrow.map((b) => b.id))}${borrow.some((b) => b.lines.some((l) => others(l.to).length)) ? ', shared' : ''}`] : [],
-    rent: renting ? rentMine.map(rentShort) : [],
+  // what this person brings, borrows and rents, split by who uses it
+  const whoUses = (to) => (!to.length ? 'group' : to.includes(me) ? 'me' : 'else');
+  const atoms = [];
+  const add = (how, use, n) => {
+    const a = atoms.find((x) => x.how === how && x.use === use);
+    if (a) a.n += n;
+    else atoms.push({ how, use, n });
   };
-  const sub = [...subBy.bring, ...subBy.borrow, ...subBy.rent];
-  return { bring, bringLines, borrow, borrowN, elsewhere, share, renting, rentMine, rentElse, sub, subBy, full, rentFull, who };
+  bringLines.forEach((l) => add('bring', whoUses(l.to), l.n));
+  if (bring > mine.length) add('bring', 'me', bring - mine.length);
+  if (borrowN > 0) add('borrow', 'me', borrowN);
+  if (renting) {
+    rentMine.forEach((l) => add('rent', whoUses(l.to), l.n));
+    if (!rentMine.length) add('rent', 'me', 0);
+  }
+  // the row's phrases, for one source and one user, or all of them
+  const subFor = (how, use) => {
+    const fits = (to) => !use || whoUses(to) === use;
+    const out = [];
+    if (!how || how === 'bring') {
+      const ls = bringLines.filter((l) => fits(l.to));
+      if (ls.length && !(ls.length === 1 && ls[0].to.length === 1 && ls[0].to[0] === me)) out.push('Bringing ' + ls.map(short).join(', '));
+    }
+    if ((!how || how === 'borrow') && borrowN > 0 && fits([me])) out.push(`From ${who(borrow.map((b) => b.id))}${borrow.some((b) => b.lines.some((l) => others(l.to).length)) ? ', shared' : ''}`);
+    if ((!how || how === 'rent') && renting) out.push(...rentMine.filter((l) => fits(l.to)).map(rentShort));
+    return out;
+  };
+  const sub = subFor();
+  return { bring, bringLines, borrow, borrowN, elsewhere, share, renting, rentMine, rentElse, atoms, sub, subFor, full, rentFull, who };
 }

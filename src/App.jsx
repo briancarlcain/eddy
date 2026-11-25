@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BUILTIN_RIVERS, DEFAULT_RIVER, normalizeRiver } from './rivers.js';
 import GENERAL from '../data/general.json';
 import { bringForm, coverOf, ledger, num, priceMode, priceOf, unitList } from './gearLedger.js';
-import { packInfo, inOrder, moveShown } from './gearPack.js';
+import { packInfo, flipParts, inOrder, moveShown } from './gearPack.js';
 import { linkMembers } from './crewLink.js';
 import { shortOf } from './names.js';
 import { crewFavs, favKey, getFavs, mergeFavs, reconcileFavs, setFav, subscribeFavs, useFavs } from './favs.js';
@@ -2491,23 +2491,23 @@ const getPacked = (tripId) => {
 const byItem = (a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' });
 // packing list grouping, group order and sort, kept on this device
 const PACK_VIEW = 'eddy.packview';
-const PACK_GROUPS = [
-  ['cat', 'Category'],
-  ['cat-how', 'Category, then owner'],
-  ['how-cat', 'Owner, then category'],
-  ['how', 'Owner'],
-];
+const PACK_DIMS = { cat: 'Category', how: 'Owner', req: 'Required / Recommended', use: 'Used by' };
 const getPackView = () => {
   let v = {};
   try {
     v = JSON.parse(localStorage.getItem(PACK_VIEW) || '{}') || {};
   } catch {}
   const list = (x) => (Array.isArray(x) ? x : []);
-  return { group: PACK_GROUPS.some((g) => g[0] === v.group) ? v.group : 'cat', sort: v.sort || 'name', order: list(v.order), howOrder: list(v.howOrder) };
+  const keys = Object.keys(PACK_DIMS);
+  // an earlier version saved one name, such as how-cat
+  const old = typeof v.group === 'string' ? v.group.split('-') : ['cat'];
+  const on = (Array.isArray(v.on) ? v.on : old).filter((k) => keys.includes(k));
+  const dims = inOrder(keys, Array.isArray(v.dims) ? v.dims : old);
+  return { dims, on, sort: v.sort || 'name', order: list(v.order), howOrder: list(v.howOrder), reqOrder: list(v.reqOrder), useOrder: list(v.useOrder) };
 };
 
 // rows dragged by their handle, or moved with the arrow keys
-function OrderList({ items, onMove }) {
+function OrderList({ items, onMove, lead }) {
   const [drag, setDrag] = useState(null);
   const rows = useRef([]);
   const last = items.length - 1;
@@ -2546,7 +2546,14 @@ function OrderList({ items, onMove }) {
     <div className={'orderList' + (drag ? ' dragging' : '')}>
       {items.map((c, k) => (
         <div key={c} ref={(n) => (rows.current[k] = n)} className={'orderRow' + (drag?.from === k ? ' lifted' : '')} style={drag ? { transform: `translateY(${shift(k)}px)` } : undefined}>
-          <span>{c}</span>
+          {lead ? (
+            <label className="orderName">
+              {lead(k)}
+              <span>{c}</span>
+            </label>
+          ) : (
+            <span>{c}</span>
+          )}
           <button className="orderGrip" aria-label={`Move ${c}`} onPointerDown={grab(k)} onPointerMove={move} onPointerUp={drop} onPointerCancel={() => setDrag(null)} onKeyDown={key(k)}>
             ≡
           </button>
@@ -2579,42 +2586,70 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
   // ticks from earlier lists were kept per kind and per person
   const oldKeys = (pre, id) => Object.keys(done).filter((k) => (pre === 'own' ? k === 'lend' + id || k.startsWith('lend' + id + ':') : k.startsWith('from' + id + ':')));
   const isDone = (pre, id) => !!done[pre + id] || oldKeys(pre, id).some((k) => done[k]);
-  const flip = (pre, id) => {
-    const on = !isDone(pre, id);
-    const drop = new Set([pre + id, ...oldKeys(pre, id)]);
-    const next = Object.fromEntries(Object.entries(done).filter(([k]) => !drop.has(k)));
-    if (on) next[pre + id] = true;
+  const rows = [...L.items]
+    .sort(byItem)
+    .map((i) => {
+      const p = packInfo(i, me, crew, label);
+      return { id: i.id, i, p, atoms: p.atoms };
+    })
+    .filter(({ p }) => p.bring > 0 || p.borrowN > 0 || p.renting);
+  if (!rows.length) return <div className="muted mt">Nothing to pack or rent yet. Enter what you’re bringing on the items.</div>;
+  const allCats = inOrder([...new Set([...view.order, ...L.items.map((i) => i.cat)])], view.order);
+  const cats = allCats.filter((c) => rows.some((r) => r.i.cat === c));
+  // one tick per item; grouped so that it is listed more than once, each listing ticks its own part
+  const prefix = (r) => (r.p.bring > 0 ? 'own' : 'from');
+  const partsOf = (r) => r.atoms.filter((a) => a.how !== 'rent').map((a) => a.how + ':' + a.use);
+  const canTick = (r) => partsOf(r).length > 0;
+  const nDone = (r) => (isDone(prefix(r), r.i.id) ? partsOf(r).length : partsOf(r).filter((k) => done[prefix(r) + r.i.id + '#' + k]).length);
+  const rowDone = (r) => canTick(r) && nDone(r) === partsOf(r).length;
+  const flip = (r) => {
+    const base = prefix(r) + r.i.id;
+    const old = new Set(oldKeys(prefix(r), r.i.id));
+    const kept = Object.fromEntries(Object.entries(done).filter(([k]) => !old.has(k)));
+    if (isDone(prefix(r), r.i.id)) kept[base] = true;
+    const next = flipParts(kept, base, partsOf(rows.find((x) => x.i.id === r.i.id)), partsOf(r), !rowDone(r));
     setDone(next);
     try {
       localStorage.setItem(packKey(tripId), JSON.stringify(next));
     } catch {}
   };
-  const rows = [...L.items]
-    .sort(byItem)
-    .map((i) => ({ id: i.id, i, p: packInfo(i, me, crew, label) }))
-    .filter(({ p }) => p.bring > 0 || p.borrowN > 0 || p.renting);
-  if (!rows.length) return <div className="muted mt">Nothing to pack or rent yet. Enter what you’re bringing on the items.</div>;
-  const allCats = inOrder([...new Set([...view.order, ...L.items.map((i) => i.cat)])], view.order);
-  const cats = allCats.filter((c) => rows.some((r) => r.i.cat === c));
-  const canTick = ({ p, kind }) => kind !== 'rent' && (p.bring > 0 || p.borrowN > 0);
-  const rowDone = ({ i, p }) => isDone(p.bring > 0 ? 'own' : 'from', i.id);
   const tickable = rows.filter(canTick);
   const packed = tickable.filter(rowDone).length;
   const qty = (n) => +n.toFixed(2);
-  // grouped by bringing/borrowing/renting, an item has one entry under each that applies
-  const fits = (r, k) => (r.kind ? r.kind === k : k === 'bring' ? r.p.bring > 0 : k === 'borrow' ? r.p.borrowN > 0 : r.p.renting);
+  const fits = (r, k) => r.atoms.some((a) => a.how === k);
   const names = { bring: 'Bringing', borrow: 'Borrowing', rent: 'Renting' };
   const hows = inOrder(Object.keys(names), view.howOrder);
   const KINDS = hows.map((k) => [k, names[k], (r) => fits(r, k)]);
-  const levels = view.group.split('-');
-  const entries = levels.includes('how') ? rows.flatMap((r) => KINDS.filter((k) => k[2](r)).map(([k]) => ({ ...r, id: k + ':' + r.id, kind: k }))) : rows;
+  const reqNames = { req: 'Required', rec: 'Recommended', other: 'Other' };
+  const reqs = inOrder(Object.keys(reqNames), view.reqOrder);
+  const userNames = { me: you ? 'You' : first, group: 'Group', else: 'Someone else' };
+  const uses = inOrder(Object.keys(userNames), view.useOrder);
+  const levels = view.dims.filter((k) => view.on.includes(k));
+  // grouped by owner or user, an item has one entry under each that applies
+  const splitHow = levels.includes('how');
+  const splitUse = levels.includes('use');
+  const entries = rows.flatMap((r) => {
+    if (!splitHow && !splitUse) return [r];
+    const m = new Map();
+    r.atoms.forEach((a) => {
+      const k = (splitHow ? a.how : '') + ':' + (splitUse ? a.use : '');
+      m.set(k, [...(m.get(k) || []), a]);
+    });
+    return [...m].map(([k, atoms]) => ({ ...r, id: r.id + '|' + k, atoms, how: splitHow ? atoms[0].how : null, use: splitUse ? atoms[0].use : null }));
+  });
+  // the cost shows once per item, on your own entry when there is one
+  const costAt = new Map();
+  [...entries.filter((e) => e.use === 'me'), ...entries].forEach((e) => {
+    if (fits(e, 'rent') && !costAt.has(e.i.id)) costAt.set(e.i.id, e.id);
+  });
   const TICKS = [
     ['todo', 'Not packed', (r) => canTick(r) && !rowDone(r)],
     ['done', 'Packed', (r) => canTick(r) && rowDone(r)],
   ];
   const whose = you ? 'Your' : `${first}’s`;
-  const amount = ({ p, kind }) => (kind === 'rent' ? 0 : kind === 'borrow' ? p.borrowN : p.bring > 0 ? p.bring : p.borrowN);
-  const cost = ({ p, kind }) => (!kind || kind === 'rent' ? p.share : 0);
+  const total = (r, how) => r.atoms.filter((a) => a.how === how).reduce((x, a) => x + a.n, 0);
+  const amount = (r) => (splitUse ? total(r, 'bring') + total(r, 'borrow') : total(r, 'bring') || total(r, 'borrow'));
+  const cost = (r) => (costAt.get(r.i.id) === r.id ? r.p.share : 0);
   // to pack, then rental only, then packed
   const rank = (r) => (!canTick(r) ? 1 : rowDone(r) ? 2 : 0);
   const SORTS = [
@@ -2634,7 +2669,7 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
   const catHide = catOff.filter((c) => cats.includes(c));
   const fresh = entries.filter((r) => !catHide.includes(r.i.cat) && !allOff(KINDS, kindOff, r) && !allOff(TICKS, tickOff, r)).sort(sortSel[2]);
   // ticking an item doesn't move or hide it until the sort or filter changes
-  const shown = frozenOrder(order, fresh, entries, JSON.stringify([view.group, sortSel[0], tick, catOff, kindOff, tickOff, me, entries.map((r) => r.id)]));
+  const shown = frozenOrder(order, fresh, entries, JSON.stringify([levels, sortSel[0], tick, catOff, kindOff, tickOff, me, entries.map((r) => r.id)]));
   const nFilt = catHide.length + kindOff.length + tickOff.length;
   const flipIn = (list, set, k) => set(list.includes(k) ? list.filter((x) => x !== k) : [...list, k]);
   const tool = (k, icon, text, badge) => (
@@ -2671,24 +2706,26 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
       ))}
     </div>
   );
-  const groupsOf = (level) => (level === 'cat' ? cats.map((c) => [c, (r) => r.i.cat === c]) : KINDS.map(([k, l]) => [l, (r) => r.kind === k]));
-  // drag lists for whatever the list is grouped by, outer level first
-  const orders = {
-    cat: ['Category order', cats, (from, to) => saveView({ order: moveShown(allCats, cats, from, to) })],
-    how: ['Owner order', KINDS.map((k) => k[1]), (from, to) => saveView({ howOrder: moveShown(hows, hows, from, to) })],
+  const keyed = (field, keys) => (from, to) => saveView({ [field]: moveShown(keys, keys, from, to) });
+  // what each grouping can be: its values in order, an entry's value, and how to reorder them
+  const GROUPS = {
+    cat: { values: cats.map((c) => [c, c]), of: (r) => r.i.cat, onMove: (from, to) => saveView({ order: moveShown(allCats, cats, from, to) }) },
+    how: { values: hows.map((k) => [k, names[k]]), of: (r) => r.how, onMove: keyed('howOrder', hows) },
+    req: { values: reqs.map((k) => [k, reqNames[k]]), of: (r) => r.i.req || 'other', onMove: keyed('reqOrder', reqs) },
+    use: { values: uses.map((k) => [k, userNames[k]]), of: (r) => r.use, onMove: keyed('useOrder', uses) },
   };
   const row = (r) => {
-    const { id, i, p, kind } = r;
-    const pre = p.bring > 0 ? 'own' : 'from';
+    const { id, i, p } = r;
     const tick = canTick(r);
-    const on = tick && isDone(pre, i.id);
+    const on = rowDone(r);
+    const some = !on && tick && nDone(r) > 0;
     const open = openId === id;
     const n = amount(r);
-    const lines = kind ? p.subBy[kind] : p.sub;
+    const lines = p.subFor(r.how, r.use);
     return (
       <div className={'gpackItem' + (on ? ' done' : '')} key={id}>
         <div className="gpackRow">
-          {tick ? <input type="checkbox" checked={on} aria-label={i.name} onChange={() => flip(pre, i.id)} /> : <span className="gpackTickGap" />}
+          {tick ? <input type="checkbox" ref={(n) => n && (n.indeterminate = some)} checked={on} aria-label={i.name} onChange={() => flip(r)} /> : <span className="gpackTickGap" />}
           <button className="gpackMain" aria-expanded={open} onClick={() => setOpenId(open ? null : id)}>
             <span className="gpackName">{i.name}</span>
             {lines.length > 0 && <span className="gpackSubt">{lines.join(' · ')}</span>}
@@ -2736,6 +2773,30 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
       </div>
     );
   };
+  const grouped = (list, depth) => {
+    if (depth >= levels.length) return list.map(row);
+    const level = GROUPS[levels[depth]];
+    return level.values.map(([v, title]) => {
+      const part = list.filter((r) => level.of(r) === v);
+      if (!part.length) return null;
+      const head = (
+        <>
+          {title} <span className="muted">{new Set(part.map((r) => r.i.id)).size}</span>
+        </>
+      );
+      return depth === 0 ? (
+        <details key={levels.join() + v} open>
+          <summary className="gpackHead">{head}</summary>
+          {grouped(part, 1)}
+        </details>
+      ) : (
+        <React.Fragment key={v}>
+          <div className={'gpackSubHead d' + depth}>{head}</div>
+          {grouped(part, depth + 1)}
+        </React.Fragment>
+      );
+    });
+  };
   return (
     <div className="gpack mb">
       <span className="label">
@@ -2762,16 +2823,20 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
       </div>
       {panel === 'group' && (
         <>
-          {menu('Group packing list', PACK_GROUPS, view.group, (k) => saveView({ group: k }))}
-          {levels.map((level) => {
-            const [title, items, onMove] = orders[level];
-            return (
-              <React.Fragment key={level}>
-                <span className="label mt">{title}</span>
-                <OrderList items={items} onMove={onMove} />
-              </React.Fragment>
-            );
-          })}
+          <OrderList
+            items={view.dims.map((k) => PACK_DIMS[k])}
+            onMove={keyed('dims', view.dims)}
+            lead={(n) => {
+              const k = view.dims[n];
+              return <input type="checkbox" checked={view.on.includes(k)} onChange={() => saveView({ on: view.on.includes(k) ? view.on.filter((x) => x !== k) : [...view.on, k] })} />;
+            }}
+          />
+          {levels.map((k) => (
+            <details className="orderFold" key={k}>
+              <summary>{PACK_DIMS[k]} order</summary>
+              <OrderList items={GROUPS[k].values.map((v) => v[1])} onMove={GROUPS[k].onMove} />
+            </details>
+          ))}
           <button
             className="btn mt"
             onClick={(e) => {
@@ -2803,31 +2868,7 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
         </div>
       )}
       {panel !== 'group' && shown.length === 0 && <div className="muted mt">Nothing matches.</div>}
-      {panel !== 'group' && groupsOf(levels[0]).map(([title, inGroup]) => {
-        const list = shown.filter(inGroup);
-        if (!list.length) return null;
-        return (
-          <details key={view.group + title} open>
-            <summary className="gpackHead">
-              {title} <span className="muted">{new Set(list.map((r) => r.i.id)).size}</span>
-            </summary>
-            {levels[1]
-              ? groupsOf(levels[1]).map(([name2, inSub]) => {
-                  const part = list.filter(inSub);
-                  if (!part.length) return null;
-                  return (
-                    <React.Fragment key={name2}>
-                      <div className="gpackSubHead">
-                        {name2} <span className="muted">{part.length}</span>
-                      </div>
-                      {part.map(row)}
-                    </React.Fragment>
-                  );
-                })
-              : list.map(row)}
-          </details>
-        );
-      })}
+      {panel !== 'group' && grouped(shown, 0)}
     </div>
   );
 }
