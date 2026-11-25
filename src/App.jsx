@@ -4974,6 +4974,7 @@ const HOME = [
 
 function TripHome({ s, back, sec, setSec }) {
   const t = s.trip;
+  const [leaveMsg, setLeaveMsg] = useState('');
   if (!sec || !HOME.some(([k]) => k === sec))
     return (
       <div className="homeMenu">
@@ -4985,7 +4986,6 @@ function TripHome({ s, back, sec, setSec }) {
         ))}
       </div>
     );
-  const [leaveMsg, setLeaveMsg] = useState('');
   const info = s.info[t.id];
   const byId = Object.fromEntries(((info && info.members) || []).map((m) => [m.id, m.n || 'Someone']));
   return (
@@ -5104,7 +5104,9 @@ function River({ s, browse, onBrowse, onPlan }) {
 function RiverDetail({ s }) {
   const [tab, setTab] = useState(QS.get('sub') || 'Map');
   // arriving from another page (a scrolled trip, say) starts at the top, so the section tabs are in view
-  useLayoutEffect(() => window.scrollTo(0, 0), []);
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const [mapMode, setMapModeRaw] = useState(() => {
     try {
       return QS.get('map') || localStorage.getItem('eddy.mapMode') || 'chart';
@@ -5433,7 +5435,7 @@ function RiverMap({ s }) {
             {geoLabels.map(({ g, hi, cy, slot }, i) => (
               <React.Fragment key={i}>
                 <div
-                  className={'gband' + (sel === 'g' + i ? ' sel' : '')}
+                  className={'gband' + (sel === 'g' + i ? ' picked' : '')}
                   style={{
                     top: y(hi),
                     height: (hi - g.s) * PPM,
@@ -5465,7 +5467,7 @@ function RiverMap({ s }) {
                 return (
                   <div
                     key={'r' + i}
-                    className={'bar rapid' + (sel === 'r' + i ? ' sel' : '')}
+                    className={'bar rapid' + (sel === 'r' + i ? ' picked' : '')}
                     style={{ left: riverX - armL, width: armL + armR, top: tops.r[i] - 7, height: 14 }}
                     onClick={() => open('rapid', d, 'r' + i)}
                   >
@@ -5486,7 +5488,7 @@ function RiverMap({ s }) {
               return (
                 <div
                   key={'c' + i}
-                  className={'bar camp ' + (right ? 'bright' : 'bleft') + (sel === 'c' + i ? ' sel' : '')}
+                  className={'bar camp ' + (right ? 'bright' : 'bleft') + (sel === 'c' + i ? ' picked' : '')}
                   style={{
                     left: right ? riverX + 4 : riverX - 4 - len,
                     width: len,
@@ -5509,7 +5511,7 @@ function RiverMap({ s }) {
             {RIVER.landmarks.map((d, i) => (
               <div
                 key={'l' + i}
-                className={'lm' + (sel === 'l' + i ? ' sel' : '')}
+                className={'lm' + (sel === 'l' + i ? ' picked' : '')}
                 style={{ left: riverX - 5, top: y(d.mile) - 11 }}
                 onClick={() => open('rapid', d, 'l' + i)}
               >
@@ -5525,7 +5527,7 @@ function RiverMap({ s }) {
               return (
                 <div
                   key={'h' + i}
-                  className={'hike ' + (right ? 'bright' : 'bleft') + (sel === 'h' + i ? ' sel' : '')}
+                  className={'hike ' + (right ? 'bright' : 'bleft') + (sel === 'h' + i ? ' picked' : '')}
                   style={{ left: right ? riverX + 4 : riverX - 4 - w, width: w, top: tops.h[i] - 9, height: 18 }}
                   onClick={() => open('hike', h, 'h' + i)}
                 >

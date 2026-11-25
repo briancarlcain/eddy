@@ -109,7 +109,7 @@ header{position:fixed; top:0; left:0; right:0; z-index:20;
   transform-origin:center center; transform:translate(50%,-50%) rotate(90deg);}
 .gband{position:absolute; z-index:2; cursor:pointer;
   border-top:1.5px dashed transparent; border-bottom:1.5px dashed transparent;}
-.gband.sel{box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--ink) 38%,transparent);}
+.gband.picked{box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--ink) 38%,transparent);}
 .gbandLabel{position:absolute; z-index:7; font-family:var(--font); font-size:9px; font-weight:600;
   letter-spacing:.04em; text-transform:uppercase; color:#5a3212; background:color-mix(in srgb,#c9b48f 55%,#f5eede);
   padding:1px 5px; border-radius:8px; border:1px solid color-mix(in srgb,#9a6a3a 42%,transparent); white-space:nowrap; pointer-events:none;
@@ -127,16 +127,16 @@ header{position:fixed; top:0; left:0; right:0; z-index:20;
 .bar.camp{justify-content:flex-end;}
 .bar.camp.bleft .stick{border-radius:3px 0 0 3px;}
 .bar.camp.bright .stick{border-radius:0 3px 3px 0;}
-.bar.sel .stick{box-shadow:0 0 0 1.4px rgba(58,30,15,.85);}
+.bar.picked .stick{box-shadow:0 0 0 1.4px rgba(58,30,15,.85);}
 .hike{position:absolute; z-index:9; display:flex; align-items:center; justify-content:center; -webkit-tap-highlight-color:transparent;}
 .hike .hdash{height:4px; width:100%; border-radius:2px;
   box-shadow:0 0 0 .75px rgba(52,26,12,.55), 0 1px 0 rgba(70,40,20,.22);}
-.hike.sel .hdash{box-shadow:0 0 0 2px rgba(52,26,12,.95), 0 1px 0 rgba(70,40,20,.22);}
+.hike.picked .hdash{box-shadow:0 0 0 2px rgba(52,26,12,.95), 0 1px 0 rgba(70,40,20,.22);}
 .lm{position:absolute; z-index:10; display:flex; align-items:center; -webkit-tap-highlight-color:transparent;}
 .lm .ld{width:11px;height:11px;flex:none;background:var(--mark);transform:rotate(45deg);border:1px solid #2c1b0f;}
 .lm .lpill{margin-left:8px; font-family:var(--font); font-weight:500; font-size:10px; letter-spacing:.03em;
   color:var(--ink); line-height:1.12; background:rgba(245,238,222,.92); padding:2px 7px; border-radius:8px; border:1px solid var(--line);}
-.lm.sel .ld{box-shadow:0 0 0 2px #2c1b0f;}
+.lm.picked .ld{box-shadow:0 0 0 2px #2c1b0f;}
 
 .sheet{position:fixed; left:0; right:0; bottom:var(--nav-h); z-index:40; transform:translateY(130%);
   transition:transform .26s cubic-bezier(.4,0,.2,1); background:var(--card);

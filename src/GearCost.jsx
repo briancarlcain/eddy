@@ -155,6 +155,10 @@ function Item({ i, v, max, color, open, onOpen, L, crew, pid }) {
   const payers = crew.map((c) => ({ c, v: i.share[c.id] || 0 })).filter((x) => x.v > 0.005).sort((a, b) => b.v - a.v);
   const lines = pid ? costLines(i, crew, L.nights, pid) : [];
   const qty = (n) => +n.toFixed(2);
+  const first = (name) => {
+    const c = crew.find((x) => x.name === name);
+    return (c && shortOf(crew, c.id)) || name;
+  };
   return (
     <div className={'cbItem' + (open ? ' open' : '')}>
       <button className="cbItemHead" aria-expanded={open} onClick={onOpen}>
