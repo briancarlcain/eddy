@@ -941,3 +941,11 @@ html.mapLock body { position: fixed; inset: 0; width: 100%; }
   .topoMap { height: calc(100dvh - var(--nav-h) - 150px); }
   .shell:not(.onmap) .mapMode + .gcmap .mapWindow { height: calc(100dvh - var(--nav-h) - 132px - 42px - 58px); }
 }
+.rg .gpackItem { border-bottom: 1px solid var(--line-soft); }
+.rg .gpackItem .gpackRow { border-bottom: 0; }
+.rg .gpackTickGap { width: 20px; flex: none; }
+.rg .gpackMain { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; background: none; border: 0; padding: 0; margin: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; }
+.rg .gpackSubt { font-size: 13px; color: var(--ink-dim); }
+.rg .gpackItem.done .gpackName { text-decoration: line-through; opacity: .55; }
+.rg .gpackDetail { display: flex; flex-direction: column; gap: 8px; margin: 0 0 10px 30px; font-size: 14px; line-height: 1.4; }
+.rg .gpackDHead { font-weight: 600; }
