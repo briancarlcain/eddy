@@ -29,6 +29,7 @@ import { applyTheme, riverCardStyle } from './theme.js';
 import { campHorizon, campSun, riverLine, dropHorizon, drops, dropsGPX, hasGeo, hikeTrack, onGeoChange, parseGPX, position, removeDrop, setHikeTrack, trackStats, updateDrop } from './geo/index.js';
 import { sunDay } from './geo/sun.js';
 import { atMile } from './geo/line.js';
+import { navHeight } from './navHeight.js';
 import tzlookup from '@photostructure/tz-lookup';
 
 // gear ids from an older list of the Grand Canyon trip point at different items: line them up by name before combining copies
@@ -5267,7 +5268,7 @@ function RiverMap({ s }) {
       // fill from the window's top edge to the tab bar, whatever the header and safe areas add up to
       const el = scroller.current;
       if (el) {
-        const nav = document.querySelector('.tabbar')?.getBoundingClientRect().height || 58;
+        const nav = navHeight();
         setPaneH(Math.max(240, Math.round(window.innerHeight - el.getBoundingClientRect().top - window.scrollY - nav)));
       }
     };

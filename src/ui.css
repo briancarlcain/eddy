@@ -949,3 +949,73 @@ html.mapLock body { position: fixed; inset: 0; width: 100%; }
 .rg .gpackItem.done .gpackName { text-decoration: line-through; opacity: .55; }
 .rg .gpackDetail { display: flex; flex-direction: column; gap: 8px; margin: 0 0 10px 30px; font-size: 14px; line-height: 1.4; }
 .rg .gpackDHead { font-weight: 600; }
+
+/* =========================================================
+   Desktop: sidebar, wide content, side panels (mouse + wide window)
+   ========================================================= */
+@media (min-width: 1000px) and (hover: hover) and (pointer: fine) {
+  :root { --nav-h: 0px; --side: 212px; --wide: 1100px; }
+
+  /* sidebar (column-reverse puts Trips first) */
+  .tabbar { top: 0; right: auto; width: var(--side); flex-direction: column-reverse; justify-content: flex-end; gap: 4px; padding: 14px 12px; border-top: 0; border-right: 1px solid var(--line); }
+  .tabbar::after { content: 'Eddy'; padding: 4px 12px 16px; font-size: 24px; font-weight: 700; color: var(--ink); }
+  .tabbtn { flex: none; flex-direction: row; gap: 12px; padding: 11px 12px; border-radius: 10px; }
+  .tabbtn .tlabel { font-size: 15px; }
+  .tabbtn.on { background: var(--accent-soft); }
+
+  .shell main { max-width: none; margin: 0 0 0 var(--side); padding-bottom: 24px; }
+  .pageHeader { left: var(--side); padding-left: 14px; padding-right: 14px; }
+  .pageHeader .hback { left: 14px; }
+  .pageHeader .hact { right: 18px; }
+
+  /* nothing scrolls sideways with a mouse: wrap tab and chip rows */
+  .rg .tabs, .rg .tabs.trip { flex-wrap: wrap; overflow: visible; padding-left: max(15px, calc(50% - var(--wide) / 2 + 15px)); padding-right: max(15px, calc(50% - var(--wide) / 2 + 15px)); }
+  .rg .tabs.trip { padding-left: max(8px, calc(50% - var(--wide) / 2 + 8px)); }
+  .rg .card > .tabs { padding-left: 0; padding-right: 0; }
+  .rg .tabs:not(.trip) { column-gap: 2px; }
+  .rg .tabs:not(.trip) .tab { padding: 0 9px; }
+  .rg .chips.scroll { flex-wrap: wrap; overflow: visible; }
+
+  /* reading width for text and forms; lists get the full width */
+  .rg .pad { max-width: 780px; margin: 0 auto; padding-top: 22px; }
+  .rg .pad:has(.acc + .acc), .rg .pad:has(.tripCard), .rg .pad:has(> .listRow + .listRow), .rg .pad:has(> .grItem + .grItem) { max-width: var(--wide); }
+  .rg .pad:has(.tripCard) > .notice { max-width: 560px; }
+
+  .rg .pad > .mt:has(> .tripCard) { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; align-items: stretch; }
+  .rg .pad > .mt > .label:has(~ .tripCard) { grid-column: 1 / -1; margin-bottom: 0; }
+  .rg .pad > .mt > .tripCard { margin-top: 0; }
+
+  .rg :is(.pad, .pad > .mt, .pad > .fold):has(> .acc + .acc) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 12px; align-items: start; align-content: start; }
+  .rg :is(.pad, .pad > .mt, .pad > .fold):has(> .acc + .acc) > :not(.acc) { grid-column: 1 / -1; }
+
+  .rg .pad:has(> .listRow + .listRow), .rg .pad:has(> .grItem + .grItem) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; align-content: start; }
+  .rg .pad:has(> .listRow + .listRow) > :not(.listRow, .acc, .grItem), .rg .pad:has(> .grItem + .grItem) > :not(.listRow, .acc, .grItem) { grid-column: 1 / -1; }
+  .rg .pad > .grItem { align-self: start; }
+  .rg :is(.pad, .pad > .mt, .pad > .fold):has(> .acc + .acc) > .btn { justify-self: start; }
+
+  /* mile chart: key and filters beside the chart */
+  .gcmap { display: grid; grid-template-columns: 360px minmax(0, 1fr); max-width: var(--wide); margin: 0 auto; overflow: hidden; }
+  .gcmap #mapHeader { position: static; grid-column: 1; grid-row: 1; align-self: start; margin: 0 0 0 15px; border: 1px solid var(--line); border-radius: var(--r-m); }
+  .gcmap .mapPane { grid-column: 2; grid-row: 1; }
+  .gcmap .fbar { flex-wrap: wrap; }
+  .gcmap .fsum { white-space: normal; }
+  .rg .mapMode { max-width: var(--wide); margin: 0 auto; }
+  .topoMap, .shell:not(.onmap) .topoMap { height: calc(100vh - 176px); }
+  .bar, .hike, .lm, .gband, .poi { cursor: pointer; }
+  .rg .gmapBox { height: 480px; }
+
+  /* details open as a panel on the right */
+  .sheet { left: auto; right: 0; top: var(--head-h); bottom: 0; width: 400px; max-height: none; border-radius: 0; border-left: 1px solid var(--line); transform: translateX(110%); }
+  .sheet:not(.show) { visibility: hidden; transition: transform .26s ease, visibility 0s .26s; }
+  .sheet.show { transform: none; }
+  .sheet .grab { display: none; }
+  .gcmap .sheet { top: 0; left: 0; right: auto; width: 360px; border-left: 0; border-right: 1px solid var(--line); transform: translateX(-110%); } /* over the key, so the chart stays clear */
+  .gcmap .sheet.show { transform: none; }
+  .topoWrap { overflow: clip; }
+
+  /* filters open as a dialog */
+  .fsheetWrap { align-items: center; justify-content: center; padding: 24px; }
+  .fsheet { max-width: 540px; max-height: 100%; border-radius: 16px; }
+
+  .fullPopHead, .fullPopBody { padding-left: max(24px, calc(50% - 450px)); padding-right: max(24px, calc(50% - 450px)); }
+}

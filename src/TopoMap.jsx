@@ -9,6 +9,7 @@ import { sunPos, sunDay, localMidnight, encodeHorizon } from './geo/sun.js';
 import { horizon } from './geo/horizon.js';
 import { nearest } from './geo/line.js';
 import { riverLine, position, hikeTrack, onGeoChange, drops, addDrop, updateDrop } from './geo/index.js';
+import { navHeight } from './navHeight.js';
 
 // --- DEM basemap
 const TINT = [
@@ -138,7 +139,7 @@ export default function TopoMap({ rid, river, planned, colors, date: date0, onOp
     root.classList.add('lockScroll');
     const fit = () => {
       if (!el.current) return;
-      const nav = document.querySelector('.tabbar')?.getBoundingClientRect().height || 58;
+      const nav = navHeight();
       const top = el.current.getBoundingClientRect().top + window.scrollY;
       const vh = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
       setH(Math.max(320, Math.round(vh - top - nav)));

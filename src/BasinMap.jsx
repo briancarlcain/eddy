@@ -9,6 +9,7 @@ import INDEX from '../data/basin/index.json';
 import { dec, area, approx } from './geo/basin.js';
 import { DemLayer } from './TopoMap.jsx';
 import { openUrl } from './native.js';
+import { navHeight } from './navHeight.js';
 
 // base maps under the basin: relief shading from the saved terrain tiles (works offline), or OpenTopoMap (roads, towns,
 // contours; needs signal). 'plain' is the original flat outline.
@@ -63,7 +64,7 @@ export default function BasinMap({ rid, river }) {
   useEffect(() => {
     const fit = () => {
       if (!el.current) return;
-      const nav = document.querySelector('.tabbar')?.getBoundingClientRect().height || 58;
+      const nav = navHeight();
       setH(Math.max(320, Math.round(window.innerHeight - el.current.getBoundingClientRect().top - nav)));
     };
     fit();
