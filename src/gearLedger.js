@@ -185,13 +185,15 @@ export function ledger(t) {
       }
       if (!r.to.length) return;
       rAssigned += n;
-      lines.push({ to: r.to, n });
+      const cost = {};
+      lines.push({ to: r.to, n, cost });
       const ws = r.to.reduce((a, id) => a + wOf(byId[id]), 0) || 1;
       r.to.forEach((id) => {
         const f = wOf(byId[id]) / ws;
         rented[id] = (rented[id] || 0) + n * f;
         if (unit) {
-          share[id] = (share[id] || 0) + unit * n * f;
+          cost[id] = unit * n * f;
+          share[id] = (share[id] || 0) + cost[id];
           if (r.to.length === 1) single[id] = (single[id] || 0) + unit * n;
         }
       });
@@ -206,19 +208,24 @@ export function ledger(t) {
       if (n) {
         rented[c.id] = n;
         rAssigned += n;
-        lines.push({ to: [c.id], n });
+        lines.push({ to: [c.id], n, cost: unit ? { [c.id]: unit * n } : {} });
         if (unit) share[c.id] = single[c.id] = unit * n;
       }
     });
     const count = bring + rent;
     const total = unit * rent;
-    if (rg > 0) lines.unshift({ to: [], n: rg });
+    const groupCost = {};
+    if (rg > 0) lines.unshift({ to: [], n: rg, cost: groupCost });
     if (rg > 0 && unit > 0) {
       // the group's units are split by the item's method, skipping people who were excused
       const free = crew.filter((c) => !excl[c.id]);
       const pool = free.length ? free : crew;
       const ws = pool.reduce((a, c) => a + wOf(c), 0);
-      if (ws) pool.forEach((c) => (share[c.id] = (share[c.id] || 0) + (unit * rg * wOf(c)) / ws));
+      if (ws)
+        pool.forEach((c) => {
+          groupCost[c.id] = (unit * rg * wOf(c)) / ws;
+          share[c.id] = (share[c.id] || 0) + groupCost[c.id];
+        });
     }
     const assigned = Object.values(share).reduce((a, b) => a + b, 0);
     // what needs fixing before the numbers can be trusted

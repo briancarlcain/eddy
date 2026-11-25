@@ -24,6 +24,17 @@ export function flipParts(done, base, all, parts, on) {
   return next;
 }
 
+// saved order, with anything new placed after the entry it follows by default
+export const withSaved = (keys, saved) => {
+  const out = [...saved];
+  keys.forEach((k, i) => {
+    if (out.includes(k)) return;
+    const before = keys.slice(0, i).reverse().find((x) => out.includes(x));
+    out.splice(before === undefined ? 0 : out.indexOf(before) + 1, 0, k);
+  });
+  return out;
+};
+
 // one person's part in an item: what they bring, what others bring them, what they rent, and everyone else's part
 export function packInfo(i, me, crew, label) {
   const who = (ids) => {
@@ -72,31 +83,37 @@ export function packInfo(i, me, crew, label) {
     return o.length ? `Renting ${l.n}, split with ${o.length > 1 ? o.length + ' others' : label(o[0])}` : `Renting ${l.n} for ${label(me)}`;
   };
   const rentFull = (l) => `${l.n} for ${l.to.length ? who(l.to) : `the group (${groupIds.length})`}`;
-  // what this person brings, borrows and rents, split by who uses it
-  const whoUses = (to) => (!to.length ? 'group' : to.includes(me) ? 'me' : 'else');
+  // what this person brings, borrows and rents, split by exactly who uses it: 'group', or their ids joined
+  const everyone = (to) => crew.length > 1 && crew.every((c) => to.includes(c.id));
+  const usedBy = (to) =>
+    !to.length || everyone(to) ? 'group' : [...to].sort((a, b) => (a === me ? -1 : b === me ? 1 : 0) || label(a).localeCompare(label(b)) || a.localeCompare(b)).join('+');
   const atoms = [];
-  const add = (how, use, n) => {
-    const a = atoms.find((x) => x.how === how && x.use === use);
-    if (a) a.n += n;
-    else atoms.push({ how, use, n });
+  const add = (how, use, n, cost = 0) => {
+    let a = atoms.find((x) => x.how === how && x.use === use);
+    if (!a) atoms.push((a = { how, use, n: 0, cost: 0 }));
+    a.n += n;
+    a.cost += cost;
   };
-  bringLines.forEach((l) => add('bring', whoUses(l.to), l.n));
-  if (bring > mine.length) add('bring', 'me', bring - mine.length);
-  if (borrowN > 0) add('borrow', 'me', borrowN);
+  bringLines.forEach((l) => add('bring', usedBy(l.to), l.n));
+  if (bring > mine.length) add('bring', usedBy([me]), bring - mine.length);
+  borrow.forEach((b) => b.lines.forEach((l) => add('borrow', usedBy(l.to), l.n)));
   if (renting) {
-    rentMine.forEach((l) => add('rent', whoUses(l.to), l.n));
-    if (!rentMine.length) add('rent', 'me', 0);
+    rentMine.forEach((l) => add('rent', usedBy(l.to), l.n, l.cost?.[me] || 0));
+    if (!rentMine.length) add('rent', usedBy([me]), 0);
   }
-  // the row's phrases, for one source and one user, or all of them
+  // the row's phrases, for one source and one set of users, or all of them
   const subFor = (how, use) => {
-    const fits = (to) => !use || whoUses(to) === use;
+    const fits = (to) => !use || usedBy(to) === use;
     const out = [];
     if (!how || how === 'bring') {
       const ls = bringLines.filter((l) => fits(l.to));
       if (ls.length && !(ls.length === 1 && ls[0].to.length === 1 && ls[0].to[0] === me)) out.push('Bringing ' + ls.map(short).join(', '));
     }
-    if ((!how || how === 'borrow') && borrowN > 0 && fits([me])) out.push(`From ${who(borrow.map((b) => b.id))}${borrow.some((b) => b.lines.some((l) => others(l.to).length)) ? ', shared' : ''}`);
-    if ((!how || how === 'rent') && renting) out.push(...rentMine.filter((l) => fits(l.to)).map(rentShort));
+    if (!how || how === 'borrow') {
+      const from = borrow.filter((b) => b.lines.some((l) => fits(l.to)));
+      if (from.length) out.push(`From ${who(from.map((b) => b.id))}${from.some((b) => b.lines.some((l) => fits(l.to) && others(l.to).length)) ? ', shared' : ''}`);
+    }
+    if (!how || how === 'rent') out.push(...(renting ? rentMine.filter((l) => fits(l.to)).map(rentShort) : []));
     return out;
   };
   const sub = subFor();
