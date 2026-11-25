@@ -1,19 +1,5 @@
 import { num } from './gearLedger.js';
 
-// categories in the saved order; ones not saved yet follow
-export const orderCats = (cats, saved) => {
-  const at = (c) => (saved.includes(c) ? saved.indexOf(c) : saved.length);
-  return [...cats].sort((a, b) => at(a) - at(b));
-};
-
-// move one of the shown categories; the ones not shown keep their places
-export const moveCat = (all, shown, from, to) => {
-  const next = [...shown];
-  next.splice(to, 0, ...next.splice(from, 1));
-  let k = 0;
-  return all.map((c) => (shown.includes(c) ? next[k++] : c));
-};
-
 // one person's part in an item: what they bring, what others bring them, what they rent, and everyone else's part
 export function packInfo(i, me, crew, label) {
   const who = (ids) => {
@@ -62,10 +48,11 @@ export function packInfo(i, me, crew, label) {
     return o.length ? `Renting ${l.n}, split with ${o.length > 1 ? o.length + ' others' : label(o[0])}` : `Renting ${l.n} for ${label(me)}`;
   };
   const rentFull = (l) => `${l.n} for ${l.to.length ? who(l.to) : `the group (${groupIds.length})`}`;
-  const sub = [
-    bring > 0 && (bringLines.length === 1 && bringLines[0].to.length === 1 && bringLines[0].to[0] === me ? '' : 'Bringing ' + bringLines.map(short).join(', ')),
-    borrowN > 0 && `From ${who(borrow.map((b) => b.id))}${borrow.some((b) => b.lines.some((l) => others(l.to).length)) ? ', shared' : ''}`,
-    ...(renting ? rentMine.map(rentShort) : []),
-  ].filter(Boolean);
-  return { bring, bringLines, borrow, borrowN, elsewhere, share, renting, rentMine, rentElse, sub, full, rentFull, who };
+  const subBy = {
+    bring: [bring > 0 && (bringLines.length === 1 && bringLines[0].to.length === 1 && bringLines[0].to[0] === me ? '' : 'Bringing ' + bringLines.map(short).join(', '))].filter(Boolean),
+    borrow: borrowN > 0 ? [`From ${who(borrow.map((b) => b.id))}${borrow.some((b) => b.lines.some((l) => others(l.to).length)) ? ', shared' : ''}`] : [],
+    rent: renting ? rentMine.map(rentShort) : [],
+  };
+  const sub = [...subBy.bring, ...subBy.borrow, ...subBy.rent];
+  return { bring, bringLines, borrow, borrowN, elsewhere, share, renting, rentMine, rentElse, sub, subBy, full, rentFull, who };
 }

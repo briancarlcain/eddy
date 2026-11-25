@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BUILTIN_RIVERS, DEFAULT_RIVER, normalizeRiver } from './rivers.js';
 import GENERAL from '../data/general.json';
 import { bringForm, coverOf, ledger, num, priceMode, priceOf, unitList } from './gearLedger.js';
-import { packInfo, orderCats, moveCat } from './gearPack.js';
+import { packInfo } from './gearPack.js';
 import { linkMembers } from './crewLink.js';
 import { shortOf } from './names.js';
 import { crewFavs, favKey, getFavs, mergeFavs, reconcileFavs, setFav, subscribeFavs, useFavs } from './favs.js';
@@ -123,7 +123,7 @@ const ICONS = {
   refresh: 'M21 12a9 9 0 0 0-15-6.7L3 8M3 3v5h5M3 12a9 9 0 0 0 15 6.7L21 16M21 21v-5h-5',
   filter: 'M22 3H2l8 9.46V19l4 2v-8.54z',
   sort: 'M21 16l-4 4-4-4M17 20V4M3 8l4-4 4 4M7 4v16',
-  order: 'M4 6h16M4 12h16M4 18h16',
+  group: 'M3 5h18M8 12h13M8 19h13',
   alert: 'M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01',
 };
 const Icon = ({ name, size = 18, className = '' }) => (
@@ -2489,66 +2489,21 @@ const getPacked = (tripId) => {
   }
 };
 const byItem = (a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' });
-// packing list category order and sort, kept on this device
+// packing list grouping and sort, kept on this device
 const PACK_VIEW = 'eddy.packview';
+const PACK_GROUPS = [
+  ['cat', 'Category'],
+  ['cat-how', 'Category, then bringing/borrowing/renting'],
+  ['how-cat', 'Bringing/borrowing/renting, then category'],
+  ['how', 'Bringing/borrowing/renting'],
+];
 const getPackView = () => {
+  let v = {};
   try {
-    const v = JSON.parse(localStorage.getItem(PACK_VIEW) || '{}') || {};
-    return { order: Array.isArray(v.order) ? v.order : [], sort: v.sort || 'name' };
-  } catch {
-    return { order: [], sort: 'name' };
-  }
+    v = JSON.parse(localStorage.getItem(PACK_VIEW) || '{}') || {};
+  } catch {}
+  return { group: PACK_GROUPS.some((g) => g[0] === v.group) ? v.group : 'cat', sort: v.sort || 'name' };
 };
-
-// rows dragged by their handle, or moved with the arrow keys
-function OrderList({ items, onMove }) {
-  const [drag, setDrag] = useState(null);
-  const rows = useRef([]);
-  const last = items.length - 1;
-  const target = (d) => Math.max(0, Math.min(last, d.from + Math.round(d.dy / d.h)));
-  const to = drag ? target(drag) : 0;
-  const shift = (k) => {
-    if (!drag) return 0;
-    if (k === drag.from) return drag.dy;
-    if (k > drag.from && k <= to) return -drag.h;
-    return k < drag.from && k >= to ? drag.h : 0;
-  };
-  const grab = (k) => (ev) => {
-    if (ev.pointerType === 'mouse' && ev.button !== 0) return;
-    ev.preventDefault();
-    try {
-      ev.currentTarget.setPointerCapture(ev.pointerId);
-    } catch {}
-    const row = rows.current[k];
-    setDrag({ from: k, y: ev.clientY, dy: 0, h: row.offsetHeight + parseFloat(getComputedStyle(row).marginBottom) });
-  };
-  const move = (ev) => {
-    const y = ev.clientY;
-    setDrag((d) => d && { ...d, dy: y - d.y });
-  };
-  const drop = () => {
-    if (drag && to !== drag.from) onMove(drag.from, to);
-    setDrag(null);
-  };
-  const key = (k) => (ev) => {
-    const n = ev.key === 'ArrowUp' ? k - 1 : ev.key === 'ArrowDown' ? k + 1 : -1;
-    if (n < 0 || n > last) return;
-    ev.preventDefault();
-    onMove(k, n);
-  };
-  return (
-    <div className={'orderList' + (drag ? ' dragging' : '')}>
-      {items.map((c, k) => (
-        <div key={c} ref={(n) => (rows.current[k] = n)} className={'orderRow' + (drag?.from === k ? ' lifted' : '')} style={drag ? { transform: `translateY(${shift(k)}px)` } : undefined}>
-          <span>{c}</span>
-          <button className="orderGrip" aria-label={`Move ${c}`} onPointerDown={grab(k)} onPointerMove={move} onPointerUp={drop} onPointerCancel={() => setDrag(null)} onKeyDown={key(k)}>
-            ≡
-          </button>
-        </div>
-      ))}
-    </div>
-  );
-}
 
 function GearPack({ L, me, you, name, tripId, crew = [] }) {
   const [done, setDone] = useState(() => getPacked(tripId));
@@ -2588,24 +2543,28 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
     .map((i) => ({ id: i.id, i, p: packInfo(i, me, crew, label) }))
     .filter(({ p }) => p.bring > 0 || p.borrowN > 0 || p.renting);
   if (!rows.length) return <div className="muted mt">Nothing to pack or rent yet. Enter what you’re bringing on the items.</div>;
-  const allCats = orderCats([...new Set([...view.order, ...L.items.map((i) => i.cat)])], view.order);
-  const cats = allCats.filter((c) => rows.some((r) => r.i.cat === c));
-  const canTick = ({ p }) => p.bring > 0 || p.borrowN > 0;
+  const cats = [...new Set(L.items.map((i) => i.cat))].filter((c) => rows.some((r) => r.i.cat === c));
+  const canTick = ({ p, kind }) => kind !== 'rent' && (p.bring > 0 || p.borrowN > 0);
   const rowDone = ({ i, p }) => isDone(p.bring > 0 ? 'own' : 'from', i.id);
   const tickable = rows.filter(canTick);
   const packed = tickable.filter(rowDone).length;
   const qty = (n) => +n.toFixed(2);
+  // grouped by bringing/borrowing/renting, an item has one entry under each that applies
+  const fits = (r, k) => (r.kind ? r.kind === k : k === 'bring' ? r.p.bring > 0 : k === 'borrow' ? r.p.borrowN > 0 : r.p.renting);
   const KINDS = [
-    ['bring', 'Bringing', (r) => r.p.bring > 0],
-    ['borrow', 'Borrowing', (r) => r.p.borrowN > 0],
-    ['rent', 'Renting', (r) => r.p.renting],
+    ['bring', 'Bringing', (r) => fits(r, 'bring')],
+    ['borrow', 'Borrowing', (r) => fits(r, 'borrow')],
+    ['rent', 'Renting', (r) => fits(r, 'rent')],
   ];
+  const levels = view.group.split('-');
+  const entries = levels.includes('how') ? rows.flatMap((r) => KINDS.filter((k) => k[2](r)).map(([k]) => ({ ...r, id: k + ':' + r.id, kind: k }))) : rows;
   const TICKS = [
     ['todo', 'Not packed', (r) => canTick(r) && !rowDone(r)],
     ['done', 'Packed', (r) => canTick(r) && rowDone(r)],
   ];
   const whose = you ? 'Your' : `${first}’s`;
-  const amount = ({ p }) => (p.bring > 0 ? p.bring : p.borrowN);
+  const amount = ({ p, kind }) => (kind === 'rent' ? 0 : kind === 'borrow' ? p.borrowN : p.bring > 0 ? p.bring : p.borrowN);
+  const cost = ({ p, kind }) => (!kind || kind === 'rent' ? p.share : 0);
   // to pack, then rental only, then packed
   const rank = (r) => (!canTick(r) ? 1 : rowDone(r) ? 2 : 0);
   const SORTS = [
@@ -2613,8 +2572,8 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
     ['name-', 'Name, Z to A', (a, b) => byItem(b.i, a.i)],
     ['todo', 'Not packed first', (a, b) => rank(a) - rank(b)],
     ['qty', 'Quantity, most first', (a, b) => amount(b) - amount(a)],
-    ['cost-', `${whose} cost, high to low`, (a, b) => b.p.share - a.p.share],
-    ['cost', `${whose} cost, low to high`, (a, b) => a.p.share - b.p.share],
+    ['cost-', `${whose} cost, high to low`, (a, b) => cost(b) - cost(a)],
+    ['cost', `${whose} cost, low to high`, (a, b) => cost(a) - cost(b)],
   ];
   const sortSel = SORTS.find((x) => x[0] === view.sort) || SORTS[0];
   // hidden when every pill the row fits is switched off
@@ -2623,9 +2582,9 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
     return m.length > 0 && m.every((x) => off.includes(x[0]));
   };
   const catHide = catOff.filter((c) => cats.includes(c));
-  const fresh = rows.filter((r) => !catHide.includes(r.i.cat) && !allOff(KINDS, kindOff, r) && !allOff(TICKS, tickOff, r)).sort(sortSel[2]);
+  const fresh = entries.filter((r) => !catHide.includes(r.i.cat) && !allOff(KINDS, kindOff, r) && !allOff(TICKS, tickOff, r)).sort(sortSel[2]);
   // ticking an item doesn't move or hide it until the sort or filter changes
-  const shown = frozenOrder(order, fresh, rows, JSON.stringify([sortSel[0], tick, catOff, kindOff, tickOff, me, rows.map((r) => r.id)]));
+  const shown = frozenOrder(order, fresh, entries, JSON.stringify([view.group, sortSel[0], tick, catOff, kindOff, tickOff, me, entries.map((r) => r.id)]));
   const nFilt = catHide.length + kindOff.length + tickOff.length;
   const flipIn = (list, set, k) => set(list.includes(k) ? list.filter((x) => x !== k) : [...list, k]);
   const tool = (k, icon, text, badge) => (
@@ -2643,6 +2602,85 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
       ))}
     </div>
   );
+  const menu = (title, options, now, pick) => (
+    <div className="sortMenu" role="listbox" aria-label={title}>
+      {options.map(([k, l]) => (
+        <button
+          key={k}
+          role="option"
+          aria-selected={now === k}
+          className={'sortOpt' + (now === k ? ' on' : '')}
+          onClick={() => {
+            pick(k);
+            setPanel('');
+          }}
+        >
+          {l}
+          {now === k ? <Icon name="check" size={16} /> : null}
+        </button>
+      ))}
+    </div>
+  );
+  const groupsOf = (level) => (level === 'cat' ? cats.map((c) => [c, (r) => r.i.cat === c]) : KINDS.map(([k, l]) => [l, (r) => r.kind === k]));
+  const row = (r) => {
+    const { id, i, p, kind } = r;
+    const pre = p.bring > 0 ? 'own' : 'from';
+    const tick = canTick(r);
+    const on = tick && isDone(pre, i.id);
+    const open = openId === id;
+    const n = amount(r);
+    const lines = kind ? p.subBy[kind] : p.sub;
+    return (
+      <div className={'gpackItem' + (on ? ' done' : '')} key={id}>
+        <div className="gpackRow">
+          {tick ? <input type="checkbox" checked={on} aria-label={i.name} onChange={() => flip(pre, i.id)} /> : <span className="gpackTickGap" />}
+          <button className="gpackMain" aria-expanded={open} onClick={() => setOpenId(open ? null : id)}>
+            <span className="gpackName">{i.name}</span>
+            {lines.length > 0 && <span className="gpackSubt">{lines.join(' · ')}</span>}
+          </button>
+          {tick && n !== 1 && <span className="muted">×{qty(n)}</span>}
+          {cost(r) > 0.005 && <span className="grAmt">{usd(p.share)}</span>}
+        </div>
+        {open && (
+          <div className="gpackDetail">
+            {p.bring > 0 && (
+              <div>
+                <div className="gpackDHead">{Label(me)} {you ? 'bring' : 'brings'} {qty(p.bring)}</div>
+                {p.bringLines.map((l, k) => <div key={k}>{p.full(l)}</div>)}
+              </div>
+            )}
+            {p.borrow.map((b) => (
+              <div key={b.id}>
+                <div className="gpackDHead">{Label(b.id)} brings</div>
+                {b.lines.map((l, k) => <div key={k}>{p.full(l)}</div>)}
+              </div>
+            ))}
+            {(p.renting || p.rentElse.length > 0) && i.rent > 0 && (
+              <div>
+                <div className="gpackDHead">
+                  Renting {qty(i.rent)}
+                  {i.unit > 0 ? ` · ${usd(i.unit)} each` : ''}
+                </div>
+                {p.rentMine.map((l, k) => <div key={'m' + k}>{p.rentFull(l)}</div>)}
+                {p.rentElse.length > 0 && (
+                  <div className="muted">
+                    {you ? 'Not yours' : `Not ${first}’s`}: {p.rentElse.map(p.rentFull).join(', ')}
+                  </div>
+                )}
+                {p.share > 0.005 && <div>{you ? 'Your' : `${first}’s`} share {usd(p.share)}</div>}
+              </div>
+            )}
+            {p.elsewhere.length > 0 && (
+              <div className="muted">
+                <div className="gpackDHead">Others bringing</div>
+                {p.elsewhere.map((b) => <div key={b.id}>{Label(b.id)}: {b.lines.map((l) => (l.to.length === 1 && l.to[0] === b.id ? l.n : p.full(l))).join(', ')}</div>)}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  };
   return (
     <div className="gpack mb">
       <span className="label">
@@ -2650,9 +2688,9 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
         {tickable.length ? ` · ${packed} of ${tickable.length} packed` : ''}
       </span>
       <div className="gtools">
+        {tool('group', 'group', 'Group by')}
         {tool('filter', 'filter', 'Filter', nFilt)}
         {tool('sort', 'sort', 'Sort')}
-        {tool('order', 'order', 'Reorder')}
         {sortSel[0] !== 'name' ? <span className="gsortNow">{sortSel[1]}</span> : null}
         <span className="gright">
           {panel === 'filter' && catHide.length < cats.length ? (
@@ -2667,26 +2705,12 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
           ) : null}
         </span>
       </div>
-      {panel === 'sort' && (
-        <div className="sortMenu" role="listbox" aria-label="Sort packing list">
-          {SORTS.map(([k, l]) => (
-            <button
-              key={k}
-              role="option"
-              aria-selected={sortSel[0] === k}
-              className={'sortOpt' + (sortSel[0] === k ? ' on' : '')}
-              onClick={() => {
-                saveView({ sort: k });
-                setTick(tick + 1);
-                setPanel('');
-              }}
-            >
-              {l}
-              {sortSel[0] === k ? <Icon name="check" size={16} /> : null}
-            </button>
-          ))}
-        </div>
-      )}
+      {panel === 'group' && menu('Group packing list', PACK_GROUPS, view.group, (k) => saveView({ group: k }))}
+      {panel === 'sort' &&
+        menu('Sort packing list', SORTS, sortSel[0], (k) => {
+          saveView({ sort: k });
+          setTick(tick + 1);
+        })}
       {panel === 'filter' && (
         <div className="chipStack">
           <div className="chips scroll">
@@ -2700,73 +2724,29 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
           {pills(TICKS, tickOff, setTickOff)}
         </div>
       )}
-      {panel === 'order' && <OrderList items={cats} onMove={(from, to) => saveView({ order: moveCat(allCats, cats, from, to) })} />}
-      {panel !== 'order' && shown.length === 0 && <div className="muted mt">Nothing matches.</div>}
-      {panel !== 'order' && cats.map((c) => {
-        const cr = shown.filter((r) => r.i.cat === c);
-        if (!cr.length) return null;
+      {shown.length === 0 && <div className="muted mt">Nothing matches.</div>}
+      {groupsOf(levels[0]).map(([title, inGroup]) => {
+        const list = shown.filter(inGroup);
+        if (!list.length) return null;
         return (
-          <details key={c} open>
+          <details key={view.group + title} open>
             <summary className="gpackHead">
-              {c} <span className="muted">{cr.length}</span>
+              {title} <span className="muted">{new Set(list.map((r) => r.i.id)).size}</span>
             </summary>
-            {cr.map(({ i, p }) => {
-              const pre = p.bring > 0 ? 'own' : 'from';
-              const tick = p.bring > 0 || p.borrowN > 0;
-              const on = tick && isDone(pre, i.id);
-              const open = openId === i.id;
-              const n = p.bring > 0 ? p.bring : p.borrowN;
-              return (
-                <div className={'gpackItem' + (on ? ' done' : '')} key={i.id}>
-                  <div className="gpackRow">
-                    {tick ? <input type="checkbox" checked={on} aria-label={i.name} onChange={() => flip(pre, i.id)} /> : <span className="gpackTickGap" />}
-                    <button className="gpackMain" aria-expanded={open} onClick={() => setOpenId(open ? null : i.id)}>
-                      <span className="gpackName">{i.name}</span>
-                      {p.sub.length > 0 && <span className="gpackSubt">{p.sub.join(' · ')}</span>}
-                    </button>
-                    {tick && n !== 1 && <span className="muted">×{qty(n)}</span>}
-                    {p.share > 0.005 && <span className="grAmt">{usd(p.share)}</span>}
-                  </div>
-                  {open && (
-                    <div className="gpackDetail">
-                      {p.bring > 0 && (
-                        <div>
-                          <div className="gpackDHead">{Label(me)} {you ? 'bring' : 'brings'} {qty(p.bring)}</div>
-                          {p.bringLines.map((l, k) => <div key={k}>{p.full(l)}</div>)}
-                        </div>
-                      )}
-                      {p.borrow.map((b) => (
-                        <div key={b.id}>
-                          <div className="gpackDHead">{Label(b.id)} brings</div>
-                          {b.lines.map((l, k) => <div key={k}>{p.full(l)}</div>)}
-                        </div>
-                      ))}
-                      {(p.renting || p.rentElse.length > 0) && i.rent > 0 && (
-                        <div>
-                          <div className="gpackDHead">
-                            Renting {qty(i.rent)}
-                            {i.unit > 0 ? ` · ${usd(i.unit)} each` : ''}
-                          </div>
-                          {p.rentMine.map((l, k) => <div key={'m' + k}>{p.rentFull(l)}</div>)}
-                          {p.rentElse.length > 0 && (
-                            <div className="muted">
-                              {you ? 'Not yours' : `Not ${first}’s`}: {p.rentElse.map(p.rentFull).join(', ')}
-                            </div>
-                          )}
-                          {p.share > 0.005 && <div>{you ? 'Your' : `${first}’s`} share {usd(p.share)}</div>}
-                        </div>
-                      )}
-                      {p.elsewhere.length > 0 && (
-                        <div className="muted">
-                          <div className="gpackDHead">Others bringing</div>
-                          {p.elsewhere.map((b) => <div key={b.id}>{Label(b.id)}: {b.lines.map((l) => (l.to.length === 1 && l.to[0] === b.id ? l.n : p.full(l))).join(', ')}</div>)}
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+            {levels[1]
+              ? groupsOf(levels[1]).map(([name2, inSub]) => {
+                  const part = list.filter(inSub);
+                  if (!part.length) return null;
+                  return (
+                    <React.Fragment key={name2}>
+                      <div className="gpackSubHead">
+                        {name2} <span className="muted">{part.length}</span>
+                      </div>
+                      {part.map(row)}
+                    </React.Fragment>
+                  );
+                })
+              : list.map(row)}
           </details>
         );
       })}

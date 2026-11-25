@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { ledger } from '../src/gearLedger.js';
-import { packInfo, orderCats, moveCat } from '../src/gearPack.js';
+import { packInfo } from '../src/gearPack.js';
 
 const crew = ['a', 'b', 'c', 'd'].map((id) => ({ id, name: id.toUpperCase() }));
 const t = {
@@ -31,14 +31,11 @@ assert.deepEqual(chB.sub, ['From A & C, shared']);
 const tn = packInfo(it('tent'), 'a', crew, label);
 assert.ok(tn.renting);
 assert.deepEqual(tn.sub, ['Rented by the group, split 4 ways', 'Renting 1, split with C']);
+assert.deepEqual(tn.subBy, { bring: [], borrow: [], rent: tn.sub });
 assert.deepEqual(tn.rentElse.map(tn.rentFull), ['1 for D']);
 assert.equal(+tn.share.toFixed(2), 7.5);
 
 // someone with nothing on an item
 const none = packInfo(it('tent'), 'b', crew, label);
 assert.deepEqual(none.rentMine.map(none.rentFull), ['1 for the group (4)']);
-// saved category order comes first; new categories follow
-assert.deepEqual(orderCats(['A', 'B', 'C', 'D'], ['C', 'A']), ['C', 'A', 'B', 'D']);
-// moving within the shown categories leaves the others in place
-assert.deepEqual(moveCat(['A', 'B', 'C', 'D'], ['A', 'C', 'D'], 2, 0), ['D', 'B', 'A', 'C']);
 console.log('pack tests passed');
