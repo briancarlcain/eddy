@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BUILTIN_RIVERS, DEFAULT_RIVER, normalizeRiver } from './rivers.js';
 import GENERAL from '../data/general.json';
 import { bringForm, coverOf, ledger, num, priceMode, priceOf, unitList } from './gearLedger.js';
-import { packInfo } from './gearPack.js';
+import { packInfo, inOrder, moveShown } from './gearPack.js';
 import { linkMembers } from './crewLink.js';
 import { shortOf } from './names.js';
 import { crewFavs, favKey, getFavs, mergeFavs, reconcileFavs, setFav, subscribeFavs, useFavs } from './favs.js';
@@ -2489,21 +2489,72 @@ const getPacked = (tripId) => {
   }
 };
 const byItem = (a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' });
-// packing list grouping and sort, kept on this device
+// packing list grouping, group order and sort, kept on this device
 const PACK_VIEW = 'eddy.packview';
 const PACK_GROUPS = [
   ['cat', 'Category'],
-  ['cat-how', 'Category, then bringing/borrowing/renting'],
-  ['how-cat', 'Bringing/borrowing/renting, then category'],
-  ['how', 'Bringing/borrowing/renting'],
+  ['cat-how', 'Category, then owner'],
+  ['how-cat', 'Owner, then category'],
+  ['how', 'Owner'],
 ];
 const getPackView = () => {
   let v = {};
   try {
     v = JSON.parse(localStorage.getItem(PACK_VIEW) || '{}') || {};
   } catch {}
-  return { group: PACK_GROUPS.some((g) => g[0] === v.group) ? v.group : 'cat', sort: v.sort || 'name' };
+  const list = (x) => (Array.isArray(x) ? x : []);
+  return { group: PACK_GROUPS.some((g) => g[0] === v.group) ? v.group : 'cat', sort: v.sort || 'name', order: list(v.order), howOrder: list(v.howOrder) };
 };
+
+// rows dragged by their handle, or moved with the arrow keys
+function OrderList({ items, onMove }) {
+  const [drag, setDrag] = useState(null);
+  const rows = useRef([]);
+  const last = items.length - 1;
+  const target = (d) => Math.max(0, Math.min(last, d.from + Math.round(d.dy / d.h)));
+  const to = drag ? target(drag) : 0;
+  const shift = (k) => {
+    if (!drag) return 0;
+    if (k === drag.from) return drag.dy;
+    if (k > drag.from && k <= to) return -drag.h;
+    return k < drag.from && k >= to ? drag.h : 0;
+  };
+  const grab = (k) => (ev) => {
+    if (ev.pointerType === 'mouse' && ev.button !== 0) return;
+    ev.preventDefault();
+    try {
+      ev.currentTarget.setPointerCapture(ev.pointerId);
+    } catch {}
+    const row = rows.current[k];
+    setDrag({ from: k, y: ev.clientY, dy: 0, h: row.offsetHeight + parseFloat(getComputedStyle(row).marginBottom) });
+  };
+  const move = (ev) => {
+    const y = ev.clientY;
+    setDrag((d) => d && { ...d, dy: y - d.y });
+  };
+  const drop = () => {
+    if (drag && to !== drag.from) onMove(drag.from, to);
+    setDrag(null);
+  };
+  const key = (k) => (ev) => {
+    const n = ev.key === 'ArrowUp' ? k - 1 : ev.key === 'ArrowDown' ? k + 1 : -1;
+    if (n < 0 || n > last) return;
+    ev.preventDefault();
+    onMove(k, n);
+  };
+  return (
+    <div className={'orderList' + (drag ? ' dragging' : '')}>
+      {items.map((c, k) => (
+        <div key={c} ref={(n) => (rows.current[k] = n)} className={'orderRow' + (drag?.from === k ? ' lifted' : '')} style={drag ? { transform: `translateY(${shift(k)}px)` } : undefined}>
+          <span>{c}</span>
+          <button className="orderGrip" aria-label={`Move ${c}`} onPointerDown={grab(k)} onPointerMove={move} onPointerUp={drop} onPointerCancel={() => setDrag(null)} onKeyDown={key(k)}>
+            ≡
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function GearPack({ L, me, you, name, tripId, crew = [] }) {
   const [done, setDone] = useState(() => getPacked(tripId));
@@ -2543,7 +2594,8 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
     .map((i) => ({ id: i.id, i, p: packInfo(i, me, crew, label) }))
     .filter(({ p }) => p.bring > 0 || p.borrowN > 0 || p.renting);
   if (!rows.length) return <div className="muted mt">Nothing to pack or rent yet. Enter what you’re bringing on the items.</div>;
-  const cats = [...new Set(L.items.map((i) => i.cat))].filter((c) => rows.some((r) => r.i.cat === c));
+  const allCats = inOrder([...new Set([...view.order, ...L.items.map((i) => i.cat)])], view.order);
+  const cats = allCats.filter((c) => rows.some((r) => r.i.cat === c));
   const canTick = ({ p, kind }) => kind !== 'rent' && (p.bring > 0 || p.borrowN > 0);
   const rowDone = ({ i, p }) => isDone(p.bring > 0 ? 'own' : 'from', i.id);
   const tickable = rows.filter(canTick);
@@ -2551,11 +2603,9 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
   const qty = (n) => +n.toFixed(2);
   // grouped by bringing/borrowing/renting, an item has one entry under each that applies
   const fits = (r, k) => (r.kind ? r.kind === k : k === 'bring' ? r.p.bring > 0 : k === 'borrow' ? r.p.borrowN > 0 : r.p.renting);
-  const KINDS = [
-    ['bring', 'Bringing', (r) => fits(r, 'bring')],
-    ['borrow', 'Borrowing', (r) => fits(r, 'borrow')],
-    ['rent', 'Renting', (r) => fits(r, 'rent')],
-  ];
+  const names = { bring: 'Bringing', borrow: 'Borrowing', rent: 'Renting' };
+  const hows = inOrder(Object.keys(names), view.howOrder);
+  const KINDS = hows.map((k) => [k, names[k], (r) => fits(r, k)]);
   const levels = view.group.split('-');
   const entries = levels.includes('how') ? rows.flatMap((r) => KINDS.filter((k) => k[2](r)).map(([k]) => ({ ...r, id: k + ':' + r.id, kind: k }))) : rows;
   const TICKS = [
@@ -2622,6 +2672,11 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
     </div>
   );
   const groupsOf = (level) => (level === 'cat' ? cats.map((c) => [c, (r) => r.i.cat === c]) : KINDS.map(([k, l]) => [l, (r) => r.kind === k]));
+  // drag lists for whatever the list is grouped by, outer level first
+  const orders = {
+    cat: ['Category order', cats, (from, to) => saveView({ order: moveShown(allCats, cats, from, to) })],
+    how: ['Owner order', KINDS.map((k) => k[1]), (from, to) => saveView({ howOrder: moveShown(hows, hows, from, to) })],
+  };
   const row = (r) => {
     const { id, i, p, kind } = r;
     const pre = p.bring > 0 ? 'own' : 'from';
@@ -2705,7 +2760,30 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
           ) : null}
         </span>
       </div>
-      {panel === 'group' && menu('Group packing list', PACK_GROUPS, view.group, (k) => saveView({ group: k }))}
+      {panel === 'group' && (
+        <>
+          {menu('Group packing list', PACK_GROUPS, view.group, (k) => saveView({ group: k }))}
+          {levels.map((level) => {
+            const [title, items, onMove] = orders[level];
+            return (
+              <React.Fragment key={level}>
+                <span className="label mt">{title}</span>
+                <OrderList items={items} onMove={onMove} />
+              </React.Fragment>
+            );
+          })}
+          <button
+            className="btn mt"
+            onClick={(e) => {
+              const body = e.currentTarget.closest('.fullPopBody');
+              setPanel('');
+              if (body) body.scrollTop = 0;
+            }}
+          >
+            Done
+          </button>
+        </>
+      )}
       {panel === 'sort' &&
         menu('Sort packing list', SORTS, sortSel[0], (k) => {
           saveView({ sort: k });
@@ -2724,8 +2802,8 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
           {pills(TICKS, tickOff, setTickOff)}
         </div>
       )}
-      {shown.length === 0 && <div className="muted mt">Nothing matches.</div>}
-      {groupsOf(levels[0]).map(([title, inGroup]) => {
+      {panel !== 'group' && shown.length === 0 && <div className="muted mt">Nothing matches.</div>}
+      {panel !== 'group' && groupsOf(levels[0]).map(([title, inGroup]) => {
         const list = shown.filter(inGroup);
         if (!list.length) return null;
         return (
