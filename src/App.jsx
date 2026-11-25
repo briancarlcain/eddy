@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BUILTIN_RIVERS, DEFAULT_RIVER, normalizeRiver } from './rivers.js';
 import GENERAL from '../data/general.json';
 import { bringForm, coverOf, ledger, num, priceMode, priceOf, unitList } from './gearLedger.js';
-import { packInfo } from './gearPack.js';
+import { packInfo, orderCats, moveCat } from './gearPack.js';
 import { linkMembers } from './crewLink.js';
 import { shortOf } from './names.js';
 import { crewFavs, favKey, getFavs, mergeFavs, reconcileFavs, setFav, subscribeFavs, useFavs } from './favs.js';
@@ -123,6 +123,7 @@ const ICONS = {
   refresh: 'M21 12a9 9 0 0 0-15-6.7L3 8M3 3v5h5M3 12a9 9 0 0 0 15 6.7L21 16M21 21v-5h-5',
   filter: 'M22 3H2l8 9.46V19l4 2v-8.54z',
   sort: 'M21 16l-4 4-4-4M17 20V4M3 8l4-4 4 4M7 4v16',
+  order: 'M4 6h16M4 12h16M4 18h16',
   alert: 'M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01',
 };
 const Icon = ({ name, size = 18, className = '' }) => (
@@ -2488,10 +2489,84 @@ const getPacked = (tripId) => {
   }
 };
 const byItem = (a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' });
+// packing list category order and sort, kept on this device
+const PACK_VIEW = 'eddy.packview';
+const getPackView = () => {
+  try {
+    const v = JSON.parse(localStorage.getItem(PACK_VIEW) || '{}') || {};
+    return { order: Array.isArray(v.order) ? v.order : [], sort: v.sort || 'name' };
+  } catch {
+    return { order: [], sort: 'name' };
+  }
+};
+
+// rows dragged by their handle, or moved with the arrow keys
+function OrderList({ items, onMove }) {
+  const [drag, setDrag] = useState(null);
+  const rows = useRef([]);
+  const last = items.length - 1;
+  const target = (d) => Math.max(0, Math.min(last, d.from + Math.round(d.dy / d.h)));
+  const to = drag ? target(drag) : 0;
+  const shift = (k) => {
+    if (!drag) return 0;
+    if (k === drag.from) return drag.dy;
+    if (k > drag.from && k <= to) return -drag.h;
+    return k < drag.from && k >= to ? drag.h : 0;
+  };
+  const grab = (k) => (ev) => {
+    if (ev.pointerType === 'mouse' && ev.button !== 0) return;
+    ev.preventDefault();
+    try {
+      ev.currentTarget.setPointerCapture(ev.pointerId);
+    } catch {}
+    const row = rows.current[k];
+    setDrag({ from: k, y: ev.clientY, dy: 0, h: row.offsetHeight + parseFloat(getComputedStyle(row).marginBottom) });
+  };
+  const move = (ev) => {
+    const y = ev.clientY;
+    setDrag((d) => d && { ...d, dy: y - d.y });
+  };
+  const drop = () => {
+    if (drag && to !== drag.from) onMove(drag.from, to);
+    setDrag(null);
+  };
+  const key = (k) => (ev) => {
+    const n = ev.key === 'ArrowUp' ? k - 1 : ev.key === 'ArrowDown' ? k + 1 : -1;
+    if (n < 0 || n > last) return;
+    ev.preventDefault();
+    onMove(k, n);
+  };
+  return (
+    <div className={'orderList' + (drag ? ' dragging' : '')}>
+      {items.map((c, k) => (
+        <div key={c} ref={(n) => (rows.current[k] = n)} className={'orderRow' + (drag?.from === k ? ' lifted' : '')} style={drag ? { transform: `translateY(${shift(k)}px)` } : undefined}>
+          <span>{c}</span>
+          <button className="orderGrip" aria-label={`Move ${c}`} onPointerDown={grab(k)} onPointerMove={move} onPointerUp={drop} onPointerCancel={() => setDrag(null)} onKeyDown={key(k)}>
+            ≡
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function GearPack({ L, me, you, name, tripId, crew = [] }) {
   const [done, setDone] = useState(() => getPacked(tripId));
   const [openId, setOpenId] = useState(null);
+  const [view, setView] = useState(getPackView);
+  const [panel, setPanel] = useState('');
+  const [catOff, setCatOff] = useState([]);
+  const [kindOff, setKindOff] = useState([]);
+  const [tickOff, setTickOff] = useState([]);
+  const [tick, setTick] = useState(0);
+  const order = useRef({ key: null, ids: [] });
+  const saveView = (patch) => {
+    const next = { ...view, ...patch };
+    setView(next);
+    try {
+      localStorage.setItem(PACK_VIEW, JSON.stringify(next));
+    } catch {}
+  };
   const first = shortOf(crew, me) || (name || '').split(' ')[0] || 'them';
   const label = (id) => (id === me ? (you ? 'you' : first) : shortOf(crew, id) || 'Unnamed');
   const Label = (id) => (id === me ? (you ? 'You' : first) : shortOf(crew, id) || 'Unnamed');
@@ -2510,21 +2585,126 @@ function GearPack({ L, me, you, name, tripId, crew = [] }) {
   };
   const rows = [...L.items]
     .sort(byItem)
-    .map((i) => ({ i, p: packInfo(i, me, crew, label) }))
+    .map((i) => ({ id: i.id, i, p: packInfo(i, me, crew, label) }))
     .filter(({ p }) => p.bring > 0 || p.borrowN > 0 || p.renting);
   if (!rows.length) return <div className="muted mt">Nothing to pack or rent yet. Enter what you’re bringing on the items.</div>;
-  const cats = [...new Set(L.items.map((i) => i.cat))].filter((c) => rows.some((r) => r.i.cat === c));
-  const tickable = rows.filter(({ p }) => p.bring > 0 || p.borrowN > 0);
-  const packed = tickable.filter(({ i, p }) => isDone(p.bring > 0 ? 'own' : 'from', i.id)).length;
+  const allCats = orderCats([...new Set([...view.order, ...L.items.map((i) => i.cat)])], view.order);
+  const cats = allCats.filter((c) => rows.some((r) => r.i.cat === c));
+  const canTick = ({ p }) => p.bring > 0 || p.borrowN > 0;
+  const rowDone = ({ i, p }) => isDone(p.bring > 0 ? 'own' : 'from', i.id);
+  const tickable = rows.filter(canTick);
+  const packed = tickable.filter(rowDone).length;
   const qty = (n) => +n.toFixed(2);
+  const KINDS = [
+    ['bring', 'Bringing', (r) => r.p.bring > 0],
+    ['borrow', 'Borrowing', (r) => r.p.borrowN > 0],
+    ['rent', 'Renting', (r) => r.p.renting],
+  ];
+  const TICKS = [
+    ['todo', 'Not packed', (r) => canTick(r) && !rowDone(r)],
+    ['done', 'Packed', (r) => canTick(r) && rowDone(r)],
+  ];
+  const whose = you ? 'Your' : `${first}’s`;
+  const amount = ({ p }) => (p.bring > 0 ? p.bring : p.borrowN);
+  // to pack, then rental only, then packed
+  const rank = (r) => (!canTick(r) ? 1 : rowDone(r) ? 2 : 0);
+  const SORTS = [
+    ['name', 'Name, A to Z', () => 0],
+    ['name-', 'Name, Z to A', (a, b) => byItem(b.i, a.i)],
+    ['todo', 'Not packed first', (a, b) => rank(a) - rank(b)],
+    ['qty', 'Quantity, most first', (a, b) => amount(b) - amount(a)],
+    ['cost-', `${whose} cost, high to low`, (a, b) => b.p.share - a.p.share],
+    ['cost', `${whose} cost, low to high`, (a, b) => a.p.share - b.p.share],
+  ];
+  const sortSel = SORTS.find((x) => x[0] === view.sort) || SORTS[0];
+  // hidden when every pill the row fits is switched off
+  const allOff = (tests, off, r) => {
+    const m = tests.filter((x) => x[2](r));
+    return m.length > 0 && m.every((x) => off.includes(x[0]));
+  };
+  const catHide = catOff.filter((c) => cats.includes(c));
+  const fresh = rows.filter((r) => !catHide.includes(r.i.cat) && !allOff(KINDS, kindOff, r) && !allOff(TICKS, tickOff, r)).sort(sortSel[2]);
+  // ticking an item doesn't move or hide it until the sort or filter changes
+  const shown = frozenOrder(order, fresh, rows, JSON.stringify([sortSel[0], tick, catOff, kindOff, tickOff, me, rows.map((r) => r.id)]));
+  const nFilt = catHide.length + kindOff.length + tickOff.length;
+  const flipIn = (list, set, k) => set(list.includes(k) ? list.filter((x) => x !== k) : [...list, k]);
+  const tool = (k, icon, text, badge) => (
+    <button className={'btn ghost gtool' + (panel === k ? ' on' : '')} aria-expanded={panel === k} onClick={() => setPanel(panel === k ? '' : k)}>
+      <Icon name={icon} size={17} /> {text}
+      {badge ? <span className="gbadge">{badge}</span> : null}
+    </button>
+  );
+  const pills = (tests, off, set) => (
+    <div className="chips scroll">
+      {tests.map(([k, l, fits]) => (
+        <button key={k} className={'chip' + (off.includes(k) ? '' : ' on river')} aria-pressed={!off.includes(k)} onClick={() => flipIn(off, set, k)}>
+          {l} · {rows.filter(fits).length}
+        </button>
+      ))}
+    </div>
+  );
   return (
     <div className="gpack mb">
       <span className="label">
         {you ? 'Your list' : `${name}’s list`}
         {tickable.length ? ` · ${packed} of ${tickable.length} packed` : ''}
       </span>
-      {cats.map((c) => {
-        const cr = rows.filter((r) => r.i.cat === c);
+      <div className="gtools">
+        {tool('filter', 'filter', 'Filter', nFilt)}
+        {tool('sort', 'sort', 'Sort')}
+        {tool('order', 'order', 'Reorder')}
+        {sortSel[0] !== 'name' ? <span className="gsortNow">{sortSel[1]}</span> : null}
+        <span className="gright">
+          {panel === 'filter' && catHide.length < cats.length ? (
+            <button className="gclear" onClick={() => setCatOff(cats)}>
+              Deselect all
+            </button>
+          ) : null}
+          {catHide.length ? (
+            <button className="gclear" onClick={() => setCatOff([])}>
+              Clear
+            </button>
+          ) : null}
+        </span>
+      </div>
+      {panel === 'sort' && (
+        <div className="sortMenu" role="listbox" aria-label="Sort packing list">
+          {SORTS.map(([k, l]) => (
+            <button
+              key={k}
+              role="option"
+              aria-selected={sortSel[0] === k}
+              className={'sortOpt' + (sortSel[0] === k ? ' on' : '')}
+              onClick={() => {
+                saveView({ sort: k });
+                setTick(tick + 1);
+                setPanel('');
+              }}
+            >
+              {l}
+              {sortSel[0] === k ? <Icon name="check" size={16} /> : null}
+            </button>
+          ))}
+        </div>
+      )}
+      {panel === 'filter' && (
+        <div className="chipStack">
+          <div className="chips scroll">
+            {cats.map((c) => (
+              <button key={c} className={'chip' + (catHide.includes(c) ? '' : ' on river')} aria-pressed={!catHide.includes(c)} onClick={() => flipIn(catOff, setCatOff, c)}>
+                {c} · {rows.filter((r) => r.i.cat === c).length}
+              </button>
+            ))}
+          </div>
+          {pills(KINDS, kindOff, setKindOff)}
+          {pills(TICKS, tickOff, setTickOff)}
+        </div>
+      )}
+      {panel === 'order' && <OrderList items={cats} onMove={(from, to) => saveView({ order: moveCat(allCats, cats, from, to) })} />}
+      {panel !== 'order' && shown.length === 0 && <div className="muted mt">Nothing matches.</div>}
+      {panel !== 'order' && cats.map((c) => {
+        const cr = shown.filter((r) => r.i.cat === c);
+        if (!cr.length) return null;
         return (
           <details key={c} open>
             <summary className="gpackHead">
