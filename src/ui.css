@@ -836,6 +836,11 @@ body.shot .onBehalf { top: calc(52px + 54px + 45px); }
 .rg .orderList.dragging .orderRow.lifted { transition: none; position: relative; z-index: 2; box-shadow: var(--shadow-2); }
 .rg .orderGrip { width: 52px; align-self: stretch; border: 0; background: transparent; color: var(--ink-dim); font-size: 22px; touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none; }
 .rg .orderList.dragging .orderGrip { cursor: grabbing; }
+.rg .orderName { flex: 1; align-self: stretch; display: flex; align-items: center; gap: 10px; margin: 0; cursor: pointer; }
+.rg .orderName input { width: 20px; height: 20px; flex: none; margin: 0; }
+.rg .orderFold > summary { cursor: pointer; font-size: 14px; font-weight: 600; padding: 12px 0 2px; }
+.rg .gpackSubHead.d2 { margin-left: 16px; font-weight: 500; }
+.rg .gpackSubHead.d3 { margin-left: 28px; font-weight: 500; font-style: italic; }
 
 .rg .homeMenu { display: flex; flex-direction: column; gap: 10px; }
 .rg .homeCard { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 62px; padding: 0 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); color: var(--ink); font-size: 17px; font-weight: 600; text-align: left; box-shadow: var(--shadow-1); }
