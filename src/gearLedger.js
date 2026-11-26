@@ -256,5 +256,19 @@ export function ledger(t) {
       by[c.id].total += v;
     });
   });
+  // whole cents per person, adding up to the assigned total, so balances settle exactly
+  const people = Object.values(by);
+  const exact = people.map((p) => p.total * 100);
+  const cents = exact.map((v) => Math.floor(v + 1e-6));
+  const spare = Math.round(exact.reduce((a, v) => a + v, 0)) - cents.reduce((a, v) => a + v, 0);
+  exact
+    .map((v, i) => [v - cents[i], i])
+    .sort((a, b) => (Math.abs(b[0] - a[0]) > 1e-6 ? b[0] - a[0] : a[1] - b[1]))
+    .slice(0, Math.max(0, spare))
+    .forEach(([, i]) => cents[i]++);
+  people.forEach((p, i) => {
+    p.total = cents[i] / 100;
+    p.personal = Math.min(p.total, Math.round(p.personal * 100) / 100);
+  });
   return { items, by, total, loose, allNights, days: RD, tripDays: D, nights: Object.fromEntries(crew.map((c) => [c.id, nights(c)])) };
 }

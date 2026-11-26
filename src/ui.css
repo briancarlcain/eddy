@@ -216,7 +216,7 @@ html { -webkit-tap-highlight-color: transparent; }
 /* ---------- ledger tables ---------- */
 .rg .tbl { border-radius: var(--r-m); box-shadow: var(--shadow-1); }
 .rg .tr, .rg .tr2 { grid-template-columns: minmax(0, 1fr) 60px 60px 60px 66px; padding: 11px 12px; font-size: 13px; font-variant-numeric: tabular-nums; }
-.rg .tr2 { grid-template-columns: minmax(0, 1fr) 64px 64px 72px; }
+.rg .tr2 { grid-template-columns: minmax(0, 1fr) 72px 72px 80px; column-gap: 6px; padding-left: 10px; padding-right: 10px; }
 .rg .tbl .th { font-size: 10px; padding-top: 10px; padding-bottom: 10px; }
 .rg .tbl .th .tName { font-size: 10px; }
 .rg .tName { font-size: 13.5px; }
@@ -416,6 +416,7 @@ header *,
 /* avatars and numbers */
 .rg .avatar { font-family: var(--font); font-size: 13px; font-weight: 600; background: var(--accent-soft); color: var(--accent); box-shadow: none; }
 .rg .tr, .rg .tr2 { font-size: 14px; }
+.rg .tr2 { font-size: 12.5px; }
 .rg .tbl .th, .rg .tbl .th .tName { font-size: 12px; font-weight: 600; color: var(--ink-faint); }
 .rg .grMath { font-size: 12.5px; }
 .rg .syncCode { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 22px; font-weight: 600; letter-spacing: .08em !important; }

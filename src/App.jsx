@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BUILTIN_RIVERS, DEFAULT_RIVER, normalizeRiver } from './rivers.js';
 import GENERAL from '../data/general.json';
 import { bringForm, coverOf, ledger, num, priceMode, priceOf, unitList } from './gearLedger.js';
+import { usdCents } from './gearCost.js';
 import { packInfo, flipParts, inOrder, moveShown, withSaved } from './gearPack.js';
 import { linkMembers } from './crewLink.js';
 import { shortOf } from './names.js';
@@ -1898,7 +1899,6 @@ const SPLIT_HELP = {
 };
 const REQ = { req: ['Required', '#9c3326'], rec: ['Recommended', '#a8722a'] };
 const usd = (n) => (n >= 0.005 ? '$' + n.toFixed(2) : '');
-const usd0 = (n) => '$' + Math.round(n).toLocaleString();
 const TIPS = {
   bring: 'How many you can bring. Choose who uses each one: you, other people, or the group. You aren’t charged for what you bring.',
   price: 'Rental cost of one item. A flat fee is charged once; a per-day price is multiplied by the trip’s days. If both are entered, the lower cost is charged.',
@@ -2119,7 +2119,7 @@ function Gear({ s }) {
       <Step label="Rental days" value={t.rentDays !== undefined && String(t.rentDays) !== '' ? t.rentDays : L.days} onChange={(x) => s.set({ rentDays: x })} />
       <div className="stats two mt">
         <button className="stat statTap" onClick={() => setCost('group')}>
-          <div className="statNum">{usd0(L.total)}</div>
+          <div className="statNum">{usdCents(L.total)}</div>
           <div className="statKey">Trip gear cost ›</div>
         </button>
         {grp ? (
@@ -2129,7 +2129,7 @@ function Gear({ s }) {
           </div>
         ) : (
           <button className="stat statTap" disabled={!mine} onClick={() => setCost(who)}>
-            <div className="statNum">{mine ? usd0(mine.total) : '—'}</div>
+            <div className="statNum">{mine ? usdCents(mine.total) : '—'}</div>
             <div className="statKey">{mine ? `${whoName}’s share ›` : 'Pick a name'}</div>
           </button>
         )}
@@ -2227,7 +2227,7 @@ function Gear({ s }) {
   );
 }
 
-const m2 = (n) => (n >= 0.005 ? '$' + n.toFixed(2) : '–');
+const m2 = (n) => (n >= 0.005 ? usdCents(n) : '–');
 const qn = (n) => +(+n).toFixed(2);
 
 // who is bringing, lending and borrowing one item, read from the units people entered
@@ -2342,13 +2342,13 @@ function GroupSummary({ L, crew }) {
   const [who, setWho] = useState(null);
   const people = byFirst(crew);
   const nm = (id) => shortOf(crew, id) || 'Someone';
-  const shared = (b) => b.even + b.nights + b.users;
+  const shared = (b) => b.total - b.personal;
   const borrows = L.items.flatMap((i) => gearFlows(i, crew).borrow.map((b) => ({ ...b, item: i.name })));
   borrows.sort((a, b) => (a.to === 'group') - (b.to === 'group') || a.toName.localeCompare(b.toName) || a.item.localeCompare(b.item));
   const rented = L.items.filter((i) => i.rent > 0.005).sort(byItem);
   return (
     <div className="gsummary mt">
-      <Acc open title="Costs by person" note={usd0(L.total) + ' total'}>
+      <Acc open title="Costs by person" note={usdCents(L.total) + ' total'}>
         <table className="gtable">
           <thead>
             <tr>
@@ -2436,7 +2436,7 @@ function GroupSummary({ L, crew }) {
           <div className="muted">No one is lending or borrowing yet.</div>
         )}
       </Acc>
-      <Acc title="To rent" note={rented.length ? `${rented.length} ${rented.length === 1 ? 'item' : 'items'} · ${usd0(rented.reduce((a, i) => a + i.total, 0))}` : 'None yet'}>
+      <Acc title="To rent" note={rented.length ? `${rented.length} ${rented.length === 1 ? 'item' : 'items'} · ${usdCents(rented.reduce((a, i) => a + i.total, 0))}` : 'None yet'}>
         {rented.length ? (
           <table className="gtable">
             <thead>
@@ -4808,16 +4808,18 @@ function Ledger({ s }) {
   const potted = pay.filter((p) => !p.to).reduce((a, p) => a + num(p.amt), 0);
   const nm = (id) => t.crew.find((c) => c.id === id)?.name || '—';
   const bal = t.crew.map((c) => ({ id: c.id, v: (paid[c.id] || 0) - L.by[c.id].total }));
-  const up = bal.filter((x) => x.v > 0.5).sort((a, b) => b.v - a.v).map((x) => ({ ...x }));
-  const down = bal.filter((x) => x.v < -0.5).sort((a, b) => a.v - b.v).map((x) => ({ ...x, v: -x.v }));
+  const cents = (n) => Math.round(n * 100) / 100;
+  bal.forEach((x) => (x.v = cents(x.v)));
+  const up = bal.filter((x) => x.v > 0.005).sort((a, b) => b.v - a.v).map((x) => ({ ...x }));
+  const down = bal.filter((x) => x.v < -0.005).sort((a, b) => a.v - b.v).map((x) => ({ ...x, v: -x.v }));
   const settle = [];
   for (let i = 0, j = 0; i < down.length && j < up.length; ) {
     const n = Math.min(down[i].v, up[j].v);
-    if (n >= 1) settle.push({ from: down[i].id, to: up[j].id, amt: Math.round(n) });
-    down[i].v -= n;
-    up[j].v -= n;
-    if (down[i].v < 0.5) i++;
-    if (up[j].v < 0.5) j++;
+    settle.push({ from: down[i].id, to: up[j].id, amt: cents(n) });
+    down[i].v = cents(down[i].v - n);
+    up[j].v = cents(up[j].v - n);
+    if (down[i].v < 0.005) i++;
+    if (up[j].v < 0.005) j++;
   }
   const unpaid = down.reduce((a, x) => a + Math.max(0, x.v), 0);
 
@@ -4836,9 +4838,9 @@ function Ledger({ s }) {
           return (
             <div className="tr2" key={c.id}>
               <span className="tName">{c.name}</span>
-              <span>{usd0(L.by[c.id].total)}</span>
-              <span>{usd0(paid[c.id] || 0)}</span>
-              <span className={'tSum' + (d < -0.5 ? ' owes' : '')}>{(d < 0 ? '−' : '+') + usd0(Math.abs(d))}</span>
+              <span>{usdCents(L.by[c.id].total)}</span>
+              <span>{usdCents(paid[c.id] || 0)}</span>
+              <span className={'tSum' + (d < -0.005 ? ' owes' : '')}>{(d < -0.005 ? '−' : '+') + usdCents(Math.abs(d))}</span>
             </div>
           );
         })}
@@ -4849,9 +4851,9 @@ function Ledger({ s }) {
           return (
             <div className="tr2 tf">
               <span className="tName" />
-              <span>{usd0(cost)}</span>
-              <span>{usd0(got)}</span>
-              <span className={'tSum' + (d < -0.5 ? ' owes' : '')}>{(d < 0 ? '−' : '+') + usd0(Math.abs(d))}</span>
+              <span>{usdCents(cost)}</span>
+              <span>{usdCents(got)}</span>
+              <span className={'tSum' + (d < -0.005 ? ' owes' : '')}>{(d < -0.005 ? '−' : '+') + usdCents(Math.abs(d))}</span>
             </div>
           );
         })()}
@@ -4865,7 +4867,7 @@ function Ledger({ s }) {
               <span className="gearName">
                 {nm(x.from)} → {nm(x.to)}
               </span>
-              <span className="grAmt">{usd0(x.amt)}</span>
+              <span className="grAmt">{usdCents(x.amt)}</span>
               <button className="btn ghost" onClick={() => s.push('pay', { what: 'Settled up', by: x.from, to: x.to, amt: x.amt })}>
                 Paid
               </button>
@@ -4873,7 +4875,7 @@ function Ledger({ s }) {
           ))}
         </>
       ) : null}
-      {unpaid > 0.5 ? <div className="muted">{usd0(unpaid)} still to pay toward trip costs</div> : null}
+      {unpaid > 0.005 ? <div className="muted">{usdCents(unpaid)} still to pay toward trip costs</div> : null}
 
       <span className="label mt">Payments</span>
       {pay.map((p) => {
@@ -4886,7 +4888,7 @@ function Ledger({ s }) {
                 <span className="carName">{p.what || (p.to ? 'Paid back' : 'New payment')}</span>
                 {p.by ? <span className="muted">{p.to ? `${nm(p.by)} → ${nm(p.to)}` : nm(p.by)}</span> : null}
               </span>
-              <span className="grAmt">{usd0(num(p.amt))}</span>
+              <span className="grAmt">{usdCents(num(p.amt))}</span>
             </button>
             {isOpen && (
               <div className="grBody">
@@ -4934,8 +4936,8 @@ function Ledger({ s }) {
       >
         Add payment
       </button>
-      {pay.length > 0 && <div className="muted mt-s">{usd0(potted)} paid so far</div>}
-      {L.loose > 0.005 && <div className="muted">{usd0(L.loose)} unclaimed</div>}
+      {pay.length > 0 && <div className="muted mt-s">{usdCents(potted)} paid so far</div>}
+      {L.loose > 0.005 && <div className="muted">{usdCents(L.loose)} unclaimed</div>}
     </>
   );
 }
