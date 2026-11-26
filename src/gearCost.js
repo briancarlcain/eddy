@@ -1,6 +1,7 @@
 import { num } from './gearLedger.js';
 
 const blank = (v) => v === undefined || v === null || String(v).trim() === '';
+export const usdCents = (n) => '$' + (n || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const money = (n) => '$' + (+n.toFixed(2)).toLocaleString(undefined, { minimumFractionDigits: Number.isInteger(+n.toFixed(2)) ? 0 : 2 });
 
 // the price of one unit, as the person would read it

@@ -264,3 +264,12 @@ console.log('gear tests passed');
   }
   assert.ok(n > 1000);
 }
+// person totals are whole cents and add up to the assigned total
+{
+  for (const f of [100, 200]) {
+    const L = run({ f, s: 'even', rn: 1, ra: 'group' });
+    const t = crew.map((c) => L.by[c.id].total);
+    t.forEach((v) => near(v, Math.round(v * 100) / 100, 'whole cents'));
+    near(Math.round(t.reduce((a, b) => a + b, 0) * 100), f * 100, 'adds up');
+  }
+}

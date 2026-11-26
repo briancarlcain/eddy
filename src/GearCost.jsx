@@ -1,9 +1,7 @@
 import { shortOf } from './names.js';
 import React, { useMemo, useState } from 'react';
-import { costLines, priceText } from './gearCost.js';
+import { costLines, priceText, usdCents as usd } from './gearCost.js';
 
-const usd = (n) => '$' + (n || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-const usd0 = (n) => '$' + Math.round(n || 0).toLocaleString();
 const PAL = ['#1f6c9f', '#c46a2d', '#4f8a5b', '#8a5fa8', '#b8942a', '#c0506a'];
 const OTHER = '#8b97a3';
 const pct = (a, b) => (b > 0 ? Math.round((a / b) * 100) : 0);
@@ -125,7 +123,7 @@ export default function GearCost({ L, crew, start }) {
                 <button key={c.id} className="cbPerson" onClick={() => pick(c.id)}>
                   <span className="cbPName">{c.name}</span>
                   <span className="cbTrack"><span style={{ width: (maxP > 0 ? (v / maxP) * 100 : 0) + '%' }} /></span>
-                  <b>{usd0(v)}</b>
+                  <b>{usd(v)}</b>
                 </button>
               ))}
             </>
